@@ -33,14 +33,17 @@ license notices are preserved in each skill directory.
   makes the first run an orchestrator (not a worker), dispatches two
   configurable worker agents by default when independent work allows, verifies
   integration on remote `main`, and reviews durable lessons after each merge.
+  It checks configured Git identity and remote read access before work, and
+  distinguishes those from branch-push and merge permissions.
 - [Test-Driven Development](.github/skills/tdd/SKILL.md):
   applies test-first Red-Green-Refactor to behavior changes and bug fixes.
 
 ## Agents
 
 - [Ralph Loop](.github/agents/ralph-loop.agent.md): orchestrates configurable
-  workers through isolated iterations, verifies remote-main integration,
-  reviews durable lessons, and applies TDD to behavior changes.
+  workers through isolated iterations, checks Git identity and existing
+  authentication, verifies remote-main integration, reviews durable lessons,
+  and applies TDD to behavior changes.
 
 ## Using the agent and model controls
 
