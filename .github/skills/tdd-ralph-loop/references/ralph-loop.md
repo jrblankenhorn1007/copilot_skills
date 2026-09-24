@@ -1,15 +1,23 @@
 # Ralph Loop Prompt: Build the SuperCollider AI Music Agent
 
-Use this as the task prompt for the **development Ralph loop**, run one
-iteration at a time by [`scripts/ralph-loop.sh`](./scripts/ralph-loop.sh) with
-GitHub Copilot CLI. This outer engineering loop implements the product. It is
-not the in-SuperCollider music-exploration loop.
+Use this as the task prompt for the **development Ralph loop**. This outer
+engineering loop implements the product; it is not the in-SuperCollider
+music-exploration loop. Every iteration must run in a fresh worktree and
+branch, then merge that branch into its base branch after verification.
+
+The original [`dj_maxxed_beats` runner](https://github.com/jrblankenhorn1007/dj_maxxed_beats/blob/main/scripts/ralph-loop.sh)
+assumes an already checked out branch and pushes commits directly; it does not
+implement this worktree-per-iteration merge lifecycle. Do not invoke that
+runner until it has been updated to support this workflow. The Ralph Loop
+custom agent can perform one iteration directly when the project's status
+protocol permits it.
 
 ```text
 You are the autonomous implementation agent for the SuperCollider AI Music
-Agent. Work in the current project workspace. Implement the product described
-in IMPLEMENTATION_PLAN.md, including the requirements and completion criteria
-in this prompt. Work incrementally across repeated Ralph-loop iterations.
+Agent. Implement the product described in IMPLEMENTATION_PLAN.md, including
+the requirements and completion criteria in this prompt. Work incrementally
+across repeated Ralph-loop iterations. Use a fresh Git worktree and unique
+branch for every iteration; never edit the base checkout directly.
 
 SOURCE OF TRUTH
 
@@ -26,12 +34,14 @@ to Green, then refactor while the relevant tests stay green. Record exact Red,
 Green, and refactor commands/results in `RALPH_PROGRESS.md`. Do not begin
 production code before the relevant failing test has been observed.
 
-The runner passes this prompt file's contents to Copilot CLI in non-interactive
-mode (equivalent to `copilot --prompt "$(cat RALPH_IMPLEMENTATION_PROMPT.md)"`).
 Each invocation is exactly one implementation iteration; the runner supplies
-the project-wide iteration number. Copilot creates one implementation commit.
-The runner then finalizes the status metadata in a separate status-only commit
-and pushes both commits.
+the project-wide iteration number. Before invoking Copilot, a compatible runner
+creates a fresh worktree and iteration branch from the base branch. Copilot
+creates the implementation commit there. The runner may finalize status
+metadata in a separate status-only commit on that same branch. Complete all
+checks and required commits before merging the iteration branch into the base
+branch as the final integration step. Verify the merge before reporting
+completion. Do not use a runner that skips this lifecycle.
 
 Read `implementation_status.md` at the start of each iteration. Rewrite it as
 a concise current-state snapshot during every iteration; do not append an
@@ -179,33 +189,33 @@ IMPLEMENTATION METHOD
   workspace root as a single current-state snapshot, not an append-only log.
   Rewrite its product/component status, completed capabilities, verification
   evidence, unverified platforms, blockers/risks, and next task in every
-  iteration. Preserve its three runner-managed loop-report fields unchanged;
-  after your implementation commit, the runner fills in the project-wide
-  iteration number, GitHub commit link, and added/deleted text-line counts.
-  The snapshot commit is created by the runner immediately after your
-  implementation commit.
+  iteration. Preserve its three runner-managed loop-report fields unchanged.
+  If the runner owns these fields, let it finalize them and create any
+  status-only commit on the iteration branch before merging.
 - Maintain the append-only [`decision_log.md`](./decision_log.md) in the
   workspace root. Add a dated entry for every material product, architecture,
   security, test, or packaging decision you make, with context, alternatives,
   rationale, and consequences. Do not rewrite old entries; supersede them with
   a new entry that references the earlier decision. Keep secrets out. Include
   each new entry in the same iteration commit as the change it records.
-- Make exactly one new implementation commit for each iteration on the current
-  project branch, including its progress update, status snapshot, and any
-  decision-log entry. Use a specific commit message and include the required
+- Make exactly one implementation commit for each iteration on its fresh
+  branch, including its progress update, status snapshot, and any decision-log
+  entry. Use a specific commit message and include the required
   `Co-authored-by: Copilot <223556219+Copilot@users.noreply.github.com>` trailer.
-  Do not push or create the separate status-report commit; the runner validates
-  your implementation commit, updates the three status metadata fields,
-  creates a commit containing only `implementation_status.md`, and pushes both
-  commits. Never amend, force-push, or include credentials, generated audio,
+  If the runner requires a separate status-report commit, create it on the same
+  iteration branch after the implementation commit and before merging. Do not
+  push the iteration branch unless the project protocol explicitly requires
+  it. After validation and all required commits succeed, merge the iteration
+  branch into its base branch as the final integration step and verify the
+  merge. Never amend, force-push, or include credentials, generated audio,
   build outputs, or the upstream `supercollider/` reference checkout. If
-  validation fails, keep working within the iteration until it passes or a
-  genuine external blocker is documented; then commit only a truthful state.
-  The runner stops if the implementation commit is not a direct child, does not
-  update the status snapshot, or leaves the tree dirty.
-- Before changing files, inspect the current changes. Preserve user work.
-  Never use destructive reset/checkout/clean commands, never discard unrelated
-  changes, and never include unrelated changes in an iteration commit.
+  validation or merge fails, preserve the worktree and branch and report the
+  blocker; do not claim the iteration completed.
+- Before changing files, inspect the base checkout and current changes.
+  Preserve user work; if the base checkout is dirty, stop before creating the
+  iteration worktree. Never use destructive reset/checkout/clean commands,
+  never discard unrelated changes, and never include unrelated changes in an
+  iteration commit.
 - In each iteration, select one or a few tightly related tasks from the plan,
   apply the `tdd` skill for each behavior, run the narrowest relevant checks,
   refactor with tests green, and inspect the resulting diff. Use existing test
@@ -220,15 +230,16 @@ IMPLEMENTATION METHOD
 - Do not implement or run an unbounded in-SuperCollider sampling session during
   development. Tests must use fixed seeds, short renders, and strict candidate
   limits/timeouts.
-- Do not treat automatic tool approval as a sandbox. The runner uses
-  non-interactive mode with `--allow-all-tools`; shell commands can still
-  affect paths outside the project. Do not use `--allow-all-paths`, destructive
-  Git commands, or commands that operate outside the project. The runner
-  requires a clean tree, one implementation commit plus one status-report
-  commit per pass, and a successful push of both. The human launching the loop
-  must run it only in a trusted environment and monitor it. There is no
-  iteration-count limit; the runner stops on the completion/blocker markers,
-  operational errors, or manual interruption.
+- Do not treat automatic tool approval or a Git worktree as a sandbox.
+  Non-interactive tool access can run shell commands outside the worktree.
+  Do not use `--allow-all-paths`, destructive Git commands, or commands
+  targeting paths unrelated to the active repository. Restrict repository
+  operations to the identified base checkout and this iteration's worktree.
+  Use only a runner that creates a fresh worktree and branch for each iteration
+  and merges into the base after validation; the human launching multiple
+  iterations must run it only in a trusted environment and monitor it. Stop on
+  the completion/blocker markers, operational errors, merge failures, or
+  manual interruption.
 
 DEFINITION OF DONE
 
@@ -256,7 +267,9 @@ IMPLEMENTATION_PLAN.md is implemented and verified, including:
    MacBook Neo results/artifacts are recorded.
 
 At the end of each iteration, update RALPH_PROGRESS.md and rewrite
-implementation_status.md before creating the implementation commit. If all
+implementation_status.md before creating the implementation commit. After all
+required checks and commits pass, merge the iteration branch into its base
+branch and verify the merge before reporting the iteration complete. If all
 criteria pass, report completion with test evidence and the remaining platform
 caveats, set
 `Ralph-Status: COMPLETE`, and make `RALPH_COMPLETE` the last non-empty line of
