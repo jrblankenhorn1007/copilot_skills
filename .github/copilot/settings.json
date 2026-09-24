@@ -1,0 +1,10 @@
+{
+  "contextTier": "default",
+  "subagents": {
+    "agents": {
+      "Ralph Loop": {
+        "contextTier": "default"
+      }
+    }
+  }
+}

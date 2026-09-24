@@ -1,6 +1,7 @@
 ---
 name: Ralph Loop
 description: Runs one focused TDD/Ralph iteration in a fresh Git worktree and branch, then verifies its merge to remote main.
+reasoning-effort: max
 user-invocable: true
 ---
 

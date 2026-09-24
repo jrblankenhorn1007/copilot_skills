@@ -33,6 +33,19 @@ See the [Copilot CLI custom-agent guide](https://docs.github.com/en/copilot/how-
 and [VS Code custom-agent guide](https://code.visualstudio.com/docs/agent-customization/custom-agents)
 for supported locations and picker behavior.
 
+## Ralph Loop defaults
+
+The Ralph Loop agent frontmatter sets `reasoning-effort: max`. The selected
+model must support that level; otherwise, the harness may report it as
+unsupported and leave its effort unchanged.
+
+Copilot CLI reads repository defaults from `.github/copilot/settings.json`.
+This repository pins `contextTier` to `default`, including for Ralph Loop
+subagent invocations. The repository-wide setting applies to Copilot CLI
+sessions in this repository; custom-agent frontmatter does not expose a
+context-tier field. In VS Code, use the model picker to select the context
+tier for the active session if needed.
+
 ## Choose model, reasoning effort, and context
 
 Model selection is separate from agent selection. In an interactive CLI, use
@@ -53,16 +66,15 @@ Copilot CLI also exposes its validated user settings as parameters. Use
 
 Search the settings list for reasoning or context controls and use only the
 keys and values shown by the installed CLI. The CLI validates these values and
-writes supported user settings to `~/.copilot/settings.json`; names and
-choices can vary by CLI version. The `/context` command reports current
-context usage and capacity; it does not change the context window.
+writes supported user settings to `~/.copilot/settings.json`; repository
+settings are stored in `.github/copilot/settings.json`. Names and choices can
+vary by CLI version. The `/context` command reports current context usage and
+capacity; it does not change the context window.
 
-The custom-agent `model` frontmatter field selects a model, but the current
-agent-file format does not define standard reasoning-effort or context-size
-fields. The official programmatic CLI reference documents `--agent` and
-`--model`, but not generic `--thinking-effort` or `--context-size` flags. Do
-not add undocumented flags or agent-frontmatter keys; use the model picker or
-the CLI's `/settings` schema instead.
+Custom-agent frontmatter supports the `reasoning-effort` field but not a
+context-tier field. The Copilot CLI also supports `--reasoning-effort` (or
+`--effort`) for programmatic sessions. Use only model-specific values accepted
+by the selected model and harness.
 
 Larger context windows and higher reasoning levels can consume more AI
 credits. See GitHub's notes on
