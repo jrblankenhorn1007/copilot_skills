@@ -27,12 +27,14 @@ not abbreviations.
     authorized work can continue.
   - `COMPLETE` only after every assigned task meets its acceptance criteria,
     required checks and sign-offs are recorded, and every required merge is
-    verified on fetched `origin/main`. A pushed branch or open PR is not
-    complete.
+    verified on fetched `origin/main`, and the post-merge memory review is
+    complete. Any memory follow-up merge must also be verified before
+    completion. A pushed branch or open PR is not complete.
 - A worker's `status` is one of `NOT_STARTED`, `IN_PROGRESS`,
   `AWAITING_MERGE`, `BLOCKED`, `COMPLETE`, `FAILED`, or `CANCELLED`.
-  Mark a worker `COMPLETE` only after its assigned work is merged and the
-  remote merge is verified.
+  Mark a worker `COMPLETE` only after its assigned work is merged, the remote
+  merge is verified, and the coordinator's post-merge memory review is
+  complete. Any memory follow-up merge must also be verified.
 - Keep `iteration_history` for each worker. Add one entry for each iteration;
   do not replace a prior iteration when retrying. If `origin/main` moves and
   an iteration is rebased before integration, record the new SHA in

@@ -15,8 +15,8 @@ parallelism request, not a target number of iterations or a reason to invent
 work.
 
 Before dispatching, the coordinator reads the project's plan, instructions,
-current status, and working-tree state, then writes a split plan. Each
-assignment should state:
+current status, relevant memory categories, and working-tree state, then writes
+a split plan. Each assignment should state:
 
 - a bounded outcome and observable acceptance criteria, including relevant
   checks;
@@ -42,7 +42,8 @@ Each dispatch gives one worker one scoped Ralph iteration, not a long-lived
 shared checkout. The worker must:
 
 1. Confirm its assigned outcome, acceptance criteria, dependencies, and owned
-   paths with the coordinator. Work only within that scope.
+   paths with the coordinator. Read relevant memory before work and stay
+   within the assigned scope.
 2. Create a fresh worktree and unique branch from the latest `origin/main`.
    For behavior changes, follow Red-Green-Refactor; for documentation-only
    changes, run the relevant documentation checks. Update progress, status,
@@ -54,19 +55,31 @@ shared checkout. The worker must:
 
 The coordinator maintains a ledger with each assignment's worker, owned
 paths, dependencies, acceptance criteria, base SHA, branch/commit, check
-results, merge SHA, and state (for example: queued, ready, running, awaiting
+results, implementation merge SHA, memory-review outcome and any memory
+follow-up merge SHA, and state (for example: queued, ready, running, awaiting
 integration, merged-and-verified, or blocked). Record evidence from the
 worker; do not mark an assignment complete or release dependent work merely
 because a branch was pushed or a pull request was opened.
 
-After an iteration is merged and verified, the coordinator updates the
-ledger, evaluates the acceptance criteria, and unlocks any satisfied
-dependencies. If the assigned outcome is complete, the worker can take a
-different ready assignment. If more work is needed for the same outcome,
-dispatch a new, narrowly scoped iteration with the remaining criteria. Every
-re-dispatch starts from a new worktree and branch based on the latest
-`origin/main`; do not continue on the old iteration branch. Use only
-project-required completion markers, and only after remote-main verification.
+After each worker's implementation merge is verified, the coordinator performs
+the post-merge memory review using the
+[Project Memory skill](../../project-memory/SKILL.md). The coordinator owns
+changes to shared memory: workers do not edit the shared memory store on
+feature branches, and memory updates use a fresh follow-up branch and the
+repository's normal merge process. Verify any memory merge before marking the
+iteration complete or releasing dependent work. Record a no-new-lesson outcome
+when the review finds nothing durable. A memory-only follow-up is part of the
+same iteration and does not recursively trigger another review.
+
+After memory review is complete, the coordinator updates the ledger, evaluates
+the acceptance criteria, and unlocks any satisfied dependencies. If the
+assigned outcome is complete, the worker can take a different ready
+assignment. If more work is needed for the same outcome, dispatch a new,
+narrowly scoped iteration with the remaining criteria. Every re-dispatch
+starts from a new worktree and branch based on the latest `origin/main`; do
+not continue on the old iteration branch. Use only project-required
+completion markers, and only after all required remote-main merges are
+verified.
 
 ## Git synchronization and integration
 

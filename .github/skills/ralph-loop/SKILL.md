@@ -1,6 +1,6 @@
 ---
 name: ralph-loop
-description: Use for one focused Ralph-style development iteration in a fresh worktree and branch, then verify its merge to remote main.
+description: Use for one focused Ralph-style development iteration in a fresh worktree and branch, verify its merge to remote main, and capture durable post-merge learnings.
 ---
 
 # Ralph Loop
@@ -14,8 +14,11 @@ tests, status protocol, or decision history; read and follow those sources.
 
 1. Read the active project's implementation plan, Ralph prompt or runner,
    progress log, current status snapshot, decision log, and applicable local
-   instructions. Treat those artifacts as the source of truth for scope,
-   filenames, runner behavior, and completion markers.
+   instructions. Read the project's memory index and relevant categories when
+   available using the [Project Memory skill](../project-memory/SKILL.md), and
+   validate those lessons against current sources. Treat the active project's
+   artifacts as the source of truth for scope, filenames, runner behavior, and
+   completion markers.
 2. Confirm the requested work advances a clear acceptance criterion. If there
    is no active task or the requested scope is unclear, ask for direction
    rather than inventing a project goal.
@@ -61,13 +64,26 @@ tests, status protocol, or decision history; read and follow those sources.
    verify the resulting merge SHA is reachable from remote `main`. For squash
    or merge-queue flows, verify the merge result rather than requiring the
    iteration commit itself to remain an ancestor.
-7. If validation, merge, or remote verification is blocked, preserve the
-   iteration worktree and branch and report the blocker. Remove only this
-   iteration's worktree and branch, and only after a verified merge and when
-   the project's workflow permits cleanup.
-8. Follow the active project's exact continuation, blocked, and completion
+7. After the implementation content is merged and verified on fetched
+   `origin/main`, perform a memory review using the
+   [Project Memory skill](../project-memory/SKILL.md). Keep reusable lessons
+   in the project's categorized memory store. If a memory change is warranted,
+   make it on a fresh follow-up branch from the latest `origin/main`, integrate
+   it through the same remote merge process, and verify its merge before
+   completing the iteration. This is part of the same iteration, not a new
+   iteration, and does not trigger another memory review. Never write directly
+   to `main` or amend the merged implementation branch. If no durable lesson
+   emerged, leave memory unchanged and record that outcome in the active
+   progress or status record when one exists.
+8. If validation, implementation merge, memory update, or remote verification
+   is blocked, preserve the affected worktree and branch and report the
+   blocker. Remove only this iteration's worktree and branch, and only after
+   all required merges are verified and when the project's workflow permits
+   cleanup.
+9. Follow the active project's exact continuation, blocked, and completion
    markers, and emit them only when their conditions are met. Never report
-   completion before the changes are verified on fetched remote `main`.
+   completion before the implementation merge and any required memory merge
+   are verified on fetched remote `main`.
 
 Keep this outer development loop distinct from any in-product generation or
 sampling loop. When the product has such a loop, follow its project-specific
