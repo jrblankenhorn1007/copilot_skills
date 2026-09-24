@@ -1,6 +1,6 @@
 ---
 name: ralph-loop
-description: Use for one focused Ralph-style development iteration in a fresh worktree and branch, then verify its merge to remote main.
+description: Use for one focused Ralph-style development run; coordinate configurable workers and verify remote-main integration.
 ---
 
 # Ralph Loop
@@ -9,6 +9,21 @@ Use this skill to run one bounded outer software-development iteration. It
 guides project discovery, worktree isolation, verification, and integration.
 It does not replace the active project's plan, acceptance criteria, runner,
 tests, status protocol, or decision history; read and follow those sources.
+
+## First-run orchestration
+
+For multi-agent work, the first top-level Ralph Loop invocation is the
+orchestrator, not an implementation worker. Its first run plans and dispatches
+the configured workers before taking on any worker assignment; it does not
+count toward `workers=N`. The default is two workers. If fewer than two useful,
+independent assignments are ready, launch only the available work and record
+why; never invent or duplicate assignments to meet the default.
+
+Configure the orchestrator's model and supported parameters for the initial
+session, and configure worker defaults or per-worker overrides at dispatch.
+See [multi-agent orchestration](./references/multi-agent-orchestration.md) for
+the run configuration and [Copilot agent selection and model controls](./references/copilot-cli-usage.md)
+for applying it in supported harnesses.
 
 ## Required setup
 

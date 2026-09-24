@@ -27,8 +27,9 @@ license notices are preserved in each skill directory.
   compares documentation claims with source and configuration.
 
 - [Ralph Loop](.github/skills/ralph-loop/SKILL.md):
-  guides one focused development iteration in a fresh worktree and branch,
-  merged and verified on remote `main`.
+  makes the first run an orchestrator (not a worker), dispatches two
+  configurable worker agents by default when independent work allows, and
+  verifies their integration on remote `main`.
 - [Test-Driven Development](.github/skills/tdd/SKILL.md):
   applies test-first Red-Green-Refactor to behavior changes and bug fixes.
 
@@ -42,5 +43,5 @@ license notices are preserved in each skill directory.
 ## Using the agent and model controls
 
 See [Copilot agent selection and model controls](.github/skills/ralph-loop/references/copilot-cli-usage.md)
-for making Ralph selectable in VS Code/Copilot CLI and configuring supported
-model reasoning-effort and context-window options.
+for selecting the orchestrator model and configuring separate worker models,
+reasoning-effort, and context-window options in VS Code/Copilot CLI.

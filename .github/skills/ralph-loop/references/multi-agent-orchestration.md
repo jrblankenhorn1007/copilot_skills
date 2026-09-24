@@ -1,22 +1,60 @@
 # Multi-Agent Ralph Loop Orchestration
 
-The top-level **Ralph Loop Orchestrator** (coordinator) can split a project
-plan into independent assignments for worker agents. This is an optional way
-to parallelize work under the [Ralph Loop skill](../SKILL.md); behavior
-changes also follow the [TDD skill](../../tdd/SKILL.md). Each worker still
-performs one complete, isolated Ralph iteration and follows the active
-project's instructions and status protocol.
+The first, top-level **Ralph Loop** invocation is the **Orchestrator**
+(coordinator), not an implementation worker. Its first run reads the project
+plan, splits ready work, and dispatches the configured worker agents before
+implementing any worker assignment itself. The orchestrator is not counted in
+`workers=N`. This is the default multi-agent workflow under the
+[Ralph Loop skill](../SKILL.md); behavior changes also follow the
+[TDD skill](../../tdd/SKILL.md). Each worker performs one complete, isolated
+Ralph iteration and follows the active project's instructions and status
+protocol.
+
+## Role configuration
+
+Resolve the run configuration before launching the top-level session. Supply
+it in the request or through the selected harness's supported session controls:
+
+```yaml
+orchestrator:
+  model: null
+  reasoning_effort: null
+  context_tier: null
+workers:
+  count: 2
+  model: inherit
+  reasoning_effort: inherit
+  context_tier: inherit
+  overrides: {}
+```
+
+For the orchestrator, `null` means use the model and parameters selected for
+the initial session or the harness defaults. Worker fields can be configured
+independently; `inherit` uses the orchestrator's value, and
+`overrides.<worker-id>` can replace the shared worker setting for a specific
+worker. Set the orchestrator profile before starting the first session and
+apply each worker's profile when launching that worker. Model IDs, reasoning
+effort, context tier, and any additional parameters must be supported by the
+selected model and harness. If a harness cannot apply a requested
+worker-specific setting, report that limitation and use the supported
+inherited/default value rather than claiming the override was applied. This
+block defines run behavior; it is not a new Copilot settings-file schema.
 
 ## Worker count and split plan
 
 An orchestration request may specify `workers=N`, the desired number of
-concurrent workers. If omitted, use the default `workers=1`. `N` is a
-parallelism request, not a target number of iterations or a reason to invent
-work.
+concurrent worker agents. If omitted, use the default `workers=2`. `N` counts
+workers only, not the orchestrator; it is a parallelism request, not a target
+number of iterations or a reason to invent work.
 
-Before dispatching, the coordinator reads the project's plan, instructions,
-current status, and working-tree state, then writes a split plan. Each
-assignment should state:
+In the first run, the coordinator reads the project's plan, instructions,
+current status, and working-tree state, then writes a split plan and launches
+the ready workers. When at least `N` useful, independent assignments are
+ready, launch exactly `N` workers in that first run. If fewer than `N` ready
+assignments can advance acceptance criteria safely, launch only that smaller
+number. Do not pad the run with overlapping, duplicate, or speculative tasks.
+
+Each assignment should state:
 
 - a bounded outcome and observable acceptance criteria, including relevant
   checks;
@@ -30,11 +68,9 @@ the same paths. Dispatch only work whose dependencies are satisfied. If a
 dependency is still being built, leave its dependents queued rather than
 having workers wait on or duplicate that work.
 
-When at least `N` useful, independent assignments are ready, launch exactly
-`N` workers. If fewer than `N` ready assignments can advance acceptance
-criteria safely, launch only that smaller number. Do not pad the run with
-overlapping, duplicate, or speculative tasks. The coordinator can fill newly
-available worker slots as dependencies clear or more useful work is identified.
+The coordinator can fill newly available worker slots as dependencies clear
+or more useful work is identified, applying the configured worker profile to
+each new dispatch.
 
 ## Worker iterations and coordinator tracking
 

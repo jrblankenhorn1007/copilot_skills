@@ -33,18 +33,36 @@ See the [Copilot CLI custom-agent guide](https://docs.github.com/en/copilot/how-
 and [VS Code custom-agent guide](https://code.visualstudio.com/docs/agent-customization/custom-agents)
 for supported locations and picker behavior.
 
-## Ralph Loop defaults
+## Configure orchestrator and worker profiles
 
-The Ralph Loop agent frontmatter sets `reasoning-effort: max`. The selected
-model must support that level; otherwise, the harness may report it as
-unsupported and leave its effort unchanged.
+The first Ralph Loop session is the orchestrator. The workspace agent does not
+pin a reasoning-effort value, so configure the orchestrator's model and effort
+in that initial session. Configure each worker's model and effort separately
+when the worker session is launched. For example, an orchestrator and its
+workers can use different CLI profiles:
+
+```sh
+copilot --agent ralph-loop --model gpt-6-astra --reasoning-effort high \
+  --prompt "Coordinate the requested Ralph Loop task"
+
+copilot --agent ralph-loop --model gpt-6-luna --reasoning-effort medium \
+  --prompt "Implement the worker's bounded assignment"
+```
+
+These commands illustrate separate session settings; the orchestration host
+must pass each worker profile when it creates that worker. In VS Code, choose
+the orchestrator model in the active session's model picker and set worker
+models through the host's per-worker session controls. Use only effort values
+supported by the selected model.
 
 Copilot CLI reads repository defaults from `.github/copilot/settings.json`.
-This repository pins `contextTier` to `default`, including for Ralph Loop
-subagent invocations. The repository-wide setting applies to Copilot CLI
-sessions in this repository; custom-agent frontmatter does not expose a
-context-tier field. In VS Code, use the model picker to select the context
-tier for the active session if needed.
+This repository configures `contextTier` separately for the top-level session
+and `subagents.agents.Ralph Loop`, so the orchestrator and Ralph Loop workers
+can use different context tiers. The agent frontmatter itself does not expose
+a context-tier field. In VS Code, use the model picker for the active session;
+use per-worker context controls only when the host supports them. If a host
+cannot set a requested worker-specific context tier, report that limitation
+and retain the configured default.
 
 ## Choose model, reasoning effort, and context
 
