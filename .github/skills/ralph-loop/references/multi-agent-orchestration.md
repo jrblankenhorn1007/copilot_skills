@@ -120,11 +120,11 @@ verified.
 
 ## Git synchronization and integration
 
-1. **Before branch creation:** fetch `origin`, confirm `origin/main` is
-   available, and create the worker's fresh branch from that ref. Record the
-   exact base SHA for the coordinator's ledger.
-2. **Before publishing and again before integration:** fetch `origin`. If
-   `origin/main` has advanced since the recorded base, rebase the feature
+1. **Before branch creation:** run `git fetch origin`, confirm `origin/main`
+   is available, and create the worker's fresh branch from that ref. Record
+   the exact base SHA for the coordinator's ledger.
+2. **Before publishing and again before integration:** run `git fetch origin`.
+   If `origin/main` has advanced since the recorded base, rebase the feature
    branch onto the latest `origin/main`. Resolve conflicts only within the
    worker's ownership; stop and coordinate if a conflict reveals overlapping
    scope or a changed shared contract. Rerun all relevant checks after the
@@ -136,9 +136,9 @@ verified.
    repository's normal publish process.
 4. **Serialize integration.** The coordinator should integrate one worker
    branch at a time. A repository merge queue may provide equivalent
-   serialization, but after every update to `main`, fetch `origin` again and
-   re-sync any remaining stale branches; rerun their checks after rebasing
-   and before their integration. Do not rely on a branch's earlier
+   serialization, but after every update to `main`, run `git fetch origin`
+   again and re-sync any remaining stale branches; rerun their checks after
+   rebasing and before their integration. Do not rely on a branch's earlier
    up-to-date check after another worker has changed `main`.
 5. **Verify every merge:** record the SHA produced by the repository's remote
    merge process, fetch `origin`, and confirm that exact merge SHA is

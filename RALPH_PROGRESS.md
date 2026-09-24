@@ -98,3 +98,52 @@ post-refactor run remain pending until worker-01 integration is verified.
   `.github/skills/tdd`, while also updating the Ralph agent and README. The
   coordinator will preserve this organization, move this iteration's links
   and contract test to the new paths, rebase on latest main, and rerun checks.
+
+## 2026-09-24T23:47:29Z — Rebase onto split skill structure
+
+- Rebased the coordinator implementation commit
+  `2293c3b` onto `a35787c1760d9f0d65d5e2b4186fc96f79512cf3`, preserving the
+  upstream `reasoning-effort` default, repository Copilot settings, and the
+  separate Ralph Loop/TDD skill structure. The rebased commit is
+  `5a5621bff103186572e288ec01c0c9c5422ae758`.
+- Moved the contract test and current Ralph guidance references to
+  `.github/skills/ralph-loop`; kept old paths only in this historical progress
+  record and the worker sign-off describing the original changed path.
+- First post-rebase test:
+  `python3 .github/skills/ralph-loop/tests/test_multi_agent_contract.py`
+  ran six tests and failed one assertion because the orchestration reference
+  said to fetch `origin` without the explicit `git fetch origin` command.
+  Updated the reference to specify that command at branch creation, before
+  publish/integration, and after each merge.
+- Green command:
+  `python3 .github/skills/ralph-loop/tests/test_multi_agent_contract.py`
+  — `Ran 6 tests in 0.003s`, `OK`.
+- `git diff --check` passed after the Git-sync wording update. A final
+  post-refactor run and remote integration of the coordinator commit remain
+  pending.
+
+## 2026-09-24T23:48:37Z — Final documentation contract Green
+
+- Final contract command from the iteration worktree:
+  `python3 .github/skills/ralph-loop/tests/test_multi_agent_contract.py`
+  — `Ran 6 tests in 0.002s`, `OK`.
+- `git diff --check` and
+  `git diff --check origin/main...HEAD` passed. Required orchestrator,
+  orchestration/status reference, and relocated test paths exist; no conflict
+  markers remain.
+- The explicit `git fetch origin` wording is now present at branch creation,
+  before publication/integration, and after each merge. The follow-up wording
+  change, current status snapshot, and this evidence still need a coordinator
+  commit and remote-main verification.
+
+## 2026-09-24T23:49:29Z — Post-refactor verification
+
+- Re-ran
+  `python3 .github/skills/ralph-loop/tests/test_multi_agent_contract.py`
+  after the Git-sync documentation and status updates:
+  `Ran 6 tests in 0.002s`, `OK`.
+- `git diff --check` passed. No code build or application test applies to
+  these agent-instruction/documentation changes; native VS Code UI behavior
+  remains unverified.
+- The coordinator commits still require remote-main integration and
+  verification before setting the overall status to `COMPLETE`.
