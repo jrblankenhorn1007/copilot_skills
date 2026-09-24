@@ -2,9 +2,10 @@
 
 The top-level **Ralph Loop Orchestrator** (coordinator) can split a project
 plan into independent assignments for worker agents. This is an optional way
-to parallelize the existing [TDD and Ralph Development Loop](../SKILL.md);
-each worker still performs one complete, isolated Ralph iteration and follows
-the active project's instructions and status protocol.
+to parallelize work under the [Ralph Loop skill](../SKILL.md); behavior
+changes also follow the [TDD skill](../../tdd/SKILL.md). Each worker still
+performs one complete, isolated Ralph iteration and follows the active
+project's instructions and status protocol.
 
 ## Worker count and split plan
 

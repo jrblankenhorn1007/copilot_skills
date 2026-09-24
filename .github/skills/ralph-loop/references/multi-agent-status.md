@@ -1,4 +1,4 @@
-# Multi-agent status snapshot
+# Multi-agent Ralph status snapshot
 
 Use one durable, run-level status snapshot to show the overall Ralph run and
 each worker's current status and iteration history. The coordinator is the

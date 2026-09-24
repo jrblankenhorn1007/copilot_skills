@@ -1,4 +1,4 @@
-# Ralph Loop Prompt: Build the SuperCollider AI Music Agent
+# Project-Specific Ralph Loop Prompt: Build the SuperCollider AI Music Agent
 
 Use this as the task prompt for the **development Ralph loop**. This outer
 engineering loop implements the product; it is not the in-SuperCollider

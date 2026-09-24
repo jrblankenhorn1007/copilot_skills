@@ -26,18 +26,21 @@ license notices are preserved in each skill directory.
 - [Docs Sync Audit](.github/skills/docs-sync-audit/SKILL.md):
   compares documentation claims with source and configuration.
 
-- [TDD and Ralph Development Loop](.github/skills/tdd-ralph-loop/SKILL.md):
-  coordinates test-first Red-Green-Refactor with a fresh worktree and branch
-  per iteration, merged and verified on remote `main`.
+- [Ralph Loop](.github/skills/ralph-loop/SKILL.md):
+  guides one focused development iteration in a fresh worktree and branch,
+  merged and verified on remote `main`.
+- [Test-Driven Development](.github/skills/tdd/SKILL.md):
+  applies test-first Red-Green-Refactor to behavior changes and bug fixes.
 
 ## Agents
 
 - [Ralph Loop](.github/agents/ralph-loop.agent.md): performs one focused
   development iteration in a fresh worktree and branch, then merges and
-  verifies it on remote `main` using the TDD and Ralph loop skill.
+  verifies it on remote `main` using the Ralph Loop skill and applying TDD
+  for behavior changes.
 
 ## Using the agent and model controls
 
-See [Copilot agent selection and model controls](.github/skills/tdd-ralph-loop/references/copilot-cli-usage.md)
+See [Copilot agent selection and model controls](.github/skills/ralph-loop/references/copilot-cli-usage.md)
 for making Ralph selectable in VS Code/Copilot CLI and configuring supported
 model reasoning-effort and context-window options.

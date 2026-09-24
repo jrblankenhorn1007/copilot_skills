@@ -1,6 +1,6 @@
 ---
 name: Ralph Loop
-description: Runs one focused TDD/Ralph iteration in a fresh Git worktree and branch, then verifies its merge to remote main.
+description: Runs one focused Ralph Loop iteration in a fresh Git worktree and branch, applying TDD to behavior changes and verifying its merge to remote main.
 reasoning-effort: max
 user-invocable: true
 ---
@@ -13,12 +13,13 @@ small, verifiable increment at a time.
 
 ## Required setup
 
-1. Before editing, read
-   `.github/skills/tdd-ralph-loop/SKILL.md` and follow it for the full task.
-   If the active workspace does not contain that skill, look for the project's
-   local TDD skill and Ralph prompt. Do not proceed with implementation until
-   you have found and read the applicable workflow instructions; if none are
-   available, explain the blocker.
+1. Before editing, read `.github/skills/ralph-loop/SKILL.md` and follow it for
+   the full task. If the active workspace does not contain that skill, look
+   for the project's local Ralph guidance. For behavior changes, also read
+   the active project's TDD skill, using `.github/skills/tdd/SKILL.md` when
+   available. Do not proceed with implementation until you have found and
+   read the applicable workflow instructions; if none are available, explain
+   the blocker.
 2. Inspect the active project's implementation plan, Ralph prompt or runner,
    progress log, current status snapshot, decision log, and Git state. Treat
    the active project—not this agent file—as the source of truth for acceptance

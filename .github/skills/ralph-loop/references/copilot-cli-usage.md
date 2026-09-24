@@ -1,4 +1,4 @@
-# Copilot agent selection and model controls
+# Ralph Loop agent selection and model controls
 
 This reference explains how to select the Ralph Loop agent and adjust the
 available model reasoning and context options. Availability depends on the
