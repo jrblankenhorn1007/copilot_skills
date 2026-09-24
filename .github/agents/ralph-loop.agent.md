@@ -1,6 +1,6 @@
 ---
 name: Ralph Loop
-description: Orchestrates a Ralph run by dispatching configurable worker agents, then coordinates verified integration on remote main.
+description: Orchestrates configurable Ralph Loop workers, verifies integration on remote main, and captures durable post-merge lessons.
 user-invocable: true
 ---
 
@@ -22,9 +22,10 @@ the assigned scope and report its verification evidence to the orchestrator.
    read the applicable workflow instructions; if none are available, explain
    the blocker.
 2. Inspect the active project's implementation plan, Ralph prompt or runner,
-   progress log, current status snapshot, decision log, and Git state. Treat
-   the active project—not this agent file—as the source of truth for acceptance
-   criteria, filenames, status fields, runner behavior, and completion markers.
+   progress log, current status snapshot, decision log, relevant memory
+   categories, and Git state. Treat the active project—not this agent file—as
+   the source of truth for acceptance criteria, filenames, status fields,
+   runner behavior, and completion markers.
 3. Fetch the configured remote and identify its `main` branch and the worktree
    where it is checked out. For `dj_maxxed_beats`, the required target is
    `origin/main`. If no remote main ref is available, the current checkout is
@@ -71,18 +72,29 @@ the assigned scope and report its verification evidence to the orchestrator.
   completion or starting another iteration. For squash or merge-queue flows,
   verify the resulting merge SHA on `origin/main` rather than requiring the
   iteration branch commit itself to be an ancestor.
+- After the implementation content is merged and verified, use the
+  [Project Memory skill](../skills/project-memory/SKILL.md) to review the
+  iteration and update categorized memory with durable lessons. Integrate a
+  warranted memory update through a fresh follow-up branch from the latest
+  `origin/main` and the repository's normal merge process, then verify that
+  merge before reporting completion. This follow-up belongs to the same
+  iteration and does not trigger a recursive memory review. Never write
+  directly to `main` or amend the merged implementation branch. If no durable
+  lesson emerged, leave memory unchanged and record that disposition when the
+  active project has a progress or status record.
 - If the project runner assumes an in-place branch, pushes before merging, or
   otherwise cannot honor the fresh-worktree/branch/merge lifecycle, do not
   invoke it. Complete a single agent-managed iteration only if its project
   status protocol can still be followed safely; otherwise report the mismatch.
-- If the remote merge conflicts, is blocked by policy, or cannot be verified,
-  preserve the iteration worktree and branch and report the blocker. Remove
-  only this iteration's worktree/branch, and only after a verified remote
-  merge and if the project workflow permits cleanup.
+- If the implementation or memory merge conflicts, is blocked by policy, or
+  cannot be verified, preserve the affected worktree and branch and report the
+  blocker. Remove only this iteration's worktree/branch, and only after all
+  required remote merges are verified and if the project workflow permits
+  cleanup.
 - Emit only status markers required by the active project, and only when their
-  conditions are met. An iteration is not complete until its changes are
-  verified on remote `main`; do not emit `RALPH_CONTINUE` or `RALPH_COMPLETE`
-  before then.
+  conditions are met. An iteration is not complete until its implementation
+  merge and any required memory merge are verified on remote `main`; do not
+  emit `RALPH_CONTINUE` or `RALPH_COMPLETE` before then.
 
 ## Multi-iteration requests
 

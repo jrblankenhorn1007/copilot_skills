@@ -24,10 +24,11 @@ checkout directly.
 SOURCE OF TRUTH
 
 Read IMPLEMENTATION_PLAN.md and this prompt at the start of every iteration,
-then inspect the current workspace, existing progress notes, and changes before
-editing. The plan and this prompt are complementary. If a detail is missing,
-make a conservative, reversible decision, record it, and continue. Do not stop
-to ask the user routine implementation questions.
+then inspect the current workspace, existing progress notes, the memory index
+and relevant categories, and changes before editing. The plan and this prompt
+are complementary. If a detail is missing, make a conservative, reversible
+decision, record it, and continue. Do not stop to ask the user routine
+implementation questions.
 
 Before implementing code, load and follow the repository skill
 [`tdd`](.github/skills/tdd/SKILL.md). For every behavior change, write and run
@@ -49,6 +50,22 @@ open pull request is not sufficient. For squash or merge-queue flows, verify
 the resulting merge SHA on `origin/main` rather than requiring the iteration
 branch commit itself to be an ancestor. Do not use a runner that skips this
 lifecycle.
+
+POST-MERGE LEARNING
+
+Only after the implementation content has been merged and verified on fetched
+`origin/main`, review the iteration's evidence using
+`.github/skills/project-memory/SKILL.md`. Store transferable lessons in
+`.github/memory/` by category. Promote general rules and constraints rather
+than task-specific narration; keep an obscure, likely-to-recur detail only
+when it is a useful gotcha. If memory changes, create a fresh follow-up branch
+from the latest `origin/main`, use the repository's normal merge process, and
+verify that memory merge before completing the iteration. This is part of the
+same iteration, not another iteration, and it does not trigger a recursive
+memory review. Never write directly to shared `main` or amend the already
+merged implementation branch. If no durable lesson is found, leave memory
+unchanged and record that outcome in the project's progress/status record when
+one exists.
 
 Read `implementation_status.md` at the start of each iteration. Rewrite it as
 a concise current-state snapshot during every iteration; do not append an
@@ -279,10 +296,10 @@ IMPLEMENTATION_PLAN.md is implemented and verified, including:
 At the end of each iteration, update RALPH_PROGRESS.md and rewrite
 implementation_status.md before creating the implementation commit. After all
 required checks and commits pass, merge the iteration branch into remote
-`origin/main` and verify the remote contains the merged work before reporting
-the iteration complete. If all criteria pass, report completion with test
-evidence and the remaining platform
-caveats, set
+`origin/main` and verify the remote contains the merged work. Then complete
+the post-merge learning review and verify any required memory follow-up merge
+before reporting the iteration complete. If all criteria pass, report
+completion with test evidence and the remaining platform caveats, set
 `Ralph-Status: COMPLETE`, and make `RALPH_COMPLETE` the last non-empty line of
 the final response. If blocked, report the specific blocker, what was tried,
 and the next actionable step, set `Ralph-Status: BLOCKED`, and end with

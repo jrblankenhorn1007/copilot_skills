@@ -25,20 +25,22 @@ license notices are preserved in each skill directory.
   creates project-specific Copilot instruction blueprints.
 - [Docs Sync Audit](.github/skills/docs-sync-audit/SKILL.md):
   compares documentation claims with source and configuration.
+- [Project Memory](.github/skills/project-memory/SKILL.md):
+  captures and maintains concise, evidence-backed lessons in categorized
+  repository memory; see the [memory index](.github/memory/README.md).
 
 - [Ralph Loop](.github/skills/ralph-loop/SKILL.md):
   makes the first run an orchestrator (not a worker), dispatches two
-  configurable worker agents by default when independent work allows, and
-  verifies their integration on remote `main`.
+  configurable worker agents by default when independent work allows, verifies
+  integration on remote `main`, and reviews durable lessons after each merge.
 - [Test-Driven Development](.github/skills/tdd/SKILL.md):
   applies test-first Red-Green-Refactor to behavior changes and bug fixes.
 
 ## Agents
 
-- [Ralph Loop](.github/agents/ralph-loop.agent.md): performs one focused
-  development iteration in a fresh worktree and branch, then merges and
-  verifies it on remote `main` using the Ralph Loop skill and applying TDD
-  for behavior changes.
+- [Ralph Loop](.github/agents/ralph-loop.agent.md): orchestrates configurable
+  workers through isolated iterations, verifies remote-main integration,
+  reviews durable lessons, and applies TDD to behavior changes.
 
 ## Using the agent and model controls
 
