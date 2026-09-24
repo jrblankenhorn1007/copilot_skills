@@ -3,6 +3,12 @@ Copilot Skills
 
 ## Skills
 
+- [Acquire Codebase Knowledge](.github/skills/acquire-codebase-knowledge/SKILL.md):
+  creates evidence-based codebase documentation when explicitly requested.
+  Adapted from
+  [github/awesome-copilot](https://github.com/github/awesome-copilot/tree/main/skills/acquire-codebase-knowledge)
+  under MIT; see the [skill license](.github/skills/acquire-codebase-knowledge/LICENSE).
+
 - [TDD and Ralph Development Loop](.github/skills/tdd-ralph-loop/SKILL.md):
   coordinates test-first Red-Green-Refactor with a fresh worktree and branch
   per iteration, merged and verified on remote `main`.
