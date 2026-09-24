@@ -64,6 +64,34 @@ use per-worker context controls only when the host supports them. If a host
 cannot set a requested worker-specific context tier, report that limitation
 and retain the configured default.
 
+## Run a multi-agent Ralph task
+
+In VS Code, select the
+[Ralph Loop Orchestrator](../../../agents/ralph-loop-orchestrator.agent.md)
+and include a worker count in the task prompt:
+
+```text
+Implement the requested feature from the project plan. workers=2
+```
+
+The orchestrator treats `workers=N` as the requested concurrency ceiling,
+writes a split plan, and explicitly delegates each independent workstream to a
+[Ralph Loop](../../../agents/ralph-loop.agent.md) subagent. Its frontmatter
+restricts delegation to that worker.
+The host must enable the `agent/runSubagent` tool; if it is unavailable, the
+orchestrator must report that limitation rather than claim it launched the
+requested number. Verify the run by checking the child-agent calls and the
+per-worker entries in the project status snapshot.
+
+The count is a prompt-level setting, not a standard agent-frontmatter field or
+a universal Copilot worker-pool option. Copilot CLI's `/fleet` command can
+parallelize decomposed work, but its documented interface does not guarantee
+an exact user-selected worker count. Do not use `/fleet` alone when the task
+requires exactly `N` verifiable Ralph Loop workers; use a host that permits
+explicit subagent invocations or report the limit. See the
+[VS Code subagent guide](https://code.visualstudio.com/docs/agents/run/subagents)
+and the [Copilot CLI `/fleet` guide](https://github.blog/ai-and-ml/github-copilot/run-multiple-agents-at-once-with-fleet-in-copilot-cli/).
+
 ## Choose model, reasoning effort, and context
 
 Model selection is separate from agent selection. In an interactive CLI, use

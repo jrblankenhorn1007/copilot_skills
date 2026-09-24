@@ -31,19 +31,40 @@ license notices are preserved in each skill directory.
 
 - [Ralph Loop](.github/skills/ralph-loop/SKILL.md):
   makes the first run an orchestrator (not a worker), dispatches two
-  configurable worker agents by default when independent work allows, verifies
-  integration on remote `main`, and reviews durable lessons after each merge.
+  configurable worker agents by default when independent work allows, and
+  verifies integration on remote `main` and reviews durable lessons after
+  each merge. Its
+  [multi-agent orchestration guide](.github/skills/ralph-loop/references/multi-agent-orchestration.md)
+  covers configurable worker counts and Git synchronization; the
+  [multi-agent status guide](.github/skills/ralph-loop/references/multi-agent-status.md)
+  defines overall and per-worker iteration reporting.
 - [Test-Driven Development](.github/skills/tdd/SKILL.md):
   applies test-first Red-Green-Refactor to behavior changes and bug fixes.
 
 ## Agents
 
 - [Ralph Loop](.github/agents/ralph-loop.agent.md): orchestrates configurable
-  workers through isolated iterations, verifies remote-main integration,
-  reviews durable lessons, and applies TDD to behavior changes.
+  workers through isolated iterations, acts as the top-level orchestrator on
+  the first run, verifies remote-main integration, reviews durable lessons,
+  and applies TDD to behavior changes.
 
 ## Using the agent and model controls
 
 See [Copilot agent selection and model controls](.github/skills/ralph-loop/references/copilot-cli-usage.md)
 for selecting the orchestrator model and configuring separate worker models,
 reasoning-effort, and context-window options in VS Code/Copilot CLI.
+
+## Current Ralph status
+
+See [implementation_status.md](implementation_status.md) for the overall
+status, worker iterations, sign-offs, and remote-merge evidence for this
+multi-agent run.
+
+## Validation
+
+Run the Ralph multi-agent instruction contract checks from the repository
+root:
+
+```sh
+python3 .github/skills/ralph-loop/tests/test_multi_agent_contract.py
+```

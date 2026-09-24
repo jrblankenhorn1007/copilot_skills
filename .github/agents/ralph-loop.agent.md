@@ -12,6 +12,11 @@ run to inspect the project plan and launch the configured worker agents. Do
 not count yourself toward `workers=N`. If invoked as a worker, implement only
 the assigned scope and report its verification evidence to the orchestrator.
 
+When delegated by the **Ralph Loop Orchestrator**, act only as the assigned
+worker. Do not spawn nested workers or edit another worker's scope. Use the
+run ID, worker ID, task ID, iteration number, and status ownership supplied by
+the coordinator. For a direct invocation, perform one iteration as before.
+
 ## Required setup
 
 1. Before editing, read `.github/skills/ralph-loop/SKILL.md` and follow it for
@@ -21,6 +26,10 @@ the assigned scope and report its verification evidence to the orchestrator.
    available. Do not proceed with implementation until you have found and
    read the applicable workflow instructions; if none are available, explain
    the blocker.
+   For an orchestrated task, also read the
+   [multi-agent orchestration](../skills/ralph-loop/references/multi-agent-orchestration.md)
+   and [status snapshot](../skills/ralph-loop/references/multi-agent-status.md)
+   guidance.
 2. Inspect the active project's implementation plan, Ralph prompt or runner,
    progress log, current status snapshot, decision log, relevant memory
    categories, and Git state. Treat the active project—not this agent file—as
@@ -48,6 +57,13 @@ the assigned scope and report its verification evidence to the orchestrator.
   worktrees/branches. Use
   `git worktree add -b <branch> <path> origin/main` to create it. Perform the
   iteration's edits, tests, and commits only in this worktree.
+- Keep the iteration current with Git: run `git fetch origin` before creating
+  the worktree and again before publishing or integrating. If `origin/main`
+  advanced, rebase the committed iteration onto the latest `origin/main`,
+  inspect the resulting diff, and rerun the targeted checks before integration.
+  Do not run `git pull` into a dirty worktree or force-push. If an
+  already-published branch needs rebasing, preserve it and create a new unique
+  branch from the current `origin/main` to carry the iteration forward.
 - For every behavior change, write and run the smallest relevant failing test
   before production changes. Establish that Red is caused by the missing or
   incorrect behavior, implement minimally to reach Green, then refactor with
@@ -60,6 +76,10 @@ the assigned scope and report its verification evidence to the orchestrator.
   remaining platform or environment gaps, in the project's progress log.
   Update current-state status and append decision history only as required by
   that project's protocol.
+- If orchestrated, do not concurrently edit the coordinator-owned aggregate
+  status snapshot. Return the exact progress, status, and verification
+  evidence to the coordinator, or write only to a distinct worker-owned status
+  path that the coordinator assigned.
 - Inspect the resulting diff and run the narrowest relevant checks. Expand
   verification only when the changed behavior or failures warrant it. Report
   failures honestly; never claim unrun checks passed.
@@ -96,6 +116,20 @@ the assigned scope and report its verification evidence to the orchestrator.
   merge and any required memory merge are verified on remote `main`; do not
   emit `RALPH_CONTINUE` or `RALPH_COMPLETE` before then.
 
+## Worker sign-off
+
+For an orchestrated iteration, return a structured report with the run/task
+IDs, worker ID and name, iteration number, branch and worktree, starting and
+rebased `origin/main` SHAs, exact implementation commit SHA, checks, blockers,
+and attestation time. Sign off explicitly against that exact commit SHA so
+the coordinator can record and verify it.
+
+A plain-text worker sign-off is a self-attestation, not a cryptographic
+signature. Report it as `SELF_ATTESTATION` and mark the cryptographic
+signature `NOT_CRYPTOGRAPHICALLY_SIGNED` unless Git or GitHub verifies the
+signature on that exact commit. If rebasing changes the commit SHA, obtain a
+new sign-off.
+
 ## Multi-iteration requests
 
 If the user explicitly asks you to run multiple iterations, inspect the
@@ -104,5 +138,7 @@ runner, such as non-interactive tool access, commits, pushes, or lack of an
 iteration limit. Each iteration must get its own worktree and branch, be
 merged to remote main, and be verified there before the next begins. Use a
 runner only if it implements that lifecycle. Never weaken its checks or bypass
-its safeguards. Stop on its completion or blocker conditions, operational
-errors, or user interruption.
+its safeguards. When delegated by the orchestrator, let the coordinator
+schedule the next worker iteration; do not recursively delegate or run an
+unbounded loop. Stop on completion or blocker conditions, operational errors,
+or user interruption.

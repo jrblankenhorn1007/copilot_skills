@@ -10,12 +10,16 @@ only after checking its commit and verification evidence.
 Keep one canonical snapshot at a durable path for the run and record that path
 in `snapshot_path`. Update the current status fields in place, but retain every
 worker iteration entry and sign-off so earlier attempts remain auditable.
-Timestamps use ISO 8601 UTC (`...Z`); SHA fields contain full Git object IDs,
-not abbreviations.
+Record the host's runtime agent/session ID when available, separately from the
+stable run-scoped worker ID; use `null` rather than inventing one. Timestamps
+use ISO 8601 UTC (`...Z`); SHA fields contain full Git object IDs, not
+abbreviations.
 
 ## Status and verification rules
 
 - `requested_worker_count` is the number assigned when the run is planned.
+  `effective_worker_count` is the number of distinct workers actually
+  launched; if it is lower than requested, record why in the split plan.
   `active_worker_count` is the number of workers currently marked
   `IN_PROGRESS`; it excludes `NOT_STARTED` (queued), blocked, awaiting-merge,
   and terminal workers.
@@ -54,7 +58,8 @@ not abbreviations.
 
 Before handing an iteration to the coordinator for integration, each worker
 returns a structured sign-off containing the run/task IDs, stable worker ID
-and name, iteration number, branch/worktree, base SHA, exact full
+and name, runtime agent/session ID when available, iteration number,
+branch/worktree, base SHA, exact full
 `implementation_commit_sha`, checks, blockers, and UTC attestation time. Its
 statement must explicitly identify the same worker ID, iteration, and exact
 commit SHA. The coordinator stores the payload under that iteration and
@@ -81,6 +86,7 @@ snapshot):
   "task_ids": ["<task ID>"],
   "worker_id": "worker-02",
   "worker_name": "<stable display name>",
+  "runtime_agent_id": "<host-provided agent/session ID or null>",
   "iteration": 1,
   "branch": "<iteration branch>",
   "worktree": "<iteration worktree path>",
@@ -109,6 +115,7 @@ snapshot_revision: 4
 run_id: "example-run-2026-09-24"
 task_ids: [task-orchestration, task-status]
 requested_worker_count: 2
+effective_worker_count: 2
 active_worker_count: 0
 base_origin_main_sha: "<full SHA fetched at run start>"
 aggregate_status: IN_PROGRESS
@@ -128,6 +135,7 @@ next_action: "Coordinator: merge worker-02's iteration, fetch origin, and verify
 workers:
   - worker_id: worker-01
     worker_name: "worker-01 / orchestration"
+    runtime_agent_id: "<host-provided agent/session ID or null>"
     task_ids: [task-orchestration]
     status: COMPLETE
     started_at_utc: "2026-09-24T23:10:00Z"
@@ -162,6 +170,7 @@ workers:
           task_ids: [task-orchestration]
           worker_id: worker-01
           worker_name: "worker-01 / orchestration"
+          runtime_agent_id: "<same host-provided ID or null>"
           iteration: 1
           branch: "ralph/orchestration-worker-01-<unique-id>"
           worktree: "<path to worker-01 worktree>"
@@ -183,6 +192,7 @@ workers:
 
   - worker_id: worker-02
     worker_name: "worker-02 / status snapshot"
+    runtime_agent_id: "<host-provided agent/session ID or null>"
     task_ids: [task-status]
     status: AWAITING_MERGE
     started_at_utc: "2026-09-24T23:10:00Z"
@@ -217,6 +227,7 @@ workers:
           task_ids: [task-status]
           worker_id: worker-02
           worker_name: "worker-02 / status snapshot"
+          runtime_agent_id: "<same host-provided ID or null>"
           iteration: 1
           branch: "ralph/status-worker-02-<unique-id>"
           worktree: "<path to worker-02 worktree>"
