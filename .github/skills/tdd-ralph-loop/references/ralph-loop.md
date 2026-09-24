@@ -3,21 +3,23 @@
 Use this as the task prompt for the **development Ralph loop**. This outer
 engineering loop implements the product; it is not the in-SuperCollider
 music-exploration loop. Every iteration must run in a fresh worktree and
-branch, then merge that branch into its base branch after verification.
+branch from the latest `origin/main`, and is not complete until its changes
+are merged and verified on remote `origin/main`.
 
 The original [`dj_maxxed_beats` runner](https://github.com/jrblankenhorn1007/dj_maxxed_beats/blob/main/scripts/ralph-loop.sh)
 assumes an already checked out branch and pushes commits directly; it does not
-implement this worktree-per-iteration merge lifecycle. Do not invoke that
-runner until it has been updated to support this workflow. The Ralph Loop
-custom agent can perform one iteration directly when the project's status
-protocol permits it.
+create a per-iteration worktree/branch or merge changes to remote `main`. It
+does not implement this workflow. Do not invoke that runner until it has been
+updated to do so. The Ralph Loop custom agent can perform one iteration
+directly when the project's status protocol and remote merge permissions allow.
 
 ```text
 You are the autonomous implementation agent for the SuperCollider AI Music
 Agent. Implement the product described in IMPLEMENTATION_PLAN.md, including
 the requirements and completion criteria in this prompt. Work incrementally
 across repeated Ralph-loop iterations. Use a fresh Git worktree and unique
-branch for every iteration; never edit the base checkout directly.
+branch from the latest `origin/main` for every iteration; never edit the base
+checkout directly.
 
 SOURCE OF TRUTH
 
@@ -36,12 +38,17 @@ production code before the relevant failing test has been observed.
 
 Each invocation is exactly one implementation iteration; the runner supplies
 the project-wide iteration number. Before invoking Copilot, a compatible runner
-creates a fresh worktree and iteration branch from the base branch. Copilot
-creates the implementation commit there. The runner may finalize status
-metadata in a separate status-only commit on that same branch. Complete all
-checks and required commits before merging the iteration branch into the base
-branch as the final integration step. Verify the merge before reporting
-completion. Do not use a runner that skips this lifecycle.
+fetches `origin` and creates a fresh worktree and iteration branch from
+`origin/main`. Copilot creates the implementation commit there. The runner may
+finalize status metadata in a separate status-only commit on that same branch.
+Complete all checks and required commits, publish the branch as needed, and
+merge it into remote `origin/main` through the configured remote merge process.
+Fetch again and verify remote main contains the merged work before reporting
+completion or starting the next iteration. A local merge, pushed branch, or
+open pull request is not sufficient. For squash or merge-queue flows, verify
+the resulting merge SHA on `origin/main` rather than requiring the iteration
+branch commit itself to be an ancestor. Do not use a runner that skips this
+lifecycle.
 
 Read `implementation_status.md` at the start of each iteration. Rewrite it as
 a concise current-state snapshot during every iteration; do not append an
@@ -203,19 +210,22 @@ IMPLEMENTATION METHOD
   entry. Use a specific commit message and include the required
   `Co-authored-by: Copilot <223556219+Copilot@users.noreply.github.com>` trailer.
   If the runner requires a separate status-report commit, create it on the same
-  iteration branch after the implementation commit and before merging. Do not
-  push the iteration branch unless the project protocol explicitly requires
-  it. After validation and all required commits succeed, merge the iteration
-  branch into its base branch as the final integration step and verify the
-  merge. Never amend, force-push, or include credentials, generated audio,
+  iteration branch after the implementation commit and before merging. After
+  validation and all required commits succeed, publish the iteration branch as
+  needed and merge its work into remote `origin/main` using the configured
+  remote process. Fetch `origin` and verify that remote main contains the merge
+  before treating the iteration as complete. For squash or merge-queue flows,
+  verify the resulting remote commit, not only the iteration branch commit.
+  Never amend or force-push, and never include credentials, generated audio,
   build outputs, or the upstream `supercollider/` reference checkout. If
-  validation or merge fails, preserve the worktree and branch and report the
-  blocker; do not claim the iteration completed.
-- Before changing files, inspect the base checkout and current changes.
-  Preserve user work; if the base checkout is dirty, stop before creating the
-  iteration worktree. Never use destructive reset/checkout/clean commands,
-  never discard unrelated changes, and never include unrelated changes in an
-  iteration commit.
+  validation, merge, or remote
+  verification fails, preserve the worktree and branch and report the blocker;
+  do not claim the iteration completed.
+- Before changing files, inspect the `origin/main` worktree and current
+  changes. Preserve user work; if the `origin/main` worktree is dirty, stop
+  before creating the iteration worktree. Never use destructive
+  reset/checkout/clean commands, never discard unrelated changes, and never
+  include unrelated changes in an iteration commit.
 - In each iteration, select one or a few tightly related tasks from the plan,
   apply the `tdd` skill for each behavior, run the narrowest relevant checks,
   refactor with tests green, and inspect the resulting diff. Use existing test
@@ -234,12 +244,12 @@ IMPLEMENTATION METHOD
   Non-interactive tool access can run shell commands outside the worktree.
   Do not use `--allow-all-paths`, destructive Git commands, or commands
   targeting paths unrelated to the active repository. Restrict repository
-  operations to the identified base checkout and this iteration's worktree.
-  Use only a runner that creates a fresh worktree and branch for each iteration
-  and merges into the base after validation; the human launching multiple
-  iterations must run it only in a trusted environment and monitor it. Stop on
-  the completion/blocker markers, operational errors, merge failures, or
-  manual interruption.
+  operations to the identified `origin/main` worktree and this iteration's
+  worktree. Use only a runner that creates a fresh worktree and branch for each
+  iteration and verifies its remote-main merge before proceeding; the human
+  launching multiple iterations must run it only in a trusted environment and
+  monitor it. Stop on the completion/blocker markers, operational errors,
+  merge failures, or manual interruption.
 
 DEFINITION OF DONE
 
@@ -268,9 +278,10 @@ IMPLEMENTATION_PLAN.md is implemented and verified, including:
 
 At the end of each iteration, update RALPH_PROGRESS.md and rewrite
 implementation_status.md before creating the implementation commit. After all
-required checks and commits pass, merge the iteration branch into its base
-branch and verify the merge before reporting the iteration complete. If all
-criteria pass, report completion with test evidence and the remaining platform
+required checks and commits pass, merge the iteration branch into remote
+`origin/main` and verify the remote contains the merged work before reporting
+the iteration complete. If all criteria pass, report completion with test
+evidence and the remaining platform
 caveats, set
 `Ralph-Status: COMPLETE`, and make `RALPH_COMPLETE` the last non-empty line of
 the final response. If blocked, report the specific blocker, what was tried,
