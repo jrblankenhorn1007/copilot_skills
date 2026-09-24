@@ -147,3 +147,36 @@ post-refactor run remain pending until worker-01 integration is verified.
   remains unverified.
 - The coordinator commits still require remote-main integration and
   verification before setting the overall status to `COMPLETE`.
+
+## 2026-09-24T23:54:08Z — Consolidating with first-run Ralph coordinator
+
+- Concurrent commit `1dd362c51c33cf94d9802de4c3f7c9e9b8704def` makes the
+  existing **Ralph Loop** agent the first-run coordinator and defaults its
+  worker count to two, with worker profile configuration in the orchestration
+  reference.
+- To avoid two competing top-level agents, the coordinator implementation is
+  being consolidated into that existing Ralph Loop agent. The same custom
+  agent will serve as the first-run coordinator and as scoped workers; worker
+  prompts must forbid nested delegation.
+- The coordinator branch is rebased onto that commit. Final tests and the
+  remote integration of the coordinator changes remain pending.
+
+## 2026-09-24T23:56:53Z — Consolidated coordinator and contract checks
+
+- Kept the existing **Ralph Loop** agent as both the first-run coordinator
+  and the scoped worker, removed the duplicate public orchestrator-agent
+  file, and removed a duplicate `agents` frontmatter key.
+- The first post-consolidation contract run,
+  `python3 .github/skills/ralph-loop/tests/test_multi_agent_contract.py`,
+  ran six tests and failed one assertion because a documented default phrase
+  wrapped across a Markdown line break. Normalized whitespace in the contract
+  reader rather than changing the documentation to satisfy a brittle exact
+  substring.
+- Green command:
+  `python3 .github/skills/ralph-loop/tests/test_multi_agent_contract.py`
+  — `Ran 6 tests in 0.003s`, `OK`. `git diff --check` also passed.
+- A fresh fetch found two new `origin/main` commits after the earlier
+  `1dd362c51c33cf94d9802de4c3f7c9e9b8704def` base. The clean integration
+  worktree was fast-forwarded to
+  `aefef1c2bbe54d238a6519aaddb1852112070155`; the coordinator branch must
+  rebase onto that latest main and rerun checks before integration.

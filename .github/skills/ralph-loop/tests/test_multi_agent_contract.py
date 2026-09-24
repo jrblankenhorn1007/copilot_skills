@@ -9,7 +9,7 @@ def read_document(path: str) -> str:
     document = ROOT / path
     if not document.exists():
         return ""
-    return document.read_text(encoding="utf-8").lower()
+    return " ".join(document.read_text(encoding="utf-8").lower().split())
 
 
 def assert_contains(test_case, text: str, requirement: str, message: str) -> None:
@@ -17,20 +17,20 @@ def assert_contains(test_case, text: str, requirement: str, message: str) -> Non
 
 
 class MultiAgentContractTests(unittest.TestCase):
-    def test_orchestrator_accepts_worker_count_and_creates_a_split_plan(self):
-        orchestrator = read_document(".github/agents/ralph-loop-orchestrator.agent.md")
+    def test_ralph_agent_accepts_worker_count_and_creates_a_split_plan(self):
+        orchestrator = read_document(".github/agents/ralph-loop.agent.md")
 
         assert_contains(
             self,
             orchestrator,
             "workers=n",
-            "the orchestrator must accept a worker-count request",
+            "the Ralph Loop agent must accept a worker-count request",
         )
         assert_contains(
             self,
             orchestrator,
-            "workers=1",
-            "the orchestrator must preserve single-worker behavior by default",
+            "default is two workers",
+            "the orchestrator must preserve the documented two-worker default",
         )
         assert_contains(
             self,
@@ -57,7 +57,15 @@ class MultiAgentContractTests(unittest.TestCase):
             "the orchestrator must restrict delegated agents to Ralph Loop",
         )
         self.assertTrue(
-            any(term in orchestrator for term in ("runsubagent", "subagent tool", "sub-agent tool")),
+            any(
+                term in orchestrator
+                for term in (
+                    "runsubagent",
+                    "subagent tool",
+                    "sub-agent tool",
+                    "subagent invocation tool",
+                )
+            ),
             "the orchestrator must use a supported subagent mechanism",
         )
 
@@ -144,14 +152,14 @@ class MultiAgentContractTests(unittest.TestCase):
             with self.subTest(field=field):
                 assert_contains(self, status, field, f"live status snapshot must include {field!r}")
 
-    def test_readme_links_the_orchestrator_and_multi_agent_guides(self):
+    def test_readme_links_the_multi_agent_workflow_and_status(self):
         readme = read_document("README.md")
 
         assert_contains(
             self,
             readme,
-            "ralph loop orchestrator",
-            "README must document the top-level agent",
+            "first run an orchestrator",
+            "README must document that the top-level Ralph Loop is the orchestrator",
         )
         assert_contains(
             self,

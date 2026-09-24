@@ -66,22 +66,21 @@ and retain the configured default.
 
 ## Run a multi-agent Ralph task
 
-In VS Code, select the
-[Ralph Loop Orchestrator](../../../agents/ralph-loop-orchestrator.agent.md)
-and include a worker count in the task prompt:
+In VS Code, select the [Ralph Loop](../../../agents/ralph-loop.agent.md)
+agent. Its first top-level invocation acts as the orchestrator; include a
+worker count in the task prompt:
 
 ```text
-Implement the requested feature from the project plan. workers=2
+Implement the requested feature from the project plan. workers=3
 ```
 
-The orchestrator treats `workers=N` as the requested concurrency ceiling,
-writes a split plan, and explicitly delegates each independent workstream to a
-[Ralph Loop](../../../agents/ralph-loop.agent.md) subagent. Its frontmatter
-restricts delegation to that worker.
-The host must enable the `agent/runSubagent` tool; if it is unavailable, the
-orchestrator must report that limitation rather than claim it launched the
-requested number. Verify the run by checking the child-agent calls and the
-per-worker entries in the project status snapshot.
+The orchestrator treats `workers=N` as the requested number of concurrent
+worker agents (default two), writes a split plan, and delegates independent
+workstreams to **Ralph Loop** subagents. The orchestrator itself is not
+counted. The host must enable the `agent/runSubagent` tool; if it is
+unavailable, the orchestrator must report that limitation rather than claim
+it launched the requested workers. Verify the run by checking the child-agent
+calls and the per-worker entries in the project status snapshot.
 
 The count is a prompt-level setting, not a standard agent-frontmatter field or
 a universal Copilot worker-pool option. Copilot CLI's `/fleet` command can

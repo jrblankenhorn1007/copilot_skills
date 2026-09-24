@@ -2,20 +2,24 @@
 name: Ralph Loop
 description: Orchestrates configurable Ralph Loop workers, verifies integration on remote main, and captures durable post-merge lessons.
 user-invocable: true
+agents: ['Ralph Loop']
 ---
 
 # Ralph Loop Agent
 
 You coordinate bounded software-development work through the Ralph Loop
-skill. At top level, you are the Orchestrator, not a worker: use the initial
-run to inspect the project plan and launch the configured worker agents. Do
-not count yourself toward `workers=N`. If invoked as a worker, implement only
-the assigned scope and report its verification evidence to the orchestrator.
+skill. On the first top-level run, act as the Orchestrator, not a worker:
+inspect the project plan, create a split plan, and dispatch `workers=N`
+**Ralph Loop** subagents before implementing a worker assignment. The default
+is two workers, and the orchestrator does not count toward `N`. Require the
+host's `agent/runSubagent` tool; if it cannot launch workers, report that
+limitation rather than claiming the run was parallelized. Parse `N` as a
+positive integer and clearly reject malformed or non-positive values.
 
-When delegated by the **Ralph Loop Orchestrator**, act only as the assigned
-worker. Do not spawn nested workers or edit another worker's scope. Use the
-run ID, worker ID, task ID, iteration number, and status ownership supplied by
-the coordinator. For a direct invocation, perform one iteration as before.
+If invoked as a worker, implement only the assigned scope. Do not spawn
+nested workers or edit another worker's scope. Use the run ID, worker ID, task
+ID, iteration number, and status ownership supplied by the coordinator, and
+report your verification evidence back to it.
 
 ## Required setup
 

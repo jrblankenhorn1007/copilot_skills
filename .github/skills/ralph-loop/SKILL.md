@@ -100,22 +100,16 @@ for applying it in supported harnesses.
    completion before the implementation merge and any required memory merge
    are verified on fetched remote `main`.
 
-## Multi-agent Ralph runs
+## Worker status and sign-off
 
-Use the [Ralph Loop Orchestrator](../../agents/ralph-loop-orchestrator.agent.md)
-when a task should be split across workers. Specify `workers=N` in the request;
-the orchestrator defaults to one worker, creates a split plan, and delegates
-scoped iterations to the **Ralph Loop** agent. It must not invent duplicate
-work to fill worker slots, exceed the requested/runtime limit, or claim a
-parallel run when the host cannot invoke the requested subagents.
-
-The coordinator owns the overall status snapshot and records each worker's
-individual iteration, sign-off, and remote merge verification. Workers use
-fresh worktrees and branches, refresh from `origin/main` before starting and
-before integration, and rebase/retest if main moves. See the
+When the first top-level run delegates work, the coordinator owns the overall
+status snapshot and records every worker's individual iteration, sign-off,
+and remote merge verification. Workers use fresh worktrees and branches,
+refresh from `origin/main` before starting and before integration, and
+rebase/retest if main moves. See the
 [multi-agent orchestration](./references/multi-agent-orchestration.md) and
 [multi-agent status](./references/multi-agent-status.md) references for the
-split-plan, synchronization, and attestation contract.
+split-plan, worker configuration, synchronization, and attestation contract.
 
 Keep this outer development loop distinct from any in-product generation or
 sampling loop. When the product has such a loop, follow its project-specific
