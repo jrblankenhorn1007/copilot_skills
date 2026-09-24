@@ -16,6 +16,7 @@ is adapted to use isolated worktrees and merge each iteration:
 
 - [Test-Driven Development](./references/tdd.md)
 - [Ralph loop prompt](./references/ralph-loop.md)
+- [Copilot agent selection and model controls](./references/copilot-cli-usage.md)
 
 ## Workflow
 
