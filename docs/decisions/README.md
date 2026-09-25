@@ -32,6 +32,7 @@ and reports only unresolved blockers as failures.
 - [Ralph pre-merge code-review gate](ralph-code-review-gate-20260924-2131/README.md)
 - [Ralph review skill worker](ralph-code-review-skill-worker-01-20260924-2131/README.md)
 - [Ralph review-gate status worker](ralph-code-review-process-worker-02-20260924-2131/README.md)
+- [Shared agent resource manager](ralph-resource-manager-shared-registry-20260925-8abd5d4e/README.md)
 
 ## Ralph status and progress
 
