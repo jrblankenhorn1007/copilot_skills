@@ -159,3 +159,86 @@
 - **Next:** Complete the branch-specific decision/status update, commit the
   change, and issue a new self-attestation for the revised implementation
   commit. The parent-base divergence remains unresolved.
+
+## 2026-09-25T08:25:53Z — expiry rule committed and sign-off refreshed
+
+- **Implementation commit:** `610910bcbfe87be3b681368a94e812dd6a35b4bb`
+  (`docs(ralph): enforce expiration on session messages`), with the required
+  Copilot co-author trailer. This supersedes the prior sign-off for
+  `295caa4f91a102c9d590d09ebe3b2ae95efc1918`.
+- **Verification:** `git diff --check` — PASS;
+  `git diff --cached --check` — PASS;
+  `git diff --check 0294550c92a5d79e1cca682a0c509b5bb6eca3fd..HEAD` — PASS;
+  `git show --check --oneline 610910bcbfe87be3b681368a94e812dd6a35b4bb` — PASS.
+  No behavior-changing test was run or edited; the requested contract change
+  is documentation-only.
+- **Disposition:** The contract now requires recipient-side expiry checks,
+  a correlated `kind: "ack"` stating `expired`, no requested action or side
+  effect after expiry, and escalation to the coordinator/authorized owner for
+  safety-critical stale instructions. `priority: "urgent"` is advisory and
+  cannot preempt, extend expiry, or revive a queued stale message.
+- **Current status:** `AWAITING_MERGE`; no publication or merge was performed.
+  The assigned child base remains `0294550c92a5d79e1cca682a0c509b5bb6eca3fd`;
+  parent tip remains `d8b3992af53a292a83ff094c5cd9837670ea968d`, with common
+  ancestor `20293c720b18a1a21ff150f566823493b7a2717d`. The coordinator must
+  coordinate any rebase/fresh child path and rerun checks before integration.
+- **Sign-off:** `SELF_ATTESTATION`, attested at
+  `2026-09-25T08:25:53Z` for the exact implementation commit above.
+  `NOT_CRYPTOGRAPHICALLY_SIGNED`; no commit signature verification was done.
+- **Next action:** Coordinator: reconcile the child base with the current
+  parent, rerun checks after any rewrite, and verify worker-to-parent
+  integration.
+
+  ```json
+  {
+    "run_id": "copilot-skills-agent-communication-20260925-0627",
+    "task_ids": ["agent-session-pipeline-contract"],
+    "worker_id": "worker-02",
+    "worker_name": "agent communication pipeline contract",
+    "runtime_agent_id": null,
+    "iteration": 1,
+    "branch": "ralph/agent-communication-worker-02-20260925-0627",
+    "worktree": "/Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-communication-worker-02-20260925-0627",
+    "pull_request": {
+      "status": "NOT_OPENED",
+      "number": null,
+      "url": null
+    },
+    "decision_record_path": "docs/decisions/ralph-agent-communication-worker-02-20260925-0627/agents/worker-02/pr-not-opened.md",
+    "base_origin_main_sha": "20293c720b18a1a21ff150f566823493b7a2717d",
+    "starting_origin_main_sha": "9579ab57d434d05d1389eb1d311cb7d032c0792e",
+    "latest_observed_origin_main_sha": "7ee1307cb47f5a88cd6b46ee135444777ddeb665",
+    "rebased_onto_origin_main_sha": null,
+    "parent_branch": "ralph/agent-communication-parent-20260925-0627",
+    "parent_worktree": "/Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-communication-parent-20260925-0627",
+    "parent_base_origin_main_sha": "20293c720b18a1a21ff150f566823493b7a2717d",
+    "base_parent_sha": "0294550c92a5d79e1cca682a0c509b5bb6eca3fd",
+    "rebased_onto_parent_sha": null,
+    "implementation_commit_sha": "610910bcbfe87be3b681368a94e812dd6a35b4bb",
+    "checks": [
+      {
+        "command": "git diff --check",
+        "result": "PASS"
+      },
+      {
+        "command": "git diff --cached --check",
+        "result": "PASS"
+      },
+      {
+        "command": "git diff --check 0294550c92a5d79e1cca682a0c509b5bb6eca3fd..HEAD",
+        "result": "PASS"
+      },
+      {
+        "command": "git show --check --oneline 610910bcbfe87be3b681368a94e812dd6a35b4bb",
+        "result": "PASS"
+      }
+    ],
+    "blockers": [
+      "Parent tip d8b3992af53a292a83ff094c5cd9837670ea968d does not contain the assigned base_parent_sha 0294550c92a5d79e1cca682a0c509b5bb6eca3fd; coordinate rebase or a fresh child branch and rerun checks before integration."
+    ],
+    "attested_at_utc": "2026-09-25T08:25:53Z",
+    "attestation_kind": "SELF_ATTESTATION",
+    "cryptographic_signature_status": "NOT_CRYPTOGRAPHICALLY_SIGNED",
+    "statement": "I, worker-02, sign off iteration 1 for agent-session-pipeline-contract at implementation commit 610910bcbfe87be3b681368a94e812dd6a35b4bb."
+  }
+  ```

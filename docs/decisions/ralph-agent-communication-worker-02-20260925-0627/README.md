@@ -8,7 +8,7 @@
 - **Assigned `base_parent_sha`:**
   `0294550c92a5d79e1cca682a0c509b5bb6eca3fd`
 - **Implementation commit:**
-  `295caa4f91a102c9d590d09ebe3b2ae95efc1918`
+  `610910bcbfe87be3b681368a94e812dd6a35b4bb`
 - **Integration:** Pending coordinator action; no PR is part of the worker's
   assigned path.
 
