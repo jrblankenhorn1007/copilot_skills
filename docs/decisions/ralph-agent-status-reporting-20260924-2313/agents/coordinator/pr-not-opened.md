@@ -210,3 +210,35 @@
   fetched `origin/main` are ancestors of this parent merge commit.
 - The reservation remains held only for the authorized fast-forward. No
   remote push has been attempted yet.
+
+## Verified parent integration and blocked memory handoff
+
+- **Implementation merge:** The authorized no-PR fast-forward completed at
+  `ca074bea36eda724afd0293f419648e79c0dc9d2`. A fetch verified that result
+  on `origin/main`; the reservation was released as `MERGED` at
+  `20154c78953d0280596f3c01eeaaceb5bf767278` (owner revision 104). The
+  latest fetched main `cef85f23ae91ea9994b01317a983ae89c4a1f51d` still
+  contains the implementation merge.
+- **Worker-01 status:** The signed-off child tip
+  `68519b1eef33abbe65794fed3d941315e15bc204` is not an ancestor of the
+  parent. The coordinator implementation at `4097b48af54c3e1c31740ffcffcf2bb0dbca9ffb`
+  covers the same seven assigned documentation paths and is in the verified
+  main history; the contract suite passed 60 tests. Because no direct
+  worker-to-parent merge is recorded, worker-01 remains `AWAITING_MERGE`
+  until that record is reconciled.
+- **Post-merge memory gate:** The current Project Memory Update agent
+  requires the coordinator's and every worker's structured `memory_handoff`.
+  The coordinator handoff is recorded in its status leaf; worker-01 and
+  worker-02 handoffs are absent from their status/sign-off records. The
+  Resource Manager snapshot reports zero dispatch slots and
+  `can_spawn=false`. No handoff was invented, no memory file was changed,
+  and the updater was not invoked.
+- **Disposition:** Record the run as `BLOCKED`, not stopped or complete.
+  When capacity permits, obtain the original missing handoffs, invoke Project
+  Memory Update exactly once, reconcile worker-01's parent merge record, and
+  verify any warranted memory follow-up before a terminal status.
+- **Latest refresh:** At `2026-09-25T14:40:37Z`, fetched main was
+  `1e9a6dab03c07ea9990fe4f65039ffdc4e784f45`, which still contains the
+  implementation merge. Resource Manager reported 12 active agents and zero
+  available slots (`max_agents=0`, `can_spawn=false`); the mandatory updater
+  remains undispatched.

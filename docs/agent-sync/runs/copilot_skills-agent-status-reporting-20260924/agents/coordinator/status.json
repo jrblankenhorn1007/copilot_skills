@@ -29,22 +29,29 @@
   },
   "prompt_path": "docs/agent-sync/runs/copilot_skills-agent-status-reporting-20260924/agents/coordinator/prompt.md",
   "prompt_sha256": "9bc0eb969836fa452bd2ee3d22f4796006ece2bc0bcacaf3b4514ccbce21ce7a",
-  "revision": 1,
+  "revision": 2,
   "run_id": "copilot_skills-agent-status-reporting-20260924",
   "schema_version": 1,
   "sign_in_at_utc": "2026-09-25T13:56:59Z",
   "sign_out": {
-    "at_utc": null,
-    "checks": [],
-    "implementation_commit_sha": null,
-    "next_action": null,
-    "summary": null
+    "at_utc": "2026-09-25T14:50:23Z",
+    "checks": [
+      "PASS: python3 -m unittest discover -s .github/skills/ralph-loop/tests (60 tests, OK on the rebased parent).",
+      "PASS: python3 .github/skills/ralph-loop/tests/test_multi_agent_contract.py (24 tests, OK after status-branch rebase and MERGE reservation reconciliation).",
+      "PASS: git merge-base --is-ancestor ca074bea36eda724afd0293f419648e79c0dc9d2 origin/main (current fetched main 939f625e3009455e8fa8bcf87fdfa32c7ca74ff7).",
+      "PASS: git merge-base --is-ancestor 1e992f51dcccc86fccb784b19ff39cca9ad867ea origin/main (status dashboard merge verified).",
+      "BLOCKED: worker-01 and worker-02 memory_handoffs are absent from their status/sign-off records; Project Memory Update was not invoked because the handoff contract forbids filling missing reports.",
+      "BLOCKED: Resource Manager status at 2026-09-25T14:49Z reports 11 active agents, max_agents=0, available_slots=0, can_spawn=false, and one-minute load 25.62 on six cores."
+    ],
+    "implementation_commit_sha": "4097b48af54c3e1c31740ffcffcf2bb0dbca9ffb",
+    "next_action": "When capacity permits, obtain the original worker-01 and worker-02 memory_handoffs, invoke Project Memory Update exactly once, and reconcile worker-01's parent integration record. Verify any warranted memory follow-up before completing the run.",
+    "summary": "Status-first reporting guidance and contract coverage are merged on origin/main at ca074bea36eda724afd0293f419648e79c0dc9d2. The run is BLOCKED on missing worker memory handoffs, zero agent capacity, and worker-01's unresolved child merge record; no memory files were changed."
   },
   "started_at_utc": "2026-09-25T03:13:20Z",
-  "status": "IN_PROGRESS",
-  "status_reason": "Resuming the existing run under the newly published agent-sync protocol; recording current ownership before the remaining status edits and integration. Earlier implementation work predates this ledger.",
+  "status": "BLOCKED",
+  "status_reason": "The status-first reporting implementation and regression test are on origin/main. The run is BLOCKED at the mandatory Project Memory Update handoff: worker-01 and worker-02 memory_handoffs are missing, Resource Manager reports zero available slots, and worker-01's exact child-to-parent merge record remains unresolved. No memory update was attempted.",
   "task_id": "status-first-agent-reporting-guidance",
-  "updated_at_utc": "2026-09-25T13:56:59Z",
+  "updated_at_utc": "2026-09-25T14:50:23Z",
   "worker_id": "coordinator",
   "worker_name": "coordinator - status-first agent reporting"
 }

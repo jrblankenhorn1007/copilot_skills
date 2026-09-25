@@ -310,14 +310,25 @@ review gate and status fields.
 Before editing an assigned scope, use the
 [agent-sync ledger](../../../docs/agent-sync/README.md) to publish the task
 sign-in on remote main. The task record owns edit paths, not the main checkout
-or ref. For every status commit or authorized merge, follow the separate
+or ref. If direct status publication is rejected with a verified GH013 message
+that explicitly requires GitHub API/UI merging, use the ledger's
+[protected-main status-PR recovery](../../../docs/agent-sync/README.md#protected-main-status-pr-recovery);
+do not retry a forbidden direct write or treat an unmerged PR as published
+sign-in. Keep the task unedited until the first status record is visible on
+fetched `origin/main`. Other authentication, lease, or permission failures
+remain blockers unless the repository documents an authorized recovery.
+
+For direct status commits and authorized merges, follow the separate
 [exclusive main ownership protocol](../../../docs/agent-sync/main-ownership.md):
 atomically sign in to `docs/agent-sync/main/ownership.json` for `STATUS` or
-`MERGE`; wait for the existing owner to sign out instead of using main.
-The status publisher must sign out immediately after verifying its status
-commit, without signing out of the task or releasing its edit scope. For
-a merge, release promptly after remote verification or queue submission.
-Never report success if the main release cannot be verified.
+`MERGE`; wait for the existing owner to sign out instead of using main. If a
+verified GH013 denial explicitly requires API/UI merging, use the matching
+protected-main recovery in the ledger and ownership protocol; do not retry a
+forbidden direct write or bypass an active owner. The status publisher must
+sign out immediately after verifying its status commit, without signing out
+of the task or releasing its edit scope. For a direct/no-PR merge, release
+promptly after remote verification or queue submission. Never report success
+if a required main release cannot be verified.
 
 ## Git identity and authentication
 
@@ -426,6 +437,25 @@ follow the existing Git identity and authentication rules.
    only after its remote-main merge is fetched and verified. Follow the
    repository's PR/remote-ref cleanup policy; never delete an unmerged branch
    or force-remove a worktree.
+
+### Capacity-blocked post-merge memory review
+
+Capacity denial is pending work, not task completion. Keep the run `BLOCKED`
+and `memory_review_status: PENDING`; preserve all handoffs and record the
+specific capacity blocker and next action. Do not substitute coordinator
+self-review or report `NO_UPDATE` before the updater completes its review.
+Continue safe non-agent work, but do not busy-poll or dispatch without a
+reservation. If no safe work remains, use `ask_user` to ask the user for a
+capacity remedy and wait with the run still blocked.
+
+On every user resume, refresh the complete live-session inventory and current
+Resource Manager status. If capacity remains unavailable, preserve the same
+pending gate and next action. Otherwise atomically reserve a slot before
+invoking the updater exactly once with all required handoffs. Do not call
+`task_complete` or emit `RALPH_COMPLETE` while the memory review is pending;
+the run becomes complete only after the updater reports a valid outcome and
+any required memory merge is verified on fetched `origin/main`.
+
 9. Follow the active project's exact continuation, blocked, and completion
    markers, and emit them only when their conditions are met. Never report
    completion before the parent merge and any required memory merge are

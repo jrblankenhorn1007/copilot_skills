@@ -367,6 +367,30 @@ class MultiAgentContractTests(unittest.TestCase):
                     "and pass every handoff",
                 )
 
+    def test_capacity_blocked_memory_review_stays_pending_until_resumed(self):
+        agent = read_document(".github/agents/ralph-loop.agent.md")
+        assert_all_contains(
+            self,
+            agent,
+            "capacity denial is not task completion|keep the run `blocked`|"
+            "memory review `pending`|do not substitute coordinator self-review|"
+            "do not report task completion while the required memory review is pending",
+            "the Ralph agent must keep a capacity-blocked memory gate open",
+        )
+
+        ralph_skill = read_document(".github/skills/ralph-loop/SKILL.md")
+        assert_all_contains(
+            self,
+            ralph_skill,
+            "on every user resume, refresh the complete live-session inventory|"
+            "atomically reserve a slot before invoking the updater|"
+            "continue safe non-agent work|"
+            "do not busy-poll or dispatch without a reservation|"
+            "ask the user for a capacity remedy and wait|"
+            "do not call `task_complete` or emit `ralph_complete` while the memory review is pending",
+            "the Ralph skill must define a resumable capacity-blocked memory gate",
+        )
+
     def test_readme_exposes_memory_store_and_dedicated_updater(self):
         readme = read_document("README.md")
         assert_all_contains(

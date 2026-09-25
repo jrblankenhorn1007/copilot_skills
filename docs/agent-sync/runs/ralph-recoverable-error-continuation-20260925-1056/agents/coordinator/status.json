@@ -1,0 +1,48 @@
+{
+  "agent_id": "coordinator",
+  "agent_profile": {
+    "agent_definition": ".github/agents/ralph-loop.agent.md",
+    "context_tier": null,
+    "context_usage_tokens": null,
+    "context_window_tokens": null,
+    "harness": "VS Code Copilot",
+    "model_id": null,
+    "reasoning_effort": null,
+    "runtime_agent_id": "copilotcli:/e1e435d3-a72a-46d3-90f3-f481602f1a1b"
+  },
+  "git": {
+    "base_ref": "refs/remotes/origin/main",
+    "base_sha": "53a197b73d35eed4ca532ef97ca59e046cb5bf27",
+    "edit_scope": [
+      "docs/ralph/ralph-recoverable-error-continuation-20260925-1056/agents/coordinator/status.md",
+      "docs/ralph/ralph-recoverable-error-continuation-20260925-1056/agents/coordinator/progress.md",
+      "docs/decisions/ralph-recoverable-error-continuation-20260925-1056/README.md",
+      "docs/decisions/ralph-recoverable-error-continuation-20260925-1056/agents/coordinator/pr-pending.md"
+    ],
+    "implementation_branch": "refs/heads/ralph/recoverable-error-continuation-20260925-1056",
+    "remote_name": "origin",
+    "repository": "jrblankenhorn1007/copilot_skills",
+    "worktree_head_sha_at_sign_in": "53a197b73d35eed4ca532ef97ca59e046cb5bf27",
+    "worktree_path": "/Users/jrblankenhorn/copilot_skills.worktrees/ralph-recoverable-error-continuation-20260925-1056"
+  },
+  "prompt_path": "docs/agent-sync/runs/ralph-recoverable-error-continuation-20260925-1056/agents/coordinator/prompt.md",
+  "prompt_sha256": "1dc795e121d9370a605d2e84ff29b664d2a056faeb4e220453ac5c44d918a253",
+  "revision": 4,
+  "run_id": "ralph-recoverable-error-continuation-20260925-1056",
+  "schema_version": 1,
+  "sign_in_at_utc": "2026-09-25T15:05:56Z",
+  "sign_out": {
+    "at_utc": null,
+    "checks": [],
+    "implementation_commit_sha": null,
+    "next_action": null,
+    "summary": null
+  },
+  "started_at_utc": "2026-09-25T15:05:56Z",
+  "status": "BLOCKED",
+  "status_reason": "The implementation commit 55ad54adc605d592cfb4a899bbb8e370c461aef3 is preserved locally but not published. Active task-ledger scopes overlap the Ralph agent, contract-test, skill, and aggregate dashboard. To avoid blocking the existing owners, this revision releases this coordinator's claims on the shared agent and test paths and retains only its branch-local status/decision files. Resume shared-path work only after a fresh ledger confirms release or reassignment; then update scope, rebase, retest, synchronize the dashboard, and use the normal PR/review flow. The latest full suite passes 62 of 63 tests; the remaining failure is the missing dashboard index entry.",
+  "task_id": "continue-after-recoverable-errors",
+  "updated_at_utc": "2026-09-25T15:52:34Z",
+  "worker_id": "coordinator",
+  "worker_name": "coordinator - recoverable error continuation"
+}

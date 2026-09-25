@@ -336,6 +336,16 @@ operations.
   directly to `main` or amend the merged parent branch. If no durable lesson
   emerged, leave memory unchanged and record the updater's `NO_UPDATE`
   disposition in the active status or progress record.
+- Capacity denial is not task completion. If the required post-merge memory
+  review cannot start because Resource Manager has no free slot, keep the run
+  `BLOCKED` and memory review `PENDING`. Preserve every handoff; do not
+  substitute coordinator self-review or record `NO_UPDATE`. Do not report task
+  completion while the required memory review is pending. Continue safe serial
+  work; if none remains, use `ask_user` to request a capacity remedy and wait.
+  Do not busy-poll or dispatch without an atomic reservation. On every user
+  resume, refresh the complete live-session inventory and Resource Manager
+  status; invoke the updater exactly once only after an atomic reservation
+  succeeds.
 - If the project runner assumes an in-place branch, pushes before merging, or
   otherwise cannot honor the fresh-worktree/branch/merge lifecycle, do not
   invoke it. Complete a single agent-managed iteration only if its project
@@ -346,6 +356,9 @@ operations.
   parent integration is verified, or the parent worktree/branch until its
   remote-main merge is fetched and verified. Apply the cleanup rules above
   only when repository policy permits.
+- Do not call `task_complete` or emit `RALPH_COMPLETE` while the memory review
+  is pending. When capacity is still unavailable and no safe work remains,
+  leave the task awaiting user input with its `BLOCKED` status and next action.
 - Emit only status markers required by the active project, and only when their
   conditions are met. The overall run is not complete until the parent merge
   and any required memory merge are verified on fetched remote `main`; do not
