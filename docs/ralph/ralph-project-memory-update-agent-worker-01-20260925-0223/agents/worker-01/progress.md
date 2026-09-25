@@ -781,3 +781,11 @@ above.
   }
 }
 ```
+
+## Coordinator integration reverified after parent rebase — 2026-09-25T11:59:00Z
+
+- The parent was rebased from `5182fe030caff8774292f5e64d52ace5680aab41` onto fetched `origin/main` `96fca381f96a743a08eb2e758d1eae8eb2fd483a`, producing `82d34a3`. `git range-diff` preserved all 23 parent patches.
+- Worker integration `3f4be9aca8b30a4ac6f120f665c21b1423e200ed` replayed as `21fc34059d48eef85617930a27df9942369d9c4d`; stable patch ID `457e943bdfd9be5cb94a63cf3ff32d72e34ce887` is unchanged and the new integration is an ancestor of the parent.
+- Worker implementation `3ececee894c930f87efa554dc5a9c1362cb0365e` replayed as `c75228f317a9ec217d21f2f9d95f0414c6377f1e`; stable patch ID `1571aec2fe973545242da3e2d925c6027d49d9ef` is unchanged.
+- On the rebased parent, the Ralph contract passed 23 tests, the Project Memory Update contract passed 1 test, the main-ownership contract passed 7 tests, and both diff checks passed.
+- Worker-01 remains `COMPLETE` on its verified child-to-parent integration. The overall run remains `IN_PROGRESS` pending final parent-to-main integration and the post-merge Project Memory review.

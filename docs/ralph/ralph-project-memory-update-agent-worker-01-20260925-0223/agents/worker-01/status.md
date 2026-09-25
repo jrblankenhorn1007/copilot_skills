@@ -10,9 +10,9 @@ runtime_agent_id: null
 iteration: 1
 status: COMPLETE
 started_at_utc: "2026-09-25T02:48:23Z"
-updated_at_utc: "2026-09-25T11:07:54Z"
+updated_at_utc: "2026-09-25T11:59:00Z"
 resource_usage:
-  time_spent_seconds: 29971
+  time_spent_seconds: 33037
   time_basis: WALL_CLOCK_ELAPSED
   token_spend:
     status: NOT_REPORTED
@@ -29,10 +29,10 @@ rebased_onto_origin_main_sha: null
 parent_branch: "ralph/project-memory-update-coordinator-20260925-0223"
 parent_worktree: "/Users/jrblankenhorn/copilot_skills.worktrees/ralph-project-memory-update-coordinator-20260925-0223"
 parent_base_origin_main_sha: "114e4d60567d05cd048916339ed86e324c6eeef3"
-parent_rebased_onto_origin_main_sha: "70b98bbf0ab35620f7c33b5d9789187560c699df"
-latest_fetched_origin_main_sha: "70b98bbf0ab35620f7c33b5d9789187560c699df"
-latest_origin_main_observed_sha: "70b98bbf0ab35620f7c33b5d9789187560c699df"
-latest_origin_main_observed_at_utc: "2026-09-25T11:07:54Z"
+parent_rebased_onto_origin_main_sha: "96fca381f96a743a08eb2e758d1eae8eb2fd483a"
+latest_fetched_origin_main_sha: "96fca381f96a743a08eb2e758d1eae8eb2fd483a"
+latest_origin_main_observed_sha: "96fca381f96a743a08eb2e758d1eae8eb2fd483a"
+latest_origin_main_observed_at_utc: "2026-09-25T11:59:00Z"
 base_parent_sha: "114e4d60567d05cd048916339ed86e324c6eeef3"
 rebased_onto_parent_sha: "2237eecc5522d17f3e8feda063bc43e509798eab"
 implementation_commit_sha: "3ececee894c930f87efa554dc5a9c1362cb0365e"
@@ -59,12 +59,26 @@ decision_record_path: "docs/decisions/ralph-project-memory-update-agent-worker-0
 decision_index_path: "docs/decisions/ralph-project-memory-update-agent-worker-01-20260925-0223/README.md"
 worker_to_parent_merge:
   status: VERIFIED
-  sha: "544b56706175d4f0a92cf0922480b0bb9eb4941b"
+  sha: "21fc34059d48eef85617930a27df9942369d9c4d"
   verified_parent_ref: "refs/heads/ralph/project-memory-update-coordinator-20260925-0223"
-  verified_parent_sha: "8745c2fd82df8f29db30d5a8274256cb74343c09"
-  verification_method: "git merge-base --is-ancestor 544b56706175d4f0a92cf0922480b0bb9eb4941b HEAD"
-  verified_at_utc: "2026-09-25T11:07:54Z"
+  verified_parent_sha: "82d34a3"
+  verification_method: "git merge-base --is-ancestor 21fc34059d48eef85617930a27df9942369d9c4d HEAD"
+  verified_at_utc: "2026-09-25T11:59:00Z"
 worker_to_parent_merge_history:
+  - status: SUPERSEDED_BY_PARENT_REBASE
+    sha: "3f4be9aca8b30a4ac6f120f665c21b1423e200ed"
+    verified_parent_ref: "refs/heads/ralph/project-memory-update-coordinator-20260925-0223"
+    verified_parent_sha: "5182fe030caff8774292f5e64d52ace5680aab41"
+    verification_method: "git merge-base --is-ancestor 3f4be9aca8b30a4ac6f120f665c21b1423e200ed 5182fe030caff8774292f5e64d52ace5680aab41"
+    verified_at_utc: "2026-09-25T11:59:00Z"
+    superseded_by_parent_rebase_onto_origin_main_sha: "96fca381f96a743a08eb2e758d1eae8eb2fd483a"
+  - status: SUPERSEDED_BY_PARENT_REBASE
+    sha: "544b56706175d4f0a92cf0922480b0bb9eb4941b"
+    verified_parent_ref: "refs/heads/ralph/project-memory-update-coordinator-20260925-0223"
+    verified_parent_sha: "8745c2fd82df8f29db30d5a8274256cb74343c09"
+    verification_method: "git merge-base --is-ancestor 544b56706175d4f0a92cf0922480b0bb9eb4941b 8745c2fd82df8f29db30d5a8274256cb74343c09"
+    verified_at_utc: "2026-09-25T11:07:54Z"
+    superseded_by_parent_rebase_onto_origin_main_sha: "3102cdd78453c03a666f1c04f1efd858e22dcfd6"
   - status: SUPERSEDED_BY_PARENT_REBASE
     sha: "7e34d1b7a74ebaef8d8b9ab56f44ac2db1ac8c4e"
     verified_parent_ref: "refs/heads/ralph/project-memory-update-coordinator-20260925-0223"
@@ -189,7 +203,7 @@ memory_handoff:
   no_durable_lessons_reason: "This implementation formalizes existing Project Memory and remote-merge rules; worker-01 identified no additional durable lesson."
 ```
 
-## Current state
+## Historical state before the latest parent rebases
 
 - Worker-01 signed off at child implementation commit
   `3ececee894c930f87efa554dc5a9c1362cb0365e`; its implementation patch is
@@ -207,3 +221,21 @@ memory_handoff:
   `AWAITING_MERGE` until final parent-to-main integration and the post-merge
   Project Memory review. Its handoff proposes no durable lesson; no memory
   file has been changed.
+
+## Current state
+
+- Worker-01's signed-off implementation commit remains
+  `3ececee894c930f87efa554dc5a9c1362cb0365e`; its equivalent commit in the
+  current parent is `c75228f317a9ec217d21f2f9d95f0414c6377f1e`, with stable
+  patch ID `1571aec2fe973545242da3e2d925c6027d49d9ef`.
+- The current worker-to-parent integration is
+  `21fc34059d48eef85617930a27df9942369d9c4d`, verified as an ancestor of
+  parent `82d34a3`; the integration patch ID remains
+  `457e943bdfd9be5cb94a63cf3ff32d72e34ce887`.
+- The parent is rebased onto fetched `origin/main`
+  `96fca381f96a743a08eb2e758d1eae8eb2fd483a`. All 23 parent patches and the
+  three targeted contract suites plus both diff checks passed after rebase.
+- Worker-01 is `COMPLETE` on its verified child integration. The overall run
+  remains `IN_PROGRESS` pending parent-to-main integration and the
+  post-merge Project Memory review; the worker's handoff proposes no separate
+  durable lesson and memory files remain unchanged.

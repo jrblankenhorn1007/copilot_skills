@@ -285,3 +285,22 @@ These are implementation-time reports, not accepted memory entries. The Project 
 - On rebased parent `8745c2fd82df8f29db30d5a8274256cb74343c09`, the Ralph contract passed 23 tests in 1.925s, the updater contract passed 1 test in 0.001s, the main-ownership contract passed 6 tests in 0.007s, and both diff checks passed.
 - The subsequent fetch advanced `origin/main` to `5b7f729d8f48c90c5f2e1f5a7ef6ab29217db76c`; the tested parent is based on `70b98bbf0ab35620f7c33b5d9789187560c699df`, 22 commits ahead/18 behind. No final merge is claimed.
 - **Next action:** commit the status reconciliation, rebase onto the newly fetched origin, reverify worker integration, and rerun all acceptance checks.
+
+## 2026-09-25T11:59:00Z - Parent rebased and verified on latest fetched main
+
+- Refreshed the shared repository once because the canonical skills checkout and active project are the same repository. The clean primary `main` worktree tracks `origin/main`; the no-op `pull --ff-only` was followed by an explicit fetch confirming `origin/main` at `96fca381f96a743a08eb2e758d1eae8eb2fd483a`.
+- Rebased parent `5182fe030caff8774292f5e64d52ace5680aab41` onto that SHA, producing `82d34a3`. `git range-diff` preserved all 23 parent patches.
+- Worker implementation `3ececee894c930f87efa554dc5a9c1362cb0365e` maps to parent commit `c75228f317a9ec217d21f2f9d95f0414c6377f1e` with unchanged patch ID `1571aec2fe973545242da3e2d925c6027d49d9ef`. Worker integration `3f4be9aca8b30a4ac6f120f665c21b1423e200ed` maps to `21fc34059d48eef85617930a27df9942369d9c4d` with unchanged patch ID `457e943bdfd9be5cb94a63cf3ff32d72e34ce887`; the new integration is an ancestor of parent `82d34a3`.
+- The Ralph contract passed 23 tests, the Project Memory Update contract passed 1 test, the main-ownership contract passed 7 tests, and both `git diff --check` commands passed. The parent is 23 commits ahead of `origin/main` with no commits behind.
+- No final parent-to-main integration or post-merge memory review is claimed. **Next action:** fetch again, acquire the authorized `MERGE` reservation, reconcile its sign-in commit into the parent, then verify remote integration before invoking the gated updater.
+
+## 2026-09-25T12:07:31Z - Decision and status records synchronized
+
+- Updated both decision indexes and no-PR records to distinguish the worker's original child implementation/rebase from its verified integration commit in the current parent.
+- Re-ran the Ralph contract (23 tests), Project Memory Update contract (1 test), and main-ownership contract (7 tests); all passed. `git diff --check` and `git diff --check origin/main...HEAD` also passed.
+- The local `origin/main` tracking ref is now `4f5fee342c7e08ce556ae10c8a693f9e30a2ee2b`; parent `82d34a3` is 23 commits ahead and 3 behind. A fresh fetch, rebase, worker-integration verification, and post-rebase checks are required before reserving main. No final integration or memory review is claimed.
+
+## 2026-09-25T12:09:44Z - Dashboard reconciled with upstream advance
+
+- Advanced the dashboard snapshot to revision 62 and synchronized its run timestamp and coordinator wall-clock usage with the leaf status.
+- The dashboard now explicitly reports that local `origin/main` has advanced three commits beyond the parent's rebase base; the parent remains unintegrated, and a fresh fetch/rebase plus validation are required before main reservation.
