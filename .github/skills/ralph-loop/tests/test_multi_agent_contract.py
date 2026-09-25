@@ -1198,6 +1198,77 @@ class MultiAgentContractTests(unittest.TestCase):
                     f"README must summarize {requirement!r}",
                 )
 
+    def test_inter_session_communication_contract_is_actionable_and_bounded(self):
+        skill = read_document(".github/skills/agent-communication/SKILL.md")
+        orchestration = read_document(
+            ".github/skills/ralph-loop/references/multi-agent-orchestration.md"
+        )
+        agent = read_document(".github/agents/ralph-loop.agent.md")
+        ralph_skill = read_document(".github/skills/ralph-loop/SKILL.md")
+        readme = read_document("README.md")
+        benchmark = read_document("docs/agent-communication/baseline-benchmark.md")
+
+        for requirement in (
+            "list_sessions",
+            "send_message",
+            "get_session_context",
+            "message_id",
+            "run_id",
+            "task_id",
+            "from_session",
+            "to_session",
+            "correlation_id",
+            "ack_required",
+            "artifact_refs",
+            "queued",
+            "does not preempt",
+            "interrupt",
+            "stop button",
+            "delivery acknowledgement",
+            "processing acknowledgement",
+            "reply deadline",
+            "fallback relay",
+        ):
+            with self.subTest(document="skill", requirement=requirement):
+                assert_contains(
+                    self,
+                    skill,
+                    requirement,
+                    f"communication skill must define {requirement!r}",
+                )
+
+        for document_name, document in (
+            ("orchestration", orchestration),
+            ("Ralph agent", agent),
+            ("Ralph skill", ralph_skill),
+            ("README", readme),
+        ):
+            with self.subTest(document=document_name):
+                assert_contains(
+                    self,
+                    document,
+                    "agent-communication",
+                    f"{document_name} must link the communication skill",
+                )
+
+        for requirement in (
+            "5050",
+            "single-agent baseline",
+            "communicating baseline",
+            "delivery latency",
+            "recipient acknowledgement",
+            "task completion time",
+            "diminishing returns",
+            "measured",
+        ):
+            with self.subTest(document="benchmark", requirement=requirement):
+                assert_contains(
+                    self,
+                    benchmark,
+                    requirement,
+                    f"communication benchmark must document {requirement!r}",
+                )
+
 
 class GitPipelineTests(unittest.TestCase):
     def test_workers_merge_into_parent_and_clean_up_only_after_verified_merges(self):

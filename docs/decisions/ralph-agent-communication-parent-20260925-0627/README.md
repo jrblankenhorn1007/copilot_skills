@@ -1,0 +1,47 @@
+# Agent Communication Iteration Decisions
+
+- **Run ID:** `copilot-skills-agent-communication-20260925-0627`
+- **Branch:** `ralph/agent-communication-parent-20260925-0627`
+- **Parent worktree:** `/Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-communication-parent-20260925-0627`
+- **Base `origin/main` SHA:** `20293c720b18a1a21ff150f566823493b7a2717d`
+- **Implementation commit:** Pending
+- **Agents:** `coordinator`, `worker-01`, `worker-02`
+- **Integration:** Pending; PR route not yet determined
+- **Memory review:** Pending
+
+## Agent records
+
+- [Coordinator / benchmark and integration](agents/coordinator/pr-pending.md)
+
+## Decisions
+
+### Use a typed, asynchronous, session-addressed envelope
+
+- **Context:** VS Code session documentation describes separate conversations;
+  the available host message bridge routes by session URI and returns
+  asynchronously.
+- **Alternatives:** Use a shared file mailbox; ask the coordinator to relay
+  every message; share full transcripts.
+- **Choice:** Define a small `agent-message/v1` envelope addressed to one
+  verified session, with correlation/acknowledgment and artifact references.
+  Treat full transcript sharing and file polling as fallback-only.
+- **Rationale:** Direct routing avoids serial coordinator relays while bounded
+  envelopes reduce context and latency.
+- **Consequence:** The interface must distinguish transport acceptance from
+  recipient acknowledgment and task completion.
+
+### Do not claim hard interruption without a host cancellation primitive
+
+- **Context:** The session bridge available in this host queues messages for
+  busy sessions; the Copilot SDK's documented `immediate` mode is steering,
+  not a guaranteed hard cancel.
+- **Alternatives:** Call every urgent message an interrupt; require short
+  polling intervals; expose an explicit optional host interrupt operation.
+- **Choice:** Specify cooperative `interrupt` messages plus an optional
+  `requestInterrupt` capability. Return `UNSUPPORTED` or `QUEUED` when
+  preemption is unavailable and use the session Stop control for a hard stop.
+- **Rationale:** A skill cannot create host-level preemption and must not
+  promise it.
+- **Consequence:** A true interrupt SLA requires implementation by the
+  session host; the skill can improve routing, acknowledgments, and
+  checkpoint responsiveness immediately.
