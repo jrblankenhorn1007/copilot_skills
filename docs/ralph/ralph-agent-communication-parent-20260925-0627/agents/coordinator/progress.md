@@ -496,3 +496,38 @@
 - **Next:** Rebase the clean parent onto `8ebf05d…`, rerun the contract suite
   and whitespace/ancestry checks, then request current exact-SHA attestations
   and worker-owned status updates including memory handoffs.
+
+## 2026-09-25T12:33:45Z — parent rebased onto latest main; 24 checks pass
+
+- **Refresh:** Fetched `origin/main` advanced from
+  `8ebf05d6f7f8e76107dd0fd8ab3f7615060adfa5` to
+  `d729d7c22991424d911cf9cc3aa901cd8d3c0b0f` through three status-only
+  ledger commits. Main ownership was `FREE` at revision 64. The current
+  Ralph guidance and task prompt/status blobs were verified unchanged at the
+  fetched SHA.
+- **Rebase:** Rebased parent `2ef344920c34e263093e29060750f98206309c0e`
+  onto `origin/main` `d729d7c22991424d911cf9cc3aa901cd8d3c0b0f`, producing
+  `ef3cad700bc869d77edeb305a79613a343ce65e2`. Resolved one
+  `docs/ralph-status.md` conflict by preserving the upstream Project Memory
+  Update entry and snapshot metadata while retaining this run's dashboard
+  entry; no other conflicts occurred. `git range-diff` mapped all 33 commits.
+- **Worker commits:** Worker-01 implementation/series are
+  `84f945dd12b298db17471a23b9198a41704bd963` /
+  `0ff0fc761f62c516c4f38dbc7575f0a50ca8d456`; worker-02 implementation/series
+  are `1729ff6588d76dc5cfef7570bc32bbaeff244b36` /
+  `0a69d5a300a40d7318bbc66b3fcbc2252b0ff78d`. All four are verified
+  ancestors of the parent.
+- **Green:** `PYTHONDONTWRITEBYTECODE=1 python3
+  .github/skills/ralph-loop/tests/test_multi_agent_contract.py` passed all
+  24 tests. `git diff --check origin/main...HEAD` and explicit ancestry checks
+  for both implementation commits and worker-series heads passed.
+- **Status/memory protocol:** The refreshed contract now requires each
+  coordinator and worker to record and return a structured `memory_handoff`
+  before sign-off. Previous worker sign-offs are superseded by this rebase.
+- **Resource admission:** The host reported no available worker slots. The
+  coordinator registered its existing session; no new agent process was
+  spawned. The assigned worker sessions will be reused and asked to register
+  themselves before further work.
+- **Next:** Obtain fresh exact-SHA sign-offs with worker-owned memory handoffs,
+  synchronize leaf/dashboard records, fetch/rebase if `origin/main` moves, and
+  run final checks before publishing the parent.
