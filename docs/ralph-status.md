@@ -4,20 +4,21 @@ This is the active repository's aggregate Ralph status dashboard. It indexes
 every branch/agent status and progress folder under `docs/ralph/`. The
 coordinator updates this file in the same loop as affected leaf records.
 
-**Overall status:** `IN_PROGRESS`. The prompt-generation memory follow-up
-remains in progress.
+**Overall status:** `IN_PROGRESS`. The prompt-generation memory follow-up and
+skill-aware agent routing run remain in progress.
 
 ```yaml
 schema_version: 2
 snapshot_path: "docs/ralph-status.md"
-snapshot_revision: 40
-updated_at_utc: "2026-09-25T09:49:38Z"
+snapshot_revision: 41
+updated_at_utc: "2026-09-25T10:42:14Z"
 overall_status: IN_PROGRESS
 current_run_ids:
   - "copilot-skills-docs-status-organization-20260924"
   - "copilot-skills-no-browser-git-20260924"
   - "copilot_skills-parent-child-pipeline-20260924"
   - "translated-ralph-prompt-skills-recovery-20260925-0318"
+  - "copilot-skills-agent-routing-20260925-8bc457e9"
 
 runs:
   - run_id: "copilot_skills-two-agent-ralph-test-batch-20260924"
@@ -324,6 +325,45 @@ runs:
       status: COMPLETE
       owner: coordinator
       outcome: "No separate memory entry: the reservation lifecycle and cooperative-writer limitation are codified in the main-ownership protocol and tests; existing workflow memory covers safe synchronization."
+  - run_id: "copilot-skills-agent-routing-20260925-8bc457e9"
+    task_ids:
+      - "specialist-agent-catalog"
+      - "skill-aware-ralph-routing"
+      - "agent-routing-integration"
+    aggregate_status: IN_PROGRESS
+    requested_worker_count: 2
+    effective_worker_count: 0
+    active_worker_count: 0
+    base_origin_main_sha: "8da9310fda1b2e3042a379081dfb0675f1b22d6b"
+    current_origin_main_sha: "d313126de581b144aaae65ce71ba11d42dd93a63"
+    parent_rebased_onto_origin_main_sha: "d313126de581b144aaae65ce71ba11d42dd93a63"
+    created_at_utc: "2026-09-25T04:32:37Z"
+    updated_at_utc: "2026-09-25T10:42:14Z"
+    coordinator_branch: "ralph/agent-optimization-parent-20260925-8bc457e9"
+    coordinator_status_path: "docs/ralph/ralph-agent-optimization-parent-20260925-8bc457e9/agents/coordinator/status.md"
+    coordinator_progress_path: "docs/ralph/ralph-agent-optimization-parent-20260925-8bc457e9/agents/coordinator/progress.md"
+    parent_to_main_merge:
+      status: PENDING
+      sha: null
+    memory_review: PENDING
+    worker_count_note: "Host worker launches failed; the coordinator implemented the two disjoint children without claiming worker execution."
+    next_action: "Rebase and retest the specialist children; wire conditional routing into the deployed Ralph coordinator and verify remote integration."
+    split_plan:
+      - task_id: "specialist-agent-catalog"
+        worker_id: "coordinator"
+        scope: "Add four focused custom agents for Git, agent design, documentation, and ASI compliance, with standalone catalog tests."
+        owned_paths: ".github/agents/ralph-*-specialist.agent.md; .github/skills/ralph-loop/tests/test_specialist_agent_contract.py; specialist child records"
+        depends_on: []
+      - task_id: "skill-aware-ralph-routing"
+        worker_id: "coordinator"
+        scope: "Wire optional specialist consultation and task-triggered skill routing into the Ralph pipeline, with contract tests and user guidance."
+        owned_paths: ".github/skills/ralph-loop/references/skill-aware-routing.md; .github/skills/ralph-loop/tests/test_skill_aware_routing.py; routing child records"
+        depends_on: []
+      - task_id: "agent-routing-integration"
+        worker_id: "coordinator"
+        scope: "Integrate child changes, update README and aggregate status, run acceptance checks, and verify remote-main integration and memory review."
+        owned_paths: "README.md; docs/ralph-status.md; docs/decisions/README.md; coordinator branch records"
+        depends_on: ["specialist-agent-catalog", "skill-aware-ralph-routing"]
 
 branch_agent_index:
   - run_id: "copilot-skills-status-report-time-token-20260925"
@@ -1011,6 +1051,37 @@ branch_agent_index:
     memory_review_status: COMPLETE
     memory_review_outcome: "No separate memory entry: the reservation lifecycle and cooperative-writer limitation are codified in the main-ownership protocol and tests; existing workflow memory covers safe synchronization."
     next_action: null
+
+  - run_id: "copilot-skills-agent-routing-20260925-8bc457e9"
+    task_ids: ["specialist-agent-catalog", "skill-aware-ralph-routing", "agent-routing-integration"]
+    worker_id: "coordinator"
+    worker_name: "coordinator - skill-aware agent routing"
+    runtime_agent_id: "copilotcli:/e464eb0a-8639-4fda-8608-3416a4bc5eae"
+    branch: "ralph/agent-optimization-parent-20260925-8bc457e9"
+    branch_slug: "ralph-agent-optimization-parent-20260925-8bc457e9"
+    status: IN_PROGRESS
+    iteration: 1
+    resource_usage:
+      time_spent_seconds: 22049
+      time_basis: WALL_CLOCK_ELAPSED
+      token_spend:
+        status: NOT_REPORTED
+        input_tokens: null
+        output_tokens: null
+        total_tokens: null
+        cached_input_tokens: null
+        source: null
+    status_path: "docs/ralph/ralph-agent-optimization-parent-20260925-8bc457e9/agents/coordinator/status.md"
+    progress_path: "docs/ralph/ralph-agent-optimization-parent-20260925-8bc457e9/agents/coordinator/progress.md"
+    decision_record_path: "docs/decisions/ralph-agent-optimization-parent-20260925-8bc457e9/agents/coordinator/pr-not-opened.md"
+    decision_index_path: "docs/decisions/ralph-agent-optimization-parent-20260925-8bc457e9/README.md"
+    base_origin_main_sha: "8da9310fda1b2e3042a379081dfb0675f1b22d6b"
+    parent_rebased_onto_origin_main_sha: "d313126de581b144aaae65ce71ba11d42dd93a63"
+    parent_to_main_merge:
+      status: PENDING
+      sha: null
+    memory_review: PENDING
+    next_action: "Rebase and retest the specialist children; wire conditional routing into the deployed Ralph coordinator and verify remote integration."
 ```
 
 ## Branch/agent index
@@ -1036,8 +1107,9 @@ branch_agent_index:
 | `copilot-skills-premerge-code-review-20260924` | `ralph/code-review-process-worker-02-20260924-2131` | `worker-02` | `COMPLETE` | `20,270 s (wall-clock)` | `NOT_REPORTED` | [status](./ralph/ralph-code-review-process-worker-02-20260924-2131/agents/worker-02/status.md) | [progress](./ralph/ralph-code-review-process-worker-02-20260924-2131/agents/worker-02/progress.md) | `6b1903ec7bfa5c798eb5e48c085bfc3845176bab` | `COMPLETE` |
 | `copilot-skills-agent-resource-manager-20260925` | `ralph/resource-manager-shared-registry-20260925-8abd5d4e` | `coordinator` | `COMPLETE` | `10,916 s (wall-clock)` | `NOT_REPORTED` | [status](./ralph/ralph-resource-manager-shared-registry-20260925-8abd5d4e/agents/coordinator/status.md) | [progress](./ralph/ralph-resource-manager-shared-registry-20260925-8abd5d4e/agents/coordinator/progress.md) | `ec50b548debb7a5f32dcb82f4b68f62806255894` | `COMPLETE` |
 | `copilot-skills-main-checkout-ownership-20260925-e464eb0a` | `ralph/main-checkout-ownership-20260925-e464eb0a` | `coordinator` | `COMPLETE` | `14,629 s (wall-clock)` | `NOT_REPORTED` | [status](./ralph/ralph-main-checkout-ownership-20260925-e464eb0a/agents/coordinator/status.md) | [progress](./ralph/ralph-main-checkout-ownership-20260925-e464eb0a/agents/coordinator/progress.md) | `f9cab16e19f22586192c93da76f7aedceced63ce` | `COMPLETE` |
+| `copilot-skills-agent-routing-20260925-8bc457e9` | `ralph/agent-optimization-parent-20260925-8bc457e9` | `coordinator` | `IN_PROGRESS` | `22,049 s (wall-clock)` | `NOT_REPORTED` | [status](./ralph/ralph-agent-optimization-parent-20260925-8bc457e9/agents/coordinator/status.md) | [progress](./ralph/ralph-agent-optimization-parent-20260925-8bc457e9/agents/coordinator/progress.md) | Pending | `PENDING` |
 
-The parent-child pipeline run is `COMPLETE`: both workers integrated into the
+The earlier parent-child pipeline run is `COMPLETE`: both workers integrated into the
 parent, the parent merge is verified on `origin/main`, the contract suite and
 post-merge memory review passed, and all child and parent worktrees/branches
 were removed after their respective merge proofs. The prior no-browser Git
@@ -1064,3 +1136,7 @@ passed after the final rebase, its implementation was verified on fetched
 `MERGE` reservation was released at `ebb4cce4b8889b3693ffd218c7a7cf41f5610c3c`.
 Post-merge memory review found no additional lesson beyond the protocol
 and tests, so no memory entry was added.
+
+The skill-aware agent routing run remains `IN_PROGRESS`. Its specialist
+children were integrated locally, but the parent and conditional dispatch
+still need final remote-main verification.

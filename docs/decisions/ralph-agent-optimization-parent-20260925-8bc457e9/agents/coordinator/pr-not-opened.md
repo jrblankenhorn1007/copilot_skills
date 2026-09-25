@@ -1,0 +1,50 @@
+# Coordinator decision record - no PR opened yet
+
+- **Run:** `copilot-skills-agent-routing-20260925-8bc457e9`
+- **Tasks:** `specialist-agent-catalog`, `skill-aware-ralph-routing`,
+  `agent-routing-integration`
+- **Agent ID / runtime ID:** `coordinator` / `null`
+- **Branch ref:** `refs/heads/ralph/agent-optimization-parent-20260925-8bc457e9`
+- **Worktree:** `/Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-optimization-parent-20260925-8bc457e9`
+- **Base `origin/main`:** `8da9310fda1b2e3042a379081dfb0675f1b22d6b`
+- **Implementation commit:** Pending
+- **PR:** `NOT_OPENED`; previous Ralph iterations used a verified no-PR
+  fast-forward when repository policy allowed it. A PR will be used if
+  repository policy requires one.
+
+## Decisions
+
+### Prefer a small role catalog over one wrapper per skill
+
+- **Context:** The repository already has ten discoverable Agent Skills and
+  one Ralph Loop custom agent. The request prioritizes speed, cost, and
+  accuracy while allowing assignment of skill-specific expertise.
+- **Alternatives:** Add a custom agent for every Skill, always run all Skills
+  in one agent, or group related Skills into a few task-boundary specialists.
+- **Decision:** Add focused Git, agent design, documentation, and ASI posture
+  roles. Use skill descriptions for conditional selection; retain Ralph Loop
+  as the only counted implementation worker.
+- **Rationale:** On-demand Skill loading and narrow delegation avoid repeated
+  context and unnecessary model calls without obscuring authority.
+- **Consequences:** Routing must avoid duplicate investigations and preserve
+  the parent/child Git lifecycle; validate representative routing and fallback
+  cases, not hypothetical percentage speedups.
+
+### Isolate the new iteration from unpublished local main commits
+
+- **Context:** Canonical local `main` is clean but two commits ahead of
+  `origin/main`; those commits belong to another recovery iteration.
+- **Alternatives:** Change local `main`, include unrelated commits, or branch
+  from the exact fetched `origin/main` SHA.
+- **Decision:** Create an isolated parent from fetched `origin/main` and
+  preserve the existing local commits unchanged.
+- **Rationale:** This follows the Ralph parent/child protocol and avoids
+  absorbing unrelated unpublished work.
+- **Consequences:** Fetch and recheck the remote tip before integration;
+  preserve the parent branch if permission or policy blocks the normal merge.
+
+## Verification and unresolved blockers
+
+- Baseline Ralph contract suite: **PASS**, 13 tests.
+- No unresolved blocker has been established yet. Remote write and merge
+  permissions remain unverified until the actual publication/integration step.
