@@ -62,3 +62,51 @@ memory review is pending, and no completion marker is justified.
 - `cd .github/skills/ralph-loop/tests && PYTHONDONTWRITEBYTECODE=1 python3 -m unittest test_main_ownership_contract test_main_ownership_publisher test_multi_agent_contract && git -C /Users/jrblankenhorn/copilot_skills.worktrees/ralph-main-checkout-ownership-20260925-e464eb0a diff --check` ran 36 tests with **one failure** in `test_docs_status_dashboard_indexes_every_branch_agent_folder`. The runtime and other instruction contracts passed; the new coordinator leaf is not yet indexed in the aggregate dashboard, which the iteration-stall run still claims with task sign-out `null`. The chained diff check did not run after the test failure.
 - Do not weaken the dashboard test or edit its owner-claimed file. Wait for that run's verified sign-out, then index this leaf, rerun the same suite and diff check, and proceed with integration only after Green.
 - Independent of the claimed dashboard, `cd .github/skills/ralph-loop/tests && PYTHONDONTWRITEBYTECODE=1 python3 -m unittest test_main_ownership_contract test_main_ownership_publisher && git -C /Users/jrblankenhorn/copilot_skills.worktrees/ralph-main-checkout-ownership-20260925-e464eb0a diff --check` **passed** (21 tests in 49.729 seconds and a clean diff) at 2026-09-25T07:06:37Z. This is not a substitute for the failing aggregate-dashboard check.
+
+### Dashboard handoff and production verification - 2026-09-25T09:29:47Z
+
+- The iteration-stall task published revision 2 with `sign_out` and
+  `scope_release` for `docs/ralph-status.md` and its other shared files.
+  Fetched main `43815c8e4621fe0495b8832136cd5ce3bd6c0267` confirms
+  the release. The ownership branch rebased cleanly onto that SHA,
+  retaining the intervening Resource Manager changes.
+- `PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s
+  .github/skills/ralph-loop/tests -p 'test_main_ownership*.py' -q`
+  passed all 21 ownership/publisher tests after the rebase. `git diff
+  --check` passed. Before indexing this leaf, the complete Ralph suite
+  ran 41 tests with exactly one expected dashboard-index failure; that
+  assertion was not weakened.
+- Live task sign-in revision 1 was published as status commit
+  `c077c4f879d8db8c80c1846e01619d8ff6f0f657`, bracketed by main
+  `STATUS` sign-in `4df3cee8f3438c6d07504537fa50c29681287ef9`
+  and immediate main sign-out
+  `91a6f78fa00cde80a80bea630a763d74041a56ad`.
+  The task edit scope remains signed in until integration.
+- The coordinator leaf and aggregate dashboard now show the same
+  `IN_PROGRESS` state. Rerun the complete suite, commit this synchronized
+  status, and verify the remote-main merge before signing out the task.
+
+### Full contract Green and integration sign-off - 2026-09-25T09:34:02Z
+
+- `PYTHONDONTWRITEBYTECODE=1 python3
+  .github/skills/ralph-loop/tests/test_multi_agent_contract.py
+  MultiAgentContractTests.test_docs_status_dashboard_indexes_every_branch_agent_folder
+  -v` passed; the leaf and dashboard index agree without a test exception.
+- `PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s
+  .github/skills/ralph-loop/tests -p 'test_*.py' -q && git diff
+  --check` passed all **41** Ralph tests and the diff check in 58.569
+  seconds. The earlier dashboard-index failure is resolved.
+- Marked this leaf `AWAITING_MERGE` with a matching dashboard entry.
+  Remote-main integration and memory review are not yet complete.
+
+### Merge reservation and upstream reconciliation - 2026-09-25T09:41:17Z
+
+- Acquired the exclusive remote `MERGE` reservation at
+  `5accb6c96ff8049f63c0a9d61265153b3008e1dc`. The Resource Manager
+  run had advanced main with final status commits while tests ran; rebasing
+  onto the reservation exposed a dashboard conflict between its newly
+  `COMPLETE` status and this run's new `AWAITING_MERGE` row.
+- Resolved the conflict by preserving the upstream Resource Manager
+  `COMPLETE` state, merge verification, memory-review outcome, and
+  dashboard row, while keeping this run's leaf and index. The coordinator
+  must rerun the relevant contracts before publishing its parent.

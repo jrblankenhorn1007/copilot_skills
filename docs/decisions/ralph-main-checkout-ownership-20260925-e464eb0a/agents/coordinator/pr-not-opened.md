@@ -2,9 +2,9 @@
 
 No PR has been opened. The repository's prior Ralph runs use an authorized,
 verified fast-forward integration when policy permits; this branch remains
-unpublished and unmerged until the shared dashboard owner signs out and
-final acceptance checks pass. A local implementation commit or a status
-commit does not establish remote-main completion.
+unpublished and unmerged until final acceptance checks pass. A local
+implementation commit or a status commit does not establish remote-main
+completion.
 
 ## Decisions
 
@@ -30,17 +30,27 @@ commit does not establish remote-main completion.
   The publisher refuses malformed releases and checks any recorded result
   against the reservation's starting main SHA and current remote history.
 - The status-reporting owner signed out before changes to its Ralph
-  instructions. The iteration-stall owner has not signed out of the
-  aggregate dashboard; that file remains untouched until its release.
-- The existing dashboard-index contract now correctly fails for this new
-  coordinator leaf until the owner can add it to the shared dashboard.
-  This is a coordination blocker, not a reason to weaken the assertion or
-  overwrite the active owner's work.
+  instructions. The iteration-stall owner subsequently signed out and
+  released the aggregate dashboard in remote status revision 2. This run
+  then published its own scoped task sign-in and indexed its leaf without
+  dropping any existing dashboard entries.
+- The dashboard-index contract correctly failed while this leaf was
+  unindexed. No assertion was weakened: after synchronization, its focused
+  check and the complete 41-test Ralph contract both passed.
+- The intervening Resource Manager implementation on remote main was
+  preserved during rebase. Its direct main integration did not change the
+  main-ownership revision, demonstrating why all future merge actors must
+  use the reservation protocol rather than assuming a free record enforces
+  itself.
+- While this run's `MERGE` reservation was acquired, Resource Manager
+  status-only commits had completed upstream. The dashboard rebase conflict
+  was resolved by retaining its verified `COMPLETE` status and memory
+  outcome alongside this run's new `AWAITING_MERGE` entry; rerun the
+  complete contract before publishing.
 
 ## Pending integration and memory review
 
-The coordinator still must synchronize the branch leaf and aggregate
-dashboard, commit final records, rebase/retest on the latest fetched
-`origin/main`, perform the authorized merge, fetch/verify its merge SHA,
-and review durable project lessons. If merge authorization or dashboard
-ownership is denied, preserve this branch and worktree.
+The coordinator must commit final records, rebase/retest on the latest
+fetched `origin/main`, perform the authorized
+merge, fetch/verify its merge SHA, and review durable project lessons.
+If merge authorization is denied, preserve this branch and worktree.

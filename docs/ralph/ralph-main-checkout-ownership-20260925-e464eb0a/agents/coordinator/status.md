@@ -8,9 +8,9 @@ worker_id: "coordinator"
 worker_name: "coordinator / main ownership handoff"
 runtime_agent_id: "copilotcli:/e464eb0a-8639-4fda-8608-3416a4bc5eae"
 iteration: 1
-status: BLOCKED
+status: AWAITING_MERGE
 started_at_utc: "2026-09-25T05:45:49Z"
-updated_at_utc: "2026-09-25T07:06:37Z"
+updated_at_utc: "2026-09-25T09:41:17Z"
 branch: "ralph/main-checkout-ownership-20260925-e464eb0a"
 branch_slug: "ralph-main-checkout-ownership-20260925-e464eb0a"
 worktree: "/Users/jrblankenhorn/copilot_skills.worktrees/ralph-main-checkout-ownership-20260925-e464eb0a"
@@ -18,11 +18,11 @@ parent_branch: "ralph/main-checkout-ownership-20260925-e464eb0a"
 parent_worktree: "/Users/jrblankenhorn/copilot_skills.worktrees/ralph-main-checkout-ownership-20260925-e464eb0a"
 base_origin_main_sha: "ad4e663aa21259946ec112f7831b822529117b3b"
 parent_base_origin_main_sha: "ad4e663aa21259946ec112f7831b822529117b3b"
-parent_rebased_onto_origin_main_sha: "20293c720b18a1a21ff150f566823493b7a2717d"
+parent_rebased_onto_origin_main_sha: "5accb6c96ff8049f63c0a9d61265153b3008e1dc"
 parent_implementation_commit_sha: null
 implementation_commit_sha: null
 resource_usage:
-  time_spent_seconds: 4848
+  time_spent_seconds: 14128
   time_basis: WALL_CLOCK_ELAPSED
   token_spend:
     status: NOT_REPORTED
@@ -35,7 +35,7 @@ pull_request:
   status: NOT_OPENED
   number: null
   url: null
-  reason: "No PR has been opened; final integration is waiting on shared dashboard ownership."
+  reason: "No PR has been opened; use the authorized no-PR fast-forward only when policy permits."
 merge_actor_worker_id: null
 decision_record_path: "docs/decisions/ralph-main-checkout-ownership-20260925-e464eb0a/agents/coordinator/pr-not-opened.md"
 decision_index_path: "docs/decisions/ralph-main-checkout-ownership-20260925-e464eb0a/README.md"
@@ -55,18 +55,16 @@ memory_review:
   owner: coordinator
   outcome: null
 checks:
-  - command: "cd .github/skills/ralph-loop/tests && PYTHONDONTWRITEBYTECODE=1 python3 -m unittest test_main_ownership_contract test_main_ownership_publisher test_multi_agent_contract"
-    result: FAIL
-    evidence: "Latest run: 36 tests, one failure because this blocked coordinator leaf is not indexed in docs/ralph-status.md; the current dashboard owner has not signed out. Earlier run before this leaf existed passed 35 tests."
-  - command: "cd .github/skills/ralph-loop/tests && PYTHONDONTWRITEBYTECODE=1 python3 -m unittest test_main_ownership_contract test_main_ownership_publisher"
+  - command: "PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s .github/skills/ralph-loop/tests -p 'test_*.py' -q"
     result: PASS
-    evidence: "21 ownership and publisher tests passed in 49.729 seconds, including the malformed FREE record guard."
+    evidence: "All 41 Ralph contract tests passed after the ownership leaf was indexed; the previous dashboard-index failure is resolved without weakening the assertion."
+  - command: "PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s .github/skills/ralph-loop/tests -p 'test_main_ownership*.py' -q"
+    result: PASS
+    evidence: "21 ownership and publisher tests passed after rebasing onto fetched main 43815c8, including the malformed FREE record guard."
   - command: "git diff --check"
     result: PASS
-blockers:
-  - "The iteration-stall run still owns docs/ralph-status.md and has not signed out; do not overwrite its dashboard or merge incomplete status records."
-  - "The existing dashboard contract cannot pass until this leaf is indexed after the owner's sign-out."
-next_action: "Wait for the dashboard owner to sign out, synchronize this leaf with the aggregate dashboard, then commit, rebase, retest, and integrate on fetched origin/main."
+blockers: []
+next_action: "Verify the contract after the MERGE claim, push the authorized parent, and verify remote-main integration."
 worker_count:
   requested: 2
   effective: 0

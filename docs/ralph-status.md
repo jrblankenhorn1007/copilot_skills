@@ -4,20 +4,21 @@ This is the active repository's aggregate Ralph status dashboard. It indexes
 every branch/agent status and progress folder under `docs/ralph/`. The
 coordinator updates this file in the same loop as affected leaf records.
 
-**Overall status:** `IN_PROGRESS`. The prompt-generation memory follow-up is
-in progress.
+**Overall status:** `IN_PROGRESS`. The prompt-generation memory follow-up and
+exclusive-main-ownership run remain in progress.
 
 ```yaml
 schema_version: 2
 snapshot_path: "docs/ralph-status.md"
-snapshot_revision: 38
-updated_at_utc: "2026-09-25T09:33:54Z"
+snapshot_revision: 39
+updated_at_utc: "2026-09-25T09:41:17Z"
 overall_status: IN_PROGRESS
 current_run_ids:
   - "copilot-skills-docs-status-organization-20260924"
   - "copilot-skills-no-browser-git-20260924"
   - "copilot_skills-parent-child-pipeline-20260924"
   - "translated-ralph-prompt-skills-recovery-20260925-0318"
+  - "copilot-skills-main-checkout-ownership-20260925-e464eb0a"
 
 runs:
   - run_id: "copilot_skills-two-agent-ralph-test-batch-20260924"
@@ -303,6 +304,26 @@ runs:
         worker_id: "coordinator"
         scope: "Own the shared registry CLI, concurrency tests, Resource Manager skill, global policy, and Ralph orchestration integration."
         depends_on: []
+
+  - run_id: "copilot-skills-main-checkout-ownership-20260925-e464eb0a"
+    task_ids: ["main-checkout-ownership", "status-publisher-exclusivity", "ralph-refresh-handoff"]
+    aggregate_status: IN_PROGRESS
+    requested_worker_count: 2
+    effective_worker_count: 0
+    active_worker_count: 0
+    base_origin_main_sha: "ad4e663aa21259946ec112f7831b822529117b3b"
+    current_origin_main_sha: "5accb6c96ff8049f63c0a9d61265153b3008e1dc"
+    updated_at_utc: "2026-09-25T09:41:17Z"
+    coordinator_scope: "Reserve shared main only for status publication or authorized merge; release status ownership immediately after the status commit."
+    coordinator_branch: "ralph/main-checkout-ownership-20260925-e464eb0a"
+    coordinator_status_path: "docs/ralph/ralph-main-checkout-ownership-20260925-e464eb0a/agents/coordinator/status.md"
+    coordinator_progress_path: "docs/ralph/ralph-main-checkout-ownership-20260925-e464eb0a/agents/coordinator/progress.md"
+    worker_count_note: "No independent worker was launched; publisher, ownership contract, and Ralph handoff instructions form one coupled assignment."
+    next_action: "Verify the full contract after the MERGE claim, then push the authorized parent and verify fetched origin/main."
+    memory_review:
+      status: PENDING
+      owner: coordinator
+      outcome: null
 
 branch_agent_index:
   - run_id: "copilot-skills-status-report-time-token-20260925"
@@ -947,6 +968,49 @@ branch_agent_index:
     memory_review_status: COMPLETE
     memory_review_outcome: "No separate durable lesson warranted: the Resource Manager skill and tests codify host-wide admission, observed-session counting, and atomic reservations; another memory entry would duplicate canonical guidance."
     next_action: null
+
+  - run_id: "copilot-skills-main-checkout-ownership-20260925-e464eb0a"
+    task_ids: ["main-checkout-ownership", "status-publisher-exclusivity", "ralph-refresh-handoff"]
+    worker_id: "coordinator"
+    worker_name: "coordinator / main ownership handoff"
+    runtime_agent_id: "copilotcli:/e464eb0a-8639-4fda-8608-3416a4bc5eae"
+    branch: "ralph/main-checkout-ownership-20260925-e464eb0a"
+    branch_slug: "ralph-main-checkout-ownership-20260925-e464eb0a"
+    status: AWAITING_MERGE
+    iteration: 1
+    resource_usage:
+      time_spent_seconds: 14128
+      time_basis: WALL_CLOCK_ELAPSED
+      token_spend:
+        status: NOT_REPORTED
+        input_tokens: null
+        output_tokens: null
+        total_tokens: null
+        cached_input_tokens: null
+        source: null
+    status_path: "docs/ralph/ralph-main-checkout-ownership-20260925-e464eb0a/agents/coordinator/status.md"
+    progress_path: "docs/ralph/ralph-main-checkout-ownership-20260925-e464eb0a/agents/coordinator/progress.md"
+    decision_record_path: "docs/decisions/ralph-main-checkout-ownership-20260925-e464eb0a/agents/coordinator/pr-not-opened.md"
+    decision_index_path: "docs/decisions/ralph-main-checkout-ownership-20260925-e464eb0a/README.md"
+    base_origin_main_sha: "ad4e663aa21259946ec112f7831b822529117b3b"
+    rebased_onto_origin_main_sha: "5accb6c96ff8049f63c0a9d61265153b3008e1dc"
+    implementation_commit_sha: null
+    pull_request:
+      status: NOT_OPENED
+      number: null
+      url: null
+      reason: "Use the repository's authorized no-PR fast-forward only when policy permits."
+    merge_actor_worker_id: null
+    merge:
+      status: PENDING
+      sha: null
+      verified_remote_ref: "refs/heads/main"
+      verified_origin_main_sha: null
+      verification_method: null
+      verified_at_utc: null
+    memory_review_status: PENDING
+    memory_review_outcome: null
+    next_action: "Verify the contract after the MERGE claim, push the authorized parent, and verify remote-main integration."
 ```
 
 ## Branch/agent index
@@ -971,6 +1035,7 @@ branch_agent_index:
 | `copilot-skills-premerge-code-review-20260924` | `ralph/code-review-skill-worker-01-20260924-2131` | `worker-01` | `CANCELLED` | Not captured (legacy) | `NOT_REPORTED` | [status](./ralph/ralph-code-review-skill-worker-01-20260924-2131/agents/worker-01/status.md) | [progress](./ralph/ralph-code-review-skill-worker-01-20260924-2131/agents/worker-01/progress.md) | Not merged | N/A |
 | `copilot-skills-premerge-code-review-20260924` | `ralph/code-review-process-worker-02-20260924-2131` | `worker-02` | `COMPLETE` | `20,270 s (wall-clock)` | `NOT_REPORTED` | [status](./ralph/ralph-code-review-process-worker-02-20260924-2131/agents/worker-02/status.md) | [progress](./ralph/ralph-code-review-process-worker-02-20260924-2131/agents/worker-02/progress.md) | `6b1903ec7bfa5c798eb5e48c085bfc3845176bab` | `COMPLETE` |
 | `copilot-skills-agent-resource-manager-20260925` | `ralph/resource-manager-shared-registry-20260925-8abd5d4e` | `coordinator` | `COMPLETE` | `10,916 s (wall-clock)` | `NOT_REPORTED` | [status](./ralph/ralph-resource-manager-shared-registry-20260925-8abd5d4e/agents/coordinator/status.md) | [progress](./ralph/ralph-resource-manager-shared-registry-20260925-8abd5d4e/agents/coordinator/progress.md) | `ec50b548debb7a5f32dcb82f4b68f62806255894` | `COMPLETE` |
+| `copilot-skills-main-checkout-ownership-20260925-e464eb0a` | `ralph/main-checkout-ownership-20260925-e464eb0a` | `coordinator` | `AWAITING_MERGE` | `14,128 s (wall-clock)` | `NOT_REPORTED` | [status](./ralph/ralph-main-checkout-ownership-20260925-e464eb0a/agents/coordinator/status.md) | [progress](./ralph/ralph-main-checkout-ownership-20260925-e464eb0a/agents/coordinator/progress.md) | Pending | `PENDING` |
 
 The parent-child pipeline run is `COMPLETE`: both workers integrated into the
 parent, the parent merge is verified on `origin/main`, the contract suite and
@@ -992,3 +1057,7 @@ parent merge is verified on `origin/main` at
 The shared Resource Manager run is `COMPLETE`: its implementation is verified
 on `origin/main` at `ec50b548debb7a5f32dcb82f4b68f62806255894`. Post-merge
 memory review found no separate durable lesson, so no memory entry was added.
+
+The exclusive main-ownership run remains `IN_PROGRESS`: its coordinator is
+`AWAITING_MERGE` after all 41 Ralph contract tests passed. Remote
+integration and the post-merge memory review are still pending.
