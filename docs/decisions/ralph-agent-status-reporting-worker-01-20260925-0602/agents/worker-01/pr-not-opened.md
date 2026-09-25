@@ -13,6 +13,7 @@
 - **Child rebased onto parent SHA:** `c3f834fcff1ef69a442abb0c70b615327d40be9a`
 - **Implementation commit SHA:** `eeb087c1914929b5c93a400af0a9c161ea73d7dc`
 - **Child tip immediately after rebase, before this record refresh:** `8eab63d4eaef5390b9d72150716540ae8169b959`
+- **Child tip verified after the first record-refresh commit:** `40349096064b1266852fc856cfe5626ff8d0caed`
 - **Previous rebase-evidence/records commit SHA:** `822b31929b5f1ec7faa04a907934675325baa2c4`
 - **PR:** Not opened. The coordinator integrates the child branch into the
   parent through the run's local parent/child process; workers do not merge
@@ -161,6 +162,13 @@
   `Ran 21 tests in 3.682s`, `OK`.
 - Schema-v2 timestamp and sign-off refresh verification:
   `Ran 21 tests in 4.005s`, `OK`.
+- Post-record-commit verification at
+  `40349096064b1266852fc856cfe5626ff8d0caed`:
+  `python3 .github/skills/ralph-loop/tests/test_multi_agent_contract.py`
+  passed (`Ran 21 tests in 2.939s`, `OK`).
+  `git diff --check c3f834fcff1ef69a442abb0c70b615327d40be9a..HEAD` and
+  `git merge-base --is-ancestor c3f834fcff1ef69a442abb0c70b615327d40be9a HEAD`
+  also passed.
 - `git diff --check c3f834fcff1ef69a442abb0c70b615327d40be9a..HEAD` and
   `git merge-base --is-ancestor c3f834fcff1ef69a442abb0c70b615327d40be9a HEAD`:
   `PASS`.
