@@ -10,12 +10,15 @@
   `d7b0d02ede3666825e6b4fb64fe6f3dd641bb87f`.
 - **Previous parent rebase:** `36bf3fad31b2965dc6a0516a20ec9b2e6ac64355`;
   tip `c833b2d19c7bfa3a643ec6e2e7efd0dac467afa3`.
-- **Latest parent rebase onto `origin/main`:**
+- **Previous parent rebase onto `origin/main`:**
   `7ee1307cb47f5a88cd6b46ee135444777ddeb665`; tip
   `9c94704bb0e999e497f4b9eeb0cf9c253b57b351`.
+- **Latest parent rebase onto `origin/main`:**
+  `2b0e3b002d9596eea6773ad7a1a33654613d0008`; tip
+  `92a3ab68e3fd3d27bcbb6d966795382637ffbdde`.
 - **Parent worktree:** `/Users/jrblankenhorn/copilot_skills.worktrees/ralph-skill-improvement-coordinator-20260925-0554-luna`.
 - **Coordinator README implementation commit after latest rebase:**
-  `5e880f96087faa144803d865e56ee45fa40257a0`.
+  `77c49c67303326b5720fc832eb33fd30c9fab154`.
 - **Final parent implementation commit:** pending worker integration.
 - **PR:** pending; expected to follow the repository's normal protected
   parent-to-main pull request process.
@@ -75,7 +78,19 @@
   is now `5e880f96087faa144803d865e56ee45fa40257a0`. The prior worker
   branches/sign-offs remain untouched and will not be reused as current
   attestations.
+- A later fetch-only refresh recovered the parent without changing the
+  diverged shared `main` checkout. The parent rebase onto `2b0e3b0` completed
+  without conflicts. Its target README workflow is intact, but the latest
+  upstream dashboard omitted this run's entry; the coordinator restored only
+  that entry and retained every unrelated run. A targeted check first failed
+  on the omission and then passed all 20 tests; 74 focused local Markdown
+  links resolve. Child branches still need replay, retest, and new sign-offs.
+  Host Resource Manager capacity is zero, so no new worker or reviewer was
+  launched.
 
 ## Unresolved blockers
 
-- None at this stage.
+- The signed-off child implementations require replay and new sign-offs
+  against the updated parent. The host Resource Manager currently permits no
+  additional agents, including the independent reviewer required for the
+  parent pull request.

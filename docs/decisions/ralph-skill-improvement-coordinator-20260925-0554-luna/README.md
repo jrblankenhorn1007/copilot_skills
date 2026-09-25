@@ -11,11 +11,13 @@
   `d7b0d02ede3666825e6b4fb64fe6f3dd641bb87f`
 - **Previous parent rebase:** `36bf3fad31b2965dc6a0516a20ec9b2e6ac64355`;
   tip `c833b2d19c7bfa3a643ec6e2e7efd0dac467afa3`.
-- **Latest parent rebase onto `origin/main`:**
+- **Previous parent rebase onto `origin/main`:**
   `7ee1307cb47f5a88cd6b46ee135444777ddeb665`.
-- **Parent tip after latest rebase:** `9c94704bb0e999e497f4b9eeb0cf9c253b57b351`.
+- **Latest parent rebase onto `origin/main`:**
+  `2b0e3b002d9596eea6773ad7a1a33654613d0008`.
+- **Parent tip after latest rebase:** `92a3ab68e3fd3d27bcbb6d966795382637ffbdde`.
 - **Coordinator README implementation commit after latest rebase:**
-  `5e880f96087faa144803d865e56ee45fa40257a0`.
+  `77c49c67303326b5720fc832eb33fd30c9fab154`.
 - **Final parent implementation commit:** pending worker integration.
 - **Parent PR:** expected; see [coordinator PR-pending record](agents/coordinator/pr-pending.md).
 
@@ -84,6 +86,15 @@
   Their base and sign-offs are stale; fresh child branches from the updated
   parent are required, and any ported changes need new checks and exact-SHA
   self-attestations under the explicitly requested profile.
+- The current Ralph guidance permits fetch-only instruction refresh without
+  modifying the shared local `main` checkout. The unpublished parent rebased
+  cleanly onto `2b0e3b0` after the coordinator's verified agent-sync sign-in.
+  Current upstream had omitted this run from the aggregate dashboard; only
+  this run's coordinator entry was reapplied. The initially failing Ralph
+  contract check now passes all 20 tests; 74 focused local Markdown links
+  resolve. The Resource Manager presently permits no new worker or
+  independent reviewer agents, so both child integrations remain pending
+  their renewed sign-offs and the parent PR remains unopened.
 - The read-only Docs Sync Audit script reported 36 repository-wide leads.
   The README contract-test path it flagged was confirmed to exist; Agent
   Skill Stack missing-script leads are assigned for worker-02 review, and

@@ -432,3 +432,56 @@
   current skills immediately before worker-01 dispatch; serialize the same
   refresh before worker-02, and pass both workers the exact resulting parent
   tip.
+
+## 2026-09-25T10:49Z–10:54Z — Resume coordinator and rebase preserved parent
+
+- Refreshed the canonical repository with `git fetch origin` and reopened the
+  Ralph, multi-agent, Resource Manager, agent-sync, and Project Memory guidance
+  from the fetched remote ref. The current guidance refreshes with a read-only
+  fetch; the shared local `main` checkout remains untouched.
+- Registered the existing coordinator session with the Resource Manager while
+  over capacity; no new agent was reserved or launched. Published the
+  coordinator task sign-in through `publish_agent_sync.py`; status publication
+  `ec58e90bd4c98818df375b5aa07bb90e31e62316` and automatic main sign-out
+  `2b0e3b002d9596eea6773ad7a1a33654613d0008` were verified.
+- `git -C /Users/jrblankenhorn/copilot_skills.worktrees/ralph-skill-improvement-coordinator-20260925-0554-luna
+  rebase origin/main` — **PASS**, replayed all seven unpublished parent commits
+  onto `2b0e3b002d9596eea6773ad7a1a33654613d0008` without conflicts.
+  Parent tip after rebase:
+  `92a3ab68e3fd3d27bcbb6d966795382637ffbdde`; rebased README implementation:
+  `77c49c67303326b5720fc832eb33fd30c9fab154`.
+- First targeted contract invocation ran in the session worktree by mistake:
+  its 11 tests passed, but the chained ancestry check failed against that
+  unrelated branch. Rerunning in the parent worktree found one relevant failure
+  among 20 tests: the upstream dashboard no longer indexes this run's
+  coordinator leaf. Restore just this run's dashboard metadata while keeping
+  all other current entries, then rerun the targeted checks.
+- Both Luna workers' saved implementation branches remain untouched. Their
+  parent bases are not ancestors of the rebased parent; their prior
+  commit-bound sign-offs must be renewed after replay and verification. The
+  Resource Manager reports zero available slots under host load, so no new
+  worker or mandatory PR reviewer is launched.
+- Documentation-only scope: TDD Red/Green/Refactor is **NOT_APPLICABLE**.
+  After parent checks, resume workers sequentially when admission permits.
+- `git -C /Users/jrblankenhorn/copilot_skills diff --name-status
+  e9fe3d175d1ca76b03fccdbe53431205b80e5c23 origin/main --
+  .github/skills/agentic-eval .github/skills/agent-skill-stack` — **PASS**,
+  no upstream changes to the workers' assigned skill directories.
+- Restored just this run's coordinator YAML run/index records and Markdown
+  dashboard row from the last intact snapshot; preserved the current upstream
+  dashboard's other 9 runs and 19 indexed agents.
+- `cd /Users/jrblankenhorn/copilot_skills.worktrees/ralph-skill-improvement-coordinator-20260925-0554-luna &&
+  PYTHONDONTWRITEBYTECODE=1 python3
+  .github/skills/ralph-loop/tests/test_multi_agent_contract.py` — **PASS**,
+  20 tests after restoring this run's dashboard entry.
+- Ruby YAML synchronization check — **PASS**: 10 runs, 20 indexed agents;
+  coordinator leaf, run, and index agree on state, rebase SHA, timestamp, and
+  wall-clock resource usage.
+- Focused Python Markdown link check of `README.md`, `docs/ralph-status.md`,
+  and the coordinator decision index — **PASS**, 74 local links, 0 broken.
+- `git diff --check && git merge-base --is-ancestor origin/main HEAD` —
+  **PASS**. The first failed contract check is resolved; no unverified test
+  success is claimed for the pending child replays or parent PR.
+- At `2026-09-25T10:57:05Z`, coordinator wall-clock elapsed is `18,178`
+  seconds; provider token counters are `NOT_REPORTED`. The worker replay,
+  independent parent PR review, merge, and memory review remain pending.

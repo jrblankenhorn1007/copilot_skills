@@ -9,11 +9,11 @@ branch: "ralph/skill-improvement-coordinator-20260925-0554-luna"
 branch_slug: "ralph-skill-improvement-coordinator-20260925-0554-luna"
 worktree: "/Users/jrblankenhorn/copilot_skills.worktrees/ralph-skill-improvement-coordinator-20260925-0554-luna"
 iteration: 1
-status: IN_PROGRESS
+status: BLOCKED
 started_at_utc: "2026-09-25T05:54:07Z"
-updated_at_utc: "2026-09-25T08:18:03Z"
+updated_at_utc: "2026-09-25T10:57:05Z"
 resource_usage:
-  time_spent_seconds: 8636
+  time_spent_seconds: 18178
   time_basis: WALL_CLOCK_ELAPSED
   token_spend:
     status: NOT_REPORTED
@@ -24,7 +24,7 @@ resource_usage:
     source: null
 base_origin_main_sha: "e9fe3d175d1ca76b03fccdbe53431205b80e5c23"
 rebased_onto_origin_main_sha: null
-implementation_commit_sha: "5e880f96087faa144803d865e56ee45fa40257a0"
+implementation_commit_sha: "77c49c67303326b5720fc832eb33fd30c9fab154"
 pull_request:
   status: PENDING
   number: null
@@ -35,7 +35,7 @@ decision_index_path: "docs/decisions/ralph-skill-improvement-coordinator-2026092
 parent_branch: "ralph/skill-improvement-coordinator-20260925-0554-luna"
 parent_worktree: "/Users/jrblankenhorn/copilot_skills.worktrees/ralph-skill-improvement-coordinator-20260925-0554-luna"
 parent_base_origin_main_sha: "e9fe3d175d1ca76b03fccdbe53431205b80e5c23"
-parent_rebased_onto_origin_main_sha: "7ee1307cb47f5a88cd6b46ee135444777ddeb665"
+parent_rebased_onto_origin_main_sha: "2b0e3b002d9596eea6773ad7a1a33654613d0008"
 parent_implementation_commit_sha: null
 parent_to_main_merge:
   status: PENDING
@@ -152,8 +152,17 @@ checks:
     result: "PASS (parent worktree clean after coordinator synchronization commit)"
   - command: "git -C /Users/jrblankenhorn/copilot_skills.worktrees/ralph-skill-improvement-coordinator-20260925-0554-luna rev-parse HEAD"
     result: "PASS (coordinator synchronization commit d2aaa1a995ec00cf85d867cd0425428b1c236a23)"
-blockers: []
-next_action: "Perform the serialized canonical pull/fetch and guidance reread before worker-01, then repeat before worker-02; dispatch both fresh children from the resulting exact parent tip."
+  - command: "PYTHONDONTWRITEBYTECODE=1 python3 .github/skills/ralph-loop/tests/test_multi_agent_contract.py"
+    result: "PASS (20 tests after restoring this run's dashboard entry)"
+  - command: "ruby -ryaml -e 'validate run/index/leaf status, base, timestamps, and resource usage'"
+    result: "PASS (10 runs, 20 indexed agents; coordinator synchronized)"
+  - command: "PYTHONDONTWRITEBYTECODE=1 python3 -"
+    result: "PASS (74 local Markdown links in README, dashboard, and decision index; 0 broken)"
+  - command: "git diff --check && git merge-base --is-ancestor origin/main HEAD"
+    result: "PASS (whitespace clean; fetched remote main is an ancestor of the parent)"
+blockers:
+  - "The Resource Manager currently permits zero additional agent slots under host load. The signed-off child branches predate this parent rebase, so the Luna workers must replay, retest, and re-sign before coordinator integration; the parent PR also requires an independent reviewer."
+next_action: "Wait for capacity, then have each Luna worker replay, retest, and re-sign against the current parent; integrate serially, open the parent PR, and obtain independent review."
 coordinator_sign_off:
   status: PENDING
   attestation_kind: SELF_ATTESTATION
