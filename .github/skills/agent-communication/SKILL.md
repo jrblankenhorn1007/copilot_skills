@@ -96,8 +96,30 @@ upgrade an ambiguous response to a stronger state.
 | `accepted` | The host accepted the `send_message` request. It does not prove the recipient received or processed it. |
 | `queued` | The host reports the message is waiting for a busy recipient's next turn. It has not preempted that turn. |
 | `received` | The recipient confirms it saw the specific `message_id`. This is delivery confirmation, not proof of work. |
-| `expired` | `expires_at` has passed before the recipient processed the request. A receiver must acknowledge `expired` and not act on stale instructions. The host may still deliver a queued message later, so expiry does not imply retraction. |
+| `expired` | At inspection or processing time, the current time is at or after the message's `expires_at`. The receiver must reject the instruction, send an `expired` acknowledgment, and take no requested action. The host may still deliver a queued message later, so expiry does not imply retraction. |
 | `failed` | The host explicitly rejected or failed the route. Do not claim delivery; use the fallback relay or ask the coordinator to resolve the route. |
+
+### Normative handling of expired instructions
+
+On receipt, dequeue, and immediately before acting, compare the current UTC
+time with `expires_at`. If the current time is at or after that timestamp,
+the receiver **MUST** reject the whole instruction and **MUST NOT** perform
+or continue any requested action or side effect, regardless of `kind` or
+`priority`. This rule also applies when `ack_required` is `false`: send a
+`kind: "ack"` with `correlation_id` set to the expired message's `message_id`
+and report `state=expired` (and that no action was taken) in `body`.
+
+If the expired message is safety-critical or indicates an immediate risk,
+escalate it promptly to the authorized coordinator or operator through a
+current, verified channel, with the original `message_id` and a concise risk
+summary. Escalation is not permission to follow the stale instruction; wait
+for a current valid instruction or use an existing authorized safety
+procedure.
+
+Do not treat `priority: "urgent"` as preemption. Do not treat an expired
+cooperative `interrupt` as preemption or as an exception to expiry. A message
+that arrives after `expires_at` must be rejected and acknowledged as expired,
+not acted on as an interrupt.
 
 A **delivery acknowledgement** is a transport result such as `accepted` or
 `queued`; a response like “Message sent” is not a recipient acknowledgment.
