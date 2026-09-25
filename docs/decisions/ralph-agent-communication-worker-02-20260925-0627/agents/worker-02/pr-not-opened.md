@@ -10,6 +10,7 @@
 - **Parent `origin/main` base:** `20293c720b18a1a21ff150f566823493b7a2717d`
 - **Assigned `base_parent_sha`:**
   `0294550c92a5d79e1cca682a0c509b5bb6eca3fd`
+- **Rebased onto parent:** `808bc8819c898d27db9a22dcc670b96c953780b4`
 - **Implementation commit:**
   `d1ec345fd930a83c5e5b879a09dd1c298fcffea4`
 - **PR:** `NOT_OPENED`. This is a worker-owned child-to-parent iteration;
@@ -35,6 +36,8 @@
 - Distinguish transport `accepted`/`queued`/`failed`, a correlated processing
   acknowledgement, and a correlated completion acknowledgement. Keep task
   `deadline`, sender `reply_deadline`, and instruction `expires_at` distinct.
+- Align `deadline`/`reply_deadline` with the integrated Agent Communication
+  skill, remove the redundant README skill bullet, and retain Ralph PR Review.
 - Keep compact benchmark/communication measurements in the worker's
   `progress.md`; do not add an aggregate dashboard or put full message
   transcripts in status records.

@@ -176,14 +176,14 @@ within-session mechanism.
 
 ### `agent-message/v1` envelope
 
-Use one compact, typed envelope for each message. The Ralph pipeline profile
-adds a `deadline` for the task/result due time to the shared
-[`agent-message/v1` contract](../../agent-communication/SKILL.md); keep its
-routing and correlation fields aligned with that skill. All fields are
-present, with `deadline: null` when no task due time is set,
-`correlation_id: null` for a new conversation, `reply_deadline: null` when no
-reply is requested, and `artifact_refs: []` when there is no committed
-artifact:
+Use one compact, typed envelope for each message. The shared
+[`agent-message/v1` contract](../../agent-communication/SKILL.md) defines
+`deadline` as the task/result due time and `reply_deadline` as the sender
+checkpoint. Keep those fields distinct from each other and from
+`expires_at`. All fields are present, with `deadline: null` when no task due
+time is set, `correlation_id: null` for a new conversation,
+`reply_deadline: null` when no reply is requested, and `artifact_refs: []`
+when there is no committed artifact:
 
 ```json
 {

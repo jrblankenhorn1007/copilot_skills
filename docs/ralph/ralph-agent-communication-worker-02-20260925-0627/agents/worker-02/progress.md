@@ -140,6 +140,53 @@
   }
   ```
 
+## 2026-09-25T10:06:23Z — integrated-parent contract alignment requested
+
+- **Coordinator instruction:** Worker base was rebased to the integrated
+  skill parent `808bc8819c898d27db9a22dcc670b96c953780b4`; current worker
+  `HEAD` before edits was `52e7a01365f260d271cdeda7fc4d299e73f49950`. Verified
+  the worker worktree is clean and the assigned parent SHA is an ancestor of
+  that HEAD. No additional rebase or pull was performed.
+- **Shared integration state:** The primary worktree is clean at `main`,
+  tracking `origin/main` `61353504e0e99ec82d415a44ca5a305b57dfacf6`.
+  The coordinator verified `git pull --ff-only`; this worker did not pull it.
+- **Requested refinement:** Rephrase the pipeline contract to describe the
+  shared skill's `deadline` (task/result due time) and `reply_deadline`
+  (sender checkpoint), keep the JSON fields aligned, preserve the existing
+  blank line before `## Inter-session communication`, and leave one
+  Agent Communication README entry while retaining Ralph PR Review.
+- **TDD:** Documentation-only; no Red/Green/Refactor cycle is applicable.
+  The coordinator's exact target contract test will be run as requested.
+- **Checks:** Pending for this refinement.
+- **Next:** Make only these scoped edits, run the requested contract test and
+  three-dot diff check, update the worker records with
+  `rebased_onto_parent_sha=808bc8819c898d27db9a22dcc670b96c953780b4`, and
+  issue a fresh sign-off.
+
+## 2026-09-25T10:09:07Z — requested shared-contract check passed
+
+- **README:** Removed the redundant earlier Agent Communication bullet. The
+  refreshed dedicated Agent Communication entry remains, and the Ralph PR
+  Review entry is preserved. The existing blank line before the Ralph
+  `## Inter-session communication` headings is present and retained.
+- **Shared deadline wording:** The pipeline now says the shared skill defines
+  `deadline` as task/result due time and `reply_deadline` as the sender
+  checkpoint; the JSON example already contains both fields in the shared
+  order.
+- **Requested test:** `python3 .github/skills/ralph-loop/tests/test_multi_agent_contract.py MultiAgentContractTests.test_inter_session_communication_contract_is_actionable_and_bounded` — PASS.
+- **Whitespace:** `git diff --check` — PASS. The required
+  `git diff --check 808bc8819c898d27db9a22dcc670b96c953780b4...HEAD` will be
+  rerun after the implementation commit so the three-dot range includes the
+  final edited commit.
+
+## 2026-09-25T10:12:23Z — final staged contract check
+
+- Reran the exact coordinator target test after the final wording and README
+  cleanup: `python3 .github/skills/ralph-loop/tests/test_multi_agent_contract.py MultiAgentContractTests.test_inter_session_communication_contract_is_actionable_and_bounded` — PASS.
+- `git diff --check` — PASS; `git diff --cached --check` — PASS. The requested
+  three-dot branch check remains queued until the implementation commit is
+  created.
+
 ## 2026-09-25T08:34:32Z — exact field and acknowledgment contract signed off
 
 - **Implementation commit:** `d1ec345fd930a83c5e5b879a09dd1c298fcffea4`
