@@ -1,0 +1,44 @@
+{
+  "schema_version": 1,
+  "run_id": "agent-sync-ledger-20260925",
+  "agent_id": "coordinator",
+  "worker_id": "coordinator",
+  "worker_name": "coordinator - Ralph agent synchronization pipeline",
+  "task_id": "agent-sync-protocol-and-gh-dependency",
+  "status": "IN_PROGRESS",
+  "revision": 1,
+  "started_at_utc": "2026-09-25T05:18:52Z",
+  "updated_at_utc": "2026-09-25T05:18:52Z",
+  "status_reason": "Implementing the per-agent direct-main status ledger and Ralph integration; gh dependency/install follows synchronization work.",
+  "prompt_path": "docs/agent-sync/runs/agent-sync-ledger-20260925/agents/coordinator/prompt.md",
+  "prompt_sha256": "fae29f4beb3602ec23bef01af892d3a43d028f7ee2096ccf0b63cd818ac35160",
+  "agent_profile": {
+    "harness": "Copilot SDK in VS Code",
+    "agent_definition": ".github/agents/ralph-loop.agent.md",
+    "runtime_agent_id": null,
+    "model_id": null,
+    "reasoning_effort": null,
+    "context_tier": null,
+    "context_window_tokens": null,
+    "context_usage_tokens": null,
+    "unavailable_fields_reason": "The current session does not expose model, reasoning, or context telemetry to the agent."
+  },
+  "git": {
+    "remote_name": "origin",
+    "repository": "jrblankenhorn1007/copilot_skills",
+    "implementation_branch": "refs/heads/main",
+    "worktree_path": "/Users/jrblankenhorn/copilot_skills",
+    "worktree_head_sha_at_sign_in": "87c65f50752f4d59dfd387ca95f0d4ebe497a7e1",
+    "base_ref": "refs/remotes/origin/main",
+    "base_sha": "87c65f50752f4d59dfd387ca95f0d4ebe497a7e1",
+    "edit_scope": ["docs/agent-sync/**", ".github/skills/ralph-loop/**", ".github/agents/ralph-loop.agent.md", "README.md"]
+  },
+  "sign_in_at_utc": "2026-09-25T05:18:52Z",
+  "sign_out": {
+    "at_utc": null,
+    "implementation_commit_sha": null,
+    "summary": null,
+    "checks": [],
+    "next_action": null
+  }
+}
