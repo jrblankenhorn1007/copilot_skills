@@ -377,3 +377,96 @@
 - **Next:** Commit this coordinator progress evidence, rebase the parent onto
   the fetched latest main, rerun acceptance checks, and request fresh worker
   attestations before integrating the worker-owned metadata updates.
+
+## 2026-09-25T12:08:58Z — parent rebased onto latest main; checks Green
+
+- **Rebase:** Rebased coordinator parent from `23a60fc015faa189600f4ed760162daea06fa7be`
+  onto fetched `origin/main` `4f5fee342c7e08ce556ae10c8a693f9e30a2ee2b`,
+  producing `ff8e8452003fe8d8f83914919e986b7b9b998c7f` without conflicts.
+  `git range-diff` mapped all 30 commits as unchanged.
+- **Worker commits:** The rewritten worker-01 implementation and series head
+  are `036185a08bab1d335728ddf89750e45388766a99` and
+  `99455871c0fefe08fe5ed3684fbb560df9d9083d`; worker-02's are
+  `567a459d93298f4076360af14428b363a03d05a9` and
+  `8eed202821905a0ed185c25fab192e0e7286e80a`. All four are verified
+  ancestors of the parent.
+- **Green:** The full Ralph contract suite passed 21/21 and
+  `git diff --check origin/main...HEAD` passed after the rebase.
+- **Worker records:** Worker-01's metadata-only commit
+  `f8861d5c153342523309bbc138a9ae56e1b75ce6` remains preserved but
+  unintegrated because it records the prior parent/implementation hashes.
+  It must be refreshed by its owner. Worker-02's status update has not begun.
+- **Sign-off:** Fresh exact-SHA attestations were requested for both rewritten
+  implementation commits; no new sign-off is claimed yet.
+- **Next:** Receive both attestations, have each worker refresh its own
+  status/progress/decision records against the current parent in sequence,
+  synchronize coordinator/dashboard records, and run final checks before
+  publishing and merging.
+
+## 2026-09-25T12:10:43Z — worker-02 exact-SHA sign-off refreshed
+
+- **Worker-02:** Fresh `SELF_ATTESTATION` received for implementation
+  `567a459d93298f4076360af14428b363a03d05a9`; worker-series head
+  `8eed202821905a0ed185c25fab192e0e7286e80a` is an ancestor of parent
+  `ff8e8452003fe8d8f83914919e986b7b9b998c7f`.
+- **Scope checks:** The targeted communication contract test passed 1/1 and
+  `git show --check` passed. Worker-02 reports the owned pipeline paths are
+  unchanged between the target and parent; no files or commits were made.
+  The attestation is not cryptographically signed.
+- **Worker-01:** Fresh sign-off for the same parent rebase is pending.
+- **Next:** Once worker-01's current sign-off arrives, refresh worker-owned
+  metadata sequentially from this parent without modifying implementation
+  files, then synchronize the coordinator records and dashboard.
+
+## 2026-09-25T12:10:53Z — worker-01 exact-SHA sign-off refreshed
+
+- **Worker-01:** Fresh `SELF_ATTESTATION` received for implementation
+  `036185a08bab1d335728ddf89750e45388766a99`; worker-series head
+  `99455871c0fefe08fe5ed3684fbb560df9d9083d` is an ancestor of parent
+  `ff8e8452003fe8d8f83914919e986b7b9b998c7f`.
+- **Scope checks:** The exact-commit skill audit passed 37/37 and
+  `git show --check` passed. The skill blob is preserved, the implementation
+  commit changes only the skill, and no files were edited during verification.
+  The attestation is not cryptographically signed.
+- **Worker-02:** Fresh `SELF_ATTESTATION` for implementation
+  `567a459d93298f4076360af14428b363a03d05a9` was received at
+  `2026-09-25T12:10:43Z`; its targeted test and `git show --check` passed.
+- **Prior metadata:** Worker-01's status commit from the preceding parent
+  remains preserved but superseded and unintegrated.
+- **Next:** Worker-01 is creating a fresh metadata-only branch from parent
+  `ff8e845…`; worker-02 is paused until that change is integrated.
+
+## 2026-09-25T12:19:01Z — worker-01 status records integrated
+
+- **Worker-01 metadata branch:** Integrated by fast-forward from base
+  `ff8e8452003fe8d8f83914919e986b7b9b998c7f` at commit
+  `25950164eb845243cd4273b7e41e396354d32743`. Its diff changes only the
+  worker-owned status, progress, and decision records; commit trailer,
+  clean worktree, and whitespace checks were verified.
+- **Parent:** HEAD is now `25950164eb845243cd4273b7e41e396354d32743`.
+  Worker-01's leaf retains `AWAITING_MERGE` and records implementation
+  `036185a08bab1d335728ddf89750e45388766a99`, series head
+  `99455871c0fefe08fe5ed3684fbb560df9d9083d`, and its exact-SHA sign-off.
+- **Remote:** A fresh fetch remained at `origin/main`
+  `4f5fee342c7e08ce556ae10c8a693f9e30a2ee2b`; main ownership was `FREE`
+  at revision 60.
+- **Next:** Worker-02 is updating its own leaf/decision records from parent
+  `25950164…`. The coordinator-owned aggregate dashboard and coordinator
+  status remain to be synchronized after that transition.
+
+## 2026-09-25T12:24:41Z — main merge reservation observed; worker-02 paused
+
+- **Worker-02:** Created a clean, metadata-only worktree/branch from parent
+  `25950164eb845243cd4273b7e41e396354d32743` but made no edits or commits.
+  Its preflight fetched `origin/main` `1872da999d9b2891a17ada00e6db57374f7cff4a`,
+  which is one commit beyond the parent.
+- **Main ownership:** The fetched ownership record shows an active `MERGE`
+  reservation for run `copilot-skills-memory-update-agent-20260925-0223`.
+  I will not publish status or merge while that owner is signed in.
+- **Worker records:** Worker-02's empty worktree/branch is preserved, and
+  both workers' attestations will need refreshing after the pending parent
+  rebase. Worker-01's current metadata update remains integrated at parent
+  `25950164…`.
+- **Next:** Wait for verified main-owner sign-out, fetch the completed main
+  tip, rebase the parent and rerun checks, then request fresh exact-SHA
+  attestations and status records.
