@@ -247,7 +247,7 @@ follow the existing Git identity and authentication rules.
    implementation commit itself to remain an ancestor.
 7. After the completed parent implementation is merged and verified on
    fetched `origin/main`, the coordinator performs one post-merge memory
-   review using the [Project Memory skill](../skills/project-memory/SKILL.md);
+   review using the [Project Memory skill](../project-memory/SKILL.md);
    do not perform a shared-memory follow-up for each child merge. Keep
    reusable lessons in the project's categorized memory store. If a memory
    change is warranted, make it on a fresh follow-up branch from the latest
