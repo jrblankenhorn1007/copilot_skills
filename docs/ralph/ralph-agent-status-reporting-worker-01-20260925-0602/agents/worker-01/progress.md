@@ -9,10 +9,10 @@
 - **Parent branch:** `ralph/agent-status-reporting-20260924-2313`
 - **Parent worktree:** `/Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-status-reporting-20260924-2313`
 - **Parent base `origin/main` SHA:** `9558f99cc34cbed8dd1d24f4f15fc03f5d78b6ea`
-- **Parent latest rebase onto `origin/main`:** `e9fe3d175d1ca76b03fccdbe53431205b80e5c23`
+- **Parent latest rebase onto `origin/main`:** `20293c720b18a1a21ff150f566823493b7a2717d`
 - **Base parent SHA:** `f602cfcd7e7d7043870857c1fda6b9707a711e5d`
 - **Implementation commit SHA:** `c16f2778429f2a76b63e1ca74c7ff50eef17e7ea`
-- **Current worker state:** `AWAITING_MERGE`; the overall run remains `IN_PROGRESS`.
+- **Current worker state:** `IN_PROGRESS`; the overall run remains `IN_PROGRESS`.
 
 ## Iteration 1 — 2026-09-25
 
@@ -169,3 +169,68 @@
 - The child worktree is clean; its tip is
   `b1d113bc8ceeb4b4ae0caf7a91f5dc54641aa519`. The parent remains at the
   assigned base `f602cfcd7e7d7043870857c1fda6b9707a711e5d`.
+
+## Resumption and active-status transition — 2026-09-25T06:51:51Z
+
+- **Transition:** `AWAITING_MERGE` -> `IN_PROGRESS`; upstream advanced while
+  awaiting integration, and worker-01 is resuming to rebase and revalidate.
+- **Refresh:** The canonical `main` worktree passed `git pull --ff-only`
+  (`Already up to date`); `git fetch origin` confirmed
+  `origin/main` at `20293c720b18a1a21ff150f566823493b7a2717d`.
+- **Current refs:** The child worktree was clean at starting tip
+  `709e93aacb41508e19743001b80c94ff7b259074`; the parent worktree is clean
+  at target tip `bfc044acb477af7abf17717644adf9edfe9614db`.
+- The original child base remains
+  `f602cfcd7e7d7043870857c1fda6b9707a711e5d`; no child rebase has been run,
+  so `rebased_onto_parent_sha` remains `null`. The implementation commit
+  remains `c16f2778429f2a76b63e1ca74c7ff50eef17e7ea`; earlier Red/Green and
+  implementation evidence above is preserved. The previous sign-off remains
+  historical evidence; refresh it after rebasing and revalidation.
+- The latest contract suite is `NOT_RUN` for the refreshed parent and is
+  pending the rebase. No implementation files or coordinator-owned
+  `docs/ralph-status.md` were changed.
+- `cd /Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-status-reporting-worker-01-20260925-0602 && git diff --check`
+  — `PASS` for the status-only transition.
+- **Next action:** Rebase onto parent tip
+  `bfc044acb477af7abf17717644adf9edfe9614db`, rerun
+  `python3 .github/skills/ralph-loop/tests/test_multi_agent_contract.py`,
+  and refresh the sign-off.
+
+```yaml
+schema_version: 2
+run_id: "copilot_skills-agent-status-reporting-20260924"
+task_ids: ["status-first-agent-reporting-guidance"]
+worker_id: "worker-01"
+worker_name: "worker-01 - status-first agent reporting documentation"
+iteration: 1
+branch: "ralph/agent-status-reporting-worker-01-20260925-0602"
+worktree: "/Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-status-reporting-worker-01-20260925-0602"
+status: IN_PROGRESS
+run_aggregate_status: IN_PROGRESS
+active_worker_count: 1
+started_at_utc: "2026-09-25T06:01:28Z"
+updated_at_utc: "2026-09-25T06:51:51Z"
+resource_usage:
+  time_spent_seconds: 3023
+  time_basis: WALL_CLOCK_ELAPSED
+  token_spend:
+    status: NOT_REPORTED
+    input_tokens: null
+    output_tokens: null
+    total_tokens: null
+    cached_input_tokens: null
+    source: null
+parent_branch: "ralph/agent-status-reporting-20260924-2313"
+parent_worktree: "/Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-status-reporting-20260924-2313"
+parent_base_origin_main_sha: "9558f99cc34cbed8dd1d24f4f15fc03f5d78b6ea"
+parent_rebased_onto_origin_main_sha: "20293c720b18a1a21ff150f566823493b7a2717d"
+base_parent_sha: "f602cfcd7e7d7043870857c1fda6b9707a711e5d"
+rebased_onto_parent_sha: null
+implementation_commit_sha: "c16f2778429f2a76b63e1ca74c7ff50eef17e7ea"
+checks:
+  - command: "cd /Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-status-reporting-worker-01-20260925-0602 && python3 .github/skills/ralph-loop/tests/test_multi_agent_contract.py"
+    result: NOT_RUN
+  - command: "cd /Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-status-reporting-worker-01-20260925-0602 && git diff --check"
+    result: PASS
+next_action: "Worker-01: rebase onto parent tip bfc044acb477af7abf17717644adf9edfe9614db, rerun the latest contract suite, and refresh the sign-off."
+```
