@@ -7,17 +7,18 @@
 | Agent / worker ID | `coordinator` / `coordinator` |
 | Iteration | `2` |
 | Status | `AWAITING_MERGE` |
-| Started / updated at UTC | `2026-09-25T14:17:05Z` / `2026-09-25T15:06:37Z` |
-| Time spent / token spend | `2,972 s (wall-clock)` / `NOT_REPORTED` |
+| Started / updated at UTC | `2026-09-25T14:17:05Z` / `2026-09-25T15:15:48Z` |
+| Time spent / token spend | `3,523 s (wall-clock)` / `NOT_REPORTED` |
 | Branch | `ralph/capacity-blocked-memory-review-20260925-141705` |
 | Worktree | `/Users/jrblankenhorn/copilot_skills.worktrees/ralph-capacity-blocked-memory-review-20260925-141705` |
 | Base `origin/main` | `1e9a6dab03c07ea9990fe4f65039ffdc4e784f45` |
-| Latest rebase base | `d0110af8079014e07022a9a935ada6f93f81407d` |
-| Implementation commit | `18e9b961715ced2f49a4f37480e1ba41ce1ab4d9` |
+| Latest rebase base | `43301e48ab2409ad0b09b256c9c09cb45987d3b9` |
+| Implementation commit | `136f226e558845e9b3072291a02a8038ce5a7176` |
+| MERGE reservation sign-in | `43301e48ab2409ad0b09b256c9c09cb45987d3b9` |
 | Pull request | `NOT_OPENED`; the normal path is coordinator-managed fast-forward after main ownership is available. |
 | Parent-to-main merge | `PENDING` |
 | Memory review | `PENDING`; the original implementation review has not run. |
-| Next action | Acquire the `MERGE` reservation and integrate this branch; then refresh Resource Manager capacity and invoke the updater only after an atomic slot reservation succeeds. |
+| Next action | Verify the active `MERGE` reservation and integrate this branch; then refresh Resource Manager capacity and invoke the updater only after an atomic slot reservation succeeds. |
 
 ```yaml
 schema_version: 2
@@ -30,9 +31,9 @@ runtime_agent_id: "copilotcli:/dfeb3cd8-a5e9-4dec-b4e5-e2cf00dcb998"
 iteration: 2
 status: AWAITING_MERGE
 started_at_utc: "2026-09-25T14:17:05Z"
-updated_at_utc: "2026-09-25T15:06:37Z"
+updated_at_utc: "2026-09-25T15:15:48Z"
 resource_usage:
-  time_spent_seconds: 2972
+  time_spent_seconds: 3523
   time_basis: WALL_CLOCK_ELAPSED
   token_spend:
     status: NOT_REPORTED
@@ -44,8 +45,11 @@ resource_usage:
 branch: "ralph/capacity-blocked-memory-review-20260925-141705"
 worktree: "/Users/jrblankenhorn/copilot_skills.worktrees/ralph-capacity-blocked-memory-review-20260925-141705"
 base_origin_main_sha: "1e9a6dab03c07ea9990fe4f65039ffdc4e784f45"
-rebased_onto_origin_main_sha: "d0110af8079014e07022a9a935ada6f93f81407d"
-implementation_commit_sha: "18e9b961715ced2f49a4f37480e1ba41ce1ab4d9"
+rebased_onto_origin_main_sha: "43301e48ab2409ad0b09b256c9c09cb45987d3b9"
+implementation_commit_sha: "136f226e558845e9b3072291a02a8038ce5a7176"
+merge_reservation_sign_in_commit_sha: "43301e48ab2409ad0b09b256c9c09cb45987d3b9"
+merge_reservation_start_main_sha: "f9dafc4d7469ae9b00413bddc07104880fd54a7b"
+merge_reservation_revision: 143
 pull_request:
   status: NOT_OPENED
   number: null
@@ -75,7 +79,7 @@ memory_review_status: PENDING
 memory_review_outcome: null
 blockers:
   - "The original post-merge memory review remains pending. At the latest complete Resource Manager inventory, 16 agents were active, capacity was zero, and no slot was available; refresh capacity and atomically reserve a slot before invoking the updater."
-next_action: "Acquire the MERGE reservation, integrate this branch, and verify remote main. Then refresh capacity and invoke the Project Memory Update agent exactly once if a slot can be reserved; otherwise keep the run blocked and request a capacity remedy."
+next_action: "Verify the active MERGE reservation, integrate this branch, and verify remote main. Then refresh capacity and invoke the Project Memory Update agent exactly once if a slot can be reserved; otherwise keep the run blocked and request a capacity remedy."
 memory_handoff:
   implementation_summary: "Added regression-tested Ralph guidance that keeps required post-merge memory reviews pending when shared agent capacity is unavailable and resumes them only after a fresh inventory and atomic reservation."
   lesson_candidates:

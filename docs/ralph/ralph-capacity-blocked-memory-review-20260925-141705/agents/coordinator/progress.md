@@ -10,7 +10,7 @@
   `/Users/jrblankenhorn/copilot_skills.worktrees/ralph-capacity-blocked-memory-review-20260925-141705`.
 - **Starting base:** rebased onto fetched `origin/main` at
   `1e9a6dab03c07ea9990fe4f65039ffdc4e784f45`.
-- **Implementation commit:** `18e9b961715ced2f49a4f37480e1ba41ce1ab4d9`;
+- **Implementation commit:** `136f226e558845e9b3072291a02a8038ce5a7176`;
   the test/docs patch was rebased over the upstream status-first reporting
   change without dropping either contract.
 - **Test-first Red:**
@@ -61,9 +61,12 @@
   `8925bae1fa80d9eacbb7ca13e73e7752fab01d26`.
   Dashboard conflicts during the preceding rebase were resolved by retaining
   newer upstream status and this branch's nonterminal entry.
-- **Latest-main refresh:** Rebased all six branch commits onto fetched
-  `origin/main` `d0110af8079014e07022a9a935ada6f93f81407d`. The source
-  implementation is now `18e9b961715ced2f49a4f37480e1ba41ce1ab4d9`.
+- **MERGE reservation and latest-main refresh:** Acquired reservation
+  revision 143 at `2026-09-25T15:09:22Z`; its sign-in commit is
+  `43301e48ab2409ad0b09b256c9c09cb45987d3b9`, based on
+  `f9dafc4d7469ae9b00413bddc07104880fd54a7b`. Rebased all seven branch
+  commits onto that reserved tip. The source implementation is now
+  `136f226e558845e9b3072291a02a8038ce5a7176`.
 - **Fresh capacity inventory at 14:55Z:** The complete session inventory and active
   subagent list were refreshed at `2026-09-25T14:55Z`. Resource Manager
   reported 16 active agents, `max_agents: 0`, and zero available slots because
@@ -74,14 +77,22 @@
   `3873311c9eb041df86285a31199fd68e7c3ae6a3`, the Ralph multi-agent contract
   passed 25 tests, the Project Memory Update contract passed 1 test, and the
   main-ownership contract passed 7 tests. `git diff --check` also passed.
+- **Reserved-base verification:** On source commit
+  `136f226e558845e9b3072291a02a8038ce5a7176`, rebased onto
+  `43301e48ab2409ad0b09b256c9c09cb45987d3b9`, the Ralph multi-agent contract
+  passed 25 tests, the Project Memory Update contract passed 1 test, and the
+  main-ownership contract passed 7 tests. Both `git diff --check` and
+  `git diff origin/main...HEAD --check` passed.
 - **Memory-review blocker:** The latest Resource Manager inventory reported
   zero available slots. Refresh the complete live inventory after main
   integration before any updater dispatch; do not self-review or dispatch
   without an atomic reservation.
-- **Next action:** Recheck main ownership and integrate this branch through an
-  authorized `MERGE` reservation. Then retry the required updater only after a
-  fresh inventory and successful slot reservation. If capacity remains
-  unavailable, keep the run pending and ask the user for a capacity remedy.
+- **Next action:** Verify the active reservation and integrate this branch by
+  fast-forward, then verify remote main and release the reservation promptly.
+  Refresh the complete Resource Manager inventory after integration and retry
+  the updater only after a fresh inventory and successful slot reservation.
+  If capacity remains unavailable, keep the review pending and request a
+  capacity remedy.
 
 ### Memory handoff
 
