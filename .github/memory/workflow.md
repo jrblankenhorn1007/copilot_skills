@@ -20,3 +20,15 @@
   workflow](../skills/ralph-loop/references/multi-agent-orchestration.md).
 - **Gotcha:** Do not rebase and force-push a published iteration branch when
   `main` advances.
+
+## Verify Git access in stages
+
+- **Rule:** Check configured commit identity and remote read, branch-push, and
+  merge access separately; a successful `git fetch` proves read access only.
+  Use the approved credential provider and keep credentials out of agent
+  prompts, URLs, command output, and files.
+- **Why:** Local identity, remote read access, and write/integration
+  authorization are distinct, so validating them separately makes failures
+  diagnosable without unsafe credential handling.
+- **Scope:** Follow the [Ralph Loop Git identity and authentication
+  preflight](../skills/ralph-loop/SKILL.md#git-identity-and-authentication).

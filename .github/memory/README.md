@@ -23,4 +23,5 @@ placeholders. Keep each lesson in one primary category.
 
 ## Existing categories
 
-- [Workflow](workflow.md) — post-merge follow-up work remains reviewable.
+- [Workflow](workflow.md) — staged Git access checks, safe synchronization,
+  and reviewable post-merge follow-ups.
