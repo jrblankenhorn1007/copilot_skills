@@ -36,4 +36,7 @@
 ## Current state
 
 The implementation and contract test are committed and pass after rebase.
-No PR or remote merge is claimed; post-merge memory review remains pending.
+The branch was fast-forwarded into local `main` at
+`08fd7d02eb2739cfffaf00aa36a472ba36e8e4b9`. No remote merge is claimed:
+publishing is blocked until explicit user authorization is available. No
+push was attempted, and the post-merge memory review remains pending.
