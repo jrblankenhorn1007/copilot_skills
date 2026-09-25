@@ -3,10 +3,11 @@
 - Exact branch: `ralph/project-memory-update-coordinator-20260925-0223`
 - Base `origin/main`: `114e4d60567d05cd048916339ed86e324c6eeef3`
 - Coordinator agent: `coordinator`; runtime session: `copilotcli:/dfeb3cd8-a5e9-4dec-b4e5-e2cf00dcb998`
-- Implementation commit: `f5adf9e95e227b8eae3eed8e9bc91ac0d1113e5e`
-- Integration state: parent `42ac685` is rebased onto fetched `origin/main`
-  `4f5fee342c7e08ce556ae10c8a693f9e30a2ee2b`; final remote integration and
-  post-merge memory review remain pending.
+- Implementation commit: `ea21b70fbad58c937c206175d2eeb2801237373d`
+- Integration state: parent merge
+  `aebd168b8d926d51b6cb25a987b2fc313ff55fa7` is verified on fetched
+  `origin/main` `548c5d1fed5843e3c3e3507cda5eebdc6013ef69`; the post-merge
+  memory review is blocked by zero Resource Manager slots.
 
 ## Agent/PR records
 
@@ -39,4 +40,11 @@
 
 - **Context:** Repeated upstream advances rewrote the parent commits that recorded worker-01's child integration.
 - **Decision:** Map every rebased parent patch with `git range-diff`, compare stable patch IDs for the worker implementation and integration, and verify the current integration commit is an ancestor of the rebased parent before updating worker status.
-- **Evidence:** The latest rebase preserved all 24 parent patches; worker implementation patch ID `1571aec2fe973545242da3e2d925c6027d49d9ef` and integration patch ID `457e943bdfd9be5cb94a63cf3ff32d72e34ce887` are unchanged, current integration `9095c7abc3652089cdc84f9e1d1cb0f5871ec0a6` is an ancestor of parent `42ac685`, and all three targeted contract suites plus both diff checks passed on that parent.
+- **Evidence:** The latest rebase preserved all 24 parent patches; worker implementation patch ID `1571aec2fe973545242da3e2d925c6027d49d9ef` and integration patch ID `457e943bdfd9be5cb94a63cf3ff32d72e34ce887` are unchanged, child integration `9095c7abc3652089cdc84f9e1d1cb0f5871ec0a6` is an ancestor of parent `42ac685`, and all three targeted contract suites plus both diff checks passed.
+
+### Verify parent-to-main merge before the gated memory handoff
+
+- **Context:** The implementation parent and the main-ownership publisher each advance `main`; a local parent merge alone is not completion.
+- **Decision:** Record the exact parent merge SHA, verify it against a fresh `origin/main`, and release the `MERGE` reservation before invoking the Project Memory Update agent with every handoff.
+- **Evidence:** Parent merge `aebd168b8d926d51b6cb25a987b2fc313ff55fa7` was verified as an ancestor of fetched `origin/main` `d729d7c22991424d911cf9cc3aa901cd8d3c0b0f`; the publisher reported the reservation released.
+- **Consequence:** Memory review remains a separate required gate and must not be substituted with coordinator self-review when agent capacity is unavailable.

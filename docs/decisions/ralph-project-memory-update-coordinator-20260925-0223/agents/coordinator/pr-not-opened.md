@@ -56,10 +56,30 @@
   main-ownership contract passed 7 tests, and both diff checks passed. The
   parent is 24 commits ahead of fetched `origin/main` with none behind.
 
-## Remaining integration gates
+## Verified parent-to-main integration
 
-- The parent is 24 commits ahead of fetched `origin/main` with no commits
-  behind. Refresh origin once more, rerun checks if it advanced, then acquire
-  the authorized `MERGE` reservation before parent-to-main integration.
-- Final parent-to-main integration and the gated post-merge Project Memory
-  review remain pending; invoke the updater only after verified integration.
+- Acquired the authorized `MERGE` reservation at sign-in commit
+  `1872da999d9b2891a17ada00e6db57374f7cff4a`; integrated that commit into
+  the parent and pushed the non-force fast-forward.
+- Parent merge `aebd168b8d926d51b6cb25a987b2fc313ff55fa7` was verified on
+  fetched `origin/main`; the reservation was released with sign-out commit
+  `8ebf05d6f7f8e76107dd0fd8ab3f7615060adfa5`. A later fresh fetch observed
+  `origin/main` at `d729d7c22991424d911cf9cc3aa901cd8d3c0b0f`, and the parent
+  merge remains an ancestor.
+- The Ralph, Project Memory Update, and main-ownership contracts passed
+  (23, 1, and 7 tests) after the parent rebase and before push; both diff
+  checks passed.
+
+## Blocked post-merge memory review
+
+- Required coordinator and worker handoffs are recorded in this run's status.
+  Resource Manager's fresh inventory at `2026-09-25T12:28:07Z` reported 13
+  active agents against a limit of 2, zero available slots, and
+  `can_spawn: false`.
+- The Project Memory Update agent was not invoked, no memory file was
+  changed, and no self-review was substituted. Recheck capacity and invoke
+  the dedicated agent exactly once after a slot becomes available; until
+  then, the run remains `BLOCKED`.
+- A later fresh inventory at `2026-09-25T12:44:27Z` reported 10 active
+  agents against a limit of 2, zero available slots, and `can_spawn: false`.
+  The coordinator heartbeat succeeded; the memory updater remains undispatched.

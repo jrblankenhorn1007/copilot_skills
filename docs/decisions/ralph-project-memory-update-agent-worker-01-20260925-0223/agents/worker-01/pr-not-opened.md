@@ -23,15 +23,15 @@
 - **Parent rebased onto `origin/main` for the current parent tip:**
   `4f5fee342c7e08ce556ae10c8a693f9e30a2ee2b`
 - **Latest `origin/main` fetched by the coordinator for the current parent:**
-  `4f5fee342c7e08ce556ae10c8a693f9e30a2ee2b`
+  `d729d7c22991424d911cf9cc3aa901cd8d3c0b0f`
 - **Current local `origin/main` tracking-ref observation in the child:**
-  `4f5fee342c7e08ce556ae10c8a693f9e30a2ee2b` at
-  `2026-09-25T12:20:55Z`.
+  `d729d7c22991424d911cf9cc3aa901cd8d3c0b0f` at
+  `2026-09-25T12:31:35Z`.
 - **Original child parent base:** `114e4d60567d05cd048916339ed86e324c6eeef3`
 - **Previous child parent base:** `8e779409e0fef0bc4550409533e9326efe8d64b4`
 - **Current child rebased onto parent:**
   `2237eecc5522d17f3e8feda063bc43e509798eab`
-- **Current parent tip:** `42ac6858a13d7b7f6d9eefd25e1581c325dcba71`
+- **Current parent tip:** `aebd168b8d926d51b6cb25a987b2fc313ff55fa7`
 - **Current parent base `origin/main`:** `4f5fee342c7e08ce556ae10c8a693f9e30a2ee2b`
 - **Implementation commit SHA:** `3ececee894c930f87efa554dc5a9c1362cb0365e`
 - **Current worker-to-parent integration commit:**
@@ -341,8 +341,15 @@
 - This is verified child-to-parent integration only. Final parent-to-main
   integration and the post-merge memory review remain gated and pending.
 
-## Remaining gates
+## Final parent-to-main verification
 
-- No worker-owned validation or parent-integration blocker remains. Final
-  remote-main verification and the required post-merge memory review remain
-  pending under coordinator ownership.
+- Parent merge `aebd168b8d926d51b6cb25a987b2fc313ff55fa7` is verified as an
+  ancestor of fetched `origin/main`
+  `d729d7c22991424d911cf9cc3aa901cd8d3c0b0f`. This worker's implementation
+  and child-to-parent integration commits remain preserved.
+
+## Remaining coordinator gate
+
+- No worker-owned validation or integration blocker remains. The coordinator's
+  post-merge memory review is pending because Resource Manager reported zero
+  available agent slots; the updater has not been dispatched.
