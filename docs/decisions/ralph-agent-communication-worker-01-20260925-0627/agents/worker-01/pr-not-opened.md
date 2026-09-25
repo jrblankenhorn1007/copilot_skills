@@ -9,7 +9,8 @@
   `/Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-communication-parent-20260925-0627`
 - **Run `origin/main` base:** `20293c720b18a1a21ff150f566823493b7a2717d`
 - **Base parent SHA:** `0294550c92a5d79e1cca682a0c509b5bb6eca3fd`
-- **Implementation commit:** `fc3a416cf1543f771c84d066080f8d603b8030be`
+- **Rebased onto parent SHA:** `3281d44d72fa4bfa188d4ca288bee9f249b1fd4f`
+- **Implementation commit:** `29d01e2545ad61f42348deef5a19f56777cacca3`
 - **Pull request:** `NOT_OPENED`; this child is handed to the coordinator for
   serial parent integration under the assigned no-PR path.
 
@@ -74,21 +75,39 @@
   ordinary requests. The escalation reports risk without authorizing the
   expired instruction.
 
-## Integration note
+### Separate task-result deadline from reply checkpoint
 
-At worker sign-off, the parent branch tip observed was
-`d8b3992af53a292a83ff094c5cd9837670ea968d`, later than the child's
-`base_parent_sha`. This child has not been rebased
-(`rebased_onto_parent_sha: null`). The coordinator's current status calls for
-rebasing children onto the current parent tip before serial integration and
-rerunning their scoped checks. No child-to-parent merge is claimed here.
+- **Context:** Worker-02's pipeline contract defines `deadline` as the
+  task-result due time and `reply_deadline` as a sender checkpoint.
+- **Alternatives:** Keep only `reply_deadline`; overload it for both task
+  completion and sender progress; add a separate result deadline.
+- **Choice:** Include both fields in `agent-message/v1`; define `deadline` as
+  the task-result due time and `reply_deadline` as the sender-checkpoint due
+  time. Keep `expires_at` as the instruction-validity limit.
+- **Rationale:** A delayed checkpoint must not be mistaken for a missed task
+  result deadline, and neither deadline replaces expiration.
+- **Consequence:** Receivers can report progress independently from task
+  completion while preserving the existing stale-message rejection rule.
+
+## Integration history
+
+At the original worker sign-off, the observed parent tip was
+`d8b3992af53a292a83ff094c5cd9837670ea968d`, later than the child's original
+`base_parent_sha`. The coordinator subsequently rebased this clean child onto
+`3281d44d72fa4bfa188d4ca288bee9f249b1fd4f`. The child verified that exact
+parent SHA is an ancestor. Keep the original `base_parent_sha`
+`0294550c92a5d79e1cca682a0c509b5bb6eca3fd`; current
+`rebased_onto_parent_sha` is `3281d44d72fa4bfa188d4ca288bee9f249b1fd4f`.
+No additional worker rebase or child-to-parent merge is claimed here.
 
 ## Verification and signature
 
 - Documentation-only change; TDD Red/Green/Refactor was not applicable.
 - Expiry-handling audit: `PASS` (15 requirements; exact command is recorded
   in the worker progress file).
-- `git diff --check` against the supplied child base: `PASS`.
+- Envelope/deadline audit: `PASS` (37 requirements; exact command is recorded
+  in the worker progress file).
+- `git diff --check` against the rebased parent base: `PASS`.
 - `git diff --cached --check`: `PASS`.
 - Required communication-contract vocabulary audit: `PASS` (25 terms; exact
   command is recorded in the worker progress file).
@@ -98,4 +117,11 @@ rerunning their scoped checks. No child-to-parent merge is claimed here.
   newline/wording mismatches; the rule was clarified and the whitespace-
   normalized 15-statement audit passed. Details and exact commands are in
   `docs/ralph/ralph-agent-communication-worker-01-20260925-0627/agents/worker-01/progress.md`.
+- Recovered command issue: one final audit invocation had a Python
+  `SyntaxError` from shell escaping around the quoted `priority: "urgent"`
+  literal. Rebuilt the term with `chr(34)` and reran the 37-term audit
+  successfully; no contract text was changed in response to that error.
+- Final rebased-base whitespace verification:
+  `git diff 3281d44d72fa4bfa188d4ca288bee9f249b1fd4f...HEAD --check` —
+  `PASS`.
 - No unresolved implementation blockers.

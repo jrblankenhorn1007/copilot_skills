@@ -6,14 +6,14 @@
 - **Worker:** `worker-01 / agent communication skill`
 - **Status:** `AWAITING_MERGE`
 - **Started:** `2026-09-25T07:49:20Z`
-- **Updated:** `2026-09-25T08:35:51Z`
+- **Updated:** `2026-09-25T09:23:44Z`
 - **Branch/worktree:** `ralph/agent-communication-worker-01-20260925-0627` /
   `/Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-communication-worker-01-20260925-0627`
 - **Parent:** `ralph/agent-communication-parent-20260925-0627` /
   `/Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-communication-parent-20260925-0627`
 - **Base:** parent base `0294550c92a5d79e1cca682a0c509b5bb6eca3fd`;
   run `origin/main` base `20293c720b18a1a21ff150f566823493b7a2717d`.
-- **Implementation commit:** `fc3a416cf1543f771c84d066080f8d603b8030be`.
+- **Implementation commit:** `29d01e2545ad61f42348deef5a19f56777cacca3`.
 
 ### Refresh and Git state
 
@@ -283,3 +283,147 @@
   "statement": "I, worker-01, sign off iteration 1 for agent-communication-skill at commit fc3a416cf1543f771c84d066080f8d603b8030be."
 }
 ```
+
+## Rebased deadline-contract follow-up — 2026-09-25T09:00:12Z
+
+- The coordinator rebased this clean child onto parent commit
+  `3281d44d72fa4bfa188d4ca288bee9f249b1fd4f` and reported current head
+  `f747c43b6d6037a6dfc6ad4f7091e7d9e621c906`. The worker verified that the
+  supplied parent commit is an ancestor of the child; no rebase was performed
+  by this worker.
+- Preserve the original `base_parent_sha`
+  `0294550c92a5d79e1cca682a0c509b5bb6eca3fd`; current
+  `rebased_onto_parent_sha` is
+  `3281d44d72fa4bfa188d4ca288bee9f249b1fd4f`.
+- The current pre-follow-up implementation commit after the coordinator's
+  rebase is `900cbd3e0251f45ff60d391300e445d2d6ac2775`. The earlier
+  self-attestation for `fc3a416cf1543f771c84d066080f8d603b8030be` is stale
+  after rebase; final sign-off will bind to the new deadline-field
+  implementation commit.
+- **Requested contract alignment:** The pipeline distinguishes `deadline`
+  (task-result due time) from `reply_deadline` (sender checkpoint). Update
+  the envelope with both, define each separately, and keep `expires_at` as
+  the instruction-validity time.
+- State transitioned from `AWAITING_MERGE` to `IN_PROGRESS`. No shared-main
+  pull, additional rebase, publish, merge, or coordinator-dashboard edit was
+  performed.
+- Updated `.github/skills/agent-communication/SKILL.md` with the separate
+  task-result `deadline` and sender-checkpoint `reply_deadline` fields and
+  meanings. The implementation commit is
+  `29d01e2545ad61f42348deef5a19f56777cacca3`.
+- The first exact-phrase audit attempt returned an `AssertionError` because
+  the audit expected phrases without their Markdown code ticks. The audit
+  matcher was corrected; no contract wording was weakened.
+- Re-audit — **PASS**, all 37 envelope, lifecycle, interrupt, deadline, and
+  fallback requirements present. Exact command:
+
+  ```sh
+  python3 -c 'from pathlib import Path; p=Path("/Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-communication-worker-01-20260925-0627/.github/skills/agent-communication/SKILL.md"); t=" ".join(p.read_text().split()); r=["list_sessions", "send_message", "get_session_context", "agent-message/v1", "message_id", "run_id", "task_id", "from_session", "to_session", "kind", "priority", "sent_at", "expires_at", "deadline", "correlation_id", "ack_required", "reply_deadline", "body", "artifact_refs", "accepted", "queued", "received", "expired", "failed", "delivery acknowledgement", "processing acknowledgement", "completion acknowledgement", "does not preempt", "stop button", "`deadline` is the task-result due time", "`reply_deadline` is the sender-checkpoint due time", "MUST NOT", "no requested action", "safety-critical", "priority: \\"urgent\\"", "expired cooperative `interrupt`", "fallback relay"]; missing=[x for x in r if x not in t]; assert not missing, missing; print(f"PASS: all {len(r)} envelope, lifecycle, interrupt, deadline, and fallback requirements found")'
+  ```
+
+- `git -C /Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-communication-worker-01-20260925-0627 diff --check`
+  — **PASS** for the implementation edit. The parent-owned composite test
+  has not been run by this worker.
+- A final audit invocation initially returned a Python `SyntaxError` because
+  shell quoting escaped the `priority: "urgent"` term incorrectly. Corrected
+  the audit command by constructing the quote with `chr(34)`; this was a
+  command-quoting issue, not a skill failure. The exact final command and
+  all final scoped check results are recorded below.
+
+## Final deadline-contract check and worker sign-off — 2026-09-25T09:23:44Z
+
+- **Current state:** `AWAITING_MERGE`. The coordinator-supplied parent commit
+  `3281d44d72fa4bfa188d4ca288bee9f249b1fd4f` remains an ancestor; the
+  original `base_parent_sha` remains
+  `0294550c92a5d79e1cca682a0c509b5bb6eca3fd`. No additional rebase,
+  publish, merge, shared-main operation, or dashboard edit was performed.
+- **Implementation commit:** `29d01e2545ad61f42348deef5a19f56777cacca3`.
+- **Deadline/envelope audit — PASS:** all 37 required envelope, lifecycle,
+  interrupt, deadline, and fallback terms are present. Exact final command:
+
+  ```sh
+  python3 -c 'from pathlib import Path; p=Path(".github/skills/agent-communication/SKILL.md"); t=" ".join(p.read_text().split()); r=["list_sessions", "send_message", "get_session_context", "agent-message/v1", "message_id", "run_id", "task_id", "from_session", "to_session", "kind", "priority", "sent_at", "expires_at", "deadline", "correlation_id", "ack_required", "reply_deadline", "body", "artifact_refs", "accepted", "queued", "received", "expired", "failed", "delivery acknowledgement", "processing acknowledgement", "completion acknowledgement", "does not preempt", "stop button", "`deadline` is the task-result due time", "`reply_deadline` is the sender-checkpoint due time", "MUST NOT", "no requested action", "safety-critical", "priority: " + chr(34) + "urgent" + chr(34), "expired cooperative `interrupt`", "fallback relay"]; missing=[x for x in r if x not in t]; assert not missing, missing; print(f"PASS: all {len(r)} envelope, lifecycle, interrupt, deadline, and fallback requirements found")'
+  ```
+
+- **Whitespace checks — PASS:** `git diff 3281d44d72fa4bfa188d4ca288bee9f249b1fd4f...HEAD --check`,
+  `git diff --check`, and the staged `git diff --cached --check` for the final
+  worker-owned status/progress/decision update.
+- **Composite test:** not run by this worker; it is coordinator-owned and
+  covers the other worker's pipeline plus coordinator-owned artifacts.
+- **TDD:** documentation-only update; Red/Green/Refactor is not applicable.
+- **Sign-off:** `SELF_ATTESTATION` for the exact implementation commit below;
+  this is not a cryptographic signature.
+
+```json
+{
+  "run_id": "copilot-skills-agent-communication-20260925-0627",
+  "task_id": "agent-communication-skill",
+  "worker_id": "worker-01",
+  "worker_name": "worker-01 / agent communication skill",
+  "iteration": 1,
+  "branch": "ralph/agent-communication-worker-01-20260925-0627",
+  "worktree": "/Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-communication-worker-01-20260925-0627",
+  "base_parent_sha": "0294550c92a5d79e1cca682a0c509b5bb6eca3fd",
+  "rebased_onto_parent_sha": "3281d44d72fa4bfa188d4ca288bee9f249b1fd4f",
+  "implementation_commit_sha": "29d01e2545ad61f42348deef5a19f56777cacca3",
+  "checks": [
+    {
+      "command": "37-term agent-message/v1 envelope/deadline/interrupt/fallback audit (exact command above)",
+      "result": "PASS"
+    },
+    {
+      "command": "git diff 3281d44d72fa4bfa188d4ca288bee9f249b1fd4f...HEAD --check",
+      "result": "PASS"
+    },
+    {
+      "command": "git diff --check",
+      "result": "PASS"
+    },
+    {
+      "command": "python3 .github/skills/ralph-loop/tests/test_multi_agent_contract.py MultiAgentContractTests.test_inter_session_communication_contract_is_actionable_and_bounded",
+      "result": "NOT_RUN"
+    }
+  ],
+  "blockers": [],
+  "attested_at_utc": "2026-09-25T09:23:44Z",
+  "attestation_kind": "SELF_ATTESTATION",
+  "cryptographic_signature_status": "NOT_CRYPTOGRAPHICALLY_SIGNED",
+  "statement": "I, worker-01, sign off iteration 1 for agent-communication-skill at exact implementation commit 29d01e2545ad61f42348deef5a19f56777cacca3."
+}
+```
+- Added `deadline` to the `agent-message/v1` example and documented it as the
+  task-result due time; documented `reply_deadline` as the sender-checkpoint
+  due time. The two fields are distinct from each other and from `expires_at`.
+- The first audit attempt returned an `AssertionError` for two deadline
+  phrases because it expected the meanings in an overly specific literal
+  order/format. Corrected the audit phrases to match the explicit contract;
+  the skill wording was not weakened.
+- Re-audit — **PASS**, all 37 envelope, lifecycle, interrupt, deadline, and
+  fallback requirements present. Exact command:
+
+  ```sh
+  python3 -c 'from pathlib import Path; p=Path("/Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-communication-worker-01-20260925-0627/.github/skills/agent-communication/SKILL.md"); t=" ".join(p.read_text().split()); r=["list_sessions", "send_message", "get_session_context", "agent-message/v1", "message_id", "run_id", "task_id", "from_session", "to_session", "kind", "priority", "sent_at", "expires_at", "deadline", "correlation_id", "ack_required", "reply_deadline", "body", "artifact_refs", "accepted", "queued", "received", "expired", "failed", "delivery acknowledgement", "processing acknowledgement", "completion acknowledgement", "does not preempt", "stop button", "`deadline` is the task-result due time", "`reply_deadline` is the sender-checkpoint due time", "MUST NOT", "no requested action", "safety-critical", "priority: \\"urgent\\"", "expired cooperative `interrupt`", "fallback relay"]; missing=[x for x in r if x not in t]; assert not missing, missing; print(f"PASS: all {len(r)} envelope, lifecycle, interrupt, deadline, and fallback requirements found")'
+  ```
+
+- `git -C /Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-communication-worker-01-20260925-0627 diff --check`
+  — **PASS** on the skill edit.
+- Documentation-only update; TDD Red/Green/Refactor is not applicable. The
+  coordinator-owned composite contract test was not run by this worker.
+- Updated the JSON example to show a task result due at `deadline` and an
+  earlier sender checkpoint at `reply_deadline`; defined each as an ISO 8601
+  UTC timestamp and kept `expires_at` as the separate instruction-validity
+  limit.
+- Initial term-audit attempt returned an `AssertionError` because the audit
+  listed the `deadline` and `reply_deadline` meanings in reverse order. The
+  contract was not weakened; the audit phrases were corrected to match the
+  required definitions and rerun.
+- Parent deadline-contract audit — **PASS**, all 37 envelope, lifecycle,
+  interrupt, deadline, and fallback requirements present. Exact command:
+
+  ```sh
+  python3 -c 'from pathlib import Path; p=Path("/Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-communication-worker-01-20260925-0627/.github/skills/agent-communication/SKILL.md"); t=" ".join(p.read_text().split()); r=["list_sessions", "send_message", "get_session_context", "agent-message/v1", "message_id", "run_id", "task_id", "from_session", "to_session", "kind", "priority", "sent_at", "expires_at", "deadline", "correlation_id", "ack_required", "reply_deadline", "body", "artifact_refs", "accepted", "queued", "received", "expired", "failed", "delivery acknowledgement", "processing acknowledgement", "completion acknowledgement", "does not preempt", "stop button", "deadline is the task-result due time", "reply_deadline is the sender-checkpoint due time", "MUST NOT", "no requested action", "safety-critical", "priority: \\"urgent\\"", "expired cooperative `interrupt`", "fallback relay"]; missing=[x for x in r if x not in t]; assert not missing, missing; print(f"PASS: all {len(r)} envelope, lifecycle, interrupt, deadline, and fallback requirements found")'
+  ```
+
+- `git -C /Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-communication-worker-01-20260925-0627 diff --check`
+  — **PASS** for the uncommitted skill change. The parent-owned composite
+  integration test was not run by this worker.
