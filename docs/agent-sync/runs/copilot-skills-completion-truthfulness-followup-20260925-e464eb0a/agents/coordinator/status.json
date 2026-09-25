@@ -31,7 +31,7 @@
   },
   "prompt_path": "docs/agent-sync/runs/copilot-skills-completion-truthfulness-followup-20260925-e464eb0a/agents/coordinator/prompt.md",
   "prompt_sha256": "66f2b4bd0040fb92c7b4f1b84f4f1fe7b80e83899815acc670c6c35e380d15c7",
-  "revision": 10,
+  "revision": 11,
   "run_id": "copilot-skills-completion-truthfulness-followup-20260925-e464eb0a",
   "schema_version": 1,
   "sign_in_at_utc": "2026-09-25T16:03:12Z",
@@ -44,9 +44,9 @@
   },
   "started_at_utc": "2026-09-25T16:03:12Z",
   "status": "BLOCKED",
-  "status_reason": "The completion instruction remains committed locally on the isolated task branch at implementation commit a7bbf325401dc33d7ffe43b6b958d746d9f9e3ab; latest branch evidence commit 5de7fce285fde7e74e674e4a946bc9cca606c03a. The branch was last rebased onto origin/main 03837976238096a37b2c09cf735233bc9922c54b; current fetched origin/main before this scope update is 1b49b13c5e567ec3de91b6d735c47b07a68dc66e with task status revision 9. The existing task scope is being extended before adding a dedicated contract test at .github/skills/ralph-loop/tests/test_task_completion_instruction.py; a read-only ledger scan found no active claim on that exact path. This iteration remains BLOCKED by the missing coordinator dashboard entry and five task claims on docs/ralph-status.md. The broader request remains PARTIAL because the Orchestrator/Worker hierarchy and measured performance evidence are outstanding.",
+  "status_reason": "The completion instruction remains committed locally at a7bbf325401dc33d7ffe43b6b958d746d9f9e3ab; the latest branch evidence commit is ce49f3db38170210f86477ae7fa137a043f1371b. The branch was last rebased onto fetched origin/main 03837976238096a37b2c09cf735233bc9922c54b; the latest verified origin/main before this publication is 1304409be9c62d32d3fe7dcb8424fb2493428cad with task status revision 10. The dedicated completion-instruction regression test is included in the ACTIVE edit scope. Its Red run against baseline main produced five expected failures because the global instruction was absent; Green and post-refactor runs passed 5/5 on the task branch. The full 28-test Ralph contract suite still has one dashboard-index failure because this blocked parent leaf is not indexed. Five task scopes still claim docs/ralph-status.md with no sign-out, the hierarchy remains unmerged, and comparable latency/cost/accuracy evidence is outstanding. The overall request remains PARTIAL.",
   "task_id": "integrating-completion-truthfulness-guard",
-  "updated_at_utc": "2026-09-25T17:29:42Z",
+  "updated_at_utc": "2026-09-25T17:33:50Z",
   "worker_id": "coordinator",
   "worker_name": "coordinator - completion-truthfulness follow-up"
 }
