@@ -234,6 +234,18 @@ blockers, next action, and merge/memory-review state. Preserve entries for
 unaffected branch/agent folders so the dashboard continues to surface all of
 them. Workers do not edit the aggregate dashboard.
 
+For schema-version-2 current reports, each leaf and its matching
+`branch_agent_index` row carry the same branch-local `resource_usage` object.
+Workers update the object with their leaf report; the coordinator mirrors it
+into the row in that same synchronization cycle. The elapsed-seconds field
+is wall-clock time from `started_at_utc` through `updated_at_utc`, not active
+coding time. Token counts come only from provider-reported usage, with
+unavailable counters null and the documented `REPORTED`, `PARTIAL`, or
+`NOT_REPORTED` status. Preserve version-1 records as legacy rather than
+inventing historical measurements. See the
+[per-branch time and token usage contract](multi-agent-status.md#per-branch-time-and-token-usage)
+for the field schema and cached-input rule.
+
 Keep branch decision indexes and per-agent/PR decision records at
 `docs/decisions/<branch-slug>/README.md` and
 `docs/decisions/<branch-slug>/agents/<agent-id>/pr-*.md`; use

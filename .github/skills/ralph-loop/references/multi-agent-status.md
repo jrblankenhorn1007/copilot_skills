@@ -51,6 +51,18 @@ competing aggregate dashboards. Keep prior branch/agent folders so their
 evidence remains auditable; add each folder to the aggregate index rather than
 overwriting it with a later branch.
 
+## Schema versions
+
+New or updated current-state leaf reports and aggregate dashboards use
+`schema_version: 2`. Version 2 adds branch-local `resource_usage` to each
+agent's `status.md` and its matching `branch_agent_index` record. A historical
+leaf with `schema_version: 1`, or an older index row without
+`resource_usage`, is a legacy record. Keep such history identifiable and
+unchanged; do not backfill measurements that were not recorded. When a
+legacy report is explicitly updated, include only values supported by its
+timestamps and provider-reported telemetry, leaving unavailable values null
+as defined below.
+
 ## Ownership and synchronization
 
 The coordinator is the **sole writer** of `docs/ralph-status.md`. Workers
@@ -158,6 +170,57 @@ has one canonical home.
   IDs, not abbreviations. Use `null` for unavailable runtime agent/session
   IDs instead of inventing one.
 
+### Per-branch time and token usage
+
+Every schema-version-2 agent leaf and its matching aggregate
+`branch_agent_index` record carry the same branch-local `resource_usage`
+object:
+
+```yaml
+resource_usage:
+  time_spent_seconds: 600
+  time_basis: WALL_CLOCK_ELAPSED
+  token_spend:
+    status: NOT_REPORTED
+    input_tokens: null
+    output_tokens: null
+    total_tokens: null
+    cached_input_tokens: null
+    source: null
+```
+
+The example duration is illustrative; record the measured elapsed seconds.
+`time_spent_seconds` is the wall-clock difference from that leaf's
+`started_at_utc` to its report's `updated_at_utc`, in seconds. The
+`time_basis: WALL_CLOCK_ELAPSED` label is required: this is elapsed time,
+including pauses and non-coding work, not active coding time. Recompute it
+whenever `updated_at_utc` changes. If either timestamp is unavailable for a
+legacy report, use `null` rather than inventing a duration.
+
+`token_spend` records provider-reported token counters only; it is not a
+monetary cost estimate. Its fields are `input_tokens`, `output_tokens`,
+`total_tokens`, and `cached_input_tokens`, plus `source` naming the provider
+or session-usage source when known (`null` otherwise). Use non-negative
+integers only for counters the provider reports; do not estimate missing
+counters, derive `total_tokens` from other fields, or treat null as zero.
+
+Use these `token_spend.status` values:
+
+- `REPORTED` when the provider reports all four counters.
+- `PARTIAL` when at least one counter is provider-reported and one or more
+  counters are unavailable; store exact reported integers and `null` for each
+  unavailable counter.
+- `NOT_REPORTED` when no provider token counter is available; set all four
+  counters to `null` (never zero) and set `source` to the known source or
+  `null`.
+
+`cached_input_tokens` is a subset of `input_tokens`; it is already included
+there and must not be added again to `total_tokens`. When input is reported,
+the cached-input count cannot exceed it. Each branch-index object's
+`resource_usage` must exactly mirror its leaf's current object in the same
+coordinator/worker synchronization cycle; these are per-branch values, not
+run-wide sums.
+
 ### Parent/child integration, rebase, and cleanup
 
 Keep the upstream status layout: `docs/ralph-status.md` remains the one
@@ -234,7 +297,8 @@ stable `worker_id` and `worker_name`, `runtime_agent_id` (or `null`), branch
 and slug, worker worktree, current iteration and `status`, base/rebased
 `origin/main` SHAs, current implementation commit, checks, blockers, next
 action, PR state, decision-record path, `merge_actor_worker_id`, merge
-verification state, and sign-off/signature state. For parent/child work,
+verification state, sign-off/signature state, and the current
+`resource_usage` object. For parent/child work,
 also include the parent branch/worktree/base and the worker's original
 `base_parent_sha` and latest `rebased_onto_parent_sha`, plus the appropriate
 worker-to-parent or parent-to-main merge records and cleanup state.
@@ -260,7 +324,7 @@ folder. Retain rows for completed, failed, cancelled, or superseded branches
 so the dashboard indexes every leaf folder.
 
 ```yaml
-schema_version: 1
+schema_version: 2
 snapshot_path: "docs/ralph-status.md"
 snapshot_revision: 1
 updated_at_utc: "2026-09-25T00:00:00Z"
@@ -298,6 +362,16 @@ branch_agent_index:
     status: IN_PROGRESS
     iteration: 1
     merge_actor_worker_id: null
+    resource_usage:
+      time_spent_seconds: 600 # illustrative; calculate from the leaf timestamps
+      time_basis: WALL_CLOCK_ELAPSED
+      token_spend:
+        status: NOT_REPORTED
+        input_tokens: null
+        output_tokens: null
+        total_tokens: null
+        cached_input_tokens: null
+        source: null
     status_path: "docs/ralph/ralph-orchestration-worker-01-<unique-id>/agents/worker-01/status.md"
     progress_path: "docs/ralph/ralph-orchestration-worker-01-<unique-id>/agents/worker-01/progress.md"
     decision_record_path: "docs/decisions/ralph-orchestration-worker-01-<unique-id>/agents/worker-01/pr-pending.md"
@@ -312,6 +386,16 @@ branch_agent_index:
     status: AWAITING_MERGE
     iteration: 1
     merge_actor_worker_id: null
+    resource_usage:
+      time_spent_seconds: 420 # illustrative; calculate from the leaf timestamps
+      time_basis: WALL_CLOCK_ELAPSED
+      token_spend:
+        status: NOT_REPORTED
+        input_tokens: null
+        output_tokens: null
+        total_tokens: null
+        cached_input_tokens: null
+        source: null
     status_path: "docs/ralph/ralph-status-schema-worker-02-<unique-id>/agents/worker-02/status.md"
     progress_path: "docs/ralph/ralph-status-schema-worker-02-<unique-id>/agents/worker-02/progress.md"
     decision_record_path: "docs/decisions/ralph-status-schema-worker-02-<unique-id>/agents/worker-02/pr-<number>.md"
@@ -329,7 +413,7 @@ The following is the current-state shape for one agent's `status.md`; detailed
 iteration history and full check evidence remain in its sibling `progress.md`.
 
 ```yaml
-schema_version: 1
+schema_version: 2
 run_id: "<stable run ID>"
 task_ids: ["<task ID>"]
 worker_id: "worker-02"
@@ -341,6 +425,16 @@ iteration: 1
 status: AWAITING_MERGE
 started_at_utc: "<ISO 8601 UTC timestamp>"
 updated_at_utc: "<ISO 8601 UTC timestamp>"
+resource_usage:
+  time_spent_seconds: 420 # illustrative; calculate from started_at_utc and updated_at_utc
+  time_basis: WALL_CLOCK_ELAPSED
+  token_spend:
+    status: NOT_REPORTED
+    input_tokens: null
+    output_tokens: null
+    total_tokens: null
+    cached_input_tokens: null
+    source: null
 base_origin_main_sha: "<full SHA>"
 rebased_onto_origin_main_sha: null
 implementation_commit_sha: "<exact full implementation commit SHA>"

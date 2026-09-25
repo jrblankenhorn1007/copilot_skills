@@ -107,6 +107,14 @@ agent/session ID.
   results, blockers, next action, merge state, and memory-review state
   consistent across the leaf status, progress summary, and dashboard. Preserve
   entries for all unaffected branch/agent folders.
+- In schema-version-2 reports, each worker's `status.md` includes its
+  branch-local `resource_usage` object, and the coordinator copies that exact
+  object into the matching `branch_agent_index` record in the same
+  synchronization cycle. `time_spent_seconds` is wall-clock elapsed time
+  from `started_at_utc` to the report's `updated_at_utc`, not active coding
+  time. Token counts are provider-reported only; unavailable counters are
+  null, with `REPORTED`, `PARTIAL`, or `NOT_REPORTED` status as defined by the
+  [multi-agent status contract](../skills/ralph-loop/references/multi-agent-status.md#per-branch-time-and-token-usage).
 - Keep branch indexes and per-agent/PR decisions at
   `docs/decisions/<branch-slug>/README.md` and
   `docs/decisions/<branch-slug>/agents/<agent-id>/pr-*.md`.

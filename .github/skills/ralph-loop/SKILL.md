@@ -176,6 +176,17 @@ blockers, next action, and merge/memory-review state; retain dashboard entries
 for unaffected branch/agent folders. Workers never edit the aggregate
 dashboard.
 
+Schema-version-2 current reports include a branch-local `resource_usage`
+object in each worker's `status.md`; the coordinator mirrors that exact object
+into the matching `branch_agent_index` record in the same status-sync cycle.
+`time_spent_seconds` is elapsed wall-clock time from `started_at_utc` to the
+report's `updated_at_utc`, not active coding time. Record provider-reported
+token counters only; use the documented `REPORTED`, `PARTIAL`, or
+`NOT_REPORTED` status and null unavailable counts, never estimates or
+monetary cost estimates. See the
+[per-branch time and token usage contract](./references/multi-agent-status.md#per-branch-time-and-token-usage)
+for fields, cached-input handling, and legacy-record rules.
+
 For every PR-backed iteration, the branch owner is the merge actor. In a
 multi-agent run, the coordinator authorizes one worker PR at a time after
 reviewing its sign-off and checks; the worker performs the remote merge of its

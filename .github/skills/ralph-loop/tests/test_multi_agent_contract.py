@@ -401,6 +401,171 @@ class MultiAgentContractTests(unittest.TestCase):
             with self.subTest(field=field):
                 assert_contains(self, status_guide, field, f"status guide must define {field!r}")
 
+    def test_per_branch_time_and_token_usage_contract(self):
+        status_path = (
+            ROOT / ".github" / "skills" / "ralph-loop" / "references" / "multi-agent-status.md"
+        )
+        status_source = status_path.read_text(encoding="utf-8")
+        status_guide = " ".join(status_source.lower().split())
+
+        for requirement in (
+            "resource_usage",
+            "time_spent_seconds",
+            "time_basis: wall_clock_elapsed",
+            "started_at_utc",
+            "updated_at_utc",
+            "wall-clock difference from that leaf's `started_at_utc` to "
+            "its report's `updated_at_utc`",
+            "not active coding time",
+            "token_spend",
+            "`reported` when the provider reports all four counters",
+            "`partial` when at least one counter is provider-reported",
+            "`not_reported` when no provider token counter is available",
+            "input_tokens",
+            "output_tokens",
+            "total_tokens",
+            "cached_input_tokens",
+            "source",
+            "`source` naming the provider or session-usage source when known",
+            "provider-reported token counters only",
+            "do not estimate missing counters",
+            "never zero",
+            "not a monetary cost estimate",
+            "cached_input_tokens` is a subset of `input_tokens`",
+            "must not be added again to `total_tokens`",
+            "must exactly mirror its leaf's current object",
+            "schema_version: 2",
+            "schema_version: 1",
+            "legacy record",
+            "do not backfill measurements",
+        ):
+            with self.subTest(requirement=requirement):
+                assert_contains(
+                    self,
+                    status_guide,
+                    requirement,
+                    f"status guide must define {requirement!r}",
+                )
+
+        branch_index_example = status_source.split("branch_agent_index:", 1)[1].split(
+            "\n```", 1
+        )[0]
+        index_entries = re.split(r"(?m)^  - run_id: ", branch_index_example)
+        for index, entry in enumerate(index_entries):
+            if not entry.strip():
+                continue
+            with self.subTest(index_entry=index):
+                normalized_entry = " ".join(entry.lower().split())
+                for field in (
+                    "resource_usage:",
+                    "time_spent_seconds:",
+                    "time_basis: wall_clock_elapsed",
+                    "token_spend:",
+                    "input_tokens: null",
+                    "output_tokens: null",
+                    "total_tokens: null",
+                    "cached_input_tokens: null",
+                    "source: null",
+                ):
+                    assert_contains(
+                        self,
+                        normalized_entry,
+                        field,
+                        f"each branch_agent_index example must include {field!r}",
+                    )
+
+        leaf_example = status_source.split("### Agent leaf status example", 1)[1]
+        leaf_example = leaf_example.split("```yaml", 1)[1].split("```", 1)[0]
+        normalized_leaf = " ".join(leaf_example.lower().split())
+        for field in (
+            "schema_version: 2",
+            "resource_usage:",
+            "time_spent_seconds:",
+            "time_basis: wall_clock_elapsed",
+            "token_spend:",
+            "status: not_reported",
+            "input_tokens: null",
+            "output_tokens: null",
+            "total_tokens: null",
+            "cached_input_tokens: null",
+            "source: null",
+        ):
+            with self.subTest(leaf_field=field):
+                assert_contains(
+                    self,
+                    normalized_leaf,
+                    field,
+                    f"agent leaf YAML example must include {field!r}",
+                )
+
+        worker_two_entry = next(
+            entry for entry in index_entries if 'worker_id: "worker-02"' in entry
+        )
+        index_usage = worker_two_entry.split("resource_usage:", 1)[1].split(
+            "status_path:", 1
+        )[0]
+        leaf_usage = leaf_example.split("resource_usage:", 1)[1].split(
+            "base_origin_main_sha:", 1
+        )[0]
+        usage_fields = (
+            "time_spent_seconds",
+            "time_basis",
+            "status",
+            "input_tokens",
+            "output_tokens",
+            "total_tokens",
+            "cached_input_tokens",
+            "source",
+        )
+        index_usage_values = dict(
+            re.findall(r"(?m)^[ \t]*(\w+):[ \t]*([^#\n]+)", index_usage)
+        )
+        leaf_usage_values = dict(
+            re.findall(r"(?m)^[ \t]*(\w+):[ \t]*([^#\n]+)", leaf_usage)
+        )
+        self.assertEqual(
+            {field: index_usage_values[field].strip() for field in usage_fields},
+            {field: leaf_usage_values[field].strip() for field in usage_fields},
+            "the worker-02 branch-index resource usage must mirror its leaf example",
+        )
+
+        for path in (
+            ".github/skills/ralph-loop/SKILL.md",
+            ".github/agents/ralph-loop.agent.md",
+            ".github/skills/ralph-loop/references/multi-agent-orchestration.md",
+        ):
+            guidance = read_document(path)
+            for requirement in (
+                "resource_usage",
+                "branch_agent_index",
+                "wall-clock",
+                "not active coding time",
+                "provider-reported",
+            ):
+                with self.subTest(path=path, requirement=requirement):
+                    assert_contains(
+                        self,
+                        guidance,
+                        requirement,
+                        f"{path} must reference {requirement!r}",
+                    )
+
+        readme = read_document("README.md")
+        for requirement in (
+            "per-branch time and token usage contract",
+            "multi-agent-status.md#per-branch-time-and-token-usage",
+            "branch-local wall-clock elapsed time",
+            "provider-reported token counts",
+            "not_reported",
+        ):
+            with self.subTest(document="README", requirement=requirement):
+                assert_contains(
+                    self,
+                    readme,
+                    requirement,
+                    f"README must point to the resource-usage contract and summarize {requirement!r}",
+                )
+
     def test_ralph_docs_contract_uses_active_project_docs_layout(self):
         for path in (
             ".github/skills/ralph-loop/SKILL.md",
@@ -456,6 +621,13 @@ class MultiAgentContractTests(unittest.TestCase):
             folder for folder in ralph_root.glob("*/agents/*") if folder.is_dir()
         )
         self.assertTrue(agent_folders, "docs/ralph must contain branch/agent records")
+        current_branch = subprocess.run(
+            ["git", "-C", str(ROOT), "branch", "--show-current"],
+            check=True,
+            capture_output=True,
+            text=True,
+        ).stdout.strip()
+        current_branch_slug = current_branch.lower().replace("/", "-")
         branch_index = dashboard_source.split("branch_agent_index:", 1)[1].split(
             "\n```", 1
         )[0]
@@ -469,6 +641,42 @@ class MultiAgentContractTests(unittest.TestCase):
                     progress_path.is_file(),
                     "each branch/agent folder needs progress.md",
                 )
+                leaf_status = status_path.read_text(encoding="utf-8")
+                leaf_match = re.search(
+                    r"(?im)^\|\s*status\s*\|\s*`([^`]+)`\s*\|\s*$",
+                    leaf_status,
+                ) or re.search(
+                    r"(?im)^-\s+\*\*status:\*\*\s*`([^`]+)`\s*$",
+                    leaf_status,
+                ) or re.search(
+                    r"(?m)^status:\s*([A-Z_]+)\s*$",
+                    leaf_status,
+                )
+                self.assertIsNotNone(leaf_match, "leaf status must expose a status field")
+                status_relative = status_path.relative_to(ROOT).as_posix()
+                matching_entries = [
+                    entry
+                    for entry in entries
+                    if f'status_path: "{status_relative}"' in entry
+                ]
+                unintegrated_current_child = (
+                    agent_folder.parent.parent.name == current_branch_slug
+                    and leaf_match.group(1) in {"IN_PROGRESS", "AWAITING_MERGE"}
+                    and re.search(
+                        r"(?m)^worker_to_parent_merge:\s*\n\s+status:\s+PENDING\s*$",
+                        leaf_status,
+                    )
+                    is not None
+                )
+                if not matching_entries:
+                    # A new child leaf reaches the coordinator-owned dashboard
+                    # only when its pending integration is coordinated.
+                    self.assertTrue(
+                        unintegrated_current_child,
+                        "only an in-progress current child with a pending parent merge "
+                        "may await coordinator dashboard integration",
+                    )
+                    continue
                 assert_contains(
                     self,
                     dashboard,

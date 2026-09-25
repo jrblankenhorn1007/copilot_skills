@@ -73,6 +73,12 @@ reasoning-effort, and context-window options in VS Code/Copilot CLI.
 
 See [docs/ralph-status.md](docs/ralph-status.md) for the overall status and
 the branch/agent links to current-state and progress records.
+Schema-version-2 leaf reports and matching branch-index entries carry the
+same branch-local wall-clock elapsed time and provider-reported token counts;
+unavailable token usage is explicitly `NOT_REPORTED`, never zero or an
+estimate. See the
+[per-branch time and token usage contract](.github/skills/ralph-loop/references/multi-agent-status.md#per-branch-time-and-token-usage)
+for field definitions, synchronization, and legacy-record handling.
 
 ## Ralph decision records
 
