@@ -1095,3 +1095,39 @@
 - **Next:** Commit the synchronized records, rebase the clean parent onto
   `1304409b...`, inspect the exact rebase mapping, and rerun the target
   contract before refreshing worker-01's child.
+
+## 2026-09-25T17:33:38Z — parent refreshed and Red reconfirmed
+
+- **Rebase:** The clean parent, including status synchronization commit
+  `b506e446565a9250fa8abe104ef6e60a9d1fca47`, was rebased onto fetched
+  `origin/main` `1304409be9c62d32d3fe7dcb8424fb2493428cad`, producing
+  `fc584cde2b952c2139b062a1aedd56edb7a80f41`. `git range-diff` mapped all
+  50 parent commits one-to-one; `git diff --check origin/main...HEAD`
+  passed.
+- **Red:** The target communication-contract test failed only the three
+  intended fallback requirements. The full suite ran 29 tests and failed
+  only those same three assertions; the other 26 tests passed.
+- **Worker targets:** Rebased skill implementation is
+  `a632ef565f911c32c1562a455a9a151de3fc9bed`; pipeline implementation is
+  `8e83ac52e2f493cd9b0104c3bef61f3a303fd798`. Older exact-SHA attestations
+  remain superseded.
+- **Current state:** A fresh post-rebase fetch still reports
+  `origin/main` `1304409...`; no newer commits appeared during this check.
+  Worker-01's clean child remains paused on its old parent.
+- **Next:** Commit the refreshed rebase/test/worker-target records, rebase
+  worker-01's clean child onto the resulting parent tip, then give its
+  existing worker session the exact `READY_TO_EDIT` authorization.
+
+## 2026-09-25T17:36:13Z — another status-only main advance
+
+- **Refresh:** A fresh fetch advanced `origin/main` from
+  `1304409be9c62d32d3fe7dcb8424fb2493428cad` to
+  `e387ac171159a057f5aa31032014e375a3713547` via three agent-sync commits.
+  Changed paths are only the main-ownership ledger and an unrelated
+  coordinator status; no task source, tests, or guidance changed.
+- **State:** The parent at
+  `fc584cde2b952c2139b062a1aedd56edb7a80f41` was clean after rebase but
+  is now three commits behind latest main. Coordinator records reflect the
+  distinction; worker-01 remains paused.
+- **Next:** Commit this state, rebase onto `e387ac17...`, rerun the target
+  and full contract checks, then rebase the worker child before authorization.

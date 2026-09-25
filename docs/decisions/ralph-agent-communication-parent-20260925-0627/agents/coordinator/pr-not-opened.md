@@ -4,7 +4,7 @@
   `communication-baseline` / `coordinator` / 1
 - **Branch:** `ralph/agent-communication-parent-20260925-0627`
 - **Base `origin/main` SHA:** `20293c720b18a1a21ff150f566823493b7a2717d`
-- **Current parent implementation SHA:** `0acb30416efa81cdb0bb478cf646a742a222b8a0`
+- **Current parent implementation SHA:** `fc584cde2b952c2139b062a1aedd56edb7a80f41`
 - **Agent:** `coordinator`; runtime ID
   `copilotcli:/870bde06-54d5-4b31-b052-c6167704e5fb`
 - **PR:** Not opened. The repository's documented normal path is a
@@ -98,6 +98,21 @@
   coordinator status changed; ownership is `FREE` at revision 216. The
   coordinator records the current remote separately from the parent's
   `bfa49610...` base and will rebase before authorizing worker edits.
+- Rebased the clean parent, including coordinator status commit
+  `b506e446565a9250fa8abe104ef6e60a9d1fca47`, onto exact fetched
+  `origin/main` `1304409be9c62d32d3fe7dcb8424fb2493428cad`, producing
+  `fc584cde2b952c2139b062a1aedd56edb7a80f41`. All 50 commits map one-to-one
+  in `git range-diff`; `git diff --check` passes. The target test and the
+  29-test contract suite still fail only the three intended skill fallback
+  assertions. Rebased worker code candidates are
+  `a632ef565f911c32c1562a455a9a151de3fc9bed` and
+  `8e83ac52e2f493cd9b0104c3bef61f3a303fd798`; fresh owner attestations are
+  pending.
+- Before dispatching worker-01, `origin/main` advanced from
+  `1304409b...` to `e387ac171159a057f5aa31032014e375a3713547` through
+  three agent-sync commits affecting only the ownership ledger and another
+  coordinator status. The parent will be rebased and retested on the latest
+  status-only tip before the worker's new iteration starts.
 
 ## Unresolved blockers
 
