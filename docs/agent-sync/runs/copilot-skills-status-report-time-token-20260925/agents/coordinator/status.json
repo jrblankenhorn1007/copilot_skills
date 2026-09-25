@@ -1,0 +1,57 @@
+{
+  "agent_id": "coordinator",
+  "agent_profile": {
+    "agent_definition": ".github/agents/ralph-loop.agent.md",
+    "context_tier": null,
+    "context_usage_tokens": null,
+    "context_window_tokens": null,
+    "harness": "Copilot SDK in VS Code",
+    "model_id": null,
+    "reasoning_effort": null,
+    "runtime_agent_id": "copilotcli:/b3f44ce6-c093-476d-ab74-b633b1be1939",
+    "unavailable_fields_reason": "The current session does not expose model, reasoning, or context telemetry."
+  },
+  "git": {
+    "base_ref": "refs/remotes/origin/main",
+    "base_sha": "d56db4de163fb261d323be7a74fba18a373cd30a",
+    "current_worktree_head_sha": "14ea97483e70f97bdf1203ec388bb6d6a7d90f9c",
+    "edit_scope": [
+      ".github/agents/ralph-loop.agent.md",
+      ".github/skills/ralph-loop/SKILL.md",
+      ".github/skills/ralph-loop/references/multi-agent-orchestration.md",
+      ".github/skills/ralph-loop/references/multi-agent-status.md",
+      ".github/skills/ralph-loop/tests/test_multi_agent_contract.py",
+      "README.md",
+      "docs/ralph-status.md",
+      "docs/ralph/ralph-status-report-time-token-20260925-0335/**",
+      "docs/ralph/ralph-status-report-time-token-worker-01-20260925-0335/**",
+      "docs/decisions/ralph-status-report-time-token-20260925-0335/**",
+      "docs/decisions/ralph-status-report-time-token-worker-01-20260925-0335/**"
+    ],
+    "implementation_branch": "refs/heads/ralph/status-report-time-token-20260925-0335",
+    "remote_name": "origin",
+    "repository": "jrblankenhorn1007/copilot_skills",
+    "worktree_head_sha_at_sign_in": "14ea97483e70f97bdf1203ec388bb6d6a7d90f9c",
+    "worktree_path": "/Users/jrblankenhorn/copilot_skills.worktrees/ralph-status-report-time-token-coordinator-20260925-0335"
+  },
+  "prompt_path": "docs/agent-sync/runs/copilot-skills-status-report-time-token-20260925/agents/coordinator/prompt.md",
+  "prompt_sha256": "1ba495630c823937786bafc1bac2faa20bf915f0553595ad5728b64e059a9cb8",
+  "revision": 1,
+  "run_id": "copilot-skills-status-report-time-token-20260925",
+  "schema_version": 1,
+  "sign_in_at_utc": "2026-09-25T05:42:31Z",
+  "sign_out": {
+    "at_utc": null,
+    "checks": [],
+    "implementation_commit_sha": null,
+    "next_action": null,
+    "summary": null
+  },
+  "started_at_utc": "2026-09-25T03:35:21Z",
+  "status": "IN_PROGRESS",
+  "status_reason": "Recording the in-progress run after the refreshed agent-sync contract was discovered. Implementation is integrated into local parent 14ea97483e70f97bdf1203ec388bb6d6a7d90f9c. Before any further shared-path edits or publication, serialize against active agent-sync-ledger-20260925, whose current edit scope overlaps the Ralph skill, contract test, agent definition, and README paths in this run.",
+  "task_id": "branch-status-resource-usage",
+  "updated_at_utc": "2026-09-25T05:42:31Z",
+  "worker_id": "coordinator",
+  "worker_name": "coordinator / branch time and token reporting"
+}
