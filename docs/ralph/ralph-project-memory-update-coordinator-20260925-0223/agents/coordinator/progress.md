@@ -425,3 +425,66 @@ These are implementation-time reports, not accepted memory entries. The Project 
 - **Next action:** finish the authorized status fast-forward, verify remote
   main, release the reservation, and refresh capacity again before attempting
   the dedicated updater.
+
+## 2026-09-25T15:54:12Z - Status records integrated; updater still blocked
+
+- Verified the status-only follow-up commit
+  `4b125745977ecab1dd2a5ed413a083d073c814dc` and original implementation merge
+  `d47262de92a322392e0bbbf57cb075238d278a4a` as ancestors of fetched
+  `origin/main` `1099e8a4bb29c2ab3db21a5f0dffd3c39b8bd2d3`.
+- Main ownership was released with `MERGED` at
+  `5830958dc1cf1ed4afe6059b72879afdba26bc6c`.
+- The complete post-integration inventory at `2026-09-25T15:51:57Z` reported
+  21 active agents, `max_agents: 0`, zero slots, and `can_spawn: false`
+  because one-minute load 12.17 met/exceeded six logical cores. The dedicated
+  updater was not reserved or dispatched; no memory file changed.
+- **Current outcome:** implementation and status synchronization are
+  integrated. The required independent memory review is still `PENDING`, and
+  the parent run remains `BLOCKED`.
+- **Next action:** request that host capacity be freed (or wait for load and
+  active-agent count to fall), then refresh the complete inventory and invoke
+  the dedicated updater only after its atomic reservation succeeds.
+
+## 2026-09-25T15:56:43Z - Current capacity status branch rebased and checked
+
+- The status-only branch based on latest fetched `origin/main`
+  `48e03a8d73f4b9ca0294389b3eccb986d4bc0760`; the previously verified
+  status-integration commit `4b125745977ecab1dd2a5ed413a083d073c814dc`
+  remains on remote main.
+- After rebase, Ralph multi-agent passed 25 tests, Project Memory Update
+  passed 1 test, main-ownership passed 8 tests, and both diff checks passed.
+- The fresh inventory at `2026-09-25T15:51:57Z` still reports zero
+  dispatch slots (21 active agents; one-minute load 12.17 on six cores).
+  Memory review remains `PENDING`; no memory files changed.
+- **Next action:** integrate the latest capacity-status synchronization
+  through a fresh main-ownership transaction, then wait for an actionable
+  capacity remedy before reserving and invoking the updater.
+
+## 2026-09-25T15:59:16Z - Current capacity update rebased
+
+- Fetched `origin/main` at
+  `2002fb502245274d0cf5db621032ef11f3bc310b` and rebased the status-only
+  follow-up onto it. The previously verified implementation and status
+  integrations remain present on the remote.
+- Post-rebase checks passed: Ralph multi-agent 25 tests, Project Memory Update
+  1 test, main-ownership 8 tests, and both diff checks.
+- The complete inventory at `2026-09-25T15:51:57Z` still blocks updater
+  dispatch (21 active agents, `max_agents: 0`, zero slots, load 12.17 on six
+  logical cores).
+- **Next action:** integrate this status refresh using a fresh `MERGE`
+  transaction, then ask the user to free host capacity before any updater
+  reservation.
+
+## 2026-09-25T16:01:21Z - Status refresh rebased to reservation sign-in
+
+- Main ownership revision 171 was acquired for the coordinator; sign-in commit
+  `a8c68b1e8cc2e15b4b0c6582a5274e316cd052d7` is now included in the isolated
+  status branch.
+- After rebasing, the Ralph multi-agent contract passed 25 tests, Project
+  Memory Update passed 1 test, main-ownership passed 8 tests, and both diff
+  checks passed.
+- The latest complete Resource Manager inventory is still
+  `2026-09-25T15:51:57Z` (21 active agents, zero slots, load 12.17 on six
+  cores). The memory review remains pending.
+- **Next action:** complete and verify the status integration, release main,
+  then refresh capacity; request a capacity remedy if no slot is available.

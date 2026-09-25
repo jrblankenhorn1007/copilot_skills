@@ -62,6 +62,12 @@
   agents, `max_agents: 0`, and zero slots because one-minute load 7.54 met or
   exceeded the six-core limit. No updater reservation or dispatch was
   attempted; refresh capacity before resuming.
+- The status-only follow-up commit `4b125745977ecab1dd2a5ed413a083d073c814dc`
+  was verified on fetched `origin/main`; the reservation was released by
+  `5830958dc1cf1ed4afe6059b72879afdba26bc6c`. A new inventory at
+  `2026-09-25T15:51:57Z` reported 21 active agents, `max_agents: 0`, and zero
+  slots because one-minute load 12.17 met/exceeded the six-core limit. No
+  updater reservation or dispatch was attempted.
 - A relative-path patch attempt initially targeted the original stale session
   worktree and failed without changing files. The patch was reapplied using
   the new branch's absolute path and the intended diff was verified.

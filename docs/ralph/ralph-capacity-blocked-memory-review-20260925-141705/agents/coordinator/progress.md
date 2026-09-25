@@ -173,3 +173,61 @@ no_durable_lessons_reason: null
 - **Next action:** commit the refreshed sign-in-base status, verify the
   reservation and ancestry, fast-forward the status branch, verify the remote
   result, and promptly release `MERGE`.
+
+## 2026-09-25T15:54:12Z - Status integration verified; capacity remains blocked
+
+- The status-only follow-up commit
+  `4b125745977ecab1dd2a5ed413a083d073c814dc` and the implementation merge
+  `d47262de92a322392e0bbbf57cb075238d278a4a` are both verified ancestors of
+  fetched `origin/main` `1099e8a4bb29c2ab3db21a5f0dffd3c39b8bd2d3`.
+- The `MERGE` reservation was released with `MERGED` at
+  `5830958dc1cf1ed4afe6059b72879afdba26bc6c`.
+- A fresh complete Resource Manager inventory at `2026-09-25T15:51:57Z`
+  reported 21 active agents, `max_agents: 0`, zero available slots, and
+  `can_spawn: false` because one-minute load was 12.17 on six logical cores.
+  No updater reservation or dispatch was attempted; `.github/memory/` is
+  unchanged.
+- **Next action:** request an actionable capacity remedy. Resume only after a
+  new full inventory permits an atomic slot reservation for the dedicated
+  updater.
+
+## 2026-09-25T15:56:43Z - Status refresh rebased to latest main
+
+- Rebased the current capacity-status update onto fetched `origin/main`
+  `48e03a8d73f4b9ca0294389b3eccb986d4bc0760`; the resulting branch tip before
+  this status refresh was `9337cb98cb2614ac6d23670b0169c436488043bf`.
+- After the rebase, the Ralph multi-agent contract passed 25 tests, the
+  Project Memory Update contract passed 1 test, the main-ownership contract
+  passed 8 tests, and both diff checks passed.
+- The latest complete Resource Manager inventory remains
+  `2026-09-25T15:51:57Z`: 21 active agents, zero available slots, and
+  one-minute load 12.17 on six logical cores. No updater reservation or
+  dispatch occurred.
+- **Next action:** commit this status refresh, recheck main ownership, acquire
+  a fresh `MERGE` reservation, then verify and release after integration.
+
+## 2026-09-25T15:59:16Z - Latest-main status rebase revalidated
+
+- Rebased the capacity-status branch onto fetched `origin/main`
+  `2002fb502245274d0cf5db621032ef11f3bc310b`; the pre-refresh branch tip was
+  `2da19a6b844c44a87ef00c6646bc229cf5059ddc`.
+- The Ralph multi-agent contract passed 25 tests, the Project Memory Update
+  contract passed 1 test, the main-ownership contract passed 8 tests, and
+  both diff checks passed after the rebase.
+- The latest full Resource Manager inventory remains
+  `2026-09-25T15:51:57Z` (21 active agents, `max_agents: 0`, zero slots,
+  load 12.17 on six cores). No updater reservation or dispatch occurred.
+- **Next action:** commit this refreshed status, acquire a new authorized
+  `MERGE` reservation, and integrate/verify the status branch.
+
+## 2026-09-25T16:01:21Z - Reserved-base status validation
+
+- Acquired main `MERGE` revision 171; sign-in commit
+  `a8c68b1e8cc2e15b4b0c6582a5274e316cd052d7` is the base for this update.
+- Rebased the three status commits onto the sign-in. The Ralph multi-agent
+  contract passed 25 tests, the Project Memory Update contract passed 1 test,
+  the main-ownership contract passed 8 tests, and both diff checks passed.
+- The complete inventory at `2026-09-25T15:51:57Z` still reported zero
+  dispatch capacity; no updater reservation or dispatch was attempted.
+- **Next action:** commit the refreshed status, verify reservation ownership
+  and ancestry, fast-forward, verify remote main, and promptly release.
