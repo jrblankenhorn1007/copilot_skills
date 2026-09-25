@@ -665,6 +665,12 @@ above.
 - The coordinator fetched `origin/main` at `5accb6c96ff8049f63c0a9d61265153b3008e1dc`, four commits past the previous observation `91a6f78fa00cde80a80bea630a763d74041a56ad`.
 - The parent remains based on `43815c8e4621fe0495b8832136cd5ce3bd6c0267` at tip `225914b9d6bbef0c50353f26174018a32ab41bad`; acceptance tests and the next worker-01 integration proof remain pending after rebasing to the new remote tip.
 
+### Dashboard restoration and parent checks — 2026-09-25T09:58:07Z
+
+- The coordinator rebased the parent onto `origin/main` `ebb4cce4b8889b3693ffd218c7a7cf41f5610c3c`, replaying the current worker integration as `a002988bbae3c9ffcf922deb2f4a52a452a0ec33`. The parent tip was `b9b1496f3fe727d84d07a8413e6288322322e476`; the integration is verified as its ancestor.
+- After the coordinator restored the dashboard records, the Ralph multi-agent contract passed all 20 tests in 4.265s, the Project Memory Update contract passed 1 test, the main-ownership contract passed 6 tests, and both diff checks passed.
+- A fresh fetch then advanced `origin/main` to `1aceb82683e4db1a6c73a43f91700d574aa150ee`; the parent now needs another rebase and retest before the next child assignment.
+
 #### Fresh worker sign-off after exact parent rebase
 
 ```json

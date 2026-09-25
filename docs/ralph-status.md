@@ -366,6 +366,36 @@ runs:
         owned_paths: "README.md; docs/ralph-status.md; docs/decisions/README.md; coordinator branch records"
         depends_on: ["specialist-agent-catalog", "skill-aware-ralph-routing"]
 
+  - run_id: "copilot-skills-memory-update-agent-20260925-0223"
+    task_ids: ["memory-update-agent-definition", "ralph-memory-handoff"]
+    aggregate_status: IN_PROGRESS
+    requested_worker_count: 2
+    effective_worker_count: 2
+    active_worker_count: 0
+    base_origin_main_sha: "114e4d60567d05cd048916339ed86e324c6eeef3"
+    current_origin_main_sha: "1aceb82683e4db1a6c73a43f91700d574aa150ee"
+    rebased_onto_origin_main_sha: "ebb4cce4b8889b3693ffd218c7a7cf41f5610c3c"
+    updated_at_utc: "2026-09-25T10:00:51Z"
+    coordinator_scope: "Add a dedicated gated Project Memory Update agent and wire structured learning handoffs from each Ralph agent."
+    coordinator_branch: "ralph/project-memory-update-coordinator-20260925-0223"
+    coordinator_status_path: "docs/ralph/ralph-project-memory-update-coordinator-20260925-0223/agents/coordinator/status.md"
+    coordinator_progress_path: "docs/ralph/ralph-project-memory-update-coordinator-20260925-0223/agents/coordinator/progress.md"
+    worker_count_note: "Two independent assignments were configured; worker-01 completed its child, and worker-02's prior conflicting attempts are preserved for a fresh-child replay."
+    split_plan:
+      - task_id: "memory-update-agent-definition"
+        worker_id: "worker-01"
+        scope: "Create the dedicated Project Memory Update agent and its behavior contract test."
+        depends_on: []
+      - task_id: "ralph-memory-handoff"
+        worker_id: "worker-02"
+        scope: "Add structured memory_handoff reporting for coordinator and workers and wire the post-integration updater invocation into Ralph."
+        depends_on: []
+    next_action: "Rebase and rerun acceptance checks on 1aceb82683e4db1a6c73a43f91700d574aa150ee, then dispatch a fresh worker-02 child."
+    memory_review:
+      status: PENDING
+      owner: coordinator
+      outcome: null
+
 branch_agent_index:
   - run_id: "copilot-skills-status-report-time-token-20260925"
     task_ids: ["branch-status-resource-usage"]

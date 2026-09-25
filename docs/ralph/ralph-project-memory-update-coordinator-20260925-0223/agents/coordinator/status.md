@@ -9,9 +9,9 @@ branch_slug: "ralph-project-memory-update-coordinator-20260925-0223"
 iteration: 1
 status: IN_PROGRESS
 started_at_utc: "2026-09-25T02:23:04Z"
-updated_at_utc: "2026-09-25T09:41:08Z"
+updated_at_utc: "2026-09-25T10:00:51Z"
 resource_usage:
-  time_spent_seconds: 26284
+  time_spent_seconds: 27467
   time_basis: WALL_CLOCK_ELAPSED
   token_spend:
     status: NOT_REPORTED
@@ -21,12 +21,12 @@ resource_usage:
     cached_input_tokens: null
     source: null
 base_origin_main_sha: "114e4d60567d05cd048916339ed86e324c6eeef3"
-rebased_onto_origin_main_sha: "43815c8e4621fe0495b8832136cd5ce3bd6c0267"
+rebased_onto_origin_main_sha: "ebb4cce4b8889b3693ffd218c7a7cf41f5610c3c"
 implementation_commit_sha: null
 parent_branch: "ralph/project-memory-update-coordinator-20260925-0223"
 parent_worktree: "/Users/jrblankenhorn/copilot_skills.worktrees/ralph-project-memory-update-coordinator-20260925-0223"
 parent_base_origin_main_sha: "114e4d60567d05cd048916339ed86e324c6eeef3"
-parent_rebased_onto_origin_main_sha: "43815c8e4621fe0495b8832136cd5ce3bd6c0267"
+parent_rebased_onto_origin_main_sha: "ebb4cce4b8889b3693ffd218c7a7cf41f5610c3c"
 parent_implementation_commit_sha: null
 pull_request:
   status: NOT_OPENED
@@ -162,11 +162,31 @@ checks:
     result: PASS
   - command: "git -C /Users/jrblankenhorn/copilot_skills.worktrees/ralph-project-memory-update-coordinator-20260925-0223 fetch origin"
     result: "PASS; latest origin/main is 5accb6c96ff8049f63c0a9d61265153b3008e1dc."
+  - command: "GIT_EDITOR=true git -C /Users/jrblankenhorn/copilot_skills.worktrees/ralph-project-memory-update-coordinator-20260925-0223 rebase -X ours origin/main"
+    result: "PASS; replayed 18 commits onto ebb4cce4b8889b3693ffd218c7a7cf41f5610c3c, producing parent b9b1496f3fe727d84d07a8413e6288322322e476."
+  - command: "git range-diff 43815c8e4621fe0495b8832136cd5ce3bd6c0267..84b3a5041e493fe393b0404b1c72a430e704bfe0 ebb4cce4b8889b3693ffd218c7a7cf41f5610c3c..b9b1496f3fe727d84d07a8413e6288322322e476"
+    result: "PASS; all 18 parent commits have patch-equivalent replayed commits."
+  - command: "git patch-id --stable for old/new worker integration commits and implementation commits"
+    result: "PASS; integration patches share ID 457e943bdfd9be5cb94a63cf3ff32d72e34ce887; implementation patches share ID 1571aec2fe973545242da3e2d925c6027d49d9ef."
+  - command: "git -C /Users/jrblankenhorn/copilot_skills.worktrees/ralph-project-memory-update-coordinator-20260925-0223 merge-base --is-ancestor a002988bbae3c9ffcf922deb2f4a52a452a0ec33 HEAD"
+    result: PASS
+  - command: "python3 .github/skills/ralph-loop/tests/test_multi_agent_contract.py"
+    result: "FAIL (recovered); two dashboard-index subtests found the coordinator and already-integrated worker-01 leaves missing after the parent rebase."
+  - command: "python3 .github/skills/ralph-loop/tests/test_multi_agent_contract.py"
+    result: "PASS (20 tests) after restoring the run and worker dashboard entries."
+  - command: "python3 .github/skills/project-memory/tests/test_memory_update_agent_contract.py"
+    result: "PASS (1 test)."
+  - command: "python3 .github/skills/ralph-loop/tests/test_main_ownership_contract.py"
+    result: "PASS (6 tests)."
+  - command: "git diff --check && git diff --check origin/main...HEAD"
+    result: "PASS; both whitespace checks passed on parent b9b1496f3fe727d84d07a8413e6288322322e476 against origin/main ebb4cce4b8889b3693ffd218c7a7cf41f5610c3c."
+  - command: "git -C /Users/jrblankenhorn/copilot_skills.worktrees/ralph-project-memory-update-coordinator-20260925-0223 fetch origin"
+    result: "PASS; origin/main advanced to 1aceb82683e4db1a6c73a43f91700d574aa150ee."
 blockers:
-  - "origin/main advanced to 5accb6c96ff8049f63c0a9d61265153b3008e1dc after the parent rebase onto 43815c8e4621fe0495b8832136cd5ce3bd6c0267; rebase the parent again, rerun checks, and preserve/re-verify the worker-01 integration."
+  - "origin/main advanced to 1aceb82683e4db1a6c73a43f91700d574aa150ee after acceptance checks on parent b9b1496f3fe727d84d07a8413e6288322322e476; rebase and rerun the checks before dispatching worker-02."
   - "Worker-02's two prior replay attempts remain preserved with conflicts; replay its assigned changes on a fresh child from the refreshed parent."
-  - "The clean primary local main is diverged from origin/main (ahead 2, behind 4); leave it untouched and use the documented remote integration process."
-next_action: "Commit this parent-rebase history, rebase the parent onto 5accb6c96ff8049f63c0a9d61265153b3008e1dc, rerun checks, and re-verify the child integration."
+  - "The parent-to-main merge and post-merge Project Memory review remain pending after worker-02 integration and final acceptance checks."
+next_action: "Rebase onto 1aceb82683e4db1a6c73a43f91700d574aa150ee, rerun acceptance checks, then dispatch a fresh worker-02 child from the exact parent tip."
 memory_review:
   status: PENDING
   outcome: null
