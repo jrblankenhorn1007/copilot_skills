@@ -101,12 +101,12 @@ verified that SHA was an ancestor. The original
 The coordinator later rebased the parent onto
 `origin/main` `91a6f78fa00cde80a80bea630a763d74041a56ad`; its current parent
 worktree `HEAD` is `44a262954564a058436bd4115908605e67302d5f`, which is an
-ancestor of this child's rebased branch. The latest prompt's longer proposed
-SHA `44a2629d72fa4bfa188d4ca288bee9f249b1fd4f` did not resolve to a Git
-object; the verified parent-worktree SHA, sharing the stated `44a2629`
-prefix, is recorded as `rebased_onto_parent_sha`. The current implementation
-commit is `d3cea422a910442d85a4a6715ea46d25c5f49cdf`. No additional worker
-rebase or child-to-parent merge is claimed here.
+ancestor of this child's rebased branch. The coordinator clarified that an
+alternate full SHA in an earlier message was a transcription typo. The
+verified parent-worktree SHA is recorded as `rebased_onto_parent_sha`. The
+current implementation commit is
+`d3cea422a910442d85a4a6715ea46d25c5f49cdf`. No additional worker rebase or
+child-to-parent merge is claimed here.
 
 ## Verification and signature
 
@@ -146,4 +146,14 @@ rebase or child-to-parent merge is claimed here.
 - Fresh worker sign-off is `SELF_ATTESTATION` for implementation commit
   `d3cea422a910442d85a4a6715ea46d25c5f49cdf`; it is not cryptographically
   signed.
+- On the sync-clear follow-up, the current `origin/main` fetched by the worker
+  was `1aceb82683e4db1a6c73a43f91700d574aa150ee`. The worker branch was not
+  rebased and the skill was not changed.
+- The exact corrected 37-term audit was rerun, with Markdown backticks around
+  `deadline` and `reply_deadline`: **PASS, 37/37**. The current
+  `git diff 44a262954564a058436bd4115908605e67302d5f...HEAD --check` also
+  passed; full evidence is in the latest worker progress entry.
+- Fresh `SELF_ATTESTATION` for implementation commit
+  `d3cea422a910442d85a4a6715ea46d25c5f49cdf` recorded at
+  `2026-09-25T10:00:13Z`; not cryptographically signed.
 - No unresolved implementation blockers.
