@@ -67,7 +67,7 @@ or not authorized, report a blocker; do not fall back to a browser. Continue to
 follow the existing Git identity and authentication rules.
 
 Before implementing code, load and follow the repository skill
-[`tdd`](.github/skills/tdd/SKILL.md). For every behavior change, write and run
+[`tdd`](../../tdd/SKILL.md). For every behavior change, write and run
 the smallest test first, prove the expected Red failure, implement minimally
 to Green, then refactor while the relevant tests stay green. Record exact Red,
 Green, and refactor commands/results in this branch/agent's
@@ -226,7 +226,7 @@ PRODUCT REQUIREMENTS
 
 VISUAL APPLICATION VERIFICATION
 
-- Follow [`VISUAL_TEST_PLAN.md`](./VISUAL_TEST_PLAN.md). A successful build,
+- Follow the active project's `VISUAL_TEST_PLAN.md`. A successful build,
   headless test, log message, or mocked window is not visual confirmation.
 - For every GUI-affecting iteration, launch the real app from SCIDE on an
   available target platform, exercise the changed visible workflow, capture
