@@ -4,7 +4,7 @@
   `communication-baseline` / `coordinator` / 1
 - **Branch:** `ralph/agent-communication-parent-20260925-0627`
 - **Base `origin/main` SHA:** `20293c720b18a1a21ff150f566823493b7a2717d`
-- **Current parent implementation SHA:** `fc3800ffd6ec815a442bd7d710221b1d27c04cf8`
+- **Current parent implementation SHA:** `db6d18e1c49fe3a0af962b0b3c6add156b4ca460`
 - **Agent:** `coordinator`; runtime ID
   `copilotcli:/870bde06-54d5-4b31-b052-c6167704e5fb`
 - **PR:** Not opened. The repository's documented normal path is a
@@ -122,6 +122,16 @@
   `d7c166cf9e2f7d497f2680c1cc53398231014dd6` and
   `c029437bf05260e711d6ccdffbc2e1c382364e8b`; the main ownership record is
   `FREE` at revision 218.
+- The remote advanced from `e387ac17...` to
+  `c1ac03a4d3378789450b7ac59a655fcbff974241` through three status-only
+  agent-sync commits. Rebased the clean parent from
+  `8cf26da116916e420d7bd80a2e240ce28c7ee18b` onto that tip, producing
+  `db6d18e1c49fe3a0af962b0b3c6add156b4ca460`. All 52 commits map one-to-one;
+  targeted and full tests still fail only the three intended fallback
+  assertions. Current worker targets are
+  `223d1df7d2a762a81a2fd2de1f8e96160a4e2e69` and
+  `90993383c243e2f55fe7f21b53d71e3ca15dbcdc`; ownership is free at revision
+  220.
 
 ## Unresolved blockers
 

@@ -1150,3 +1150,22 @@
   218.
 - **Next:** Commit the rebase and Red evidence, rebase the clean worker-01
   child onto the exact resulting parent tip, then send `READY_TO_EDIT`.
+
+## 2026-09-25T17:39:58Z — latest status-only main rebase
+
+- **Remote movement:** `origin/main` advanced from
+  `e387ac171159a057f5aa31032014e375a3713547` to
+  `c1ac03a4d3378789450b7ac59a655fcbff974241` in three agent-sync commits.
+  Only the ownership ledger and an unrelated coordinator status changed.
+  Main ownership is `FREE` at revision 220.
+- **Parent rebase:** Rebased the clean parent from
+  `8cf26da116916e420d7bd80a2e240ce28c7ee18b` onto the latest main, producing
+  `db6d18e1c49fe3a0af962b0b3c6add156b4ca460`. All 52 commits map one-to-one;
+  `git diff --check origin/main...HEAD` passes.
+- **Red:** The target test and full 29-test suite were rerun; only the three
+  expected message-limit fallback assertions fail.
+- **Worker targets:** The current skill/pipeline commits are
+  `223d1df7d2a762a81a2fd2de1f8e96160a4e2e69` and
+  `90993383c243e2f55fe7f21b53d71e3ca15dbcdc`.
+- **Next:** Commit the current parent records, then rebase worker-01's clean
+  child onto the resulting exact parent tip and authorize its implementation.
