@@ -88,17 +88,18 @@ the tools needed for implementation and verification.
 1. At the start of every iteration—including coordinator runs, worker
    dispatches, re-dispatches, and retries—follow the
    [per-iteration refresh](../skills/ralph-loop/SKILL.md#refresh-repositories-and-instructions-on-every-iteration)
-   before reading project artifacts or editing. Pull the canonical
-   `copilot_skills` checkout and the active project's clean primary-branch
-   integration worktree with `git pull --ff-only` (once if they are the same
-   repository). Then reopen the current Ralph Loop skill and applicable
-   references and skills from the refreshed checkout; do not rely on
-   instructions cached from an earlier iteration. If the skill is not
-   installed in the active project, read it from the canonical checkout and
-   also read any project-local Ralph guidance. For behavior changes, read the
-   active project's TDD skill, using `.github/skills/tdd/SKILL.md` when
-   available. Stop if the required current guidance cannot be found or either
-   repository cannot be synchronized safely.
+   before reading project artifacts or editing. Run `git fetch origin` in the
+   canonical `copilot_skills` repository and the active project (once if they
+   are the same), record each exact fetched `origin/main` SHA, and read current
+   guidance from that commit in an isolated worktree or with `git show`.
+   Do not pull, check out, or edit the shared main checkout for a routine
+   refresh. Reopen the current Ralph Loop skill and applicable references
+   and skills; do not rely on instructions cached from an earlier iteration.
+   If the skill is not installed in the active project, read it from the
+   canonical fetched commit and also read project-local Ralph guidance. For
+   behavior changes, read the active project's TDD skill, using
+   `.github/skills/tdd/SKILL.md` when available. Stop if either fetch fails
+   or the required current guidance cannot be found.
    For an orchestrated task, also read the
    [multi-agent orchestration](../skills/ralph-loop/references/multi-agent-orchestration.md)
    and [status snapshot](../skills/ralph-loop/references/multi-agent-status.md)
@@ -110,9 +111,12 @@ the tools needed for implementation and verification.
    runner behavior, and completion markers.
 3. Fetch the configured remote and identify its `main` branch and the worktree
    where it is checked out. For `dj_maxxed_beats`, the required target is
-   `origin/main`. If no remote main ref is available, the current checkout is
-   detached, or the integration worktree has uncommitted changes, preserve the
-   current state and report the blocker rather than guessing or cleaning it.
+   `origin/main`. If no remote main ref is available or the task checkout is
+   detached, report the blocker. If the integration worktree is dirty,
+   detached, or diverged, preserve it and continue only in a separate
+   worktree based on the fetched SHA; do not use it for a checkout-based
+   merge until its owner resolves the state. Do not guess, clean, or rebase
+   the shared main checkout.
    Follow the Ralph Loop skill's Git identity and authentication preflight
    before creating the iteration worktree or editing: a successful fetch
    proves read access, not branch push or merge permission. Use only existing
@@ -173,6 +177,17 @@ agent/session ID.
   and completes the required post-merge memory review. Do not change its leaf
   or aggregate status to `COMPLETE` before then; synchronize both records when
   the coordinator confirms that transition.
+
+Before any task edit, publish the assigned agent's task sign-in and exclusive
+edit scope through the [agent-sync ledger](../../docs/agent-sync/README.md).
+For each status publication or authorized merge, follow the separate
+[exclusive main ownership protocol](../../docs/agent-sync/main-ownership.md):
+atomically sign in to `docs/agent-sync/main/ownership.json` for `STATUS` or
+`MERGE`, wait for the current owner to sign out, and use main only for that
+transaction. The status publisher reserves main automatically and must sign
+out immediately after the verified status commit, even while the task
+sign-in and its edit scope remain active. A failed release is a blocker,
+not a successful status update.
 
 ## Parent and child worktrees
 
@@ -261,6 +276,9 @@ operations.
   or child-to-parent merge is not remote-main completion. For squash or
   merge-queue flows, verify the resulting parent merge SHA rather than
   requiring the parent implementation commit itself to be an ancestor.
+  Reserve main for `MERGE` before the authorized remote merge, release
+  promptly after its verification (or after a queue accepts the submission),
+  and never hold a main checkout while waiting in a queue.
 - After the completed parent is merged and verified on fetched `origin/main`,
   the coordinator uses the [Project Memory skill](../skills/project-memory/SKILL.md)
   to review the overall iteration and update categorized memory with durable

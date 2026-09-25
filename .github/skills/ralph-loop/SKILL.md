@@ -76,24 +76,26 @@ active project before planning, dispatching work, or editing:
 1. Identify the canonical `jrblankenhorn1007/copilot_skills` checkout and the
    active project's Git repository. Verify each checkout by its configured
    Git remote, not its directory name alone. If both are the same repository,
-   update it once.
-2. In each distinct repository, locate its clean, attached primary integration
-   worktree (normally `main`) and verify that it tracks the intended upstream.
-   From that worktree, run `git -C <integration-worktree> pull --ff-only`.
-   Never pull in an iteration or feature worktree. If a checkout cannot be
-   identified, is dirty or detached, tracks the wrong upstream, or cannot be
-   fast-forwarded, stop and report the blocker. Preserve all changes; do not
-   stash, reset, or silently continue with stale instructions.
-3. After the pulls succeed, reopen the current Ralph Loop skill and (when
-   used) agent definition from the refreshed `copilot_skills` checkout. Re-read
-   the references needed for the current mode, applicable task skills
-   (including TDD before behavior changes, Project Memory for post-merge
-   review, and any other skills triggered by the task), and the active
-   project's plan, prompt or runner, progress, status, decision, and local
-   instruction files from its refreshed checkout. Read the files again even
-   if their contents are already in the conversation or preloaded in the
-   agent context. Canonical skills complement; they do not replace,
-   project-specific requirements.
+   fetch it once.
+2. In each distinct repository, run `git fetch origin`, verify its remote
+   `main` ref, and record the exact fetched `origin/main` SHA. Locate the
+   attached primary integration worktree with `git worktree list --porcelain`
+   for later merge use, but do not pull, check out, or edit shared main to
+   refresh instructions. A dirty, diverged, or detached integration checkout
+   is not a task workspace: preserve it and continue read-only/isolated
+   work, but do not use it for a checkout-based merge. Stop if the remote
+   main ref or required current instructions cannot be verified. Never
+   stash, reset, or clean another agent's checkout.
+3. Reopen the current Ralph Loop skill and (when used) agent definition from
+   the fetched `copilot_skills` commit, using `git show` or an isolated
+   worktree at that SHA. Re-read the references needed for the current mode,
+   applicable task skills (including TDD before behavior changes, Project
+   Memory for post-merge review, and any other skills triggered by the task),
+   and the active project's plan, prompt or runner, progress, status,
+   decision, and local instruction files from its fetched commit. Read the
+   files again even if their contents are already in the conversation or
+   preloaded in the agent context. Canonical skills complement; they do not
+   replace project-specific requirements.
 
 ## Required setup
 
@@ -110,8 +112,9 @@ active project before planning, dispatching work, or editing:
    rather than inventing a project goal.
 3. Fetch the configured remote and identify its latest `main` ref and the
    worktree where that branch is checked out. If remote `main` is unavailable,
-   the integration checkout is detached, or its worktree has uncommitted
-   changes, preserve the current state and report the blocker.
+   report the blocker. Preserve a detached, dirty, or diverged integration
+   checkout; its owner must resolve it before a checkout-based merge, but
+   independent work starts from the fetched remote SHA in a fresh worktree.
 4. Check that any project runner supports the fresh-worktree and verified
    remote-merge lifecycle below. Do not invoke a runner that assumes an
    in-place branch, pushes before integration, or skips remote verification.
@@ -266,6 +269,18 @@ launch reviewers or change the integration process; record
 [worker-owned PR merge guide](./references/worker-pr-merging.md) for the
 review gate and status fields.
 
+Before editing an assigned scope, use the
+[agent-sync ledger](../../../docs/agent-sync/README.md) to publish the task
+sign-in on remote main. The task record owns edit paths, not the main checkout
+or ref. For every status commit or authorized merge, follow the separate
+[exclusive main ownership protocol](../../../docs/agent-sync/main-ownership.md):
+atomically sign in to `docs/agent-sync/main/ownership.json` for `STATUS` or
+`MERGE`; wait for the existing owner to sign out instead of using main.
+The status publisher must sign out immediately after verifying its status
+commit, without signing out of the task or releasing its edit scope. For
+a merge, release promptly after remote verification or queue submission.
+Never report success if the main release cannot be verified.
+
 ## Git identity and authentication
 
 Before creating an iteration branch or editing files, verify the configured
@@ -347,6 +362,9 @@ follow the existing Git identity and authentication rules.
    resulting merge SHA on remote `main`. For squash or merge-queue flows,
    verify the parent merge result rather than requiring the parent
    implementation commit itself to remain an ancestor.
+   Reserve main for the authorized merge transaction; if the reservation's
+   status-only commit invalidates strict branch checks, release it and
+   report the repository-policy blocker instead of bypassing those checks.
 7. After the completed parent implementation is merged and verified on
    fetched `origin/main`, the coordinator performs one post-merge memory
    review using the [Project Memory skill](../project-memory/SKILL.md);

@@ -92,6 +92,19 @@ class MainOwnershipContractTests(unittest.TestCase):
                     f"agent-sync guide must cover main ownership: {requirement}",
                 )
 
+    def test_status_guide_keeps_main_signout_separate_from_task_state(self):
+        guide = instructions(
+            ".github/skills/ralph-loop/references/multi-agent-status.md"
+        )
+        self.assertTrue(
+            "main/ownership.json" in guide,
+            "status guide must distinguish the main owner from task state",
+        )
+        self.assertTrue(
+            "sign out immediately" in guide,
+            "status publication must release main without ending the task",
+        )
+
 
 if __name__ == "__main__":
     unittest.main()

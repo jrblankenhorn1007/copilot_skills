@@ -16,21 +16,19 @@ protocol.
 The orchestrator and every worker iteration, including a re-dispatch after a
 merge, must complete the per-iteration refresh in the
 [Ralph Loop skill](../SKILL.md#refresh-repositories-and-instructions-on-every-iteration)
-before planning or editing. This pulls the canonical `copilot_skills` checkout
-and the active project's primary integration worktree with
-`git pull --ff-only`, then re-reads the applicable skills and project
-instructions. If both checkouts are the same repository, pull it once.
+before planning or editing. Run `git fetch origin` for the canonical
+`copilot_skills` repository and active project (once if they are the same),
+then read current skills and project instructions from each exact fetched
+`origin/main` SHA in an isolated worktree or with `git show`. Do not pull,
+check out, or edit the shared main checkout for a routine refresh.
 
-The coordinator performs and records the refresh before planning its run and
-again immediately before each worker iteration. When workers share the
-canonical or active-project integration worktree, the coordinator serializes
-any required `git pull --ff-only` before dispatch; workers must not
-concurrently pull or update that shared main worktree. If separate integration
-worktrees need refreshing, refresh them one at a time and record their
-resulting SHAs. In every case, each worker reopens the current skills before
-editing and receives the exact parent branch and tip to use. If the refresh
-cannot safely complete, stop that iteration and preserve the affected
-worktrees.
+The coordinator records the fetched SHAs before planning and again before
+each worker dispatch. Workers reopen the fetched skills before editing and
+receive the exact parent branch and tip to use; they do not update shared
+main merely to refresh guidance. Preserve a dirty or diverged integration
+worktree for its owner rather than treating it as a task workspace. If a
+fetch or current-guidance read fails, stop that iteration and preserve the
+affected worktrees.
 
 ## Role configuration
 
@@ -124,7 +122,9 @@ shared checkout. The worker must:
 1. Complete or verify the per-iteration repository and skill refresh, then
    confirm its assigned outcome, acceptance criteria, dependencies, and owned
    paths with the coordinator. Read relevant memory before work and stay
-   within the assigned scope.
+   within the assigned scope. Publish the task sign-in and exclusive edit
+   scope using the [agent-sync ledger](../../../../docs/agent-sync/README.md)
+   before the first task edit.
 2. Work in a fresh child worktree and unique child branch based on the exact
    current tip of the coordinator parent branch, not directly on
    `origin/main`. The coordinator first creates the parent worktree and branch
@@ -350,14 +350,15 @@ blocker; do not fall back to a browser. Continue to follow the existing Git
 identity and authentication rules.
 
 1. **Create the parent before its workers:** after the per-iteration refresh,
-   including the required pull and skill refresh, follow the parent Ralph
+   including the read-only fetch and skill refresh, follow the parent Ralph
    Loop skill's Git identity and authentication preflight, including
-   `git fetch origin`. Confirm that the attached integration worktree is
-   clean and `origin/main` is available. Create a fresh parent worktree and
-   branch from that fetched ref, for example:
+   `git fetch origin`. Confirm that `origin/main` is available and record its
+   full SHA; do not require or modify a clean shared main checkout for
+   isolated work. Create a fresh parent worktree and branch from that exact
+   fetched SHA, for example:
 
    ```sh
-   git worktree add -b <parent-branch> <parent-worktree> origin/main
+   git worktree add -b <parent-branch> <parent-worktree> <fetched-main-sha>
    ```
 
    Record the exact `origin/main` base SHA, parent branch, and parent worktree.
@@ -428,8 +429,13 @@ identity and authentication rules.
    worktree. Fetch `origin`; if `origin/main` advanced from the parent's base,
    rebase the parent onto the latest `origin/main` and rerun final acceptance
    checks. If that rebase rewrites child integrations, record the old/new
-   parent-side SHAs and re-verify each affected child merge on the parent. Use
-   the repository's required remote merge process, fetch `origin` again, and
+   parent-side SHAs and re-verify each affected child merge on the parent.
+   Follow the [exclusive main ownership protocol](../../../../docs/agent-sync/main-ownership.md):
+   acquire `MERGE` at `docs/agent-sync/main/ownership.json`, wait for any
+   existing owner to sign out, and use main only for this authorized merge.
+   If acquiring the reservation invalidates strict branch checks, release
+   and report a blocker rather than bypassing policy. Use the repository's
+   required remote merge process, fetch `origin` again, and
    verify the resulting parent-to-main merge SHA on fetched `origin/main`, for
    example:
 
@@ -439,8 +445,12 @@ identity and authentication rules.
 
    With squash or merge-queue integration, verify the resulting remote-main
    SHA rather than requiring the parent's original commit to remain an
-   ancestor. A child merge, parent push, local merge, or open PR alone is not
-   proof of final integration.
+   ancestor. Release main promptly after verification, or after a merge
+   queue accepts the submission; do not hold a checkout while the queue
+   waits. For status commits, sign out immediately after the verified
+   commit; a task sign-out is separate from main sign-out. A child merge,
+   parent push, local merge, or open PR alone is not proof of final
+   integration.
 8. **Clean up only verified merges:** after a worker-to-parent merge has been
    verified on the parent, and only if its worktree is clean, the coordinator
    may remove the worker worktree and local branch:

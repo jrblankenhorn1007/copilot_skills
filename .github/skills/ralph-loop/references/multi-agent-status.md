@@ -65,6 +65,16 @@ as defined below.
 
 ## Ownership and synchronization
 
+The live [agent-sync ledger](../../../../docs/agent-sync/README.md) records
+each task's edit scope separately from the durable Ralph dashboard. Main
+transactions have one repository-wide record at
+`docs/agent-sync/main/ownership.json` under the
+[main ownership protocol](../../../../docs/agent-sync/main-ownership.md).
+Before a status write or authorized merge, wait for the current main owner
+to sign out. The status publisher must sign out immediately after the
+verified status commit; that does not sign out the task or change its
+leaf/dashboard state. Reacquire main for the next status write.
+
 The coordinator is the **sole writer** of `docs/ralph-status.md`. Workers
 maintain only their own branch/agent `status.md`, `progress.md`, and decision
 records, then send the coordinator the exact paths, current state, checks,
