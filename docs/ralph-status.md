@@ -20,6 +20,7 @@ current_run_ids:
   - "copilot_skills-parent-child-pipeline-20260924"
   - "translated-ralph-prompt-skills-recovery-20260925-0318"
   - "copilot-skills-memory-update-agent-20260925-0223"
+  - "copilot_skills-agent-status-reporting-20260924"
 
 runs:
   - run_id: "copilot_skills-two-agent-ralph-test-batch-20260924"
@@ -397,6 +398,38 @@ runs:
       status: PENDING
       owner: coordinator
       outcome: null
+  - run_id: "copilot_skills-agent-status-reporting-20260924"
+    task_ids: ["agent-status-report-test", "status-first-agent-reporting-guidance"]
+    aggregate_status: IN_PROGRESS
+    requested_worker_count: 2
+    effective_worker_count: 2
+    active_worker_count: 0
+    base_origin_main_sha: "9558f99cc34cbed8dd1d24f4f15fc03f5d78b6ea"
+    created_at_utc: "2026-09-25T03:13:20Z"
+    updated_at_utc: "2026-09-25T03:13:20Z"
+    coordinator_scope: "Replace misleading binary completion reports with status-first run and per-agent reporting."
+    coordinator_branch: "ralph/agent-status-reporting-20260924-2313"
+    coordinator_status_path: "docs/ralph/ralph-agent-status-reporting-20260924-2313/agents/coordinator/status.md"
+    coordinator_progress_path: "docs/ralph/ralph-agent-status-reporting-20260924-2313/agents/coordinator/progress.md"
+    parent_to_main_merge:
+      status: PENDING
+      sha: null
+      verified_remote_ref: "refs/heads/main"
+      verified_origin_main_sha: null
+      verification_method: null
+      verified_at_utc: null
+    memory_review: PENDING
+    next_action: "Dispatch worker-02 to add and run the reporting-contract test; dispatch worker-01 after the Red test is integrated."
+    split_plan:
+      - task_id: "agent-status-report-test"
+        worker_id: "worker-02"
+        scope: "Add a focused Ralph contract test requiring status-first run and per-agent reports and rejecting binary completion wording; run it to the expected Red before documentation changes."
+        depends_on: []
+      - task_id: "status-first-agent-reporting-guidance"
+        worker_id: "worker-01"
+        scope: "Update the Ralph skill, agent, orchestration/status guides, README, and decision-record guide to report overall and per-agent states instead of binary completion wording."
+        depends_on:
+          - "agent-status-report-test"
 
 branch_agent_index:
   - run_id: "copilot-skills-status-report-time-token-20260925"
@@ -1297,6 +1330,25 @@ branch_agent_index:
     memory_review_status: PENDING
     memory_review_outcome: null
     next_action: "No worker action; the coordinator owns the blocked post-merge memory review."
+  - run_id: "copilot_skills-agent-status-reporting-20260924"
+    task_ids: ["agent-status-report-test", "status-first-agent-reporting-guidance"]
+    worker_id: "coordinator"
+    worker_name: "coordinator - status-first agent reporting"
+    runtime_agent_id: null
+    branch: "ralph/agent-status-reporting-20260924-2313"
+    branch_slug: "ralph-agent-status-reporting-20260924-2313"
+    status: IN_PROGRESS
+    iteration: 1
+    status_path: "docs/ralph/ralph-agent-status-reporting-20260924-2313/agents/coordinator/status.md"
+    progress_path: "docs/ralph/ralph-agent-status-reporting-20260924-2313/agents/coordinator/progress.md"
+    decision_record_path: "docs/decisions/ralph-agent-status-reporting-20260924-2313/agents/coordinator/pr-not-opened.md"
+    decision_index_path: "docs/decisions/ralph-agent-status-reporting-20260924-2313/README.md"
+    base_origin_main_sha: "9558f99cc34cbed8dd1d24f4f15fc03f5d78b6ea"
+    parent_to_main_merge:
+      status: PENDING
+      sha: null
+    memory_review: PENDING
+    next_action: "Launch the Red-phase contract-test worker and synchronize its state before dispatching documentation work."
 ```
 
 ## Branch/agent index

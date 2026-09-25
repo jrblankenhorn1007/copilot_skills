@@ -1,0 +1,45 @@
+# Ralph Branch Decision Records — Status-First Agent Reporting
+
+- **Branch:** `ralph/agent-status-reporting-20260924-2313`
+- **Branch slug:** `ralph-agent-status-reporting-20260924-2313`
+- **Base `origin/main` SHA:** `9558f99cc34cbed8dd1d24f4f15fc03f5d78b6ea`
+- **Implementation commit SHA:** pending
+- **Run:** `copilot_skills-agent-status-reporting-20260924`
+- **Agents:** coordinator, worker-01, worker-02
+- **PR:** `NOT_OPENED` under the repository's existing verified fast-forward
+  integration path; use a PR if current branch policy requires one.
+
+## Agent records
+
+- [Coordinator integration record](agents/coordinator/pr-not-opened.md)
+- Worker-02 and worker-01 records will be linked here when their child
+  branches are integrated into the parent.
+
+## Decisions
+
+### Report run and agent states instead of binary completion text
+
+- **Context:** An assistant can return a progress update while authorized
+  agents, checks, review, or integration are still running. A binary
+  completion label makes that nonterminal update look like a failure.
+- **Decision:** Begin interim and final reports with the run's explicit
+  overall status and show every assigned agent's exact current state and next
+  action.
+- **Rationale:** The run dashboard already tracks `IN_PROGRESS`, `BLOCKED`,
+  and `COMPLETE`, while agent leaves distinguish queued, running, awaiting
+  merge, blocked, and terminal states.
+- **Consequences:** Use `IN_PROGRESS` whenever work can still proceed,
+  `BLOCKED` only when external intervention is required, and `COMPLETE` only
+  after all acceptance, verification, integration, and memory gates pass.
+
+### Write the report contract test before its documentation implementation
+
+- **Context:** The reporting format is agent behavior encoded in shared skill
+  and workflow guidance.
+- **Decision:** Integrate a focused contract test that demonstrates the
+  current missing behavior before the documentation worker starts; run it to
+  Green after the guidance is updated.
+- **Rationale:** This gives the prompt/pipeline change an observable,
+  repeatable regression check without inventing an application runtime test.
+- **Consequences:** A short-lived expected Red is recorded as test evidence,
+  not as a task blocker.
