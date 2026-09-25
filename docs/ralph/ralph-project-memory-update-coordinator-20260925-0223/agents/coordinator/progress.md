@@ -444,3 +444,18 @@ These are implementation-time reports, not accepted memory entries. The Project 
 - **Next action:** request that host capacity be freed (or wait for load and
   active-agent count to fall), then refresh the complete inventory and invoke
   the dedicated updater only after its atomic reservation succeeds.
+
+## 2026-09-25T15:56:43Z - Current capacity status branch rebased and checked
+
+- The status-only branch based on latest fetched `origin/main`
+  `48e03a8d73f4b9ca0294389b3eccb986d4bc0760`; the previously verified
+  status-integration commit `4b125745977ecab1dd2a5ed413a083d073c814dc`
+  remains on remote main.
+- After rebase, Ralph multi-agent passed 25 tests, Project Memory Update
+  passed 1 test, main-ownership passed 8 tests, and both diff checks passed.
+- The fresh inventory at `2026-09-25T15:51:57Z` still reports zero
+  dispatch slots (21 active agents; one-minute load 12.17 on six cores).
+  Memory review remains `PENDING`; no memory files changed.
+- **Next action:** integrate the latest capacity-status synchronization
+  through a fresh main-ownership transaction, then wait for an actionable
+  capacity remedy before reserving and invoking the updater.

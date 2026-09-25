@@ -190,3 +190,18 @@ no_durable_lessons_reason: null
 - **Next action:** request an actionable capacity remedy. Resume only after a
   new full inventory permits an atomic slot reservation for the dedicated
   updater.
+
+## 2026-09-25T15:56:43Z - Status refresh rebased to latest main
+
+- Rebased the current capacity-status update onto fetched `origin/main`
+  `48e03a8d73f4b9ca0294389b3eccb986d4bc0760`; the resulting branch tip before
+  this status refresh was `9337cb98cb2614ac6d23670b0169c436488043bf`.
+- After the rebase, the Ralph multi-agent contract passed 25 tests, the
+  Project Memory Update contract passed 1 test, the main-ownership contract
+  passed 8 tests, and both diff checks passed.
+- The latest complete Resource Manager inventory remains
+  `2026-09-25T15:51:57Z`: 21 active agents, zero available slots, and
+  one-minute load 12.17 on six logical cores. No updater reservation or
+  dispatch occurred.
+- **Next action:** commit this status refresh, recheck main ownership, acquire
+  a fresh `MERGE` reservation, then verify and release after integration.
