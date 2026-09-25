@@ -33,8 +33,15 @@ license notices are preserved in each skill directory.
   refreshes the canonical skills and active project repositories at the start
   of every iteration and re-reads applicable guidance. It makes the first run
   an orchestrator (not a worker), dispatches two configurable worker agents by
-  default when independent work allows, verifies integration on remote `main`,
-  and reviews durable lessons after each merge. Its
+  default when independent work allows. For orchestrated runs, configure the
+  launcher/session with `--orchestrator` (not as a native Copilot CLI flag),
+  start the orchestrator in a parent worktree and parent branch, and give
+  workers their own child worktrees and child branches. The coordinator merges
+  completed worker branches into the parent serially; only the completed
+  parent merges to `origin/main`. Close each child branch/worktree only after
+  its parent merge is verified; close the parent only after its remote-main
+  merge is verified. The workflow verifies integration on remote `main` and
+  reviews durable lessons after the parent merge. Its
   [multi-agent orchestration guide](.github/skills/ralph-loop/references/multi-agent-orchestration.md)
   covers configurable worker counts and Git synchronization; the
   [multi-agent status guide](.github/skills/ralph-loop/references/multi-agent-status.md)

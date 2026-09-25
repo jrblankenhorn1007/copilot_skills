@@ -579,7 +579,7 @@ class MultiAgentContractTests(unittest.TestCase):
             "--orchestrator",
             "parent worktree",
             "child worktree",
-            "workers merge their child branches into the parent branch",
+            "the coordinator merges each completed child branch into the parent branch",
         ):
             with self.subTest(document="agent", requirement=requirement):
                 assert_contains(
@@ -660,16 +660,15 @@ class MultiAgentContractTests(unittest.TestCase):
 
 
 class GitPipelineTests(unittest.TestCase):
-    def test_worker_merges_into_parent_then_both_branches_close_after_main_merge(self):
+    def test_workers_merge_into_parent_and_clean_up_only_after_verified_merges(self):
         with tempfile.TemporaryDirectory() as temporary_directory:
             root = Path(temporary_directory)
             remote = root / "origin.git"
             seed = root / "seed"
             repository = root / "repository"
             parent_worktree = root / "parent"
-            worker_worktree = root / "worker"
             parent_branch = "ralph/test-parent"
-            worker_branch = "ralph/test-worker"
+            worker_ids = ("worker-01", "worker-02")
 
             def git(
                 cwd: Path, *args: str, expected_returncode: int = 0
@@ -719,55 +718,76 @@ class GitPipelineTests(unittest.TestCase):
                 str(parent_worktree),
                 "origin/main",
             )
-            git(
-                repository,
-                "worktree",
-                "add",
-                "-b",
-                worker_branch,
-                str(worker_worktree),
-                parent_branch,
-            )
-            (worker_worktree / "worker.txt").write_text(
-                "worker result\n", encoding="utf-8"
-            )
-            git(worker_worktree, "add", "worker.txt")
-            git(worker_worktree, "commit", "-m", "complete worker assignment")
-            worker_commit = git(worker_worktree, "rev-parse", "HEAD")
-            git(
-                worker_worktree,
-                "push",
-                "--set-upstream",
-                "origin",
-                worker_branch,
-            )
-
-            git(parent_worktree, "merge", "--ff-only", worker_branch)
-            git(
-                parent_worktree,
-                "merge-base",
-                "--is-ancestor",
-                worker_commit,
-                parent_branch,
-            )
-            git(repository, "worktree", "remove", str(worker_worktree))
-            git(parent_worktree, "branch", "-d", worker_branch)
-            git(repository, "push", "origin", "--delete", worker_branch)
-            self.assertFalse(worker_worktree.exists())
-            self.assertNotIn(
-                worker_branch,
-                git(repository, "branch", "--list", worker_branch),
-            )
-            self.assertEqual(
-                "",
+            worker_files = []
+            for worker_id in worker_ids:
+                worker_worktree = root / worker_id
+                worker_branch = f"ralph/test-{worker_id}"
+                worker_file = f"{worker_id}.txt"
+                worker_files.append(worker_file)
+                parent_base = git(parent_worktree, "rev-parse", "HEAD")
                 git(
                     repository,
-                    "ls-remote",
-                    "--heads",
+                    "worktree",
+                    "add",
+                    "-b",
+                    worker_branch,
+                    str(worker_worktree),
+                    parent_branch,
+                )
+                (worker_worktree / worker_file).write_text(
+                    f"{worker_id} result\n", encoding="utf-8"
+                )
+                git(worker_worktree, "add", worker_file)
+                git(
+                    worker_worktree,
+                    "commit",
+                    "-m",
+                    f"complete {worker_id} assignment",
+                )
+                worker_commit = git(worker_worktree, "rev-parse", "HEAD")
+                git(
+                    worker_worktree,
+                    "merge-base",
+                    "--is-ancestor",
+                    parent_base,
+                    worker_commit,
+                )
+                git(
+                    worker_worktree,
+                    "push",
+                    "--set-upstream",
                     "origin",
-                    f"refs/heads/{worker_branch}",
-                ),
-            )
+                    worker_branch,
+                )
+
+                git(parent_worktree, "merge", "--ff-only", worker_branch)
+                worker_merge_sha = git(parent_worktree, "rev-parse", "HEAD")
+                self.assertEqual(worker_commit, worker_merge_sha)
+                git(
+                    parent_worktree,
+                    "merge-base",
+                    "--is-ancestor",
+                    worker_merge_sha,
+                    parent_branch,
+                )
+                git(repository, "worktree", "remove", str(worker_worktree))
+                git(parent_worktree, "branch", "-d", worker_branch)
+                git(repository, "push", "origin", "--delete", worker_branch)
+                self.assertFalse(worker_worktree.exists())
+                self.assertNotIn(
+                    worker_branch,
+                    git(repository, "branch", "--list", worker_branch),
+                )
+                self.assertEqual(
+                    "",
+                    git(
+                        repository,
+                        "ls-remote",
+                        "--heads",
+                        "origin",
+                        f"refs/heads/{worker_branch}",
+                    ),
+                )
 
             parent_commit = git(parent_worktree, "rev-parse", "HEAD")
             git(
@@ -812,10 +832,11 @@ class GitPipelineTests(unittest.TestCase):
                     f"refs/heads/{parent_branch}",
                 ),
             )
-            self.assertEqual(
-                "worker result",
-                git(repository, "show", "origin/main:worker.txt"),
-            )
+            for worker_file, worker_id in zip(worker_files, worker_ids):
+                self.assertEqual(
+                    f"{worker_id} result",
+                    git(repository, "show", f"origin/main:{worker_file}"),
+                )
 
 
 if __name__ == "__main__":

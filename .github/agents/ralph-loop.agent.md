@@ -154,13 +154,15 @@ operations.
   worktrees or branches, and perform each iteration's edits, tests, and
   commits only in its assigned worktree.
 - Keep the parent and child branches synchronized safely. The coordinator
-  fetches `origin` before creating the parent and again before integrating the
-  completed parent. If `origin/main` advances, update the parent before its
-  remote integration and rerun the relevant checks. If the parent changes
-  while child work is in flight, coordinate a child rebase or fresh child
-  branch from the updated parent and rerun that child's checks before
-  integration. Integrate child branches serially into the parent; never
-  force-push or let a child bypass the parent to merge into `origin/main`.
+  runs `git fetch origin` before creating the parent and again before
+  integrating the completed parent. If `origin/main` advances, update the
+  parent before its remote integration and rerun the relevant checks. If the
+  parent changes while child work is in flight, coordinate a child rebase or
+  fresh child branch from the updated parent and rerun that child's checks
+  before integration. Workers commit their changes on child branches; the
+  coordinator merges each completed child branch into the parent branch,
+  serially. Never force-push or let a child bypass the parent to merge into
+  `origin/main`.
 - For every behavior change, write and run the smallest relevant failing test
   before production changes. Establish that Red is caused by the missing or
   incorrect behavior, implement minimally to reach Green, then refactor with
