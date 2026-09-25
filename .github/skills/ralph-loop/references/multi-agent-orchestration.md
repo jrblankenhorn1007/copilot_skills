@@ -176,8 +176,11 @@ within-session mechanism.
 
 ### `agent-message/v1` envelope
 
-Use one compact, typed envelope for each message. Keep this field contract
-consistent with the Agent Communication skill; all fields are present, with
+Use one compact, typed envelope for each message. The Ralph pipeline profile
+adds a `deadline` for the task/result due time to the shared
+[`agent-message/v1` contract](../../agent-communication/SKILL.md); keep its
+routing and correlation fields aligned with that skill. All fields are
+present, with `deadline: null` when no task due time is set,
 `correlation_id: null` for a new conversation, `reply_deadline: null` when no
 reply is requested, and `artifact_refs: []` when there is no committed
 artifact:
@@ -193,6 +196,7 @@ artifact:
   "priority": "normal",
   "sent_at": "<ISO-8601-UTC>",
   "expires_at": "<ISO-8601-UTC>",
+  "deadline": "<ISO-8601-UTC-or-null>",
   "correlation_id": null,
   "ack_required": true,
   "reply_deadline": "<ISO-8601-UTC>",
@@ -212,23 +216,28 @@ artifact:
 `priority` is `low`, `normal`, `high`, or `urgent` and is advisory only:
 `priority: "urgent"` does not guarantee faster scheduling, preemption, or a
 hard cancel, and it does not override `expires_at`. `sent_at`, `expires_at`,
-and non-null `reply_deadline` are UTC timestamps. `expires_at` makes an
-instruction stale; it is not a host-side retraction timer. Keep `body` brief
-and put durable repository-relative `path` plus full commit-SHA pairs in
-`artifact_refs` instead of copying large diffs, logs, or transcripts.
+`deadline`, and non-null `reply_deadline` are UTC timestamps; use
+`deadline: null` when no task-result due time was set. `deadline` is the
+requested result's due time, while `reply_deadline` is the sender's earlier
+receipt/processing checkpoint. `expires_at` makes an instruction stale; it
+is not a host-side retraction timer. Keep `body` brief and put durable
+repository-relative `path` plus full commit-SHA pairs in `artifact_refs`
+instead of copying large diffs, logs, or transcripts.
 
-### Acceptance, receipt, and completion are different
+### Delivery, processing, and completion acknowledgements are different
 
-Track transport state separately from recipient progress:
+The transport states are `accepted`, `queued`, and `failed`; keep them
+separate from recipient progress and acknowledgments:
 
 | State | Evidence and meaning |
 | --- | --- |
-| `accepted` | The host accepted a `send_message` request. This is not evidence the recipient saw it. |
-| `queued` | The host reports delivery is waiting for a busy recipient's next turn; it has not preempted that turn. |
-| `received` | The recipient confirms the specific message ID in a correlated `kind: "ack"`; this does not prove the requested work started or finished. |
-| `completed` | A correlated `kind: "result"` reports the task result and evidence that its acceptance criteria are met. |
-| `expired` | `expires_at` passed before processing. The recipient must acknowledge `expired` and perform none of the requested action or side effects. Escalate a safety-critical request to the coordinator or authorized owner for a fresh instruction. |
-| `failed` | The host explicitly rejected or failed the route. Do not claim delivery; use the coordinator relay or ask the coordinator to resolve the route. |
+| Transport `accepted` | The host accepted the `send_message` request. This delivery acknowledgement proves neither recipient receipt nor processing. |
+| Transport `queued` | The host reports delivery is waiting for a busy recipient's next turn; this is a delivery acknowledgement only and has not preempted that turn. |
+| Transport `failed` | The host explicitly rejected or failed the route. Do not claim delivery; use the coordinator relay or ask the coordinator to resolve the route. |
+| Recipient `received` | The recipient confirms it saw the specific message ID. This receipt alone does not prove processing or completion. |
+| Processing acknowledgement | The recipient sends a correlated `kind: "ack"` explicitly confirming it started handling the message. |
+| Completion acknowledgement | The recipient sends a correlated `kind: "result"` with `completed` and evidence that the task's acceptance criteria are met. |
+| Recipient `expired` | `expires_at` passed before processing. The recipient must acknowledge `expired` and perform none of the requested action or side effects. Escalate a safety-critical request to the coordinator or authorized owner for a fresh instruction. |
 
 Before acting, the recipient must check `expires_at`, including when a
 previously queued message is finally delivered. For an expired message, send
@@ -239,14 +248,16 @@ request a fresh, valid instruction—do not execute the stale request as an
 emergency workaround. A high priority never extends a deadline or guarantees
 preemption.
 
-Do not upgrade `accepted` or `queued` to `received`, and do not treat a
-receipt or processing acknowledgment as `completed`. Do not resend an
-accepted/queued request simply because its reply is late. Set a short
-`reply_deadline` when the next step depends on a reply, continue safe
-independent work, and check once at the deadline; avoid long blocking waits
-or repeated polling. A receipt checkpoint around one minute and a substantive
-checkpoint within two or three minutes can help shorten iterations, but they
-are sender targets, not host service guarantees.
+Transport acceptance (`accepted` or `queued`) without a processing
+acknowledgement remains unconfirmed: do not report that the recipient started
+the task or that it completed. Do not upgrade transport acceptance to
+`received`, or a processing acknowledgement to a completion acknowledgement.
+Do not resend an accepted/queued request simply because its reply is late.
+Set a short `reply_deadline` when the next step depends on a reply, continue
+safe independent work, and check once at that checkpoint; avoid long blocking
+waits or repeated polling. A receipt checkpoint around one minute and a
+substantive checkpoint within two or three minutes can help shorten
+iterations, but they are sender targets, not host service guarantees.
 
 ### Optional interruption is not a hard-cancel promise
 

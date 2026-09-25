@@ -32,6 +32,9 @@
   do none of the requested work, and escalate safety-critical requests for a
   fresh valid instruction; `priority: "urgent"` does not preempt or extend
   expiry.
+- Distinguish transport `accepted`/`queued`/`failed`, a correlated processing
+  acknowledgement, and a correlated completion acknowledgement. Keep task
+  `deadline`, sender `reply_deadline`, and instruction `expires_at` distinct.
 - Keep compact benchmark/communication measurements in the worker's
   `progress.md`; do not add an aggregate dashboard or put full message
   transcripts in status records.

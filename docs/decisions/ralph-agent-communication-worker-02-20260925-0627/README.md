@@ -61,3 +61,18 @@
   priority does not imply preemption or override expiry.
 - **Consequence:** A late queued instruction cannot be revived by priority;
   critical work must be revalidated through a current, unexpired request.
+
+### Require processing confirmation before claiming work started
+
+- **Context:** The coordinator's updated test requires a distinct
+  acknowledgment lifecycle and an explicit task `deadline`.
+- **Alternatives:** Treat transport acceptance as recipient processing; use
+  one undifferentiated acknowledgment for send, receipt, and completion; fold
+  the task deadline into the expiration cutoff.
+- **Choice:** Specify `accepted`/`queued`/`failed` as transport states, a
+  correlated recipient processing acknowledgement, and a separate correlated
+  completion result. Add `deadline` for the task-result due time while keeping
+  `reply_deadline` as the sender checkpoint and `expires_at` as the validity
+  cutoff.
+- **Consequence:** Transport acceptance without a processing acknowledgement
+  remains unconfirmed, and a task deadline cannot revive an expired request.

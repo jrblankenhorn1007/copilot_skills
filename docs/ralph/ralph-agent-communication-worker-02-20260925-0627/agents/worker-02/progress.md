@@ -140,6 +140,25 @@
   }
   ```
 
+## 2026-09-25T08:29:40Z — acknowledgment and deadline terms made explicit
+
+- **Acceptance update:** The coordinator's test now requires the pipeline
+  reference to name all envelope fields, including `deadline`, and explicitly
+  distinguish transport `accepted`/`queued`/`failed` from delivery,
+  processing, and completion acknowledgements.
+- **Change:** The example includes `deadline` as the task-result due time and
+  keeps `reply_deadline` as the sender's receipt/processing checkpoint,
+  separate from the `expires_at` action cutoff. The contract says transport
+  acceptance without a processing acknowledgement is unconfirmed; a
+  completion acknowledgement requires a correlated result. Existing
+  expired-request rejection and no-preemption-for-urgent rules remain.
+- **TDD:** Documentation-only contract wording; Red/Green/Refactor was not
+  applicable. The coordinator owns the contract test, which was not edited or
+  run here.
+- **Checks:** Pending for this revision.
+- **Next:** Run the scoped documentation checks, commit the exact-field and
+  acknowledgment clarification, and refresh the worker sign-off.
+
 ## 2026-09-25T08:18:53Z — expiry enforcement clarified from live evidence
 
 - **Evidence:** The coordinator reported that a live experiment delivered an
