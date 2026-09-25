@@ -1,5 +1,15 @@
 # Local index and project Skill Stack Profiles
 
+The commands below use scripts bundled with Agent Skill Stack and assume the
+current working directory is the **target project's root**. In this
+repository, that root is also the repository root and the scripts are under
+`.github/skills/agent-skill-stack/scripts/`. If the Skill is installed
+elsewhere, replace that prefix with its actual installed directory while
+keeping the working directory at the target project root. Project-relative
+arguments such as `.codex/skills` resolve from the target project root.
+See [Running bundled scripts](../SKILL.md#running-bundled-scripts) for the
+working-directory and bundled-file inventory.
+
 ## Why both are needed
 
 Progressive loading and project profiles solve different layers:
@@ -30,7 +40,7 @@ The index does not execute Skills and stores no prompts, hit rates, or usage his
 Build:
 
 ```bash
-python3 scripts/skill_index.py build \
+python3 .github/skills/agent-skill-stack/scripts/skill_index.py build \
   --root ~/.codex/skills \
   --root ~/.codex/plugins/cache \
   --root .codex/skills \
@@ -42,7 +52,7 @@ python3 scripts/skill_index.py build \
 Search:
 
 ```bash
-python3 scripts/skill_index.py search \
+python3 .github/skills/agent-skill-stack/scripts/skill_index.py search \
   --index ~/.codex/skill-index.json \
   --query "natural Chinese writing" \
   --limit 8
@@ -65,7 +75,7 @@ The profile records:
 Create a preview:
 
 ```bash
-python3 scripts/project_profile.py \
+python3 .github/skills/agent-skill-stack/scripts/project_profile.py \
   --project /path/to/project \
   --name my-project-stack \
   --skill primary-skill \

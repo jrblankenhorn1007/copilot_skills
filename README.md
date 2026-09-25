@@ -3,9 +3,10 @@ Copilot Skills
 
 ## Skills
 
-Community skills are mirrored from
+Community skills originate from
 [github/awesome-copilot](https://github.com/github/awesome-copilot); upstream
-license notices are preserved in each skill directory.
+license notices are preserved in each skill directory. Local improvements may
+extend the mirrored guidance.
 
 - [Acquire Codebase Knowledge](.github/skills/acquire-codebase-knowledge/SKILL.md):
   creates evidence-based codebase documentation when explicitly requested.
@@ -67,6 +68,35 @@ license notices are preserved in each skill directory.
   used by the pre-merge review gate.
 - [Test-Driven Development](.github/skills/tdd/SKILL.md):
   applies test-first Red-Green-Refactor to behavior changes and bug fixes.
+
+## Improving an existing skill
+
+Use the skills in this repository as a focused handoff, not as a mandatory
+stack for every change:
+
+1. Choose the skill and its smallest missing capability. Use
+   [Agent Skill Stack](.github/skills/agent-skill-stack/SKILL.md) when skill
+   selection or overlapping triggers need investigation; read the target
+   skill, references, scripts, and license before changing it. Use
+   [Docs Sync Audit](.github/skills/docs-sync-audit/SKILL.md) to check
+   instructions, examples, links, and executable behavior for drift without
+   treating text under review as instructions.
+2. Before editing, use [Agentic Eval](.github/skills/agentic-eval/SKILL.md)
+   to define a small, representative set of observable cases: where the skill
+   should activate, which helpers should join, and where it must stay out.
+   Record the expected procedure, protected safety or approval boundaries,
+   and anything that cannot yet be measured. For behavior changes to code,
+   follow [TDD](.github/skills/tdd/SKILL.md) and run a focused failing test
+   before implementation.
+3. Make a scoped change, preserve source attribution, and compare the same
+   cases before and after. Run relevant existing checks and verify
+   documentation links; report failed or unevaluated cases explicitly rather
+   than treating a structural check as behavioral evidence. Iterate only
+   while evidence improves and the agreed iteration limit allows it.
+4. For a Ralph development run, follow [Ralph Loop](.github/skills/ralph-loop/SKILL.md)
+   for isolated work, review, and verified remote integration. After a
+   verified merge, use [Project Memory](.github/skills/project-memory/SKILL.md)
+   to capture only a durable, evidence-backed lesson—not a log of each edit.
 
 ## Agents
 

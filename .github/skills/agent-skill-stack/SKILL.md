@@ -11,6 +11,28 @@ name: agent-skill-stack
 
 Build the smallest useful stack for the user's actual outcome. Never force a domain example or a fixed lifecycle onto a different request.
 
+## Running bundled scripts
+
+The Python scripts referenced here are bundled under this Skill's `scripts/`
+directory. In this repository they live at
+`.github/skills/agent-skill-stack/scripts/`, not at the repository-root
+`scripts/` path. The examples below assume the current working directory is
+the **target project's root**; when this repository is the target project,
+run them from this repository's root using the shown
+`.github/skills/agent-skill-stack/scripts/` paths. Arguments such as
+`.codex/skills` and `./skill-stack-lock.json` resolve from the target
+project's root. For an installed copy elsewhere, replace the script-path
+prefix with that copy's actual directory (prefer an absolute path) while
+keeping the working directory at the target project's root. Do not `cd` to
+the Skill directory unless you also make all project-relative inputs and
+outputs explicit.
+
+The referenced `skill_index.py`, `render_stack_card.py`, `stage_install.py`,
+and `project_profile.py` files are bundled; `inventory_skills.py` is also
+included as a helper. The optional `npx skills find` discovery command is an
+external CLI/registry route, not a bundled script; skip it when unavailable
+rather than installing tools or configuring credentials without approval.
+
 ## 1. Choose the user-facing depth
 
 Default to **plain-language mode**. Assume the user does not need to understand paths, revisions, hashes, manifests, static analysis, or runtime details.
@@ -44,7 +66,7 @@ Read [references/local-index-and-profiles.md](references/local-index-and-profile
 If a current local Skill index exists, search it before the filesystem or internet. If it is missing or stale, rebuild it from the relevant Skill roots:
 
 ```bash
-python3 scripts/skill_index.py build \
+python3 .github/skills/agent-skill-stack/scripts/skill_index.py build \
   --root ~/.codex/skills \
   --root ~/.codex/plugins/cache \
   --root .codex/skills \
@@ -105,8 +127,16 @@ Reject or quarantine a candidate when:
 - its structure cannot be installed;
 - mandatory dependencies are incompatible or unavailable;
 - critical credential access, data upload, prompt injection, destructive action, or obfuscation remains unexplained;
+- sensitive data or credentials would be exposed or transferred without a verified, authorized purpose and narrow scope;
+- required account access or an external/write action is not authorized for this task;
 - its only possible test would publish, send, purchase, delete, or change a real account;
 - license or platform terms make the intended use materially uncertain.
+
+These are non-compensatory hard gates: no retrieval, fit, adoption, or
+recommendation score can offset an unverified source, unsafe installation,
+unacceptable sensitive-data or credential exposure, or an unauthorized
+external/write action. Keep a candidate blocked or quarantined until the
+relevant gate is resolved; a high score never grants consent.
 
 Rank candidates that pass these gates with the rubric in [references/discovery-ranking.md](references/discovery-ranking.md). Real-world adoption and community evidence account for 25% of the score. Preserve unknown values as unknown.
 
@@ -143,7 +173,7 @@ Offer `查看技术详情` when useful. The technical view may include canonical
 When the user wants a reusable artifact, create a shareable recommendation card from structured JSON:
 
 ```bash
-python3 scripts/render_stack_card.py \
+python3 .github/skills/agent-skill-stack/scripts/render_stack_card.py \
   --input /path/to/stack-card.json \
   --output /path/to/stack-card.svg
 ```
@@ -159,18 +189,20 @@ Default to staged installation. Allow a one-click batch only when every selected
 For already downloaded and checked Skill directories, preview first:
 
 ```bash
-python3 scripts/stage_install.py \
+python3 .github/skills/agent-skill-stack/scripts/stage_install.py \
   --source /path/to/skill-a \
   --dest ~/.codex/skills \
   --manifest ./skill-stack-lock.json
 ```
 
+The preview writes its manifest even without `--apply`; choose that output
+path deliberately. It does not install the Skill unless `--apply` is passed.
 Repeat with `--apply` only after approval. Never silently add credentials, accept new permissions, overwrite an installed Skill, or publish/send/delete external data.
 
 After the user selects the stack, offer to create a project profile in dry-run mode:
 
 ```bash
-python3 scripts/project_profile.py \
+python3 .github/skills/agent-skill-stack/scripts/project_profile.py \
   --project /path/to/project \
   --name project-stack \
   --skill skill-a \
@@ -181,12 +213,26 @@ Use `--apply` only after the user confirms the profile.
 
 ## 10. Run a recall check
 
-After installation or profile changes, run a **recall check**, not a performance benchmark:
+After installation or profile changes, run a **recall check**, not a
+performance benchmark. Use the same four fixed, synthetic requests before and
+after a routing change, keeping the model, available Skills/profile, tools,
+and permission boundary the same where possible. The pre-change column below
+is a comparison against the previous written guidance, not observed model
+output; if an actual baseline run or a comparable environment is unavailable,
+mark the runtime comparison `NOT_MEASURED`. Do not infer objective gains or a
+pass count from this documentation comparison.
 
-1. a direct request that names the task;
-2. a natural paraphrase that uses different words;
-3. a supporting request that should bring in a helper such as writing quality, fact checking, or compliance.
+| Case | Fixed synthetic request | Previous guidance (baseline) | Expected route after this change | Rationale |
+|---|---|---|---|---|
+| Direct | “Which AI Skills should I combine to translate our product catalog to Chinese and check terminology?” | Required a direct task-naming case, but did not fix a sample request or expected route. | Activate Agent Skill Stack as the primary Skill; derive the smallest stack for translation and terminology review. | The user explicitly asks for Skill selection to meet a multi-step outcome. |
+| Paraphrase | “How can I turn engineering notes into a trustworthy customer FAQ using the right agent capabilities?” | Required a natural paraphrase, but did not fix a sample request or expected route. | Activate Agent Skill Stack as primary even though the request does not say “Skill”; add only a helper needed for the FAQ's accuracy or quality. | The outcome is stack selection in different words; derive it from the result, not a fixed domain flow. |
+| Helper/handoff | “Recommend a minimal set of Skills for documenting our deployment workflow, and check that the setup commands match the repository scripts.” | Allowed a generic supporting request, but did not define a concrete helper handoff. | Activate Agent Skill Stack for selection and hand off the docs-to-source comparison to Docs Sync Audit; keep unrelated Skills out. | Docs Sync Audit matches the explicit documentation-drift subtask, not the whole workflow by default. |
+| Out of scope | “Find one well-known code-review Skill only; do not build a stack or compare alternatives.” | Said unrelated Skills should stay out and the frontmatter excluded single-known-Skill lookup, but the recall set had no explicit negative example or route. | Do not activate Agent Skill Stack; route the single-Skill lookup to the generic find-skills workflow. | A request for one known/common Skill is expressly outside this stack-building Skill's scope. |
 
-Confirm that the correct primary and supporting Skills are selected and unrelated Skills stay out. Report a simple result such as `3/3 种说法都能正确识别`; keep raw prompts and routing details in the technical view.
-
-Do not collect or store user prompt history, hit/miss logs, or routing feedback.
+For a runtime before/after comparison, try these exact fixtures against both
+versions under equivalent conditions. If those conditions differ, report the
+difference and do not present the counts as a controlled comparison. Report
+only an aggregate result when a run was actually performed; do not retain
+per-case routing logs, real user prompts, hit/miss histories, or routing
+feedback. These fixed examples are synthetic fixtures, not collected user
+prompt history.
