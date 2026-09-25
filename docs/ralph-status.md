@@ -14,7 +14,7 @@ resource-manager integration are complete.
 ```yaml
 schema_version: 2
 snapshot_path: "docs/ralph-status.md"
-snapshot_revision: 74
+snapshot_revision: 75
 updated_at_utc: "2026-09-25T14:40:37Z"
 overall_status: IN_PROGRESS
 current_run_ids:
@@ -1483,7 +1483,7 @@ branch_agent_index:
 |---|---|---|---|---|---|---|---|---|---|
 | `copilot-skills-status-report-time-token-20260925` | `ralph/status-report-time-token-20260925-0335` | `coordinator` | `COMPLETE` | `10,023 s (wall-clock)` | `NOT_REPORTED` | [status](./ralph/ralph-status-report-time-token-20260925-0335/agents/coordinator/status.md) | [progress](./ralph/ralph-status-report-time-token-20260925-0335/agents/coordinator/progress.md) | `05b1b23da974ed7b171c3a29ee266e43721d4e7` | `COMPLETE` |
 | `copilot-skills-status-report-time-token-20260925` | `ralph/status-report-time-token-worker-01-20260925-0335` | `worker-01` | `COMPLETE` | `8,057 s (wall-clock)` | `NOT_REPORTED` | [status](./ralph/ralph-status-report-time-token-worker-01-20260925-0335/agents/worker-01/status.md) | [progress](./ralph/ralph-status-report-time-token-worker-01-20260925-0335/agents/worker-01/progress.md) | `019ab357f25e1b04133bacb242460e063d94be9d` | `COMPLETE` |
-| `copilot_skills-agent-status-reporting-20260924` | `ralph/agent-status-reporting-20260924-2313` | `coordinator` | `BLOCKED` | `40,768 s (wall-clock)` | `NOT_REPORTED` | [status](./ralph/ralph-agent-status-reporting-20260924-2313/agents/coordinator/status.md) | [progress](./ralph/ralph-agent-status-reporting-20260924-2313/agents/coordinator/progress.md) | `ca074bea36eda724afd0293f419648e79c0dc9d2` | `PENDING` |
+| `copilot_skills-agent-status-reporting-20260924` | `ralph/agent-status-reporting-20260924-2313` | `coordinator` | `BLOCKED` | `41,237 s (wall-clock)` | `NOT_REPORTED` | [status](./ralph/ralph-agent-status-reporting-20260924-2313/agents/coordinator/status.md) | [progress](./ralph/ralph-agent-status-reporting-20260924-2313/agents/coordinator/progress.md) | `ca074bea36eda724afd0293f419648e79c0dc9d2` | `PENDING` |
 | `copilot_skills-agent-status-reporting-20260924` | `ralph/agent-status-contract-worker-02-20260924-2324` | `worker-02` | `COMPLETE` | Not captured (legacy) | Not captured (legacy) | [status](./ralph/ralph-agent-status-contract-worker-02-20260924-2324/agents/worker-02/status.md) | [progress](./ralph/ralph-agent-status-contract-worker-02-20260924-2324/agents/worker-02/progress.md) | `a17b1a1` | `PENDING` |
 | `copilot_skills-agent-status-reporting-20260924` | `ralph/agent-status-reporting-worker-01-20260925-0602` | `worker-01` | `AWAITING_MERGE` | `5,229 s (wall-clock)` | `NOT_REPORTED` | [status](./ralph/ralph-agent-status-reporting-worker-01-20260925-0602/agents/worker-01/status.md) | [progress](./ralph/ralph-agent-status-reporting-worker-01-20260925-0602/agents/worker-01/progress.md) | `PENDING` | `PENDING` |
 | `copilot_skills-two-agent-ralph-test-batch-20260924` | `ralph/multi-agent-orchestration-20260924-1918` | `coordinator` | `COMPLETE` | Not captured (legacy) | Not captured (legacy) | [status](./ralph/ralph-multi-agent-orchestration-20260924-1918/agents/coordinator/status.md) | [progress](./ralph/ralph-multi-agent-orchestration-20260924-1918/agents/coordinator/progress.md) | `61dd22e5bcdf1a8557fc2fd221bba38810e8905f` | `COMPLETE` |
