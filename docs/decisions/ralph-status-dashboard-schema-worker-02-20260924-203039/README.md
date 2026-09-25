@@ -11,11 +11,12 @@
   implementation SHA).
 - **Agent records:**
   - [worker-02 — no PR opened](agents/worker-02/pr-not-opened.md)
-- **Integration:** No PR is part of the repository's normal workflow. The
-  coordinator serializes a verified fast-forward to `origin/main`; this
-  worker will not publish or merge the branch. Integration and remote
-  verification are pending.
-- **Worker state:** `AWAITING_MERGE`. The earlier sign-off for
+- **Integration:** No PR was opened. The coordinator fast-forwarded the
+  implementation to `origin/main` at
+  `b4dac949e976d48f7bd976fc1c93ddc703bc7319`; that merge SHA is verified on
+  fetched `origin/main`.
+- **Worker state:** `COMPLETE`. The earlier sign-off for
   `563e91d3bd93164f30e50f745cdb271fe3c5b48b` was superseded after rebasing
   this unpublished branch onto the current base above; the fresh sign-off is
-  recorded in the worker progress file and returned to the coordinator.
+  recorded in the worker progress file. Post-merge memory review found no
+  additional durable lesson requiring a separate memory entry.

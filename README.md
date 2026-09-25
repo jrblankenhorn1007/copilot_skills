@@ -61,9 +61,8 @@ reasoning-effort, and context-window options in VS Code/Copilot CLI.
 
 ## Current Ralph status
 
-See [implementation_status.md](implementation_status.md) for the overall
-status, worker iterations, sign-offs, and remote-merge evidence for this
-multi-agent run.
+See [docs/ralph-status.md](docs/ralph-status.md) for the overall status and
+the branch/agent links to current-state and progress records.
 
 ## Ralph decision records
 

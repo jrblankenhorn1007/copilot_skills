@@ -62,9 +62,11 @@ and test conventions.
   Prefer OS accessibility automation; only add a small test-only CLI or
   in-process driver if needed, and do not add an unauthenticated production
   control endpoint. Use mock providers and safe fixtures, never real API keys.
-  Record platform versions and screenshot artifact references in
-  `RALPH_PROGRESS.md` and `implementation_status.md`. Manual listening
-  complements, but does not replace, deterministic tests.
+  Record platform versions and screenshot artifact references in this
+  branch/agent's `docs/ralph/<branch-slug>/agents/<agent-id>/progress.md` and
+  current state in its paired `status.md`; synchronize
+  `docs/ralph-status.md` each loop. Manual listening complements, but does not
+  replace, deterministic tests.
 
 Use the repository's existing test/build ecosystem where possible. If a
 required behavior has no test harness, first write a failing executable check

@@ -26,3 +26,9 @@ and reports only unresolved blockers as failures.
 ## Branch records
 
 - [Ralph completion and PR decision-log contract](ralph-clear-completion-branch-pr-decisions-20260924-2018/README.md)
+
+## Ralph status and progress
+
+See the [Ralph status dashboard](../ralph-status.md) for the overall run
+status and links to each branch/agent's status and progress records under
+`docs/ralph/`.

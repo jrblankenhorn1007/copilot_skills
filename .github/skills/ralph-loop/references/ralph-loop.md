@@ -44,8 +44,11 @@ Before implementing code, load and follow the repository skill
 [`tdd`](.github/skills/tdd/SKILL.md). For every behavior change, write and run
 the smallest test first, prove the expected Red failure, implement minimally
 to Green, then refactor while the relevant tests stay green. Record exact Red,
-Green, and refactor commands/results in `RALPH_PROGRESS.md`. Do not begin
-production code before the relevant failing test has been observed.
+Green, and refactor commands/results in this branch/agent's
+`docs/ralph/<branch-slug>/agents/<agent-id>/progress.md`, update its paired
+`status.md`, and synchronize `docs/ralph-status.md` each loop. Do not create
+root-level Ralph status or progress files. Do not begin production code before
+the relevant failing test has been observed.
 
 Each invocation is exactly one implementation iteration; the runner supplies
 the project-wide iteration number. The runner or agent must complete the
@@ -78,12 +81,15 @@ merged implementation branch. If no durable lesson is found, leave memory
 unchanged and record that outcome in the project's progress/status record when
 one exists.
 
-Read `implementation_status.md` at the start of each iteration. Rewrite it as
-a concise current-state snapshot during every iteration; do not append an
-iteration history. Update the component state, verification/platform coverage,
-blockers, and next task as appropriate. The runner requires the status file to
-change in the implementation commit. Preserve these exact runner-managed
-fields for the runner to replace after that commit:
+Read `docs/ralph-status.md` and the assigned branch/agent `status.md` at the
+start of each iteration. Keep the leaf `status.md` as a concise current-state
+snapshot; append iteration history and evidence to its sibling `progress.md`.
+Update component state, verification/platform coverage, blockers, and next
+task as appropriate. The coordinator synchronizes affected leaf records and
+the aggregate dashboard at every loop boundary. Configure the runner to
+update these `docs/` records in its implementation or status commit; do not
+retain root-level Ralph status or progress files. Preserve these exact
+runner-managed fields for the runner to replace after that commit:
 
 - `Completed implementation iteration`
 - `Iteration commit`
@@ -183,8 +189,9 @@ VISUAL APPLICATION VERIFICATION
 - For every GUI-affecting iteration, launch the real app from SCIDE on an
   available target platform, exercise the changed visible workflow, capture
   the actual native application window, inspect the screenshot, and record
-  platform/version and artifact details in `RALPH_PROGRESS.md` and
-  `implementation_status.md`.
+  platform/version and artifact details in this branch/agent's
+  `docs/ralph/<branch-slug>/agents/<agent-id>/progress.md` and paired
+  `status.md`, then synchronize `docs/ralph-status.md`.
 - Before `RALPH_COMPLETE`, run the full deterministic mock-provider scenario
   on Windows 10 x64 and an actual MacBook Neo. The scenario must cover launch,
   response/edit review, approval, NRT render, usage display, and a visible
@@ -214,25 +221,26 @@ IMPLEMENTATION METHOD
   sclang/NRT composition-render prototype using that UGen; provider/API workflow;
   review/undo and safe rendering; in-app bounded candidate exploration;
   packaging and platform validation.
-- Keep state across iterations in `RALPH_PROGRESS.md` at the workspace root.
-  Its first line must be exactly `Ralph-Status: IN_PROGRESS`,
+- Keep iteration evidence in this branch/agent's
+  `docs/ralph/<branch-slug>/agents/<agent-id>/progress.md`, not a
+  workspace-root log. Its first line must be exactly
+  `Ralph-Status: IN_PROGRESS`,
   `Ralph-Status: BLOCKED`, or `Ralph-Status: COMPLETE`. Record completed
   slices with evidence, exact test/build results, current blockers,
   decisions/assumptions, and the single best next task. Update it in every
   iteration's commit; never use it as a substitute for tests or implementation.
-- Keep [`implementation_status.md`](./implementation_status.md) at the
-  workspace root as a single current-state snapshot, not an append-only log.
-  Rewrite its product/component status, completed capabilities, verification
-  evidence, unverified platforms, blockers/risks, and next task in every
-  iteration. Preserve its three runner-managed loop-report fields unchanged.
-  If the runner owns these fields, let it finalize them and create any
-  status-only commit on the iteration branch before merging.
-- Maintain the append-only [`decision_log.md`](./decision_log.md) in the
-  workspace root. Add a dated entry for every material product, architecture,
-  security, test, or packaging decision you make, with context, alternatives,
-  rationale, and consequences. Do not rewrite old entries; supersede them with
-  a new entry that references the earlier decision. Keep secrets out. Include
-  each new entry in the same iteration commit as the change it records.
+- Keep this branch/agent's current state in
+  `docs/ralph/<branch-slug>/agents/<agent-id>/status.md`, not at the workspace
+  root. Update its product/component status, completed capabilities,
+  verification evidence, unverified platforms, blockers/risks, next task, and
+  runner-managed loop-report fields in every iteration.
+- Maintain append-only decisions in
+  `docs/decisions/<branch-slug>/README.md` and
+  `docs/decisions/<branch-slug>/agents/<agent-id>/pr-<number>.md` (or the
+  pending/no-PR filename required by the integration path). Record material
+  decisions with context, alternatives, rationale, and consequences. Do not
+  rewrite earlier decisions; keep secrets out and commit records with the
+  iteration.
 - Make exactly one implementation commit for each iteration on its fresh
   branch, including its progress update, status snapshot, and any decision-log
   entry. Use a specific commit message and include the required
@@ -304,8 +312,9 @@ IMPLEMENTATION_PLAN.md is implemented and verified, including:
    screenshots are captured and inspected, and Windows 10 x64 plus actual
    MacBook Neo results/artifacts are recorded.
 
-At the end of each iteration, update RALPH_PROGRESS.md and rewrite
-implementation_status.md before creating the implementation commit. After all
+At the end of each iteration, update the branch/agent `progress.md` and
+`status.md` under `docs/` and refresh `docs/ralph-status.md` before creating
+the implementation or status commit. After all
 required checks and commits pass, merge the iteration branch into remote
 `origin/main` and verify the remote contains the merged work. Then complete
 the post-merge learning review and verify any required memory follow-up merge

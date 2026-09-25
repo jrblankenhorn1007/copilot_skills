@@ -40,8 +40,9 @@ docs/
 Derive `<branch-slug>` from the exact branch ref by lowercasing it and
 replacing each `/` with `-`. Use the stable run-scoped worker ID for
 `<agent-id>` (for example, `worker-02`); keep the runtime agent/session ID in
-the record as data, not as the path name. Keep paths repository-relative, not
-absolute.
+the record as data, not as the path name. Keep repository-artifact links
+repository-relative; the required `worktree` value in a sign-off may be an
+absolute host path.
 
 All generated Ralph run, status, progress, and decision records belong inside
 the active repository's `docs/` directory. Do not create or update

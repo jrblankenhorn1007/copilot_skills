@@ -1,7 +1,8 @@
-# Implementation Status
+# Archived Ralph Status Snapshot
 
 - **Run ID:** `copilot_skills-two-agent-ralph-test-batch-20260924`
-- **Snapshot path:** `implementation_status.md`
+- **Snapshot path:** `docs/ralph/ralph-multi-agent-orchestration-20260924-1918/agents/coordinator/status-history.md` (historical snapshot)
+- **Current dashboard:** `docs/ralph-status.md`
 - **Snapshot revision:** 15
 - **Updated at (`updated_at_utc`):** `2026-09-25T00:04:16Z`
 - **Scope:** Configurable Ralph worker count, split plans, Git synchronization,

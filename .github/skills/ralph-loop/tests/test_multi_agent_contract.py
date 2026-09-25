@@ -1,5 +1,6 @@
-from pathlib import Path
+import re
 import unittest
+from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parents[4]
@@ -279,23 +280,134 @@ class MultiAgentContractTests(unittest.TestCase):
             with self.subTest(field=field):
                 assert_contains(self, status_guide, field, f"status guide must define {field!r}")
 
-    def test_live_status_snapshot_lists_both_test_workers(self):
-        status = read_document("implementation_status.md")
-
-        for field in (
-            "overall status",
-            "requested worker count",
-            "effective worker count",
-            "active worker count",
-            "worker-01",
-            "worker-02",
-            "iteration",
-            "attestation",
-            "runtime agent id",
-            "not cryptographically signed",
+    def test_ralph_docs_contract_uses_active_project_docs_layout(self):
+        for path in (
+            ".github/skills/ralph-loop/SKILL.md",
+            ".github/agents/ralph-loop.agent.md",
+            ".github/skills/ralph-loop/references/multi-agent-orchestration.md",
+            ".github/skills/ralph-loop/references/multi-agent-status.md",
+            ".github/skills/ralph-loop/references/ralph-loop.md",
+            ".github/skills/tdd/SKILL.md",
         ):
-            with self.subTest(field=field):
-                assert_contains(self, status, field, f"live status snapshot must include {field!r}")
+            with self.subTest(path=path):
+                document = read_document(path)
+                assert_contains(
+                    self,
+                    document,
+                    "docs/ralph-status.md",
+                    f"{path} must identify the active-project Ralph dashboard",
+                )
+                assert_contains(
+                    self,
+                    document,
+                    "docs/ralph/<branch-slug>/agents/<agent-id>",
+                    f"{path} must identify branch/agent-owned records",
+                )
+                self.assertNotIn(
+                    "ralph_progress.md",
+                    document,
+                    f"{path} must not direct Ralph progress to the repository root",
+                )
+                self.assertNotIn(
+                    "implementation_status.md",
+                    document,
+                    f"{path} must not direct Ralph status to the repository root",
+                )
+                self.assertNotIn(
+                    "decision_log.md",
+                    document,
+                    f"{path} must not direct Ralph decisions to the repository root",
+                )
+
+    def test_docs_status_dashboard_indexes_every_branch_agent_folder(self):
+        dashboard_source = (ROOT / "docs" / "ralph-status.md").read_text(encoding="utf-8")
+        dashboard = " ".join(dashboard_source.lower().split())
+        assert_contains(self, dashboard, "overall_status", "dashboard must surface overall status")
+        assert_contains(
+            self,
+            dashboard,
+            "branch_agent_index",
+            "dashboard must expose its branch/agent index",
+        )
+
+        ralph_root = ROOT / "docs" / "ralph"
+        agent_folders = sorted(
+            folder for folder in ralph_root.glob("*/agents/*") if folder.is_dir()
+        )
+        self.assertTrue(agent_folders, "docs/ralph must contain branch/agent records")
+        branch_index = dashboard_source.split("branch_agent_index:", 1)[1].split(
+            "\n```", 1
+        )[0]
+        entries = re.split(r"(?m)^  - run_id: ", branch_index)
+        for agent_folder in agent_folders:
+            with self.subTest(agent_folder=agent_folder.relative_to(ROOT).as_posix()):
+                status_path = agent_folder / "status.md"
+                progress_path = agent_folder / "progress.md"
+                self.assertTrue(status_path.is_file(), "each branch/agent folder needs status.md")
+                self.assertTrue(
+                    progress_path.is_file(),
+                    "each branch/agent folder needs progress.md",
+                )
+                assert_contains(
+                    self,
+                    dashboard,
+                    status_path.relative_to(ROOT).as_posix(),
+                    "dashboard must link every branch/agent status",
+                )
+                assert_contains(
+                    self,
+                    dashboard,
+                    progress_path.relative_to(ROOT).as_posix(),
+                    "dashboard must link every branch/agent progress log",
+                )
+                status_relative = status_path.relative_to(ROOT).as_posix()
+                progress_relative = progress_path.relative_to(ROOT).as_posix()
+                matching_entries = [
+                    entry
+                    for entry in entries
+                    if f'status_path: "{status_relative}"' in entry
+                ]
+                self.assertEqual(
+                    len(matching_entries),
+                    1,
+                    "each branch/agent folder must have exactly one dashboard entry",
+                )
+                self.assertIn(
+                    f'progress_path: "{progress_relative}"',
+                    matching_entries[0],
+                    "status and progress links must be in the same dashboard entry",
+                )
+                leaf_status = status_path.read_text(encoding="utf-8")
+                leaf_match = re.search(
+                    r"(?im)^\|\s*status\s*\|\s*`([^`]+)`\s*\|\s*$",
+                    leaf_status,
+                ) or re.search(
+                    r"(?im)^-\s+\*\*status:\*\*\s*`([^`]+)`\s*$",
+                    leaf_status,
+                )
+                self.assertIsNotNone(leaf_match, "leaf status must expose a status field")
+                dashboard_match = re.search(
+                    r"(?m)^\s*status:\s*([A-Z_]+)\s*$",
+                    matching_entries[0],
+                )
+                self.assertIsNotNone(
+                    dashboard_match,
+                    "dashboard entry must expose the leaf's current status",
+                )
+                self.assertEqual(
+                    dashboard_match.group(1),
+                    leaf_match.group(1),
+                    "dashboard and leaf status must be synchronized",
+                )
+
+        self.assertFalse(
+            (ROOT / "implementation_status.md").exists(),
+            "Ralph status must not remain at the repository root",
+        )
+        self.assertFalse(
+            (ROOT / "RALPH_PROGRESS.md").exists(),
+            "Ralph progress must not remain at the repository root",
+        )
 
     def test_readme_links_the_multi_agent_workflow_and_status(self):
         readme = read_document("README.md")
@@ -321,8 +433,8 @@ class MultiAgentContractTests(unittest.TestCase):
         assert_contains(
             self,
             readme,
-            "implementation_status.md",
-            "README must link the current run status",
+            "docs/ralph-status.md",
+            "README must link the current Ralph status dashboard",
         )
 
 

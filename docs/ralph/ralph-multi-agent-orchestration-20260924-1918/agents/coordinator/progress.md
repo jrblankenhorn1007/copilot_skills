@@ -1,4 +1,8 @@
-# Ralph Progress
+# Archived Ralph Progress
+
+This append-only log preserves the completed orchestration run. Its current
+summary is in `status.md`, and the original detailed status snapshot is in
+`status-history.md`.
 
 ## 2026-09-24T23:35:36Z — Multi-agent orchestration, Red and worker batch
 
@@ -42,7 +46,7 @@ launched two **Ralph Loop** agents concurrently. The initial base was
   `8a00f6305d3f638e03304c518d092fd1e85c54ed`, then fast-forward merged commit
   `1512f6fba542df5f0737c0fe135e844907c65499` to `origin/main`. The worker
   fetched and verified the same SHA on remote main; its sign-off and exact
-  checks are retained in `implementation_status.md`.
+  checks are retained in `status-history.md`.
 - `git verify-commit HEAD` returned exit code 1 for worker-02. The recorded
   sign-off is an attributable self-attestation bound to the worker ID and
   commit SHA, not a cryptographic signature.
@@ -89,7 +93,7 @@ post-refactor run remain pending until worker-01 integration is verified.
 - Worker-01 returned a structured self-attestation tied to runtime agent ID
   `e2905656-07f3-4a99-bba0-31511720f2c1`, iteration 1, implementation SHA
   `2b511a323c375cf713c7027261cb35f8856dabdd`, and its verified remote-main
-  SHA. The payload is retained in `implementation_status.md`.
+  SHA. The payload is retained in `status-history.md`.
 - Both worker merges (`1512f6fba542df5f0737c0fe135e844907c65499` and
   `2b511a323c375cf713c7027261cb35f8856dabdd`) are reachable from fetched
   `origin/main` `a35787c1760d9f0d65d5e2b4186fc96f79512cf3`.
