@@ -131,3 +131,49 @@ this entry supplements rather than replaces that history.
   SHA cross-reference was added.
 - The combined parent-child contract suite remains unrun by instruction;
   worker-01 and coordinator-owned documentation are still pending integration.
+
+## 2026-09-25T01:04:44Z — Remote main advanced after dispatch
+
+- `git ls-remote origin refs/heads/main` reported
+  `b4dac949e976d48f7bd976fc1c93ddc703bc7319`; local `origin/main` was the
+  same SHA. This is newer than the dispatch-time parent base
+  `d26900cc201218fb84f5ad4987285c0c24b85bb7`.
+- The unchanged parent branch remains at
+  `0688b70d8995a6900f29d9d3eeac6ffe8a9cfc42`. Exact divergence check
+  `git rev-list --left-right --count ralph/parent-child-orchestrator-20260924-2008...origin/main`
+  returned `1 3` (one parent-only commit, three remote-only commits).
+- This worker did not update the parent or rebase onto `origin/main`; the
+  coordinator owns parent synchronization and any subsequent child rebase.
+  Status remains `AWAITING_MERGE`; parent integration, memory review, and
+  cleanup are pending.
+
+### Post-dispatch-sync verification — 2026-09-25T01:05:57Z
+
+- `python3 .github/skills/ralph-loop/tests/test_multi_agent_contract.py MultiAgentContractTests.test_status_protocol_records_overall_worker_iteration_and_attestation`
+  — `Ran 1 test in 0.001s`, `OK`.
+- `python3 .github/skills/ralph-loop/tests/test_multi_agent_contract.py MultiAgentContractTests.test_final_response_reports_completion_and_logs_recovered_issues`
+  — `Ran 1 test in 0.002s`, `OK`.
+- `git diff --check` and `git show --check --format=oneline HEAD` — `PASS`.
+- The recorded 10-link check — `PASS`.
+- The combined parent-child suite remains unrun; worker-01/coordinator
+  integration is still pending.
+
+### Metadata SHA-reference commit
+
+- Commit `d01ff936d21976d684b344abb49932f7c1e8e6bc` records metadata commit
+  `aaebd7ab1e8fece486cf1a2c30b9fbc2b74b1dd5` in the status and decision
+  records. It is a separate metadata-only commit with the required Copilot
+  co-author trailer; neither commit was amended.
+
+### Final handoff verification — 2026-09-25T01:07:28Z
+
+- Required status protocol command — `Ran 1 test in 0.001s`, `OK`.
+- Required final-reporting command — `Ran 1 test in 0.003s`, `OK`.
+- `git diff --check`, latest sign-off JSON parsing, and the recorded 10-link
+  check — `PASS`.
+- `git ls-remote origin refs/heads/main` reconfirmed
+  `b4dac949e976d48f7bd976fc1c93ddc703bc7319`; the parent remained at
+  `0688b70d8995a6900f29d9d3eeac6ffe8a9cfc42` with divergence `1 3`.
+- The new `SELF_ATTESTATION` is bound only to implementation commit
+  `b75a67b699a5e063691a36746d8795656a84ca90`. It does not claim worker-to-
+  parent integration or coordinator memory review.

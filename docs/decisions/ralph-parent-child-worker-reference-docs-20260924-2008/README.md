@@ -40,6 +40,8 @@
   `b75a67b699a5e063691a36746d8795656a84ca90`.
 - **Metadata/status/decision-record commit SHA:**
   `aaebd7ab1e8fece486cf1a2c30b9fbc2b74b1dd5`.
+- **Metadata SHA-reference follow-up commit SHA:**
+  `d01ff936d21976d684b344abb49932f7c1e8e6bc`.
 - **Current state:** `AWAITING_MERGE`; PR remains `NOT_OPENED`. Parent
   integration, post-merge memory review, and cleanup are pending. This
   follow-up does not push, merge, or remove the child branch/worktree.
@@ -47,3 +49,18 @@
   [status](../../ralph/ralph-parent-child-worker-reference-docs-20260924-2008/agents/worker-02/status.md) ·
   [progress](../../ralph/ralph-parent-child-worker-reference-docs-20260924-2008/agents/worker-02/progress.md).
 - **No-PR record:** [worker-02 — no PR opened](agents/worker-02/pr-not-opened.md).
+
+## Post-dispatch remote-main movement
+
+- The parent tip used by this child remains
+  `0688b70d8995a6900f29d9d3eeac6ffe8a9cfc42`, whose recorded
+  `origin/main` base was `d26900cc201218fb84f5ad4987285c0c24b85bb7`.
+- At `2026-09-25T01:04:44Z`, `git ls-remote origin refs/heads/main` reported
+  `b4dac949e976d48f7bd976fc1c93ddc703bc7319`. The unchanged parent branch is
+  one commit ahead and three behind that observed remote tip.
+- Worker-02 did not change the parent or rebase directly onto `origin/main`.
+  Coordinator synchronization is the next action; this worker remains
+  `AWAITING_MERGE`, with cleanup pending.
+- Reconfirmed at `2026-09-25T01:07:28Z`: `origin/main` remained
+  `b4dac949e976d48f7bd976fc1c93ddc703bc7319`; the parent remained at
+  `0688b70d8995a6900f29d9d3eeac6ffe8a9cfc42`.

@@ -284,3 +284,65 @@ commit—not to this record or the metadata commit:
   "statement": "I, worker-02, attest to iteration 1 for parent-child-reference-docs at exact implementation commit b75a67b699a5e063691a36746d8795656a84ca90, rebased onto parent 0688b70d8995a6900f29d9d3eeac6ffe8a9cfc42. This sign-off does not claim parent integration, remote-main integration, or completion of the coordinator's post-merge memory review."
 }
 ```
+
+## Post-dispatch origin-main advancement
+
+- **Observed at:** `2026-09-25T01:04:44Z`.
+- **Remote main:** `git ls-remote origin refs/heads/main` reported
+  `b4dac949e976d48f7bd976fc1c93ddc703bc7319`, later than the dispatch-time
+  parent base `d26900cc201218fb84f5ad4987285c0c24b85bb7`.
+- **Parent state:** Still at
+  `0688b70d8995a6900f29d9d3eeac6ffe8a9cfc42`; the divergence check against
+  `origin/main` returned one parent-only and three remote-only commits.
+- **Disposition:** The worker did not change the parent branch or rebase
+  directly onto `origin/main`. The coordinator owns reconciliation and any
+  resulting child rebase/retest. Status remains `AWAITING_MERGE`; memory
+  review and cleanup are pending.
+- **Blocker scope:** No implementation/test blocker is known. Coordinator
+  synchronization is a current integration dependency.
+
+## Updated worker-02 self-attestation after remote-main movement
+
+```json
+{
+  "run_id": "copilot_skills-parent-child-pipeline-20260924",
+  "task_ids": ["parent-child-reference-docs"],
+  "task_id": "parent-child-reference-docs",
+  "worker_id": "worker-02",
+  "worker_name": "worker-02 — parent-child reference documentation",
+  "runtime_agent_id": null,
+  "runtime_session_id": "copilotcli:/2f06d4f9-e0c1-4b03-bbbe-edfc40054447 (coordinator follow-up; not attributed as the original worker runtime)",
+  "iteration": 1,
+  "branch": "ralph/parent-child-worker-reference-docs-20260924-2008",
+  "worktree": "/Users/jrblankenhorn/copilot_skills.worktrees/ralph-parent-child-worker-reference-docs-20260924-2008",
+  "parent_branch": "ralph/parent-child-orchestrator-20260924-2008",
+  "parent_worktree": "/Users/jrblankenhorn/copilot_skills.worktrees/ralph-parent-child-orchestrator-20260924-2008",
+  "base_parent_sha": "d54cc120fe25da04d6be887b1a6a7e321512b6e4",
+  "rebased_onto_parent_sha": "0688b70d8995a6900f29d9d3eeac6ffe8a9cfc42",
+  "parent_origin_main_base_sha": "d26900cc201218fb84f5ad4987285c0c24b85bb7",
+  "observed_origin_main_sha": "b4dac949e976d48f7bd976fc1c93ddc703bc7319",
+  "implementation_commit_sha": "b75a67b699a5e063691a36746d8795656a84ca90",
+  "metadata_commit_sha": "aaebd7ab1e8fece486cf1a2c30b9fbc2b74b1dd5",
+  "metadata_reference_followup_sha": "d01ff936d21976d684b344abb49932f7c1e8e6bc",
+  "pull_request": "NOT_OPENED",
+  "status": "AWAITING_MERGE",
+  "checks": [
+    {"command": "git diff --check", "result": "PASS"},
+    {"command": "python3 .github/skills/ralph-loop/tests/test_multi_agent_contract.py MultiAgentContractTests.test_status_protocol_records_overall_worker_iteration_and_attestation", "result": "PASS: Ran 1 test in 0.001s, OK"},
+    {"command": "python3 .github/skills/ralph-loop/tests/test_multi_agent_contract.py MultiAgentContractTests.test_final_response_reports_completion_and_logs_recovered_issues", "result": "PASS: Ran 1 test in 0.003s, OK"},
+    {"check": "Relative links among worker status/progress and branch decision records", "result": "PASS: 10 links resolve"},
+    {"command": "git show --check --format=oneline HEAD", "result": "PASS"}
+  ],
+  "blockers": [
+    "Coordinator-managed synchronization is outstanding: observed origin/main b4dac949e976d48f7bd976fc1c93ddc703bc7319 is three commits ahead of the parent branch at 0688b70d8995a6900f29d9d3eeac6ffe8a9cfc42; coordinator must reconcile the parent and rebase/retest this child if the parent tip changes."
+  ],
+  "parent_merge_status": "PENDING",
+  "memory_review_status": "PENDING",
+  "cleanup_status": "PENDING",
+  "attested_at_utc": "2026-09-25T01:07:28Z",
+  "attestation_kind": "SELF_ATTESTATION",
+  "bound_to_implementation_commit_sha": "b75a67b699a5e063691a36746d8795656a84ca90",
+  "cryptographic_signature_status": "NOT_CRYPTOGRAPHICALLY_SIGNED",
+  "statement": "I, worker-02, attest to iteration 1 for parent-child-reference-docs at exact implementation commit b75a67b699a5e063691a36746d8795656a84ca90, rebased onto parent 0688b70d8995a6900f29d9d3eeac6ffe8a9cfc42. This self-attestation is bound to the implementation commit, not the metadata commit; it does not claim parent integration or completion of the coordinator's post-merge memory review."
+}
+```
