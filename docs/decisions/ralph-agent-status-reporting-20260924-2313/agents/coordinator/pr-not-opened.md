@@ -134,3 +134,16 @@
   synchronization is being committed before rebase.
 - **Next:** Rebase the parent onto the fetched main SHA, then rebase and
   revalidate worker-01 against the refreshed parent before child integration.
+
+## Parent rebase onto current main
+
+- **Fetched and integrated base:** `7ee1307cb47f5a88cd6b46ee135444777ddeb665`;
+  the canonical main worktree was clean at this SHA.
+- **Parent tip after rebase:** `a96bbca627c1fbb126952a0238fbe2e92120824c`
+  before the current coordinator status-sync commit.
+- **Resolved conflicts:** The dashboard rebase kept the latest upstream
+  completed-run state and retained this run's active entry. The contract-test
+  rebase kept upstream review-gate tests and this run's status-first
+  regression coverage. No upstream history or task assertions were discarded.
+- **Next:** Commit the parent status synchronization, then have worker-01
+  rebase and rerun the suite against the resulting exact parent tip.

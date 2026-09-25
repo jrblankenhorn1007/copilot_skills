@@ -189,3 +189,18 @@
   parent onto `d868d684564658bdc9488e27f5bfeaa592b04338`, then have worker-01
   rebase onto the refreshed parent and rerun the full contract suite before
   integration.
+
+## Parent rebased onto latest main
+
+- The clean canonical main worktree and fetched `origin/main` are now at
+  `7ee1307cb47f5a88cd6b46ee135444777ddeb665`. The unpublished parent branch
+  was rebased onto that exact SHA; rebased parent tip before this status sync:
+  `a96bbca627c1fbb126952a0238fbe2e92120824c`.
+- The rebase replayed all nine local commits. Conflicts in the aggregate
+  dashboard and contract test were resolved by retaining current upstream
+  run history and review-gate coverage while keeping this run's entries and
+  status-first regression test.
+- The child still targets parent `bfc044acb477af7abf17717644adf9edfe9614db`.
+  Its earlier 16-test Green result does not cover the refreshed parent;
+  worker-01 must rebase onto the exact parent tip after this status sync,
+  rerun the full current contract suite, and refresh its sign-off.

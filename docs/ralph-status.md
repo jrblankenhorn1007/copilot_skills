@@ -406,15 +406,15 @@ runs:
     effective_worker_count: 2
     active_worker_count: 0
     base_origin_main_sha: "9558f99cc34cbed8dd1d24f4f15fc03f5d78b6ea"
-    current_origin_main_sha: "d868d684564658bdc9488e27f5bfeaa592b04338"
-    parent_rebased_onto_origin_main_sha: "20293c720b18a1a21ff150f566823493b7a2717d"
+    current_origin_main_sha: "7ee1307cb47f5a88cd6b46ee135444777ddeb665"
+    parent_rebased_onto_origin_main_sha: "7ee1307cb47f5a88cd6b46ee135444777ddeb665"
     created_at_utc: "2026-09-25T03:13:20Z"
-    updated_at_utc: "2026-09-25T07:46:19Z"
+    updated_at_utc: "2026-09-25T08:11:04Z"
     coordinator_scope: "Replace misleading binary completion reports with status-first run and per-agent reporting."
     coordinator_branch: "ralph/agent-status-reporting-20260924-2313"
     coordinator_status_path: "docs/ralph/ralph-agent-status-reporting-20260924-2313/agents/coordinator/status.md"
     coordinator_progress_path: "docs/ralph/ralph-agent-status-reporting-20260924-2313/agents/coordinator/progress.md"
-    worker_count_note: "Worker-02 is COMPLETE. Worker-01 is AWAITING_MERGE with the updated 16-test contract suite passing and no blockers. No workers are active, but parent rebase, child refresh, integration, and final checks remain, so the run is IN_PROGRESS."
+    worker_count_note: "Worker-02 is COMPLETE. Worker-01 is AWAITING_MERGE; its 16-test Green result is from parent bfc044a and must be rerun after rebasing onto the refreshed parent. No workers are active and there are no blockers, but child refresh, integration, and final checks remain, so the run is IN_PROGRESS."
     parent_to_main_merge:
       status: PENDING
       sha: null
@@ -423,7 +423,7 @@ runs:
       verification_method: null
       verified_at_utc: null
     memory_review: PENDING
-    next_action: "Coordinator: rebase the parent onto origin/main d868d684564658bdc9488e27f5bfeaa592b04338, then rebase worker-01 onto the refreshed parent, rerun checks, and obtain a refreshed sign-off before integration."
+    next_action: "Worker-01: rebase onto the parent tip after the current status-sync commit, rerun the contract suite, and refresh the sign-off before integration."
     split_plan:
       - task_id: "agent-status-report-test"
         worker_id: "worker-02"
@@ -1360,7 +1360,7 @@ branch_agent_index:
     status: IN_PROGRESS
     iteration: 1
     resource_usage:
-      time_spent_seconds: 16379
+      time_spent_seconds: 17864
       time_basis: WALL_CLOCK_ELAPSED
       token_spend:
         status: NOT_REPORTED
@@ -1379,7 +1379,7 @@ branch_agent_index:
       status: PENDING
       sha: null
     memory_review: PENDING
-    next_action: "Coordinator: rebase the parent onto origin/main d868d684564658bdc9488e27f5bfeaa592b04338, then rebase worker-01 onto the refreshed parent, rerun checks, and obtain a refreshed sign-off before integration."
+    next_action: "Worker-01: rebase onto the parent tip after the current status-sync commit, rerun the contract suite, and refresh the sign-off before integration."
 
   - run_id: "copilot_skills-agent-status-reporting-20260924"
     task_ids: ["agent-status-report-test"]
@@ -1466,7 +1466,7 @@ branch_agent_index:
 |---|---|---|---|---|---|---|---|---|---|
 | `copilot-skills-status-report-time-token-20260925` | `ralph/status-report-time-token-20260925-0335` | `coordinator` | `COMPLETE` | `10,023 s (wall-clock)` | `NOT_REPORTED` | [status](./ralph/ralph-status-report-time-token-20260925-0335/agents/coordinator/status.md) | [progress](./ralph/ralph-status-report-time-token-20260925-0335/agents/coordinator/progress.md) | `05b1b23da974ed7b171c3a29ee266e43721d4e7` | `COMPLETE` |
 | `copilot-skills-status-report-time-token-20260925` | `ralph/status-report-time-token-worker-01-20260925-0335` | `worker-01` | `COMPLETE` | `8,057 s (wall-clock)` | `NOT_REPORTED` | [status](./ralph/ralph-status-report-time-token-worker-01-20260925-0335/agents/worker-01/status.md) | [progress](./ralph/ralph-status-report-time-token-worker-01-20260925-0335/agents/worker-01/progress.md) | `019ab357f25e1b04133bacb242460e063d94be9d` | `COMPLETE` |
-| `copilot_skills-agent-status-reporting-20260924` | `ralph/agent-status-reporting-20260924-2313` | `coordinator` | `IN_PROGRESS` | `16,379 s (wall-clock)` | `NOT_REPORTED` | [status](./ralph/ralph-agent-status-reporting-20260924-2313/agents/coordinator/status.md) | [progress](./ralph/ralph-agent-status-reporting-20260924-2313/agents/coordinator/progress.md) | `PENDING` | `PENDING` |
+| `copilot_skills-agent-status-reporting-20260924` | `ralph/agent-status-reporting-20260924-2313` | `coordinator` | `IN_PROGRESS` | `17,864 s (wall-clock)` | `NOT_REPORTED` | [status](./ralph/ralph-agent-status-reporting-20260924-2313/agents/coordinator/status.md) | [progress](./ralph/ralph-agent-status-reporting-20260924-2313/agents/coordinator/progress.md) | `PENDING` | `PENDING` |
 | `copilot_skills-agent-status-reporting-20260924` | `ralph/agent-status-contract-worker-02-20260924-2324` | `worker-02` | `COMPLETE` | Not captured (legacy) | Not captured (legacy) | [status](./ralph/ralph-agent-status-contract-worker-02-20260924-2324/agents/worker-02/status.md) | [progress](./ralph/ralph-agent-status-contract-worker-02-20260924-2324/agents/worker-02/progress.md) | `a17b1a1` | `PENDING` |
 | `copilot_skills-agent-status-reporting-20260924` | `ralph/agent-status-reporting-worker-01-20260925-0602` | `worker-01` | `AWAITING_MERGE` | `5,229 s (wall-clock)` | `NOT_REPORTED` | [status](./ralph/ralph-agent-status-reporting-worker-01-20260925-0602/agents/worker-01/status.md) | [progress](./ralph/ralph-agent-status-reporting-worker-01-20260925-0602/agents/worker-01/progress.md) | `PENDING` | `PENDING` |
 | `copilot_skills-two-agent-ralph-test-batch-20260924` | `ralph/multi-agent-orchestration-20260924-1918` | `coordinator` | `COMPLETE` | Not captured (legacy) | Not captured (legacy) | [status](./ralph/ralph-multi-agent-orchestration-20260924-1918/agents/coordinator/status.md) | [progress](./ralph/ralph-multi-agent-orchestration-20260924-1918/agents/coordinator/progress.md) | `61dd22e5bcdf1a8557fc2fd221bba38810e8905f` | `COMPLETE` |
