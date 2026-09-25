@@ -30,13 +30,14 @@
 - **Rationale:** A fresh branch preserves all prior local and remote history,
   applies only the requested change atop current main, and follows the
   repository's documented coordinator process.
-- **Consequences:** This branch remains `AWAITING_MERGE` until the
-  coordinator's remote fast-forward and ancestry verification succeed.
+- **Consequences:** The branch remained `AWAITING_MERGE` until the
+  coordinator's remote fast-forward and ancestry verification succeeded.
 
 ## Current state
 
 The implementation and contract test are committed and pass after rebase.
-The branch was fast-forwarded into local `main` at
-`08fd7d02eb2739cfffaf00aa36a472ba36e8e4b9`. No remote merge is claimed:
-publishing is blocked until explicit user authorization is available. No
-push was attempted, and the post-merge memory review remains pending.
+The implementation is verified on `origin/main` at
+`9dc821917a5ffe32517c44131c1211291d9b1014`. The user resumed the blocked
+integration with an explicit request to finish. The post-merge memory review
+identified a durable workflow lesson, which is being integrated on a fresh
+follow-up branch.

@@ -4,15 +4,15 @@ This is the active repository's aggregate Ralph status dashboard. It indexes
 every branch/agent status and progress folder under `docs/ralph/`. The
 coordinator updates this file in the same loop as affected leaf records.
 
-**Overall status:** `BLOCKED`. The prompt-generation recovery is integrated
-into local `main`; publishing it to `origin/main` awaits explicit authorization.
+**Overall status:** `IN_PROGRESS`. The prompt-generation recovery is verified
+on `origin/main`; the post-merge memory follow-up is in progress.
 
 ```yaml
 schema_version: 1
 snapshot_path: "docs/ralph-status.md"
-snapshot_revision: 20
-updated_at_utc: "2026-09-25T04:11:02Z"
-overall_status: BLOCKED
+snapshot_revision: 21
+updated_at_utc: "2026-09-25T04:45:24Z"
+overall_status: IN_PROGRESS
 current_run_ids:
   - "copilot-skills-docs-status-organization-20260924"
   - "copilot-skills-no-browser-git-20260924"
@@ -140,24 +140,24 @@ runs:
   - run_id: "translated-ralph-prompt-skills-recovery-20260925-0318"
     parent_request_run_id: "skills-routing-20260925-0108"
     task_ids: ["generate-relevant-skills-in-translated-ralph-prompt"]
-    aggregate_status: BLOCKED
+    aggregate_status: IN_PROGRESS
     requested_worker_count: 0
     effective_worker_count: 0
     active_worker_count: 0
     base_origin_main_sha: "9558f99cc34cbed8dd1d24f4f15fc03f5d78b6ea"
-    current_origin_main_sha: "8da9310fda1b2e3042a379081dfb0675f1b22d6b"
-    verified_origin_main_sha: null
+    current_origin_main_sha: "9dc821917a5ffe32517c44131c1211291d9b1014"
+    verified_origin_main_sha: "9dc821917a5ffe32517c44131c1211291d9b1014"
     rebased_onto_origin_main_sha: "8da9310fda1b2e3042a379081dfb0675f1b22d6b"
     implementation_commit_sha: "7f079cd4c28228966707cdc7ec486cca8eba1ed1"
-    merge_sha: null
+    merge_sha: "9dc821917a5ffe32517c44131c1211291d9b1014"
     created_at_utc: "2026-09-25T03:18:30Z"
-    updated_at_utc: "2026-09-25T04:11:02Z"
+    updated_at_utc: "2026-09-25T04:45:24Z"
     memory_review: PENDING
     coordinator_scope: "Reapply the prompt-generation skill change on current main after preserving a diverged local integration tip."
     coordinator_branch: "ralph/translated-ralph-skills-worker-02-refresh-9558f99-20260925-0318"
     coordinator_status_path: "docs/ralph/ralph-translated-ralph-skills-worker-02-refresh-9558f99-20260925-0318/agents/coordinator/status.md"
     coordinator_progress_path: "docs/ralph/ralph-translated-ralph-skills-worker-02-refresh-9558f99-20260925-0318/agents/coordinator/progress.md"
-    next_action: "Wait for explicit user authorization to publish the local fast-forward; then verify origin/main and complete the post-merge memory review."
+    next_action: "Complete the post-merge Project Memory review and verify any required memory follow-up before marking the run complete."
     split_plan:
       - task_id: "generate-relevant-skills-in-translated-ralph-prompt"
         worker_id: "coordinator"
@@ -500,7 +500,7 @@ branch_agent_index:
     runtime_agent_id: null
     branch: "ralph/translated-ralph-skills-worker-02-refresh-9558f99-20260925-0318"
     branch_slug: "ralph-translated-ralph-skills-worker-02-refresh-9558f99-20260925-0318"
-    status: BLOCKED
+    status: IN_PROGRESS
     iteration: 1
     status_path: "docs/ralph/ralph-translated-ralph-skills-worker-02-refresh-9558f99-20260925-0318/agents/coordinator/status.md"
     progress_path: "docs/ralph/ralph-translated-ralph-skills-worker-02-refresh-9558f99-20260925-0318/agents/coordinator/progress.md"
@@ -515,14 +515,14 @@ branch_agent_index:
       url: null
     merge_actor_worker_id: null
     merge:
-      status: BLOCKED
-      sha: null
+      status: VERIFIED
+      sha: "9dc821917a5ffe32517c44131c1211291d9b1014"
       verified_remote_ref: "refs/heads/main"
-      verified_origin_main_sha: null
-      verification_method: null
-      verified_at_utc: null
+      verified_origin_main_sha: "9dc821917a5ffe32517c44131c1211291d9b1014"
+      verification_method: "git merge-base --is-ancestor 9dc821917a5ffe32517c44131c1211291d9b1014 origin/main"
+      verified_at_utc: "2026-09-25T04:45:24Z"
     memory_review: PENDING
-    next_action: "Wait for explicit user authorization to publish the local fast-forward; then verify origin/main and complete the post-merge memory review."
+    next_action: "Coordinator: complete the post-merge memory review and merge any required memory follow-up."
 ```
 
 ## Branch/agent index
@@ -540,7 +540,7 @@ branch_agent_index:
 | `copilot_skills-parent-child-pipeline-20260924` | `ralph/parent-child-orchestrator-20260924-2008` | `coordinator` | `COMPLETE` | [status](./ralph/ralph-parent-child-orchestrator-20260924-2008/agents/coordinator/status.md) | [progress](./ralph/ralph-parent-child-orchestrator-20260924-2008/agents/coordinator/progress.md) | `9558f99cc34cbed8dd1d24f4f15fc03f5d78b6ea` | `COMPLETE` |
 | `copilot_skills-parent-child-pipeline-20260924` | `ralph/parent-child-worker-agent-skill-20260924-2008` | `worker-01` | `COMPLETE` | [status](./ralph/ralph-parent-child-worker-agent-skill-20260924-2008/agents/worker-01/status.md) | [progress](./ralph/ralph-parent-child-worker-agent-skill-20260924-2008/agents/worker-01/progress.md) | `fda10605f50b49eeb4bc007a181cf51a5578ae18` → `9558f99cc34cbed8dd1d24f4f15fc03f5d78b6ea` | `COMPLETE` |
 | `copilot_skills-parent-child-pipeline-20260924` | `ralph/parent-child-worker-reference-docs-20260924-2008` | `worker-02` | `COMPLETE` | [status](./ralph/ralph-parent-child-worker-reference-docs-20260924-2008/agents/worker-02/status.md) | [progress](./ralph/ralph-parent-child-worker-reference-docs-20260924-2008/agents/worker-02/progress.md) | `1285978056851f2cdfb0ba93753386dab7dcc009` → `9558f99cc34cbed8dd1d24f4f15fc03f5d78b6ea` | `COMPLETE` |
-| `translated-ralph-prompt-skills-recovery-20260925-0318` | `ralph/translated-ralph-skills-worker-02-refresh-9558f99-20260925-0318` | `coordinator` | `BLOCKED` | [status](./ralph/ralph-translated-ralph-skills-worker-02-refresh-9558f99-20260925-0318/agents/coordinator/status.md) | [progress](./ralph/ralph-translated-ralph-skills-worker-02-refresh-9558f99-20260925-0318/agents/coordinator/progress.md) | `BLOCKED` | `PENDING` |
+| `translated-ralph-prompt-skills-recovery-20260925-0318` | `ralph/translated-ralph-skills-worker-02-refresh-9558f99-20260925-0318` | `coordinator` | `IN_PROGRESS` | [status](./ralph/ralph-translated-ralph-skills-worker-02-refresh-9558f99-20260925-0318/agents/coordinator/status.md) | [progress](./ralph/ralph-translated-ralph-skills-worker-02-refresh-9558f99-20260925-0318/agents/coordinator/progress.md) | `9dc821917a5ffe32517c44131c1211291d9b1014` | `PENDING` |
 
 The parent-child pipeline run is `COMPLETE`: both workers integrated into the
 parent, the parent merge is verified on `origin/main`, the contract suite and

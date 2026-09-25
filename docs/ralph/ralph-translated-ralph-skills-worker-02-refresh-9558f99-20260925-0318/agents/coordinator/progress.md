@@ -110,3 +110,30 @@ conditional.
   `BLOCKED`, with all 12 status/progress pairs indexed exactly once in YAML
   and Markdown; **PASS**.
 - `git diff --check` passed after the blocked-state update.
+
+### User continuation and remote verification
+
+- The user then instructed the coordinator to finish and capture the workflow
+  learning. Resumed this same iteration from its preserved branch and current
+  status rather than starting over.
+- `git -C /Users/jrblankenhorn/copilot_skills push origin main`
+  — **PASS**, advanced remote `main` from
+  `8da9310fda1b2e3042a379081dfb0675f1b22d6b` to
+  `9dc821917a5ffe32517c44131c1211291d9b1014`.
+- Fetched `origin`; `git merge-base --is-ancestor 9dc821917a5ffe32517c44131c1211291d9b1014 origin/main`
+  — **PASS**. The recovery commit is verified on `origin/main`.
+- `cd /Users/jrblankenhorn/copilot_skills && PYTHONDONTWRITEBYTECODE=1 python3 .github/skills/ralph-loop/tests/test_multi_agent_contract.py`
+  — **PASS**, 14 tests after remote integration.
+
+### Post-merge memory review
+
+- Reviewed `.github/memory/README.md` and the workflow category against the
+  iteration evidence and user feedback. The durable lesson is to keep an
+  incomplete Ralph iteration resumable while required publication or
+  authorization is pending; an unavailable-user result is not a refusal or
+  cancellation. When the user later says to finish after the operation was
+  explained, resume the same iteration and perform only that operation through
+  the normal process.
+- A fresh follow-up branch from verified `origin/main` is recording this
+  workflow lesson and the corresponding current status. This memory update is
+  part of the same iteration; no recursive memory review will be performed.

@@ -32,3 +32,19 @@
   diagnosable without unsafe credential handling.
 - **Scope:** Follow the [Ralph Loop Git identity and authentication
   preflight](../skills/ralph-loop/SKILL.md#git-identity-and-authentication).
+
+## Keep blocked Ralph work resumable
+
+- **Rule:** When a Ralph iteration is unfinished because publication or
+  authorization is pending, record `BLOCKED`, preserve its branch/worktree,
+  and keep the task resumable rather than reporting it complete. If the user
+  later says to finish after the specific pending operation was explained,
+  resume that iteration, refresh refs, and perform only that operation
+  through the repository's normal process.
+- **Why:** A local commit or fast-forward is not verified remote integration;
+  ending the task early can leave requested work unpublished.
+- **Scope:** Ralph iterations with a required external approval, publication,
+  or merge step.
+- **Gotcha:** An `ask_user` result saying the user is unavailable is not a
+  refusal or cancellation; keep the precise next action in status and resume
+  when the user next responds.
