@@ -1,5 +1,12 @@
 # Local index and project Skill Stack Profiles
 
+The `python3 scripts/...` examples here use the
+[Skill-directory working directory](../SKILL.md#running-bundled-scripts):
+the folder containing `SKILL.md` and `scripts/`. From this repository's
+root, use `cd .github/skills/agent-skill-stack` in the same shell invocation
+as the command; use the actual installed Skill directory in other hosts.
+Project-local paths must identify the *project*, not `.` after this `cd`.
+
 ## Why both are needed
 
 Progressive loading and project profiles solve different layers:
@@ -33,7 +40,7 @@ Build:
 python3 scripts/skill_index.py build \
   --root ~/.codex/skills \
   --root ~/.codex/plugins/cache \
-  --root .codex/skills \
+  --root /path/to/project/.codex/skills \
   --root ~/.agents/skills \
   --root ~/.hermes/skills \
   --output ~/.codex/skill-index.json

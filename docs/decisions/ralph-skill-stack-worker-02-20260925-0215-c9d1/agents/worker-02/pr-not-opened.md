@@ -66,3 +66,35 @@
 - None for this worker's published documentation iteration. Coordinator
   review, remote integration, and post-merge memory review remain pending;
   no completion is claimed.
+
+## Pre-merge review-feedback addendum — 2026-09-25T02:54:42Z
+
+### Declare the Skill directory without making project outputs relative to it
+
+- **Context:** The read-only Docs Sync Audit run from the repository root
+  identified `scripts/*.py` in the Skill and profile reference as missing.
+  All four unique scripts exist under the Skill's `scripts/`, but the examples
+  did not specify their working directory. The old relative manifest path
+  also named an output, not an existing input script.
+- **Alternatives:** Change the unrelated audit heuristic; hard-code this
+  checkout's absolute path in every script command; keep implicit cwd; or
+  declare a portable installed-Skill cwd and make project/output arguments
+  explicit.
+- **Decision:** Document the installed folder containing `SKILL.md` and
+  `scripts/` as cwd for examples (with a checkout-specific `cd` only as an
+  illustration). Change project-local index input and installer manifest
+  output placeholders to `/path/to/project/...`. Leave all scripts and the
+  owning Skill's activation trigger unchanged.
+- **Rationale:** Examples then work from their declared cwd without treating
+  the current project as the Skill directory, writing an output into the
+  installed Skill by accident, or claiming that a heuristic proves a script
+  is absent.
+- **Consequences:** A non-writing project-profile preview succeeds from
+  the declared cwd, and the Skill-scoped audit has zero findings. The root
+  audit still has script-path heuristic leads because it assumes repo-root
+  cwd; those remain leads, not verified missing files.
+
+The previous worker self-attestation for implementation commit
+`eaec4ac35c8f4690f8ce6a9b35da07882dbdedd5` is superseded. A new
+implementation commit and worker sign-off will be recorded before coordinator
+integration; no merge or new PR has been attempted.

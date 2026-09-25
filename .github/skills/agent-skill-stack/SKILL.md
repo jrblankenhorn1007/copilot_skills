@@ -11,6 +11,21 @@ name: agent-skill-stack
 
 Build the smallest useful stack for the user's actual outcome. Never force a domain example or a fixed lifecycle onto a different request.
 
+## Running bundled scripts
+
+All `python3 scripts/...` examples below and in the references run from the
+**Agent Skill Stack directory**: the installed folder containing this
+`SKILL.md` and `scripts/`, not the repository or target project's root. From
+this repository's root, enter it with `cd .github/skills/agent-skill-stack`;
+for another installation, locate its actual Skill directory. If a tool resets
+its working directory between calls, run `cd` and `python3 scripts/...` in
+the same shell command.
+
+After changing directory, `.` means the Skill directory. Supply an explicit
+project path for project-local inputs and an approved output path for cards,
+indexes, and manifests; do not accidentally write them inside the Skill.
+Replace `/path/to/project` below with the actual project path.
+
 ## 1. Choose the user-facing depth
 
 Default to **plain-language mode**. Assume the user does not need to understand paths, revisions, hashes, manifests, static analysis, or runtime details.
@@ -47,7 +62,7 @@ If a current local Skill index exists, search it before the filesystem or intern
 python3 scripts/skill_index.py build \
   --root ~/.codex/skills \
   --root ~/.codex/plugins/cache \
-  --root .codex/skills \
+  --root /path/to/project/.codex/skills \
   --root ~/.agents/skills \
   --root ~/.hermes/skills \
   --output ~/.codex/skill-index.json
@@ -162,7 +177,7 @@ For already downloaded and checked Skill directories, preview first:
 python3 scripts/stage_install.py \
   --source /path/to/skill-a \
   --dest ~/.codex/skills \
-  --manifest ./skill-stack-lock.json
+  --manifest /path/to/project/skill-stack-lock.json
 ```
 
 The preview writes the chosen manifest file but does not install a Skill;

@@ -122,3 +122,68 @@ statement: "I, worker-02, sign off iteration 1 for skill-stack-recall at commit 
 `docs/ralph-status.md`, serializes and verifies the normal integration, then
 performs the required post-merge Project Memory review. This worker does not
 claim completion before those actions.
+
+### Pre-merge review feedback — 2026-09-25T02:52:52Z
+
+- User supplied a repository-root Docs Sync Audit lead: `scripts/*.py` in
+  this Skill's examples are interpreted as repository-root-relative although
+  the files are bundled under `.github/skills/agent-skill-stack/scripts/`.
+  The `skill-stack-lock.json` placeholder is an output path, not a required
+  existing script. This follow-up remains **iteration 1** on the published,
+  still-unmerged worker branch; it is not a second iteration or a rebase.
+- `git -C /Users/jrblankenhorn/copilot_skills pull --ff-only` — PASS on the
+  clean attached shared integration worktree; canonical and active project
+  are the same checkout. Reopened Ralph, orchestration, status, Project
+  Memory, Docs Sync Audit, TDD, and the owning Skill after refresh.
+  Silently rechecked configured Git identity and fetched `origin`: remote
+  `main` remained `114e4d60567d05cd048916339ed86e324c6eeef3`;
+  published worker branch and clean local HEAD were both
+  `ad63c514650b3c3c10b559a886396a49662f9aa4`. No force-push or
+  history rewrite is required for a fast-forward feedback commit.
+- `cd /Users/jrblankenhorn/copilot_skills.worktrees/ralph-skill-stack-worker-02-20260925-0215-c9d1 && python3 .github/skills/docs-sync-audit/scripts/docs_drift.py --repo . --top 12`
+  — exit 0; repo-wide heuristic reported the Skill's four bundled-script
+  examples and three reference examples as missing from the repository
+  root. `Path.is_file()` confirmed all four distinct referenced scripts
+  exist under this Skill's `scripts/`. The audit's other findings are outside
+  this worker's scope and are not treated as confirmed drift.
+- **Decision:** Make the working directory explicit, use an explicit project
+  root for project-local index inputs and installer output, and verify a
+  non-writing script example from that declared directory. Do not edit the
+  audit script, execute the installer, or claim an actual routing trial.
+- **State:** `IN_PROGRESS` while this same-iteration pre-merge feedback is
+  incorporated. The old self-attestation at
+  `eaec4ac35c8f4690f8ce6a9b35da07882dbdedd5` is superseded; a new
+  sign-off will bind to the revised implementation commit.
+- **TDD:** Documentation-only clarification; Red/Green/Refactor is not
+  applicable. Run honest documentation checks and a read-only example.
+
+### Script-directory verification — 2026-09-25T02:54:42Z
+
+- The Skill and local-index reference now specify that `scripts/...` means
+  the installed directory containing `SKILL.md` and `scripts/`; the repository
+  checkout example is `cd .github/skills/agent-skill-stack` from the repo
+  root. Project-local `--root` and installer `--manifest` examples now use
+  explicit project paths so that this `cd` does not silently change their
+  meaning. No script or installation behavior was changed.
+- `cd /Users/jrblankenhorn/copilot_skills.worktrees/ralph-skill-stack-worker-02-20260925-0215-c9d1/.github/skills/agent-skill-stack && PYTHONDONTWRITEBYTECODE=1 python3 scripts/project_profile.py --project /Users/jrblankenhorn/copilot_skills.worktrees/ralph-skill-stack-worker-02-20260925-0215-c9d1 --name skill-stack-preview --skill agent-skill-stack --skill docs-sync-audit --route 'stack selection=agent-skill-stack'`
+  — PASS: printed `"status": "preview"` and the expected project path;
+  `--apply` was not used. A read-only check confirmed no
+  `.codex/skill-stack.json` or script `__pycache__` was created.
+- `cd /Users/jrblankenhorn/copilot_skills.worktrees/ralph-skill-stack-worker-02-20260925-0215-c9d1 && python3 .github/skills/docs-sync-audit/scripts/docs_drift.py --repo .github/skills/agent-skill-stack --no-git-root --top 8`
+  — exit 0; 6 Skill documents checked, **0** machine-verifiable findings.
+  From the repo root, the same read-only tool with `--repo . --top 8`
+  still reports seven Skill script examples as missing because its
+  repo-root-relative heuristic does not execute the documented `cd`; the
+  bundled files were confirmed present and the preview ran. The other
+  repo-wide leads are outside this assigned scope and were not validated.
+- Repeated the exact read-only Markdown link/whitespace check recorded above
+  — PASS (10 worker-owned Markdown files, zero broken relative links or
+  trailing whitespace). The reference link to
+  `../SKILL.md#running-bundled-scripts` points to the new heading.
+  `git -C /Users/jrblankenhorn/copilot_skills.worktrees/ralph-skill-stack-worker-02-20260925-0215-c9d1 --no-pager diff --check`
+  — PASS. The inspected diff changes only this worker's Skill docs and
+  branch-owned status/decision records.
+- **Remaining gap:** No live routing trial, installer invocation, Skill
+  installation, profile application, or external platform check was
+  performed; script-directory preview is not evidence of host activation.
+  No performance or actual recall claim is made.
