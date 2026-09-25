@@ -470,3 +470,29 @@
 - **Next:** Wait for verified main-owner sign-out, fetch the completed main
   tip, rebase the parent and rerun checks, then request fresh exact-SHA
   attestations and status records.
+
+## 2026-09-25T12:28:24Z — refreshed Ralph guidance and memory handoff contract
+
+- **Remote refresh:** The other run completed its authorized main transaction;
+  a fresh fetch found `origin/main` at
+  `8ebf05d6f7f8e76107dd0fd8ab3f7615060adfa5`, with main ownership `FREE`
+  at revision 62. Parent `971273675af7830030a6fc77d6133d0e134a5bcf` is
+  28 commits behind that ref.
+- **Guidance refresh:** Re-read the refreshed Ralph skill, agent definition,
+  orchestration/status references, agent-sync protocol, project prompt, and
+  status ledger. Current guidance requires each coordinator and worker to
+  include a structured `memory_handoff` in its leaf status and sign-off; the
+  dedicated Project Memory Update agent must be invoked exactly once after
+  verified parent integration. No `.github/memory/` index or category files
+  were present in the refreshed checkout.
+- **Checkout refresh:** The primary checkout was clean at `4f5fee…` and was
+  fast-forwarded to `8ebf05d…` before the refreshed guidance was read. This
+  was a clean, no-loss fast-forward; the refreshed guidance now specifies
+  fetch-only routine refreshes, which will be used going forward.
+- **Worker coordination:** Both workers were told to preserve prior metadata
+  branches and await the post-rebase exact targets. They will include their
+  own evidence-backed `memory_handoff` with the next sign-off; no new worker
+  processes are being spawned.
+- **Next:** Rebase the clean parent onto `8ebf05d…`, rerun the contract suite
+  and whitespace/ancestry checks, then request current exact-SHA attestations
+  and worker-owned status updates including memory handoffs.
