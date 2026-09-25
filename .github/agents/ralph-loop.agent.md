@@ -63,6 +63,37 @@ report your verification evidence back to it.
    scope is unclear, report what you found and ask for direction rather than
    inventing a project goal.
 
+## Ralph run documentation and status ownership
+
+Resolve artifact paths from the active project's repository root. All
+generated per-run status, progress, and decision records belong under that
+repository's `docs/`; do not create or update root-level Ralph status or
+progress files. For each branch, normalize its exact Git ref to lowercase and
+replace `/` with `-` for `<branch-slug>`. Use the stable run-scoped `<agent-id>`
+from the coordinator (such as `worker-01`), not a display name or runtime
+agent/session ID.
+
+- The coordinator alone writes the aggregate dashboard at
+  `docs/ralph-status.md`. It must surface every
+  `docs/ralph/<branch-slug>/agents/<agent-id>/` folder, linking that folder's
+  `status.md` and `progress.md`.
+- Each worker owns only its assigned
+  `docs/ralph/<branch-slug>/agents/<agent-id>/status.md` and `progress.md`.
+  Update the current status and append loop evidence there on every loop.
+- Whenever a worker's leaf state or evidence changes, the worker reports the
+  update and the coordinator refreshes the corresponding dashboard entry in
+  the same coordination cycle. Keep worker state, iteration, branch, check
+  results, blockers, next action, merge state, and memory-review state
+  consistent across the leaf status, progress summary, and dashboard. Preserve
+  entries for all unaffected branch/agent folders.
+- Keep branch indexes and per-agent/PR decisions at
+  `docs/decisions/<branch-slug>/README.md` and
+  `docs/decisions/<branch-slug>/agents/<agent-id>/pr-*.md`.
+- A worker remains `AWAITING_MERGE` until the coordinator verifies integration
+  and completes the required post-merge memory review. Do not change its leaf
+  or aggregate status to `COMPLETE` before then; synchronize both records when
+  the coordinator confirms that transition.
+
 ## Iteration rules
 
 - Perform exactly one coherent implementation iteration per invocation by
@@ -89,19 +120,21 @@ report your verification evidence back to it.
   scoped, preserve existing user work, and do not use destructive Git
   operations.
 - Record exact Red, Green, and refactor verification commands/results, plus
-  remaining platform or environment gaps, in the project's progress log.
-  Update current-state status and append decision history only as required by
-  that project's protocol.
+  remaining platform or environment gaps, in this branch/agent's
+  `docs/ralph/<branch-slug>/agents/<agent-id>/progress.md`; for documentation
+  work, do not fabricate a TDD Red phase. Update the paired `status.md` and
+  coordinate a same-loop refresh of `docs/ralph-status.md`. Keep append-only
+  decisions under `docs/decisions/<branch-slug>/`.
 - Maintain this branch's `docs/decisions/<branch-slug>/README.md` and a
   separate `agents/<agent-id>/pr-<number>.md` record for each PR. If no PR is
   opened, use `pr-not-opened.md` and explain the integration path. Record
   meaningful decisions and sanitized details of any recovered operational
   failures there; keep unresolved blockers distinct. Commit these records on
   the branch before integration.
-- If orchestrated, do not concurrently edit the coordinator-owned aggregate
-  status snapshot. Return the exact progress, status, and verification
-  evidence to the coordinator, or write only to a distinct worker-owned status
-  path that the coordinator assigned.
+- If orchestrated, never edit the coordinator-owned `docs/ralph-status.md`.
+  Write only this worker's assigned branch/agent `status.md` and `progress.md`,
+  then return their exact paths, state, and verification evidence so the
+  coordinator can refresh every affected dashboard entry in sync.
 - Inspect the resulting diff and run the narrowest relevant checks. Expand
   verification only when the changed behavior or failures warrant it. Report
   failures honestly; never claim unrun checks passed.

@@ -74,6 +74,49 @@ active project before planning, dispatching work, or editing:
    remote-merge lifecycle below. Do not invoke a runner that assumes an
    in-place branch, pushes before integration, or skips remote verification.
 
+## Active-project Ralph documentation and status
+
+Resolve these paths from the active project's repository root, not from the
+canonical skills checkout. Keep generated Ralph run, status, progress, and
+decision records inside that repository's `docs/` folder; do not create or
+update root-level Ralph status or progress files. Use this layout:
+
+```text
+docs/
+  ralph-status.md
+  ralph/<branch-slug>/agents/<agent-id>/
+    status.md
+    progress.md
+  decisions/<branch-slug>/
+    README.md
+    agents/<agent-id>/pr-<number>.md
+```
+
+Normalize the exact Git branch name to lowercase and replace `/` with `-` to
+form `<branch-slug>`. Use the stable run-scoped `<agent-id>` assigned by the
+coordinator (for example, `worker-01`), not the display name or runtime
+agent/session ID.
+
+The coordinator exclusively owns `docs/ralph-status.md`. It must surface every
+branch/agent folder under `docs/ralph/`, linking that folder's `status.md` and
+`progress.md` and showing its current summary. Each worker owns the leaf
+`status.md` and `progress.md` in its assigned branch/agent folder: keep
+`status.md` current and append dated loop evidence to `progress.md`. At every
+loop or worker-state transition, the worker reports the updated leaf records
+and the coordinator refreshes the affected dashboard entry in the same
+coordination cycle. Keep the leaf status, progress summary, and dashboard
+entry consistent on the run/worker state, iteration, branch, checks,
+blockers, next action, and merge/memory-review state; retain dashboard entries
+for unaffected branch/agent folders. Workers never edit the aggregate
+dashboard.
+
+A worker remains `AWAITING_MERGE` until the coordinator verifies integration
+and completes the required post-merge memory review (including any warranted
+memory follow-up). Only then may its leaf and dashboard status become
+`COMPLETE`; keep both records synchronized at that transition. Keep branch
+decision indexes and per-agent/PR decision records at the `docs/decisions/`
+paths above.
+
 ## Git identity and authentication
 
 Before creating an iteration branch or editing files, verify the configured
@@ -125,11 +168,13 @@ writing directly to `main`.
    use the repository's available documentation and diff checks instead.
 3. Run the narrowest relevant checks and inspect the resulting diff. Record
    exact Red, Green, and refactor commands and results, plus unverified
-   platforms or environment gaps, in the project's designated progress log
-   when its protocol requires one.
-4. Update the current-state status snapshot and append-only decision history
-   only as required by the active project. Preserve runner-owned fields and do
-   not create project status artifacts that its workflow does not use.
+   platforms or environment gaps, in this branch/agent's
+   `docs/ralph/<branch-slug>/agents/<agent-id>/progress.md`. For a
+   documentation-only change, do not fabricate a TDD Red phase.
+4. Keep this branch/agent's `status.md` and `progress.md` current for each
+   loop, and coordinate the aggregate-dashboard update described above. Keep
+   append-only decision history in `docs/decisions/<branch-slug>/`; preserve
+   runner-owned fields and do not create Ralph run records outside `docs/`.
 5. Complete the implementation commit and any required runner-managed status
    commit on the iteration branch before integration. Do not amend commits or
    use destructive Git operations.
@@ -212,11 +257,14 @@ the coordinator checks the records alongside the branch's tests and diff.
 
 ## Worker status and sign-off
 
-When the first top-level run delegates work, the coordinator owns the overall
-status snapshot and records every worker's individual iteration, sign-off,
-and remote merge verification. Workers use fresh worktrees and branches,
-refresh from `origin/main` before starting and before integration, and
-rebase/retest if main moves. See the
+When the first top-level run delegates work, the coordinator owns
+`docs/ralph-status.md` and records every worker's individual iteration,
+sign-off, and remote merge verification there. The dashboard indexes every
+branch/agent leaf folder; workers update only their assigned `status.md` and
+`progress.md` and send the coordinator the exact changes and evidence needed
+to refresh its entry. Workers use fresh worktrees and branches, refresh from
+`origin/main` before starting and before integration, and rebase/retest if
+main moves. See the
 [multi-agent orchestration](./references/multi-agent-orchestration.md) and
 [multi-agent status](./references/multi-agent-status.md) references for the
 split-plan, worker configuration, synchronization, and attestation contract.

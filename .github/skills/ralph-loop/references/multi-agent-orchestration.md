@@ -103,25 +103,29 @@ shared checkout. The worker must:
    within the assigned scope.
 2. Create a fresh worktree and unique branch from the latest `origin/main`.
    For behavior changes, follow Red-Green-Refactor; for documentation-only
-   changes, run the relevant documentation checks. Update progress, status,
-   and decision records only as required by the project's protocol. Maintain
-   this branch's `docs/decisions/<branch-slug>/` index and a separate
-   per-agent, per-PR record; use `pr-not-opened.md` when the normal integration
-   path does not open a PR. Record recovered issues and successful verification
-   there, not as unresolved blockers.
+   changes, run the relevant documentation checks. Update this branch/agent's
+   `docs/ralph/<branch-slug>/agents/<agent-id>/status.md` and `progress.md`
+   on every loop, and coordinate the same-cycle aggregate-dashboard refresh
+   with the coordinator. Maintain this branch's
+   `docs/decisions/<branch-slug>/` index and a separate per-agent, per-PR
+   record; use `pr-not-opened.md` when the normal integration path does not
+   open a PR. Record recovered issues and successful verification there, not
+   as unresolved blockers.
 3. Run the scoped checks, commit the change, and report its base SHA, branch,
    commit SHA, changed paths, verification commands/results, and any blocker.
-   The iteration is not complete until its remote merge is verified on
-   `origin/main`.
+   Report `AWAITING_MERGE` after sign-off; the iteration is not complete until
+   its remote merge is verified on `origin/main` and the coordinator's required
+   post-merge memory review is complete.
 
-The coordinator maintains a ledger with each assignment's worker, owned
-paths, dependencies, acceptance criteria, base SHA, branch/commit, PR number
-or explicit no-PR state, branch decision-record path, check results,
-implementation merge SHA, memory-review outcome and any memory follow-up
-merge SHA, and state (for example: queued, ready, running, awaiting
-integration, merged-and-verified, or blocked). Record evidence from the
-worker; do not mark an assignment complete or release dependent work merely
-because a branch was pushed or a pull request was opened.
+The coordinator maintains the aggregate ledger at `docs/ralph-status.md` with
+each assignment's worker, owned paths, dependencies, acceptance criteria,
+base SHA, branch/commit, PR number or explicit no-PR state, branch
+decision-record path, check results, implementation merge SHA, memory-review
+outcome and any memory follow-up merge SHA, and state (for example: queued,
+ready, running, awaiting integration, merged-and-verified, or blocked). Record
+evidence from the worker; do not mark an assignment complete or release
+dependent work merely because a branch was pushed or a pull request was
+opened.
 
 After each worker's implementation merge is verified, the coordinator performs
 the post-merge memory review using the
@@ -147,6 +151,52 @@ In the final user-facing report, begin with `Task completed: YES` or
 `Task completed: NO`. Only unresolved blockers belong in the failure summary;
 the branch's per-agent/per-PR decision record retains recovered issues and
 their successful verification.
+
+## Branch-scoped documentation and synchronized status
+
+Resolve all paths from the active project's repository root. Generated Ralph
+run, status, progress, and decision records belong inside that repository's
+`docs/` folder; do not create or update root-level Ralph status or progress
+files. Use this shared layout:
+
+```text
+docs/
+  ralph-status.md
+  ralph/<branch-slug>/agents/<agent-id>/
+    status.md
+    progress.md
+  decisions/<branch-slug>/
+    README.md
+    agents/<agent-id>/pr-<number>.md
+```
+
+Derive `<branch-slug>` from the exact Git branch ref by lowercasing it and
+replacing `/` with `-`. Use the stable run-scoped `<agent-id>` assigned by the
+coordinator (for example, `worker-01`); do not use a display name or transient
+runtime agent/session ID.
+
+The coordinator is the sole owner and writer of `docs/ralph-status.md`. The
+dashboard must list every existing branch/agent folder under `docs/ralph/`,
+linking its `status.md` and `progress.md`, and show the current state. Each
+worker owns its assigned branch/agent leaf files: `status.md` holds the
+current-state summary, and `progress.md` records dated loop evidence and
+verification. On every loop and every worker-state transition, the worker
+updates both leaf files and sends their paths, state, and evidence to the
+coordinator; the coordinator refreshes the affected dashboard entry in that
+same coordination cycle. Keep the dashboard entry, leaf status, and progress
+summary consistent on the run/worker state, iteration, branch, checks,
+blockers, next action, and merge/memory-review state. Preserve entries for
+unaffected branch/agent folders so the dashboard continues to surface all of
+them. Workers do not edit the aggregate dashboard.
+
+Keep branch decision indexes and per-agent/PR decision records at
+`docs/decisions/<branch-slug>/README.md` and
+`docs/decisions/<branch-slug>/agents/<agent-id>/pr-*.md`; use
+`pr-not-opened.md` when no PR is part of the integration path. A worker stays
+`AWAITING_MERGE` until the coordinator verifies integration and completes the
+required post-merge memory review, including any warranted memory follow-up.
+Only after that confirmation may the worker's leaf and dashboard status become
+`COMPLETE`; update both sides together so their summaries remain synchronized.
 
 ## Git synchronization and integration
 
