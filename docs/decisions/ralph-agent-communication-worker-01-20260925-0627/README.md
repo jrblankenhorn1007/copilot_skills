@@ -6,11 +6,15 @@
 - **Exact branch:** `ralph/agent-communication-worker-01-20260925-0627`
 - **Parent branch:** `ralph/agent-communication-parent-20260925-0627`
 - **Base parent SHA:** `0294550c92a5d79e1cca682a0c509b5bb6eca3fd`
-- **Parent rebased onto origin/main:** `91a6f78fa00cde80a80bea630a763d74041a56ad`
-- **Rebased onto parent SHA:** `44a262954564a058436bd4115908605e67302d5f`
-- **Implementation commit:** `d3cea422a910442d85a4a6715ea46d25c5f49cdf`
-- **Integration:** Awaiting coordinator-managed child-to-parent integration;
-  no worker PR is opened.
+- **Current parent rebase base (`origin/main`):** `4f5fee342c7e08ce556ae10c8a693f9e30a2ee2b`
+- **Current parent HEAD / rebased onto parent SHA:** `ff8e8452003fe8d8f83914919e986b7b9b998c7f`
+- **Current origin/main:** `4f5fee342c7e08ce556ae10c8a693f9e30a2ee2b`
+- **Current implementation commit:** `036185a08bab1d335728ddf89750e45388766a99`
+- **Current worker-series head:** `99455871c0fefe08fe5ed3684fbb560df9d9083d`
+- **Integration:** Worker-series ancestry is verified in the current parent;
+  metadata-only worker-01 update is pending coordinator integration. Overall
+  status remains `AWAITING_MERGE` pending parent-to-main integration and
+  memory review. No worker PR is opened.
 
 ## Agent records
 

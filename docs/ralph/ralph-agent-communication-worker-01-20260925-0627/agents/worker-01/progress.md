@@ -6,7 +6,7 @@
 - **Worker:** `worker-01 / agent communication skill`
 - **Status:** `AWAITING_MERGE`
 - **Started:** `2026-09-25T07:49:20Z`
-- **Updated:** `2026-09-25T10:00:13Z`
+- **Updated:** `2026-09-25T12:16:27Z`
 - **Branch/worktree:** `ralph/agent-communication-worker-01-20260925-0627` /
   `/Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-communication-worker-01-20260925-0627`
 - **Parent:** `ralph/agent-communication-parent-20260925-0627` /
@@ -14,10 +14,12 @@
 - **Base:** parent base `0294550c92a5d79e1cca682a0c509b5bb6eca3fd`;
   run `origin/main` base `20293c720b18a1a21ff150f566823493b7a2717d`.
 - **Latest parent rebase:** parent rebased onto `origin/main`
-  `91a6f78fa00cde80a80bea630a763d74041a56ad`, at verified parent tip
-  `44a262954564a058436bd4115908605e67302d5f`; this tip is an ancestor of the
-  worker branch.
-- **Implementation commit:** `d3cea422a910442d85a4a6715ea46d25c5f49cdf`.
+  `4f5fee342c7e08ce556ae10c8a693f9e30a2ee2b`, at parent tip
+  `ff8e8452003fe8d8f83914919e986b7b9b998c7f`; current worker-series head
+  `99455871c0fefe08fe5ed3684fbb560df9d9083d` is an ancestor.
+- **Current implementation commit:** `036185a08bab1d335728ddf89750e45388766a99`.
+- **Current worker-series head:** `99455871c0fefe08fe5ed3684fbb560df9d9083d`.
+- **Current fetched `origin/main`:** `4f5fee342c7e08ce556ae10c8a693f9e30a2ee2b`.
 
 ### Refresh and Git state
 
@@ -142,6 +144,7 @@
     "statement": "I, worker-01, sign off iteration 1 for agent-communication-skill at exact implementation commit d3cea422a910442d85a4a6715ea46d25c5f49cdf."
   }
   ```
+
 
   ## 2026-09-25T10:46:27Z — parent rebase and sign-off refreshed
 
@@ -622,5 +625,185 @@
   "attestation_kind": "SELF_ATTESTATION",
   "cryptographic_signature_status": "NOT_CRYPTOGRAPHICALLY_SIGNED",
   "statement": "I, worker-01, sign off iteration 1 for agent-communication-skill at exact implementation commit d3cea422a910442d85a4a6715ea46d25c5f49cdf."
+}
+```
+
+## 2026-09-25T12:05:47Z — latest parent proof and exact-SHA sign-off recorded
+
+- **Status:** `AWAITING_MERGE` remains unchanged. This follow-up updates only
+  worker-01 metadata; no implementation file, aggregate dashboard, or remote
+  ref is changed.
+- **Metadata branch/worktree/base:** `ralph/agent-communication-worker-01-metadata-20260925-834e0e9a` /
+  `/Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-communication-worker-01-metadata-20260925-834e0e9a` /
+  parent `9f74e80a92829f27d612ee635f646fe8a8e37cd6`.
+- **Refreshed refs:** clean primary `main` and fetched `origin/main` were both
+  `96fca381f96a743a08eb2e758d1eae8eb2fd483a`. Parent HEAD was
+  `9f74e80a92829f27d612ee635f646fe8a8e37cd6`. A pre-existing coordinator
+  `progress.md` modification in the parent worktree was preserved and not
+  copied into or edited from this metadata worktree.
+- **Preserved integration history:** earlier proofs `6d16a3a…` in
+  `ce955f4…`, `96c641e…` in `b454831…`, and `5580ab2…` in `b8426ff…` remain
+  recorded. The latest worker-series head
+  `2908a2bc7d9b41bf241f5dbac0c94685981d009e` is an ancestor of parent
+  `9f74e80a92829f27d612ee635f646fe8a8e37cd6`. The parent was rebased from
+  `b8426ff18cc476825ed901684aaf319775c0d8b7` onto `origin/main`
+  `96fca381f96a743a08eb2e758d1eae8eb2fd483a`; implementation changed from
+  `1c4553c204e8aca93ce7f4f32d970575b8569ed1` to
+  `ce8ea9db57bdcd47f43f515fecc69b29822c9733`, and series head from
+  `5580ab279bfdee9e27519aae498a02286f3d62a2` to
+  `2908a2bc7d9b41bf241f5dbac0c94685981d009e`. Skill blob at implementation
+  and parent: `4cf8290e90e5913bb06b9c4669089e4dfad7fb5b`.
+- **Ancestry verification:** `git merge-base --is-ancestor
+  ce8ea9db57bdcd47f43f515fecc69b29822c9733
+  9f74e80a92829f27d612ee635f646fe8a8e37cd6` — **PASS**; the corresponding
+  check for worker-series head
+  `2908a2bc7d9b41bf241f5dbac0c94685981d009e` — **PASS**.
+- **Exact-SHA audit:** **PASS, 37/37**. Command:
+
+  ```sh
+  python3 -c 'import subprocess; c="ce8ea9db57bdcd47f43f515fecc69b29822c9733"; path=".github/skills/agent-communication/SKILL.md"; s=subprocess.run(["git","-C","/Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-communication-worker-01-metadata-20260925-834e0e9a","show",f"{c}:{path}"],check=True,text=True,capture_output=True).stdout; t=" ".join(s.split()); r=["list_sessions", "send_message", "get_session_context", "agent-message/v1", "message_id", "run_id", "task_id", "from_session", "to_session", "kind", "priority", "sent_at", "expires_at", "deadline", "correlation_id", "ack_required", "reply_deadline", "body", "artifact_refs", "accepted", "queued", "received", "expired", "failed", "delivery acknowledgement", "processing acknowledgement", "completion acknowledgement", "does not preempt", "stop button", "`deadline` is the task-result due time", "`reply_deadline` is the sender-checkpoint due time", "MUST NOT", "no requested action", "safety-critical", "priority: " + chr(34) + "urgent" + chr(34), "expired cooperative `interrupt`", "fallback relay"]; missing=[x for x in r if x not in t]; assert not missing, missing; print(f"PASS: exact commit {c} contains all {len(r)} required terms")'
+  ```
+
+- **Exact commit whitespace:** `git -C /Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-communication-worker-01-metadata-20260925-834e0e9a show --check --format=oneline ce8ea9db57bdcd47f43f515fecc69b29822c9733 -- .github/skills/agent-communication/SKILL.md` — **PASS**.
+- **Metadata diff:** `git diff --check` — **PASS** for the four worker-owned
+  status/progress/decision paths; no implementation or dashboard path changed.
+- **Aggregate checks:** coordinator reports parent full suite **21/21** and
+  parent diff check **PASS** after rebase; not independently rerun by this
+  worker.
+- **Resource usage:** `updated_at_utc` is `2026-09-25T12:05:47Z`; wall-clock time from `started_at_utc` `2026-09-25T07:49:20Z` is **15387 seconds**. Token counters remain `NOT_REPORTED`; no provider telemetry was available.
+- **Attestation:** plain-text `SELF_ATTESTATION` at `2026-09-25T11:54:47Z`, bound to implementation `ce8ea9db57bdcd47f43f515fecc69b29822c9733`; `NOT_CRYPTOGRAPHICALLY_SIGNED`.
+
+```json
+{
+  "run_id": "copilot-skills-agent-communication-20260925-0627",
+  "task_ids": ["agent-communication-skill"],
+  "worker_id": "worker-01",
+  "worker_name": "worker-01 / agent communication skill",
+  "runtime_agent_id": "4b590f58-600f-4d99-92b7-29db9c14b7a4",
+  "iteration": 1,
+  "branch": "ralph/agent-communication-worker-01-20260925-0627",
+  "worktree": "/Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-communication-worker-01-20260925-0627",
+  "decision_record_path": "docs/decisions/ralph-agent-communication-worker-01-20260925-0627/agents/worker-01/pr-not-opened.md",
+  "base_origin_main_sha": "20293c720b18a1a21ff150f566823493b7a2717d",
+  "parent_branch": "ralph/agent-communication-parent-20260925-0627",
+  "parent_worktree": "/Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-communication-parent-20260925-0627",
+  "parent_base_origin_main_sha": "20293c720b18a1a21ff150f566823493b7a2717d",
+  "parent_rebased_onto_origin_main_sha": "96fca381f96a743a08eb2e758d1eae8eb2fd483a",
+  "current_origin_main_sha": "96fca381f96a743a08eb2e758d1eae8eb2fd483a",
+  "base_parent_sha": "0294550c92a5d79e1cca682a0c509b5bb6eca3fd",
+  "rebased_onto_parent_sha": "9f74e80a92829f27d612ee635f646fe8a8e37cd6",
+  "implementation_commit_sha": "ce8ea9db57bdcd47f43f515fecc69b29822c9733",
+  "worker_series_head_sha": "2908a2bc7d9b41bf241f5dbac0c94685981d009e",
+  "checks": [
+    {
+      "command": "37-term exact-SHA agent-message/v1 skill audit at ce8ea9db57bdcd47f43f515fecc69b29822c9733",
+      "result": "PASS (37/37)"
+    },
+    {
+      "command": "git show --check --format=oneline ce8ea9db57bdcd47f43f515fecc69b29822c9733 -- .github/skills/agent-communication/SKILL.md",
+      "result": "PASS"
+    },
+    {
+      "command": "git merge-base --is-ancestor 2908a2bc7d9b41bf241f5dbac0c94685981d009e 9f74e80a92829f27d612ee635f646fe8a8e37cd6",
+      "result": "PASS"
+    }
+  ],
+  "blockers": [],
+  "attested_at_utc": "2026-09-25T11:54:47Z",
+  "attestation_kind": "SELF_ATTESTATION",
+  "cryptographic_signature_status": "NOT_CRYPTOGRAPHICALLY_SIGNED",
+  "statement": "I, worker-01, sign off iteration 1 for agent-communication-skill at exact implementation commit ce8ea9db57bdcd47f43f515fecc69b29822c9733."
+}
+```
+
+## 2026-09-25T12:16:27Z — parent rebase and exact-SHA sign-off recorded
+
+- **Status:** `AWAITING_MERGE` remains unchanged. This is a metadata-only
+  follow-up; no implementation file, aggregate dashboard, or remote ref was
+  changed.
+- **Metadata branch/worktree/base:** `ralph/agent-communication-worker-01-metadata-20260925-ab278511` /
+  `/Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-communication-worker-01-metadata-20260925-ab278511` /
+  parent `ff8e8452003fe8d8f83914919e986b7b9b998c7f`.
+- **Refreshed refs:** clean primary `main` and fetched `origin/main` were both
+  `4f5fee342c7e08ce556ae10c8a693f9e30a2ee2b`; parent HEAD was
+  `ff8e8452003fe8d8f83914919e986b7b9b998c7f`. The existing coordinator
+  `progress.md` modification in the parent worktree was preserved and not
+  copied into or edited from this separate metadata worktree.
+- **Prior metadata branch preserved:** `ralph/agent-communication-worker-01-metadata-20260925-834e0e9a`
+  remains at commit `f8861d5c153342523309bbc138a9ae56e1b75ce6`, unchanged.
+  Its worker-owned metadata delta was carried forward to this fresh branch so
+  earlier proof/history remains recorded; the older branch/commit is
+  superseded, not rewritten or deleted.
+- **Parent rebase/history:** prior worker-series proofs `96c641e…` in parent
+  `b454831…`, `5580ab2…` in `b8426ff…`, and `2908a2b…` in `9f74e80…` remain
+  recorded. The parent was rebased from `9f74e80a92829f27d612ee635f646fe8a8e37cd6`
+  onto `origin/main` `4f5fee342c7e08ce556ae10c8a693f9e30a2ee2b`, producing
+  parent `ff8e8452003fe8d8f83914919e986b7b9b998c7f`. The implementation was
+  rewritten from `ce8ea9db57bdcd47f43f515fecc69b29822c9733` to
+  `036185a08bab1d335728ddf89750e45388766a99`, and series head from
+  `2908a2bc7d9b41bf241f5dbac0c94685981d009e` to
+  `99455871c0fefe08fe5ed3684fbb560df9d9083d`.
+- **Ancestry and preservation:** both implementation `036185a08bab1d335728ddf89750e45388766a99`
+  and worker-series head `99455871c0fefe08fe5ed3684fbb560df9d9083d` are
+  ancestors of parent `ff8e8452003fe8d8f83914919e986b7b9b998c7f`. The skill
+  blob remains `4cf8290e90e5913bb06b9c4669089e4dfad7fb5b`.
+- **37-term exact-SHA audit:** **PASS, 37/37**. Exact command:
+
+  ```sh
+  python3 -c 'import subprocess; c="036185a08bab1d335728ddf89750e45388766a99"; path=".github/skills/agent-communication/SKILL.md"; s=subprocess.run(["git","-C","/Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-communication-worker-01-metadata-20260925-ab278511","show",f"{c}:{path}"],check=True,text=True,capture_output=True).stdout; t=" ".join(s.split()); r=["list_sessions", "send_message", "get_session_context", "agent-message/v1", "message_id", "run_id", "task_id", "from_session", "to_session", "kind", "priority", "sent_at", "expires_at", "deadline", "correlation_id", "ack_required", "reply_deadline", "body", "artifact_refs", "accepted", "queued", "received", "expired", "failed", "delivery acknowledgement", "processing acknowledgement", "completion acknowledgement", "does not preempt", "stop button", "`deadline` is the task-result due time", "`reply_deadline` is the sender-checkpoint due time", "MUST NOT", "no requested action", "safety-critical", "priority: " + chr(34) + "urgent" + chr(34), "expired cooperative `interrupt`", "fallback relay"]; missing=[x for x in r if x not in t]; assert not missing, missing; print(f"PASS: exact commit {c} contains all {len(r)} required terms")'
+  ```
+
+- **Exact implementation whitespace:** `git -C /Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-communication-worker-01-metadata-20260925-ab278511 show --check --format=oneline 036185a08bab1d335728ddf89750e45388766a99 -- .github/skills/agent-communication/SKILL.md` — **PASS**.
+- **Aggregate checks:** coordinator reports the parent contract suite passed
+  **21/21** and the parent diff check passed after rebase; not independently
+  rerun by this worker.
+- **Sign-off:** plain-text `SELF_ATTESTATION` at
+  `2026-09-25T12:10:53Z`, bound to implementation
+  `036185a08bab1d335728ddf89750e45388766a99`;
+  `NOT_CRYPTOGRAPHICALLY_SIGNED`.
+- **Resource usage:** `updated_at_utc` is `2026-09-25T12:16:27Z`; wall-clock
+  time from `started_at_utc` `2026-09-25T07:49:20Z` is **16027 seconds**.
+  Token counters remain `NOT_REPORTED`; no provider telemetry was available.
+
+```json
+{
+  "run_id": "copilot-skills-agent-communication-20260925-0627",
+  "task_ids": ["agent-communication-skill"],
+  "worker_id": "worker-01",
+  "worker_name": "worker-01 / agent communication skill",
+  "runtime_agent_id": "4b590f58-600f-4d99-92b7-29db9c14b7a4",
+  "iteration": 1,
+  "branch": "ralph/agent-communication-worker-01-20260925-0627",
+  "worktree": "/Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-communication-worker-01-20260925-0627",
+  "decision_record_path": "docs/decisions/ralph-agent-communication-worker-01-20260925-0627/agents/worker-01/pr-not-opened.md",
+  "base_origin_main_sha": "20293c720b18a1a21ff150f566823493b7a2717d",
+  "parent_branch": "ralph/agent-communication-parent-20260925-0627",
+  "parent_worktree": "/Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-communication-parent-20260925-0627",
+  "parent_base_origin_main_sha": "20293c720b18a1a21ff150f566823493b7a2717d",
+  "parent_rebased_onto_origin_main_sha": "4f5fee342c7e08ce556ae10c8a693f9e30a2ee2b",
+  "current_origin_main_sha": "4f5fee342c7e08ce556ae10c8a693f9e30a2ee2b",
+  "base_parent_sha": "0294550c92a5d79e1cca682a0c509b5bb6eca3fd",
+  "rebased_onto_parent_sha": "ff8e8452003fe8d8f83914919e986b7b9b998c7f",
+  "implementation_commit_sha": "036185a08bab1d335728ddf89750e45388766a99",
+  "worker_series_head_sha": "99455871c0fefe08fe5ed3684fbb560df9d9083d",
+  "checks": [
+    {
+      "command": "37-term exact-SHA agent-message/v1 audit at 036185a08bab1d335728ddf89750e45388766a99",
+      "result": "PASS (37/37)"
+    },
+    {
+      "command": "git show --check --format=oneline 036185a08bab1d335728ddf89750e45388766a99 -- .github/skills/agent-communication/SKILL.md",
+      "result": "PASS"
+    },
+    {
+      "command": "git merge-base --is-ancestor 99455871c0fefe08fe5ed3684fbb560df9d9083d ff8e8452003fe8d8f83914919e986b7b9b998c7f",
+      "result": "PASS"
+    }
+  ],
+  "blockers": [],
+  "attested_at_utc": "2026-09-25T12:10:53Z",
+  "attestation_kind": "SELF_ATTESTATION",
+  "cryptographic_signature_status": "NOT_CRYPTOGRAPHICALLY_SIGNED",
+  "statement": "I, worker-01, sign off iteration 1 for agent-communication-skill at exact implementation commit 036185a08bab1d335728ddf89750e45388766a99."
 }
 ```
