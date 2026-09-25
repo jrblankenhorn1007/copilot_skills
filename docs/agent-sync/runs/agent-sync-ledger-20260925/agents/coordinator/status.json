@@ -1,44 +1,60 @@
 {
-  "schema_version": 1,
-  "run_id": "agent-sync-ledger-20260925",
   "agent_id": "coordinator",
-  "worker_id": "coordinator",
-  "worker_name": "coordinator - Ralph agent synchronization pipeline",
-  "task_id": "agent-sync-protocol-and-gh-dependency",
-  "status": "IN_PROGRESS",
-  "revision": 1,
-  "started_at_utc": "2026-09-25T05:18:52Z",
-  "updated_at_utc": "2026-09-25T05:18:52Z",
-  "status_reason": "Implementing the per-agent direct-main status ledger and Ralph integration; gh dependency/install follows synchronization work.",
-  "prompt_path": "docs/agent-sync/runs/agent-sync-ledger-20260925/agents/coordinator/prompt.md",
-  "prompt_sha256": "fae29f4beb3602ec23bef01af892d3a43d028f7ee2096ccf0b63cd818ac35160",
   "agent_profile": {
-    "harness": "Copilot SDK in VS Code",
     "agent_definition": ".github/agents/ralph-loop.agent.md",
-    "runtime_agent_id": null,
+    "context_tier": null,
+    "context_usage_tokens": null,
+    "context_window_tokens": null,
+    "harness": "Copilot SDK in VS Code",
     "model_id": null,
     "reasoning_effort": null,
-    "context_tier": null,
-    "context_window_tokens": null,
-    "context_usage_tokens": null,
+    "runtime_agent_id": null,
     "unavailable_fields_reason": "The current session does not expose model, reasoning, or context telemetry to the agent."
   },
   "git": {
-    "remote_name": "origin",
-    "repository": "jrblankenhorn1007/copilot_skills",
-    "implementation_branch": "refs/heads/main",
-    "worktree_path": "/Users/jrblankenhorn/copilot_skills",
-    "worktree_head_sha_at_sign_in": "87c65f50752f4d59dfd387ca95f0d4ebe497a7e1",
     "base_ref": "refs/remotes/origin/main",
     "base_sha": "87c65f50752f4d59dfd387ca95f0d4ebe497a7e1",
-    "edit_scope": ["docs/agent-sync/**", ".github/skills/ralph-loop/**", ".github/agents/ralph-loop.agent.md", "README.md"]
+    "current_worktree_head_sha": "2c3ccc39da9654b0a903b1472ad595110c2668a5",
+    "edit_scope": [
+      "docs/agent-sync/**",
+      ".github/skills/ralph-loop/**",
+      ".github/agents/ralph-loop.agent.md",
+      "README.md"
+    ],
+    "implementation_branch": "refs/heads/main",
+    "remote_name": "origin",
+    "repository": "jrblankenhorn1007/copilot_skills",
+    "worktree_head_sha_at_sign_in": "87c65f50752f4d59dfd387ca95f0d4ebe497a7e1",
+    "worktree_path": "/Users/jrblankenhorn/copilot_skills"
   },
+  "last_checks": [
+    {
+      "command": "PYTHONDONTWRITEBYTECODE=1 python3 .github/skills/ralph-loop/tests/test_multi_agent_contract.py AgentSyncContractTests.test_status_publisher_commits_only_agent_records_to_main_without_worktree",
+      "result": "PASS"
+    },
+    {
+      "command": "PYTHONDONTWRITEBYTECODE=1 python3 .github/skills/ralph-loop/tests/test_multi_agent_contract.py AgentSyncContractTests.test_ralph_guidance_defines_the_fast_status_only_mainline_ledger",
+      "result": "PASS"
+    }
+  ],
+  "prompt_path": "docs/agent-sync/runs/agent-sync-ledger-20260925/agents/coordinator/prompt.md",
+  "prompt_sha256": "fae29f4beb3602ec23bef01af892d3a43d028f7ee2096ccf0b63cd818ac35160",
+  "revision": 2,
+  "run_id": "agent-sync-ledger-20260925",
+  "schema_version": 1,
   "sign_in_at_utc": "2026-09-25T05:18:52Z",
   "sign_out": {
     "at_utc": null,
-    "implementation_commit_sha": null,
-    "summary": null,
     "checks": [],
-    "next_action": null
-  }
+    "implementation_commit_sha": null,
+    "next_action": null,
+    "summary": null
+  },
+  "started_at_utc": "2026-09-25T05:18:52Z",
+  "status": "IN_PROGRESS",
+  "status_reason": "The status publisher, isolated bare-remote test, and Ralph instruction wiring are in progress; next finish durable records, verify the full synchronization contract, then install gh.",
+  "task_id": "agent-sync-protocol-and-gh-dependency",
+  "updated_at_utc": "2026-09-25T05:29:18Z",
+  "worker_id": "coordinator",
+  "worker_name": "coordinator - Ralph agent synchronization pipeline"
 }
