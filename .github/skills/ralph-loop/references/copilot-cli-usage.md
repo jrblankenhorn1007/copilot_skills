@@ -1,4 +1,10 @@
-# Ralph Loop agent selection and model controls
+# Copilot CLI compatibility: Ralph Loop agent selection and model controls
+
+Compatibility only: this guide describes the optional Copilot CLI runtime.
+OpenCode is the default Ralph Loop runtime; see
+[OpenCode setup](./opencode-setup.md) and the
+[multi-agent orchestration guide](./multi-agent-orchestration.md) for the
+supported default workflow.
 
 This reference explains how to select the Ralph Loop agent and adjust the
 available model reasoning and context options. Availability depends on the

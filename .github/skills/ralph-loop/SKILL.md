@@ -10,32 +10,60 @@ guides project discovery, worktree isolation, verification, and integration.
 It does not replace the active project's plan, acceptance criteria, runner,
 tests, status protocol, or decision history; read and follow those sources.
 
-## First-run orchestration
+## OpenCode runtime and first-run orchestration
 
-Submit the user's task prompt to the **Ralph Loop** agent. For multi-agent
-work, configure the Ralph launcher/session with its `--orchestrator` option
-so the first top-level Ralph Loop invocation is the high-level orchestrator,
-not an implementation worker. This is a Ralph launcher/session option, not a
-native `copilot` CLI argument; the official GitHub Copilot CLI documentation
-does not document a native `--orchestrator` flag. Do not pass it to `copilot`
-or invent a CLI command containing it.
+OpenCode is the default Ralph Loop runtime. Start the repository's primary
+profile from the project root with a provider/model returned by
+`opencode models`:
 
-The orchestrator's first run plans and dispatches the configured workers
-before taking on any worker assignment. The default is two requested workers,
-but the orchestrator counts toward the live total-agent limit. Before task
-work, register the orchestrator; reserve each child slot before dispatch; and
-have each worker activate its reservation before work. The effective worker
-count is bounded by ready assignments and the Resource Manager's available
-slots. If capacity is full or cannot be measured, dispatch no workers and
-queue or serialize the work; never bypass the limit.
+```sh
+opencode run --agent ralph-loop --model provider/model-id \
+  "Coordinate one bounded Ralph Loop task"
+```
 
-Configure the orchestrator's model and supported parameters for the initial
-session, and configure worker defaults or per-worker overrides at dispatch.
-See [multi-agent orchestration](./references/multi-agent-orchestration.md) for
-the run configuration and [Copilot agent selection and model controls](./references/copilot-cli-usage.md)
-for applying it in supported harnesses. Follow the
-[Resource Manager skill](../resource-manager/SKILL.md) for the shared local
-registry and dynamic hardware-based capacity policy.
+The profile is defined in `.opencode/agents/ralph-loop.md`; it follows this
+skill as the source of truth. Its first top-level invocation is the
+coordinator, not an implementation worker. Validate `workers=N` as a
+positive integer, defaulting to two. The coordinator plans and dispatches
+ready workers before taking on any worker assignment; it does not count
+toward `workers=N`, but it does count toward the live total-agent limit.
+Before task work, register the coordinator with the Resource Manager, reserve
+each child slot before dispatch, and have each worker activate its reservation
+before work. The effective worker count is bounded by ready assignments and
+the Resource Manager's available slots. If capacity is full or cannot be
+measured, dispatch no workers and queue or serialize the work; never bypass
+the limit. If fewer than two useful, independent assignments are ready,
+launch only the available work and record why.
+
+Create a fresh child worktree and branch for each implementation worker, then
+start a separate OpenCode session rooted at that worktree:
+
+```sh
+opencode run --dir <child-worktree> --agent ralph-loop-worker \
+  --model provider/model-id "<bounded worker assignment>"
+```
+
+Replace the placeholders before running the command. OpenCode's Task
+subagents inherit the current session's worktree; they do not create Git
+worktrees. Do not use them for implementation assignments that require
+child-worktree isolation. Use the Task tool only for the named, read-only
+PR reviewers. Do not add `--auto` to a Ralph session.
+
+Pass an explicit `--model provider/model-id` to each session; use `--variant`
+only when the selected provider/model supports it. Apply worker-specific
+model settings at launch rather than claiming an unsupported context or
+reasoning option was applied.
+
+Install and authenticate OpenCode before starting model-backed work; follow
+the [OpenCode setup guide](./references/opencode-setup.md). The
+[multi-agent orchestration guide](./references/multi-agent-orchestration.md)
+defines worker sessions, model settings, worktree isolation, and integration.
+Follow the [Resource Manager skill](../resource-manager/SKILL.md) for the
+shared local registry and dynamic hardware-based capacity policy.
+The Copilot CLI profile and
+[Copilot CLI compatibility guide](./references/copilot-cli-usage.md) remain
+available for users who explicitly choose that legacy runtime, but are not
+the default workflow.
 
 The currently deployed Ralph Loop profile is both the top-level coordinator
 and the general implementation-worker profile. Route only relevant, bounded
@@ -512,7 +540,10 @@ confirmation before applying results.
   splitting a project into independent worker assignments.
 - [Multi-agent status snapshots](./references/multi-agent-status.md) when a
   Ralph run delegates work to multiple agents.
-- [Copilot agent selection and model controls](./references/copilot-cli-usage.md).
+- [OpenCode setup](./references/opencode-setup.md) for installation,
+  authentication, model selection, and Ralph profiles.
+- [Copilot CLI compatibility](./references/copilot-cli-usage.md) for the
+  optional legacy runtime.
 - The [SuperCollider AI Music Agent Ralph prompt](./references/ralph-loop.md)
   is specific to `dj_maxxed_beats`; its product requirements and file names do
   not apply to other projects.

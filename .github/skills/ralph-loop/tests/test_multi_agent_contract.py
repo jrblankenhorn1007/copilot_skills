@@ -1379,5 +1379,87 @@ class GitPipelineTests(unittest.TestCase):
                 )
 
 
+    def test_opencode_ralph_agents_define_primary_worker_and_read_only_reviewers(self):
+        primary = read_document(".opencode/agents/ralph-loop.md")
+        worker = read_document(".opencode/agents/ralph-loop-worker.md")
+
+        assert_all_contains(
+            self,
+            primary,
+            "mode: primary|default ralph runtime|.github/skills/ralph-loop/skill.md|opencode run --dir|permission",
+            "OpenCode primary agent must delegate the documented isolated Ralph workflow",
+        )
+        self.assertLess(
+            primary.index('"*": deny'),
+            primary.index("ralph-code-reviewer: allow"),
+            "the named-reviewer task rules must override the wildcard denial",
+        )
+        assert_all_contains(
+            self,
+            worker,
+            "mode: subagent|one assigned task|child worktree|.github/skills/ralph-loop/skill.md",
+            "OpenCode worker must be isolated and follow the canonical Ralph skill",
+        )
+
+        for reviewer_name in ("ralph-code-reviewer", "ralph-security-reviewer"):
+            reviewer = read_document(f".opencode/agents/{reviewer_name}.md")
+            assert_all_contains(
+                self,
+                reviewer,
+                "mode: subagent|ralph-pr-review/skill.md|bash: deny|edit: deny|task: deny",
+                f"{reviewer_name} must be a read-only OpenCode reviewer",
+            )
+            self.assertLess(
+                reviewer.index('"*": deny'),
+                reviewer.index("read: allow"),
+                "reviewer permissions must allow inspection only after the wildcard denial",
+            )
+
+    def test_opencode_setup_documents_provider_auth_model_selection_and_smoke_tests(self):
+        setup = read_document(".github/skills/ralph-loop/references/opencode-setup.md")
+        assert_all_contains(
+            self,
+            setup,
+            "opencode auth login|opencode auth list|opencode models|opencode run --model provider/model-id|opencode run --agent ralph-loop --model provider/model-id|opencode run --dir <child-worktree> --agent ralph-loop-worker|do not use `--auto`",
+            "OpenCode setup must explain authentication, model selection, safe smoke tests, and Ralph entry points",
+        )
+
+    def test_opencode_is_default_ralph_runtime_and_copilot_is_compatibility_only(self):
+        readme = read_document("README.md")
+        skill = read_document(".github/skills/ralph-loop/SKILL.md")
+        orchestration = read_document(
+            ".github/skills/ralph-loop/references/multi-agent-orchestration.md"
+        )
+        copilot_agent = read_document(".github/agents/ralph-loop.agent.md")
+        copilot_guide = read_document(
+            ".github/skills/ralph-loop/references/copilot-cli-usage.md"
+        )
+
+        for document_name, document in (
+            ("README", readme),
+            ("Ralph skill", skill),
+            ("orchestration guide", orchestration),
+        ):
+            with self.subTest(document=document_name):
+                assert_all_contains(
+                    self,
+                    document,
+                    "opencode run --agent ralph-loop|.opencode/agents/ralph-loop.md",
+                    f"{document_name} must select OpenCode as the default runtime",
+                )
+
+        for document_name, document in (
+            ("Copilot agent", copilot_agent),
+            ("Copilot CLI guide", copilot_guide),
+        ):
+            with self.subTest(document=document_name):
+                assert_contains(
+                    self,
+                    document,
+                    "compatibility only",
+                    f"{document_name} must be labeled as compatibility-only guidance",
+                )
+
+
 if __name__ == "__main__":
     unittest.main()
