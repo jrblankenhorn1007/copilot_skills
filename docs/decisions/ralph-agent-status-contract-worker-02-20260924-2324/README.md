@@ -12,7 +12,10 @@
 - **Runtime agent ID:** `null`
 - **PR:** `NOT_OPENED`; coordinator-serialized child-to-parent fast-forward is
   the documented integration route, subject to current branch policy.
-- **Worker status:** `AWAITING_MERGE`; child-to-parent verification is pending.
+- **Worker status:** `COMPLETE`; child-to-parent integration was verified at
+  `a17b1a1051ab6b878735df6832ec8dcdcc2378f6`.
+- **Overall run status:** `IN_PROGRESS`; worker-01's documentation task is
+  queued.
 
 ## Agent records
 
@@ -33,7 +36,9 @@
 - **Rationale:** The documentation worker needs a single observable contract
   that is Red before its changes and can be Green afterward.
 - **Consequences:** This child intentionally signs off with the targeted
-  contract test failing; that expected Red is not a blocker.
+  contract test failing; that expected Red is not a blocker. The leaf remains
+  `AWAITING_MERGE` until integration is verified, then becomes `COMPLETE`
+  while the overall run stays `IN_PROGRESS` for remaining work.
 
 ### Keep the child unmerged and unpublished
 

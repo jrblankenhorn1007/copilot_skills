@@ -11,7 +11,9 @@
 - **PR:** `NOT_OPENED`
 - **Integration path:** Coordinator-serialized fast-forward to
   `ralph/agent-status-reporting-20260924-2313`, subject to current branch
-  policy. No branch was published and no merge was attempted.
+  policy. No child branch was published and no PR was opened.
+- **Worker status:** `COMPLETE` after verified child-to-parent integration.
+- **Worker-to-parent merge SHA:** `a17b1a1051ab6b878735df6832ec8dcdcc2378f6`.
 
 ## Decisions
 
@@ -40,7 +42,8 @@
 - **Rationale:** The worker must not publish or merge directly to
   `origin/main`, and branch-protection requirements take precedence.
 - **Consequences:** The worker remains `AWAITING_MERGE` until the coordinator
-  verifies the child-to-parent integration.
+  verifies the child-to-parent integration, then becomes `COMPLETE` while the
+  overall run may remain `IN_PROGRESS`.
 
 ## Recovered issues
 
@@ -52,7 +55,18 @@
   documents through `assertNotIn`. The test now uses a compact boolean
   assertion; the rerun still fails on the missing status-first contract.
 
+## Worker-to-parent integration verification
+
+- **Target:** `refs/heads/ralph/agent-status-reporting-20260924-2313`
+- **Verified parent SHA:** `a17b1a1051ab6b878735df6832ec8dcdcc2378f6`
+- **Verification command:** `git -C /Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-status-reporting-20260924-2313 merge-base --is-ancestor a17b1a1051ab6b878735df6832ec8dcdcc2378f6 HEAD`
+- **Result:** `PASS`; parent `HEAD` and child branch `HEAD` both resolved to
+  the verified SHA.
+- **Verified at:** `2026-09-25T04:21:20Z`.
+- **Overall run status:** `IN_PROGRESS`; worker-01's documentation task is
+  queued. The expected Red remains until that documentation change.
+
 ## Unresolved blockers
 
-- None. The expected Red and pending coordinator integration are workflow
-  states, not external blockers.
+- None. The expected Red and the remaining parent-to-main and memory-review
+  gates are workflow states, not external blockers.

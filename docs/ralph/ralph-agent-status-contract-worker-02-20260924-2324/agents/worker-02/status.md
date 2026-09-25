@@ -8,7 +8,7 @@
 | Runtime agent ID | `null` |
 | Iteration | `1` |
 | Run status | `IN_PROGRESS` |
-| Worker status | `AWAITING_MERGE` |
+| Worker status | `COMPLETE` |
 | Branch / slug | `ralph/agent-status-contract-worker-02-20260924-2324` / `ralph-agent-status-contract-worker-02-20260924-2324` |
 | Worktree | `/Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-status-contract-worker-02-20260924-2324` |
 | Base `origin/main` SHA | `9558f99cc34cbed8dd1d24f4f15fc03f5d78b6ea` |
@@ -16,11 +16,11 @@
 | Parent base SHA | `82cfc26146b75da69c450df75447575faf51e710` |
 | Implementation commit SHA | `19a1b90b73066eb24794f201710dfa6dc8f66898` |
 | Pull request | `NOT_OPENED` |
-| Worker-to-parent merge | `PENDING` |
-| Memory review | `PENDING` — coordinator-owned after parent integration |
+| Worker-to-parent merge | `VERIFIED` at `a17b1a1051ab6b878735df6832ec8dcdcc2378f6` |
+| Memory review | `PENDING` — coordinator-owned after parent-to-main integration |
 | Decision record | `docs/decisions/ralph-agent-status-contract-worker-02-20260924-2324/agents/worker-02/pr-not-opened.md` |
 | Blockers | None |
-| Next action | Coordinator: verify child-to-parent integration and refresh the dashboard before starting worker-01. |
+| Next action | Coordinator: dispatch worker-01; keep the overall run `IN_PROGRESS` while its documentation task is queued. |
 
 ```yaml
 schema_version: 1
@@ -33,9 +33,10 @@ branch: "ralph/agent-status-contract-worker-02-20260924-2324"
 branch_slug: "ralph-agent-status-contract-worker-02-20260924-2324"
 worktree: "/Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-status-contract-worker-02-20260924-2324"
 iteration: 1
-status: AWAITING_MERGE
+status: COMPLETE
+run_aggregate_status: IN_PROGRESS
 started_at_utc: "2026-09-25T03:29:01Z"
-updated_at_utc: "2026-09-25T03:48:38Z"
+updated_at_utc: "2026-09-25T04:21:20Z"
 base_origin_main_sha: "9558f99cc34cbed8dd1d24f4f15fc03f5d78b6ea"
 rebased_onto_origin_main_sha: null
 parent_branch: "ralph/agent-status-reporting-20260924-2313"
@@ -52,12 +53,12 @@ decision_record_path: "docs/decisions/ralph-agent-status-contract-worker-02-2026
 decision_index_path: "docs/decisions/ralph-agent-status-contract-worker-02-20260924-2324/README.md"
 merge_actor_worker_id: null
 worker_to_parent_merge:
-  status: PENDING
-  sha: null
+  status: VERIFIED
+  sha: "a17b1a1051ab6b878735df6832ec8dcdcc2378f6"
   verified_parent_ref: "refs/heads/ralph/agent-status-reporting-20260924-2313"
-  verified_parent_sha: null
-  verification_method: null
-  verified_at_utc: null
+  verified_parent_sha: "a17b1a1051ab6b878735df6832ec8dcdcc2378f6"
+  verification_method: "git -C /Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-status-reporting-20260924-2313 merge-base --is-ancestor a17b1a1051ab6b878735df6832ec8dcdcc2378f6 HEAD"
+  verified_at_utc: "2026-09-25T04:21:20Z"
 cleanup:
   worktree: PENDING
   local_branch: PENDING
@@ -70,8 +71,12 @@ checks:
     result: FAIL
   - command: "git diff --cached --check"
     result: PASS
+  - command: "git diff --check"
+    result: PASS
+  - command: "git -C /Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-status-reporting-20260924-2313 merge-base --is-ancestor a17b1a1051ab6b878735df6832ec8dcdcc2378f6 HEAD"
+    result: PASS
 blockers: []
-next_action: "Coordinator: verify child-to-parent integration and refresh the dashboard before starting worker-01."
+next_action: "Coordinator: dispatch worker-01; keep the overall run IN_PROGRESS while its documentation task is queued."
 worker_sign_off:
   status: RECEIVED
   attestation_kind: SELF_ATTESTATION
