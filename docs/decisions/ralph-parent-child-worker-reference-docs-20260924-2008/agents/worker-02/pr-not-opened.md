@@ -15,10 +15,10 @@
 - **Original base parent SHA:** `d54cc120fe25da04d6be887b1a6a7e321512b6e4`
 - **Parent branch:** `refs/heads/ralph/parent-child-orchestrator-20260924-2008`
 - **Parent worktree:** `/Users/jrblankenhorn/copilot_skills.worktrees/ralph-parent-child-orchestrator-20260924-2008`
-- **Parent's fetched `origin/main` base SHA:** `c7e34ca99365e71999466253b413e9be692bb18b`
-- **Rebased onto parent SHA:** `7376bc80f8876a28eb0570760b783c389884fc96`
-- **Pre-rebase implementation commit SHA:** `a2b89a3e7a64d5a075684f79fc8fdc43dbb82614`
-- **Rewritten implementation commit SHA:** `5f3f86287dc04848a0edcd2115273b75594afc63`
+- **Parent's `origin/main` base SHA:** `b4dac949e976d48f7bd976fc1c93ddc703bc7319`
+- **Current `rebased_onto_parent_sha`:** `47982b9570f46eb4ccf3319fa3d90087d66db19a`
+- **Pre-rebase implementation commit SHA:** `b75a67b699a5e063691a36746d8795656a84ca90`
+- **Rewritten implementation commit SHA:** `652b3dcda2d76188590d90bfbc788a1bc775dae9`
 - **Pull request:** Not opened (`number: null`, `url: null`). Child changes
   integrate into the parent branch; only the completed parent integrates to
   remote `main`.
@@ -346,3 +346,51 @@ commit—not to this record or the metadata commit:
   "statement": "I, worker-02, attest to iteration 1 for parent-child-reference-docs at exact implementation commit b75a67b699a5e063691a36746d8795656a84ca90, rebased onto parent 0688b70d8995a6900f29d9d3eeac6ffe8a9cfc42. This self-attestation is bound to the implementation commit, not the metadata commit; it does not claim parent integration or completion of the coordinator's post-merge memory review."
 }
 ```
+
+## Current parent rebase follow-up
+
+- **Same assignment:** Existing `worker-02` iteration 1; the same unpublished
+  child branch and worktree were reused.
+- **Parent:** `ralph/parent-child-orchestrator-20260924-2008` at
+  `47982b9570f46eb4ccf3319fa3d90087d66db19a`, based on
+  `origin/main` `b4dac949e976d48f7bd976fc1c93ddc703bc7319`.
+- **Latest observed `origin/main`:**
+  `485b4a64c871f581f9295e46c867b188b0e3ccee`; parent synchronization is
+  coordinator-owned. The worker was instructed to rebase onto the exact
+  parent tip, not directly onto `origin/main`.
+- **Original `base_parent_sha`:**
+  `d54cc120fe25da04d6be887b1a6a7e321512b6e4`.
+- **Previous `rebased_onto_parent_sha`:**
+  `0688b70d8995a6900f29d9d3eeac6ffe8a9cfc42`.
+- **Current `rebased_onto_parent_sha`:**
+  `47982b9570f46eb4ccf3319fa3d90087d66db19a`.
+- **Rebase command:** `git rebase 47982b9570f46eb4ccf3319fa3d90087d66db19a`.
+  Git skipped previously applied commit `0688b70` and stopped on
+  `.github/skills/ralph-loop/references/multi-agent-status.md`. Resolution
+  retained the canonical dashboard and branch/agent leaf schema, upstream
+  PR/sign-off/decision-record rules, and parent-child integration fields.
+- **Previous implementation SHA:**
+  `b75a67b699a5e063691a36746d8795656a84ca90`.
+- **Current rewritten implementation SHA:**
+  `652b3dcda2d76188590d90bfbc788a1bc775dae9`.
+- **PR:** `NOT_OPENED`. Child work integrates into the parent; only the
+  completed parent merges to `origin/main`. No push, merge, or cleanup was
+  performed.
+- **Current state:** `AWAITING_MERGE`; worker-to-parent and parent-to-main
+  verification, memory review, and cleanup are pending. There is no
+  worker-scope blocker.
+- **Verification:** The two requested focused contract tests, `git diff
+  --check`, implementation `git show --check`, parent-child field/CLI
+  boundary assertion, and 9-link leaf/decision check passed. The combined
+  parent-child contract suite remains `NOT_RUN` per instruction while the
+  coordinator-owned README/dashboard/test and worker-01 documentation are
+  incomplete. This documentation-only change has no TDD Red/Green/Refactor
+  phase.
+- **Recovered issues:** The first parent/child field assertion used
+  capitalized `Never` against the guide's lowercase `never`; the corrected
+  assertion passed without a source change. The diagnostic
+  `git rebase --show-current-patch --stat` returned usage (exit code 129)
+  because those options cannot be combined; it changed no Git state.
+- **Current leaf records:** [status](../../../../ralph/ralph-parent-child-worker-reference-docs-20260924-2008/agents/worker-02/status.md) ·
+  [progress and implementation-bound self-attestation](../../../../ralph/ralph-parent-child-worker-reference-docs-20260924-2008/agents/worker-02/progress.md) ·
+  [branch decision index](../../README.md).
