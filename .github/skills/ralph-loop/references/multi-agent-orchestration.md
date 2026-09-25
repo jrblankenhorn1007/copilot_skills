@@ -214,6 +214,15 @@ Only after that confirmation may the worker's leaf and dashboard status become
 
 ## Git synchronization and integration
 
+For both the coordinator and workers, never open, navigate, or automate a
+browser for Git or GitHub repository operations. Use the Git CLI (`git`) for
+local repository operations—status, diff, fetch/pull, branch/worktree, rebase,
+commit, and push. Use the configured GitHub CLI (`gh`) or supported GitHub
+integration/MCP tools for pull requests, checks, reviews, and merges. If the
+required CLI or integration is unavailable or not authorized, report a
+blocker; do not fall back to a browser. Continue to follow the existing Git
+identity and authentication rules.
+
 1. **Before branch creation:** after the per-iteration pull and skill refresh,
    follow the parent Ralph Loop skill's Git identity and authentication
    preflight, including `git fetch origin`. Confirm `origin/main` is available

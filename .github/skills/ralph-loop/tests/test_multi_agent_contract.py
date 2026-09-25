@@ -121,8 +121,10 @@ class MultiAgentContractTests(unittest.TestCase):
             "fetch proves read access only",
             "publishing the actual iteration branch",
             "merge permission",
+            "use only authentication already configured",
             "never ask the user to paste credentials",
             "bypass branch protection",
+            "do not run sign-in/setup commands or change remotes or credential configuration without the user's explicit approval",
         ):
             with self.subTest(requirement=requirement):
                 assert_contains(
@@ -163,6 +165,33 @@ class MultiAgentContractTests(unittest.TestCase):
             "configured git identity and remote read access",
             "README must surface the Git preflight",
         )
+
+    def test_git_and_github_repository_operations_never_use_a_browser(self):
+        governed_docs = (
+            ".github/agents/ralph-loop.agent.md",
+            ".github/skills/ralph-loop/SKILL.md",
+            ".github/skills/ralph-loop/references/multi-agent-orchestration.md",
+            ".github/skills/ralph-loop/references/worker-pr-merging.md",
+            ".github/skills/ralph-loop/references/ralph-loop.md",
+        )
+        requirements = (
+            "never open, navigate, or automate a browser for git or github repository operations",
+            "use the git cli (`git`) for local repository operations",
+            "status, diff, fetch/pull, branch/worktree, rebase, commit, and push",
+            "use the configured github cli (`gh`) or supported github integration/mcp tools for pull requests, checks, reviews, and merges",
+            "if the required cli or integration is unavailable or not authorized, report a blocker; do not fall back to a browser",
+        )
+
+        for path in governed_docs:
+            document = read_document(path)
+            for requirement in requirements:
+                with self.subTest(path=path, requirement=requirement):
+                    assert_contains(
+                        self,
+                        document,
+                        requirement,
+                        f"{path} must direct Git/GitHub operations away from browsers",
+                    )
 
     def test_workers_merge_their_own_prs_after_coordinator_authorizes(self):
         ralph_skill = read_document(".github/skills/ralph-loop/SKILL.md")

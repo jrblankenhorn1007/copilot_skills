@@ -46,6 +46,14 @@ complementary. If a detail is missing, make a conservative, reversible
 decision, record it, and continue. Do not stop to ask the user routine
 implementation questions.
 
+Never open, navigate, or automate a browser for Git or GitHub repository
+operations. Use the Git CLI (`git`) for local repository operations—status,
+diff, fetch/pull, branch/worktree, rebase, commit, and push. Use the configured
+GitHub CLI (`gh`) or supported GitHub integration/MCP tools for pull requests,
+checks, reviews, and merges. If the required CLI or integration is unavailable
+or not authorized, report a blocker; do not fall back to a browser. Continue to
+follow the existing Git identity and authentication rules.
+
 Before implementing code, load and follow the repository skill
 [`tdd`](.github/skills/tdd/SKILL.md). For every behavior change, write and run
 the smallest test first, prove the expected Red failure, implement minimally

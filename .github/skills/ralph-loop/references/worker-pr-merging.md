@@ -6,6 +6,14 @@ sign-off, checks, and integration readiness, then authorizes one worker PR at
 a time. The worker that owns the branch executes its own PR merge after that
 coordinator authorization.
 
+Never open, navigate, or automate a browser for Git or GitHub repository
+operations. Use the Git CLI (`git`) for local repository operations—status,
+diff, fetch/pull, branch/worktree, rebase, commit, and push. Use the configured
+GitHub CLI (`gh`) or supported GitHub integration/MCP tools for pull requests,
+checks, reviews, and merges. If the required CLI or integration is unavailable
+or not authorized, report a blocker; do not fall back to a browser. Continue to
+follow the existing Git identity and authentication rules.
+
 ## Merge procedure
 
 1. Confirm the coordinator authorized this exact PR and that required reviews,

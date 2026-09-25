@@ -157,6 +157,16 @@ and branch, report the operation and sanitized error, and stop. Do not guess
 credentials, repeatedly retry, force-push, or bypass branch protection by
 writing directly to `main`.
 
+## Git and GitHub repository operations
+
+Never open, navigate, or automate a browser for Git or GitHub repository
+operations. Use the Git CLI (`git`) for local repository operations—status,
+diff, fetch/pull, branch/worktree, rebase, commit, and push. Use the configured
+GitHub CLI (`gh`) or supported GitHub integration/MCP tools for pull requests,
+checks, reviews, and merges. If the required CLI or integration is unavailable
+or not authorized, report a blocker; do not fall back to a browser. Continue to
+follow the existing Git identity and authentication rules.
+
 ## Iteration workflow
 
 1. Perform one coherent implementation iteration per invocation. Create a

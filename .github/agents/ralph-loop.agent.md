@@ -63,6 +63,16 @@ report your verification evidence back to it.
    scope is unclear, report what you found and ask for direction rather than
    inventing a project goal.
 
+## Git and GitHub repository operations
+
+Never open, navigate, or automate a browser for Git or GitHub repository
+operations. Use the Git CLI (`git`) for local repository operations—status,
+diff, fetch/pull, branch/worktree, rebase, commit, and push. Use the configured
+GitHub CLI (`gh`) or supported GitHub integration/MCP tools for pull requests,
+checks, reviews, and merges. If the required CLI or integration is unavailable
+or not authorized, report a blocker; do not fall back to a browser. Continue to
+follow the existing Git identity and authentication rules.
+
 ## Ralph run documentation and status ownership
 
 Resolve artifact paths from the active project's repository root. All
