@@ -8,25 +8,28 @@
 - **Initial base `origin/main`:**
   `9558f99cc34cbed8dd1d24f4f15fc03f5d78b6ea`
 - **Latest base incorporated into parent:**
-  `8da9310fda1b2e3042a379081dfb0675f1b22d6b`
+  `7ee1307cb47f5a88cd6b46ee135444777ddeb665`
 - **Current implementation commit:**
-  `9f8e5e850df47700763d8d74d2250fb200804d7e`
-- **PR:** No PR number or URL yet. The GitHub CLI (`gh`) is unavailable in
-  this environment, and the exposed GitHub integration provides read
-  operations only. The parent remote integration path remains pending; do
-  not bypass branch protection or use a browser.
+  `9aca13bccabb6f03b2eca29c138b9dc23ca7dd98`
+- **PR:** No PR number or URL yet. GitHub CLI 2.101.0 is installed and
+  authenticated with repository access; no branch push or PR creation has
+  been attempted. Use the repository's normal review and integration process;
+  do not bypass branch protection or use a browser.
 - **Current state:** `IN_PROGRESS`; parent-to-main merge is `PENDING`.
 
 ## Integration decision
 
-The child setup documentation was integrated into the parent with a verified
-fast-forward. The coordinator has not published, opened, or merged the parent.
-Confirm the repository's authorized integration path before attempting remote
-integration. If the repository's normal flow does not require a PR, replace
-this pending record with `pr-not-opened.md` and record that path.
+The setup documentation and OpenCode runtime profiles are in the parent, and
+the parent was rebased onto the latest fetched `origin/main`. The coordinator
+has not published, opened, or merged the parent. Revalidate the base, complete
+the authenticated OpenCode smoke test, run independent reviews for the exact
+base/head, then use the repository's authorized PR/integration path. If the
+normal flow does not require a PR, replace this pending record with
+`pr-not-opened.md` and record that path.
 
 ## Unresolved blockers
 
-- No write-capable PR/merge operation is available in the current environment.
-- OpenCode is not installed or confirmed working; Ralph runtime migration
-  remains gated on the separate setup result.
+- `opencode auth list` reports 0 credentials. Provider sign-in is required
+  before an authenticated model-backed Ralph invocation can be verified.
+- The parent is not yet published or merged; final remote-main verification
+  and the post-merge memory review remain pending.

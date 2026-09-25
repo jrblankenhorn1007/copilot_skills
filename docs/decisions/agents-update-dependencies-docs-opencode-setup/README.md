@@ -6,12 +6,12 @@
 - **Initial `origin/main` base:**
   `9558f99cc34cbed8dd1d24f4f15fc03f5d78b6ea`
 - **Parent rebased onto:**
-  `8da9310fda1b2e3042a379081dfb0675f1b22d6b`
+  `7ee1307cb47f5a88cd6b46ee135444777ddeb665`
 - **Current parent implementation commit:**
-  `9f8e5e850df47700763d8d74d2250fb200804d7e`
-- **Current state:** `IN_PROGRESS`; the OpenCode setup guide is integrated
-  into the parent. Ralph runtime migration and remote-main integration remain
-  pending.
+  `9aca13bccabb6f03b2eca29c138b9dc23ca7dd98`
+- **Current state:** `IN_PROGRESS`; OpenCode setup, default runtime profiles,
+  compatibility guidance, and contract tests are implemented. Authenticated
+  model validation and remote-main integration remain pending.
 - **Coordinator records:**
   - [Coordinator PR pending](agents/coordinator/pr-pending.md)
 - **Worker records:**
@@ -67,6 +67,27 @@
 - **Consequences:** Effective worker count is one; overall run remains
   `IN_PROGRESS`.
 
+### Make OpenCode the default after CLI/profile validation
+
+- **Context:** The task requested that Ralph move to OpenCode once its setup
+  works. OpenCode 1.18.32 is installed; the local CLI exposes the required
+  `run` options and discovers the repository's custom profiles, but
+  `opencode auth list` reports zero credentials.
+- **Alternatives:** Keep Copilot CLI as the default until a provider is
+  authenticated, or provide the OpenCode primary/worker/reviewer profiles and
+  setup instructions now while clearly recording that a model-backed run is
+  not yet verified.
+- **Decision:** Make OpenCode the documented/configured Ralph default, retain
+  Copilot only as compatibility guidance, and keep authenticated runtime
+  validation as an explicit external prerequisite.
+- **Rationale:** CLI installation, invocation options, profile discovery,
+  permissions, and static contracts can be validated without using or
+  collecting provider credentials. A missing credential must not be
+  disguised as a successful model run.
+- **Consequences:** Repository setup and migration are implemented, but a
+  bounded authenticated smoke test and final integration remain pending until
+  the user completes provider sign-in.
+
 ## Recovered issues
 
 - An earlier `git pull --ff-only` in the primary checkout refused because
@@ -80,11 +101,24 @@
 - The worker contract-test attempt initially failed because the coordinator
   had not yet indexed the worker leaf. The coordinator added the dashboard
   links; the rerun passed all 13 tests in 6.585s.
+- Before the latest parent rebase, the 20-test contract baseline found two
+  missing OpenCode-run branch-index entries. Adding the coordinator and
+  legacy setup-worker entries restored the full 20-test baseline.
+- `origin/main` advanced to
+  `7ee1307cb47f5a88cd6b46ee135444777ddeb665`. Rebasing the unpublished parent
+  required resolving `docs/ralph-status.md`; the resolution preserved both
+  upstream dashboard records and this OpenCode run.
+- The first OpenCode contract-test Red produced seven failures across the
+  three new tests because the agent profiles, auth/model setup instructions,
+  and OpenCode-default runtime guidance were absent. The implemented profiles
+  and documentation resolved those assertions; all 23 contract tests pass.
 
 ## Unresolved blockers
 
-- OpenCode is not installed or confirmed working in this environment. The
-  Ralph runtime migration cannot proceed until the separate setup agent
-  confirms the supported install/provider/invocation flow.
-- `gh` is unavailable and no write-capable GitHub integration is exposed in
-  this session. The authorized parent PR/merge path is not yet established.
+- OpenCode has no configured provider credentials (`opencode auth list`
+  reports 0 credentials), so authenticated model execution is not verified.
+  The user must complete provider sign-in through OpenCode before the bounded
+  model smoke test can be run.
+- The parent is not yet published or merged. The GitHub CLI is authenticated;
+  use the repository's normal PR/review/integration flow after sign-in and
+  independent review.

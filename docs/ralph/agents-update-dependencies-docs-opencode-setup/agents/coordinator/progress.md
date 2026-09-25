@@ -105,3 +105,91 @@ no failing behavior test was fabricated.
   integration SHA and this passing dashboard-index check. Keep its state
   `AWAITING_MERGE` until the parent-to-main merge and memory-review gates are
   complete.
+
+## Iteration 2 — OpenCode Ralph runtime migration
+
+**Status:** `IN_PROGRESS`
+**Run/tasks:** `copilot-skills-opencode-setup-20260924-2325` /
+`opencode-setup-docs`, `opencode-ralph-runtime`
+**Branch:** `agents/update-dependencies-docs-opencode-setup`
+**Original parent base:** `9558f99cc34cbed8dd1d24f4f15fc03f5d78b6ea`
+**Parent rebased onto:** `7ee1307cb47f5a88cd6b46ee135444777ddeb665`
+**Implementation commit:** `9aca13bccabb6f03b2eca29c138b9dc23ca7dd98`
+
+### Scope and implementation
+
+- Made OpenCode the documented default Ralph Loop runtime and added primary,
+  worker, code-reviewer, and security-reviewer profiles under
+  `.opencode/agents/`.
+- Kept `.github/agents/ralph-loop.agent.md` and the Copilot CLI usage guide as
+  explicitly labeled compatibility-only paths.
+- Expanded OpenCode setup instructions with official CLI installation,
+  provider authentication, model discovery, smoke tests, profile discovery,
+  child-worktree session commands, and troubleshooting.
+- No application dependency manifest exists to update. OpenCode is a
+  separately installed CLI; no unrelated package manifest was added.
+- The OpenCode primary grants its Task tool only to named read-only reviewers.
+  Implementation workers use separate `opencode run --dir <child-worktree>`
+  sessions because Task subagents inherit the current worktree and do not
+  create Git worktrees.
+- No additional implementation workers were launched: the available Ralph
+  execution context reported that the host's `agent/runSubagent` capability
+  was unavailable. No parallel worker dispatch is claimed.
+
+### Refresh and Git evidence
+
+- `git -C /Users/jrblankenhorn/copilot_skills pull --ff-only` —
+  **PASS**, clean `main` integration checkout was already at
+  `7ee1307cb47f5a88cd6b46ee135444777ddeb665`.
+- `git var GIT_AUTHOR_IDENT`, `git var GIT_COMMITTER_IDENT`, and
+  `git fetch origin` — **PASS**; configured identity and remote read access
+  were available.
+- The unpublished parent had no uncommitted edits before synchronization.
+  `git rebase origin/main` — **PASS** after resolving one
+  `docs/ralph-status.md` conflict by retaining both the upstream run entries
+  and the OpenCode run entries. The final parent is based on
+  `7ee1307cb47f5a88cd6b46ee135444777ddeb665`.
+- GitHub CLI 2.101.0 is installed and authenticated with repository access.
+  No push, PR, or merge operation has yet been attempted.
+
+### TDD and verification
+
+- **Baseline recovery, not behavior Red:** the original
+  `python3 .github/skills/ralph-loop/tests/test_multi_agent_contract.py`
+  ran 20 tests and failed because the dashboard omitted the coordinator and
+  setup-worker leaves. After the coordinator added both branch-index rows,
+  the same command passed all 20 tests in 2.492s.
+- **Red:** added three OpenCode contract tests before changing runtime
+  profiles or default-runtime documentation. The same command ran 23 tests in
+  3.016s and failed with 7 assertions because the required OpenCode profiles,
+  authentication/model setup, and default-runtime guidance were absent.
+- **Green:** the three focused OpenCode contract tests passed:
+  `python3 .github/skills/ralph-loop/tests/test_multi_agent_contract.py GitPipelineTests.test_opencode_ralph_agents_define_primary_worker_and_read_only_reviewers GitPipelineTests.test_opencode_setup_documents_provider_auth_model_selection_and_smoke_tests GitPipelineTests.test_opencode_is_default_ralph_runtime_and_copilot_is_compatibility_only`.
+- **Post-refactor:** after tightening reviewer tool permissions and testing
+  wildcard-vs-specific permission ordering, the full contract suite passed:
+  `python3 .github/skills/ralph-loop/tests/test_multi_agent_contract.py` —
+  23 tests in 3.536s, OK.
+- `opencode --version` — **PASS**, version 1.18.32.
+- `opencode run --help` — **PASS**, confirms `--agent`, `--model`, `--dir`,
+  and `--variant`; `--auto` explicitly auto-approves permissions.
+- `opencode agent list` — **PASS**, discovers `ralph-loop` (primary),
+  `ralph-loop-worker`, `ralph-code-reviewer`, and `ralph-security-reviewer`
+  (subagents).
+- `opencode auth list` — **PASS as a diagnostic**, reports 0 credentials.
+  No authenticated model run was attempted; provider sign-in is still
+  required before a model-backed smoke test can be verified.
+- `git diff --cached --check` — **PASS** for the implementation commit.
+- After status/dashboard synchronization,
+  `python3 .github/skills/ralph-loop/tests/test_multi_agent_contract.py` —
+  **PASS**, 23 tests in 4.775s; `git diff --cached --check && git diff
+  --check` — **PASS**.
+
+### Remaining work and environment gap
+
+- Complete provider authentication interactively with `opencode auth login`
+  or `/connect`, then run the documented bounded smoke test. Do not claim
+  that model-backed Ralph execution has been verified before that succeeds.
+- Refresh `origin/main` before publication, complete an independent review
+  pass for the exact base/head, and use the authenticated CLI through the
+  repository's normal PR/integration path. The final remote-main merge and
+  post-merge memory review are still pending.
