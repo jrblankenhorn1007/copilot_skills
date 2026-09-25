@@ -520,11 +520,9 @@ class MultiAgentContractTests(unittest.TestCase):
             "review and worker states",
         )
 
-    def test_final_response_reports_completion_and_logs_recovered_issues(self):
+    def test_final_response_logs_recovered_issues(self):
         ralph_skill = read_document(".github/skills/ralph-loop/SKILL.md")
         for requirement in (
-            "task completed: yes",
-            "task completed: no",
             "only unresolved blockers",
             "fails but the issue is resolved",
             "docs/decisions/<branch-slug>/",
@@ -535,16 +533,6 @@ class MultiAgentContractTests(unittest.TestCase):
                     ralph_skill,
                     requirement,
                     f"Ralph skill must include {requirement!r}",
-                )
-
-        agent = read_document(".github/agents/ralph-loop.agent.md")
-        for requirement in ("task completed: yes", "task completed: no"):
-            with self.subTest(requirement=requirement):
-                assert_contains(
-                    self,
-                    agent,
-                    requirement,
-                    f"Ralph agent must include {requirement!r}",
                 )
 
         orchestration = read_document(
@@ -611,6 +599,59 @@ class MultiAgentContractTests(unittest.TestCase):
             ),
             "each Ralph branch must have branch details and a per-agent, per-PR decision record",
         )
+
+    def test_status_first_reports_cover_run_and_agent_state_without_stopping_early(self):
+        report_documents = (
+            ".github/skills/ralph-loop/SKILL.md",
+            ".github/agents/ralph-loop.agent.md",
+            ".github/skills/ralph-loop/references/multi-agent-orchestration.md",
+        )
+        for path in report_documents:
+            report = read_document(path)
+            for requirement in (
+                "explicit overall run state",
+                "list every assigned agent",
+                "exact current status",
+                "next action",
+            ):
+                with self.subTest(path=path, requirement=requirement):
+                    assert_contains(
+                        self,
+                        report,
+                        requirement,
+                        f"{path} must require status-first reporting of {requirement!r}",
+                    )
+
+        reporting_guides = report_documents + (
+            ".github/skills/ralph-loop/references/multi-agent-status.md",
+            "README.md",
+            "docs/decisions/README.md",
+        )
+        for path in reporting_guides:
+            report = read_document(path)
+            for marker in ("task completed: yes", "task completed: no"):
+                with self.subTest(path=path, obsolete_marker=marker):
+                    self.assertFalse(
+                        marker in report,
+                        f"{path} must not prescribe binary completion reporting",
+                    )
+
+        status_guide = read_document(
+            ".github/skills/ralph-loop/references/multi-agent-status.md"
+        )
+        for requirement in (
+            "active_worker_count of zero does not imply the run is stopped",
+            "queued",
+            "awaiting_merge",
+            "coordinator work can continue",
+        ):
+            with self.subTest(requirement=requirement):
+                assert_contains(
+                    self,
+                    status_guide,
+                    requirement,
+                    f"status guidance must preserve nonterminal work when {requirement!r}",
+                )
 
     def test_status_protocol_records_overall_worker_iteration_and_attestation(self):
         status_guide = read_document(
