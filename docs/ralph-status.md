@@ -4,21 +4,20 @@ This is the active repository's aggregate Ralph status dashboard. It indexes
 every branch/agent status and progress folder under `docs/ralph/`. The
 coordinator updates this file in the same loop as affected leaf records.
 
-**Overall status:** `IN_PROGRESS`. The prompt-generation memory follow-up and
-resource-manager integration are in progress.
+**Overall status:** `IN_PROGRESS`. The prompt-generation memory follow-up is
+in progress.
 
 ```yaml
 schema_version: 2
 snapshot_path: "docs/ralph-status.md"
-snapshot_revision: 37
-updated_at_utc: "2026-09-25T08:46:11Z"
+snapshot_revision: 38
+updated_at_utc: "2026-09-25T09:09:31Z"
 overall_status: IN_PROGRESS
 current_run_ids:
   - "copilot-skills-docs-status-organization-20260924"
   - "copilot-skills-no-browser-git-20260924"
   - "copilot_skills-parent-child-pipeline-20260924"
   - "translated-ralph-prompt-skills-recovery-20260925-0318"
-  - "copilot-skills-agent-resource-manager-20260925"
 
 runs:
   - run_id: "copilot_skills-two-agent-ralph-test-batch-20260924"
@@ -279,26 +278,26 @@ runs:
 
   - run_id: "copilot-skills-agent-resource-manager-20260925"
     task_ids: ["shared-agent-resource-manager"]
-    aggregate_status: IN_PROGRESS
+    aggregate_status: COMPLETE
     requested_worker_count: 2
     effective_worker_count: 0
     active_worker_count: 0
     base_origin_main_sha: "20293c720b18a1a21ff150f566823493b7a2717d"
-    current_origin_main_sha: "7ee1307cb47f5a88cd6b46ee135444777ddeb665"
+    current_origin_main_sha: "ec50b548debb7a5f32dcb82f4b68f62806255894"
     rebased_onto_origin_main_sha: "7ee1307cb47f5a88cd6b46ee135444777ddeb665"
     implementation_commit_sha: "09855bbf8ddee51b4c8b6bdd481287747cdbf259"
     created_at_utc: "2026-09-25T06:31:57Z"
-    updated_at_utc: "2026-09-25T08:46:11Z"
+    updated_at_utc: "2026-09-25T09:09:31Z"
     coordinator_scope: "Implement a shared local agent registry, hardware-aware admission policy, and mandatory orchestrator/worker registration guidance."
     coordinator_branch: "ralph/resource-manager-shared-registry-20260925-8abd5d4e"
     coordinator_status_path: "docs/ralph/ralph-resource-manager-shared-registry-20260925-8abd5d4e/agents/coordinator/status.md"
     coordinator_progress_path: "docs/ralph/ralph-resource-manager-shared-registry-20260925-8abd5d4e/agents/coordinator/progress.md"
     worker_count_note: "No subagents launched: the 8 GiB / 6-core host had 2.48 GiB available, 1-minute load 15.41, 13 observed in-progress sessions, and a dynamic capacity of zero."
-    next_action: "Publish the rebased branch, follow the documented no-PR fast-forward path, verify fetched origin/main, and complete the post-merge memory review."
+    next_action: null
     memory_review:
-      status: PENDING
+      status: COMPLETE
       owner: coordinator
-      outcome: null
+      outcome: "No separate durable lesson warranted: the Resource Manager skill and tests codify host-wide admission, observed-session counting, and atomic reservations; another memory entry would duplicate canonical guidance."
     split_plan:
       - task_id: "shared-agent-resource-manager"
         worker_id: "coordinator"
@@ -910,10 +909,10 @@ branch_agent_index:
     runtime_agent_id: "copilotcli:/e384cf16-f9f5-4ce6-bf35-03bd0b4575d6"
     branch: "ralph/resource-manager-shared-registry-20260925-8abd5d4e"
     branch_slug: "ralph-resource-manager-shared-registry-20260925-8abd5d4e"
-    status: AWAITING_MERGE
+    status: COMPLETE
     iteration: 1
     resource_usage:
-      time_spent_seconds: 8053
+      time_spent_seconds: 9453
       time_basis: WALL_CLOCK_ELAPSED
       token_spend:
         status: NOT_REPORTED
@@ -939,15 +938,15 @@ branch_agent_index:
       rationale: "The documented no-PR fast-forward path records review as NOT_APPLICABLE."
     merge_actor_worker_id: null
     merge:
-      status: PENDING
-      sha: null
+      status: VERIFIED
+      sha: "ec50b548debb7a5f32dcb82f4b68f62806255894"
       verified_remote_ref: "refs/heads/main"
-      verified_origin_main_sha: null
-      verification_method: null
-      verified_at_utc: null
-    memory_review_status: PENDING
-    memory_review_outcome: null
-    next_action: "Publish the rebased branch, follow the documented no-PR fast-forward path, verify fetched origin/main, and complete the post-merge memory review."
+      verified_origin_main_sha: "ec50b548debb7a5f32dcb82f4b68f62806255894"
+      verification_method: "git merge-base --is-ancestor ec50b548debb7a5f32dcb82f4b68f62806255894 origin/main"
+      verified_at_utc: "2026-09-25T09:03:27Z"
+    memory_review_status: COMPLETE
+    memory_review_outcome: "No separate durable lesson warranted: the Resource Manager skill and tests codify host-wide admission, observed-session counting, and atomic reservations; another memory entry would duplicate canonical guidance."
+    next_action: null
 ```
 
 ## Branch/agent index
@@ -971,7 +970,7 @@ branch_agent_index:
 | `copilot-skills-premerge-code-review-20260924` | `ralph/code-review-gate-20260924-2131` | `coordinator` | `COMPLETE` | `21,245 s (wall-clock)` | `NOT_REPORTED` | [status](./ralph/ralph-code-review-gate-20260924-2131/agents/coordinator/status.md) | [progress](./ralph/ralph-code-review-gate-20260924-2131/agents/coordinator/progress.md) | `6b1903ec7bfa5c798eb5e48c085bfc3845176bab` | `COMPLETE` |
 | `copilot-skills-premerge-code-review-20260924` | `ralph/code-review-skill-worker-01-20260924-2131` | `worker-01` | `CANCELLED` | Not captured (legacy) | `NOT_REPORTED` | [status](./ralph/ralph-code-review-skill-worker-01-20260924-2131/agents/worker-01/status.md) | [progress](./ralph/ralph-code-review-skill-worker-01-20260924-2131/agents/worker-01/progress.md) | Not merged | N/A |
 | `copilot-skills-premerge-code-review-20260924` | `ralph/code-review-process-worker-02-20260924-2131` | `worker-02` | `COMPLETE` | `20,270 s (wall-clock)` | `NOT_REPORTED` | [status](./ralph/ralph-code-review-process-worker-02-20260924-2131/agents/worker-02/status.md) | [progress](./ralph/ralph-code-review-process-worker-02-20260924-2131/agents/worker-02/progress.md) | `6b1903ec7bfa5c798eb5e48c085bfc3845176bab` | `COMPLETE` |
-| `copilot-skills-agent-resource-manager-20260925` | `ralph/resource-manager-shared-registry-20260925-8abd5d4e` | `coordinator` | `AWAITING_MERGE` | `8,053 s (wall-clock)` | `NOT_REPORTED` | [status](./ralph/ralph-resource-manager-shared-registry-20260925-8abd5d4e/agents/coordinator/status.md) | [progress](./ralph/ralph-resource-manager-shared-registry-20260925-8abd5d4e/agents/coordinator/progress.md) | Pending | `PENDING` |
+| `copilot-skills-agent-resource-manager-20260925` | `ralph/resource-manager-shared-registry-20260925-8abd5d4e` | `coordinator` | `COMPLETE` | `9,453 s (wall-clock)` | `NOT_REPORTED` | [status](./ralph/ralph-resource-manager-shared-registry-20260925-8abd5d4e/agents/coordinator/status.md) | [progress](./ralph/ralph-resource-manager-shared-registry-20260925-8abd5d4e/agents/coordinator/progress.md) | `ec50b548debb7a5f32dcb82f4b68f62806255894` | `COMPLETE` |
 
 The parent-child pipeline run is `COMPLETE`: both workers integrated into the
 parent, the parent merge is verified on `origin/main`, the contract suite and
@@ -990,6 +989,6 @@ branches report elapsed wall-clock time and provider token status, and the
 parent merge is verified on `origin/main` at
 `05b1b23da974ed7b171c3a29ee266e43721d4e7`.
 
-The shared Resource Manager run is `AWAITING_MERGE`: host capacity was zero,
-so no subagents were launched; the coordinator is following the documented
-no-PR fast-forward integration path.
+The shared Resource Manager run is `COMPLETE`: its implementation is verified
+on `origin/main` at `ec50b548debb7a5f32dcb82f4b68f62806255894`. Post-merge
+memory review found no separate durable lesson, so no memory entry was added.
