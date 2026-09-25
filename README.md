@@ -29,6 +29,9 @@ license notices are preserved in each skill directory.
   captures and maintains concise, evidence-backed lessons in categorized
   repository memory; see the [memory index](.github/memory/README.md).
 
+- [Resource Manager](.github/skills/resource-manager/SKILL.md):
+  gates concurrent agents through a shared local registry sized by available
+  memory, CPU capacity, and live system load.
 - [Ralph Loop](.github/skills/ralph-loop/SKILL.md):
   refreshes the canonical skills and active project repositories at the start
   of every iteration and re-reads applicable guidance. It makes the first run
@@ -63,8 +66,9 @@ license notices are preserved in each skill directory.
   instructions per iteration, orchestrates configurable workers through
   isolated iterations, acts as the top-level orchestrator on the first run,
   verifies remote-main integration, reviews durable lessons, and applies TDD
-  to behavior changes. It distinguishes Git identity, remote read access,
-  branch-push access, and merge permissions.
+  to behavior changes. It registers the orchestrator and reserves worker
+  slots through the Resource Manager. It distinguishes Git identity, remote
+  read access, branch-push access, and merge permissions.
 - [Ralph Code Reviewer](.github/agents/ralph-code-reviewer.agent.md):
   independently reviews every PR after worker sign-off and before merge
   authorization; it is read-only and does not replace required human review.
@@ -113,9 +117,10 @@ issues and unresolved blockers.
 
 ## Validation
 
-Run the Ralph multi-agent instruction contract checks from the repository
-root:
+Run the resource-manager registry tests and Ralph multi-agent instruction
+contract checks from the repository root:
 
 ```sh
+python3 .github/skills/resource-manager/tests/test_resource_manager.py
 python3 .github/skills/ralph-loop/tests/test_multi_agent_contract.py
 ```

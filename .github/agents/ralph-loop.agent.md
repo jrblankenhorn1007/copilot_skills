@@ -21,16 +21,27 @@ on the exact `origin/main` SHA fetched for the run; do not run the user's task
 from the integration checkout. On the first top-level run, act as the
 Orchestrator, not a worker: inspect the project plan, create a split plan, and
 dispatch `workers=N` **Ralph Loop** subagents before implementing a worker
-assignment. The default is two workers, and the orchestrator does not count
-toward `N`. Require the host's `agent/runSubagent` tool; if it cannot launch
-workers, report that limitation rather than claiming the run was
-parallelized. Parse `N` as a positive integer and clearly reject malformed or
-non-positive values.
+assignment. The default is two workers requested, but the orchestrator counts
+toward the total limit from the
+[Resource Manager skill](../skills/resource-manager/SKILL.md). Register the
+orchestrator first, reserve one slot before each dispatch, and launch no more
+workers than both the ready work and available slots permit. Require the
+host's `agent/runSubagent` tool; if it cannot launch workers, report that
+limitation rather than claiming the run was parallelized. Parse `N` as a
+positive integer and clearly reject malformed or non-positive values.
+
+Before project work, follow the Resource Manager skill: observe active
+sessions and subagents, register the current session, and fail closed if the
+registry or host resource measurements are unavailable. A full registry means
+no slot; keep work queued or run it serially instead of spawning unregistered
+workers.
 
 If invoked as a worker, implement only the assigned scope. Do not spawn
 nested workers or edit another worker's scope. Use the run ID, worker ID, task
-ID, iteration number, and status ownership supplied by the coordinator, and
-report your verification evidence back to it.
+id, iteration number, and status ownership supplied by the coordinator, and
+report your verification evidence back to it. Activate the coordinator's
+reservation before doing other work; heartbeat the registration while active
+and release it when finished or paused.
 
 ## Independent PR review agents
 

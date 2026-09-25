@@ -4,7 +4,8 @@ The first, top-level **Ralph Loop** invocation is the **Orchestrator**
 (coordinator), not an implementation worker. Its first run reads the project
 plan, splits ready work, and dispatches the configured worker agents before
 implementing any worker assignment itself. The orchestrator is not counted in
-`workers=N`. This is the default multi-agent workflow under the
+the requested `workers=N`, but it does count toward the host's total agent
+limit. This is the default multi-agent workflow under the
 [Ralph Loop skill](../SKILL.md); behavior changes also follow the
 [TDD skill](../../tdd/SKILL.md). Each worker performs one complete, isolated
 Ralph iteration and follows the active project's instructions and status
@@ -65,15 +66,17 @@ block defines run behavior; it is not a new Copilot settings-file schema.
 
 An orchestration request may specify `workers=N`, the desired number of
 concurrent worker agents. If omitted, use the default `workers=2`. `N` counts
-workers only, not the orchestrator; it is a parallelism request, not a target
-number of iterations or a reason to invent work.
+requested workers, not the orchestrator; the Resource Manager limit counts
+both. Treat `N` as an upper bound, not a target number of iterations or a
+reason to invent work.
 
 In the first run, the coordinator reads the project's plan, instructions,
 current status, relevant memory categories, and working-tree state, then
-writes a split plan and launches the ready workers. When at least `N` useful,
-independent assignments are ready, launch exactly `N` workers in that first
-run. If fewer than `N` ready assignments can advance acceptance criteria
-safely, launch only that smaller number. Do not pad the run with overlapping,
+writes a split plan and launches the ready workers. Launch at most `N`
+workers, and only as many as there are useful independent assignments and
+available reserved slots after counting the orchestrator and every active or
+reserved agent. If either assignments or capacity are fewer than `N`, launch
+only that smaller number and record why. Do not pad the run with overlapping,
 duplicate, or speculative tasks.
 
 Each assignment should state:
@@ -93,6 +96,25 @@ having workers wait on or duplicate that work.
 The coordinator can fill newly available worker slots as dependencies clear
 or more useful work is identified, applying the configured worker profile to
 each new dispatch.
+
+## Shared resource registration
+
+Before task work, every orchestrator registers itself with the shared local
+registry in the
+[Resource Manager skill](../../resource-manager/SKILL.md). The orchestrator
+counts as one agent; all workers and nested subagents count against the same
+dynamic limit. Use the host's live-session and subagent views to refresh the
+inventory, then register the orchestrator and reserve one slot before each
+child dispatch. The child activates that reservation before doing other work.
+
+The registry atomically enforces a RAM-, CPU-, and live-load-derived limit
+across worktrees on the same host. A requested `workers=N` is only an upper
+bound: the effective worker count is the minimum of requested workers, ready
+independent assignments, and currently free slots after counting the
+orchestrator and all active or reserved agents. If capacity is full, resource
+metrics are unavailable, the shared registry cannot be locked, or the live
+inventory is unknown, do not spawn. Queue or serialize the work instead.
+Heartbeat active registrations and release them at completion or pause.
 
 ## Worker iterations and coordinator tracking
 

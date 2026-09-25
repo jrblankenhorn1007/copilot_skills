@@ -21,16 +21,21 @@ does not document a native `--orchestrator` flag. Do not pass it to `copilot`
 or invent a CLI command containing it.
 
 The orchestrator's first run plans and dispatches the configured workers
-before taking on any worker assignment; it does not count toward `workers=N`.
-The default is two workers. If fewer than two useful, independent assignments
-are ready, launch only the available work and record why; never invent or
-duplicate assignments to meet the default.
+before taking on any worker assignment. The default is two requested workers,
+but the orchestrator counts toward the live total-agent limit. Before task
+work, register the orchestrator; reserve each child slot before dispatch; and
+have each worker activate its reservation before work. The effective worker
+count is bounded by ready assignments and the Resource Manager's available
+slots. If capacity is full or cannot be measured, dispatch no workers and
+queue or serialize the work; never bypass the limit.
 
 Configure the orchestrator's model and supported parameters for the initial
 session, and configure worker defaults or per-worker overrides at dispatch.
 See [multi-agent orchestration](./references/multi-agent-orchestration.md) for
 the run configuration and [Copilot agent selection and model controls](./references/copilot-cli-usage.md)
-for applying it in supported harnesses.
+for applying it in supported harnesses. Follow the
+[Resource Manager skill](../resource-manager/SKILL.md) for the shared local
+registry and dynamic hardware-based capacity policy.
 
 ## Parent and child worktrees
 
