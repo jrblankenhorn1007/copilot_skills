@@ -1,0 +1,47 @@
+{
+  "agent_id": "coordinator-01",
+  "agent_profile": {
+    "agent_definition": ".github/agents/ralph-loop.agent.md",
+    "context_tier": null,
+    "context_usage_tokens": null,
+    "context_window_tokens": null,
+    "harness": "VS Code Copilot",
+    "model_id": null,
+    "reasoning_effort": null,
+    "runtime_agent_id": "copilotcli:/d0f1b531-19ef-4644-92f9-2b17966bcb95"
+  },
+  "git": {
+    "base_ref": "refs/heads/main",
+    "base_sha": "ec8c684cd709c5fe6182a3f863ae6430f6b241da",
+    "edit_scope": [
+      ".github/skills/ralph-loop/SKILL.md",
+      "docs/agent-sync/README.md",
+      "docs/agent-sync/main-ownership.md"
+    ],
+    "implementation_branch": "refs/heads/ralph/protected-main-pr-recovery-coordinator-20260925-1423",
+    "remote_name": "origin",
+    "repository": "jrblankenhorn1007/copilot_skills",
+    "worktree_head_sha_at_sign_in": "ec8c684cd709c5fe6182a3f863ae6430f6b241da",
+    "worktree_path": "/Users/jrblankenhorn/copilot_skills.worktrees/ralph-protected-main-pr-recovery-coordinator-20260925-1423"
+  },
+  "prompt_path": "docs/agent-sync/runs/ralph-protected-main-pr-recovery-20260925-1423/agents/coordinator-01/prompt.md",
+  "prompt_sha256": "cf2c63fd55565396baeb793a5bd9949f10d85dc72a7c1c06287badf975b8766c",
+  "revision": 1,
+  "run_id": "ralph-protected-main-pr-recovery-20260925-1423",
+  "schema_version": 1,
+  "sign_in_at_utc": "2026-09-25T14:23:38Z",
+  "sign_out": {
+    "at_utc": null,
+    "checks": [],
+    "implementation_commit_sha": null,
+    "next_action": null,
+    "summary": null
+  },
+  "started_at_utc": "2026-09-25T14:23:38Z",
+  "status": "IN_PROGRESS",
+  "status_reason": "Document a safe API/UI-only recovery for a verified GH013 denial; do not retry direct main writes or claim task sign-in before remote verification.",
+  "task_id": "document-gh013-pr-recovery",
+  "updated_at_utc": "2026-09-25T14:23:38Z",
+  "worker_id": "coordinator-01",
+  "worker_name": "coordinator-01 / protected-main PR recovery"
+}
