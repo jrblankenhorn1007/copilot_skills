@@ -10,9 +10,9 @@ runtime_agent_id: null
 iteration: 1
 status: COMPLETE
 started_at_utc: "2026-09-25T02:48:23Z"
-updated_at_utc: "2026-09-25T10:43:13Z"
+updated_at_utc: "2026-09-25T11:07:54Z"
 resource_usage:
-  time_spent_seconds: 28490
+  time_spent_seconds: 29971
   time_basis: WALL_CLOCK_ELAPSED
   token_spend:
     status: NOT_REPORTED
@@ -29,10 +29,10 @@ rebased_onto_origin_main_sha: null
 parent_branch: "ralph/project-memory-update-coordinator-20260925-0223"
 parent_worktree: "/Users/jrblankenhorn/copilot_skills.worktrees/ralph-project-memory-update-coordinator-20260925-0223"
 parent_base_origin_main_sha: "114e4d60567d05cd048916339ed86e324c6eeef3"
-parent_rebased_onto_origin_main_sha: "0e8e98e0088bdf2ae93dd2c1b1b6e30f1203c5ff"
-latest_fetched_origin_main_sha: "0e8e98e0088bdf2ae93dd2c1b1b6e30f1203c5ff"
-latest_origin_main_observed_sha: "0e8e98e0088bdf2ae93dd2c1b1b6e30f1203c5ff"
-latest_origin_main_observed_at_utc: "2026-09-25T10:42:29Z"
+parent_rebased_onto_origin_main_sha: "70b98bbf0ab35620f7c33b5d9789187560c699df"
+latest_fetched_origin_main_sha: "70b98bbf0ab35620f7c33b5d9789187560c699df"
+latest_origin_main_observed_sha: "70b98bbf0ab35620f7c33b5d9789187560c699df"
+latest_origin_main_observed_at_utc: "2026-09-25T11:07:54Z"
 base_parent_sha: "114e4d60567d05cd048916339ed86e324c6eeef3"
 rebased_onto_parent_sha: "2237eecc5522d17f3e8feda063bc43e509798eab"
 implementation_commit_sha: "3ececee894c930f87efa554dc5a9c1362cb0365e"
@@ -59,12 +59,19 @@ decision_record_path: "docs/decisions/ralph-project-memory-update-agent-worker-0
 decision_index_path: "docs/decisions/ralph-project-memory-update-agent-worker-01-20260925-0223/README.md"
 worker_to_parent_merge:
   status: VERIFIED
-  sha: "7e34d1b7a74ebaef8d8b9ab56f44ac2db1ac8c4e"
+  sha: "544b56706175d4f0a92cf0922480b0bb9eb4941b"
   verified_parent_ref: "refs/heads/ralph/project-memory-update-coordinator-20260925-0223"
-  verified_parent_sha: "ac8ffd1fdb9cf89eaa395b3d2873541ba77641e0"
-  verification_method: "git merge-base --is-ancestor 7e34d1b7a74ebaef8d8b9ab56f44ac2db1ac8c4e HEAD"
-  verified_at_utc: "2026-09-25T10:43:13Z"
+  verified_parent_sha: "8745c2fd82df8f29db30d5a8274256cb74343c09"
+  verification_method: "git merge-base --is-ancestor 544b56706175d4f0a92cf0922480b0bb9eb4941b HEAD"
+  verified_at_utc: "2026-09-25T11:07:54Z"
 worker_to_parent_merge_history:
+  - status: SUPERSEDED_BY_PARENT_REBASE
+    sha: "7e34d1b7a74ebaef8d8b9ab56f44ac2db1ac8c4e"
+    verified_parent_ref: "refs/heads/ralph/project-memory-update-coordinator-20260925-0223"
+    verified_parent_sha: "ac8ffd1fdb9cf89eaa395b3d2873541ba77641e0"
+    verification_method: "git merge-base --is-ancestor 7e34d1b7a74ebaef8d8b9ab56f44ac2db1ac8c4e HEAD"
+    verified_at_utc: "2026-09-25T10:43:13Z"
+    superseded_by_parent_rebase_onto_origin_main_sha: "70b98bbf0ab35620f7c33b5d9789187560c699df"
   - status: SUPERSEDED_BY_PARENT_REBASE
     sha: "90f9dd1ca4fc60dc4753ac693ccb58e60cdd01f8"
     verified_parent_ref: "refs/heads/ralph/project-memory-update-coordinator-20260925-0223"

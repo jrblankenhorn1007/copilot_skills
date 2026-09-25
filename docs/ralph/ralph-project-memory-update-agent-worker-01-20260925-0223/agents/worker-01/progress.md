@@ -1,9 +1,9 @@
 # Worker progress
 
 **Current summary:** Iteration 1 is `COMPLETE`. The coordinator verified
-worker-to-parent integration `7e34d1b7a74ebaef8d8b9ab56f44ac2db1ac8c4e`
-as an ancestor of parent `ac8ffd1fdb9cf89eaa395b3d2873541ba77641e0`, rebased
-onto fetched `origin/main` `0e8e98e0088bdf2ae93dd2c1b1b6e30f1203c5ff`.
+worker-to-parent integration `544b56706175d4f0a92cf0922480b0bb9eb4941b`
+as an ancestor of parent `8745c2fd82df8f29db30d5a8274256cb74343c09`, rebased
+onto fetched `origin/main` `70b98bbf0ab35620f7c33b5d9789187560c699df`.
 The worker's signed-off implementation remains
 `3ececee894c930f87efa554dc5a9c1362cb0365e`; its focused agent contract and
 Ralph contract suite passed before integration. Parent acceptance checks after
@@ -11,7 +11,7 @@ the latest rebase remain pending. The no-PR flow has review `NOT_APPLICABLE`;
 the overall run remains `IN_PROGRESS` until final parent-to-main verification
 and the post-merge Project Memory Update review.
 
-**Updated at UTC:** `2026-09-25T10:43:13Z`
+**Updated at UTC:** `2026-09-25T11:07:54Z`
 
 ## Iteration history
 
@@ -192,6 +192,15 @@ implementation commit SHA. The current sign-off follows it.
   }
 }
 ```
+
+### Coordinator integration reverified after parent rebase — 2026-09-25T11:07:54Z
+
+- The parent was rebased onto fetched `origin/main` `70b98bbf0ab35620f7c33b5d9789187560c699df`; all 22 parent patches are equivalent per `git range-diff`.
+- Worker integration `7e34d1b7a74ebaef8d8b9ab56f44ac2db1ac8c4e` replayed as `544b56706175d4f0a92cf0922480b0bb9eb4941b`; stable patch ID `457e943bdfd9be5cb94a63cf3ff32d72e34ce887` is unchanged. The current integration is an ancestor of parent `8745c2fd82df8f29db30d5a8274256cb74343c09`.
+- The implementation commit replayed from `fac635c983ce8c257844bc682a22a254e88a311a` to `602baf1961e0e7eca493d71a43bdd61905d6e668`; stable patch ID `1571aec2fe973545242da3e2d925c6027d49d9ef` is unchanged.
+- Parent acceptance checks have not run yet after this rebase; the worker remains `COMPLETE` on the verified child integration, while the overall run remains `IN_PROGRESS`.
+
+*** End of File
 
 ## Coordinator integration reverified after origin refresh — 2026-09-25T10:43:13Z
 
