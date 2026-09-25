@@ -26,9 +26,16 @@ commit does not establish remote-main completion.
 - The first concurrent-fetch test exposed a shared remote-tracking ref
   lock race. A unique temporary fetch ref per transaction and explicit
   cleanup resolved it; three repeated concurrency checks passed.
+- A `FREE` record without a verified sign-out outcome is not a handoff.
+  The publisher refuses malformed releases and checks any recorded result
+  against the reservation's starting main SHA and current remote history.
 - The status-reporting owner signed out before changes to its Ralph
   instructions. The iteration-stall owner has not signed out of the
   aggregate dashboard; that file remains untouched until its release.
+- The existing dashboard-index contract now correctly fails for this new
+  coordinator leaf until the owner can add it to the shared dashboard.
+  This is a coordination blocker, not a reason to weaken the assertion or
+  overwrite the active owner's work.
 
 ## Pending integration and memory review
 

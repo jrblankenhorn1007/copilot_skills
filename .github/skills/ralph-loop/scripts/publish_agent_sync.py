@@ -307,10 +307,30 @@ def read_main_owner(
         raise PublishError("remote main ownership identity is invalid")
     validate_timestamp(owner.get("signed_in_at_utc"), "owner.signed_in_at_utc")
     if record["state"] == "OWNED":
-        if sign_out.get("at_utc") is not None:
+        if (
+            sign_out.get("at_utc") is not None
+            or sign_out.get("result_commit_sha") is not None
+            or sign_out.get("outcome") is not None
+        ):
             raise PublishError("an active main owner cannot be signed out")
     else:
         validate_timestamp(sign_out.get("at_utc"), "sign_out.at_utc")
+        outcome = sign_out.get("outcome")
+        result_sha = sign_out.get("result_commit_sha")
+        if outcome in ("PUBLISHED", "MERGED"):
+            if (
+                not isinstance(result_sha, str)
+                or not re.fullmatch(r"[0-9a-f]{40}", result_sha)
+                or result_sha == owner["start_main_sha"]
+                or not is_ancestor(repository, owner["start_main_sha"], result_sha)
+                or not is_ancestor(repository, result_sha, base)
+            ):
+                raise PublishError("main sign-out result commit is not verified")
+        elif outcome in ("FAILED", "UNCHANGED", "QUEUED"):
+            if result_sha is not None:
+                raise PublishError("main sign-out outcome cannot have a result SHA")
+        else:
+            raise PublishError("main sign-out outcome is invalid")
     return record
 
 

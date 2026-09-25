@@ -126,6 +126,35 @@ class MainOwnershipPublisherTests(unittest.TestCase):
     def ownership(self):
         return json.loads(self.git(self.remote, "show", f"main:{OWNERSHIP_PATH}"))
 
+    def seed_owner(self, *, state="OWNED", sign_out=None):
+        owner = {
+            "schema_version": 1,
+            "revision": 1,
+            "repository": "test/repository",
+            "ref": "refs/heads/main",
+            "state": state,
+            "owner": {
+                "run_id": "another-run",
+                "agent_id": "worker-02",
+                "runtime_agent_id": None,
+                "operation": "MERGE",
+                "worktree_path": None,
+                "start_main_sha": self.initial_main,
+                "signed_in_at_utc": "2026-09-25T00:00:00Z",
+                "token": "another-unique-token",
+            },
+            "sign_out": sign_out
+            if sign_out is not None
+            else {"at_utc": None, "result_commit_sha": None, "outcome": None},
+        }
+        path = self.seed / OWNERSHIP_PATH
+        path.parent.mkdir(parents=True)
+        path.write_text(json.dumps(owner), encoding="utf-8")
+        self.git(self.seed, "add", OWNERSHIP_PATH)
+        self.git(self.seed, "commit", "-m", "record another main owner")
+        self.git(self.seed, "push", "origin", "main")
+        return owner
+
     def action(
         self,
         action,
@@ -239,39 +268,27 @@ class MainOwnershipPublisherTests(unittest.TestCase):
         )
 
     def test_foreign_main_owner_blocks_status_publication(self):
-        owner = {
-            "schema_version": 1,
-            "revision": 1,
-            "repository": "test/repository",
-            "ref": "refs/heads/main",
-            "state": "OWNED",
-            "owner": {
-                "run_id": "another-run",
-                "agent_id": "worker-02",
-                "runtime_agent_id": None,
-                "operation": "MERGE",
-                "worktree_path": None,
-                "start_main_sha": self.initial_main,
-                "signed_in_at_utc": "2026-09-25T00:00:00Z",
-                "token": "another-unique-token",
-            },
-            "sign_out": {
-                "at_utc": None,
-                "result_commit_sha": None,
-                "outcome": None,
-            },
-        }
-        path = self.seed / OWNERSHIP_PATH
-        path.parent.mkdir(parents=True)
-        path.write_text(json.dumps(owner), encoding="utf-8")
-        self.git(self.seed, "add", OWNERSHIP_PATH)
-        self.git(self.seed, "commit", "-m", "reserve main for another agent")
-        self.git(self.seed, "push", "origin", "main")
+        owner = self.seed_owner()
         reserved_head = self.git(self.remote, "rev-parse", "refs/heads/main")
 
         result = self.invoke(self.status(), extra_args=("--wait-seconds", "0"))
         self.assertNotEqual(result.returncode, 0, "foreign main owner must block")
         self.assertIn("main", result.stderr.lower())
+        self.assertEqual(self.git(self.remote, "rev-parse", "refs/heads/main"), reserved_head)
+        self.assertEqual(self.ownership(), owner)
+
+    def test_incomplete_foreign_signout_cannot_be_treated_as_free(self):
+        owner = self.seed_owner(
+            state="FREE",
+            sign_out={
+                "at_utc": "2026-09-25T00:01:00Z",
+                "result_commit_sha": None,
+                "outcome": None,
+            },
+        )
+        reserved_head = self.git(self.remote, "rev-parse", "refs/heads/main")
+        result = self.invoke(self.status(), extra_args=("--wait-seconds", "0"))
+        self.assertNotEqual(result.returncode, 0)
         self.assertEqual(self.git(self.remote, "rev-parse", "refs/heads/main"), reserved_head)
         self.assertEqual(self.ownership(), owner)
 

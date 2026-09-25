@@ -51,3 +51,14 @@ test. Its dashboard scope is not edited here. This leaf and the coordinator
 dashboard must be reconciled in one coordination cycle after that run signs
 out. Until then, the implementation is not integrated on remote main, the
 memory review is pending, and no completion marker is justified.
+
+### Validation refinement - 2026-09-25T07:00:20Z
+
+- **Red:** `cd .github/skills/ralph-loop/tests && PYTHONDONTWRITEBYTECODE=1 python3 -m unittest test_main_ownership_publisher.MainOwnershipPublisherTests.test_incomplete_foreign_signout_cannot_be_treated_as_free` - expected failure: the publisher accepted a `FREE` record without a valid sign-out outcome and stole the main reservation.
+- **Green:** `cd .github/skills/ralph-loop/tests && PYTHONDONTWRITEBYTECODE=1 python3 -m unittest test_main_ownership_publisher.MainOwnershipPublisherTests.test_incomplete_foreign_signout_cannot_be_treated_as_free test_main_ownership_publisher.MainOwnershipPublisherTests.test_foreign_main_owner_blocks_status_publication test_main_ownership_publisher.MainOwnershipPublisherTests.test_idempotent_status_retry_does_not_reserve_main_or_push` - **PASS**, three tests in 8.530 seconds. `read_main_owner` now validates the outcome, commit, and reservation lineage before treating main as free. The complete targeted suite must be rerun before integration.
+
+### Dashboard synchronization blocker - 2026-09-25T07:03:43Z
+
+- `cd .github/skills/ralph-loop/tests && PYTHONDONTWRITEBYTECODE=1 python3 -m unittest test_main_ownership_contract test_main_ownership_publisher test_multi_agent_contract && git -C /Users/jrblankenhorn/copilot_skills.worktrees/ralph-main-checkout-ownership-20260925-e464eb0a diff --check` ran 36 tests with **one failure** in `test_docs_status_dashboard_indexes_every_branch_agent_folder`. The runtime and other instruction contracts passed; the new coordinator leaf is not yet indexed in the aggregate dashboard, which the iteration-stall run still claims with task sign-out `null`. The chained diff check did not run after the test failure.
+- Do not weaken the dashboard test or edit its owner-claimed file. Wait for that run's verified sign-out, then index this leaf, rerun the same suite and diff check, and proceed with integration only after Green.
+- Independent of the claimed dashboard, `cd .github/skills/ralph-loop/tests && PYTHONDONTWRITEBYTECODE=1 python3 -m unittest test_main_ownership_contract test_main_ownership_publisher && git -C /Users/jrblankenhorn/copilot_skills.worktrees/ralph-main-checkout-ownership-20260925-e464eb0a diff --check` **passed** (21 tests in 49.729 seconds and a clean diff) at 2026-09-25T07:06:37Z. This is not a substitute for the failing aggregate-dashboard check.
