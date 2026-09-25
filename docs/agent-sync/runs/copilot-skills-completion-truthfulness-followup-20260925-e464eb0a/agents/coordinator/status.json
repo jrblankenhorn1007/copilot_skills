@@ -31,7 +31,7 @@
   },
   "prompt_path": "docs/agent-sync/runs/copilot-skills-completion-truthfulness-followup-20260925-e464eb0a/agents/coordinator/prompt.md",
   "prompt_sha256": "66f2b4bd0040fb92c7b4f1b84f4f1fe7b80e83899815acc670c6c35e380d15c7",
-  "revision": 11,
+  "revision": 12,
   "run_id": "copilot-skills-completion-truthfulness-followup-20260925-e464eb0a",
   "schema_version": 1,
   "sign_in_at_utc": "2026-09-25T16:03:12Z",
@@ -44,9 +44,9 @@
   },
   "started_at_utc": "2026-09-25T16:03:12Z",
   "status": "BLOCKED",
-  "status_reason": "The completion instruction remains committed locally at a7bbf325401dc33d7ffe43b6b958d746d9f9e3ab; the latest branch evidence commit is ce49f3db38170210f86477ae7fa137a043f1371b. The branch was last rebased onto fetched origin/main 03837976238096a37b2c09cf735233bc9922c54b; the latest verified origin/main before this publication is 1304409be9c62d32d3fe7dcb8424fb2493428cad with task status revision 10. The dedicated completion-instruction regression test is included in the ACTIVE edit scope. Its Red run against baseline main produced five expected failures because the global instruction was absent; Green and post-refactor runs passed 5/5 on the task branch. The full 28-test Ralph contract suite still has one dashboard-index failure because this blocked parent leaf is not indexed. Five task scopes still claim docs/ralph-status.md with no sign-out, the hierarchy remains unmerged, and comparable latency/cost/accuracy evidence is outstanding. The overall request remains PARTIAL.",
+  "status_reason": "The completion instruction is committed on the isolated task branch at ab3db0a8ed486c06df8c9f46c60e34689db8e998; latest branch evidence commit a223d7bbb94c4a46fdd869f8ae28947a2df5e3a0. The branch was rebased without conflicts onto origin/main e387ac171159a057f5aa31032014e375a3713547. The latest fetched origin/main before this status publication is c1ac03a4d3378789450b7ac59a655fcbff974241 and contains this task at revision 11. The dedicated completion-instruction regression test passes 5/5 after rebase. The full 28-test Ralph contract suite has 27 passes and one dashboard-index failure: the current concurrent-edit-pipeline task still owns docs/ralph-status.md at revision 4 / BLOCKED / edit scope ACTIVE. The agent-communication task is IN_PROGRESS at revision 2, has no sign-out, and owns docs/agent-communication/baseline-benchmark.md. The preserved role-hierarchy branch is BLOCKED at revision 17, 60 commits ahead / 256 behind latest main; worker-01 sign-off requires renewal after rebase and worker-02 has no implementation. No performance improvement has been measured. The overall request remains PARTIAL.",
   "task_id": "integrating-completion-truthfulness-guard",
-  "updated_at_utc": "2026-09-25T17:33:50Z",
+  "updated_at_utc": "2026-09-25T17:40:50Z",
   "worker_id": "coordinator",
   "worker_name": "coordinator - completion-truthfulness follow-up"
 }
