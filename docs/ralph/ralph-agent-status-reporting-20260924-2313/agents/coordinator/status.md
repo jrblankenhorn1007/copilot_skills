@@ -12,18 +12,19 @@
 | Worktree | `/Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-status-reporting-20260924-2313` |
 | Base `origin/main` SHA | `9558f99cc34cbed8dd1d24f4f15fc03f5d78b6ea` |
 | Latest rebase onto `origin/main` | `20293c720b18a1a21ff150f566823493b7a2717d` |
+| Latest fetched `origin/main` | `d868d684564658bdc9488e27f5bfeaa592b04338` |
 | Implementation commit SHA | Pending |
 | Worker-02 | `COMPLETE` — test integrated into the parent at `a17b1a1`; status sync at `8bb3e1f` |
-| Worker-01 | `AWAITING_MERGE` — documentation commit `c16f277` is green on its child; rebase and revalidation are required before parent integration |
+| Worker-01 | `AWAITING_MERGE` — rebased onto parent `bfc044a`; full 16-test suite passes and sign-off is refreshed |
 | Parent-to-main merge | `PENDING` |
 | Memory review | `PENDING` |
 | Pull request | `NOT_OPENED` — use the repository's verified fast-forward process unless current branch policy requires a PR. |
 | Decision record | `docs/decisions/ralph-agent-status-reporting-20260924-2313/agents/coordinator/pr-not-opened.md` |
 | Baseline check | `python3 .github/skills/ralph-loop/tests/test_multi_agent_contract.py` — `PASS` (13 tests, OK) |
-| Latest parent contract check | `python3 .github/skills/ralph-loop/tests/test_multi_agent_contract.py` — expected `FAIL` before the child documentation is rebased/integrated (16 tests, 17 assertion failures) |
-| Worker-01 child contract check | `python3 .github/skills/ralph-loop/tests/test_multi_agent_contract.py` — `PASS` (15 tests, OK at the original child base) |
+| Latest parent contract check | `python3 .github/skills/ralph-loop/tests/test_multi_agent_contract.py` — expected `FAIL` before child integration (16 tests, 17 assertion failures) |
+| Worker-01 child contract check | `python3 .github/skills/ralph-loop/tests/test_multi_agent_contract.py` — `PASS` (16 tests after rebase onto `bfc044a`) |
 | Blockers | None |
-| Next action | Have worker-01 rebase its child onto the refreshed parent, rerun the updated contract suite, and obtain a new sign-off before integration. |
+| Next action | Coordinator: rebase the parent onto fetched `origin/main` `d868d68`; then rebase worker-01 onto the refreshed parent, rerun checks, and obtain a refreshed sign-off before integration. |
 
 ```yaml
 schema_version: 2
@@ -40,12 +41,12 @@ worktree: "/Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-status-repo
 iteration: 1
 status: IN_PROGRESS
 started_at_utc: "2026-09-25T03:13:20Z"
-updated_at_utc: "2026-09-25T06:41:41Z"
+updated_at_utc: "2026-09-25T07:46:19Z"
 base_origin_main_sha: "9558f99cc34cbed8dd1d24f4f15fc03f5d78b6ea"
-current_origin_main_sha: "20293c720b18a1a21ff150f566823493b7a2717d"
+current_origin_main_sha: "d868d684564658bdc9488e27f5bfeaa592b04338"
 parent_rebased_onto_origin_main_sha: "20293c720b18a1a21ff150f566823493b7a2717d"
 resource_usage:
-  time_spent_seconds: 12501
+  time_spent_seconds: 16379
   time_basis: WALL_CLOCK_ELAPSED
   token_spend:
     status: NOT_REPORTED
@@ -87,10 +88,11 @@ workers:
     status: AWAITING_MERGE
     branch: "ralph/agent-status-reporting-worker-01-20260925-0602"
     base_parent_sha: "f602cfcd7e7d7043870857c1fda6b9707a711e5d"
-    implementation_commit_sha: "c16f2778429f2a76b63e1ca74c7ff50eef17e7ea"
-    status_sync_commit_sha: "709e93aacb41508e19743001b80c94ff7b259074"
+    rebased_onto_parent_sha: "bfc044acb477af7abf17717644adf9edfe9614db"
+    implementation_commit_sha: "9a5b1db184fb6d3f638304e1abd60f42d2c4133d"
+    status_sync_commit_sha: "23f58d69ab28c5fbe6eff67a23105588ffb346b1"
     worker_to_parent_merge_sha: null
-    next_action: "Rebase this child onto the latest parent, rerun the contract suite, and refresh the sign-off."
+    next_action: "Coordinator: integrate the child into the parent and verify the parent-side SHA."
 checks:
   - command: "python3 .github/skills/ralph-loop/tests/test_multi_agent_contract.py"
     result: "PASS (Ran 13 tests in 2.788s, OK) before the new contract was added."
@@ -102,7 +104,7 @@ checks:
     result: "PASS after synchronizing the worker leaf and dashboard status."
   - command: "git merge-base --is-ancestor 8bb3e1f92c802e516d216241214f5d34bc8dae5a HEAD"
     result: "PASS (worker status-only commit is integrated into the parent)."
-next_action: "Have worker-01 rebase onto the latest parent, rerun the updated contract suite, and refresh its sign-off before integration."
+next_action: "Coordinator: rebase the parent onto origin/main d868d684564658bdc9488e27f5bfeaa592b04338; then rebase worker-01 onto the refreshed parent, rerun checks, and obtain a refreshed sign-off before integration."
 worker_sign_off:
   status: NOT_APPLICABLE
   attestation_kind: SELF_ATTESTATION

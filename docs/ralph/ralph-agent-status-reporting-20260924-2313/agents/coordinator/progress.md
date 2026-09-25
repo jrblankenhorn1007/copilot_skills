@@ -142,3 +142,50 @@
   latest upstream contract change. Do not integrate the stale child tip;
   worker-01 must rebase onto the refreshed parent, rerun the suite, and
   provide a sign-off bound to its new commit.
+
+## Worker-01 revalidation resumed
+
+- Worker-01 recorded the transition from `AWAITING_MERGE` to `IN_PROGRESS`
+  in status-only commit `e54c769ad89d89e3d9033bb77214cf3c319e3e1b`. The
+  worker-owned status/progress records now use schema version 2 with measured
+  wall-clock usage and `NOT_REPORTED` token counters.
+- The child remains based on
+  `f602cfcd7e7d7043870857c1fda6b9707a711e5d`; the target parent is
+  `bfc044acb477af7abf17717644adf9edfe9614db`. The child rebase and current
+  suite have not run yet. The coordinator snapshot now records two launched
+  workers, one active worker, and an `IN_PROGRESS` run.
+- The first attempt to send this follow-up to the earlier synchronous worker
+  session was not supported by `write_agent`; it made no repository changes.
+  A new Ralph worker session continued the same stable worker ID and existing
+  child branch.
+
+## Worker-01 rebase green; latest main advanced again
+
+- Worker-01 rebased the child onto parent
+  `bfc044acb477af7abf17717644adf9edfe9614db`; its updated implementation is
+  `9a5b1db184fb6d3f638304e1abd60f42d2c4133d` and the signed-off child tip is
+  `23f58d69ab28c5fbe6eff67a23105588ffb346b1`.
+- The complete contract suite passed after the rebase (`16` tests, `OK`),
+  including the schema-v2 resource usage checks. The worker leaf is
+  `AWAITING_MERGE`, with no blockers.
+- Before the child integration, a fresh fetch observed `origin/main` at
+  `36bf3fad31b2965dc6a0516a20ec9b2e6ac64355`, ahead of the parent's last
+  rebase `20293c720b18a1a21ff150f566823493b7a2717d`. The clean canonical
+  `main` worktree was fast-forwarded. The current parent tip remains
+  `bfc044acb477af7abf17717644adf9edfe9614db`.
+- **Next action:** Integrate the verified child at its current parent base,
+  then rebase the completed parent onto fetched `origin/main`
+  `36bf3fad31b2965dc6a0516a20ec9b2e6ac64355` and rerun the full contract
+  suite before any remote-main integration.
+
+## Latest upstream refresh
+
+- A subsequent fetch advanced `origin/main` to
+  `d868d684564658bdc9488e27f5bfeaa592b04338`; the canonical main worktree is
+  clean and checked out at that SHA. The parent remains at
+  `bfc044acb477af7abf17717644adf9edfe9614db` with coordinator status changes
+  pending commit.
+- **Next action:** Commit the coordinator status synchronization, rebase the
+  parent onto `d868d684564658bdc9488e27f5bfeaa592b04338`, then have worker-01
+  rebase onto the refreshed parent and rerun the full contract suite before
+  integration.

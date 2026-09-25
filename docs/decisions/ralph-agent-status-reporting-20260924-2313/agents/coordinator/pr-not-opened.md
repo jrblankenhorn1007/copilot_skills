@@ -102,3 +102,35 @@
   not replace the required revalidation against the new parent.
 - **Disposition:** Worker-01 must rebase and re-sign against the current
   parent before integration. No unresolved blocker is present.
+
+## Worker-01 rebase green; latest main advanced again
+
+- **Worker rebase:** Worker-01 rebased its child onto
+  `bfc044acb477af7abf17717644adf9edfe9614db`. The implementation commit is
+  `9a5b1db184fb6d3f638304e1abd60f42d2c4133d`; final child tip is
+  `23f58d69ab28c5fbe6eff67a23105588ffb346b1`. Its fresh sign-off is bound
+  to the rewritten implementation SHA.
+- **Verification:** The complete contract suite passed after rebase
+  (`16` tests, `OK`); committed-range whitespace and parent-target ancestry
+  checks also passed. The worker leaf is `AWAITING_MERGE`; integration is
+  still pending.
+- **Latest upstream:** Another fetch advanced `origin/main` to
+  `36bf3fad31b2965dc6a0516a20ec9b2e6ac64355` while the parent remained based
+  on `20293c720b18a1a21ff150f566823493b7a2717d`. The clean canonical main
+  worktree was fast-forwarded. Rebase the completed parent onto the latest
+  remote after child integration, then rerun the full contract suite before
+  remote-main integration.
+- **Resolved probe:** A read-only status check used a nonexistent sibling
+  worktree path and failed after the successful fetch. The canonical main
+  worktree and latest SHA were then verified at their registered paths; no
+  files or refs were changed by that check.
+
+## Latest upstream refresh
+
+- **Fetched main:** `d868d684564658bdc9488e27f5bfeaa592b04338`. The canonical
+  main worktree is clean at this SHA.
+- **Parent state:** The parent remains at
+  `bfc044acb477af7abf17717644adf9edfe9614db`; its coordinator status
+  synchronization is being committed before rebase.
+- **Next:** Rebase the parent onto the fetched main SHA, then rebase and
+  revalidate worker-01 against the refreshed parent before child integration.
