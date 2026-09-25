@@ -11,9 +11,17 @@
   path is coordinator-reviewed fast-forward integration without a PR, as
   recorded in the completed no-browser Git workflow's agent decision record.
 - **Base `origin/main`:** `114e4d60567d05cd048916339ed86e324c6eeef3`
-- **Rebased onto `origin/main`:**
+- **Previous `origin/main` rebase (superseded by the parent-child rebase):**
   `9558f99cc34cbed8dd1d24f4f15fc03f5d78b6ea`
-- **Implementation commit SHA:** `36cbe8927ac4ae9736437ab6d8a2b11bf5b7973e`
+- **Parent branch:** `ralph/project-memory-update-coordinator-20260925-0223`
+- **Parent worktree:**
+  `/Users/jrblankenhorn/copilot_skills.worktrees/ralph-project-memory-update-coordinator-20260925-0223`
+- **Parent base `origin/main`:** `114e4d60567d05cd048916339ed86e324c6eeef3`
+- **Parent rebased onto `origin/main`:**
+  `8da9310fda1b2e3042a379081dfb0675f1b22d6b`
+- **Original child parent base:** `114e4d60567d05cd048916339ed86e324c6eeef3`
+- **Child rebased onto parent:** `8e779409e0fef0bc4550409533e9326efe8d64b4`
+- **Implementation commit SHA:** `192abbb439968ee7b553c56041b12669cec17c79`
 - **Current worker status:** `BLOCKED`
 
 ## Decisions
@@ -116,6 +124,24 @@
   sign-off for the rebased commit and reran the focused contract and Ralph
   suite.
 
+### Rebase the unpublished child onto the coordinator parent
+
+- **Context:** The coordinator refreshed the parent onto
+  `8da9310fda1b2e3042a379081dfb0675f1b22d6b` and supplied parent tip
+  `8e779409e0fef0bc4550409533e9326efe8d64b4` for serial child integration.
+- **Alternatives:** Keep the child on its previous base, or preserve the
+  existing branch/worktree and rebase it onto the exact supplied parent tip.
+- **Decision:** Rebase the unpublished child onto
+  `8e779409e0fef0bc4550409533e9326efe8d64b4`, keep the branch/worktree,
+  and leave publication and integration to the coordinator.
+- **Rationale:** The coordinator owns serial child integration and explicitly
+  directed the worker not to push or merge.
+- **Consequences:** The implementation commit is now
+  `192abbb439968ee7b553c56041b12669cec17c79`. The focused agent contract
+  passed (1 test), the Ralph contract suite passed (13 tests), and
+  `git diff --check` passed. The worker remains blocked only on
+  coordinator-owned integration.
+
 ## Recovered issues
 
 - The first post-implementation contract run reported ten phrase mismatches.
@@ -127,14 +153,8 @@
 
 ## Unresolved blockers
 
-- The final run of
-  `python3 .github/skills/ralph-loop/tests/test_multi_agent_contract.py`
-  after rebasing onto
-  `9558f99cc34cbed8dd1d24f4f15fc03f5d78b6ea` ran 13 tests and failed
-  `test_docs_status_dashboard_indexes_every_branch_agent_folder` because the
-  new worker leaf is not yet indexed in `docs/ralph-status.md`. The
-  coordinator exclusively owns that dashboard; worker-01 must not edit it.
-  Coordinator indexing and a passing rerun are required before integration
-  proceeds.
-- Normal integration, remote merge verification, and the required post-merge
-  memory review remain pending.
+- Serial child-to-parent integration remains pending under coordinator
+  ownership. The worker has not pushed or merged and must preserve its branch
+  and worktree until the coordinator reports the integration result.
+- Remote-main verification and the required post-merge memory review remain
+  pending; neither is part of this worker's assigned implementation scope.
