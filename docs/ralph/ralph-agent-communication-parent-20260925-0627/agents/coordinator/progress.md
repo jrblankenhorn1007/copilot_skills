@@ -739,3 +739,35 @@
   request worker-01's fresh exact-SHA status/handoff against the current
   parent. Integrate that update, synchronize the dashboard, and only then
   resume worker-02.
+
+## 2026-09-25T13:54:34Z — parent rebased onto latest setup-run ledger
+
+- **Upstream movement:** `origin/main` advanced from
+  `435fd371c0121c8318c3c8459e3f8e0dfca635e6` to
+  `be82c0c262c29834c9b4f50937cef1cc4024958a` through three status-only
+  commits for `copilot-skills-opencode-setup-20260924-2325`. Main ownership
+  is `FREE` at revision 94.
+- **Rebase:** Rebased the clean parent from
+  `816f874b0096166f20927edaba0df89f7f7ba7ff` onto current main without
+  conflicts. New parent HEAD is
+  `c042b7b4058d97dcfb3e8d7e29627223ee8530f1`.
+- **Worker SHA mapping:** Worker-01 implementation/series
+  `fee91826a7df8346fb28df66eed0fd558fd1b729` /
+  `048ee8df39df8bbeba2cedb5f442a50052bb6382` map to
+  `790bbe429bad19c96054029354f8cda42dcdbc9a` /
+  `1fa43e70e60a19ed98cdb8efb32d126c0ddff8f2`. Worker-02 implementation/
+  series `76c5f6ac8369525891b178e9a83bc93ad66955d0` /
+  `04b7b4ac8f9cbca8620ab940c958c68273693aab` map to
+  `bd18212e5aeeefe0d570452d9e9a33f3cf561b7a` /
+  `584403ebbfc6752371d86ee845bc0da5af6cb0fd`. Range-diff confirms the
+  mappings, and all four mapped commits are parent ancestors.
+- **Green:** Full contract suite passed 24/24; parent diff check, both
+  implementation `git show --check` commands, and all four ancestry checks
+  passed after rebase.
+- **Worker metadata:** Worker-01's latest metadata commit
+  `c2b643ad6cd5c68fddf59da420934f9119f09f82` and earlier metadata commits
+  remain preserved and unintegrated. Its attempted next update stopped
+  before branch creation when main advanced. Worker-02 remains paused.
+- **Next:** Fetch after committing this entry; if main remains stable, issue
+  a fresh worker-01 exact-parent/sign-off/status request and integrate its
+  metadata before synchronizing the dashboard and resuming worker-02.
