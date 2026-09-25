@@ -8,6 +8,9 @@
 - **Implementation commit:** `09855bbf8ddee51b4c8b6bdd481287747cdbf259`
 - **PR:** `NOT_OPENED`; the repository's documented integration path is a
   coordinator-reviewed, verified fast-forward without a PR.
+- **Verified `origin/main` integration:** `ec50b548debb7a5f32dcb82f4b68f62806255894`
+- **Post-merge memory review:** `COMPLETE`; no separate durable lesson
+  warranted, so memory was left unchanged.
 
 ## Coordinator records
 

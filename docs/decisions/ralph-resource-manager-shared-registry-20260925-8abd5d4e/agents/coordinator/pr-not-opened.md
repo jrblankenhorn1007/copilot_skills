@@ -48,7 +48,18 @@ no-PR fast-forward path remains in use and marks PR review as
   resource-manager suite (15 tests), Ralph contract suite (20 tests), and
   implementation diff check pass.
 
+## Verified integration and post-merge review
+
+The branch was published and fast-forwarded to `origin/main` at
+`ec50b548debb7a5f32dcb82f4b68f62806255894`. A fresh fetch confirmed the
+integration SHA on remote `main`, and
+`git merge-base --is-ancestor ec50b548debb7a5f32dcb82f4b68f62806255894 origin/main`
+passed.
+
+The post-merge memory review found no separate durable lesson: the Resource
+Manager skill and its tests already codify host-wide admission, observed
+session accounting, and atomic child reservations. No memory entry was added.
+
 ## Unresolved blockers
 
-None for implementation or tests. Publication and verified remote-main
-integration are still pending.
+None.

@@ -83,9 +83,13 @@ and observed the other sessions; no subagent was spawned.
 - `git diff --check origin/main...HEAD` passed on the rebased implementation
   diff.
 
-### Remaining steps
+### Completion
 
-Publish the rebased branch, follow the repository's no-PR fast-forward
-integration path, verify the result on fetched `origin/main`, and complete
-the required post-merge memory review. No implementation or test blockers
-remain.
+- Published the rebased implementation branch and fast-forwarded `origin/main`
+  to `ec50b548debb7a5f32dcb82f4b68f62806255894` through the repository's
+  documented no-PR path. A fresh fetch confirmed that SHA on remote `main`.
+- Completed the post-merge memory review using `.github/memory/README.md` and
+  `workflow.md`. No separate durable lesson warranted another entry because
+  the Resource Manager skill and its tests already codify the host-wide
+  admission and atomic reservation rules; memory remains unchanged.
+- No implementation, test, or integration blockers remain.
