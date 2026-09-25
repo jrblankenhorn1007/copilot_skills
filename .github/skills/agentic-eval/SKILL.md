@@ -33,6 +33,102 @@ Generate → Evaluate → Critique → Refine → Output
 - **Quality-critical generation**: Code, reports, analysis requiring high accuracy
 - **Tasks with clear evaluation criteria**: Defined success metrics exist
 - **Content requiring specific standards**: Style guides, compliance, formatting
+- **Skill improvements**: Comparing another skill's activation, helper choices,
+  and non-activation boundaries before and after edits
+
+---
+
+## Evaluating a Skill Improvement
+
+When changing another skill's trigger, helper guidance, examples, or
+procedure, use a small paired evaluation rather than relying on a single
+critique. A static read can assess whether the intended cues are written down;
+it does not execute skill selection or prove runtime routing. Claim observed
+activation or helper selection only when a representative run and its
+evidence actually show it.
+
+### Freeze cases before editing
+
+Before changing the skill, freeze a small, representative set of requests
+(usually 3–6) and the expected handling for each. Reuse the same case IDs,
+request wording, success criteria, and evaluator/tool setup for the baseline
+and revised skill. Do not tune the cases after seeing results. If new evidence
+requires another case, keep the original set and mark the addition.
+
+Include at least:
+
+- A clear in-scope request that should activate the target skill.
+- A natural paraphrase that tests the same trigger and expected supporting
+  helper selection.
+- A negative or out-of-scope request where the target skill must not activate.
+
+For every case, record the request, expected primary skill, expected helper(s)
+(write `none` when none are expected), unwanted skill selections, expected
+outcome, and applicable protected invariants. This makes both missed
+activation and unwanted activation visible.
+
+### Compare with explicit evidence
+
+Review the frozen cases against the baseline before editing, then compare the
+revised skill against the same cases using the same criteria and evaluator
+setup. Keep the evidence and outcome for each case; note any change in model,
+prompt, tool, or evaluation mode that makes a comparison uncertain.
+
+Use one of these outcomes and record a short reason:
+
+- `PASS`: the available evidence supports the expected behavior at the level
+  actually tested.
+- `FAIL`: the evidence contradicts an expected behavior.
+- `UNKNOWN`: evidence is insufficient to decide, such as an unobserved
+  runtime route.
+- `EVALUATOR_ERROR`: the evaluator or tool failed or returned an invalid
+  result, so no valid judgment was produced.
+
+`UNKNOWN` and `EVALUATOR_ERROR` are distinct from each other and from
+`PASS`/`FAIL`; neither counts as a pass. A text review may confirm that a
+trigger or helper rule is explicit, but without an observable run or trace the
+runtime activation result remains `UNKNOWN`.
+
+### Keep protected invariants as hard gates
+
+Check each protected boundary independently of any quality score:
+safety, authorization, privacy, consent, and external-side-effect limits.
+Do not combine them into a weighted rubric or let a better quality score
+compensate for a failed boundary. Do not perform an external action merely to
+test whether the skill would request or authorize it.
+
+Any regression in a protected invariant is a hard stop: reject that candidate
+and do not continue refining it. A protected boundary that is `UNKNOWN` or
+`EVALUATOR_ERROR` is not verified and prevents a passing result until it can
+be evaluated safely.
+
+### Bound revisions and stop conditions
+
+Set a small hard cap before editing (for example, at most three revisions;
+the baseline is not a revision). Compare every candidate with the same frozen
+cases and the baseline. Stop when the target criteria are met and all
+protected gates pass, when the cap is reached, or earlier if the evidence
+shows no improvement in the target behavior or revisions have stopped
+converging. Stop immediately on a protected-invariant regression. At the cap
+or on an inconclusive result, report what remains unknown; do not label the
+last candidate a pass merely because it is the newest.
+
+### Worked example
+
+Illustrative text review only; this is not a benchmark or a measurement of
+runtime routing. Suppose a skill selector's baseline trigger only says
+“Use for skill-related tasks,” and a revision clarifies its boundary. Freeze
+these cases before editing:
+
+| Frozen request | Expected selection (primary; helpers; unwanted) | Baseline text evidence | Revised text evidence |
+| --- | --- | --- | --- |
+| “Which skill should check whether our README reflects changed CLI options?” | Primary: Agent Skill Stack; helper: Docs Sync Audit; unwanted: TDD when no code behavior changed. | The broad trigger does not specify the helper. | The text directs skill-selection requests to Agent Skill Stack and names Docs Sync Audit for documentation drift. Runtime selection remains `UNKNOWN`. |
+| “Our flags moved—what will catch stale examples?” | Primary: Agent Skill Stack; helper: Docs Sync Audit; unwanted: TDD for a docs-only request. | The paraphrase and helper choice are not stated. | The same selection and helper rule is explicit for this paraphrase. Runtime selection remains `UNKNOWN`. |
+| “Check whether the README matches current CLI options.” | Primary: Docs Sync Audit; helper: none; unwanted: Agent Skill Stack. | The trigger does not distinguish selecting a skill from directly requesting a documentation audit. | The text assigns a direct documentation-drift request to Docs Sync Audit, outside the selector's role. Runtime selection remains `UNKNOWN`. |
+
+The revised text is clearer against these frozen expectations; no runtime
+selection was exercised, so the example supports no claim that routing
+improved in practice.
 
 ---
 
