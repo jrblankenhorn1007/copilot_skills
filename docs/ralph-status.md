@@ -405,15 +405,15 @@ runs:
     effective_worker_count: 1
     active_worker_count: 0
     base_origin_main_sha: "9558f99cc34cbed8dd1d24f4f15fc03f5d78b6ea"
-    current_origin_main_sha: "9dc821917a5ffe32517c44131c1211291d9b1014"
-    parent_rebased_onto_origin_main_sha: "9dc821917a5ffe32517c44131c1211291d9b1014"
+    current_origin_main_sha: "e9fe3d175d1ca76b03fccdbe53431205b80e5c23"
+    parent_rebased_onto_origin_main_sha: "e9fe3d175d1ca76b03fccdbe53431205b80e5c23"
     created_at_utc: "2026-09-25T03:13:20Z"
-    updated_at_utc: "2026-09-25T04:57:40Z"
+    updated_at_utc: "2026-09-25T05:57:52Z"
     coordinator_scope: "Replace misleading binary completion reports with status-first run and per-agent reporting."
     coordinator_branch: "ralph/agent-status-reporting-20260924-2313"
     coordinator_status_path: "docs/ralph/ralph-agent-status-reporting-20260924-2313/agents/coordinator/status.md"
     coordinator_progress_path: "docs/ralph/ralph-agent-status-reporting-20260924-2313/agents/coordinator/progress.md"
-    worker_count_note: "Worker-02's contract test is integrated and its test task is complete. Worker-01 is queued for the dependent documentation implementation."
+    worker_count_note: "Worker-02's contract test is integrated and its test task is complete. The expected Red was reconfirmed on the rebased parent; worker-01 is queued for the dependent documentation implementation."
     parent_to_main_merge:
       status: PENDING
       sha: null
@@ -422,7 +422,7 @@ runs:
       verification_method: null
       verified_at_utc: null
     memory_review: PENDING
-    next_action: "Coordinator: dispatch worker-01 to implement the reporting guidance against the integrated contract test."
+    next_action: "Coordinator: dispatch worker-01 from the rebased parent to implement the reporting guidance against the integrated contract test."
     split_plan:
       - task_id: "agent-status-report-test"
         worker_id: "worker-02"
@@ -1347,12 +1347,12 @@ branch_agent_index:
     decision_record_path: "docs/decisions/ralph-agent-status-reporting-20260924-2313/agents/coordinator/pr-not-opened.md"
     decision_index_path: "docs/decisions/ralph-agent-status-reporting-20260924-2313/README.md"
     base_origin_main_sha: "9558f99cc34cbed8dd1d24f4f15fc03f5d78b6ea"
-    parent_rebased_onto_origin_main_sha: "9dc821917a5ffe32517c44131c1211291d9b1014"
+    parent_rebased_onto_origin_main_sha: "e9fe3d175d1ca76b03fccdbe53431205b80e5c23"
     parent_to_main_merge:
       status: PENDING
       sha: null
     memory_review: PENDING
-    next_action: "Worker-02: add and run the reporting-contract test to the expected Red; coordinator: integrate it before dispatching worker-01."
+    next_action: "Coordinator: dispatch worker-01 to implement the reporting guidance from the rebased parent."
 
   - run_id: "copilot_skills-agent-status-reporting-20260924"
     task_ids: ["agent-status-report-test"]

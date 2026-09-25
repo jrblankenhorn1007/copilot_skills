@@ -63,3 +63,22 @@
 - **Status:** The parent rebase is being completed and revalidated against the
   refreshed origin; no local prompt-generation commits were discarded or
   cherry-picked.
+
+## Resolved rebase and test-invocation issues
+
+- **Upstream refresh:** `origin/main` advanced to
+  `e9fe3d175d1ca76b03fccdbe53431205b80e5c23`. The previous parent tip
+  `4adc551388086d652116d3d8b12629e51a6e2a4e` was preserved on
+  `preserve/ralph-agent-status-reporting-pre-rebase-4adc551`; the parent was
+  rebased onto the new remote tip as
+  `fbe93548c37d267cee924d8cace81c64804b4604`.
+- **Rebase conflicts:** The dashboard conflicted with updated upstream run
+  records. Resolution retained the upstream recovery run and overall
+  `IN_PROGRESS` state, as well as this run's parent and worker entries.
+- **Test invocation:** One post-rebase command used the session's separate
+  `update-task-status-reporting` worktree and ran 11 passing tests there; that
+  result was not used for this run. Rerunning from the explicit parent
+  worktree produced the expected Red: 15 tests and 17 assertion failures
+  because the reporting guidance is still unchanged.
+- **Disposition:** These were resolved synchronization/invocation issues,
+  not blockers. Worker-01 can proceed from the rebased parent.
