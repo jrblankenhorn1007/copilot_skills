@@ -16,14 +16,14 @@ skills-improvement run merged (PR #2) and the protected-main GH013 recovery
 docs merged (PR #3). The OpenCode Ralph Loop migration has passed its
 independent review and full contract suite and is merging, pending
 authenticated runtime validation as a follow-up (OpenCode has no connected
-providers in this environment). The agent-communication skill iteration
-remains in progress.
+providers in this environment). The agent-communication skill iteration is blocked pending explicit
+authorization for remote integration and a free memory-review agent slot.
 
 ```yaml
 schema_version: 2
 snapshot_path: "docs/ralph-status.md"
-snapshot_revision: 120
-updated_at_utc: "2026-09-25T19:40:03Z"
+snapshot_revision: 121
+updated_at_utc: "2026-09-25T19:40:59Z"
 overall_status: IN_PROGRESS
 current_run_ids:
   - "copilot-skills-docs-status-organization-20260924"
@@ -328,13 +328,13 @@ runs:
       - "agent-communication-skill"
       - "agent-session-pipeline-contract"
       - "communication-baseline"
-    aggregate_status: IN_PROGRESS
+    aggregate_status: BLOCKED
     requested_worker_count: 2
     effective_worker_count: 2
     active_worker_count: 0
     base_origin_main_sha: "20293c720b18a1a21ff150f566823493b7a2717d"
     created_at_utc: "2026-09-25T06:27:34Z"
-    updated_at_utc: "2026-09-25T19:40:03Z"
+    updated_at_utc: "2026-09-25T19:40:59Z"
     coordinator_scope: "Research, benchmark, integrate, and validate a bounded inter-session communication protocol and Copilot skill."
     coordinator_branch: "ralph/agent-communication-parent-20260925-0627"
     coordinator_worktree: "/Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-communication-parent-20260925-0627"
@@ -344,7 +344,7 @@ runs:
     current_origin_main_sha: "c79bc7e328bda4900cbe4c98d8c59da59e735ed1"
     parent_rebased_onto_origin_main_sha: "c79bc7e328bda4900cbe4c98d8c59da59e735ed1"
     parent_implementation_commit_sha: "cda846f586072e15480d8c8d274c0ea5d92eaa37"
-    next_action: "Await explicit authorization before publishing or merging the local parent. After authorization, recheck origin/main and the MERGE lease, integrate and verify the parent, then complete the dedicated post-merge memory review when Resource Manager capacity allows (latest inventory: 11 active, max_agents 2, available_slots 0)."
+    next_action: "Resume after explicit user authorization for remote integration and a free Resource Manager slot. Refresh origin/main and acquire the MERGE lease before any remote write; after verified integration, run the required memory review and verify any warranted follow-up."
     split_plan:
       - task_id: "agent-communication-skill"
         worker_id: "worker-01"
@@ -883,7 +883,7 @@ branch_agent_index:
     runtime_agent_id: "copilotcli:/870bde06-54d5-4b31-b052-c6167704e5fb"
     branch: "ralph/agent-communication-parent-20260925-0627"
     branch_slug: "ralph-agent-communication-parent-20260925-0627"
-    status: IN_PROGRESS
+    status: BLOCKED
     iteration: 1
     resource_usage:
       time_spent_seconds: 47549
@@ -902,7 +902,7 @@ branch_agent_index:
     base_origin_main_sha: "20293c720b18a1a21ff150f566823493b7a2717d"
     implementation_commit_sha: "cda846f586072e15480d8c8d274c0ea5d92eaa37"
     rebased_onto_origin_main_sha: "c79bc7e328bda4900cbe4c98d8c59da59e735ed1"
-    next_action: "Await explicit authorization before publishing or merging the local parent. After authorization, recheck origin/main and the MERGE lease, integrate and verify the parent, then complete the dedicated post-merge memory review when Resource Manager capacity allows."
+    next_action: "Resume after explicit user authorization for remote integration and a free Resource Manager slot. Refresh origin/main and acquire the MERGE lease before any remote write; after verified integration, run the required memory review and verify any warranted follow-up."
   - run_id: "copilot-skills-agent-communication-20260925-0627"
     task_ids: ["agent-communication-skill"]
     worker_id: "worker-01"
@@ -2125,7 +2125,7 @@ branch_agent_index:
 
 | Run | Branch | Agent | Status | Time spent | Token spend | Status file | Progress file | Merge | Memory review |
 |---|---|---|---|---|---|---|---|---|---|
-| `copilot-skills-agent-communication-20260925-0627` | `ralph/agent-communication-parent-20260925-0627` | `coordinator` | `IN_PROGRESS` | `47,549 s (wall-clock)` | `NOT_REPORTED` | [status](./ralph/ralph-agent-communication-parent-20260925-0627/agents/coordinator/status.md) | [progress](./ralph/ralph-agent-communication-parent-20260925-0627/agents/coordinator/progress.md) | `PENDING` | `PENDING` |
+| `copilot-skills-agent-communication-20260925-0627` | `ralph/agent-communication-parent-20260925-0627` | `coordinator` | `BLOCKED` | `47,605 s (wall-clock)` | `NOT_REPORTED` | [status](./ralph/ralph-agent-communication-parent-20260925-0627/agents/coordinator/status.md) | [progress](./ralph/ralph-agent-communication-parent-20260925-0627/agents/coordinator/progress.md) | `PENDING` | `PENDING` |
 | `copilot-skills-agent-communication-20260925-0627` | `ralph/agent-communication-worker-01-fallback-20260925-1647` | `worker-01` | `COMPLETE` | `42,643 s (wall-clock)` | `NOT_REPORTED` | [status](./ralph/ralph-agent-communication-worker-01-20260925-0627/agents/worker-01/status.md) | [progress](./ralph/ralph-agent-communication-worker-01-20260925-0627/agents/worker-01/progress.md) | `5a94334d2de8e64f704d5d76ce2c9f3285b6a764` | `PENDING` |
 | `copilot-skills-agent-communication-20260925-0627` | `ralph/agent-communication-worker-02-20260925-0627` | `worker-02` | `COMPLETE` | `42,643 s (wall-clock)` | `NOT_REPORTED` | [status](./ralph/ralph-agent-communication-worker-02-20260925-0627/agents/worker-02/status.md) | [progress](./ralph/ralph-agent-communication-worker-02-20260925-0627/agents/worker-02/progress.md) | `59e91d980048780249b84ef87fae1a9e003c4308` | `PENDING` |
 | `copilot-skills-status-report-time-token-20260925` | `ralph/status-report-time-token-20260925-0335` | `coordinator` | `COMPLETE` | `10,023 s (wall-clock)` | `NOT_REPORTED` | [status](./ralph/ralph-status-report-time-token-20260925-0335/agents/coordinator/status.md) | [progress](./ralph/ralph-status-report-time-token-20260925-0335/agents/coordinator/progress.md) | `05b1b23da974ed7b171c3a29ee266e43721d4e7` | `COMPLETE` |
