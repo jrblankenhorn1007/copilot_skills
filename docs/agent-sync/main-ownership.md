@@ -15,7 +15,11 @@ ownership is a separate, short-lived transaction. A task may remain
   The status publisher can create status-only commits without checking out
   main at all. It still changes the remote main ref and therefore needs the
   same reservation. A PR or merge queue does not authorize an unrelated
-  agent to edit the local main checkout.
+  agent to edit the local main checkout. The
+  [protected-main status-PR recovery](./README.md#protected-main-status-pr-recovery)
+  is a narrow exception when a verified ruleset denial explicitly requires
+  API/UI merging; it uses the protected PR as its transaction boundary
+  instead of attempting a direct-write lease.
 - An attached, idle main checkout is an integration-only worktree. Never use
   it as a general-purpose task workspace. Do not detach, stash, reset, or
   clean another agent's main checkout to acquire it.
@@ -30,6 +34,22 @@ actual checkout path if used, starting remote-main SHA, UTC sign-in time,
 and a monotonic revision. A free record retains the previous owner, UTC
 sign-out time, and the resulting status or merge commit SHA for audit.
 Unknown telemetry is `null`, not a guessed identity.
+
+This record controls short-lived `STATUS` and `MERGE` reservations acquired
+through the publisher. For the documented protected-main recovery, do not
+create an `OWNED` record by hand or retry a rejected lease push: the
+status-only or implementation PR and its required protected merge controls
+are the transaction boundary. Keep status-only recovery PRs serialized and
+record their merge evidence in the task's normal Ralph status/progress
+records.
+
+For a denied `MERGE` lease, the same PR-only route is allowed only when the
+verified ruleset explicitly requires API/UI merging, the ownership record is
+`FREE`, and the repository's authorized PR/merge-queue process is sufficient
+to serialize and protect the integration. Recheck the exact PR base/head,
+required review, and checks before submitting the merge, then verify its
+remote result. If an independent exclusive lease is also required, remain
+blocked; never use a PR to bypass an active owner or invent a lease record.
 
 The owner acquires this record with an atomic, status-only fast-forward
 commit based on the latest fetched remote main. On a rejected push, fetch
