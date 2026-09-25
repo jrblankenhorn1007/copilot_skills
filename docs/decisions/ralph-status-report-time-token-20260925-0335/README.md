@@ -9,6 +9,8 @@
 - **Original worker implementation SHA:** `5f0c7af5bd237fa06dde3b4a4edd9e95db7470b7`
 - **Parent rebase SHA:** `e9fe3d175d1ca76b03fccdbe53431205b80e5c23`
 - **Worker-to-parent merge SHA:** `019ab357f25e1b04133bacb242460e063d94be9d`
+- **Parent-to-main merge SHA:** `05b1b23da974ed7b171c3a29ee266e43721d4e7`
+- **Memory review:** Complete; no separate memory entry warranted.
 - **PR/integration:** No PR; the repository's documented path is a
   coordinator-reviewed, verified fast-forward to `origin/main`.
 

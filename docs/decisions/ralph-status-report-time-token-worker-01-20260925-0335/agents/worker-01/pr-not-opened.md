@@ -111,6 +111,11 @@
   `5f0c7af5bd237fa06dde3b4a4edd9e95db7470b7` on the child branch. The
   rebased parent's equivalent commit is
   `22d122c00826712096eeed0777a7b6bce25a4fc9`; their stable patch IDs match.
+- The parent was fast-forwarded to remote main at
+  `05b1b23da974ed7b171c3a29ee266e43721d4e7`; the coordinator fetched and
+  verified that merge SHA on `origin/main`.
+- The merged-main contract suite passed 15 tests, and the coordinator's
+  post-merge memory review found no separate durable lesson to add.
 - An initial suite invocation used the session's default worktree and passed
   13 tests; it was not counted as child verification. The required suite was
   rerun from the assigned child worktree.

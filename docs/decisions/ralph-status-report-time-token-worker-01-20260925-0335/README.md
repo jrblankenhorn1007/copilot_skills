@@ -11,6 +11,8 @@
 - **Rebased onto parent SHA:** `a2b8c0f2ff99b9a5447accd6cfdd93e550c50ade`
 - **Worker-to-parent merge SHA:** `019ab357f25e1b04133bacb242460e063d94be9d`
 - **Worker-to-parent merge verified at:** `2026-09-25T06:04:57Z`
+- **Parent-to-main merge SHA:** `05b1b23da974ed7b171c3a29ee266e43721d4e7`
+- **Overall run:** Complete; post-merge memory review found no separate lesson.
 - **PR/integration:** No PR; the coordinator's documented path is a
   reviewed, verified fast-forward into the parent branch.
 

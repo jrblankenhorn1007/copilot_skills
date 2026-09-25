@@ -117,9 +117,22 @@
 - Final post-rebase contract suite passed all 15 tests; both
   `git diff origin/main...HEAD --check` and
   `git show --check --oneline --no-patch HEAD` passed.
+- Normal no-PR parent integration:
+  `git push origin refs/heads/ralph/status-report-time-token-20260925-0335:refs/heads/main`
+  — PASS; remote main advanced from `e9fe3d175d1ca76b03fccdbe53431205b80e5c23`
+  to `05b1b23da974ed7b171c3a29ee266e43721d4e7`.
+- Fetched `origin` and verified the exact parent merge SHA with
+  `git merge-base --is-ancestor 05b1b23da974ed7b171c3a29ee266e43721d4e7 origin/main`
+  — PASS. The clean primary main worktree was fast-forwarded to that exact
+  SHA.
+- The merged-main contract suite passed 15 tests; `git diff --check` and
+  `git show --check --oneline --no-patch HEAD` passed.
+- Post-merge memory review re-read `.github/memory/README.md` and
+  `workflow.md`. No separate durable lesson warranted an additional memory
+  entry because the elapsed-time and provider-token reporting contract is
+  already explicit and tested in the Ralph guidance; memory is unchanged.
 
 ## Unresolved blockers
 
-No external blocker remains. The parent rebase onto
-`e9fe3d175d1ca76b03fccdbe53431205b80e5c23`, final acceptance checks,
-parent-to-main integration, and post-merge memory review remain pending.
+None. The parent integration, fetched-remote verification, final tests, and
+post-merge memory review are complete.

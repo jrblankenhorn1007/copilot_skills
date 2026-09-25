@@ -14,7 +14,7 @@
   "git": {
     "base_ref": "refs/remotes/origin/main",
     "base_sha": "d56db4de163fb261d323be7a74fba18a373cd30a",
-    "current_worktree_head_sha": "14ea97483e70f97bdf1203ec388bb6d6a7d90f9c",
+    "current_worktree_head_sha": "05b1b23da974ed7b171c3a29ee266e43721d4e7",
     "edit_scope": [
       ".github/agents/ralph-loop.agent.md",
       ".github/skills/ralph-loop/SKILL.md",
@@ -34,24 +34,56 @@
     "worktree_head_sha_at_sign_in": "14ea97483e70f97bdf1203ec388bb6d6a7d90f9c",
     "worktree_path": "/Users/jrblankenhorn/copilot_skills.worktrees/ralph-status-report-time-token-coordinator-20260925-0335"
   },
+  "edit_scope_status": "RELEASED",
+  "edit_scope_released_at_utc": "2026-09-25T06:22:24Z",
   "prompt_path": "docs/agent-sync/runs/copilot-skills-status-report-time-token-20260925/agents/coordinator/prompt.md",
   "prompt_sha256": "1ba495630c823937786bafc1bac2faa20bf915f0553595ad5728b64e059a9cb8",
-  "revision": 2,
+  "revision": 3,
   "run_id": "copilot-skills-status-report-time-token-20260925",
   "schema_version": 1,
   "sign_in_at_utc": "2026-09-25T05:42:31Z",
   "sign_out": {
-    "at_utc": null,
-    "checks": [],
-    "implementation_commit_sha": null,
+    "at_utc": "2026-09-25T06:22:24Z",
+    "checks": [
+      {
+        "command": "PYTHONDONTWRITEBYTECODE=1 python3 /Users/jrblankenhorn/copilot_skills/.github/skills/ralph-loop/tests/test_multi_agent_contract.py",
+        "result": "PASS: 15 tests"
+      },
+      {
+        "command": "git push origin refs/heads/ralph/status-report-time-token-20260925-0335:refs/heads/main",
+        "result": "PASS: fast-forwarded origin/main to 05b1b23da974ed7b171c3a29ee266e43721d4e7"
+      },
+      {
+        "command": "git merge-base --is-ancestor 05b1b23da974ed7b171c3a29ee266e43721d4e7 origin/main",
+        "result": "PASS: exact parent merge verified on fetched origin/main"
+      }
+    ],
+    "implementation_commit_sha": "22d122c00826712096eeed0777a7b6bce25a4fc9",
     "next_action": null,
-    "summary": null
+    "summary": "Completed and verified branch-local wall-clock and token reporting on origin/main; the 15-test contract suite passes, post-merge memory review required no separate entry, and the shared edit scope is released."
+  },
+  "scope_release": {
+    "released_at_utc": "2026-09-25T06:22:24Z",
+    "released_paths": [
+      ".github/agents/ralph-loop.agent.md",
+      ".github/skills/ralph-loop/SKILL.md",
+      ".github/skills/ralph-loop/references/multi-agent-orchestration.md",
+      ".github/skills/ralph-loop/references/multi-agent-status.md",
+      ".github/skills/ralph-loop/tests/test_multi_agent_contract.py",
+      "README.md",
+      "docs/ralph-status.md",
+      "docs/ralph/ralph-status-report-time-token-20260925-0335/**",
+      "docs/ralph/ralph-status-report-time-token-worker-01-20260925-0335/**",
+      "docs/decisions/ralph-status-report-time-token-20260925-0335/**",
+      "docs/decisions/ralph-status-report-time-token-worker-01-20260925-0335/**"
+    ],
+    "status": "RELEASED"
   },
   "started_at_utc": "2026-09-25T03:35:21Z",
-  "status": "BLOCKED",
-  "status_reason": "Blocked from final shared-path synchronization while active agent-sync-ledger-20260925 owns overlapping Ralph skill, contract test, agent definition, README, and dashboard paths and the main integration worktree has corresponding uncommitted changes. This task's branch and verified worker-to-parent integration are preserved at 14ea97483e70f97bdf1203ec388bb6d6a7d90f9c. Next: wait for the active owner to sign out/release overlapping paths, fetch latest main, rebase and retest this parent, then complete normal integration and memory review.",
+  "status": "COMPLETE",
+  "status_reason": "The overlapping owner released shared paths at 2026-09-25T05:48:55Z. The parent was rebased and retested, fast-forwarded to origin/main at 05b1b23da974ed7b171c3a29ee266e43721d4e7, verified after fetch, and passed the 15-test contract suite. Post-merge memory review found no separate lesson; all edit paths are released.",
   "task_id": "branch-status-resource-usage",
-  "updated_at_utc": "2026-09-25T05:43:42Z",
+  "updated_at_utc": "2026-09-25T06:22:24Z",
   "worker_id": "coordinator",
   "worker_name": "coordinator / branch time and token reporting"
 }

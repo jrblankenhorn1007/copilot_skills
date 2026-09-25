@@ -8,9 +8,9 @@ worker_id: "coordinator"
 worker_name: "coordinator / branch time and token reporting"
 runtime_agent_id: "copilotcli:/b3f44ce6-c093-476d-ab74-b633b1be1939"
 iteration: 1
-status: IN_PROGRESS
+status: COMPLETE
 started_at_utc: "2026-09-25T03:35:21Z"
-updated_at_utc: "2026-09-25T06:09:57Z"
+updated_at_utc: "2026-09-25T06:22:24Z"
 branch: "ralph/status-report-time-token-20260925-0335"
 branch_slug: "ralph-status-report-time-token-20260925-0335"
 worktree: "/Users/jrblankenhorn/copilot_skills.worktrees/ralph-status-report-time-token-coordinator-20260925-0335"
@@ -22,7 +22,7 @@ parent_rebased_onto_origin_main_sha: "e9fe3d175d1ca76b03fccdbe53431205b80e5c23"
 parent_implementation_commit_sha: "22d122c00826712096eeed0777a7b6bce25a4fc9"
 implementation_commit_sha: "22d122c00826712096eeed0777a7b6bce25a4fc9"
 resource_usage:
-  time_spent_seconds: 9276
+  time_spent_seconds: 10023
   time_basis: WALL_CLOCK_ELAPSED
   token_spend:
     status: NOT_REPORTED
@@ -40,15 +40,16 @@ merge_actor_worker_id: null
 decision_record_path: "docs/decisions/ralph-status-report-time-token-20260925-0335/agents/coordinator/pr-not-opened.md"
 decision_index_path: "docs/decisions/ralph-status-report-time-token-20260925-0335/README.md"
 parent_to_main_merge:
-  status: PENDING
-  sha: null
+  status: VERIFIED
+  sha: "05b1b23da974ed7b171c3a29ee266e43721d4e7"
   verified_remote_ref: "refs/heads/main"
-  verified_origin_main_sha: null
-  verification_method: null
-  verified_at_utc: null
+  verified_origin_main_sha: "05b1b23da974ed7b171c3a29ee266e43721d4e7"
+  verification_method: "git merge-base --is-ancestor 05b1b23da974ed7b171c3a29ee266e43721d4e7 origin/main"
+  verified_at_utc: "2026-09-25T06:13:33Z"
 worker_assignments:
   - worker_id: "worker-01"
     branch: "ralph/status-report-time-token-worker-01-20260925-0335"
+    status: COMPLETE
     base_parent_sha: "74c6b1bb24f01bb7876bb489c810f1309a718373"
     rebased_onto_parent_sha: "a2b8c0f2ff99b9a5447accd6cfdd93e550c50ade"
     implementation_commit_sha: "5f0c7af5bd237fa06dde3b4a4edd9e95db7470b7"
@@ -62,10 +63,11 @@ worker_assignments:
 parent_cleanup:
   worktree: PENDING
   local_branch: PENDING
-  remote_ref: NOT_PUBLISHED
+  remote_ref: PENDING
 memory_review:
-  status: PENDING
+  status: COMPLETE
   owner: coordinator
+  outcome: "No separate durable lesson warranted; the resource-usage rule is explicit and tested in the Ralph status contract, so a memory entry would duplicate the canonical guidance."
 checks:
   - command: "PYTHONDONTWRITEBYTECODE=1 python3 /Users/jrblankenhorn/copilot_skills.worktrees/ralph-status-report-time-token-coordinator-20260925-0335/.github/skills/ralph-loop/tests/test_multi_agent_contract.py"
     result: PASS
@@ -74,8 +76,11 @@ checks:
     result: PASS
   - command: "git diff origin/main...HEAD --check"
     result: PASS
+  - command: "PYTHONDONTWRITEBYTECODE=1 python3 /Users/jrblankenhorn/copilot_skills/.github/skills/ralph-loop/tests/test_multi_agent_contract.py"
+    result: PASS
+    evidence: "15 tests passed on fetched main after the parent merge."
 blockers: []
-next_action: "Complete the repository's normal parent-to-main integration, fetch and verify the remote result, then perform the post-merge memory review."
+next_action: null
 worker_count:
   requested: 2
   effective: 1

@@ -167,3 +167,36 @@
 - At `2026-09-25T06:09:57Z`, the next synchronized snapshot records
   coordinator elapsed time of 9,276 seconds and worker-01 elapsed time of
   7,310 seconds. Token usage remains `NOT_REPORTED` for both.
+
+## Parent-to-main merge and post-merge memory review — 2026-09-25
+
+- Published parent branch
+  `ralph/status-report-time-token-20260925-0335` at
+  `05b1b23da974ed7b171c3a29ee266e43721d4e7b`. The documented no-PR
+  fast-forward process completed with
+  `git push origin refs/heads/ralph/status-report-time-token-20260925-0335:refs/heads/main`
+  — PASS; remote main advanced from `e9fe3d175d1ca76b03fccdbe53431205b80e5c23`
+  to `05b1b23da974ed7b171c3a29ee266e43721d4e7b`.
+- Fetched `origin`; verified the exact parent merge SHA is an ancestor of
+  `origin/main` with
+  `git merge-base --is-ancestor 05b1b23da974ed7b171c3a29ee266e43721d4e7b origin/main`
+  — PASS at `2026-09-25T06:13:33Z`. The clean primary main worktree was
+  updated with `git pull --ff-only` and is aligned to that SHA.
+- Post-merge verification on the primary main worktree:
+  `PYTHONDONTWRITEBYTECODE=1 python3 /Users/jrblankenhorn/copilot_skills/.github/skills/ralph-loop/tests/test_multi_agent_contract.py`
+  — PASS, 15 tests. `git diff --check` and
+  `git show --check --oneline --no-patch HEAD` — PASS.
+- **Post-merge memory review:** Re-read `.github/memory/README.md` and
+  `workflow.md`, then checked them against the merged Ralph status contract,
+  examples, and tests. No separate durable lesson warrants a memory entry:
+  the wall-clock/token-reporting and `NOT_REPORTED` rules are already explicit
+  in the canonical Ralph guidance, so adding them to memory would duplicate
+  the source of truth. Memory remains unchanged.
+- **Completion snapshot at `2026-09-25T06:16:58Z`:** Coordinator wall-clock
+  elapsed time is 9,697 seconds; worker-01 elapsed time is 7,731 seconds.
+  Token counts remain `NOT_REPORTED` with null counters for both branches.
+- **Next action:** None; implementation merge, verification, and memory
+  review are complete.
+- The final synchronized status at `2026-09-25T06:22:24Z` records 10,023
+  coordinator seconds and 8,057 worker-01 seconds, with token counts still
+  `NOT_REPORTED`.
