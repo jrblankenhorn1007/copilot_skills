@@ -304,3 +304,21 @@ These are implementation-time reports, not accepted memory entries. The Project 
 
 - Advanced the dashboard snapshot to revision 62 and synchronized its run timestamp and coordinator wall-clock usage with the leaf status.
 - The dashboard now explicitly reports that local `origin/main` has advanced three commits beyond the parent's rebase base; the parent remains unintegrated, and a fresh fetch/rebase plus validation are required before main reservation.
+
+## 2026-09-25T12:14:16Z - Parent rebased onto refreshed origin/main
+
+- The primary `main` checkout was fast-forwarded from `96fca381f96a743a08eb2e758d1eae8eb2fd483a` to `4f5fee342c7e08ce556ae10c8a693f9e30a2ee2b`; it is clean and aligned. The refreshed ownership guidance requires read-only fetches for later refreshes.
+- Rebased parent `362400cc91d477c58ea83452f40661fe5db19115` onto fetched `origin/main` `4f5fee342c7e08ce556ae10c8a693f9e30a2ee2b`, producing `42ac6858a13d7b7f6d9eefd25e1581c325dcba71`. `git range-diff` preserved all 24 patches.
+- Worker implementation `c75228f317a9ec217d21f2f9d95f0414c6377f1e` replayed as `22ca8df084d7bd4bc55c3bfe8305a540e5a5fb34`; worker integration `21fc34059d48eef85617930a27df9942369d9c4d` replayed as `9095c7abc3652089cdc84f9e1d1cb0f5871ec0a6`. Stable patch IDs `1571aec2fe973545242da3e2d925c6027d49d9ef` and `457e943bdfd9be5cb94a63cf3ff32d72e34ce887` match, and the integration is an ancestor of parent `42ac685`.
+- Acceptance contracts and whitespace checks on this latest parent are pending.
+
+## 2026-09-25T12:18:58Z - Post-rebase contracts passed
+
+- On parent `42ac6858a13d7b7f6d9eefd25e1581c325dcba71`, the Ralph multi-agent contract passed 23 tests in 1.506s, the Project Memory Update contract passed 1 test in 0.001s, and the main-ownership contract passed 7 tests in 0.006s. Both `git diff --check` commands passed.
+- The merge base is fetched `origin/main` `4f5fee342c7e08ce556ae10c8a693f9e30a2ee2b`; the parent is 24 commits ahead and none behind. No final integration or memory review is claimed.
+- The next step is to commit synchronized rebase/test evidence, perform a fresh read-only fetch, then acquire the authorized `MERGE` reservation and integrate its sign-in commit.
+
+## 2026-09-25T12:20:55Z - Final synchronized-record verification
+
+- After updating the post-rebase decision trail, worker leaf, and aggregate dashboard, reran the Ralph contract (23 tests in 1.999s), the Project Memory Update contract (1 test in 0.001s), and the main-ownership contract (7 tests in 0.005s). Both whitespace checks passed.
+- Parent `42ac6858a13d7b7f6d9eefd25e1581c325dcba71` remains 24 commits ahead of fetched `origin/main` `4f5fee342c7e08ce556ae10c8a693f9e30a2ee2b`; final remote integration and memory review remain pending.

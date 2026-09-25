@@ -10,9 +10,9 @@ runtime_agent_id: null
 iteration: 1
 status: COMPLETE
 started_at_utc: "2026-09-25T02:48:23Z"
-updated_at_utc: "2026-09-25T11:59:00Z"
+updated_at_utc: "2026-09-25T12:20:55Z"
 resource_usage:
-  time_spent_seconds: 33037
+  time_spent_seconds: 34292
   time_basis: WALL_CLOCK_ELAPSED
   token_spend:
     status: NOT_REPORTED
@@ -29,10 +29,10 @@ rebased_onto_origin_main_sha: null
 parent_branch: "ralph/project-memory-update-coordinator-20260925-0223"
 parent_worktree: "/Users/jrblankenhorn/copilot_skills.worktrees/ralph-project-memory-update-coordinator-20260925-0223"
 parent_base_origin_main_sha: "114e4d60567d05cd048916339ed86e324c6eeef3"
-parent_rebased_onto_origin_main_sha: "96fca381f96a743a08eb2e758d1eae8eb2fd483a"
-latest_fetched_origin_main_sha: "96fca381f96a743a08eb2e758d1eae8eb2fd483a"
-latest_origin_main_observed_sha: "96fca381f96a743a08eb2e758d1eae8eb2fd483a"
-latest_origin_main_observed_at_utc: "2026-09-25T11:59:00Z"
+parent_rebased_onto_origin_main_sha: "4f5fee342c7e08ce556ae10c8a693f9e30a2ee2b"
+latest_fetched_origin_main_sha: "4f5fee342c7e08ce556ae10c8a693f9e30a2ee2b"
+latest_origin_main_observed_sha: "4f5fee342c7e08ce556ae10c8a693f9e30a2ee2b"
+latest_origin_main_observed_at_utc: "2026-09-25T12:20:55Z"
 base_parent_sha: "114e4d60567d05cd048916339ed86e324c6eeef3"
 rebased_onto_parent_sha: "2237eecc5522d17f3e8feda063bc43e509798eab"
 implementation_commit_sha: "3ececee894c930f87efa554dc5a9c1362cb0365e"
@@ -59,12 +59,19 @@ decision_record_path: "docs/decisions/ralph-project-memory-update-agent-worker-0
 decision_index_path: "docs/decisions/ralph-project-memory-update-agent-worker-01-20260925-0223/README.md"
 worker_to_parent_merge:
   status: VERIFIED
-  sha: "21fc34059d48eef85617930a27df9942369d9c4d"
+  sha: "9095c7abc3652089cdc84f9e1d1cb0f5871ec0a6"
   verified_parent_ref: "refs/heads/ralph/project-memory-update-coordinator-20260925-0223"
-  verified_parent_sha: "82d34a3"
-  verification_method: "git merge-base --is-ancestor 21fc34059d48eef85617930a27df9942369d9c4d HEAD"
-  verified_at_utc: "2026-09-25T11:59:00Z"
+  verified_parent_sha: "42ac6858a13d7b7f6d9eefd25e1581c325dcba71"
+  verification_method: "git merge-base --is-ancestor 9095c7abc3652089cdc84f9e1d1cb0f5871ec0a6 HEAD"
+  verified_at_utc: "2026-09-25T12:14:16Z"
 worker_to_parent_merge_history:
+  - status: SUPERSEDED_BY_PARENT_REBASE
+    sha: "21fc34059d48eef85617930a27df9942369d9c4d"
+    verified_parent_ref: "refs/heads/ralph/project-memory-update-coordinator-20260925-0223"
+    verified_parent_sha: "82d34a3"
+    verification_method: "git merge-base --is-ancestor 21fc34059d48eef85617930a27df9942369d9c4d 82d34a3"
+    verified_at_utc: "2026-09-25T11:59:00Z"
+    superseded_by_parent_rebase_onto_origin_main_sha: "4f5fee342c7e08ce556ae10c8a693f9e30a2ee2b"
   - status: SUPERSEDED_BY_PARENT_REBASE
     sha: "3f4be9aca8b30a4ac6f120f665c21b1423e200ed"
     verified_parent_ref: "refs/heads/ralph/project-memory-update-coordinator-20260925-0223"
@@ -226,15 +233,17 @@ memory_handoff:
 
 - Worker-01's signed-off implementation commit remains
   `3ececee894c930f87efa554dc5a9c1362cb0365e`; its equivalent commit in the
-  current parent is `c75228f317a9ec217d21f2f9d95f0414c6377f1e`, with stable
+  current parent is `22ca8df084d7bd4bc55c3bfe8305a540e5a5fb34`, with stable
   patch ID `1571aec2fe973545242da3e2d925c6027d49d9ef`.
 - The current worker-to-parent integration is
-  `21fc34059d48eef85617930a27df9942369d9c4d`, verified as an ancestor of
-  parent `82d34a3`; the integration patch ID remains
+  `9095c7abc3652089cdc84f9e1d1cb0f5871ec0a6`, verified as an ancestor of
+  parent `42ac6858a13d7b7f6d9eefd25e1581c325dcba71`; the integration patch ID remains
   `457e943bdfd9be5cb94a63cf3ff32d72e34ce887`.
 - The parent is rebased onto fetched `origin/main`
-  `96fca381f96a743a08eb2e758d1eae8eb2fd483a`. All 23 parent patches and the
-  three targeted contract suites plus both diff checks passed after rebase.
+  `4f5fee342c7e08ce556ae10c8a693f9e30a2ee2b`. All 24 parent patches are
+  preserved. The Ralph contract passed 23 tests, the Project Memory Update
+  contract passed 1 test, the main-ownership contract passed 7 tests, and
+  both diff checks passed on the current parent.
 - Worker-01 is `COMPLETE` on its verified child integration. The overall run
   remains `IN_PROGRESS` pending parent-to-main integration and the
   post-merge Project Memory review; the worker's handoff proposes no separate

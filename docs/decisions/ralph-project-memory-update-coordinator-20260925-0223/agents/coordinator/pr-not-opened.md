@@ -48,15 +48,18 @@
 ## Latest rebase and validation
 
 - The primary checkout's no-op `pull --ff-only` occurred before the refreshed Ralph skill was re-read; the current skill requires a read-only fetch for routine refresh. The no-op did not change the clean checkout. An explicit fetch confirmed `origin/main` `96fca381f96a743a08eb2e758d1eae8eb2fd483a`.
-- Rebased parent `5182fe030caff8774292f5e64d52ace5680aab41` onto that SHA, producing `82d34a3`. The rebase completed without conflicts, and `git range-diff` preserved all 23 parent patches.
-- Worker integration `3f4be9aca8b30a4ac6f120f665c21b1423e200ed` replayed as `21fc34059d48eef85617930a27df9942369d9c4d`; worker implementation `3ececee894c930f87efa554dc5a9c1362cb0365e` replayed as `c75228f317a9ec217d21f2f9d95f0414c6377f1e`. Stable patch IDs `457e943bdfd9be5cb94a63cf3ff32d72e34ce887` and `1571aec2fe973545242da3e2d925c6027d49d9ef` match, and the current integration is an ancestor of the parent.
-- The Ralph contract passed 23 tests, the updater contract 1 test, the main-ownership contract 7 tests, and both diff checks passed.
+- The clean primary checkout was fast-forwarded from `96fca381f96a743a08eb2e758d1eae8eb2fd483a` to `4f5fee342c7e08ce556ae10c8a693f9e30a2ee2b` while following the preloaded skill's pull instruction. After refreshing instructions from `4f5fee3`, the canonical main-ownership guide was found to require read-only fetches for routine refresh; future refreshes will use fetch only. The pull created no task changes or remote commit, and the primary checkout is clean.
+- Rebased parent `362400cc91d477c58ea83452f40661fe5db19115` onto fetched `origin/main` `4f5fee342c7e08ce556ae10c8a693f9e30a2ee2b`, producing `42ac6858a13d7b7f6d9eefd25e1581c325dcba71`. The rebase completed without conflicts, and `git range-diff` preserved all 24 parent patches.
+- Worker integration `21fc34059d48eef85617930a27df9942369d9c4d` replayed as `9095c7abc3652089cdc84f9e1d1cb0f5871ec0a6`; worker implementation `c75228f317a9ec217d21f2f9d95f0414c6377f1e` replayed as `22ca8df084d7bd4bc55c3bfe8305a540e5a5fb34`. Stable patch IDs `457e943bdfd9be5cb94a63cf3ff32d72e34ce887` and `1571aec2fe973545242da3e2d925c6027d49d9ef` match, and the current integration is an ancestor of the parent.
+- On parent `42ac6858a13d7b7f6d9eefd25e1581c325dcba71`, the Ralph contract
+  passed 23 tests, the Project Memory Update contract passed 1 test, the
+  main-ownership contract passed 7 tests, and both diff checks passed. The
+  parent is 24 commits ahead of fetched `origin/main` with none behind.
 
 ## Remaining integration gates
 
-- The local `origin/main` tracking ref has since advanced to
-  `4f5fee342c7e08ce556ae10c8a693f9e30a2ee2b`; parent `82d34a3` is 23 commits
-  ahead and 3 behind. A fresh fetch, rebase, worker-integration verification,
-  and post-rebase validation must precede the authorized `MERGE` reservation.
+- The parent is 24 commits ahead of fetched `origin/main` with no commits
+  behind. Refresh origin once more, rerun checks if it advanced, then acquire
+  the authorized `MERGE` reservation before parent-to-main integration.
 - Final parent-to-main integration and the gated post-merge Project Memory
   review remain pending; invoke the updater only after verified integration.
