@@ -1,4 +1,4 @@
-schema_version: 1
+schema_version: 2
 run_id: "skills-improvement-20260925-0554-luna"
 task_ids: ["skill-improvement-workflow-readme"]
 worker_id: "coordinator"
@@ -11,7 +11,17 @@ worktree: "/Users/jrblankenhorn/copilot_skills.worktrees/ralph-skill-improvement
 iteration: 1
 status: IN_PROGRESS
 started_at_utc: "2026-09-25T05:54:07Z"
-updated_at_utc: "2026-09-25T05:59:59Z"
+updated_at_utc: "2026-09-25T06:43:51Z"
+resource_usage:
+  time_spent_seconds: 2984
+  time_basis: WALL_CLOCK_ELAPSED
+  token_spend:
+    status: NOT_REPORTED
+    input_tokens: null
+    output_tokens: null
+    total_tokens: null
+    cached_input_tokens: null
+    source: null
 base_origin_main_sha: "e9fe3d175d1ca76b03fccdbe53431205b80e5c23"
 rebased_onto_origin_main_sha: null
 implementation_commit_sha: null
@@ -25,7 +35,7 @@ decision_index_path: "docs/decisions/ralph-skill-improvement-coordinator-2026092
 parent_branch: "ralph/skill-improvement-coordinator-20260925-0554-luna"
 parent_worktree: "/Users/jrblankenhorn/copilot_skills.worktrees/ralph-skill-improvement-coordinator-20260925-0554-luna"
 parent_base_origin_main_sha: "e9fe3d175d1ca76b03fccdbe53431205b80e5c23"
-parent_rebased_onto_origin_main_sha: null
+parent_rebased_onto_origin_main_sha: "20293c720b18a1a21ff150f566823493b7a2717d"
 parent_implementation_commit_sha: null
 parent_to_main_merge:
   status: PENDING
@@ -52,8 +62,26 @@ checks:
     result: "PASS (authenticated; token details intentionally omitted)"
   - command: "git worktree add -b ralph/skill-improvement-coordinator-20260925-0554-luna /Users/jrblankenhorn/copilot_skills.worktrees/ralph-skill-improvement-coordinator-20260925-0554-luna origin/main"
     result: "PASS (created from exact origin/main SHA e9fe3d175d1ca76b03fccdbe53431205b80e5c23)"
+  - command: "git -C /Users/jrblankenhorn/copilot_skills pull --ff-only && git -C /Users/jrblankenhorn/copilot_skills fetch origin"
+    result: "PASS (canonical main and origin/main refreshed; current origin/main is 20293c720b18a1a21ff150f566823493b7a2717d)"
+  - command: "git -C /Users/jrblankenhorn/copilot_skills.worktrees/ralph-skill-improvement-coordinator-20260925-0554-luna rebase origin/main; resolve docs/ralph-status.md preserving origin/main and this run's metadata; git -C /Users/jrblankenhorn/copilot_skills.worktrees/ralph-skill-improvement-coordinator-20260925-0554-luna -c core.editor=true rebase --continue"
+    result: "PASS (rebased parent to d7b0d02ede3666825e6b4fb64fe6f3dd641bb87f; preserved every upstream dashboard entry)"
+  - command: "git -C /Users/jrblankenhorn/copilot_skills.worktrees/ralph-skill-improvement-coordinator-20260925-0554-luna merge-base --is-ancestor 20293c720b18a1a21ff150f566823493b7a2717d HEAD"
+    result: "PASS (parent contains refreshed origin/main)"
+  - command: "Ruby standard-library YAML parse, new-run/index presence check, and dashboard conflict-marker scan"
+    result: "PASS (schema-version-2 dashboard parses; new run and coordinator index row are present; no conflict markers)"
+  - command: "git -C /Users/jrblankenhorn/copilot_skills.worktrees/ralph-skill-improvement-coordinator-20260925-0554-luna diff --check"
+    result: "PASS after dashboard conflict resolution"
+  - command: "PYTHONDONTWRITEBYTECODE=1 python3 .github/skills/ralph-loop/tests/test_multi_agent_contract.py"
+    result: "PASS (15 tests)"
+  - command: "README Markdown local-link check"
+    result: "PASS (28 local links; 0 broken)"
+  - command: "PYTHONDONTWRITEBYTECODE=1 python3 .github/skills/docs-sync-audit/scripts/docs_drift.py --top 30"
+    result: "COMPLETED; 36 repository-wide findings (30 displayed), including pre-existing/out-of-scope items; see progress and decision records. Not treated as a clean audit."
+  - command: "git -C /Users/jrblankenhorn/copilot_skills.worktrees/ralph-skill-improvement-coordinator-20260925-0554-luna diff --check"
+    result: "PASS after README workflow change"
 blockers: []
-next_action: "Record the initial split plan, then dispatch both independent child workers with explicit gpt-6-luna / max / default settings."
+next_action: "Commit the coordinator README workflow and synchronized records; then serialize refreshes and dispatch both workers from the committed parent tip with fresh child branches."
 coordinator_sign_off:
   status: PENDING
   attestation_kind: SELF_ATTESTATION

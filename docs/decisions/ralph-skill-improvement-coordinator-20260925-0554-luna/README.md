@@ -5,6 +5,9 @@
 - **Workers:** `worker-01` Agentic Eval; `worker-02` Agent Skill Stack.
 - **Parent base `origin/main`:**
   `e9fe3d175d1ca76b03fccdbe53431205b80e5c23`
+- **Parent rebased onto current `origin/main`:**
+  `20293c720b18a1a21ff150f566823493b7a2717d`
+- **Current parent tip:** `d7b0d02ede3666825e6b4fb64fe6f3dd641bb87f`
 - **Parent implementation commit:** pending.
 - **Parent PR:** expected; see [coordinator PR-pending record](agents/coordinator/pr-pending.md).
 
@@ -29,9 +32,30 @@
 5. The parent will use the repository's remote PR integration path; direct
    pushes to `main`, force-pushes, and branch-protection bypasses are out of
    scope.
+6. The README will describe a small evidence-based handoff across existing
+   skills rather than recommend that every task use the full skill stack.
+   Documentation-only work uses link/doc checks, while executable behavior
+   changes use the repository's TDD process.
 
 ## Coordinator record
 
 - [Coordinator PR-pending record](agents/coordinator/pr-pending.md)
 - [Coordinator status](../../ralph/ralph-skill-improvement-coordinator-20260925-0554-luna/agents/coordinator/status.md)
 - [Coordinator progress](../../ralph/ralph-skill-improvement-coordinator-20260925-0554-luna/agents/coordinator/progress.md)
+
+## Recovered issues
+
+- `origin/main` advanced after the initial parent and child branches were
+  created. The initial parent rebase stopped on a dashboard content conflict.
+  The coordinator preserved the fetched remote dashboard, reapplied only this
+  run's metadata, completed the rebase, and verified the refreshed main SHA
+  is an ancestor of the parent.
+- The first worker-02 dispatch returned no changes, checks, leaf records,
+  commit, or sign-off. Its clean attempt branch/worktree remains preserved;
+  the resolution is a fresh child branch from the refreshed parent with the
+  same explicitly configured `gpt-6-luna` / `max` / `default` profile.
+- The read-only Docs Sync Audit script reported 36 repository-wide leads.
+  The README contract-test path it flagged was confirmed to exist; Agent
+  Skill Stack missing-script leads are assigned for worker-02 review, and
+  unrelated historical status-document leads were left untouched. The run
+  is not described as a clean full-repository audit.
