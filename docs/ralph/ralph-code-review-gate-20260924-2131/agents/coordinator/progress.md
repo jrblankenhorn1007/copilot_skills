@@ -48,6 +48,10 @@ unchanged.
   than choosing an unverified model.
 - The repository's Agentic Eval skill recommends explicit criteria,
   structured evaluator output, bounded iteration, and convergence checks.
+- Official VS Code custom-agent guidance supports tool allowlists. The
+  read-only `read` and `search` tool sets are sufficient for reviewer
+  inspection; reviewers should not receive edit, execute, or nested-agent
+  capabilities, while the Ralph parent must retain `agent/runSubagent`.
 - Local/public skill research (including GitHub Awesome Copilot's
   `audit-integrity` and the `bug-hunter` project) informed evidence checks
   and a skeptical pass; no third-party code or skill text is being copied or
