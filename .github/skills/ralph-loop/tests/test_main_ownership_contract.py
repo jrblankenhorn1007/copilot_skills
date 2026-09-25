@@ -92,6 +92,26 @@ class MainOwnershipContractTests(unittest.TestCase):
                     f"agent-sync guide must cover main ownership: {requirement}",
                 )
 
+    def test_verified_protected_main_denial_has_status_pr_recovery(self):
+        guide = instructions("docs/agent-sync/README.md")
+        skill = instructions(".github/skills/ralph-loop/SKILL.md")
+        ownership = instructions("docs/agent-sync/main-ownership.md")
+
+        for requirement in (
+            "verified `gh013`/ruleset denial",
+            "a generic permission denial",
+            "do not retry direct pushes",
+            "do not begin the assigned task edit until the status-only pr is merged",
+            "required checks, review/approval, and merge-queue process",
+            "if acquiring a `merge` lease is rejected",
+            "verify the exact resulting merge sha on `origin/main`",
+        ):
+            with self.subTest(requirement=requirement):
+                self.assertIn(requirement, guide)
+
+        self.assertIn("protected-main status-pr recovery", skill)
+        self.assertIn("do not create an `owned` record by hand", ownership)
+
     def test_no_pr_parent_fast_forward_includes_the_reservation_sign_in(self):
         protocol = instructions("docs/agent-sync/main-ownership.md")
         guide = instructions("docs/agent-sync/README.md")

@@ -1,11 +1,12 @@
 # Ralph Agent Sign-In and Sign-Out Ledger
 
-`docs/agent-sync/` is the fast, shared coordination ledger for a live Ralph
-run. Agents publish status-only commits directly to remote `main` so every
-other agent can see who is editing what without waiting for a pull request,
-review, task branch, or status worktree. This exception applies only to
-`docs/agent-sync/**`; implementation and other project changes keep the
-normal isolated-worktree and integration process.
+`docs/agent-sync/` is the shared coordination ledger for a live Ralph run.
+When repository policy permits it, agents publish status-only commits
+directly to remote `main` so other agents can see active edit scopes promptly.
+If a protected-main rule explicitly requires API/UI merging, use the bounded
+[status-PR recovery](#protected-main-status-pr-recovery) instead. This
+exception applies only to `docs/agent-sync/**`; implementation and other
+project changes keep the normal isolated-worktree and integration process.
 
 The detailed Ralph records under `docs/ralph/` and the coordinator-owned
 `docs/ralph-status.md` remain the durable iteration history and aggregate
@@ -156,6 +157,71 @@ failed release, or continuing race is reported rather than overwritten. The
 JSON result includes the status commit, main sign-in and sign-out commit SHAs,
 and the final fetched remote-main tip. Keep it as transaction evidence; a
 status commit without verified main sign-out is not a successful transaction.
+
+## Protected-main status-PR recovery
+
+Use this recovery only when a direct status publication returns a verified
+`GH013`/ruleset denial that explicitly says the change must be merged through
+GitHub API/UI (for example, “Code coverage checks require merging via API or
+UI”). Do not use it to retry a network error, missing credentials, a busy main
+lease, a generic permission denial, or any failure whose cause is unclear.
+
+The rejected direct write is not a published sign-in. Preserve the status
+payload and sanitized diagnostic; do not retry direct pushes or attempt
+`createCommitOnBranch`, an admin bypass, or another mutation that the same
+rule rejects. Do not begin the assigned task edit until the status-only PR is
+merged and its result is verified on fetched `origin/main`.
+
+1. Fetch the latest `origin/main` and confirm that no other status-only
+   recovery PR is pending. Prepare the real task worktree and unique
+   implementation branch from that base; record its actual path, branch, and
+   starting SHA in the status payload. Keep the task worktree unedited.
+2. In a separate fresh worktree and branch based on the same fetched main,
+   prepare only this agent's `status.json` and, for revision 1, its immutable
+   `prompt.md`. Do not include product code, tests, run dashboards, or
+   unrelated documentation. Preserve the original status revision and prompt
+   digest; do not claim that the status is already live on main.
+3. Push that branch through the normal feature-branch process and open a
+   status-only PR to `main`. State that the direct status push was rejected
+   by the protected-main rule and that sign-in becomes effective only after
+   the PR merge. Use the repository's required checks, review/approval, and
+   merge-queue process. A status-only PR does not waive any of those gates.
+4. If the base advances while the PR is pending, rebase a fresh replacement
+   status branch onto the latest `origin/main`, preserve the old branch and
+   PR for audit, and rerun required checks. Do not force-push or update a
+   published head that repository policy rejects. Authorize at most one
+   status-only recovery PR for merge at a time. Close only your own
+   superseded PR, and coordinate before changing another agent's PR.
+5. Merge only through the authorized GitHub API/UI path. Fetch `origin` and
+   verify the exact merge result is on `origin/main` and that the status and
+   prompt paths contain the expected revision and digest. Only then is task
+   sign-in published. Rebase the still-clean implementation worktree onto
+   the resulting main before the first task edit.
+
+For subsequent status changes, use a new status-only PR with exactly the next
+revision and follow the same verification. The `ownership.json` lease is for
+direct main transactions; do not fabricate or manually publish a `STATUS` or
+`MERGE` lease when the ruleset rejects direct main updates. The protected PR
+and its required merge controls are the transaction boundary for this
+recovery. If the authorized PR route, required approval, or checks are
+unavailable, leave the task blocked and preserve its work; do not bypass the
+rule or claim a successful sign-in.
+
+### Recover a denied merge reservation
+
+If acquiring a `MERGE` lease is rejected by the same verified GH013 rule,
+do not retry the lease push. First read the current ownership record; an
+`OWNED` lease remains authoritative and must be released or reconciled by
+its recorded owner. When the record is `FREE` and repository policy
+explicitly requires the protected API/UI route, the reviewed implementation
+PR or merge-queue entry is the transaction boundary: verify that its current
+base/head, required review, and checks are still valid, then use only the
+authorized GitHub merge process. Fetch and verify the exact resulting merge
+SHA on `origin/main`, and record that the PR/queue was used instead of a
+`MERGE` lease. Do not create a substitute `OWNED` record by hand. If policy
+requires an exclusive lease in addition to the protected PR, or if the
+PR/queue route is unavailable, remain blocked rather than bypassing either
+requirement.
 
 ## Reserve main for an authorized merge
 

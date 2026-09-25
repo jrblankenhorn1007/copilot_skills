@@ -282,14 +282,25 @@ review gate and status fields.
 Before editing an assigned scope, use the
 [agent-sync ledger](../../../docs/agent-sync/README.md) to publish the task
 sign-in on remote main. The task record owns edit paths, not the main checkout
-or ref. For every status commit or authorized merge, follow the separate
+or ref. If direct status publication is rejected with a verified GH013 message
+that explicitly requires GitHub API/UI merging, use the ledger's
+[protected-main status-PR recovery](../../../docs/agent-sync/README.md#protected-main-status-pr-recovery);
+do not retry a forbidden direct write or treat an unmerged PR as published
+sign-in. Keep the task unedited until the first status record is visible on
+fetched `origin/main`. Other authentication, lease, or permission failures
+remain blockers unless the repository documents an authorized recovery.
+
+For direct status commits and authorized merges, follow the separate
 [exclusive main ownership protocol](../../../docs/agent-sync/main-ownership.md):
 atomically sign in to `docs/agent-sync/main/ownership.json` for `STATUS` or
-`MERGE`; wait for the existing owner to sign out instead of using main.
-The status publisher must sign out immediately after verifying its status
-commit, without signing out of the task or releasing its edit scope. For
-a merge, release promptly after remote verification or queue submission.
-Never report success if the main release cannot be verified.
+`MERGE`; wait for the existing owner to sign out instead of using main. If a
+verified GH013 denial explicitly requires API/UI merging, use the matching
+protected-main recovery in the ledger and ownership protocol; do not retry a
+forbidden direct write or bypass an active owner. The status publisher must
+sign out immediately after verifying its status commit, without signing out
+of the task or releasing its edit scope. For a direct/no-PR merge, release
+promptly after remote verification or queue submission. Never report success
+if a required main release cannot be verified.
 
 ## Git identity and authentication
 
