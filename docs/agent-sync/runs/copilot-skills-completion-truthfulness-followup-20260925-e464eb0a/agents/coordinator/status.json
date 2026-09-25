@@ -17,6 +17,7 @@
     "base_sha": "a8c68b1e8cc2e15b4b0c6582a5274e316cd052d7",
     "edit_scope": [
       ".github/instructions/task-completion.instructions.md",
+      ".github/skills/ralph-loop/tests/test_task_completion_instruction.py",
       "docs/ralph/ralph-task-completion-truthfulness-followup-20260925-e464eb0a/agents/coordinator/status.md",
       "docs/ralph/ralph-task-completion-truthfulness-followup-20260925-e464eb0a/agents/coordinator/progress.md",
       "docs/decisions/ralph-task-completion-truthfulness-followup-20260925-e464eb0a/README.md",
@@ -30,7 +31,7 @@
   },
   "prompt_path": "docs/agent-sync/runs/copilot-skills-completion-truthfulness-followup-20260925-e464eb0a/agents/coordinator/prompt.md",
   "prompt_sha256": "66f2b4bd0040fb92c7b4f1b84f4f1fe7b80e83899815acc670c6c35e380d15c7",
-  "revision": 9,
+  "revision": 10,
   "run_id": "copilot-skills-completion-truthfulness-followup-20260925-e464eb0a",
   "schema_version": 1,
   "sign_in_at_utc": "2026-09-25T16:03:12Z",
@@ -43,9 +44,9 @@
   },
   "started_at_utc": "2026-09-25T16:03:12Z",
   "status": "BLOCKED",
-  "status_reason": "The completion instruction remains committed locally on the isolated task branch at implementation commit a7bbf325401dc33d7ffe43b6b958d746d9f9e3ab; the latest branch evidence commit is 5de7fce285fde7e74e674e4a946bc9cca606c03a. The branch was most recently rebased without conflicts onto fetched origin/main 03837976238096a37b2c09cf735233bc9922c54b; the latest verified origin/main before this publication is 02f46f18770934886e796f001456faf1a66d9cf5 with task status revision 8. Task status remains BLOCKED with edit scope ACTIVE. The 28-test Ralph contract suite has 27 passes and one dashboard-index failure because this blocked parent leaf is not in docs/ralph-status.md. Five task scopes still claim that dashboard without sign-out: agent-communication revision 2, concurrent-edit-pipeline revision 3, memory-update-agent revision 1, OpenCode setup revision 4, and skills-improvement revision 8. Active scopes also claim the Ralph contract test and deployed Ralph profile needed by the separate hierarchy work; the agent-communication run retains the benchmark scope. Do not edit those shared paths before verified releases. The overall request remains PARTIAL because the Orchestrator/Worker hierarchy and measured speed/cost/accuracy evidence remain outstanding.",
+  "status_reason": "The completion instruction remains committed locally on the isolated task branch at implementation commit a7bbf325401dc33d7ffe43b6b958d746d9f9e3ab; latest branch evidence commit 5de7fce285fde7e74e674e4a946bc9cca606c03a. The branch was last rebased onto origin/main 03837976238096a37b2c09cf735233bc9922c54b; current fetched origin/main before this scope update is 1b49b13c5e567ec3de91b6d735c47b07a68dc66e with task status revision 9. The existing task scope is being extended before adding a dedicated contract test at .github/skills/ralph-loop/tests/test_task_completion_instruction.py; a read-only ledger scan found no active claim on that exact path. This iteration remains BLOCKED by the missing coordinator dashboard entry and five task claims on docs/ralph-status.md. The broader request remains PARTIAL because the Orchestrator/Worker hierarchy and measured performance evidence are outstanding.",
   "task_id": "integrating-completion-truthfulness-guard",
-  "updated_at_utc": "2026-09-25T17:27:01Z",
+  "updated_at_utc": "2026-09-25T17:29:42Z",
   "worker_id": "coordinator",
   "worker_name": "coordinator - completion-truthfulness follow-up"
 }
