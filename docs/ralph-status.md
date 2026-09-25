@@ -94,15 +94,19 @@ runs:
     aggregate_status: IN_PROGRESS
     requested_worker_count: 2
     effective_worker_count: 2
-    active_worker_count: 2
+    active_worker_count: 1
     base_origin_main_sha: "485b4a64c871f581f9295e46c867b188b0e3ccee"
+    current_origin_main_sha: "114e4d60567d05cd048916339ed86e324c6eeef3"
     created_at_utc: "2026-09-25T01:40:57Z"
-    updated_at_utc: "2026-09-25T01:48:52Z"
+    updated_at_utc: "2026-09-25T02:25:16Z"
     coordinator_scope: "Add an independent pre-merge code-review step for PR-backed Ralph iterations, specialized reviewer agents, a hard ten-round limit, and an explicit author decision at the limit."
     coordinator_branch: "ralph/code-review-gate-20260924-2131"
     coordinator_status_path: "docs/ralph/ralph-code-review-gate-20260924-2131/agents/coordinator/status.md"
     coordinator_progress_path: "docs/ralph/ralph-code-review-gate-20260924-2131/agents/coordinator/progress.md"
-    next_action: "Coordinator: collect both worker sign-offs, synchronize the dashboard, then integrate and verify the changes."
+    blockers:
+      - "Worker-01 reported it could not edit repository files; its retry is pending."
+      - "The shared local main worktree is clean but at 445fa15, eight commits ahead of fetched origin/main 114e4d60567d05cd048916339ed86e324c6eeef3. Preserve it and do not integrate until the primary worktree is safe."
+    next_action: "Coordinator: resolve worker-01's edit blocker, collect worker-02's sign-off, then verify a safe integration path."
     split_plan:
       - task_id: "code-review-skill-agents"
         worker_id: "worker-01"
@@ -755,7 +759,7 @@ branch_agent_index:
       sha: null
       verified_origin_main_sha: null
     memory_review: PENDING
-    next_action: "Coordinator: gather worker reports and update the aggregate dashboard."
+    next_action: "Coordinator: resolve worker-01's edit blocker, collect worker-02's sign-off, then integrate and verify the changes."
 
   - run_id: "copilot-skills-premerge-code-review-20260924"
     task_ids: ["code-review-skill-agents"]
@@ -764,13 +768,13 @@ branch_agent_index:
     runtime_agent_id: "584dded6-ce27-4a8d-a2ff-392acdafe7c1"
     branch: "ralph/code-review-skill-worker-01-20260924-2131"
     branch_slug: "ralph-code-review-skill-worker-01-20260924-2131"
-    status: IN_PROGRESS
+    status: BLOCKED
     iteration: 1
     status_path: "docs/ralph/ralph-code-review-skill-worker-01-20260924-2131/agents/worker-01/status.md"
     progress_path: "docs/ralph/ralph-code-review-skill-worker-01-20260924-2131/agents/worker-01/progress.md"
     decision_record_path: "docs/decisions/ralph-code-review-skill-worker-01-20260924-2131/agents/worker-01/pr-not-opened.md"
     decision_index_path: "docs/decisions/ralph-code-review-skill-worker-01-20260924-2131/README.md"
-    base_origin_main_sha: "485b4a64c871f581f9295e46c867b188b0e3ccee"
+    base_origin_main_sha: "114e4d60567d05cd048916339ed86e324c6eeef3"
     rebased_onto_origin_main_sha: null
     implementation_commit_sha: null
     pull_request:
@@ -790,7 +794,9 @@ branch_agent_index:
       sha: null
       verified_origin_main_sha: null
     memory_review: PENDING
-    next_action: "Worker-01: finish the assigned skill and agent profiles, then report its exact commit and checks."
+    blockers:
+      - "Worker-01 reported it could not edit repository files; no implementation commit or leaf status/progress records were created. Coordinator requested one retry and the exact sanitized tool/permission error."
+    next_action: "Worker-01: retry the assigned edits in its clean worktree or report the concrete edit blocker."
 
   - run_id: "copilot-skills-premerge-code-review-20260924"
     task_ids: ["ralph-review-gate-status"]
