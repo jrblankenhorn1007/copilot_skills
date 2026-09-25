@@ -9,8 +9,9 @@
 - **Base parent SHA:** `f602cfcd7e7d7043870857c1fda6b9707a711e5d`
 - **Parent branch:** `ralph/agent-status-reporting-20260924-2313`
 - **Parent base `origin/main` SHA:** `9558f99cc34cbed8dd1d24f4f15fc03f5d78b6ea`
-- **Parent latest rebase onto `origin/main`:** `e9fe3d175d1ca76b03fccdbe53431205b80e5c23`
-- **Implementation commit SHA:** `c16f2778429f2a76b63e1ca74c7ff50eef17e7ea`
+- **Parent latest rebase onto `origin/main`:** `20293c720b18a1a21ff150f566823493b7a2717d`
+- **Child rebased onto parent SHA:** `bfc044acb477af7abf17717644adf9edfe9614db`
+- **Implementation commit SHA:** `9a5b1db184fb6d3f638304e1abd60f42d2c4133d`
 - **PR:** Not opened. The coordinator integrates the child branch into the
   parent through the run's local parent/child process; workers do not merge
   directly to `origin/main`.
@@ -67,6 +68,43 @@
   reported `Ran 15 tests in 2.344s` and `FAILED (failures=17)`, attributable
   to the missing status-first documentation contract.
 - **Status:** Resolved; no test setup issue remained.
+
+- **Issue:** A default rebase onto the rewritten parent tip conflicted in
+  coordinator-owned parent records, including `docs/ralph-status.md`.
+- **Resolution:** Aborted without resolving or staging coordinator-owned
+  files, restoring the clean child at its exact starting tip. Rebased only
+  the worker commits after original child base
+  `f602cfcd7e7d7043870857c1fda6b9707a711e5d` with
+  `git rebase --onto bfc044acb477af7abf17717644adf9edfe9614db f602cfcd7e7d7043870857c1fda6b9707a711e5d`.
+  Resolved the reporting-reference conflict by preserving both the parent
+  schema-v2 resource-usage guidance and the worker status-first report
+  template.
+- **Verification:** The full
+  `python3 .github/skills/ralph-loop/tests/test_multi_agent_contract.py`
+  suite passed after rebase (`Ran 16 tests in 4.024s`, `OK`); the new
+  implementation commit is
+  `9a5b1db184fb6d3f638304e1abd60f42d2c4133d`.
+- **Post-record verification:** The same full suite passed after the
+  worker-owned records were updated (`Ran 16 tests in 2.868s`, `OK`); both
+  `git diff --check` and
+  `git diff --check bfc044acb477af7abf17717644adf9edfe9614db..HEAD` passed.
+- **Latest verification:** The full contract suite passed again after the
+  final worker-record edits (`Ran 16 tests in 2.520s`, `OK`).
+- **Final pre-record-commit verification:** The full suite passed
+  (`Ran 16 tests in 2.663s`, `OK`); `git diff --check`,
+  `git diff --check bfc044acb477af7abf17717644adf9edfe9614db..HEAD`, and
+  exact parent-target ancestry verification passed.
+- **Status:** Resolved; coordinator-owned parent and dashboard changes were
+  not edited or staged.
+
+- **Issue:** The first conflict-inspection command combined
+  `git rebase --show-current-patch` with unsupported `--stat` and returned
+  usage output.
+- **Resolution:** Inspected the rebase state, conflict list, and affected
+  file separately with supported Git and text-search commands.
+- **Verification:** The targeted rebase completed, and the full 16-test
+  contract suite passed. The failed inspection command changed no files.
+- **Status:** Resolved.
 
 ## Unresolved blockers
 

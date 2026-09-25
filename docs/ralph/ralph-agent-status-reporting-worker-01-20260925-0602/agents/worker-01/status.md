@@ -15,13 +15,13 @@
 | Parent base `origin/main` SHA | `9558f99cc34cbed8dd1d24f4f15fc03f5d78b6ea` |
 | Parent latest rebase onto `origin/main` | `20293c720b18a1a21ff150f566823493b7a2717d` |
 | Child base parent SHA | `f602cfcd7e7d7043870857c1fda6b9707a711e5d` |
-| Implementation commit SHA | `c16f2778429f2a76b63e1ca74c7ff50eef17e7ea` |
+| Implementation commit SHA | `9a5b1db184fb6d3f638304e1abd60f42d2c4133d` |
 | Pull request | `NOT_OPENED` — coordinator performs child-to-parent integration |
 | Worker-to-parent merge | `PENDING` |
 | Memory review | `PENDING` — coordinator-owned after parent-to-main integration |
 | Decision record | `docs/decisions/ralph-agent-status-reporting-worker-01-20260925-0602/agents/worker-01/pr-not-opened.md` |
 | Blockers | None |
-| Next action | Worker-01: rebase onto parent tip `bfc044acb477af7abf17717644adf9edfe9614db`, rerun the latest contract suite, and refresh the sign-off. |
+| Next action | Worker-01: commit the refreshed rebase evidence and worker-owned records, then submit the new sign-off for coordinator integration. |
 
 ```yaml
 schema_version: 2
@@ -40,9 +40,9 @@ requested_worker_count: 2
 effective_worker_count: 2
 active_worker_count: 1
 started_at_utc: "2026-09-25T06:01:28Z"
-updated_at_utc: "2026-09-25T06:51:51Z"
+updated_at_utc: "2026-09-25T07:23:15Z"
 resource_usage:
-  time_spent_seconds: 3023
+  time_spent_seconds: 4907
   time_basis: WALL_CLOCK_ELAPSED
   token_spend:
     status: NOT_REPORTED
@@ -58,8 +58,8 @@ parent_worktree: "/Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-stat
 parent_base_origin_main_sha: "9558f99cc34cbed8dd1d24f4f15fc03f5d78b6ea"
 parent_rebased_onto_origin_main_sha: "20293c720b18a1a21ff150f566823493b7a2717d"
 base_parent_sha: "f602cfcd7e7d7043870857c1fda6b9707a711e5d"
-rebased_onto_parent_sha: null
-implementation_commit_sha: "c16f2778429f2a76b63e1ca74c7ff50eef17e7ea"
+rebased_onto_parent_sha: "bfc044acb477af7abf17717644adf9edfe9614db"
+implementation_commit_sha: "9a5b1db184fb6d3f638304e1abd60f42d2c4133d"
 pull_request:
   status: NOT_OPENED
   number: null
@@ -91,17 +91,25 @@ checks:
   - command: "git -C /Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-status-reporting-worker-01-20260925-0602 diff --check"
     result: PASS
   - command: "cd /Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-status-reporting-worker-01-20260925-0602 && python3 .github/skills/ralph-loop/tests/test_multi_agent_contract.py"
-    result: NOT_RUN
+    result: "PASS (Ran 16 tests in 2.663s, OK in final pre-commit verification.)"
+  - command: "git -C /Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-status-reporting-worker-01-20260925-0602 rebase --onto bfc044acb477af7abf17717644adf9edfe9614db f602cfcd7e7d7043870857c1fda6b9707a711e5d"
+    result: "PASS (replayed the four child commits after the original base; rebase conflicts were resolved without dropping either reporting or schema-v2 guidance.)"
+  - command: "cd /Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-status-reporting-worker-01-20260925-0602 && git diff --check"
+    result: "PASS (no whitespace errors in the worker-owned record updates.)"
+  - command: "cd /Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-status-reporting-worker-01-20260925-0602 && git diff --check bfc044acb477af7abf17717644adf9edfe9614db..HEAD"
+    result: "PASS (no whitespace errors in the rebased committed changes.)"
+  - command: "cd /Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-status-reporting-worker-01-20260925-0602 && git merge-base --is-ancestor bfc044acb477af7abf17717644adf9edfe9614db HEAD"
+    result: "PASS (the exact parent rebase target is an ancestor of the child.)"
   - command: "cd /Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-status-reporting-worker-01-20260925-0602 && git diff --check"
     result: PASS
 blockers: []
-next_action: "Worker-01: rebase onto parent tip bfc044acb477af7abf17717644adf9edfe9614db, rerun the latest contract suite, and refresh the sign-off."
+next_action: "Worker-01: commit the refreshed rebase evidence and worker-owned records, then submit the new sign-off for coordinator integration."
 worker_sign_off:
-  status: SUBMITTED
-  attestation_kind: SELF_ATTESTATION
+  status: PENDING
+  attestation_kind: null
   cryptographic_signature_status: NOT_CRYPTOGRAPHICALLY_SIGNED
-  attested_at_utc: "2026-09-25T06:17:17Z"
-  statement: "I, worker-01, sign off iteration 1 for status-first-agent-reporting-guidance at commit c16f2778429f2a76b63e1ca74c7ff50eef17e7ea."
+  attested_at_utc: null
+  statement: null
 commit_signature_verification:
   status: NOT_CRYPTOGRAPHICALLY_SIGNED
   verifier: null

@@ -11,7 +11,8 @@
 - **Parent base `origin/main` SHA:** `9558f99cc34cbed8dd1d24f4f15fc03f5d78b6ea`
 - **Parent latest rebase onto `origin/main`:** `20293c720b18a1a21ff150f566823493b7a2717d`
 - **Base parent SHA:** `f602cfcd7e7d7043870857c1fda6b9707a711e5d`
-- **Implementation commit SHA:** `c16f2778429f2a76b63e1ca74c7ff50eef17e7ea`
+- **Rebased onto parent SHA:** `bfc044acb477af7abf17717644adf9edfe9614db`
+- **Implementation commit SHA:** `9a5b1db184fb6d3f638304e1abd60f42d2c4133d`
 - **Current worker state:** `IN_PROGRESS`; the overall run remains `IN_PROGRESS`.
 
 ## Iteration 1 — 2026-09-25
@@ -233,4 +234,134 @@ checks:
   - command: "cd /Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-status-reporting-worker-01-20260925-0602 && git diff --check"
     result: PASS
 next_action: "Worker-01: rebase onto parent tip bfc044acb477af7abf17717644adf9edfe9614db, rerun the latest contract suite, and refresh the sign-off."
+```
+
+## Rebase and revalidation — 2026-09-25T07:12:36Z
+
+- **Refresh:** The canonical `/Users/jrblankenhorn/copilot_skills` checkout
+  was clean on `main` tracking `origin/main`; `git pull --ff-only` reported
+  `Already up to date` at `20293c720b18a1a21ff150f566823493b7a2717d`.
+  The canonical and child `origin` remotes both identify
+  `https://github.com/jrblankenhorn1007/copilot_skills.git`.
+- **Starting state:** The child branch/worktree was clean at
+  `e54c769ad89d89e3d9033bb77214cf3c319e3e1b`. The assigned original child
+  base remains `f602cfcd7e7d7043870857c1fda6b9707a711e5d`; the exact parent
+  target was `bfc044acb477af7abf17717644adf9edfe9614db`. The parent worktree
+  had coordinator-owned uncommitted status/dashboard synchronization at that
+  exact `HEAD`; it was not edited, staged, or used as a rebase source.
+- **Recovered rebase attempt:** A default `git rebase bfc044acb477af7abf17717644adf9edfe9614db`
+  followed the rewritten parent history back beyond the assigned child base
+  and conflicted in coordinator-owned parent records, including
+  `docs/ralph-status.md`. No conflicted files were resolved or staged.
+  `git rebase --abort` restored the clean child at its exact starting tip.
+  To replay only worker-owned commits after the original child base, the
+  rebase was rerun with
+  `git rebase --onto bfc044acb477af7abf17717644adf9edfe9614db f602cfcd7e7d7043870857c1fda6b9707a711e5d`.
+- **Child rebase:** The targeted rebase completed successfully, replaying
+  the four child commits and leaving parent-owned dashboard files untouched.
+  The conflict in
+  `.github/skills/ralph-loop/references/multi-agent-status.md` was resolved
+  by preserving both the parent's schema-version-2 resource-usage guidance
+  and the worker's status-first report template. The upstream resource
+  guidance and current contract-test additions remain intact. The rebased
+  implementation commit is
+  `9a5b1db184fb6d3f638304e1abd60f42d2c4133d`; the rebase-only child tip
+  before these refreshed worker-record commits was
+  `e624916348b78952ceec6f00e90ac763a326ed44`.
+- **Rebase verification:** `git -C /Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-status-reporting-worker-01-20260925-0602 merge-base --is-ancestor bfc044acb477af7abf17717644adf9edfe9614db HEAD`
+  — `PASS`. The diff against the parent contains the worker's reporting
+  guidance and worker-owned records; it does not change
+  `docs/ralph-status.md` or the contract test file.
+- **Full contract suite:** From the child worktree,
+  `python3 .github/skills/ralph-loop/tests/test_multi_agent_contract.py`
+  — `PASS` (`Ran 16 tests in 4.024s`, `OK`) after the rebase.
+- **Post-record verification:** After updating the worker-owned records, the
+  same full suite passed again (`Ran 16 tests in 2.868s`, `OK`).
+  `cd /Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-status-reporting-worker-01-20260925-0602 && git diff --check`
+  and the same command with
+  `git diff --check bfc044acb477af7abf17717644adf9edfe9614db..HEAD`
+  both passed.
+- **Latest full-suite rerun:** After the final worker-record edits,
+  `python3 .github/skills/ralph-loop/tests/test_multi_agent_contract.py`
+  passed again (`Ran 16 tests in 2.520s`, `OK`).
+- **Final pre-record-commit verification:** The full suite passed
+  (`Ran 16 tests in 2.663s`, `OK`); `git diff --check`,
+  `git diff --check bfc044acb477af7abf17717644adf9edfe9614db..HEAD`, and
+  `git merge-base --is-ancestor bfc044acb477af7abf17717644adf9edfe9614db HEAD`
+  all passed.
+- **Status-first invariant:** The status guide continues to state that
+  `active_worker_count` zero is nonterminal when queued
+  `NOT_STARTED` work, `AWAITING_MERGE` agents, or coordinator work remains.
+- **TDD:** This resumed slice reconciles existing documentation after a
+  rebase; it adds no new behavior, so no new Red phase was fabricated. The
+  original Red/Green evidence above remains historical evidence.
+- **Next action:** Commit the current worker-owned rebase evidence, then
+  submit a refreshed self-attestation bound to the rebased implementation
+  commit. Coordinator-owned child-to-parent integration remains pending.
+
+```yaml
+schema_version: 2
+run_id: "copilot_skills-agent-status-reporting-20260924"
+task_ids: ["status-first-agent-reporting-guidance"]
+worker_id: "worker-01"
+worker_name: "worker-01 - status-first agent reporting documentation"
+runtime_agent_id: null
+iteration: 1
+branch: "ralph/agent-status-reporting-worker-01-20260925-0602"
+worktree: "/Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-status-reporting-worker-01-20260925-0602"
+status: IN_PROGRESS
+run_aggregate_status: IN_PROGRESS
+requested_worker_count: 2
+effective_worker_count: 2
+active_worker_count: 1
+started_at_utc: "2026-09-25T06:01:28Z"
+updated_at_utc: "2026-09-25T07:23:15Z"
+resource_usage:
+  time_spent_seconds: 4907
+  time_basis: WALL_CLOCK_ELAPSED
+  token_spend:
+    status: NOT_REPORTED
+    input_tokens: null
+    output_tokens: null
+    total_tokens: null
+    cached_input_tokens: null
+    source: null
+base_origin_main_sha: "9558f99cc34cbed8dd1d24f4f15fc03f5d78b6ea"
+rebased_onto_origin_main_sha: null
+parent_branch: "ralph/agent-status-reporting-20260924-2313"
+parent_worktree: "/Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-status-reporting-20260924-2313"
+parent_base_origin_main_sha: "9558f99cc34cbed8dd1d24f4f15fc03f5d78b6ea"
+parent_rebased_onto_origin_main_sha: "20293c720b18a1a21ff150f566823493b7a2717d"
+base_parent_sha: "f602cfcd7e7d7043870857c1fda6b9707a711e5d"
+rebased_onto_parent_sha: "bfc044acb477af7abf17717644adf9edfe9614db"
+implementation_commit_sha: "9a5b1db184fb6d3f638304e1abd60f42d2c4133d"
+pull_request:
+  status: NOT_OPENED
+  number: null
+  url: null
+decision_record_path: "docs/decisions/ralph-agent-status-reporting-worker-01-20260925-0602/agents/worker-01/pr-not-opened.md"
+merge_actor_worker_id: null
+worker_to_parent_merge:
+  status: PENDING
+  sha: null
+  verified_parent_ref: "refs/heads/ralph/agent-status-reporting-20260924-2313"
+  verified_parent_sha: null
+cleanup:
+  worktree: PENDING
+  local_branch: PENDING
+  remote_ref: NOT_PUBLISHED
+memory_review: PENDING
+checks:
+  - command: "git -C /Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-status-reporting-worker-01-20260925-0602 rebase --onto bfc044acb477af7abf17717644adf9edfe9614db f602cfcd7e7d7043870857c1fda6b9707a711e5d"
+    result: "PASS (targeted child-history rebase completed)"
+  - command: "cd /Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-status-reporting-worker-01-20260925-0602 && python3 .github/skills/ralph-loop/tests/test_multi_agent_contract.py"
+    result: "PASS (Ran 16 tests in 2.663s, OK)"
+  - command: "cd /Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-status-reporting-worker-01-20260925-0602 && git diff --check"
+    result: "PASS"
+  - command: "cd /Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-status-reporting-worker-01-20260925-0602 && git diff --check bfc044acb477af7abf17717644adf9edfe9614db..HEAD"
+    result: "PASS"
+  - command: "cd /Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-status-reporting-worker-01-20260925-0602 && git merge-base --is-ancestor bfc044acb477af7abf17717644adf9edfe9614db HEAD"
+    result: "PASS"
+blockers: []
+next_action: "Worker-01: commit the refreshed rebase evidence and worker-owned records, then submit the new sign-off for coordinator integration."
 ```
