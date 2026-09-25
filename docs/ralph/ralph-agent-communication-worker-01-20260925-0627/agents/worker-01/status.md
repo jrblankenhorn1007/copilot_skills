@@ -13,9 +13,9 @@ worktree: "/Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-communicati
 iteration: 1
 status: AWAITING_MERGE
 started_at_utc: "2026-09-25T07:49:20Z"
-updated_at_utc: "2026-09-25T12:16:27Z"
+updated_at_utc: "2026-09-25T14:10:21Z"
 resource_usage:
-  time_spent_seconds: 16027
+  time_spent_seconds: 22861
   time_basis: WALL_CLOCK_ELAPSED
   token_spend:
     status: NOT_REPORTED
@@ -26,8 +26,8 @@ resource_usage:
     source: null
 base_origin_main_sha: "20293c720b18a1a21ff150f566823493b7a2717d"
 rebased_onto_origin_main_sha: null
-implementation_commit_sha: "036185a08bab1d335728ddf89750e45388766a99"
-worker_series_head_sha: "99455871c0fefe08fe5ed3684fbb560df9d9083d"
+implementation_commit_sha: "00f775d0c4cda85bfd047f529adbd15d75564b00"
+worker_series_head_sha: "719f457611d028fbba27bc3c4a7b75da8cdc1f19"
 pull_request:
   status: NOT_OPENED
   number: null
@@ -49,26 +49,30 @@ merge_actor_worker_id: null
 decision_record_path: "docs/decisions/ralph-agent-communication-worker-01-20260925-0627/agents/worker-01/pr-not-opened.md"
 decision_index_path: "docs/decisions/ralph-agent-communication-worker-01-20260925-0627/README.md"
 checks:
-  - command: "git -C /Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-communication-worker-01-metadata-20260925-ab278511 merge-base --is-ancestor 036185a08bab1d335728ddf89750e45388766a99 ff8e8452003fe8d8f83914919e986b7b9b998c7f"
+  - command: "git -C /Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-communication-worker-01-metadata-20260925-2c6be4d1 diff-tree --no-commit-id --name-only -r 00f775d0c4cda85bfd047f529adbd15d75564b00"
     result: PASS
-  - command: "git -C /Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-communication-worker-01-metadata-20260925-ab278511 merge-base --is-ancestor 99455871c0fefe08fe5ed3684fbb560df9d9083d ff8e8452003fe8d8f83914919e986b7b9b998c7f"
+  - command: "Exact-SHA 37-term agent-message/v1 skill audit at 00f775d0c4cda85bfd047f529adbd15d75564b00 (full command and 37/37 result in progress.md)"
     result: PASS
-  - command: "37-term exact-SHA agent-message/v1 skill audit at 036185a08bab1d335728ddf89750e45388766a99 (full command and 37/37 result in progress.md)"
+  - command: "git -C /Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-communication-worker-01-metadata-20260925-2c6be4d1 show --check --format=oneline 00f775d0c4cda85bfd047f529adbd15d75564b00 -- .github/skills/agent-communication/SKILL.md"
     result: PASS
-  - command: "git -C /Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-communication-worker-01-metadata-20260925-ab278511 show --check --format=oneline 036185a08bab1d335728ddf89750e45388766a99 -- .github/skills/agent-communication/SKILL.md"
+  - command: "git -C /Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-communication-worker-01-metadata-20260925-2c6be4d1 merge-base --is-ancestor 00f775d0c4cda85bfd047f529adbd15d75564b00 8bdc0f495bfe291be94a234d6b8aa350d1ff7419"
     result: PASS
-  - command: "git diff --check (metadata-only worker-01 status/progress/decision changes)"
+  - command: "git -C /Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-communication-worker-01-metadata-20260925-2c6be4d1 merge-base --is-ancestor 719f457611d028fbba27bc3c4a7b75da8cdc1f19 8bdc0f495bfe291be94a234d6b8aa350d1ff7419"
+    result: PASS
+  - command: "git -C /Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-communication-worker-01-metadata-20260925-2c6be4d1 diff --check"
+    result: PASS
+  - command: "Ruby YAML parse and compare memory_handoff and worker sign-off with final progress JSON"
     result: PASS
 blockers: []
-next_action: "Coordinator: integrate this metadata-only worker-01 follow-up; then continue parent-to-main integration and post-merge memory review."
+next_action: "Coordinator: integrate this metadata-only worker-01 follow-up with the parent-to-main transaction, then complete the post-merge memory review."
 parent_branch: "ralph/agent-communication-parent-20260925-0627"
 parent_worktree: "/Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-communication-parent-20260925-0627"
 parent_base_origin_main_sha: "20293c720b18a1a21ff150f566823493b7a2717d"
-parent_rebased_onto_origin_main_sha: "4f5fee342c7e08ce556ae10c8a693f9e30a2ee2b"
-current_origin_main_sha: "4f5fee342c7e08ce556ae10c8a693f9e30a2ee2b"
-parent_implementation_commit_sha: "ff8e8452003fe8d8f83914919e986b7b9b998c7f"
+parent_rebased_onto_origin_main_sha: "65ed98d9c3169953f05477d4d248236e1f514542"
+current_origin_main_sha: "5e673fa5235b99bd36c1cd56ea7d2dab6e7562c0"
+parent_implementation_commit_sha: "8bdc0f495bfe291be94a234d6b8aa350d1ff7419"
 base_parent_sha: "0294550c92a5d79e1cca682a0c509b5bb6eca3fd"
-rebased_onto_parent_sha: "ff8e8452003fe8d8f83914919e986b7b9b998c7f"
+rebased_onto_parent_sha: "8bdc0f495bfe291be94a234d6b8aa350d1ff7419"
 worker_to_parent_merge_history:
   - sha: "808bc8819c898d27db9a22dcc670b96c953780b4"
     verified_parent_sha: "5fcc24764d2604e124587b302460f2af523694d8"
@@ -130,13 +134,67 @@ worker_to_parent_merge_history:
       old_origin_main_sha: "96fca381f96a743a08eb2e758d1eae8eb2fd483a"
       new_origin_main_sha: "4f5fee342c7e08ce556ae10c8a693f9e30a2ee2b"
       rebased_worker_head_sha: "99455871c0fefe08fe5ed3684fbb560df9d9083d"
+  - sha: "99455871c0fefe08fe5ed3684fbb560df9d9083d"
+    verified_parent_sha: "ff8e8452003fe8d8f83914919e986b7b9b998c7f"
+    verification_method: "git merge-base --is-ancestor 99455871c0fefe08fe5ed3684fbb560df9d9083d ff8e8452003fe8d8f83914919e986b7b9b998c7f"
+    verified_at_utc: "2026-09-25T12:10:53Z"
+    superseded_by_parent_rebase:
+      old_parent_sha: "ff8e8452003fe8d8f83914919e986b7b9b998c7f"
+      new_parent_sha: "dfd94c61222c1dcdc7558eba6d1680ff57ce8ed6"
+      old_origin_main_sha: "4f5fee342c7e08ce556ae10c8a693f9e30a2ee2b"
+      new_origin_main_sha: "d729d7c22991424d911cf9cc3aa901cd8d3c0b0f"
+      rebased_worker_head_sha: "0ff0fc761f62c516c4f38dbc7575f0a50ca8d456"
+  - sha: "0ff0fc761f62c516c4f38dbc7575f0a50ca8d456"
+    verified_parent_sha: "dfd94c61222c1dcdc7558eba6d1680ff57ce8ed6"
+    verification_method: "git merge-base --is-ancestor 0ff0fc761f62c516c4f38dbc7575f0a50ca8d456 dfd94c61222c1dcdc7558eba6d1680ff57ce8ed6"
+    verified_at_utc: "2026-09-25T12:46:44Z"
+    superseded_by_parent_rebase:
+      old_parent_sha: "dfd94c61222c1dcdc7558eba6d1680ff57ce8ed6"
+      new_parent_sha: "c6a7ff98f43721489b1f681e7bd4225e5c38197f"
+      old_origin_main_sha: "c11cd4556854ec1ab87821b00686cb8313725be5"
+      new_origin_main_sha: "d701bc0edfbf5cb910035335f56beb8d4debd612"
+      rebased_worker_head_sha: "b403c879f5947ba9b4bc6dfd0dd4e29cfe7a6fa5"
+  - sha: "b403c879f5947ba9b4bc6dfd0dd4e29cfe7a6fa5"
+    verified_parent_sha: "c6a7ff98f43721489b1f681e7bd4225e5c38197f"
+    verification_method: "git merge-base --is-ancestor b403c879f5947ba9b4bc6dfd0dd4e29cfe7a6fa5 c6a7ff98f43721489b1f681e7bd4225e5c38197f"
+    verified_at_utc: "2026-09-25T13:01:27Z"
+    superseded_by_parent_rebase:
+      old_parent_sha: "c6a7ff98f43721489b1f681e7bd4225e5c38197f"
+      new_parent_sha: "37b2e8fe475330cf32009a3b7d93eaebadf5ea0d"
+      old_origin_main_sha: "f59ecc1deb73ba7bdb60efb0d8998bf8d7b68fd2"
+      new_origin_main_sha: "f59ecc1deb73ba7bdb60efb0d8998bf8d7b68fd2"
+      rebased_worker_head_sha: "57ccfe47591d26824519338dab34999e2a7649f6"
+  - sha: "57ccfe47591d26824519338dab34999e2a7649f6"
+    verified_parent_sha: "37b2e8fe475330cf32009a3b7d93eaebadf5ea0d"
+    verification_method: "git merge-base --is-ancestor 57ccfe47591d26824519338dab34999e2a7649f6 37b2e8fe475330cf32009a3b7d93eaebadf5ea0d"
+    verified_at_utc: "2026-09-25T13:20:03Z"
+    superseded_by_parent_rebase:
+      old_parent_sha: "37b2e8fe475330cf32009a3b7d93eaebadf5ea0d"
+      new_parent_sha: "856288df22a0de6b591d0467f0ab5e6f3d8d47d6"
+      old_origin_main_sha: "f59ecc1deb73ba7bdb60efb0d8998bf8d7b68fd2"
+      new_origin_main_sha: "d45606cb53765266e470154f6f98b9860d103d42"
+      rebased_worker_head_sha: "5b0a37afda5cd13d581aa252cf5e1d047506f0ac"
+  - sha: "5b0a37afda5cd13d581aa252cf5e1d047506f0ac"
+    verified_parent_sha: "856288df22a0de6b591d0467f0ab5e6f3d8d47d6"
+    verification_method: "git merge-base --is-ancestor 5b0a37afda5cd13d581aa252cf5e1d047506f0ac 856288df22a0de6b591d0467f0ab5e6f3d8d47d6"
+    verified_at_utc: "2026-09-25T13:39:11Z"
+    superseded_by_parent_rebase:
+      old_parent_sha: "856288df22a0de6b591d0467f0ab5e6f3d8d47d6"
+      new_parent_sha: "8bdc0f495bfe291be94a234d6b8aa350d1ff7419"
+      old_origin_main_sha: "d45606cb53765266e470154f6f98b9860d103d42"
+      new_origin_main_sha: "65ed98d9c3169953f05477d4d248236e1f514542"
+      rebased_worker_head_sha: "719f457611d028fbba27bc3c4a7b75da8cdc1f19"
+  - sha: "719f457611d028fbba27bc3c4a7b75da8cdc1f19"
+    verified_parent_sha: "8bdc0f495bfe291be94a234d6b8aa350d1ff7419"
+    verification_method: "git merge-base --is-ancestor 719f457611d028fbba27bc3c4a7b75da8cdc1f19 8bdc0f495bfe291be94a234d6b8aa350d1ff7419"
+    verified_at_utc: "2026-09-25T14:04:04Z"
 worker_to_parent_merge:
   status: VERIFIED
-  sha: "99455871c0fefe08fe5ed3684fbb560df9d9083d"
+  sha: "719f457611d028fbba27bc3c4a7b75da8cdc1f19"
   verified_parent_ref: "refs/heads/ralph/agent-communication-parent-20260925-0627"
-  verified_parent_sha: "ff8e8452003fe8d8f83914919e986b7b9b998c7f"
-  verification_method: "git merge-base --is-ancestor 99455871c0fefe08fe5ed3684fbb560df9d9083d ff8e8452003fe8d8f83914919e986b7b9b998c7f"
-  verified_at_utc: "2026-09-25T12:10:53Z"
+  verified_parent_sha: "8bdc0f495bfe291be94a234d6b8aa350d1ff7419"
+  verification_method: "git merge-base --is-ancestor 719f457611d028fbba27bc3c4a7b75da8cdc1f19 8bdc0f495bfe291be94a234d6b8aa350d1ff7419"
+  verified_at_utc: "2026-09-25T14:04:04Z"
 cleanup:
   worktree: PENDING
   local_branch: PENDING
@@ -145,11 +203,21 @@ worker_sign_off:
   status: RECEIVED
   attestation_kind: SELF_ATTESTATION
   cryptographic_signature_status: NOT_CRYPTOGRAPHICALLY_SIGNED
-  attested_at_utc: "2026-09-25T12:10:53Z"
-  statement: "I, worker-01, sign off iteration 1 for agent-communication-skill at exact implementation commit 036185a08bab1d335728ddf89750e45388766a99."
+  attested_at_utc: "2026-09-25T14:10:21Z"
+  statement: "I, worker-01, sign off iteration 1 for agent-communication-skill at exact implementation commit 00f775d0c4cda85bfd047f529adbd15d75564b00."
 commit_signature_verification:
   status: NOT_CRYPTOGRAPHICALLY_SIGNED
   verifier: null
   evidence: null
   verified_at_utc: null
+memory_handoff:
+  implementation_summary: "Implemented a standalone Copilot skill for destination-verified asynchronous agent messaging, bounded checkpoints, acknowledgments, and cooperative interrupts."
+  lesson_candidates:
+    - rule: "Treat asynchronous message acceptance or queueing as delivery state, not proof of processing or preemption, and reject any instruction once its expires_at is reached regardless of priority."
+      why: "Busy-session delivery is not cancellation, and stale instructions must not trigger actions or side effects."
+      scope: "Copilot session-agent communication using asynchronous send_message."
+      evidence:
+        - "The agent-communication skill at commit 00f775d0c4cda85bfd047f529adbd15d75564b00 distinguishes task-result deadlines from reply checkpoints, separates acknowledgment stages, documents non-preemption, and requires expired-message rejection with no action."
+        - "The worker's user-reported live experiment observed an expired urgent cooperative interrupt being acted on; the implementation added the normative expiry rejection rule."
+  no_durable_lessons_reason: null
 ```
