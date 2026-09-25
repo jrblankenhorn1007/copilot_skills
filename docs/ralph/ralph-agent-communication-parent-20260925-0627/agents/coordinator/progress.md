@@ -598,3 +598,38 @@
   parent. Integrate that metadata serially, then request worker-02's fresh
   sign-off/status update from the resulting parent. Reconcile coordinator
   status/dashboard and re-run final checks before publication.
+
+## 2026-09-25T13:28:16Z — parent rebased through new status-ledger commits
+
+- **Upstream movement:** Fetched `origin/main` advanced from
+  `f59ecc1deb73ba7bdb60efb0d8998bf8d7b68fd2` to
+  `612d6eafbb4b48e7354473383ec4feab1ddbea57` through twelve status-ledger
+  commits for the skills-improvement and agent-role-hierarchy runs. No
+  implementation or guidance files changed. The latest ownership record is
+  `FREE` at revision 86, following the coordinator status publication
+  `1d61d49043d530cff392e2177f85a93cae657010`.
+- **Rebase:** Rebased the clean parent from
+  `37b2e8fe475330cf32009a3b7d93eaebadf5ea0d` onto the fetched main SHA above
+  without conflicts. New parent HEAD is
+  `2383489e1688d2532ebc86d4435e1294c537e81d`.
+- **Worker SHA mapping:** The rebase maps Worker-01 implementation/series
+  `602aa59b2c1aaf258a3882256d9f38f94a4fce42` /
+  `57ccfe47591d26824519338dab34999e2a7649f6` to
+  `85be213e854bfb6f98d54ae102097eafb8ac947d` /
+  `42f503217f5e04e7b69bf078def11d70777f58da`. Worker-02 implementation/
+  series `a13e65c38f57f9d4a8c530068f93c1f41024d09f` /
+  `cba1145f4a59fd5ea1ff10f85fd50adf21f143e1` map to
+  `9f87eb41e0dad155f7c7ea4c53cbbf4b521e35c5` /
+  `ab72fb8b02b8af55dae4507d607b7e597f3b59dc`. Range-diff confirms each
+  series mapping; all four mapped commits are ancestors of the new parent.
+- **Green:** The full contract suite passed 24/24 after rebase.
+  `git diff --check origin/main...HEAD`, `git show --check` for both current
+  implementation commits, and all four worker implementation/series ancestry
+  checks passed.
+- **Worker metadata:** Worker-01 metadata commit
+  `a515fd269a12930470ace4a0882e263102aa976a` is based on superseded parent
+  `37b2e8f…`; preserve it and all earlier metadata branches unchanged. It is
+  not integrated. Worker-02 remains paused.
+- **Next:** Obtain new worker-01 exact-SHA attestation/status/handoff from the
+  current parent; integrate its metadata serially, synchronize the dashboard,
+  and then ask worker-02 to refresh from that resulting parent.
