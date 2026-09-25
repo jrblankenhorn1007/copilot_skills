@@ -22,7 +22,8 @@
 - **Current `rebased_onto_parent_sha`:** `fda10605f50b49eeb4bc007a181cf51a5578ae18`
 - **Pre-refresh implementation commit SHA:** `b4d2d331fc5ad2efd29b96c201c099c8a3642944`
 - **Rewritten implementation commit SHA:** `7fa094bcfe9d0f6cdfd4b793f98b8f02e8e32f92`
-- **Metadata/status/decision update commit SHA:** pending until committed.
+- **Metadata/status/decision update commit SHA:**
+  `fc6ee11d94ba892ca9c42f50256ba4ae4e6bf858`.
 - **Metadata SHA-reference follow-up commit SHA:** pending until committed.
 - **Pull request:** Not opened (`number: null`, `url: null`). Child changes
   integrate into the parent branch; only the completed parent integrates to
@@ -532,10 +533,12 @@ retained in the worker's [progress record](../../../../ralph/ralph-parent-child-
 
 ### Refreshed worker-02 `SELF_ATTESTATION`
 
-The final self-attestation will be added here and in the progress record after
-the separate metadata-update SHA is known. It will bind the implementation
-commit `7fa094bcfe9d0f6cdfd4b793f98b8f02e8e32f92` to the latest metadata SHA,
-preserve `base_parent_sha`
-`d54cc120fe25da04d6be887b1a6a7e321512b6e4`, and record
+The primary metadata SHA is
+`fc6ee11d94ba892ca9c42f50256ba4ae4e6bf858`. The final self-attestation will
+be added here and in the progress record after the metadata SHA-reference
+follow-up is known. It will bind implementation
+`7fa094bcfe9d0f6cdfd4b793f98b8f02e8e32f92`, the primary metadata SHA, and
+that follow-up while preserving original `base_parent_sha`
+`d54cc120fe25da04d6be887b1a6a7e321512b6e4` and current
 `rebased_onto_parent_sha`
 `fda10605f50b49eeb4bc007a181cf51a5578ae18`.

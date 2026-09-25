@@ -15,8 +15,8 @@
 - **Latest observed `origin/main` SHA:** `114e4d60567d05cd048916339ed86e324c6eeef3`
 - **Previous implementation commit SHA:** `b4d2d331fc5ad2efd29b96c201c099c8a3642944`
 - **Latest implementation commit SHA:** `7fa094bcfe9d0f6cdfd4b793f98b8f02e8e32f92`
-- **Metadata/status/decision update commit SHA:** pending until the separate
-  metadata commit is created.
+- **Metadata/status/decision update commit SHA:**
+  `fc6ee11d94ba892ca9c42f50256ba4ae4e6bf858`.
 - **Metadata SHA-reference follow-up commit SHA:** pending until its separate
   follow-up is created.
 
@@ -555,13 +555,26 @@ following final checks passed:
   parent cleanup, and child cleanup remain `PENDING`. No push, PR, merge, or
   cleanup was performed. `blockers: []`; these are pending coordinator-owned
   workflow steps, not worker-scope blockers.
-- The new status/progress/decision update and its metadata-SHA reference
-  follow-up will be committed separately from implementation with the
-  required Copilot coauthor trailer. Final self-attestation will be added
-  after the metadata SHA is known.
+- Primary status/progress/decision update commit:
+  `fc6ee11d94ba892ca9c42f50256ba4ae4e6bf858`, separate from implementation
+  and carrying the required Copilot coauthor trailer. The metadata
+  SHA-reference follow-up and final self-attestation remain pending.
 - **Next action:** Return the completed worker sign-off and scoped evidence to
   the coordinator for serialized worker-to-parent integration. Do not publish,
   open a PR, merge, or clean up this child.
+
+## 2026-09-25T02:21:11Z — Record primary metadata commit
+
+- **Primary metadata/status/decision commit:**
+  `fc6ee11d94ba892ca9c42f50256ba4ae4e6bf858`.
+- This commit contains only the worker-02 `status.md`, `progress.md`, branch
+  decision index, and `pr-not-opened.md`, and includes the Copilot coauthor
+  trailer. It does not alter implementation commit
+  `7fa094bcfe9d0f6cdfd4b793f98b8f02e8e32f92`.
+- The worker leaf records now identify primary metadata SHA
+  `fc6ee11d94ba892ca9c42f50256ba4ae4e6bf858`. The exact follow-up SHA and
+  final implementation/metadata-bound `SELF_ATTESTATION` will be added once
+  that follow-up commit exists.
 
 ## 2026-09-25T01:59:30Z — Remote main advanced after the parent sync
 

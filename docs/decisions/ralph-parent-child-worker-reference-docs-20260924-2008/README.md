@@ -17,7 +17,8 @@
 - **Latest observed `origin/main`:** `114e4d60567d05cd048916339ed86e324c6eeef3`
 - **Pre-refresh implementation commit SHA:** `b4d2d331fc5ad2efd29b96c201c099c8a3642944`
 - **Rewritten implementation commit SHA:** `7fa094bcfe9d0f6cdfd4b793f98b8f02e8e32f92`
-- **Metadata/status/decision update commit SHA:** pending until committed.
+- **Metadata/status/decision update commit SHA:**
+  `fc6ee11d94ba892ca9c42f50256ba4ae4e6bf858`.
 - **Metadata SHA-reference follow-up commit SHA:** pending until committed.
 - **PR:** `NOT_OPENED`. This is child-to-parent work; only the completed
   parent iteration integrates to remote `main`.
@@ -207,9 +208,10 @@
   `b4d2d331fc5ad2efd29b96c201c099c8a3642944`.
 - **Rewritten implementation SHA:**
   `7fa094bcfe9d0f6cdfd4b793f98b8f02e8e32f92`.
-- **Metadata commit and follow-up:** Pending final metadata commits; both
-  will remain separate from implementation and use the required Copilot
-  coauthor trailer.
+- **Primary metadata commit:**
+  `fc6ee11d94ba892ca9c42f50256ba4ae4e6bf858`; it is separate from
+  implementation and carries the required Copilot coauthor trailer.
+  **Metadata SHA-reference follow-up and final attestation:** pending.
 - **Scoped checks after rebase:** `git diff --check` and
   `git diff --check fda10605f50b49eeb4bc007a181cf51a5578ae18..7fa094bcfe9d0f6cdfd4b793f98b8f02e8e32f92`
   passed with exit code 0; `git show --check --format=oneline 7fa094bcfe9d0f6cdfd4b793f98b8f02e8e32f92`

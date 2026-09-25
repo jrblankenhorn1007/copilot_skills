@@ -14,7 +14,7 @@ runtime_agent_id: null
 runtime_session_id: "copilotcli:/2f06d4f9-e0c1-4b03-bbbe-edfc40054447 (coordinator follow-up; not the original worker runtime)"
 iteration: 1
 status: AWAITING_MERGE
-updated_at_utc: "2026-09-25T02:20:05Z"
+updated_at_utc: "2026-09-25T02:21:11Z"
 branch: "ralph/parent-child-worker-reference-docs-20260924-2008"
 branch_slug: "ralph-parent-child-worker-reference-docs-20260924-2008"
 worktree: "/Users/jrblankenhorn/copilot_skills.worktrees/ralph-parent-child-worker-reference-docs-20260924-2008"
@@ -29,7 +29,7 @@ base_parent_sha: "d54cc120fe25da04d6be887b1a6a7e321512b6e4"
 rebased_onto_parent_sha: "fda10605f50b49eeb4bc007a181cf51a5578ae18"
 previous_implementation_commit_sha: "b4d2d331fc5ad2efd29b96c201c099c8a3642944"
 implementation_commit_sha: "7fa094bcfe9d0f6cdfd4b793f98b8f02e8e32f92"
-metadata_commit_sha: null
+metadata_commit_sha: "fc6ee11d94ba892ca9c42f50256ba4ae4e6bf858"
 metadata_reference_followup_commit_sha: null
 pull_request:
   status: NOT_OPENED
@@ -69,10 +69,10 @@ worker_sign_off:
   status: PENDING_METADATA_FINALIZATION
   attestation_kind: null
   implementation_commit_sha: "7fa094bcfe9d0f6cdfd4b793f98b8f02e8e32f92"
-  metadata_commit_sha: null
+  metadata_commit_sha: "fc6ee11d94ba892ca9c42f50256ba4ae4e6bf858"
   cryptographic_signature_status: NOT_CRYPTOGRAPHICALLY_SIGNED
   attested_at_utc: null
-  statement: "The prior attestation is superseded by the parent rebase. Final SELF_ATTESTATION will be committed after the new metadata SHA is known; no worker-to-parent or parent-to-main integration, memory review, or cleanup is claimed."
+  statement: "The prior attestation is superseded by the parent rebase. Primary metadata commit fc6ee11d94ba892ca9c42f50256ba4ae4e6bf858 is recorded; final SELF_ATTESTATION will follow after the metadata SHA-reference follow-up is known. No worker-to-parent or parent-to-main integration, memory review, or cleanup is claimed."
 commit_signature_verification:
   status: NOT_CRYPTOGRAPHICALLY_SIGNED
   verifier: null
