@@ -1,0 +1,3 @@
+implement a max iterations for the ralph loop - basically a way to detect if its failing repeatedly. search online for good methods to do this, general rules around what poeople find successful, and then udpate the documentation to get out of this stuck loop. basically, at some point, another agent needs to come in and update the prompt in some way so that the actual task is better met. we can basically assume if it hasn't converged by X iterations, and the tasks have not progressed, we should exit out, re-evaluate, and try something else. codify this into your pipeline.
+
+Continuation request: finish this task.
