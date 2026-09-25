@@ -4,8 +4,8 @@
 
 - **Run/task:** `copilot-skills-memory-update-agent-20260925-0223` /
   `capacity-blocked-review-resume-guidance`.
-- **State:** `AWAITING_MERGE`; the resume contract and tests pass. The original
-  post-merge memory review remains pending.
+- **State:** `AWAITING_MERGE`; the implementation merge is verified, but the
+  required post-merge memory review remains pending and is blocked on capacity.
 - **Branch/worktree:** `ralph/capacity-blocked-memory-review-20260925-141705` /
   `/Users/jrblankenhorn/copilot_skills.worktrees/ralph-capacity-blocked-memory-review-20260925-141705`.
 - **Starting base:** rebased onto fetched `origin/main` at
@@ -87,12 +87,19 @@
   zero available slots. Refresh the complete live inventory after main
   integration before any updater dispatch; do not self-review or dispatch
   without an atomic reservation.
-- **Next action:** Verify the active reservation and integrate this branch by
-  fast-forward, then verify remote main and release the reservation promptly.
-  Refresh the complete Resource Manager inventory after integration and retry
-  the updater only after a fresh inventory and successful slot reservation.
-  If capacity remains unavailable, keep the review pending and request a
-  capacity remedy.
+- **Verified integration:** The branch was fast-forwarded to `origin/main` at
+  `d47262de92a322392e0bbbf57cb075238d278a4a`. The `MERGE` reservation was
+  released at `2026-09-25T15:17:26Z` with outcome `MERGED`; release commit
+  `f60981fc54c68240817260b155339a29720ea447` records the exact result.
+- **Post-integration capacity:** A complete inventory at
+  `2026-09-25T15:19:48Z` reported 21 active agents, `max_agents: 0`, zero
+  available slots, and `can_spawn: false` because load 8.54 exceeded the
+  six-core threshold. The current coordinator was registered, but no updater
+  reservation or dispatch was attempted.
+- **Next action:** Request a capacity remedy; after it is available, refresh
+  the full live inventory, atomically reserve a slot, and invoke the dedicated
+  updater exactly once. Keep the review pending, make no memory edit, and do
+  not self-review until then.
 
 ### Memory handoff
 

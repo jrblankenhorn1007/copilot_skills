@@ -12,18 +12,18 @@
 - **MERGE reservation sign-in:** `43301e48ab2409ad0b09b256c9c09cb45987d3b9`
 - **PR:** `NOT_OPENED`; the repository's normal path is coordinator-managed
   fast-forward integration with a verified `origin/main` result.
+- **Verified integration:** `d47262de92a322392e0bbbf57cb075238d278a4a`
+- **MERGE release commit:** `f60981fc54c68240817260b155339a29720ea447`
 
 ## Integration requirements
 
-1. `MERGE` reservation revision 143 is active for this coordinator; recheck
-   that ownership remains unchanged immediately before integration.
-2. The branch is rebased onto the reservation sign-in commit and the Ralph,
-   Project Memory Update, and main-ownership contract suites pass on that base.
-3. Fast-forward the authorized branch onto `origin/main` only after verifying
-   the sign-in and remote-tip ancestry, then fetch and verify the exact result.
-4. Release the main reservation promptly after verification.
-5. Keep the original memory review `PENDING`. Refresh the full Resource
-   Manager inventory and invoke the dedicated updater exactly once only after
-   an atomic capacity reservation succeeds.
+1. The no-PR fast-forward was verified at
+   `d47262de92a322392e0bbbf57cb075238d278a4a`; the `MERGE` reservation was
+   promptly released with that exact result.
+2. Keep the original memory review `PENDING`. A fresh inventory at
+   `2026-09-25T15:19:48Z` reported 21 active agents, `max_agents: 0`, and no
+   available slots. Refresh capacity and invoke the dedicated updater exactly
+   once only after an atomic reservation succeeds.
 
-No PR or integration push is claimed yet; the `MERGE` reservation is active.
+No PR was opened. The implementation integration is verified; the independent
+Project Memory review remains blocked on capacity.

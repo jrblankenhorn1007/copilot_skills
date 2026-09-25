@@ -353,3 +353,22 @@ These are implementation-time reports, not accepted memory entries. The Project 
 - `git merge-base --is-ancestor aebd168b8d926d51b6cb25a987b2fc313ff55fa7 origin/main` passed at that fetched ref.
 - Post-rebase validation passed: `test_multi_agent_contract.py` (23 tests), `test_memory_update_agent_contract.py` (1 test), and `test_main_ownership_contract.py` (7 tests). Both working-tree and `origin/main...HEAD` diff checks passed.
 - The updater remains blocked by the latest fresh Resource Manager inventory recorded above; no memory files were changed and no updater was dispatched.
+
+## 2026-09-25T15:22:06Z - Capacity-resume contract integrated; memory review remains blocked
+
+- The capacity-blocked review-resume guidance was fast-forwarded to
+  `origin/main` at `d47262de92a322392e0bbbf57cb075238d278a4a`. The authorized
+  `MERGE` reservation was released at `2026-09-25T15:17:26Z` with outcome
+  `MERGED` and that exact result SHA. The release commit was
+  `f60981fc54c68240817260b155339a29720ea447`.
+- A fresh, complete post-integration Resource Manager inventory was recorded
+  at `2026-09-25T15:19:48Z`: 21 active agents, `max_agents: 0`, zero free
+  slots, and `can_spawn: false` because load 8.54 exceeded the six-core
+  threshold. This coordinator was registered; no updater reservation or
+  dispatch was attempted.
+- The original post-merge memory review remains `PENDING` and this run remains
+  `BLOCKED`. No `.github/memory/` file was changed and no coordinator
+  self-review was substituted. Resume only after a fresh inventory permits an
+  atomic reservation for the dedicated updater.
+- **Next action:** request a capacity remedy; then refresh live inventory and
+  invoke the updater exactly once when a slot is safely reserved.
