@@ -12,6 +12,8 @@
 | Worktree | `/Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-status-reporting-20260924-2313` |
 | Base `origin/main` SHA | `9558f99cc34cbed8dd1d24f4f15fc03f5d78b6ea` |
 | Implementation commit SHA | Pending |
+| Worker-02 | `IN_PROGRESS` — add and run the reporting-contract test |
+| Worker-01 | `NOT_STARTED` — queued until the test Red is integrated |
 | Parent-to-main merge | `PENDING` |
 | Memory review | `PENDING` |
 | Pull request | `NOT_OPENED` — use the repository's verified fast-forward process unless current branch policy requires a PR. |
@@ -35,13 +37,13 @@ worktree: "/Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-status-repo
 iteration: 1
 status: IN_PROGRESS
 started_at_utc: "2026-09-25T03:13:20Z"
-updated_at_utc: "2026-09-25T03:13:20Z"
+updated_at_utc: "2026-09-25T03:24:10Z"
 base_origin_main_sha: "9558f99cc34cbed8dd1d24f4f15fc03f5d78b6ea"
 parent_rebased_onto_origin_main_sha: null
 implementation_commit_sha: null
 requested_worker_count: 2
-effective_worker_count: 0
-active_worker_count: 0
+effective_worker_count: 1
+active_worker_count: 1
 pull_request:
   status: NOT_OPENED
   number: null
@@ -60,7 +62,17 @@ checks:
   - command: "python3 .github/skills/ralph-loop/tests/test_multi_agent_contract.py"
     result: "PASS (Ran 13 tests in 2.788s, OK)"
 blockers: []
-next_action: "Dispatch worker-02 for the contract-test Red; wait for verified parent integration before starting worker-01."
+workers:
+  - worker_id: "worker-02"
+    task_id: "agent-status-report-test"
+    status: IN_PROGRESS
+    branch: "ralph/agent-status-contract-worker-02-20260924-2324"
+    next_action: "Add and run the reporting-contract test to the expected Red."
+  - worker_id: "worker-01"
+    task_id: "status-first-agent-reporting-guidance"
+    status: NOT_STARTED
+    next_action: "Start after worker-02's Red test is integrated into the parent."
+next_action: "Worker-02: add the focused contract-test Red; coordinator: verify its child-to-parent integration before worker-01 starts."
 worker_sign_off:
   status: NOT_APPLICABLE
   attestation_kind: SELF_ATTESTATION

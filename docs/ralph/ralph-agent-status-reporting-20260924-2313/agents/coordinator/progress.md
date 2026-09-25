@@ -47,6 +47,10 @@
   — `PASS` (`Ran 13 tests in 2.788s, OK`).
 - The parent worktree is fresh from fetched `origin/main` at
   `9558f99cc34cbed8dd1d24f4f15fc03f5d78b6ea`.
+- Worker-02 is assigned first because its contract test must be Red before
+  the documentation worker starts. Worker-01 remains `NOT_STARTED` until
+  that test is integrated into the parent. The run is `IN_PROGRESS` with one
+  active worker; this dependency is not a blocker.
 
 ## Integration and memory
 
