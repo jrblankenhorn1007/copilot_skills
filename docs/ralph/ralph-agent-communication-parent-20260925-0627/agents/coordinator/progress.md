@@ -274,3 +274,28 @@
   fetch/rebase from `70b8e200807e4f1ca4c96cd4a1b20fce2744695f`.
 - **Next:** Commit the synchronized run records, fetch and rebase the parent
   onto the latest `origin/main`, then rerun the full suite and diff checks.
+
+## 2026-09-25T10:55:58Z — parent rebased and contract suite Green
+
+- **Rebase:** Rebased parent commit
+  `c9405be86df5ef9c7e50c80df395c678b2784f5b` onto fetched `origin/main`
+  `2b0e3b002d9596eea6773ad7a1a33654613d0008`, producing
+  `ce5d5c742ae5a9085c6db11695fa7570dad0ba5a`.
+- **Worker commits:** The rebase rewrote worker-01 implementation
+  `72ede0d8e05deab32f56699a342ca60dc1b55e5a` to
+  `e83649f9f78f2006ed151faf9ece66e184bae5ea`, with worker-series head
+  `0a8443367183446805786f4b4117cea9d763f3b1`. It rewrote worker-02
+  implementation `26f173ade9d471ca5d07e0e49b24a20f0cee3fba` to
+  `6c340c8641ec04461806072bb8cd9676381e4d5f`, with worker-series head
+  `32f27aca6994128006d2501b47e98dc58cf13a86`.
+- **Green:** `python3
+  .github/skills/ralph-loop/tests/test_multi_agent_contract.py` passed all
+  21 tests after the rebase.
+- **Whitespace:** `git diff --check origin/main...HEAD` passed on the rebased
+  parent diff.
+- **Sign-off:** Requested fresh scope-limited attestations for both rewritten
+  implementation SHAs; the previous attestations no longer match the exact
+  commit IDs. No worker sign-off is claimed until received.
+- **Next:** Synchronize current implementation/series hashes and worker
+  attestations in the leaves and dashboard, rerun checks, then publish and
+  verify the coordinator-managed remote-main fast-forward.

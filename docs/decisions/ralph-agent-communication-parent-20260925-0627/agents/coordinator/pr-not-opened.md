@@ -4,7 +4,7 @@
   `communication-baseline` / `coordinator` / 1
 - **Branch:** `ralph/agent-communication-parent-20260925-0627`
 - **Base `origin/main` SHA:** `20293c720b18a1a21ff150f566823493b7a2717d`
-- **Current parent implementation SHA:** `ce955f4955f779819d0ac1f5fbd4ffe384cbe90f`
+- **Current parent implementation SHA:** `ce5d5c742ae5a9085c6db11695fa7570dad0ba5a`
 - **Agent:** `coordinator`; runtime ID
   `copilotcli:/870bde06-54d5-4b31-b052-c6167704e5fb`
 - **PR:** Not opened. The repository's documented normal path is a
@@ -34,10 +34,12 @@
   from the starting worktree and made no changes. The absolute parent-worktree
   script path succeeded and its result verified task sign-in revision 1 and
   release of the main reservation.
-- Remote `origin/main` advanced after the parent was rebased onto
-  `70b8e200807e4f1ca4c96cd4a1b20fce2744695f`; the latest observed tip is
-  `173d248e0bda3b0bcec96dc9467b4f24fdec5c70`. The parent must be rebased and
-  retested against the latest tip before integration.
+- Remote `origin/main` advanced after the prior parent rebase; the parent was
+  rebased from `c9405be86df5ef9c7e50c80df395c678b2784f5b` onto
+  `2b0e3b002d9596eea6773ad7a1a33654613d0008`, producing
+  `ce5d5c742ae5a9085c6db11695fa7570dad0ba5a`. The full 21-test contract
+  suite and `git diff --check origin/main...HEAD` passed. The rebase rewrote
+  both worker implementation commits, so fresh attestations are pending.
 
 ## Unresolved blockers
 
