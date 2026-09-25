@@ -235,3 +235,60 @@ recorded in the timestamped progress entry below.
   and rebase it onto the fetched latest main before final verification.
 - This test failure was an integration/schema-example regression, not the
   task's TDD Red. No external blocker is currently known.
+
+## 2026-09-25T06:54:25Z — latest-main rebase and pre-integration readiness
+
+- Refreshed the clean primary integration worktree; it is on `main` and matches
+  fetched `origin/main` at `20293c720b18a1a21ff150f566823493b7a2717d`.
+- Fetched `origin` in the feature worktree and rebased all 11 unpublished
+  commits onto `20293c720b18a1a21ff150f566823493b7a2717d`. The dashboard
+  conflicted while replaying the run-tracking and two-round-policy commits.
+  Preserved upstream completed-run/resource-usage records, kept the review
+  run active, and retained the two-round status. Rebase completed cleanly.
+- `git merge-base HEAD origin/main` returned
+  `20293c720b18a1a21ff150f566823493b7a2717d`; the feature worktree is clean
+  and ahead of `origin/main`.
+- Final post-rebase contract command
+  `python3 /Users/jrblankenhorn/copilot_skills.worktrees/ralph-code-review-gate-20260924-2131/.github/skills/ralph-loop/tests/test_multi_agent_contract.py`
+  passed all 20 tests. `git diff --check` passed.
+- **Recovered worktree-path mistake:** one command used the session's default
+  worktree and reported 10 unrelated tests. Discarded that result and reran
+  the suite using the explicit feature-worktree path above; all 20 tests
+  passed there.
+- This is a no-PR fast-forward run, so its review state remains
+  `NOT_APPLICABLE`; the two-round review gate applies to future PR-backed
+  iterations. The implementation is ready for integration; remote-main
+  verification and memory review remain pending.
+
+## 2026-09-25T06:58:53Z — schema-v2 status and final contract validation
+
+- Rewrote the coordinator leaf as the schema-version-2 current-state record
+  and synchronized its `resource_usage` into the matching dashboard entry:
+  19,076 seconds of wall-clock elapsed time and provider token counters
+  `NOT_REPORTED`.
+- After the leaf, branch index, decision record, and dashboard updates, the
+  full command
+  `python3 /Users/jrblankenhorn/copilot_skills.worktrees/ralph-code-review-gate-20260924-2131/.github/skills/ralph-loop/tests/test_multi_agent_contract.py`
+  passed all 20 tests.
+- `git diff --check` and
+  `git -C /Users/jrblankenhorn/copilot_skills.worktrees/ralph-code-review-gate-20260924-2131 diff origin/main...HEAD --check`
+  both passed.
+- The coordinator status is `AWAITING_MERGE`, implementation commit
+  `64d0359ca8c60e61083c23f26f90d68d9216f47e`, rebased onto
+  `20293c720b18a1a21ff150f566823493b7a2717d`. No unresolved blocker is known;
+  the normal fast-forward, fetched remote verification, and memory review
+  remain.
+
+## 2026-09-25T07:02:10Z — final validation and status synchronization
+
+- The final dashboard change keeps the no-PR `pull_request` fields aligned
+  with the coordinator leaf. The full
+  `python3 /Users/jrblankenhorn/copilot_skills.worktrees/ralph-code-review-gate-20260924-2131/.github/skills/ralph-loop/tests/test_multi_agent_contract.py`
+  suite passed all 20 tests after that change.
+- Both `git diff --check` and
+  `git -C /Users/jrblankenhorn/copilot_skills.worktrees/ralph-code-review-gate-20260924-2131 diff origin/main...HEAD --check`
+  passed.
+- Updated the leaf and dashboard together: elapsed wall-clock time is 19,273
+  seconds, token usage is `NOT_REPORTED`, and the coordinator is
+  `AWAITING_MERGE`. The no-PR review is `NOT_APPLICABLE`; the normal
+  integration, remote verification, and memory-review gates remain.

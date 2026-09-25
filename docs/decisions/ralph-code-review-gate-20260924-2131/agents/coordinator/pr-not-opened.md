@@ -7,8 +7,8 @@
 - **Branch:** `ralph/code-review-gate-20260924-2131`
 - **Base `origin/main` SHA:** `485b4a64c871f581f9295e46c867b188b0e3ccee`
 - **Rebased onto `origin/main`:**
-  `114e4d60567d05cd048916339ed86e324c6eeef3`
-- **Implementation commit:** pending
+  `20293c720b18a1a21ff150f566823493b7a2717d`
+- **Implementation commit:** `64d0359ca8c60e61083c23f26f90d68d9216f47e`
 - **Pull request:** `NOT_OPENED`
 - **Decision index:** `docs/decisions/ralph-code-review-gate-20260924-2131/README.md`
 
@@ -32,11 +32,12 @@ checks pass and the shared primary integration worktree is safe.
 ## Current state
 
 Worker-02's signed-off changes and the coordinator-owned review skill and
-agents are present on the coordinator branch. The targeted and full
-multi-agent contract suites pass. Final diff validation, implementation
-commit, safe integration, remote verification, and post-merge memory review
-remain pending. The shared local `main` worktree is clean but eight commits
-ahead of fetched `origin/main`; preserve it and do not integrate there.
+agents are present on this branch. It has been rebased onto
+`20293c720b18a1a21ff150f566823493b7a2717d`; the full 20-test contract suite
+and `git diff --check` pass. The clean primary integration worktree is at the
+same fetched `origin/main` SHA. No PR is part of this repository's documented
+fast-forward path, so review is `NOT_APPLICABLE`. Remote integration
+verification and the post-merge memory review remain pending.
 
 ## Additional decisions
 
@@ -60,6 +61,15 @@ ahead of fetched `origin/main`; preserve it and do not integrate there.
   aggregate status dashboard. The coordinator preserved upstream completed
   run records while retaining and updating this run's entries; the rebase
   completed and `git merge-base` verified the new base.
+- The final rebase onto
+  `20293c720b18a1a21ff150f566823493b7a2717d` had dashboard conflicts in the
+  run-tracking and two-round-policy commits. Preserved the current upstream
+  snapshot and completed resource-usage run, retained this active review
+  run, and completed the rebase. The post-rebase 20-test suite passed.
+- One post-rebase verification command initially ran from the session's
+  default worktree and returned 10 unrelated tests. That result was
+  discarded; rerunning with the feature worktree's absolute test path passed
+  all 20 tests.
 - The first full contract suite found a stale worker-02 dashboard state and
   an assertion that expected the old Ralph-only agent allowlist. The
   coordinator synchronized the worker to `AWAITING_MERGE` and updated the
@@ -67,8 +77,6 @@ ahead of fetched `origin/main`; preserve it and do not integrate there.
 
 ## Unresolved blockers
 
-- The shared local primary worktree remains at `445fa15`, eight commits ahead
-  of fetched `origin/main`. Preserve it and pause integration until its
-  divergence is safely resolved.
-- Final `git diff --check`, implementation commit, remote-main integration
-  verification, and post-merge memory review are not yet complete.
+None. Coordinator-managed fast-forward integration, fetched remote-main
+verification, and post-merge memory review are pending workflow steps, not
+known blockers.
