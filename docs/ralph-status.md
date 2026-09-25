@@ -4,19 +4,19 @@ This is the active repository's aggregate Ralph status dashboard. It indexes
 every branch/agent status and progress folder under `docs/ralph/`. The
 coordinator updates this file in the same loop as affected leaf records.
 
-**Overall status:** `COMPLETE`. The no-browser Git workflow documentation
-update is verified on remote `origin/main`; post-merge memory review found no
-separate lesson to add.
+**Overall status:** `IN_PROGRESS`. Earlier runs are complete; the current
+prompt-generation and clean-main completion run is being coordinated.
 
 ```yaml
 schema_version: 1
 snapshot_path: "docs/ralph-status.md"
-snapshot_revision: 6
-updated_at_utc: "2026-09-25T01:53:02Z"
-overall_status: COMPLETE
+snapshot_revision: 7
+updated_at_utc: "2026-09-25T02:13:27Z"
+overall_status: IN_PROGRESS
 current_run_ids:
   - "copilot-skills-docs-status-organization-20260924"
   - "copilot-skills-no-browser-git-20260924"
+  - "ralph-prompt-generation-main-clean-20260925-0032"
 
 runs:
   - run_id: "copilot_skills-two-agent-ralph-test-batch-20260924"
@@ -84,6 +84,29 @@ runs:
         worker_id: "worker-01"
         scope: "Prohibit browser use for Git/GitHub repository operations and route those operations to Git CLI or supported GitHub integration tools."
         depends_on: []
+
+  - run_id: "ralph-prompt-generation-main-clean-20260925-0032"
+    task_ids: ["structured-ralph-prompt-generation", "merged-main-clean-completion"]
+    aggregate_status: IN_PROGRESS
+    requested_worker_count: 2
+    effective_worker_count: 2
+    active_worker_count: 0
+    base_origin_main_sha: "c7e34ca99365e71999466253b413e9be692bb18b"
+    current_origin_main_sha: "114e4d60567d05cd048916339ed86e324c6eeef3"
+    created_at_utc: "2026-09-25T00:32:00Z"
+    updated_at_utc: "2026-09-25T02:13:27Z"
+    coordinator_scope: "Generate a structured Ralph task prompt and require verified remote-main integration plus a clean local-main comparison."
+    coordinator_branch: "ralph/prompt-generation-main-clean-coordinator-20260925-0033"
+    next_action: "Complete worker-01 checks and resolve authenticated PR integration before rebasing worker-02 and finalizing coordinator records."
+    split_plan:
+      - task_id: "structured-ralph-prompt-generation"
+        worker_id: "worker-01"
+        scope: "Generate structured task prompts from refreshed project context and use branch-local prompt records."
+        depends_on: []
+      - task_id: "merged-main-clean-completion"
+        worker_id: "worker-02"
+        scope: "Require verified origin/main integration and an empty local-main diff and status."
+        depends_on: ["structured-ralph-prompt-generation"]
 
 branch_agent_index:
   - run_id: "copilot_skills-two-agent-ralph-test-batch-20260924"
@@ -264,6 +287,33 @@ branch_agent_index:
       cryptographic_signature_status: NOT_CRYPTOGRAPHICALLY_SIGNED
       attested_at_utc: "2026-09-25T01:42:19Z"
     next_action: null
+
+  - run_id: "ralph-prompt-generation-main-clean-20260925-0032"
+    task_ids: ["structured-ralph-prompt-generation"]
+    worker_id: "worker-01"
+    worker_name: "worker-01 / structured prompt generation"
+    runtime_agent_id: "69411fe1-def6-4523-bd6f-79a767f087ef"
+    branch: "ralph/structured-prompt-recording-worker-01-retry-20260925-0124"
+    branch_slug: "ralph-structured-prompt-recording-worker-01-retry-20260925-0124"
+    status: BLOCKED
+    iteration: 2
+    merge_actor_worker_id: null
+    status_path: "docs/ralph/ralph-structured-prompt-recording-worker-01-retry-20260925-0124/agents/worker-01/status.md"
+    progress_path: "docs/ralph/ralph-structured-prompt-recording-worker-01-retry-20260925-0124/agents/worker-01/progress.md"
+    decision_record_path: "docs/decisions/ralph-structured-prompt-recording-worker-01-retry-20260925-0124/agents/worker-01/pr-pending.md"
+    decision_index_path: "docs/decisions/ralph-structured-prompt-recording-worker-01-retry-20260925-0124/README.md"
+    base_origin_main_sha: "485b4a64c871f581f9295e46c867b188b0e3ccee"
+    rebased_onto_origin_main_sha: "114e4d60567d05cd048916339ed86e324c6eeef3"
+    implementation_commit_sha: "2032d6a5a3696e70369e95d347017d2f4a6bdab3"
+    pull_request:
+      status: BLOCKED
+      number: null
+      url: null
+    merge:
+      status: PENDING
+      sha: null
+    memory_review: PENDING
+    next_action: "Coordinator to resolve supported authenticated PR creation; worker-01 to run final checks after dashboard synchronization."
 ```
 
 ## Branch/agent index
@@ -278,7 +328,8 @@ branch_agent_index:
 | `copilot-skills-docs-status-organization-20260924` | `ralph/status-dashboard-schema-worker-02-20260924-203039` | `worker-02` | `COMPLETE` | [status](./ralph/ralph-status-dashboard-schema-worker-02-20260924-203039/agents/worker-02/status.md) | [progress](./ralph/ralph-status-dashboard-schema-worker-02-20260924-203039/agents/worker-02/progress.md) | `b4dac949e976d48f7bd976fc1c93ddc703bc7319` | `COMPLETE` |
 | `copilot-skills-docs-status-organization-20260924` | `ralph/docs-status-dashboard-coordinator-c437fcd1` | `coordinator` | `COMPLETE` | [status](./ralph/ralph-docs-status-dashboard-coordinator-c437fcd1/agents/coordinator/status.md) | [progress](./ralph/ralph-docs-status-dashboard-coordinator-c437fcd1/agents/coordinator/progress.md) | `a724f4666a1e6638b82dc3d8528805ae4c6cb1a8` | `COMPLETE` |
 | `copilot-skills-no-browser-git-20260924` | `ralph/no-browser-git-workflows-worker-01-20260924-2131` | `worker-01` | `COMPLETE` | [status](./ralph/ralph-no-browser-git-workflows-worker-01-20260924-2131/agents/worker-01/status.md) | [progress](./ralph/ralph-no-browser-git-workflows-worker-01-20260924-2131/agents/worker-01/progress.md) | `3ea889103bb7db6fb1f5eadf647045a511ea9a03` | `COMPLETE` |
+| `ralph-prompt-generation-main-clean-20260925-0032` | `ralph/structured-prompt-recording-worker-01-retry-20260925-0124` | `worker-01` | `BLOCKED` | [status](./ralph/ralph-structured-prompt-recording-worker-01-retry-20260925-0124/agents/worker-01/status.md) | [progress](./ralph/ralph-structured-prompt-recording-worker-01-retry-20260925-0124/agents/worker-01/progress.md) | Not merged | `PENDING` |
 
-The current run is `COMPLETE`: implementation integration, remote
-verification, full contract validation, and post-merge memory review are
-complete.
+Earlier runs remain complete. The current prompt-generation and clean-main
+completion run is `IN_PROGRESS`; worker-owned PR integration, memory review,
+and final local-main verification remain pending.
