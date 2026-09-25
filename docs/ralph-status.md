@@ -16,14 +16,15 @@ skills-improvement run merged (PR #2) and the protected-main GH013 recovery
 docs merged (PR #3). The OpenCode Ralph Loop migration has passed its
 independent review and full contract suite and is merging, pending
 authenticated runtime validation as a follow-up (OpenCode has no connected
-providers in this environment). The agent-communication skill iteration is blocked pending explicit
-authorization for remote integration and a free memory-review agent slot.
+providers in this environment). The agent-communication skill iteration is
+proceeding with authorized remote integration; its post-merge memory review
+remains pending an available agent slot.
 
 ```yaml
 schema_version: 2
 snapshot_path: "docs/ralph-status.md"
-snapshot_revision: 121
-updated_at_utc: "2026-09-25T19:40:59Z"
+snapshot_revision: 122
+updated_at_utc: "2026-09-25T19:54:39Z"
 overall_status: IN_PROGRESS
 current_run_ids:
   - "copilot-skills-docs-status-organization-20260924"
@@ -883,10 +884,10 @@ branch_agent_index:
     runtime_agent_id: "copilotcli:/870bde06-54d5-4b31-b052-c6167704e5fb"
     branch: "ralph/agent-communication-parent-20260925-0627"
     branch_slug: "ralph-agent-communication-parent-20260925-0627"
-    status: BLOCKED
+    status: IN_PROGRESS
     iteration: 1
     resource_usage:
-      time_spent_seconds: 47549
+      time_spent_seconds: 48425
       time_basis: WALL_CLOCK_ELAPSED
       token_spend:
         status: NOT_REPORTED
@@ -902,7 +903,7 @@ branch_agent_index:
     base_origin_main_sha: "20293c720b18a1a21ff150f566823493b7a2717d"
     implementation_commit_sha: "cda846f586072e15480d8c8d274c0ea5d92eaa37"
     rebased_onto_origin_main_sha: "c79bc7e328bda4900cbe4c98d8c59da59e735ed1"
-    next_action: "Resume after explicit user authorization for remote integration and a free Resource Manager slot. Refresh origin/main and acquire the MERGE lease before any remote write; after verified integration, run the required memory review and verify any warranted follow-up."
+    next_action: "Acquire the MERGE lease, integrate its sign-in commit into the parent, and verify a non-force fast-forward on origin/main. Then refresh Resource Manager capacity and dispatch the required memory review only after reserving an available slot."
   - run_id: "copilot-skills-agent-communication-20260925-0627"
     task_ids: ["agent-communication-skill"]
     worker_id: "worker-01"

@@ -1294,3 +1294,32 @@
   clean local parent branch. Resume only after explicit remote-write
   authorization and available memory-agent capacity, refreshing `origin`
   and ownership before integration.
+
+## 2026-09-25T19:54:00Z — remote integration authorized
+
+- **Authorization:** The user explicitly authorized remote integration.
+  The prior authorization blocker is resolved; no remote write has yet
+  occurred in this continuation.
+- **Refresh:** The canonical and active project are the same repository.
+  Its clean attached `main` worktree is at `c79bc7e328bda4900cbe4c98d8c59da59e735ed1`;
+  the parent worktree is clean at `67a53eab4eec642861307ae0db7afe47531d41c6`
+  and has the same fetched `origin/main`. Git author and committer identity
+  are configured.
+- **Ownership:** The refreshed main-ownership record is `FREE` at revision
+  232. Acquire a new `MERGE` reservation immediately before integration;
+  the prior observation is not itself authorization to mutate main.
+- **Capacity:** A fresh live inventory observed 10 active agents, dynamic
+  `max_agents: 1`, and zero available slots because available memory is
+  below the degraded threshold (2.8 GiB available). Do not dispatch the
+  required Project Memory Update agent without a reserved slot.
+- **Status:** Set the coordinator run to `IN_PROGRESS` because authorized
+  parent integration can proceed; preserve the pending memory-review gate.
+  Worker leaf and dashboard states remain synchronized.
+- **Next:** Acquire `MERGE`, integrate its sign-in commit into the isolated
+  parent, run final contract and whitespace checks, verify a non-force
+  fast-forward on fetched `origin/main`, then refresh capacity before
+  exactly one dedicated memory-review dispatch.
+- **Pre-integration verification:** The full contract suite passed
+  (`PYTHONDONTWRITEBYTECODE=1 python3 .github/skills/ralph-loop/tests/test_multi_agent_contract.py`,
+  29 tests), and `git diff --check` passed after synchronizing the
+  authorization status with the dashboard.
