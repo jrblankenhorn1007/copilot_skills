@@ -1,0 +1,50 @@
+{
+  "agent_id": "coordinator",
+  "agent_profile": {
+    "agent_definition": ".github/agents/ralph-loop.agent.md",
+    "context_tier": null,
+    "context_usage_tokens": null,
+    "context_window_tokens": null,
+    "harness": "VS Code Copilot",
+    "model_id": null,
+    "reasoning_effort": null,
+    "runtime_agent_id": "copilotcli:/e1e435d3-a72a-46d3-90f3-f481602f1a1b"
+  },
+  "git": {
+    "base_ref": "refs/remotes/origin/main",
+    "base_sha": "d0110af8079014e07022a9a935ada6f93f81407d",
+    "edit_scope": [
+      ".github/agents/ralph-loop.agent.md",
+      ".github/skills/ralph-loop/tests/test_multi_agent_contract.py",
+      "docs/ralph/ralph-recoverable-error-continuation-20260925-1056/agents/coordinator/status.md",
+      "docs/ralph/ralph-recoverable-error-continuation-20260925-1056/agents/coordinator/progress.md",
+      "docs/decisions/ralph-recoverable-error-continuation-20260925-1056/README.md",
+      "docs/decisions/ralph-recoverable-error-continuation-20260925-1056/agents/coordinator/pr-pending.md"
+    ],
+    "implementation_branch": "refs/heads/ralph/recoverable-error-continuation-20260925-1056",
+    "remote_name": "origin",
+    "repository": "jrblankenhorn1007/copilot_skills",
+    "worktree_head_sha_at_sign_in": "d0110af8079014e07022a9a935ada6f93f81407d",
+    "worktree_path": "/Users/jrblankenhorn/copilot_skills.worktrees/ralph-recoverable-error-continuation-20260925-1056"
+  },
+  "prompt_path": "docs/agent-sync/runs/ralph-recoverable-error-continuation-20260925-1056/agents/coordinator/prompt.md",
+  "prompt_sha256": "1dc795e121d9370a605d2e84ff29b664d2a056faeb4e220453ac5c44d918a253",
+  "revision": 1,
+  "run_id": "ralph-recoverable-error-continuation-20260925-1056",
+  "schema_version": 1,
+  "sign_in_at_utc": "2026-09-25T15:05:56Z",
+  "sign_out": {
+    "at_utc": null,
+    "checks": [],
+    "implementation_commit_sha": null,
+    "next_action": null,
+    "summary": null
+  },
+  "started_at_utc": "2026-09-25T15:05:56Z",
+  "status": "IN_PROGRESS",
+  "status_reason": "Beginning a focused Ralph agent end-condition correction: recoverable operational errors must trigger diagnosis, bounded recovery, and continuation of safe authorized work rather than terminal stop.",
+  "task_id": "continue-after-recoverable-errors",
+  "updated_at_utc": "2026-09-25T15:05:56Z",
+  "worker_id": "coordinator",
+  "worker_name": "coordinator - recoverable error continuation"
+}
