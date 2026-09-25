@@ -1228,6 +1228,9 @@ class MultiAgentContractTests(unittest.TestCase):
             "processing acknowledgement",
             "reply deadline",
             "fallback relay",
+            "message limit",
+            "do not retry from a new session",
+            "durable coordination channel",
         ):
             with self.subTest(document="skill", requirement=requirement):
                 assert_contains(

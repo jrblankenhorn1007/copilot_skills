@@ -846,3 +846,35 @@
 - **Next:** Commit this evidence and send worker-01 the exact new parent and
   current rebase base; integrate its status commit, then synchronize the
   dashboard before resuming worker-02.
+
+## 2026-09-25T16:34:16Z — refreshed parent and message-limit fallback Red
+
+- **Main refresh:** Fetched `origin/main` at
+  `16b98ea828d1c25efeeb07f0bacbd19add71804c`, then observed it advance to
+  `6178835a9450e405d355160c25ffcbeb325733ca`. The intervening paths are
+  limited to the main-ownership record and a coordinator status snapshot;
+  Ralph guidance and communication implementation files are unchanged.
+- **Rebase:** Rebased the clean parent from
+  `a674ceafe3902fefe4898bf41651ee364861d378` onto
+  `16b98ea828d1c25efeeb07f0bacbd19add71804c`, producing
+  `d6e6cab5a86df5e91e17a1c89bf77ee66c15bb63`. Resolved one
+  `docs/ralph-status.md` conflict by retaining the latest upstream runs and
+  this run's entry. Whitespace and conflict-marker checks passed.
+- **TDD Red:** The current tooling memory records a fixed/shared cross-session
+  messaging cap. Added contract assertions requiring the skill to treat a
+  message-limit error as a failed route, avoid retrying from a new session,
+  and use a durable coordination channel. The absolute-path command
+  `PYTHONDONTWRITEBYTECODE=1 python3 /Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-communication-parent-20260925-0627/.github/skills/ralph-loop/tests/test_multi_agent_contract.py MultiAgentContractTests.test_inter_session_communication_contract_is_actionable_and_bounded`
+  exited 1 with exactly three expected missing-requirement failures.
+- **Recovered test invocation:** A relative-path test command ran from the
+  default session worktree rather than this parent and could not find the
+  test method. A prior 15-test run from that checkout is excluded as parent
+  evidence; the absolute-path rerun above exercised this worktree correctly.
+- **Runtime decision:** The refreshed main now documents OpenCode as the
+  default and Copilot CLI as a compatibility path. This task explicitly
+  targets Copilot's Agents window, and this session exposes the tested
+  Copilot-compatible messaging tools, so no runtime switch is made.
+- **Next:** Finish reconciling the status-only main advance, update
+  coordinator/dashboard records, and ask worker-01 to complete the
+  test-first message-limit fallback refinement plus its owned status refresh.
+  Worker-02 remains paused until worker-01 is integrated.
