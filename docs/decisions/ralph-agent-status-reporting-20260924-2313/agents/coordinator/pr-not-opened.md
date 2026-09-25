@@ -82,3 +82,23 @@
   because the reporting guidance is still unchanged.
 - **Disposition:** These were resolved synchronization/invocation issues,
   not blockers. Worker-01 can proceed from the rebased parent.
+
+## Parent refresh after worker-01 sign-off
+
+- **Upstream movement:** `origin/main` advanced through
+  `05b1b23da974ed7b171c3a29ee266e43721d4e7` to
+  `20293c720b18a1a21ff150f566823493b7a2717d` while worker-01 was awaiting
+  integration. The clean canonical `main` worktree was fast-forwarded.
+- **Rebase:** Preserved parent tip
+  `a5f5e43e4eb19789c795ceda6aea3fc78a5c540d` on
+  `preserve/ralph-agent-status-reporting-pre-rebase-a5f5e43`; rebased the
+  parent onto `20293c720b18a1a21ff150f566823493b7a2717d`. The dashboard
+  resolution retained the upstream completed time/token run and latest
+  schema-version-2 snapshot, plus this active run.
+- **Revalidation:** The parent contract suite returned the expected Red
+  (`Ran 16 tests in 2.332s`, `FAILED (failures=17)`) because the documentation
+  child had not yet been rebased/integrated. The child had passed 15 tests at
+  its prior base `f602cfcd7e7d7043870857c1fda6b9707a711e5d`; that result does
+  not replace the required revalidation against the new parent.
+- **Disposition:** Worker-01 must rebase and re-sign against the current
+  parent before integration. No unresolved blocker is present.

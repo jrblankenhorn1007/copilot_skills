@@ -117,3 +117,28 @@
   status-first documentation contract.
 - **Next action:** Dispatch worker-01 from the rebased parent and synchronize
   its `IN_PROGRESS` leaf state with the dashboard.
+
+## Parent refresh after worker-01 sign-off
+
+- While worker-01 was awaiting integration, `origin/main` advanced through
+  `05b1b23da974ed7b171c3a29ee266e43721d4e7` to
+  `20293c720b18a1a21ff150f566823493b7a2717d`. The clean canonical `main`
+  worktree was fast-forwarded before integration work continued.
+- Preserved parent tip `a5f5e43e4eb19789c795ceda6aea3fc78a5c540d` on
+  `preserve/ralph-agent-status-reporting-pre-rebase-a5f5e43`, then rebased the
+  parent onto `20293c720b18a1a21ff150f566823493b7a2717d`. Resolved dashboard
+  conflicts by retaining the upstream completed time/token run and the
+  schema-version-2 dashboard while keeping this active run indexed. The
+  rebased parent before this status sync is
+  `64c563a09263817051eae5e6e3f0e91bbb361cac`.
+- Re-ran the complete contract suite from that parent:
+  `cd /Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-status-reporting-20260924-2313 && python3 .github/skills/ralph-loop/tests/test_multi_agent_contract.py`
+  — expected Red, `Ran 16 tests in 2.332s`, `FAILED (failures=17)`. The
+  upstream resource-usage contract passes; the remaining failures are the
+  status-first documentation requirements because worker-01's child is not
+  yet rebased/integrated.
+- Worker-01's child implementation passed 15 tests at its assigned base
+  `f602cfcd7e7d7043870857c1fda6b9707a711e5d`, but that base predates the
+  latest upstream contract change. Do not integrate the stale child tip;
+  worker-01 must rebase onto the refreshed parent, rerun the suite, and
+  provide a sign-off bound to its new commit.

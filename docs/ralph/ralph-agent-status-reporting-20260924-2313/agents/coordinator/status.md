@@ -11,21 +11,22 @@
 | Branch / slug | `ralph/agent-status-reporting-20260924-2313` / `ralph-agent-status-reporting-20260924-2313` |
 | Worktree | `/Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-status-reporting-20260924-2313` |
 | Base `origin/main` SHA | `9558f99cc34cbed8dd1d24f4f15fc03f5d78b6ea` |
-| Latest rebase onto `origin/main` | `e9fe3d175d1ca76b03fccdbe53431205b80e5c23` |
+| Latest rebase onto `origin/main` | `20293c720b18a1a21ff150f566823493b7a2717d` |
 | Implementation commit SHA | Pending |
 | Worker-02 | `COMPLETE` — test integrated into the parent at `a17b1a1`; status sync at `8bb3e1f` |
-| Worker-01 | `NOT_STARTED` — queued for documentation work; the expected Red is verified on the rebased parent |
+| Worker-01 | `AWAITING_MERGE` — documentation commit `c16f277` is green on its child; rebase and revalidation are required before parent integration |
 | Parent-to-main merge | `PENDING` |
 | Memory review | `PENDING` |
 | Pull request | `NOT_OPENED` — use the repository's verified fast-forward process unless current branch policy requires a PR. |
 | Decision record | `docs/decisions/ralph-agent-status-reporting-20260924-2313/agents/coordinator/pr-not-opened.md` |
 | Baseline check | `python3 .github/skills/ralph-loop/tests/test_multi_agent_contract.py` — `PASS` (13 tests, OK) |
-| Latest contract check | `python3 .github/skills/ralph-loop/tests/test_multi_agent_contract.py` — expected `FAIL` before the documentation implementation (15 tests, 17 assertion failures) |
+| Latest parent contract check | `python3 .github/skills/ralph-loop/tests/test_multi_agent_contract.py` — expected `FAIL` before the child documentation is rebased/integrated (16 tests, 17 assertion failures) |
+| Worker-01 child contract check | `python3 .github/skills/ralph-loop/tests/test_multi_agent_contract.py` — `PASS` (15 tests, OK at the original child base) |
 | Blockers | None |
-| Next action | Dispatch worker-01 from the rebased parent to implement the reporting guidance against the integrated contract test. |
+| Next action | Have worker-01 rebase its child onto the refreshed parent, rerun the updated contract suite, and obtain a new sign-off before integration. |
 
 ```yaml
-schema_version: 1
+schema_version: 2
 run_id: "copilot_skills-agent-status-reporting-20260924"
 task_ids:
   - "agent-status-report-test"
@@ -39,13 +40,23 @@ worktree: "/Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-status-repo
 iteration: 1
 status: IN_PROGRESS
 started_at_utc: "2026-09-25T03:13:20Z"
-updated_at_utc: "2026-09-25T05:57:52Z"
+updated_at_utc: "2026-09-25T06:41:41Z"
 base_origin_main_sha: "9558f99cc34cbed8dd1d24f4f15fc03f5d78b6ea"
-current_origin_main_sha: "e9fe3d175d1ca76b03fccdbe53431205b80e5c23"
-parent_rebased_onto_origin_main_sha: "e9fe3d175d1ca76b03fccdbe53431205b80e5c23"
+current_origin_main_sha: "20293c720b18a1a21ff150f566823493b7a2717d"
+parent_rebased_onto_origin_main_sha: "20293c720b18a1a21ff150f566823493b7a2717d"
+resource_usage:
+  time_spent_seconds: 12501
+  time_basis: WALL_CLOCK_ELAPSED
+  token_spend:
+    status: NOT_REPORTED
+    input_tokens: null
+    output_tokens: null
+    total_tokens: null
+    cached_input_tokens: null
+    source: null
 implementation_commit_sha: null
 requested_worker_count: 2
-effective_worker_count: 1
+effective_worker_count: 2
 active_worker_count: 0
 pull_request:
   status: NOT_OPENED
@@ -73,18 +84,25 @@ workers:
     next_action: null
   - worker_id: "worker-01"
     task_id: "status-first-agent-reporting-guidance"
-    status: NOT_STARTED
-    next_action: "Start a fresh child branch from the rebased parent and implement the reporting guidance."
+    status: AWAITING_MERGE
+    branch: "ralph/agent-status-reporting-worker-01-20260925-0602"
+    base_parent_sha: "f602cfcd7e7d7043870857c1fda6b9707a711e5d"
+    implementation_commit_sha: "c16f2778429f2a76b63e1ca74c7ff50eef17e7ea"
+    status_sync_commit_sha: "709e93aacb41508e19743001b80c94ff7b259074"
+    worker_to_parent_merge_sha: null
+    next_action: "Rebase this child onto the latest parent, rerun the contract suite, and refresh the sign-off."
 checks:
   - command: "python3 .github/skills/ralph-loop/tests/test_multi_agent_contract.py"
     result: "PASS (Ran 13 tests in 2.788s, OK) before the new contract was added."
   - command: "cd /Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-status-reporting-20260924-2313 && python3 .github/skills/ralph-loop/tests/test_multi_agent_contract.py"
-    result: "FAIL (expected Red after rebase; Ran 15 tests in 1.944s, FAILED (failures=17) because status-first guidance is missing)."
+    result: "FAIL (expected Red after latest upstream rebase; Ran 16 tests in 2.332s, FAILED (failures=17) because the child documentation is not integrated)."
+  - command: "cd /Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-status-reporting-worker-01-20260925-0602 && python3 .github/skills/ralph-loop/tests/test_multi_agent_contract.py"
+    result: "PASS (Ran 15 tests, OK at child base f602cfcd7e7d7043870857c1fda6b9707a711e5d; revalidation on the latest parent is pending)."
   - command: "python3 /Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-status-reporting-20260924-2313/.github/skills/ralph-loop/tests/test_multi_agent_contract.py MultiAgentContractTests.test_docs_status_dashboard_indexes_every_branch_agent_folder"
     result: "PASS after synchronizing the worker leaf and dashboard status."
   - command: "git merge-base --is-ancestor 8bb3e1f92c802e516d216241214f5d34bc8dae5a HEAD"
     result: "PASS (worker status-only commit is integrated into the parent)."
-next_action: "Dispatch worker-01 with the integrated contract test as the Red-phase acceptance check."
+next_action: "Have worker-01 rebase onto the latest parent, rerun the updated contract suite, and refresh its sign-off before integration."
 worker_sign_off:
   status: NOT_APPLICABLE
   attestation_kind: SELF_ATTESTATION
