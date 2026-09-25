@@ -37,11 +37,12 @@
    specific PR and then merge with its own existing authentication. After a
    PR is opened, the worker must remain `AWAITING_MERGE` until that
    authorization. This branch is currently `BLOCKED` before PR creation.
-4. **Do not assume PR creation from GitHub CLI availability.** `gh` is absent
-   and the listed GitHub MCP operations are read-only. The user confirmed the
-   browser is signed out. Do not use it, install tooling, or change
-   authentication. Preserve the feature branch and report the PR-creation
-   blocker.
+4. **Use only supported non-browser GitHub operations.** The refreshed
+   no-browser rule prohibits browsers for Git/GitHub repository operations.
+   `gh` is unavailable and the listed GitHub MCP methods are read-only, with
+   no writable PR-create action exposed. The available `create-pr` skill
+   cannot create a PR through those tools. Do not install tooling or change
+   authentication; preserve the branch and report the blocker.
 5. **Do not bypass the coordinator-owned status index.** After the required
    worker leaf files were added, the existing full Ralph contract suite
    failed its dashboard-index test because
@@ -91,9 +92,10 @@
 
 The normal workflow expects a worker-owned PR, so keep this file pending until
 an exact PR number is assigned. Current host capabilities do not permit PR
-creation: `gh` is unavailable, the browser is signed out, and GitHub MCP
-operations are read-only. No unauthenticated browser, credential change, or
-tool installation was attempted.
+creation: `gh` is unavailable and the available GitHub MCP operations are
+read-only. The current repository rule prohibits browser use for GitHub
+operations. The `create-pr` skill has no writable action available through
+this session. No browser, credential change, or tool installation was used.
 
 The pre-rebase implementation commit
 `1b77c316b33672cc2f4d55a683d7a4d0acfb5655` was rewritten during rebase. The
@@ -106,6 +108,7 @@ pushed, no PR has been opened, and no merge has been attempted.
 
 ## Unresolved blockers
 
-- PR creation is blocked because `gh` is not installed, the browser is signed
-  out, and the available GitHub MCP methods are read-only. No branch
+- PR creation is blocked because `gh` is unavailable and the available
+  GitHub MCP methods are read-only. No supported writable PR integration is
+  exposed, and browser-based GitHub operations are prohibited. No branch
   publication or merge has been attempted.

@@ -111,10 +111,10 @@
   the worktree contains an unstaged coordinator-owned `docs/ralph-status.md`
   update that worker-01 must preserve, and publication/integration are
   blocked. Rebase and retest are required before any later integration.
-- PR creation is also blocked: `gh` is not installed, the browser is signed
-  out, and the available GitHub MCP methods are read-only. No tool was
-  installed, no credentials were inspected or requested, and no
-  unauthenticated browser action was attempted.
+- PR creation is also blocked: `gh` is unavailable, the available GitHub MCP
+  methods are read-only, and the refreshed repository rule prohibits browser
+  use for GitHub operations. The available `create-pr` skill has no writable
+  MCP action to use in this session. No tooling or authentication was changed.
 - Merge has not been attempted and is not authorized. This branch is
   `BLOCKED` before PR creation, not `AWAITING_MERGE` or `COMPLETE`.
 
@@ -128,10 +128,9 @@
   status now has that table row and retains the YAML `status: BLOCKED` and
   pre-rebase `implementation_commit_sha` of
   `1b77c316b33672cc2f4d55a683d7a4d0acfb5655`.
-- This was coordinator-reported evidence; worker-01 has not rerun the focused
-  test, full Ralph contract suite, or `git diff --check` after the correction.
-  Those checks are paused until the coordinator supplies the dashboard-only
-  commit SHA.
+- At the time of this coordinator report, worker-01 had not rerun the focused
+  test, full Ralph contract suite, or `git diff --check`. The later
+  post-dashboard reruns are recorded below.
 - No staging or commit was performed for this update. Status remains
   `BLOCKED` while authenticated PR creation is unavailable.
 
@@ -184,11 +183,42 @@
 - Only the three assigned implementation paths and this branch's decision and
   worker-leaf records are in scope.
 - Keep `docs/ralph-status.md` and all other worker paths untouched.
-- PR creation must use an existing authenticated host process if available;
-  `gh` is not installed, the browser is signed out, and the listed GitHub MCP
-  tools are read-only. No authentication configuration may be changed.
+- Current repository guidance prohibits browser use for Git/GitHub
+  operations. Use `git` for repository operations, and `gh` or a supported
+  writable integration for PRs. `gh` is unavailable and the GitHub MCP tools
+  are read-only; no authenticated PR-create action is available in this
+  session. No authentication configuration may be changed.
 - Do not edit the coordinator-owned `docs/ralph-status.md` or worker-02-owned
-  contract test to bypass the failing dashboard-index assertion. Await
-  coordinator resolution before treating the suite as green or creating a PR.
+  contract test. The coordinator dashboard commit and post-dashboard
+  contract test results are recorded above.
 - Post-merge memory review is deferred to the coordinator after verified
   integration; no memory edit is warranted before merge.
+
+## Final no-browser record cleanup
+
+- Updated this branch's `prompt.md`, PR record, README, status, and progress to
+  follow the refreshed no-browser repository-operation rule. Removed the
+  inaccurate browser-authentication claim.
+- The actual PR tooling gap is: `gh` is unavailable; available GitHub MCP
+  methods are read/list only; the loaded `create-pr` skill has no writable
+  GitHub action through this session. No browser was used for GitHub
+  operations, and no tool or authentication was changed.
+- `git fetch origin` after the record cleanup confirmed
+  `origin/main` remains `114e4d60567d05cd048916339ed86e324c6eeef3`.
+- After cleanup, the focused prompt test passed 7 tests, the full Ralph
+  contract suite passed 11 tests, and `git diff --check` passed. A
+  branch-only push attempt is pending.
+
+### Final verification after origin refresh
+
+- `git fetch origin` exited 0; `origin/main` remained
+  `114e4d60567d05cd048916339ed86e324c6eeef3`.
+- `python3 .github/skills/ralph-loop/tests/test_prompt_generation_contract.py`
+  exited 0; 7 tests passed.
+- `python3 .github/skills/ralph-loop/tests/test_multi_agent_contract.py`
+  exited 0; 11 tests passed.
+- `git diff --check` exited 0.
+- The implementation remains at
+  `2032d6a5a3696e70369e95d347017d2f4a6bdab3`; status remains `BLOCKED` while
+  PR creation is unavailable. The required branch-only push attempt is the
+  remaining operation.

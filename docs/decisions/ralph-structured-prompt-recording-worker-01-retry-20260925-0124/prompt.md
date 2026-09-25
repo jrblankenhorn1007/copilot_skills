@@ -88,12 +88,13 @@ must govern execution and worker assignments.
   from a successful fetch. Confirmed against current Ralph and PR-merging
   guidance.
 - Available for this iteration: Git 2.50.1, Python 3.9.6 and its standard
-  library, patch editing, the session's browser, and GitHub MCP read tools.
-  The `gh` CLI is not installed. The available GitHub MCP surface has PR
-  read/list operations, not PR creation. Use an available authenticated
-  browser/host PR workflow if it supports this repository; if not, preserve
-  the published branch and report the PR-creation blocker without changing
-  authentication.
+  library, patch editing, and GitHub MCP read/list operations. The `gh` CLI is
+  unavailable, and no writable PR-creation MCP action is exposed. The
+  repository's current no-browser rule prohibits using a browser for Git or
+  GitHub repository operations. Use `gh` or a supported writable GitHub
+  integration for PR operations; if neither is available, preserve the branch
+  and report the blocker without changing authentication or falling back to a
+  browser.
 
 ## Bounded work plan
 
@@ -108,9 +109,10 @@ must govern execution and worker assignments.
    `origin/main`.
 5. Commit with the required Copilot co-author trailer. Fetch before
    publication; rebase and rerun targeted checks if `origin/main` has moved.
-6. Publish only this feature branch, open the worker-owned PR through an
-   available normal workflow, record its number/URL, and report
-   `AWAITING_MERGE`.
+6. Publish only this feature branch. Open the worker-owned PR only through
+   `gh` or a supported writable GitHub integration; never use a browser for
+   GitHub operations. If no supported write action is available, preserve the
+   branch and report the PR-creation blocker.
 7. Do not merge until the coordinator authorizes this exact PR.
 
 ## Acceptance criteria
@@ -125,9 +127,10 @@ must govern execution and worker assignments.
 - The full diff is scoped to the assigned implementation and branch-local
   records, and the records link the structured prompt and identify the retry
   provenance.
-- The feature branch is published and its PR is opened and recorded, if the
-  normal authenticated PR workflow is available. Otherwise the branch is
-  preserved and the inability to open a PR is reported as a blocker.
+- The feature branch is published and its PR is opened and recorded, if a
+  normal authenticated `gh` or writable GitHub integration is available.
+  Otherwise the branch is preserved and the inability to open a PR is
+  reported as a blocker; browser-based GitHub operations are not permitted.
 - The worker hands off as `AWAITING_MERGE`; no merge occurs until explicit
   coordinator authorization of the exact PR.
 
@@ -142,13 +145,16 @@ must govern execution and worker assignments.
 - Review: inspect `git diff origin/main...HEAD`, full branch-local record
   contents, and `git status`; fetch before publication and record any rebase
   and retest evidence.
-- PR: verify the host reports the exact branch's PR open, record number and
-  URL, and leave merge pending. Do not claim any unavailable check passed.
+- PR: through `gh` or a supported writable integration, verify the host
+  reports the exact branch's PR open, record number and URL, and leave merge
+  pending. Do not use a browser or claim an unavailable check passed.
 
 ## Integration end condition
 
-The branch owner publishes this feature branch and opens its worker-owned PR.
-The iteration is `AWAITING_MERGE`, not complete, while the PR awaits
+The branch owner publishes this feature branch and opens its worker-owned PR
+through `gh` or a supported writable GitHub integration; never use a browser
+for GitHub repository operations. The iteration is `AWAITING_MERGE`, not
+complete, while the PR awaits
 coordinator authorization. The worker must not merge until the coordinator
 authorizes this exact PR. After authorization, the branch owner performs the
 merge with its own existing authentication, waits for the host's merged state,
@@ -159,6 +165,7 @@ completion.
 
 ## Clarifications needed
 
-None for the implementation scope. PR-creation capability remains to be
-verified through the available authenticated host/browser workflow; this is an
-operational check, not permission to merge or change credentials.
+None for the implementation scope. PR-creation capability must be verified
+through `gh` or a supported writable GitHub integration. If neither is
+available, report the blocker; browser-based GitHub operations and credential
+changes are not permitted.

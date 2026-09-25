@@ -42,13 +42,13 @@ implementation commit is the SHA above.
 
 The branch is clean after rebase onto current `origin/main` and remains
 `BLOCKED` before PR creation. The leaf status uses the recognized Markdown
-table form and retains matching YAML `status: BLOCKED`. The coordinator will
-committed the dashboard row as
+table form and retains matching YAML `status: BLOCKED`. The coordinator committed the dashboard row as
 `facfc0d5c833aa99d100fc0196dfc77952d6d570`; it changed no implementation
 files. After that commit, the focused test passed (7), the full Ralph contract
 suite passed (11), and `git diff --check` passed. Worker-01 did not edit
 `docs/ralph-status.md` or worker-02's contract test. No PR, merge, publication,
-or remote-main integration has occurred. PR creation remains unavailable in
-this session.
+or remote-main integration has occurred. PR creation remains unavailable:
+`gh` is unavailable, the available GitHub MCP operations are read-only, and
+the current repository rule prohibits browser use for GitHub operations.
 If a PR is later created, the worker must remain `AWAITING_MERGE` until the
 coordinator authorizes that exact PR and must not merge before authorization.
