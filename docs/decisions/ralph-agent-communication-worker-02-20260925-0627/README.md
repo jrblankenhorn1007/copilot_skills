@@ -9,7 +9,7 @@
   `0294550c92a5d79e1cca682a0c509b5bb6eca3fd`
 - **Rebased onto parent:** `808bc8819c898d27db9a22dcc670b96c953780b4`
 - **Implementation commit:**
-  `d1ec345fd930a83c5e5b879a09dd1c298fcffea4`
+  `adc275bec8a6d6c24b31802ef98256ca8da60b7d`
 - **Integration:** Pending coordinator action; no PR is part of the worker's
   assigned path.
 

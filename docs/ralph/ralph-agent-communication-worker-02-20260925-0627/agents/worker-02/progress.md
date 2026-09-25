@@ -187,6 +187,89 @@
   three-dot branch check remains queued until the implementation commit is
   created.
 
+## 2026-09-25T10:13:22Z — rebased-parent correction committed and signed off
+
+- **Implementation commit:** `adc275bec8a6d6c24b31802ef98256ca8da60b7d`
+  (`docs(ralph): align pipeline with shared deadline contract`), with the
+  required Copilot co-author trailer.
+- **Changes:** The pipeline now attributes `deadline` and `reply_deadline` to
+  the shared skill with their distinct meanings. The JSON example remains
+  aligned. Removed the duplicate earlier README Agent Communication bullet;
+  the dedicated entry and Ralph PR Review remain. A blank line before the
+  Ralph `## Inter-session communication` headings was present and retained.
+- **Base/rebase:** Original `base_parent_sha` is
+  `0294550c92a5d79e1cca682a0c509b5bb6eca3fd`;
+  `rebased_onto_parent_sha` is
+  `808bc8819c898d27db9a22dcc670b96c953780b4`. The instructed parent SHA is
+  an ancestor of the worker HEAD. No further rebase or shared-main pull was
+  performed. The coordinator's current shared main SHA is
+  `61353504e0e99ec82d415a44ca5a305b57dfacf6`.
+- **Verification:** The exact coordinator target test passed;
+  `git diff --check` passed; the requested
+  `git diff --check 808bc8819c898d27db9a22dcc670b96c953780b4...HEAD` passed;
+  `git show --check --oneline adc275bec8a6d6c24b31802ef98256ca8da60b7d`
+  passed.
+- **State:** `AWAITING_MERGE`; no blockers remain on the assigned worker
+  branch. No publish, parent merge, or dashboard edit was performed.
+- **Sign-off:** `SELF_ATTESTATION`, attested at `2026-09-25T10:13:22Z`,
+  bound to exact implementation commit
+  `adc275bec8a6d6c24b31802ef98256ca8da60b7d`;
+  `NOT_CRYPTOGRAPHICALLY_SIGNED`.
+- **Next action:** Coordinator: integrate the rebased child into the parent
+  and verify the worker-to-parent merge.
+
+  ```json
+  {
+    "run_id": "copilot-skills-agent-communication-20260925-0627",
+    "task_ids": ["agent-session-pipeline-contract"],
+    "worker_id": "worker-02",
+    "worker_name": "agent communication pipeline contract",
+    "runtime_agent_id": null,
+    "iteration": 1,
+    "branch": "ralph/agent-communication-worker-02-20260925-0627",
+    "worktree": "/Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-communication-worker-02-20260925-0627",
+    "pull_request": {
+      "status": "NOT_OPENED",
+      "number": null,
+      "url": null
+    },
+    "decision_record_path": "docs/decisions/ralph-agent-communication-worker-02-20260925-0627/agents/worker-02/pr-not-opened.md",
+    "base_origin_main_sha": "20293c720b18a1a21ff150f566823493b7a2717d",
+    "starting_origin_main_sha": "61353504e0e99ec82d415a44ca5a305b57dfacf6",
+    "latest_observed_origin_main_sha": "61353504e0e99ec82d415a44ca5a305b57dfacf6",
+    "rebased_onto_origin_main_sha": null,
+    "parent_branch": "ralph/agent-communication-parent-20260925-0627",
+    "parent_worktree": "/Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-communication-parent-20260925-0627",
+    "parent_base_origin_main_sha": "20293c720b18a1a21ff150f566823493b7a2717d",
+    "base_parent_sha": "0294550c92a5d79e1cca682a0c509b5bb6eca3fd",
+    "rebased_onto_parent_sha": "808bc8819c898d27db9a22dcc670b96c953780b4",
+    "implementation_commit_sha": "adc275bec8a6d6c24b31802ef98256ca8da60b7d",
+    "checks": [
+      {
+        "command": "python3 .github/skills/ralph-loop/tests/test_multi_agent_contract.py MultiAgentContractTests.test_inter_session_communication_contract_is_actionable_and_bounded",
+        "result": "PASS"
+      },
+      {
+        "command": "git diff --check",
+        "result": "PASS"
+      },
+      {
+        "command": "git diff --check 808bc8819c898d27db9a22dcc670b96c953780b4...HEAD",
+        "result": "PASS"
+      },
+      {
+        "command": "git show --check --oneline adc275bec8a6d6c24b31802ef98256ca8da60b7d",
+        "result": "PASS"
+      }
+    ],
+    "blockers": [],
+    "attested_at_utc": "2026-09-25T10:13:22Z",
+    "attestation_kind": "SELF_ATTESTATION",
+    "cryptographic_signature_status": "NOT_CRYPTOGRAPHICALLY_SIGNED",
+    "statement": "I, worker-02, sign off iteration 1 for agent-session-pipeline-contract at implementation commit adc275bec8a6d6c24b31802ef98256ca8da60b7d."
+  }
+  ```
+
 ## 2026-09-25T08:34:32Z — exact field and acknowledgment contract signed off
 
 - **Implementation commit:** `d1ec345fd930a83c5e5b879a09dd1c298fcffea4`
