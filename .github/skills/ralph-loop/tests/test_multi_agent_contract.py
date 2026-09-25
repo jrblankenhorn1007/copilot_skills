@@ -61,8 +61,8 @@ class MultiAgentContractTests(unittest.TestCase):
         assert_contains(
             self,
             orchestrator,
-            "agents: ['ralph loop']",
-            "the orchestrator must restrict delegated agents to Ralph Loop",
+            "agents: ['ralph loop', 'ralph code reviewer', 'ralph security reviewer']",
+            "the orchestrator must allow workers and both review agents",
         )
         self.assertTrue(
             any(
@@ -316,6 +316,56 @@ class MultiAgentContractTests(unittest.TestCase):
             "ralph-pr-review/skill.md|ralph-code-reviewer.agent.md|"
             "ralph-security-reviewer.agent.md",
             "README reviewer links",
+        )
+
+    def test_review_skill_and_agents_have_read_only_tools_and_explicit_roles(self):
+        skill = read_document(".github/skills/ralph-pr-review/SKILL.md")
+        assert_all_contains(
+            self,
+            skill,
+            "base sha|head sha|exact full base and head shas|stale|"
+            "correctness|edge cases|"
+            "complexity|tests|evidence|adversarial|actionable|nonblocking",
+            "review skill rubric and report contract",
+        )
+
+        reviewer_agents = (
+            (".github/agents/ralph-code-reviewer.agent.md", "ralph code reviewer"),
+            (
+                ".github/agents/ralph-security-reviewer.agent.md",
+                "ralph security reviewer",
+            ),
+        )
+        for path, name in reviewer_agents:
+            with self.subTest(path=path):
+                self.assertTrue((ROOT / path).is_file(), f"{path} must exist")
+                raw = (ROOT / path).read_text(encoding="utf-8")
+                self.assertIn(f"name: {name}", raw.lower())
+                frontmatter = raw.split("---", 2)[1].lower()
+                self.assertIn("tools: ['read', 'search']", frontmatter)
+                self.assertIn("user-invocable: false", frontmatter)
+                tools_line = next(
+                    line.strip()
+                    for line in frontmatter.splitlines()
+                    if line.strip().startswith("tools:")
+                )
+                self.assertNotIn("agent", tools_line)
+                self.assertNotIn("edit", tools_line)
+                self.assertNotIn("execute", tools_line)
+                agent_body = read_document(path)
+                assert_all_contains(
+                    self,
+                    agent_body,
+                    "ralph-pr-review/skill.md|read-only|report findings",
+                    f"{name} must use the shared review skill and report only",
+                )
+
+        parent_agent = read_document(".github/agents/ralph-loop.agent.md")
+        assert_all_contains(
+            self,
+            parent_agent,
+            "ralph code reviewer|ralph security reviewer|agent/runsubagent",
+            "Ralph Loop must be able to dispatch both reviewer subagents",
         )
 
     def test_review_round_cap_requires_an_explicit_author_decision(self):

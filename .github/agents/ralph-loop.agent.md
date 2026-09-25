@@ -2,7 +2,7 @@
 name: Ralph Loop
 description: Orchestrates configurable Ralph Loop workers, verifies integration on remote main, and captures durable post-merge lessons.
 user-invocable: true
-agents: ['Ralph Loop']
+agents: ['Ralph Loop', 'Ralph Code Reviewer', 'Ralph Security Reviewer']
 ---
 
 # Ralph Loop Agent
@@ -31,6 +31,40 @@ If invoked as a worker, implement only the assigned scope. Do not spawn
 nested workers or edit another worker's scope. Use the run ID, worker ID, task
 ID, iteration number, and status ownership supplied by the coordinator, and
 report your verification evidence back to it.
+
+## Independent PR review agents
+
+For each PR-backed iteration, the top-level coordinator launches the
+independent **Ralph Code Reviewer** after worker sign-off and before merge
+authorization. Launch **Ralph Security Reviewer** as well when the change
+touches authentication or authorization, untrusted input, secrets or
+sensitive data, cryptography, process execution, external boundaries,
+dependencies, or security configuration. Pass both exact full base and head
+SHAs, the PR diff, relevant acceptance criteria, and available check results.
+Use the shared
+[PR review skill](../skills/ralph-pr-review/SKILL.md) and keep the author and
+reviewers separate.
+
+Only the top-level coordinator dispatches reviewers through the host's
+`agent/runSubagent` tool. Workers do not create nested agents. Both reviewers
+are read-only and may report findings but cannot edit, apply fixes, authorize,
+or merge. If the host cannot invoke the named reviewers, record review as
+`BLOCKED`; do not substitute self-review or claim the gate passed. The
+coordinator records the reports and verifies that both SHAs still match the
+PR before authorization. A changed SHA makes the report stale.
+
+Stop after 10 completed review rounds for a branch/PR; never launch round 11.
+At the cap, pause until the author records one allowed choice and a
+non-empty rationale in the status and decision records. The choice does not
+override CI, branch protection, or required human approvals. For the existing
+no-PR fast-forward path, record review as `NOT_APPLICABLE` and launch no
+reviewer.
+
+This agent intentionally leaves `tools` unset to preserve the harness's
+existing development capabilities. The host must expose `agent/runSubagent`
+(`agent`) while retaining those tools and honoring the `agents` allowlist; if
+the host requires an explicit tool list, configure it there without dropping
+the tools needed for implementation and verification.
 
 ## Required setup
 

@@ -94,19 +94,18 @@ runs:
     aggregate_status: IN_PROGRESS
     requested_worker_count: 2
     effective_worker_count: 2
-    active_worker_count: 1
+    active_worker_count: 0
     base_origin_main_sha: "485b4a64c871f581f9295e46c867b188b0e3ccee"
     current_origin_main_sha: "114e4d60567d05cd048916339ed86e324c6eeef3"
     created_at_utc: "2026-09-25T01:40:57Z"
-    updated_at_utc: "2026-09-25T02:32:20Z"
+    updated_at_utc: "2026-09-25T03:08:32Z"
     coordinator_scope: "Add an independent pre-merge code-review step for PR-backed Ralph iterations, specialized reviewer agents, a hard ten-round limit, and an explicit author decision at the limit."
     coordinator_branch: "ralph/code-review-gate-20260924-2131"
     coordinator_status_path: "docs/ralph/ralph-code-review-gate-20260924-2131/agents/coordinator/status.md"
     coordinator_progress_path: "docs/ralph/ralph-code-review-gate-20260924-2131/agents/coordinator/progress.md"
     blockers:
-      - "Worker-01 reported it could not edit repository files; its retry is pending."
       - "The shared local main worktree is clean but at 445fa15, eight commits ahead of fetched origin/main 114e4d60567d05cd048916339ed86e324c6eeef3. Preserve it and do not integrate until the primary worktree is safe."
-    next_action: "Coordinator: resolve worker-01's edit blocker, collect worker-02's sign-off, then verify a safe integration path."
+    next_action: "Coordinator: finish the reviewer artifacts and checks, then integrate only after the shared main worktree is safe."
     split_plan:
       - task_id: "code-review-skill-agents"
         worker_id: "worker-01"
@@ -740,7 +739,7 @@ branch_agent_index:
     decision_record_path: "docs/decisions/ralph-code-review-gate-20260924-2131/agents/coordinator/pr-not-opened.md"
     decision_index_path: "docs/decisions/ralph-code-review-gate-20260924-2131/README.md"
     base_origin_main_sha: "485b4a64c871f581f9295e46c867b188b0e3ccee"
-    rebased_onto_origin_main_sha: null
+    rebased_onto_origin_main_sha: "114e4d60567d05cd048916339ed86e324c6eeef3"
     implementation_commit_sha: null
     pull_request:
       status: NOT_OPENED
@@ -759,7 +758,7 @@ branch_agent_index:
       sha: null
       verified_origin_main_sha: null
     memory_review: PENDING
-    next_action: "Coordinator: resolve worker-01's edit blocker, collect worker-02's sign-off, then verify a safe integration path."
+    next_action: "Coordinator: finish the reviewer artifacts and checks, then integrate only after the shared main worktree is safe."
 
   - run_id: "copilot-skills-premerge-code-review-20260924"
     task_ids: ["code-review-skill-agents"]
@@ -768,7 +767,7 @@ branch_agent_index:
     runtime_agent_id: "584dded6-ce27-4a8d-a2ff-392acdafe7c1"
     branch: "ralph/code-review-skill-worker-01-20260924-2131"
     branch_slug: "ralph-code-review-skill-worker-01-20260924-2131"
-    status: BLOCKED
+    status: CANCELLED
     iteration: 1
     status_path: "docs/ralph/ralph-code-review-skill-worker-01-20260924-2131/agents/worker-01/status.md"
     progress_path: "docs/ralph/ralph-code-review-skill-worker-01-20260924-2131/agents/worker-01/progress.md"
@@ -790,13 +789,12 @@ branch_agent_index:
       finding_count: 0
       author_decision: null
     merge:
-      status: PENDING
+      status: NOT_MERGED
       sha: null
       verified_origin_main_sha: null
-    memory_review: PENDING
-    blockers:
-      - "Worker-01 reported it could not edit repository files; no implementation commit or leaf status/progress records were created. Coordinator requested one retry and the exact sanitized tool/permission error."
-    next_action: "Worker-01: retry the assigned edits in its clean worktree or report the concrete edit blocker."
+    memory_review: NOT_APPLICABLE
+    blockers: []
+    next_action: "No worker action; the coordinator took over this scope after worker-01 stopped without edits."
 
   - run_id: "copilot-skills-premerge-code-review-20260924"
     task_ids: ["ralph-review-gate-status"]
@@ -805,15 +803,15 @@ branch_agent_index:
     runtime_agent_id: "3a2fe7eb-9c9e-42e2-a3f0-ff42b8d412f3"
     branch: "ralph/code-review-process-worker-02-20260924-2131"
     branch_slug: "ralph-code-review-process-worker-02-20260924-2131"
-    status: IN_PROGRESS
+    status: AWAITING_MERGE
     iteration: 1
     status_path: "docs/ralph/ralph-code-review-process-worker-02-20260924-2131/agents/worker-02/status.md"
     progress_path: "docs/ralph/ralph-code-review-process-worker-02-20260924-2131/agents/worker-02/progress.md"
     decision_record_path: "docs/decisions/ralph-code-review-process-worker-02-20260924-2131/agents/worker-02/pr-not-opened.md"
     decision_index_path: "docs/decisions/ralph-code-review-process-worker-02-20260924-2131/README.md"
-    base_origin_main_sha: "485b4a64c871f581f9295e46c867b188b0e3ccee"
+    base_origin_main_sha: "114e4d60567d05cd048916339ed86e324c6eeef3"
     rebased_onto_origin_main_sha: null
-    implementation_commit_sha: null
+    implementation_commit_sha: "e45aaeed57cafdff6c502ee222ec62aa30af8519"
     pull_request:
       status: NOT_OPENED
       reason: "The active project records coordinator-managed verified fast-forward integration without a PR."
@@ -831,7 +829,7 @@ branch_agent_index:
       sha: null
       verified_origin_main_sha: null
     memory_review: PENDING
-    next_action: "Worker-02: finish the workflow, status, test, and README guidance, then report its exact commit and checks."
+    next_action: "Coordinator: rerun the full contract suite after dashboard synchronization and verify a safe integration path."
 ```
 
 ## Branch/agent index

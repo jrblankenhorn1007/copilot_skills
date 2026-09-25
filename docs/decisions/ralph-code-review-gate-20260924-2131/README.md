@@ -10,9 +10,11 @@
 ## Agent records
 
 - [Coordinator PR decision record](agents/coordinator/pr-not-opened.md)
+- [Worker-01 cancellation record](../ralph-code-review-skill-worker-01-20260924-2131/README.md)
+- [Worker-02 PR decision record](../ralph-code-review-process-worker-02-20260924-2131/README.md)
 
-Worker decision records are maintained on their respective branches and will
-be indexed here when their sign-offs are received.
+Worker decision records remain in their branch-scoped folders and are linked
+here when a sign-off or terminal disposition is recorded.
 
 ## Decisions
 
