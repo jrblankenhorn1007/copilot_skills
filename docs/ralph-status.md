@@ -11,7 +11,7 @@ in progress.
 schema_version: 2
 snapshot_path: "docs/ralph-status.md"
 snapshot_revision: 38
-updated_at_utc: "2026-09-25T09:18:08Z"
+updated_at_utc: "2026-09-25T09:33:54Z"
 overall_status: IN_PROGRESS
 current_run_ids:
   - "copilot-skills-docs-status-organization-20260924"
@@ -283,11 +283,11 @@ runs:
     effective_worker_count: 0
     active_worker_count: 0
     base_origin_main_sha: "20293c720b18a1a21ff150f566823493b7a2717d"
-    current_origin_main_sha: "43815c8e4621fe0495b8832136cd5ce3bd6c0267"
+    current_origin_main_sha: "91a6f78fa00cde80a80bea630a763d74041a56ad"
     rebased_onto_origin_main_sha: "7ee1307cb47f5a88cd6b46ee135444777ddeb665"
     implementation_commit_sha: "09855bbf8ddee51b4c8b6bdd481287747cdbf259"
     created_at_utc: "2026-09-25T06:31:57Z"
-    updated_at_utc: "2026-09-25T09:18:08Z"
+    updated_at_utc: "2026-09-25T09:33:54Z"
     coordinator_scope: "Implement a shared local agent registry, hardware-aware admission policy, and mandatory orchestrator/worker registration guidance."
     coordinator_branch: "ralph/resource-manager-shared-registry-20260925-8abd5d4e"
     coordinator_status_path: "docs/ralph/ralph-resource-manager-shared-registry-20260925-8abd5d4e/agents/coordinator/status.md"
@@ -912,7 +912,7 @@ branch_agent_index:
     status: COMPLETE
     iteration: 1
     resource_usage:
-      time_spent_seconds: 9970
+      time_spent_seconds: 10916
       time_basis: WALL_CLOCK_ELAPSED
       token_spend:
         status: NOT_REPORTED
@@ -970,7 +970,7 @@ branch_agent_index:
 | `copilot-skills-premerge-code-review-20260924` | `ralph/code-review-gate-20260924-2131` | `coordinator` | `COMPLETE` | `21,245 s (wall-clock)` | `NOT_REPORTED` | [status](./ralph/ralph-code-review-gate-20260924-2131/agents/coordinator/status.md) | [progress](./ralph/ralph-code-review-gate-20260924-2131/agents/coordinator/progress.md) | `6b1903ec7bfa5c798eb5e48c085bfc3845176bab` | `COMPLETE` |
 | `copilot-skills-premerge-code-review-20260924` | `ralph/code-review-skill-worker-01-20260924-2131` | `worker-01` | `CANCELLED` | Not captured (legacy) | `NOT_REPORTED` | [status](./ralph/ralph-code-review-skill-worker-01-20260924-2131/agents/worker-01/status.md) | [progress](./ralph/ralph-code-review-skill-worker-01-20260924-2131/agents/worker-01/progress.md) | Not merged | N/A |
 | `copilot-skills-premerge-code-review-20260924` | `ralph/code-review-process-worker-02-20260924-2131` | `worker-02` | `COMPLETE` | `20,270 s (wall-clock)` | `NOT_REPORTED` | [status](./ralph/ralph-code-review-process-worker-02-20260924-2131/agents/worker-02/status.md) | [progress](./ralph/ralph-code-review-process-worker-02-20260924-2131/agents/worker-02/progress.md) | `6b1903ec7bfa5c798eb5e48c085bfc3845176bab` | `COMPLETE` |
-| `copilot-skills-agent-resource-manager-20260925` | `ralph/resource-manager-shared-registry-20260925-8abd5d4e` | `coordinator` | `COMPLETE` | `9,970 s (wall-clock)` | `NOT_REPORTED` | [status](./ralph/ralph-resource-manager-shared-registry-20260925-8abd5d4e/agents/coordinator/status.md) | [progress](./ralph/ralph-resource-manager-shared-registry-20260925-8abd5d4e/agents/coordinator/progress.md) | `ec50b548debb7a5f32dcb82f4b68f62806255894` | `COMPLETE` |
+| `copilot-skills-agent-resource-manager-20260925` | `ralph/resource-manager-shared-registry-20260925-8abd5d4e` | `coordinator` | `COMPLETE` | `10,916 s (wall-clock)` | `NOT_REPORTED` | [status](./ralph/ralph-resource-manager-shared-registry-20260925-8abd5d4e/agents/coordinator/status.md) | [progress](./ralph/ralph-resource-manager-shared-registry-20260925-8abd5d4e/agents/coordinator/progress.md) | `ec50b548debb7a5f32dcb82f4b68f62806255894` | `COMPLETE` |
 
 The parent-child pipeline run is `COMPLETE`: both workers integrated into the
 parent, the parent merge is verified on `origin/main`, the contract suite and
