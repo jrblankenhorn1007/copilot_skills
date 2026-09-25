@@ -284,3 +284,21 @@
 - The parent remains based on `5e673fa5235b99bd36c1cd56ea7d2dab6e7562c0`.
   The run is still `IN_PROGRESS`: worker-02 is `COMPLETE`, worker-01 is
   `AWAITING_MERGE`, and remote-main integration plus memory review remain.
+
+## Main merge reservation acquired and reconciled
+
+- Acquired exclusive `MERGE` ownership at revision 103. The sign-in commit
+  is `1d74599aab767c4ee9ad331874b7b6dacd3c4ba8`; the fetched main ownership
+  record verified this run, coordinator, operation, and runtime session.
+- Reconciled that commit into the isolated parent with `git merge --no-ff`.
+  The parent merge commit is
+  `24f9f81a354545dcd03e4bb34df07423a49a40ac`. Both the reservation commit
+  and fetched `origin/main` are ancestors of that parent commit, and
+  `git diff --check origin/main...HEAD` passed.
+- Re-ran the full contract suite with the reservation reconciled:
+  `python3 -m unittest discover -s .github/skills/ralph-loop/tests` —
+  **PASS** (`Ran 60 tests in 30.625s, OK`).
+- Main remains reserved by this coordinator for the authorized fast-forward.
+  No remote push has been attempted yet.
+- **Next action:** Recheck the owner and remote tip, push the parent
+  fast-forward, verify the result, and release the reservation.

@@ -5,7 +5,7 @@
 - **Branch:** `ralph/agent-status-reporting-20260924-2313`
 - **Base `origin/main`:** `9558f99cc34cbed8dd1d24f4f15fc03f5d78b6ea`
 - **Latest rebase onto `origin/main`:** `5e673fa5235b99bd36c1cd56ea7d2dab6e7562c0`
-- **Latest fetched `origin/main`:** `5e673fa5235b99bd36c1cd56ea7d2dab6e7562c0`
+- **Latest fetched `origin/main`:** `1d74599aab767c4ee9ad331874b7b6dacd3c4ba8`
 - **Implementation commit SHA:** `4097b48af54c3e1c31740ffcffcf2bb0dbca9ffb`
 - **PR:** `NOT_OPENED`
 - **Integration path:** The repository's current documented workflow uses a
@@ -198,3 +198,15 @@
 - **Next:** Reserve main for `MERGE`, reconcile the reservation sign-in
   commit, fast-forward only through the documented no-PR path, and verify
   the exact fetched `origin/main` before memory review.
+
+## Main merge reservation
+
+- Acquired `MERGE` ownership at revision 103. The reservation sign-in commit
+  is `1d74599aab767c4ee9ad331874b7b6dacd3c4ba8`; its ownership record
+  confirmed this run, coordinator, runtime session, and operation.
+- Reconciled that sign-in commit into the parent with `git merge --no-ff`,
+  producing parent merge commit
+  `24f9f81a354545dcd03e4bb34df07423a49a40ac`. Both the sign-in commit and
+  fetched `origin/main` are ancestors of this parent merge commit.
+- The reservation remains held only for the authorized fast-forward. No
+  remote push has been attempted yet.
