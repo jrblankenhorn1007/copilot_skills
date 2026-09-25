@@ -252,7 +252,7 @@ runs:
         worker_name: "worker-01 / branch time and token reporting"
         branch: "ralph/status-report-time-token-worker-01-20260925-0335"
         branch_slug: "ralph-status-report-time-token-worker-01-20260925-0335"
-        status: COMPLETE
+        status: AWAITING_MERGE
         base_parent_sha: "74c6b1bb24f01bb7876bb489c810f1309a718373"
         rebased_onto_parent_sha: "a2b8c0f2ff99b9a5447accd6cfdd93e550c50ade"
         implementation_commit_sha: "5f0c7af5bd237fa06dde3b4a4edd9e95db7470b7"
@@ -312,9 +312,9 @@ runs:
     coordinator_status_path: "docs/ralph/ralph-resource-manager-shared-registry-20260925-8abd5d4e/agents/coordinator/status.md"
     coordinator_progress_path: "docs/ralph/ralph-resource-manager-shared-registry-20260925-8abd5d4e/agents/coordinator/progress.md"
     worker_count_note: "No subagents launched: the 8 GiB / 6-core host had 2.48 GiB available, 1-minute load 15.41, 13 observed in-progress sessions, and a dynamic capacity of zero."
-    next_action: null
+    next_action: "Await parent-to-main integration and coordinator post-merge memory review."
     memory_review:
-      status: COMPLETE
+      status: AWAITING_MERGE
       owner: coordinator
       outcome: "No separate durable lesson warranted: the Resource Manager skill and tests codify host-wide admission, observed-session counting, and atomic reservations; another memory entry would duplicate canonical guidance."
     split_plan:
@@ -331,10 +331,10 @@ runs:
     aggregate_status: IN_PROGRESS
     requested_worker_count: 2
     effective_worker_count: 2
-    active_worker_count: 2
+    active_worker_count: 0
     base_origin_main_sha: "20293c720b18a1a21ff150f566823493b7a2717d"
     created_at_utc: "2026-09-25T06:27:34Z"
-    updated_at_utc: "2026-09-25T07:44:36Z"
+    updated_at_utc: "2026-09-25T10:24:06Z"
     coordinator_scope: "Research, benchmark, integrate, and validate a bounded inter-session communication protocol and Copilot skill."
     coordinator_branch: "ralph/agent-communication-parent-20260925-0627"
     coordinator_worktree: "/Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-communication-parent-20260925-0627"
@@ -342,8 +342,8 @@ runs:
     coordinator_progress_path: "docs/ralph/ralph-agent-communication-parent-20260925-0627/agents/coordinator/progress.md"
     parent_base_origin_main_sha: "20293c720b18a1a21ff150f566823493b7a2717d"
     parent_rebased_onto_origin_main_sha: "91a6f78fa00cde80a80bea630a763d74041a56ad"
-    parent_implementation_commit_sha: "336b3ccdd059fe5395014e39ea70fc6ac54d4400"
-    next_action: "Coordinator: collect worker leaves and exact sign-offs; rebase the child branches onto the parent tip, integrate serially, then validate Green."
+    parent_implementation_commit_sha: "5fcc24764d2604e124587b302460f2af523694d8"
+    next_action: "Coordinator: update verified child-merge records, run the Green contract suite, rebase onto latest origin/main, and verify remote integration."
     split_plan:
       - task_id: "agent-communication-skill"
         worker_id: "worker-01"
@@ -364,27 +364,27 @@ runs:
         branch_slug: "ralph-agent-communication-worker-01-20260925-0627"
         worktree: "/Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-communication-worker-01-20260925-0627"
         runtime_agent_id: "4b590f58-600f-4d99-92b7-29db9c14b7a4"
-        status: IN_PROGRESS
+        status: COMPLETE
         base_parent_sha: "0294550c92a5d79e1cca682a0c509b5bb6eca3fd"
-        implementation_commit_sha: null
+        implementation_commit_sha: "d3cea422a910442d85a4a6715ea46d25c5f49cdf"
         status_path: "docs/ralph/ralph-agent-communication-worker-01-20260925-0627/agents/worker-01/status.md"
         progress_path: "docs/ralph/ralph-agent-communication-worker-01-20260925-0627/agents/worker-01/progress.md"
         decision_record_path: "docs/decisions/ralph-agent-communication-worker-01-20260925-0627/agents/worker-01/pr-not-opened.md"
-        next_action: "Worker-01: create the standalone agent-communication skill and return its verification/sign-off."
+        next_action: null
       - worker_id: "worker-02"
         worker_name: "worker-02 / agent communication pipeline contract"
         branch: "ralph/agent-communication-worker-02-20260925-0627"
         branch_slug: "ralph-agent-communication-worker-02-20260925-0627"
         worktree: "/Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-communication-worker-02-20260925-0627"
         runtime_agent_id: "f4de98be-e083-4d7d-bbc6-e671670709c7"
-        status: IN_PROGRESS
+        status: COMPLETE
         base_parent_sha: "0294550c92a5d79e1cca682a0c509b5bb6eca3fd"
-        implementation_commit_sha: null
+        implementation_commit_sha: "adc275bec8a6d6c24b31802ef98256ca8da60b7d"
         status_path: "docs/ralph/ralph-agent-communication-worker-02-20260925-0627/agents/worker-02/status.md"
         progress_path: "docs/ralph/ralph-agent-communication-worker-02-20260925-0627/agents/worker-02/progress.md"
         decision_record_path: "docs/decisions/ralph-agent-communication-worker-02-20260925-0627/agents/worker-02/pr-not-opened.md"
-        next_action: "Worker-02: define and wire the inter-session interface in Ralph pipeline docs."
-    worker_count_note: "Two independent path-owned workstreams have been dispatched; worker-02 received the exact pipeline interface assertions and both status leaves/commit sign-offs remain pending. The coordinator owns the shared benchmark, tests, and integration."
+        next_action: "Await parent-to-main integration and coordinator post-merge memory review."
+    worker_count_note: "Both scoped worker branches are integrated into the parent; their statuses remain AWAITING_MERGE until parent-to-main integration and post-merge memory review. Child-to-parent ancestry checks passed at parent 5fcc24764d2604e124587b302460f2af523694d8. The coordinator owns the shared benchmark, final checks, and remote integration."
     memory_review:
       status: PENDING
       owner: coordinator
@@ -853,7 +853,7 @@ branch_agent_index:
     status: IN_PROGRESS
     iteration: 1
     resource_usage:
-      time_spent_seconds: 3526
+      time_spent_seconds: 14192
       time_basis: WALL_CLOCK_ELAPSED
       token_spend:
         status: NOT_REPORTED
@@ -867,9 +867,8 @@ branch_agent_index:
     decision_record_path: "docs/decisions/ralph-agent-communication-parent-20260925-0627/agents/coordinator/pr-not-opened.md"
     decision_index_path: "docs/decisions/ralph-agent-communication-parent-20260925-0627/README.md"
     base_origin_main_sha: "20293c720b18a1a21ff150f566823493b7a2717d"
-    implementation_commit_sha: "ce5d5c742ae5a9085c6db11695fa7570dad0ba5a"
-    rebased_onto_origin_main_sha: "2b0e3b002d9596eea6773ad7a1a33654613d0008"
-    next_action: "Coordinator: obtain fresh worker attestations for the rewritten implementation commits, synchronize status records, rerun checks, and integrate."
+    implementation_commit_sha: "5fcc24764d2604e124587b302460f2af523694d8"
+    next_action: "Coordinator: fetch and rebase the parent onto the latest origin/main, rerun checks, then verify remote integration and memory disposition."
   - run_id: "copilot-skills-agent-communication-20260925-0627"
     task_ids: ["agent-communication-skill"]
     worker_id: "worker-01"
@@ -880,7 +879,7 @@ branch_agent_index:
     status: AWAITING_MERGE
     iteration: 1
     resource_usage:
-      time_spent_seconds: 10627
+      time_spent_seconds: 7853
       time_basis: WALL_CLOCK_ELAPSED
       token_spend:
         status: NOT_REPORTED
@@ -896,13 +895,13 @@ branch_agent_index:
     base_origin_main_sha: "20293c720b18a1a21ff150f566823493b7a2717d"
     base_parent_sha: "0294550c92a5d79e1cca682a0c509b5bb6eca3fd"
     rebased_onto_parent_sha: "44a262954564a058436bd4115908605e67302d5f"
-    parent_rebased_onto_origin_main_sha: "70b8e200807e4f1ca4c96cd4a1b20fce2744695f"
-    parent_implementation_commit_sha: "ce955f4955f779819d0ac1f5fbd4ffe384cbe90f"
-    implementation_commit_sha: "72ede0d8e05deab32f56699a342ca60dc1b55e5a"
+    parent_rebased_onto_origin_main_sha: "91a6f78fa00cde80a80bea630a763d74041a56ad"
+    parent_implementation_commit_sha: "5fcc24764d2604e124587b302460f2af523694d8"
+    implementation_commit_sha: "d3cea422a910442d85a4a6715ea46d25c5f49cdf"
     worker_to_parent_merge:
       status: VERIFIED
-      sha: "6d16a3a6c09901238050085de1563495ed2748ce"
-      verified_parent_sha: "ce955f4955f779819d0ac1f5fbd4ffe384cbe90f"
+      sha: "808bc8819c898d27db9a22dcc670b96c953780b4"
+      verified_parent_sha: "5fcc24764d2604e124587b302460f2af523694d8"
     next_action: "Await parent-to-main integration and coordinator post-merge memory review."
   - run_id: "copilot-skills-agent-communication-20260925-0627"
     task_ids: ["agent-session-pipeline-contract"]
@@ -914,7 +913,7 @@ branch_agent_index:
     status: AWAITING_MERGE
     iteration: 1
     resource_usage:
-      time_spent_seconds: 10627
+      time_spent_seconds: 8642
       time_basis: WALL_CLOCK_ELAPSED
       token_spend:
         status: NOT_REPORTED
@@ -930,13 +929,13 @@ branch_agent_index:
     base_origin_main_sha: "20293c720b18a1a21ff150f566823493b7a2717d"
     base_parent_sha: "0294550c92a5d79e1cca682a0c509b5bb6eca3fd"
     rebased_onto_parent_sha: "808bc8819c898d27db9a22dcc670b96c953780b4"
-    parent_rebased_onto_origin_main_sha: "70b8e200807e4f1ca4c96cd4a1b20fce2744695f"
-    parent_implementation_commit_sha: "ce955f4955f779819d0ac1f5fbd4ffe384cbe90f"
-    implementation_commit_sha: "26f173ade9d471ca5d07e0e49b24a20f0cee3fba"
+    parent_rebased_onto_origin_main_sha: "91a6f78fa00cde80a80bea630a763d74041a56ad"
+    parent_implementation_commit_sha: "5fcc24764d2604e124587b302460f2af523694d8"
+    implementation_commit_sha: "adc275bec8a6d6c24b31802ef98256ca8da60b7d"
     worker_to_parent_merge:
       status: VERIFIED
-      sha: "5d47c35f7c5cef3e17687f86306a7ef470945b13"
-      verified_parent_sha: "ce955f4955f779819d0ac1f5fbd4ffe384cbe90f"
+      sha: "5fcc24764d2604e124587b302460f2af523694d8"
+      verified_parent_sha: "5fcc24764d2604e124587b302460f2af523694d8"
     next_action: "Await parent-to-main integration and coordinator post-merge memory review."
   - run_id: "copilot-skills-status-report-time-token-20260925"
     task_ids: ["branch-status-resource-usage"]
@@ -2086,9 +2085,9 @@ branch_agent_index:
 
 | Run | Branch | Agent | Status | Time spent | Token spend | Status file | Progress file | Merge | Memory review |
 |---|---|---|---|---|---|---|---|---|---|
-| `copilot-skills-agent-communication-20260925-0627` | `ralph/agent-communication-parent-20260925-0627` | `coordinator` | `IN_PROGRESS` | `4,622 s (wall-clock)` | `NOT_REPORTED` | [status](./ralph/ralph-agent-communication-parent-20260925-0627/agents/coordinator/status.md) | [progress](./ralph/ralph-agent-communication-parent-20260925-0627/agents/coordinator/progress.md) | `PENDING` | `PENDING` |
-| `copilot-skills-agent-communication-20260925-0627` | `ralph/agent-communication-worker-01-20260925-0627` | `worker-01` | `IN_PROGRESS` | `Not yet reported` | `NOT_REPORTED` | [status](./ralph/ralph-agent-communication-worker-01-20260925-0627/agents/worker-01/status.md) | [progress](./ralph/ralph-agent-communication-worker-01-20260925-0627/agents/worker-01/progress.md) | `PENDING` | `PENDING` |
-| `copilot-skills-agent-communication-20260925-0627` | `ralph/agent-communication-worker-02-20260925-0627` | `worker-02` | `IN_PROGRESS` | `Not yet reported` | `NOT_REPORTED` | [status](./ralph/ralph-agent-communication-worker-02-20260925-0627/agents/worker-02/status.md) | [progress](./ralph/ralph-agent-communication-worker-02-20260925-0627/agents/worker-02/progress.md) | `PENDING` | `PENDING` |
+| `copilot-skills-agent-communication-20260925-0627` | `ralph/agent-communication-parent-20260925-0627` | `coordinator` | `IN_PROGRESS` | `14,192 s (wall-clock)` | `NOT_REPORTED` | [status](./ralph/ralph-agent-communication-parent-20260925-0627/agents/coordinator/status.md) | [progress](./ralph/ralph-agent-communication-parent-20260925-0627/agents/coordinator/progress.md) | `PENDING` | `PENDING` |
+| `copilot-skills-agent-communication-20260925-0627` | `ralph/agent-communication-worker-01-20260925-0627` | `worker-01` | `COMPLETE` | `7,853 s (wall-clock)` | `NOT_REPORTED` | [status](./ralph/ralph-agent-communication-worker-01-20260925-0627/agents/worker-01/status.md) | [progress](./ralph/ralph-agent-communication-worker-01-20260925-0627/agents/worker-01/progress.md) | `808bc8819c898d27db9a22dcc670b96c953780b4` | `PENDING` |
+| `copilot-skills-agent-communication-20260925-0627` | `ralph/agent-communication-worker-02-20260925-0627` | `worker-02` | `COMPLETE` | `8,642 s (wall-clock)` | `NOT_REPORTED` | [status](./ralph/ralph-agent-communication-worker-02-20260925-0627/agents/worker-02/status.md) | [progress](./ralph/ralph-agent-communication-worker-02-20260925-0627/agents/worker-02/progress.md) | `5fcc24764d2604e124587b302460f2af523694d8` | `PENDING` |
 | `copilot-skills-status-report-time-token-20260925` | `ralph/status-report-time-token-20260925-0335` | `coordinator` | `COMPLETE` | `10,023 s (wall-clock)` | `NOT_REPORTED` | [status](./ralph/ralph-status-report-time-token-20260925-0335/agents/coordinator/status.md) | [progress](./ralph/ralph-status-report-time-token-20260925-0335/agents/coordinator/progress.md) | `05b1b23da974ed7b171c3a29ee266e43721d4e7` | `COMPLETE` |
 | `copilot-skills-status-report-time-token-20260925` | `ralph/status-report-time-token-worker-01-20260925-0335` | `worker-01` | `COMPLETE` | `8,057 s (wall-clock)` | `NOT_REPORTED` | [status](./ralph/ralph-status-report-time-token-worker-01-20260925-0335/agents/worker-01/status.md) | [progress](./ralph/ralph-status-report-time-token-worker-01-20260925-0335/agents/worker-01/progress.md) | `019ab357f25e1b04133bacb242460e063d94be9d` | `COMPLETE` |
 | `copilot_skills-agent-status-reporting-20260924` | `ralph/agent-status-reporting-20260924-2313` | `coordinator` | `BLOCKED` | `41,237 s (wall-clock)` | `NOT_REPORTED` | [status](./ralph/ralph-agent-status-reporting-20260924-2313/agents/coordinator/status.md) | [progress](./ralph/ralph-agent-status-reporting-20260924-2313/agents/coordinator/progress.md) | `ca074bea36eda724afd0293f419648e79c0dc9d2` | `PENDING` |

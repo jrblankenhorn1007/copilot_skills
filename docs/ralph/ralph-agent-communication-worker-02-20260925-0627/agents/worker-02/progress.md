@@ -478,3 +478,27 @@
     "statement": "I, worker-02, sign off iteration 1 for agent-session-pipeline-contract at implementation commit 610910bcbfe87be3b681368a94e812dd6a35b4bb."
   }
   ```
+
+## 2026-09-25T10:16:55Z — worker-to-parent integration verified
+
+- **Integration:** The coordinator fast-forwarded worker branch head
+  `5fcc24764d2604e124587b302460f2af523694d8` into the parent branch. The
+  integrated parent is at the same commit.
+- **Verification:** `git merge-base --is-ancestor <worker-head> <parent-head>`
+  passed with the SHAs above. Status transitions to `COMPLETE`; the
+  child-to-parent merge is verified. No remote-main merge is claimed.
+- **Next:** Preserve the integration proof in worker status history if the
+  parent is rebased; await final parent checks and remote-main verification.
+
+## 2026-09-25T10:16:55Z — worker-to-parent integration verified
+
+- **Integration:** The coordinator fast-forwarded worker branch head
+  `5fcc24764d2604e124587b302460f2af523694d8` into the parent branch. The
+  integrated parent is at the same commit.
+- **Verification:** `git merge-base --is-ancestor
+  5fcc24764d2604e124587b302460f2af523694d8
+  5fcc24764d2604e124587b302460f2af523694d8` passed. Status transitions to
+  `COMPLETE`; the child-to-parent merge is verified. No remote-main merge is
+  claimed.
+- **Next:** Preserve the integration proof in worker status history if the
+  parent is rebased; await final parent checks and remote-main verification.
