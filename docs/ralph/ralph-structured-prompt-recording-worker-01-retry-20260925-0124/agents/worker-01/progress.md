@@ -46,6 +46,11 @@
 - Post-implementation Green:
   - Command: `python3 .github/skills/ralph-loop/tests/test_prompt_generation_contract.py`
   - Result: exit code 0; 7 tests passed.
+- Refactor/final targeted verification:
+  - No additional production refactor was needed after reviewing the
+    instruction and test diff.
+  - Command: `python3 .github/skills/ralph-loop/tests/test_prompt_generation_contract.py`
+  - Result: exit code 0; 7 tests passed after staging.
 - Existing Ralph contract suite:
   - Command: `python3 .github/skills/ralph-loop/tests/test_multi_agent_contract.py`
   - Result: exit code 0; 10 tests passed.
@@ -59,6 +64,14 @@
     requires the aggregate dashboard to index its status and progress paths.
     The dashboard is coordinator-owned and the existing contract test is
     worker-02-owned, so worker-01 made no out-of-scope change.
+- After that failure, an unstaged change appeared in this worktree at
+  `docs/ralph-status.md`, indexing this worker's leaf and updating the
+  coordinator's dashboard. Worker-01 did not create, stage, or commit that
+  change. With it present, the exact full-suite command
+  `python3 .github/skills/ralph-loop/tests/test_multi_agent_contract.py`
+  exited 0; all 10 tests passed. This verifies the combined working tree, not
+  the implementation commit alone, because the dashboard update is not part
+  of that commit.
 - Hygiene:
   - Command: `git diff --check`
   - Result: exit code 0; no whitespace errors.
@@ -66,9 +79,27 @@
   paths and this branch's decision/worker-leaf records (8 paths total). The
   agent edit is limited to invoking the new reference and establishing the
   structured-prompt contract; no dashboard or other-worker path is staged.
-- Commit, publication, and PR creation are pending.
-- Implementation commit SHA, sign-off, PR number/URL, and authorization state
-  will be recorded after those steps.
+- Local implementation commit:
+  `1b77c316b33672cc2f4d55a683d7a4d0acfb5655`
+  (`Add structured Ralph prompt generation`). Its message includes the
+  required trailer:
+  `Co-authored-by: Copilot <223556219+Copilot@users.noreply.github.com>`.
+- Post-commit `git status --short --branch` showed a clean worktree and one
+  local implementation commit ahead of `origin/main`. The final status and
+  decision-record update is committed separately; the feature remains local.
+- The commit is not published; no PR number or URL exists, no merge was
+  attempted, and `merge_actor_worker_id` remains `null`.
+- Final post-commit local verification:
+  - `python3 .github/skills/ralph-loop/tests/test_prompt_generation_contract.py`
+    exited 0; 7 tests passed.
+  - `python3 .github/skills/ralph-loop/tests/test_multi_agent_contract.py`
+    first exited 1 because the coordinator dashboard did not list this leaf;
+    after the external dashboard update, it exited 0 and all 10 tests passed.
+    The worker commit remains dependent on that coordinator-owned update.
+  - `git diff --check` exited 0.
+- Self-attestation at `2026-09-25T01:50:27Z` is bound to the implementation
+  SHA above. The iteration status is `BLOCKED`, not `AWAITING_MERGE` or
+  `COMPLETE`.
 - A fresh `git fetch origin` completed with exit code 0; `origin/main` remains
   `485b4a64c871f581f9295e46c867b188b0e3ccee`. The shared main worktree remains
   clean at that SHA, and the published iteration-1 branch remains clean at

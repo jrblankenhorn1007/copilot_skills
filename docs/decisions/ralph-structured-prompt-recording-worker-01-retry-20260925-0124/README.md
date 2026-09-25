@@ -7,7 +7,8 @@
 - Branch: `ralph/structured-prompt-recording-worker-01-retry-20260925-0124`
 - Branch slug: `ralph-structured-prompt-recording-worker-01-retry-20260925-0124`
 - Base `origin/main`: `485b4a64c871f581f9295e46c867b188b0e3ccee`
-- Implementation commit: recorded in the worker status and PR record after commit.
+- Implementation commit: `1b77c316b33672cc2f4d55a683d7a4d0acfb5655`
+  (local; not published).
 
 ## Branch records
 
@@ -35,11 +36,13 @@ preserves iteration 1 and reapplies the prompt behavior on current
 ## Current integration state
 
 The branch is locally verified as far as current ownership permits, but is
-`BLOCKED` before PR creation. The required full contract suite reports that
-the new worker leaf is absent from the coordinator-owned
-`docs/ralph-status.md`; the worker must not edit that dashboard or the
-other-worker-owned contract test. In addition, no authenticated PR-creation
-mechanism is available in this session. The branch/worktree is preserved.
-There is no PR, merge, or remote-main integration. If a PR is later created,
-the worker must remain `AWAITING_MERGE` until the coordinator authorizes that
-exact PR and must not merge before authorization.
+`BLOCKED` before PR creation. The required full contract suite initially
+failed because the new worker leaf was absent from the coordinator-owned
+`docs/ralph-status.md`. A coordinator-owned, unstaged dashboard update now
+indexes the leaf, and the suite passes in the combined worktree; worker-01
+did not edit or stage that file, so the worker commit alone still lacks the
+index. No authenticated PR-creation mechanism is available in this session.
+The branch/worktree is preserved. There is no PR, merge, or remote-main
+integration. If a PR is later created, the worker must remain
+`AWAITING_MERGE` until the coordinator authorizes that exact PR and must not
+merge before authorization.
