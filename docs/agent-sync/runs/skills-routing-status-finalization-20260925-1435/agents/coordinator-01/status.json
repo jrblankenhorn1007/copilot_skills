@@ -26,7 +26,7 @@
   },
   "prompt_path": "docs/agent-sync/runs/skills-routing-status-finalization-20260925-1435/agents/coordinator-01/prompt.md",
   "prompt_sha256": "fda15944c9d2b8ec8ab322fb2a14a98484e42b6ff43e2abb4110c2facd95d5fe",
-  "revision": 1,
+  "revision": 2,
   "run_id": "skills-routing-status-finalization-20260925-1435",
   "schema_version": 1,
   "sign_in_at_utc": "2026-09-25T15:19:24Z",
@@ -39,9 +39,9 @@
   },
   "started_at_utc": "2026-09-25T15:19:24Z",
   "status": "IN_PROGRESS",
-  "status_reason": "Resuming the user's explicit request to finish and communicate. The implementation and memory commits are verified. Direct messages to the active Maxxed/shared dashboard owners were rejected by the host messaging limit, so this live ledger entry is the coordination notice. The shared docs/ralph-status.md path remains owned by active/blocked runs; the Maxxed docs/ralph-status.md path is owned by the active platform-sound-library run. Do not edit either dashboard until its current owners release it.",
+  "status_reason": "Resuming the user's explicit request to finish and communicate. The implementation and memory commits are verified. Direct messages to the active Maxxed/shared dashboard owners were rejected by the host messaging limit, so this published ledger entry is the coordination channel. Request to current owners: once your current update no longer needs docs/ralph-status.md, publish the normal scope release so I can synchronize the recovery leaf/dashboard through the reviewed PR path. No reserved files or PR #16 branch have been changed. Maxxed PR #16 remains conflicting and its fresh replacement branch is preserved. The shared implementation and memory commits are verified; the contract suite passed 25 tests on the previous rebased tip, and I will rerun it on the latest fetched main before integration.",
   "task_id": "finalize-skills-routing-status",
-  "updated_at_utc": "2026-09-25T15:19:24Z",
+  "updated_at_utc": "2026-09-25T15:30:43Z",
   "worker_id": "coordinator-01",
   "worker_name": "coordinator-01 / skills-routing status finalization"
 }
