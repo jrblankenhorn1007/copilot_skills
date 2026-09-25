@@ -561,6 +561,38 @@ class MultiAgentContractTests(unittest.TestCase):
             "README must link the current Ralph status dashboard",
         )
 
+    def test_project_specific_ralph_prompts_include_task_relevant_skills(self):
+        ralph_skill = read_document(".github/skills/ralph-loop/SKILL.md")
+
+        for requirement in (
+            "create or translate a project-specific ralph prompt",
+            "the user's task",
+            "current project plan",
+            "current ralph prompt",
+            "canonical skill catalog",
+            "project-local `.github/skills` catalog",
+            "skill descriptions and triggers",
+            "do not guess a stack",
+            "do not reuse a static list",
+            "do not list every available skill",
+            "the generated prompt itself must contain an explicit `## relevant skills` section",
+            "each selected skill's name, canonical or project-local path or link, and the condition or reason it applies",
+            "always include ralph loop",
+            "tdd for behavior changes",
+            "project memory for the required post-merge review",
+            "domain-specific skills may be included only when their descriptions or triggers match",
+            "verify that a project-local skill path exists before linking it",
+            "list each skill only once",
+            "do not list an unavailable local skill",
+        ):
+            with self.subTest(requirement=requirement):
+                assert_contains(
+                    self,
+                    ralph_skill,
+                    requirement,
+                    f"Ralph prompt generation must include {requirement!r}",
+                )
+
     def test_parent_child_orchestration_and_branch_cleanup_are_documented(self):
         agent = read_document(".github/agents/ralph-loop.agent.md")
         skill = read_document(".github/skills/ralph-loop/SKILL.md")
