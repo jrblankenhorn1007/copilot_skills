@@ -72,3 +72,40 @@
   until its verified scope release. The children are staged locally,
   not yet rebased onto final main or verified on remote main; their
   status leaves and aggregate dashboard must be synchronized afterward.
+
+### Routing TDD and read-only capacity boundary - 2026-09-25T10:34:01Z
+
+- **Role-hierarchy Red:** `PYTHONDONTWRITEBYTECODE=1 python3
+  .github/skills/ralph-loop/tests/test_skill_aware_routing.py
+  SkillAwareRoutingTests.test_ralph_entrypoint_delegates_specialist_routing_to_the_orchestrator
+  -v` failed because the guide still named the old general Ralph agent,
+  not the internal Ralph Orchestrator/Loop Worker chain.
+- **Role-hierarchy Green:** After limiting specialist dispatch to the
+  Orchestrator and retaining the user-facing entrypoint as a router,
+  `PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s
+  .github/skills/ralph-loop/tests -p test_skill_aware_routing.py -q`
+  passed all **5** tests.
+- **Capacity Red:** The focused
+  `SkillAwareRoutingTests.test_specialists_use_the_same_host_capacity_as_workers`
+  check failed on missing Resource Manager admission rules. The guide
+  now counts specialists against live host capacity without inflating
+  `workers=N`; the 6-test routing run passed.
+- **Read-only Red:** The focused
+  `SkillAwareRoutingTests.test_read_only_specialists_do_not_gain_execute_for_admission`
+  check failed on missing safeguards for read-only agents that cannot
+  call the registry CLI. The first Green attempt caught a Markdown
+  backtick mismatch in one test expectation, corrected without weakening
+  the capacity rule. The final 7-test routing run and `git diff --check`
+  passed. The Orchestrator must keep read-only subagents accounted for
+  through a live reservation or complete observed-session inventory;
+  otherwise dispatch is blocked rather than widening their tools.
+- Read the official [VS Code custom agents](https://code.visualstudio.com/docs/agent-customization/custom-agents)
+  and [Agent Skills](https://code.visualstudio.com/docs/agent-customization/agent-skills)
+  guides. The `agents:` allowlist requires the `agent` tool; an omitted
+  `model` inherits the selected model; Skills load relevant content
+  on demand. No speed or cost reduction is claimed without measurement.
+- The role-hierarchy task published `BLOCKED` revision 2 with
+  `sign_out` on fetched main `70b8e200807e4f1ca4c96cd4a1b20fce2744695f`,
+  but no explicit `scope_release`. Wait for its coordinator to confirm
+  release of overlapping paths; do not infer a handoff from the blocked
+  state alone.

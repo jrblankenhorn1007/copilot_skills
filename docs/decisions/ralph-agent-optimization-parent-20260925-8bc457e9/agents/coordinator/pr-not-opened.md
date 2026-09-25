@@ -64,3 +64,11 @@
   role-hierarchy owner still claims shared entrypoint, README,
   dashboard, and Ralph contract paths. Preserve this parent and wait for
   that owner's published release before rebasing or wiring those files.
+- Resource Manager capacity is shared by the router, Orchestrator, workers,
+  reviewers, and specialists even though only implementation workers
+  count toward `workers=N`. Read-only audit/design specialists must not
+  receive `execute` merely to manage the registry: their caller must
+  reserve and maintain verified host accounting, or block dispatch and
+  use an authorized, capacity-admitted fallback. A `BLOCKED` task record
+  with sign-out but no explicit scope release is not assumed to transfer
+  another coordinator's shared paths.

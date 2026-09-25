@@ -53,6 +53,35 @@ class SkillAwareRoutingTests(unittest.TestCase):
             with self.subTest(rule=rule):
                 self.assertIn(rule, guide)
 
+    def test_ralph_entrypoint_delegates_specialist_routing_to_the_orchestrator(self):
+        guide = self.guide()
+        self.assertIn("ralph orchestrator", guide)
+        self.assertIn("ralph loop worker", guide)
+        self.assertIn("the entrypoint does not dispatch specialists", guide)
+
+    def test_specialists_use_the_same_host_capacity_as_workers(self):
+        guide = self.guide()
+        for rule in (
+            "every launched specialist counts toward the resource manager's host limit",
+            "reserve a host slot before each `agent/runsubagent` call",
+            "an execution-capable specialist activates its reservation before task work",
+            "when capacity is full, queue or block the specialist",
+            "a general worker fallback also requires an available slot",
+        ):
+            with self.subTest(rule=rule):
+                self.assertIn(rule, guide)
+
+    def test_read_only_specialists_do_not_gain_execute_for_admission(self):
+        guide = self.guide()
+        for rule in (
+            "read-only specialists cannot run the registry cli",
+            "the orchestrator must account for their live sessions",
+            "if their capacity cannot be verified, do not dispatch",
+            "do not grant `execute` solely for registry bookkeeping",
+        ):
+            with self.subTest(rule=rule):
+                self.assertIn(rule, guide)
+
     def test_scope_and_main_owner_gates_survive_delegation(self):
         guide = self.guide()
         for rule in (

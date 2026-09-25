@@ -1,9 +1,12 @@
 # Conditional specialist routing for Ralph Loop
 
 Select an agent for a bounded task, not an agent for every installed Skill.
-The Ralph coordinator owns the split plan, exclusive edit scope, worker
-count, dashboard, and final verification. This guide complements the
-[multi-agent orchestration](multi-agent-orchestration.md) and the
+The user-facing Ralph Loop entrypoint delegates the complete request to
+the internal Ralph Orchestrator; the entrypoint does not dispatch specialists.
+The Ralph Orchestrator owns the split plan, exclusive edit scope, worker
+count, dashboard, specialist routing, and final verification. This guide complements the
+[multi-agent orchestration](multi-agent-orchestration.md),
+[Resource Manager](../../resource-manager/SKILL.md), and the
 main-ownership protocol at `docs/agent-sync/main-ownership.md`.
 If the latter is not yet present on an older task branch, read the current
 fetched main version before any main transaction; do not treat its absence
@@ -13,14 +16,14 @@ status or merge write.
 
 ## Decide at the task boundary
 
-Default to the general worker. Look at the user's requested outcome and
+Default to the general Ralph Loop Worker. Look at the user's requested outcome and
 the relevant Skill's trigger before routing an independent, bounded
 assignment. Do not run all specialists for every request or duplicate
 investigations across roles.
 
 | Requested work | Agent | Load a Skill only when relevant |
 |---|---|---|
-| Implementation, tests, integration, or a mixed task with no separable specialist scope | `ralph-loop` general worker | `tdd` for behavior changes; `project-memory` for the coordinator's post-merge review |
+| Implementation, tests, integration, or a mixed task with no separable specialist scope | Ralph Loop Worker (`ralph-worker`) | `tdd` for behavior changes; `project-memory` for the coordinator's post-merge review |
 | Code review of a changed branch or PR | `ralph-code-reviewer` | Existing read-only reviewer; not a second implementation worker |
 | Diff-level security review or an explicit search for exploitable vulnerabilities | `ralph-security-reviewer` | Existing security reviewer; not an OWASP ASI posture audit |
 | Fetch/rebase/worktree conflict triage, task status publication, or an authorized Git merge | `ralph-git-specialist` | `ralph-loop` only when acting in a Ralph iteration |
@@ -39,12 +42,12 @@ ownership.
 ## Dispatch and fallback
 
 1. Confirm the named custom agent exists in `.github/agents/` for this
-   workspace and is allowed by the coordinator's `agents:` frontmatter.
-   Agent definitions alone do not change the pipeline: the Ralph coordinator
-   must explicitly route to the selected specialist and permit that agent
-   through its subagent allowlist. Keep the existing implementation worker
-   entry in that allowlist. If a separate orchestrator profile owns routing,
-   wire it there instead of adding a competing orchestrator.
+   workspace and is allowed by the Ralph Orchestrator's `agents:`
+   frontmatter. Agent definitions alone do not change the pipeline: the
+   Orchestrator must explicitly route to the selected specialist and permit
+   that agent through its subagent allowlist. Keep Ralph Loop Worker and
+   the existing read-only reviewers in that allowlist; do not add a
+   competing coordinator or let the entrypoint dispatch specialists.
 2. Allocate a small, exclusive edit scope and concrete expected output
    before invoking `agent/runSubagent`. Supply just the task prompt, exact
    branch/base, relevant paths, applicable Skill trigger, safety limits, and
@@ -52,16 +55,30 @@ ownership.
    Skills into every prompt. One agent owns each shared file, even when
    specialists run alongside implementation workers.
 3. Count only launched implementation workers in `workers=N`; specialists
-   are not counted as implementation workers. Do not invent worker slots or
+   are not counted as implementation workers. Every launched specialist
+   counts toward the Resource Manager's host limit alongside the router,
+   Orchestrator, workers, and reviewers. Refresh the live-agent inventory
+   and reserve a host slot before each `agent/runSubagent` call. Pass the
+   exact `agent_id` and `reservation_id`; an execution-capable specialist
+   activates its reservation before task work, heartbeats while active,
+   and releases it when done. Read-only specialists cannot run the registry
+   CLI. The Orchestrator must account for their live sessions through a
+   current reservation or the complete observed-session inventory, and
+   keep that accounting valid throughout the task. If their capacity
+   cannot be verified, do not dispatch; do not grant `execute` solely for
+   registry bookkeeping. Cancel an unclaimed reservation after a rejected
+   launch.
+   When capacity is full, queue or block the specialist; a general worker
+   fallback also requires an available slot. Do not invent worker slots or
    claim a specialist ran just because its definition was discoverable.
    Report actual invocations and checks in the status records.
 4. If a specialist, its Skill, or the `agent/runSubagent` capability is
-   unavailable, use the general worker with the same relevant Skill and
-   validation rules when that worker is authorized and capable. Otherwise
-   report the blocker; do not skip mandatory security review or imply a
-   missing review occurred. A fallback does not grant new tools or edit
-   rights. Inherit the session model by default, and avoid pinning a model
-   or raising reasoning/context settings without measured task-specific
+   unavailable, use the general Ralph Loop Worker with the same relevant
+   Skill and validation rules when that worker is authorized and capable.
+   Otherwise report the blocker; do not skip mandatory security review or
+   imply a missing review occurred. A fallback does not grant new tools or
+   edit rights. Inherit the session model by default, and avoid pinning a
+   model or raising reasoning/context settings without measured task-specific
    benefit.
 5. Check the output against the task's acceptance criteria. Invoke a
    second specialist only for a distinct needed capability or concrete
