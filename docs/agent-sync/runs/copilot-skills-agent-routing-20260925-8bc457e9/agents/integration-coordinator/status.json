@@ -1,0 +1,57 @@
+{
+  "agent_id": "integration-coordinator",
+  "agent_profile": {
+    "agent_definition": null,
+    "context_tier": null,
+    "context_usage_tokens": null,
+    "context_window_tokens": null,
+    "harness": "Copilot SDK in VS Code",
+    "model_id": null,
+    "reasoning_effort": null,
+    "runtime_agent_id": "8bc457e9-1724-42bb-b3c8-cdf453f54a32"
+  },
+  "git": {
+    "base_ref": "refs/heads/main",
+    "base_sha": "61353504e0e99ec82d415a44ca5a305b57dfacf6",
+    "edit_scope": [
+      ".github/agents/ralph-git-specialist.agent.md",
+      ".github/agents/ralph-docs-specialist.agent.md",
+      ".github/agents/ralph-agent-design-specialist.agent.md",
+      ".github/agents/ralph-asi-specialist.agent.md",
+      ".github/skills/ralph-loop/references/skill-aware-routing.md",
+      ".github/skills/ralph-loop/tests/test_specialist_agent_contract.py",
+      ".github/skills/ralph-loop/tests/test_skill_aware_routing.py",
+      "docs/ralph/ralph-agent-optimization-parent-20260925-8bc457e9/agents/coordinator/",
+      "docs/decisions/ralph-agent-optimization-parent-20260925-8bc457e9/agents/coordinator/",
+      "docs/ralph/ralph-agent-optimization-specialists-coordinator-20260925-8bc457e9/",
+      "docs/decisions/ralph-agent-optimization-specialists-coordinator-20260925-8bc457e9/",
+      "docs/ralph/ralph-agent-optimization-routing-coordinator-20260925-8bc457e9/",
+      "docs/decisions/ralph-agent-optimization-routing-coordinator-20260925-8bc457e9/"
+    ],
+    "implementation_branch": "refs/heads/ralph/agent-optimization-parent-20260925-8bc457e9",
+    "remote_name": "origin",
+    "repository": "jrblankenhorn1007/copilot_skills",
+    "worktree_head_sha_at_sign_in": "4eb15e69434df810958c3d488e223e1366f00d39",
+    "worktree_path": "/Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-optimization-parent-20260925-8bc457e9"
+  },
+  "prompt_path": "docs/agent-sync/runs/copilot-skills-agent-routing-20260925-8bc457e9/agents/integration-coordinator/prompt.md",
+  "prompt_sha256": "6d503ba416d509220ecc273cac5ca13c1ab5d5bf6ceb4410cf728134d821bd94",
+  "revision": 1,
+  "run_id": "copilot-skills-agent-routing-20260925-8bc457e9",
+  "schema_version": 1,
+  "sign_in_at_utc": "2026-09-25T10:20:57Z",
+  "sign_out": {
+    "at_utc": null,
+    "checks": [],
+    "implementation_commit_sha": null,
+    "next_action": null,
+    "summary": null
+  },
+  "started_at_utc": "2026-09-25T10:20:57Z",
+  "status": "IN_PROGRESS",
+  "status_reason": "Integrating the two signed-out children on disjoint paths; waiting for role-hierarchy scope release before shared pipeline edits.",
+  "task_id": "agent-routing-integration",
+  "updated_at_utc": "2026-09-25T10:20:57Z",
+  "worker_id": "coordinator",
+  "worker_name": "coordinator / skill-aware agent routing"
+}
