@@ -23,10 +23,20 @@ checkout directly.
 
 SOURCE OF TRUTH
 
-Read IMPLEMENTATION_PLAN.md and this prompt at the start of every iteration,
-then inspect the current workspace, existing progress notes, the memory index
-and relevant categories, and changes before editing. The plan and this prompt
-are complementary. If a detail is missing, make a conservative, reversible
+At the start of every iteration, before reading the project plan or editing,
+follow the [Ralph Loop skill's per-iteration refresh](../SKILL.md#refresh-repositories-and-instructions-on-every-iteration).
+Fast-forward-pull the canonical `copilot_skills` checkout and this project's
+clean primary-branch integration worktree with `git pull --ff-only`; pull only
+once if they are the same repository. Stop if either pull cannot be completed
+safely. Then reopen the current Ralph Loop skill, this prompt, and all
+task-relevant skills from the refreshed checkout; also read project-local
+copies or additions. Do not rely on skill or prompt text cached from a
+previous iteration.
+
+Read IMPLEMENTATION_PLAN.md and this prompt on every iteration, then inspect
+the current workspace, existing progress notes, the memory index and relevant
+categories, and changes before editing. The plan and this prompt are
+complementary. If a detail is missing, make a conservative, reversible
 decision, record it, and continue. Do not stop to ask the user routine
 implementation questions.
 
@@ -38,18 +48,19 @@ Green, and refactor commands/results in `RALPH_PROGRESS.md`. Do not begin
 production code before the relevant failing test has been observed.
 
 Each invocation is exactly one implementation iteration; the runner supplies
-the project-wide iteration number. Before invoking Copilot, a compatible runner
-fetches `origin` and creates a fresh worktree and iteration branch from
-`origin/main`. Copilot creates the implementation commit there. The runner may
-finalize status metadata in a separate status-only commit on that same branch.
-Complete all checks and required commits, publish the branch as needed, and
-merge it into remote `origin/main` through the configured remote merge process.
-Fetch again and verify remote main contains the merged work before reporting
-completion or starting the next iteration. A local merge, pushed branch, or
-open pull request is not sufficient. For squash or merge-queue flows, verify
-the resulting merge SHA on `origin/main` rather than requiring the iteration
-branch commit itself to be an ancestor. Do not use a runner that skips this
-lifecycle.
+the project-wide iteration number. The runner or agent must complete the
+per-iteration repository and skill refresh before invoking Copilot. Then a
+compatible runner fetches `origin` and creates a fresh worktree and iteration
+branch from `origin/main`. Copilot creates the implementation commit there.
+The runner may finalize status metadata in a separate status-only commit on
+that same branch. Complete all checks and required commits, publish the branch
+as needed, and merge it into remote `origin/main` through the configured
+remote merge process. Fetch again and verify remote main contains the merged
+work before reporting completion or starting the next iteration. A local
+merge, pushed branch, or open pull request is not sufficient. For squash or
+merge-queue flows, verify the resulting merge SHA on `origin/main` rather than
+requiring the iteration branch commit itself to be an ancestor. Do not use a
+runner that skips this lifecycle.
 
 POST-MERGE LEARNING
 

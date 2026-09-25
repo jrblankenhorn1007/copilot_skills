@@ -10,6 +10,25 @@ implementing any worker assignment itself. The orchestrator is not counted in
 Ralph iteration and follows the active project's instructions and status
 protocol.
 
+## Per-iteration repository and skill refresh
+
+The orchestrator and every worker iteration, including a re-dispatch after a
+merge, must complete the per-iteration refresh in the
+[Ralph Loop skill](../SKILL.md#refresh-repositories-and-instructions-on-every-iteration)
+before planning or editing. This pulls the canonical `copilot_skills` checkout
+and the active project's primary integration worktree with
+`git pull --ff-only`, then re-reads the applicable skills and project
+instructions. If both checkouts are the same repository, pull it once.
+
+The coordinator performs and records the refresh before planning its run and
+again at the start of each worker iteration. If workers have separate
+integration worktrees, each worker performs its own pulls. If workers share an
+integration worktree, the coordinator serializes the pulls before launching
+that worker; never have workers concurrently pull the same worktree. In
+either case, the worker must reopen the current skills before editing. If the
+refresh cannot safely complete, stop that iteration and preserve the affected
+worktrees.
+
 ## Role configuration
 
 Resolve the run configuration before launching the top-level session. Supply
@@ -78,7 +97,8 @@ each new dispatch.
 Each dispatch gives one worker one scoped Ralph iteration, not a long-lived
 shared checkout. The worker must:
 
-1. Confirm its assigned outcome, acceptance criteria, dependencies, and owned
+1. Complete or verify the per-iteration repository and skill refresh, then
+   confirm its assigned outcome, acceptance criteria, dependencies, and owned
    paths with the coordinator. Read relevant memory before work and stay
    within the assigned scope.
 2. Create a fresh worktree and unique branch from the latest `origin/main`.
@@ -120,9 +140,10 @@ verified.
 
 ## Git synchronization and integration
 
-1. **Before branch creation:** run `git fetch origin`, confirm `origin/main`
-   is available, and create the worker's fresh branch from that ref. Record
-   the exact base SHA for the coordinator's ledger.
+1. **Before branch creation:** after the per-iteration pull and skill refresh,
+   run `git fetch origin`, confirm `origin/main` is available, and create the
+   worker's fresh branch from that ref. Record the exact base SHA for the
+   coordinator's ledger.
 2. **Before publishing and again before integration:** run `git fetch origin`.
    If `origin/main` has advanced since the recorded base, rebase the feature
    branch onto the latest `origin/main`. Resolve conflicts only within the
