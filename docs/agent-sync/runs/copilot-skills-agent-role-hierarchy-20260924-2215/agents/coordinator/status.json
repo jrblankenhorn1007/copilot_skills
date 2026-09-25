@@ -18,6 +18,7 @@
       ".github/agents/ralph-worker.agent.md",
       ".github/copilot/settings.json",
       ".vscode/settings.json",
+      ".github/skills/ralph-loop/tests/test_orchestrator_specialist_routing.py",
       "docs/ralph/ralph-agent-role-hierarchy-20260925-042745-coordinator/agents/coordinator/status.md",
       "docs/ralph/ralph-agent-role-hierarchy-20260925-042745-coordinator/agents/coordinator/progress.md",
       "docs/decisions/ralph-agent-role-hierarchy-20260925-042745-coordinator/README.md",
@@ -31,7 +32,7 @@
   },
   "prompt_path": "docs/agent-sync/runs/copilot-skills-agent-role-hierarchy-20260924-2215/agents/coordinator/prompt.md",
   "prompt_sha256": "5274d54946abb1b8dbf1f1d50ba4fb806994cacd7d5076ef468e58619c551580",
-  "revision": 5,
+  "revision": 6,
   "run_id": "copilot-skills-agent-role-hierarchy-20260924-2215",
   "schema_version": 1,
   "sign_in_at_utc": "2026-09-25T11:03:27Z",
@@ -44,9 +45,9 @@
   },
   "started_at_utc": "2026-09-25T10:00:46Z",
   "status": "IN_PROGRESS",
-  "status_reason": "The role hierarchy parent is rebased onto 70b98bbf0ab35620f7c33b5d9789187560c699df and its 24 contract tests pass. Latest fetched origin/main is bc874b341cfc76bd40eba752e53b129f607d1b51. The specialist-routing code is merged, but the routing coordinator remains IN_PROGRESS on a post-merge memory-follow-up branch with active overlapping edit scope. Do not rebase or resolve those paths until verified task sign-out. Resource Manager reports no worker slot, so no child re-dispatch.",
+  "status_reason": "The hierarchy parent is rebased onto 70b98bbf0ab35620f7c33b5d9789187560c699df and its 24 contract tests pass. This resumed scope adds only the Orchestrator profile and a distinct new test file to move conditional specialist routing under the user-requested Ralph Loop-to-Orchestrator-to-Worker chain. The active routing memory-follow-up still owns the public entrypoint, shared Ralph skill/references/tests, README, dashboard, and related files; they remain untouched. Resource Manager has no worker slots, so this work is serial and dispatches no agent.",
   "task_id": "entrypoint-and-nested-agent-wiring",
-  "updated_at_utc": "2026-09-25T11:17:49Z",
+  "updated_at_utc": "2026-09-25T11:22:21Z",
   "worker_id": "coordinator",
   "worker_name": "coordinator - Ralph agent role hierarchy"
 }
