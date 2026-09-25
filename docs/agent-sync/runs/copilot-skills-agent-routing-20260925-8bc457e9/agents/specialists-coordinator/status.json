@@ -30,22 +30,26 @@
   },
   "prompt_path": "docs/agent-sync/runs/copilot-skills-agent-routing-20260925-8bc457e9/agents/specialists-coordinator/prompt.md",
   "prompt_sha256": "869fbe01ca57a5f2c4ed8a89ad3d7c205e779755e4a10f49f8df4f28eec0b54e",
-  "revision": 1,
+  "revision": 2,
   "run_id": "copilot-skills-agent-routing-20260925-8bc457e9",
   "schema_version": 1,
   "sign_in_at_utc": "2026-09-25T07:25:01Z",
   "sign_out": {
-    "at_utc": null,
-    "checks": [],
-    "implementation_commit_sha": null,
-    "next_action": null,
-    "summary": null
+    "at_utc": "2026-09-25T07:39:08Z",
+    "checks": [
+      "PASS: 4 focused specialist contract tests",
+      "PASS: git diff --cached --check",
+      "BLOCKED: broader 18-test Ralph contract has one unindexed dashboard leaf owned by another task"
+    ],
+    "implementation_commit_sha": "cb8ba5bb4cac293b130e7be0a443cb6d42bb1b93",
+    "next_action": "After foreign dashboard sign-out, index child leaf, integrate child into parent and continue skill-aware routing.",
+    "summary": "Added four focused, selectable, skill-aware Ralph agents with contract tests and child handoff records."
   },
   "started_at_utc": "2026-09-25T07:25:01Z",
-  "status": "IN_PROGRESS",
-  "status_reason": "Building a bounded, non-overlapping specialist catalog on an isolated child branch.",
+  "status": "AWAITING_MERGE",
+  "status_reason": "Specialist child committed and handed off for parent integration; foreign dashboard ownership prevents indexing the leaf yet.",
   "task_id": "specialist-agent-catalog",
-  "updated_at_utc": "2026-09-25T07:25:01Z",
+  "updated_at_utc": "2026-09-25T07:39:08Z",
   "worker_id": "coordinator",
   "worker_name": "coordinator - focused agent specialists"
 }
