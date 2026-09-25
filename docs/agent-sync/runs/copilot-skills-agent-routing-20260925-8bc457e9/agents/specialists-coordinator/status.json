@@ -1,0 +1,51 @@
+{
+  "agent_id": "specialists-coordinator",
+  "agent_profile": {
+    "agent_definition": null,
+    "context_tier": null,
+    "context_usage_tokens": null,
+    "context_window_tokens": null,
+    "harness": "Copilot SDK in VS Code",
+    "model_id": null,
+    "reasoning_effort": null,
+    "runtime_agent_id": "8bc457e9-1724-42bb-b3c8-cdf453f54a32"
+  },
+  "git": {
+    "base_ref": "refs/heads/ralph/agent-optimization-parent-20260925-8bc457e9",
+    "base_sha": "4eb15e69434df810958c3d488e223e1366f00d39",
+    "edit_scope": [
+      ".github/agents/ralph-git-specialist.agent.md",
+      ".github/agents/ralph-docs-specialist.agent.md",
+      ".github/agents/ralph-agent-design-specialist.agent.md",
+      ".github/agents/ralph-asi-specialist.agent.md",
+      ".github/skills/ralph-loop/tests/test_specialist_agent_contract.py",
+      "docs/ralph/ralph-agent-optimization-specialists-coordinator-20260925-8bc457e9/",
+      "docs/decisions/ralph-agent-optimization-specialists-coordinator-20260925-8bc457e9/"
+    ],
+    "implementation_branch": "refs/heads/ralph/agent-optimization-specialists-coordinator-20260925-8bc457e9",
+    "remote_name": "origin",
+    "repository": "jrblankenhorn1007/copilot_skills",
+    "worktree_head_sha_at_sign_in": "4eb15e69434df810958c3d488e223e1366f00d39",
+    "worktree_path": "/Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-optimization-specialists-coordinator-20260925-8bc457e9"
+  },
+  "prompt_path": "docs/agent-sync/runs/copilot-skills-agent-routing-20260925-8bc457e9/agents/specialists-coordinator/prompt.md",
+  "prompt_sha256": "869fbe01ca57a5f2c4ed8a89ad3d7c205e779755e4a10f49f8df4f28eec0b54e",
+  "revision": 1,
+  "run_id": "copilot-skills-agent-routing-20260925-8bc457e9",
+  "schema_version": 1,
+  "sign_in_at_utc": "2026-09-25T07:25:01Z",
+  "sign_out": {
+    "at_utc": null,
+    "checks": [],
+    "implementation_commit_sha": null,
+    "next_action": null,
+    "summary": null
+  },
+  "started_at_utc": "2026-09-25T07:25:01Z",
+  "status": "IN_PROGRESS",
+  "status_reason": "Building a bounded, non-overlapping specialist catalog on an isolated child branch.",
+  "task_id": "specialist-agent-catalog",
+  "updated_at_utc": "2026-09-25T07:25:01Z",
+  "worker_id": "coordinator",
+  "worker_name": "coordinator - focused agent specialists"
+}
