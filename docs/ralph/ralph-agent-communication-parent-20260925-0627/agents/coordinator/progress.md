@@ -673,3 +673,36 @@
   fresh attestation and four-path metadata update based on the exact new
   parent; then integrate it and synchronize the dashboard before resuming
   worker-02.
+
+## 2026-09-25T13:46:24Z — parent rebased onto current role-hierarchy ledger
+
+- **Upstream movement:** `origin/main` advanced from
+  `d45606cb53765266e470154f6f98b9860d103d42` to
+  `13abaa65308345f7d34af0f99e745be6ce5fcd9d` through three status-only
+  commits. The latest main ownership record is `FREE` at revision 90.
+- **Rebase:** Rebased the clean parent from
+  `856288df22a0de6b591d0467f0ab5e6f3d8d47d6` onto `13abaa65308345f7d34af0f99e745be6ce5fcd9d`
+  without conflicts. The new parent tip is
+  `9f970fb11eb275d1534d281857bdb90205cad8af`.
+- **Worker SHA mapping:** Worker-01 implementation/series
+  `ae6375c870258c7108bbd16b4dd17ca1c5256661` /
+  `5b0a37afda5cd13d581aa252cf5e1d047506f0ac` map to
+  `58672907ea13f8244a1f02913ab0a7497a293067` /
+  `0d28443c31b2ae04047251151546f7dd2a64c720`. Worker-02 implementation/
+  series `ae16ea608b282ad9e429a169728b645e4e8865be` /
+  `128730bfde9d9f3c1a469d49c292b4345c5efb02` map to
+  `401ab0c660bd8d98e0f3c1bf78f63cc7c9473101` /
+  `ceb4b360a33c17be766bd5de21dd5582bbdca202`. Range-diff confirms all four
+  mappings; all four mapped commits are ancestors of the new parent.
+- **Green:** Full contract suite passed 24/24 after rebase. Parent
+  `git diff --check`, implementation `git show --check` for both workers,
+  and four ancestry checks passed.
+- **Worker metadata:** Worker-01 metadata commit
+  `c2b643ad6cd5c68fddf59da420934f9119f09f82` is based on the superseded
+  parent `856288d…`; its exact-SHA sign-off is also superseded. Preserve it
+  and all older metadata branches, including `a515fd…` and `c3b9eb1…`.
+  Worker-02 remains paused.
+- **Next:** Fetch once more, commit this rebase evidence, and request a fresh
+  worker-01 sign-off/status/handoff against the resulting exact parent.
+  Integrate worker-01 metadata and synchronize the dashboard before
+  dispatching worker-02 again.
