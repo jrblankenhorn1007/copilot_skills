@@ -175,6 +175,13 @@ Result: PASS — all relative Markdown links resolve.
 - Cleanup is `PENDING`; preserve the existing child worktree and branch.
 - The latest fetched `origin/main` has moved beyond the parent base; the
   coordinator owns any parent synchronization and integration.
+- After the first metadata commit, the shared `origin/main` tracking ref was
+  observed at `485b4a64c871f581f9295e46c867b188b0e3ccee` (merge commit
+  `477d28255c742aec96bfc9be1471ebcbd3500f1d`); the clean parent worktree
+  remained at `47982b9570f46eb4ccf3319fa3d90087d66db19a` and reported
+  `ahead 1, behind 5`. This was a shared-ref observation, not a worker
+  rebase or parent edit. The coordinator must synchronize the parent before
+  parent-to-main integration.
 - The full worker sign-off payload for the rewritten implementation SHA is:
 
 ```json
@@ -195,6 +202,7 @@ Result: PASS — all relative Markdown links resolve.
   "decision_record_path": "docs/decisions/ralph-parent-child-worker-agent-skill-20260924-2008/agents/worker-01/pr-not-opened.md",
   "base_origin_main_sha": "b4dac949e976d48f7bd976fc1c93ddc703bc7319",
   "latest_fetched_origin_main_sha": "90f41f8e90cb4467fffec6c6639b66369f97c0c3",
+  "latest_shared_origin_main_ref_observed": "485b4a64c871f581f9295e46c867b188b0e3ccee",
   "base_parent_sha": "47982b9570f46eb4ccf3319fa3d90087d66db19a",
   "implementation_commit_sha": "7fe0dd273f8acd88609892303875fbd004ac8801",
   "checks": [
@@ -224,9 +232,24 @@ Result: PASS — all relative Markdown links resolve.
     }
   ],
   "blockers": [],
-  "attested_at_utc": "2026-09-25T01:18:13Z",
+  "attested_at_utc": "2026-09-25T01:22:28Z",
   "attestation_kind": "SELF_ATTESTATION",
   "cryptographic_signature_status": "NOT_CRYPTOGRAPHICALLY_SIGNED",
   "statement": "I, worker-01, sign off iteration 1 for parent-child-worker-agent-skill at commit 7fe0dd273f8acd88609892303875fbd004ac8801."
 }
 ```
+
+## 2026-09-25T01:23:12Z — Final leaf-record validation
+
+- `git diff --check` — PASS after recording the later shared
+  `origin/main` tracking-ref observation.
+- Exact Markdown link-check command above was rerun — PASS; all relative
+  Markdown links resolve.
+- Exact self-attestation JSON validation command:
+
+  ```sh
+  python3 -c 'import json, re; from pathlib import Path; text = Path("docs/ralph/ralph-parent-child-worker-agent-skill-20260924-2008/agents/worker-01/progress.md").read_text(); payload = json.loads(re.findall(r"```json\n(.*?)\n```", text, re.S)[-1]); expected = "7fe0dd273f8acd88609892303875fbd004ac8801"; assert payload["worker_id"] == "worker-01" and payload["attestation_kind"] == "SELF_ATTESTATION" and payload["implementation_commit_sha"] == expected and expected in payload["statement"]; print("PASS: worker-01 self-attestation JSON is valid and bound to the rewritten implementation SHA")'
+  ```
+
+  Result: PASS — valid `SELF_ATTESTATION` explicitly bound to the rewritten
+  implementation SHA.
