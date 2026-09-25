@@ -117,7 +117,39 @@
 - **Renewed sign-off:** `SELF_ATTESTATION`,
   `NOT_CRYPTOGRAPHICALLY_SIGNED`, for implementation commit
   `5f0c7af5bd237fa06dde3b4a4edd9e95db7470b7`.
-- **State / next action:** `AWAITING_MERGE`; coordinator to integrate into
-  parent `ralph/status-report-time-token-20260925-0335` and verify the exact
-  worker-to-parent result.
-- **Blockers:** None.
+- **State / next action:** `AWAITING_MERGE`; coordinator to integrate the
+  completed parent into `origin/main` and complete the post-merge memory
+  review.
+- **Blockers:** None for worker-owned changes.
+
+## Worker-to-parent integration — 2026-09-25
+
+- The coordinator verified the worker fast-forward into the parent:
+  `git merge --ff-only ralph/status-report-time-token-worker-01-20260925-0335`
+  — PASS. Parent tip and worker tip are both
+  `14ea97483e70f97bdf1203ec388bb6d6a7d90f9c`.
+- Verified with
+  `git merge-base --is-ancestor 14ea97483e70f97bdf1203ec388bb6d6a7d90f9c HEAD`
+  — PASS at `2026-09-25T05:40:07Z`.
+- The worker leaf remains `AWAITING_MERGE` until the parent-to-main merge and
+  post-merge memory review are complete. Its worker-to-parent merge is
+  `VERIFIED`; cleanup remains pending.
+- The coordinator's parent test currently reports 14 of 15 tests passed.
+  The only failure is the aggregate dashboard not yet listing this integrated
+  leaf; the coordinator is synchronizing the dashboard before rerunning the
+  suite.
+- Elapsed wall-clock time at this report is 5,973 seconds from
+  `2026-09-25T04:08:07Z`. Provider token counts remain `NOT_REPORTED` with
+  null counters and source.
+
+## Dashboard recovery and refreshed parent base — 2026-09-25
+
+- The coordinator added this integrated worker leaf to both aggregate
+  dashboard indexes. The integrated-parent contract suite now passes:
+  `PYTHONDONTWRITEBYTECODE=1 python3 /Users/jrblankenhorn/copilot_skills.worktrees/ralph-status-report-time-token-coordinator-20260925-0335/.github/skills/ralph-loop/tests/test_multi_agent_contract.py`
+  — 15 tests passed.
+- The earlier missing-dashboard-row failure is resolved. The parent still
+  needs to rebase onto the refreshed `origin/main`, rerun final checks, and
+  complete remote integration and the memory review.
+- Elapsed wall-clock time at `2026-09-25T05:59:27Z` is 6,680 seconds from
+  `2026-09-25T04:08:07Z`. Provider token counters remain `NOT_REPORTED`.

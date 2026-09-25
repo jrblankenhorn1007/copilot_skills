@@ -4,14 +4,14 @@ This is the active repository's aggregate Ralph status dashboard. It indexes
 every branch/agent status and progress folder under `docs/ralph/`. The
 coordinator updates this file in the same loop as affected leaf records.
 
-**Overall status:** `IN_PROGRESS`. The prompt-generation recovery is verified
-on `origin/main`; the post-merge memory follow-up is in progress.
+**Overall status:** `IN_PROGRESS`. The prompt-generation memory follow-up and
+branch status resource-usage runs are still in progress.
 
 ```yaml
 schema_version: 2
 snapshot_path: "docs/ralph-status.md"
-snapshot_revision: 22
-updated_at_utc: "2026-09-25T05:38:08Z"
+snapshot_revision: 24
+updated_at_utc: "2026-09-25T05:59:27Z"
 overall_status: IN_PROGRESS
 current_run_ids:
   - "copilot-skills-docs-status-organization-20260924"
@@ -141,7 +141,7 @@ runs:
   - run_id: "translated-ralph-prompt-skills-recovery-20260925-0318"
     parent_request_run_id: "skills-routing-20260925-0108"
     task_ids: ["generate-relevant-skills-in-translated-ralph-prompt"]
-    aggregate_status: IN_PROGRESS
+    aggregate_status: BLOCKED
     requested_worker_count: 0
     effective_worker_count: 0
     active_worker_count: 0
@@ -178,21 +178,57 @@ runs:
     effective_worker_count: 1
     active_worker_count: 0
     base_origin_main_sha: "8da9310fda1b2e3042a379081dfb0675f1b22d6b"
-    current_origin_main_sha: "d56db4de163fb261d323be7a74fba18a373cd30a"
+    current_origin_main_sha: "e9fe3d175d1ca76b03fccdbe53431205b80e5c23"
     parent_rebased_onto_origin_main_sha: "d56db4de163fb261d323be7a74fba18a373cd30a"
     created_at_utc: "2026-09-25T03:35:21Z"
-    updated_at_utc: "2026-09-25T05:38:08Z"
+    updated_at_utc: "2026-09-25T05:59:27Z"
     coordinator_scope: "Integrate per-branch time/token reporting, maintain the aggregate dashboard, and verify the documentation contract."
     coordinator_branch: "ralph/status-report-time-token-20260925-0335"
     coordinator_status_path: "docs/ralph/ralph-status-report-time-token-20260925-0335/agents/coordinator/status.md"
     coordinator_progress_path: "docs/ralph/ralph-status-report-time-token-20260925-0335/agents/coordinator/progress.md"
-    next_action: "Coordinator: resolve the parent rebase, rebase and retest worker-01 on the refreshed parent, and obtain a fresh sign-off."
+    next_action: "Coordinator: rebase this parent onto refreshed origin/main, preserve upstream and run records, rerun checks, then complete normal remote integration and memory review."
     worker_count_note: "Only one independent workstream is useful: the schema, guidance, examples, and contract test are a single coupled documentation contract."
     split_plan:
       - task_id: "branch-status-resource-usage"
         worker_id: "worker-01"
         scope: "Add per-branch wall-clock elapsed time and provider-reported token usage to Ralph status guidance, schemas, examples, and contract checks."
         depends_on: []
+    worker_assignments:
+      - worker_id: "worker-01"
+        worker_name: "worker-01 / branch time and token reporting"
+        branch: "ralph/status-report-time-token-worker-01-20260925-0335"
+        branch_slug: "ralph-status-report-time-token-worker-01-20260925-0335"
+        status: AWAITING_MERGE
+        base_parent_sha: "74c6b1bb24f01bb7876bb489c810f1309a718373"
+        rebased_onto_parent_sha: "a2b8c0f2ff99b9a5447accd6cfdd93e550c50ade"
+        implementation_commit_sha: "5f0c7af5bd237fa06dde3b4a4edd9e95db7470b7"
+        pull_request:
+          status: NOT_OPENED
+          number: null
+          url: null
+        resource_usage:
+          time_spent_seconds: 6680
+          time_basis: WALL_CLOCK_ELAPSED
+          token_spend:
+            status: NOT_REPORTED
+            input_tokens: null
+            output_tokens: null
+            total_tokens: null
+            cached_input_tokens: null
+            source: null
+        checks:
+          - command: "python3 .github/skills/ralph-loop/tests/test_multi_agent_contract.py"
+            result: PASS
+            evidence: "15 tests passed in the rebased worker worktree."
+          - command: "git diff ralph/status-report-time-token-20260925-0335...HEAD --check"
+            result: PASS
+        worker_to_parent_merge:
+          status: VERIFIED
+          sha: "14ea97483e70f97bdf1203ec388bb6d6a7d90f9c"
+          verified_parent_ref: "refs/heads/ralph/status-report-time-token-20260925-0335"
+          verified_parent_sha: "14ea97483e70f97bdf1203ec388bb6d6a7d90f9c"
+          verification_method: "git merge-base --is-ancestor 14ea97483e70f97bdf1203ec388bb6d6a7d90f9c HEAD"
+          verified_at_utc: "2026-09-25T05:40:07Z"
 
 branch_agent_index:
   - run_id: "copilot-skills-status-report-time-token-20260925"
@@ -205,7 +241,7 @@ branch_agent_index:
     status: IN_PROGRESS
     iteration: 1
     resource_usage:
-      time_spent_seconds: 7367
+      time_spent_seconds: 8646
       time_basis: WALL_CLOCK_ELAPSED
       token_spend:
         status: NOT_REPORTED
@@ -220,12 +256,72 @@ branch_agent_index:
     decision_index_path: "docs/decisions/ralph-status-report-time-token-20260925-0335/README.md"
     base_origin_main_sha: "8da9310fda1b2e3042a379081dfb0675f1b22d6b"
     parent_rebased_onto_origin_main_sha: "d56db4de163fb261d323be7a74fba18a373cd30a"
-    implementation_commit_sha: null
+    implementation_commit_sha: "5f0c7af5bd237fa06dde3b4a4edd9e95db7470b7"
+    worker_to_parent_merge:
+      status: VERIFIED
+      sha: "14ea97483e70f97bdf1203ec388bb6d6a7d90f9c"
+      verified_parent_ref: "refs/heads/ralph/status-report-time-token-20260925-0335"
+      verified_parent_sha: "14ea97483e70f97bdf1203ec388bb6d6a7d90f9c"
+      verification_method: "git merge-base --is-ancestor 14ea97483e70f97bdf1203ec388bb6d6a7d90f9c HEAD"
+      verified_at_utc: "2026-09-25T05:40:07Z"
     parent_to_main_merge:
       status: PENDING
       sha: null
       verified_origin_main_sha: null
-    next_action: "Coordinator: rebase worker-01 onto the refreshed parent tip, rerun checks, and obtain a fresh sign-off."
+    next_action: "Coordinator: rebase the parent onto refreshed origin/main, rerun checks, then complete remote integration and memory review."
+
+  - run_id: "copilot-skills-status-report-time-token-20260925"
+    task_ids: ["branch-status-resource-usage"]
+    worker_id: "worker-01"
+    worker_name: "worker-01 / branch time and token reporting"
+    runtime_agent_id: "copilotcli:/b3f44ce6-c093-476d-ab74-b633b1be1939"
+    branch: "ralph/status-report-time-token-worker-01-20260925-0335"
+    branch_slug: "ralph-status-report-time-token-worker-01-20260925-0335"
+    status: AWAITING_MERGE
+    iteration: 1
+    resource_usage:
+      time_spent_seconds: 6680
+      time_basis: WALL_CLOCK_ELAPSED
+      token_spend:
+        status: NOT_REPORTED
+        input_tokens: null
+        output_tokens: null
+        total_tokens: null
+        cached_input_tokens: null
+        source: null
+    status_path: "docs/ralph/ralph-status-report-time-token-worker-01-20260925-0335/agents/worker-01/status.md"
+    progress_path: "docs/ralph/ralph-status-report-time-token-worker-01-20260925-0335/agents/worker-01/progress.md"
+    decision_record_path: "docs/decisions/ralph-status-report-time-token-worker-01-20260925-0335/agents/worker-01/pr-not-opened.md"
+    decision_index_path: "docs/decisions/ralph-status-report-time-token-worker-01-20260925-0335/README.md"
+    base_origin_main_sha: "8da9310fda1b2e3042a379081dfb0675f1b22d6b"
+    parent_base_origin_main_sha: "8da9310fda1b2e3042a379081dfb0675f1b22d6b"
+    parent_rebased_onto_origin_main_sha: "d56db4de163fb261d323be7a74fba18a373cd30a"
+    base_parent_sha: "74c6b1bb24f01bb7876bb489c810f1309a718373"
+    rebased_onto_parent_sha: "a2b8c0f2ff99b9a5447accd6cfdd93e550c50ade"
+    implementation_commit_sha: "5f0c7af5bd237fa06dde3b4a4edd9e95db7470b7"
+    pull_request:
+      status: NOT_OPENED
+      number: null
+      url: null
+    merge_actor_worker_id: null
+    worker_to_parent_merge:
+      status: VERIFIED
+      sha: "14ea97483e70f97bdf1203ec388bb6d6a7d90f9c"
+      verified_parent_ref: "refs/heads/ralph/status-report-time-token-20260925-0335"
+      verified_parent_sha: "14ea97483e70f97bdf1203ec388bb6d6a7d90f9c"
+      verification_method: "git merge-base --is-ancestor 14ea97483e70f97bdf1203ec388bb6d6a7d90f9c HEAD"
+      verified_at_utc: "2026-09-25T05:40:07Z"
+    cleanup:
+      worktree: PENDING
+      local_branch: PENDING
+      remote_ref: NOT_PUBLISHED
+    checks:
+      - command: "python3 .github/skills/ralph-loop/tests/test_multi_agent_contract.py"
+        result: PASS
+      - command: "git diff ralph/status-report-time-token-20260925-0335...HEAD --check"
+        result: PASS
+    blockers: []
+    next_action: "Coordinator: complete parent-to-main integration and the required post-merge memory review."
 
   - run_id: "copilot_skills-two-agent-ralph-test-batch-20260924"
     task_ids: ["multi-agent-orchestration", "multi-agent-status-snapshot"]
@@ -583,24 +679,27 @@ branch_agent_index:
 
 ## Branch/agent index
 
-| Run | Branch | Agent | Status | Status file | Progress file | Merge | Memory review |
-|---|---|---|---|---|---|---|---|
-| `copilot-skills-status-report-time-token-20260925` | `ralph/status-report-time-token-20260925-0335` | `coordinator` | `IN_PROGRESS` | [status](./ralph/ralph-status-report-time-token-20260925-0335/agents/coordinator/status.md) | [progress](./ralph/ralph-status-report-time-token-20260925-0335/agents/coordinator/progress.md) | Pending | Pending |
-| `copilot_skills-two-agent-ralph-test-batch-20260924` | `ralph/multi-agent-orchestration-20260924-1918` | `coordinator` | `COMPLETE` | [status](./ralph/ralph-multi-agent-orchestration-20260924-1918/agents/coordinator/status.md) | [progress](./ralph/ralph-multi-agent-orchestration-20260924-1918/agents/coordinator/progress.md) | `61dd22e5bcdf1a8557fc2fd221bba38810e8905f` | `COMPLETE` |
-| `copilot_skills-two-agent-ralph-test-batch-20260924` | `ralph/multi-agent-orchestration-worker-01-20260924-1924` | `worker-01` | `CANCELLED` | [status](./ralph/ralph-multi-agent-orchestration-worker-01-20260924-1924/agents/worker-01/status.md) | [progress](./ralph/ralph-multi-agent-orchestration-worker-01-20260924-1924/agents/worker-01/progress.md) | Not merged | N/A |
-| `copilot_skills-two-agent-ralph-test-batch-20260924` | `ralph/multi-agent-orchestration-worker-01-integrate-20260924-1935` | `worker-01` | `COMPLETE` | [status](./ralph/ralph-multi-agent-orchestration-worker-01-integrate-20260924-1935/agents/worker-01/status.md) | [progress](./ralph/ralph-multi-agent-orchestration-worker-01-integrate-20260924-1935/agents/worker-01/progress.md) | `2b511a323c375cf713c7027261cb35f8856dabdd` | `COMPLETE` |
-| `copilot_skills-two-agent-ralph-test-batch-20260924` | `ralph/multi-agent-status-worker-02-20260924-191743` | `worker-02` | `COMPLETE` | [status](./ralph/ralph-multi-agent-status-worker-02-20260924-191743/agents/worker-02/status.md) | [progress](./ralph/ralph-multi-agent-status-worker-02-20260924-191743/agents/worker-02/progress.md) | `1512f6fba542df5f0737c0fe135e844907c65499` | `COMPLETE` |
-| `copilot-skills-docs-status-organization-20260924` | `ralph/docs-artifact-workflow-worker-01-20260924-2030` | `worker-01` | `COMPLETE` | [status](./ralph/ralph-docs-artifact-workflow-worker-01-20260924-2030/agents/worker-01/status.md) | [progress](./ralph/ralph-docs-artifact-workflow-worker-01-20260924-2030/agents/worker-01/progress.md) | `d26900cc201218fb84f5ad4987285c0c24b85bb7` | `COMPLETE` |
-| `copilot-skills-docs-status-organization-20260924` | `ralph/status-dashboard-schema-worker-02-20260924-203039` | `worker-02` | `COMPLETE` | [status](./ralph/ralph-status-dashboard-schema-worker-02-20260924-203039/agents/worker-02/status.md) | [progress](./ralph/ralph-status-dashboard-schema-worker-02-20260924-203039/agents/worker-02/progress.md) | `b4dac949e976d48f7bd976fc1c93ddc703bc7319` | `COMPLETE` |
-| `copilot-skills-docs-status-organization-20260924` | `ralph/docs-status-dashboard-coordinator-c437fcd1` | `coordinator` | `COMPLETE` | [status](./ralph/ralph-docs-status-dashboard-coordinator-c437fcd1/agents/coordinator/status.md) | [progress](./ralph/ralph-docs-status-dashboard-coordinator-c437fcd1/agents/coordinator/progress.md) | `a724f4666a1e6638b82dc3d8528805ae4c6cb1a8` | `COMPLETE` |
-| `copilot-skills-no-browser-git-20260924` | `ralph/no-browser-git-workflows-worker-01-20260924-2131` | `worker-01` | `COMPLETE` | [status](./ralph/ralph-no-browser-git-workflows-worker-01-20260924-2131/agents/worker-01/status.md) | [progress](./ralph/ralph-no-browser-git-workflows-worker-01-20260924-2131/agents/worker-01/progress.md) | `3ea889103bb7db6fb1f5eadf647045a511ea9a03` | `COMPLETE` |
-| `copilot_skills-parent-child-pipeline-20260924` | `ralph/parent-child-orchestrator-20260924-2008` | `coordinator` | `COMPLETE` | [status](./ralph/ralph-parent-child-orchestrator-20260924-2008/agents/coordinator/status.md) | [progress](./ralph/ralph-parent-child-orchestrator-20260924-2008/agents/coordinator/progress.md) | `9558f99cc34cbed8dd1d24f4f15fc03f5d78b6ea` | `COMPLETE` |
-| `copilot_skills-parent-child-pipeline-20260924` | `ralph/parent-child-worker-agent-skill-20260924-2008` | `worker-01` | `COMPLETE` | [status](./ralph/ralph-parent-child-worker-agent-skill-20260924-2008/agents/worker-01/status.md) | [progress](./ralph/ralph-parent-child-worker-agent-skill-20260924-2008/agents/worker-01/progress.md) | `fda10605f50b49eeb4bc007a181cf51a5578ae18` → `9558f99cc34cbed8dd1d24f4f15fc03f5d78b6ea` | `COMPLETE` |
-| `copilot_skills-parent-child-pipeline-20260924` | `ralph/parent-child-worker-reference-docs-20260924-2008` | `worker-02` | `COMPLETE` | [status](./ralph/ralph-parent-child-worker-reference-docs-20260924-2008/agents/worker-02/status.md) | [progress](./ralph/ralph-parent-child-worker-reference-docs-20260924-2008/agents/worker-02/progress.md) | `1285978056851f2cdfb0ba93753386dab7dcc009` → `9558f99cc34cbed8dd1d24f4f15fc03f5d78b6ea` | `COMPLETE` |
-| `translated-ralph-prompt-skills-recovery-20260925-0318` | `ralph/translated-ralph-skills-worker-02-refresh-9558f99-20260925-0318` | `coordinator` | `IN_PROGRESS` | [status](./ralph/ralph-translated-ralph-skills-worker-02-refresh-9558f99-20260925-0318/agents/coordinator/status.md) | [progress](./ralph/ralph-translated-ralph-skills-worker-02-refresh-9558f99-20260925-0318/agents/coordinator/progress.md) | `9dc821917a5ffe32517c44131c1211291d9b1014` | `PENDING` |
+| Run | Branch | Agent | Status | Time spent | Token spend | Status file | Progress file | Merge | Memory review |
+|---|---|---|---|---|---|---|---|---|---|
+| `copilot-skills-status-report-time-token-20260925` | `ralph/status-report-time-token-20260925-0335` | `coordinator` | `IN_PROGRESS` | `8,646 s (wall-clock)` | `NOT_REPORTED` | [status](./ralph/ralph-status-report-time-token-20260925-0335/agents/coordinator/status.md) | [progress](./ralph/ralph-status-report-time-token-20260925-0335/agents/coordinator/progress.md) | Child verified; parent pending | Pending |
+| `copilot-skills-status-report-time-token-20260925` | `ralph/status-report-time-token-worker-01-20260925-0335` | `worker-01` | `AWAITING_MERGE` | `6,680 s (wall-clock)` | `NOT_REPORTED` | [status](./ralph/ralph-status-report-time-token-worker-01-20260925-0335/agents/worker-01/status.md) | [progress](./ralph/ralph-status-report-time-token-worker-01-20260925-0335/agents/worker-01/progress.md) | `14ea97483e70f97bdf1203ec388bb6d6a7d90f9c` | Pending |
+| `copilot_skills-two-agent-ralph-test-batch-20260924` | `ralph/multi-agent-orchestration-20260924-1918` | `coordinator` | `COMPLETE` | Not captured (legacy) | Not captured (legacy) | [status](./ralph/ralph-multi-agent-orchestration-20260924-1918/agents/coordinator/status.md) | [progress](./ralph/ralph-multi-agent-orchestration-20260924-1918/agents/coordinator/progress.md) | `61dd22e5bcdf1a8557fc2fd221bba38810e8905f` | `COMPLETE` |
+| `copilot_skills-two-agent-ralph-test-batch-20260924` | `ralph/multi-agent-orchestration-worker-01-20260924-1924` | `worker-01` | `CANCELLED` | Not captured (legacy) | Not captured (legacy) | [status](./ralph/ralph-multi-agent-orchestration-worker-01-20260924-1924/agents/worker-01/status.md) | [progress](./ralph/ralph-multi-agent-orchestration-worker-01-20260924-1924/agents/worker-01/progress.md) | Not merged | N/A |
+| `copilot_skills-two-agent-ralph-test-batch-20260924` | `ralph/multi-agent-orchestration-worker-01-integrate-20260924-1935` | `worker-01` | `COMPLETE` | Not captured (legacy) | Not captured (legacy) | [status](./ralph/ralph-multi-agent-orchestration-worker-01-integrate-20260924-1935/agents/worker-01/status.md) | [progress](./ralph/ralph-multi-agent-orchestration-worker-01-integrate-20260924-1935/agents/worker-01/progress.md) | `2b511a323c375cf713c7027261cb35f8856dabdd` | `COMPLETE` |
+| `copilot_skills-two-agent-ralph-test-batch-20260924` | `ralph/multi-agent-status-worker-02-20260924-191743` | `worker-02` | `COMPLETE` | Not captured (legacy) | Not captured (legacy) | [status](./ralph/ralph-multi-agent-status-worker-02-20260924-191743/agents/worker-02/status.md) | [progress](./ralph/ralph-multi-agent-status-worker-02-20260924-191743/agents/worker-02/progress.md) | `1512f6fba542df5f0737c0fe135e844907c65499` | `COMPLETE` |
+| `copilot-skills-docs-status-organization-20260924` | `ralph/docs-artifact-workflow-worker-01-20260924-2030` | `worker-01` | `COMPLETE` | Not captured (legacy) | Not captured (legacy) | [status](./ralph/ralph-docs-artifact-workflow-worker-01-20260924-2030/agents/worker-01/status.md) | [progress](./ralph/ralph-docs-artifact-workflow-worker-01-20260924-2030/agents/worker-01/progress.md) | `d26900cc201218fb84f5ad4987285c0c24b85bb7` | `COMPLETE` |
+| `copilot-skills-docs-status-organization-20260924` | `ralph/status-dashboard-schema-worker-02-20260924-203039` | `worker-02` | `COMPLETE` | Not captured (legacy) | Not captured (legacy) | [status](./ralph/ralph-status-dashboard-schema-worker-02-20260924-203039/agents/worker-02/status.md) | [progress](./ralph/ralph-status-dashboard-schema-worker-02-20260924-203039/agents/worker-02/progress.md) | `b4dac949e976d48f7bd976fc1c93ddc703bc7319` | `COMPLETE` |
+| `copilot-skills-docs-status-organization-20260924` | `ralph/docs-status-dashboard-coordinator-c437fcd1` | `coordinator` | `COMPLETE` | Not captured (legacy) | Not captured (legacy) | [status](./ralph/ralph-docs-status-dashboard-coordinator-c437fcd1/agents/coordinator/status.md) | [progress](./ralph/ralph-docs-status-dashboard-coordinator-c437fcd1/agents/coordinator/progress.md) | `a724f4666a1e6638b82dc3d8528805ae4c6cb1a8` | `COMPLETE` |
+| `copilot-skills-no-browser-git-20260924` | `ralph/no-browser-git-workflows-worker-01-20260924-2131` | `worker-01` | `COMPLETE` | Not captured (legacy) | Not captured (legacy) | [status](./ralph/ralph-no-browser-git-workflows-worker-01-20260924-2131/agents/worker-01/status.md) | [progress](./ralph/ralph-no-browser-git-workflows-worker-01-20260924-2131/agents/worker-01/progress.md) | `3ea889103bb7db6fb1f5eadf647045a511ea9a03` | `COMPLETE` |
+| `copilot_skills-parent-child-pipeline-20260924` | `ralph/parent-child-orchestrator-20260924-2008` | `coordinator` | `COMPLETE` | Not captured (legacy) | Not captured (legacy) | [status](./ralph/ralph-parent-child-orchestrator-20260924-2008/agents/coordinator/status.md) | [progress](./ralph/ralph-parent-child-orchestrator-20260924-2008/agents/coordinator/progress.md) | `9558f99cc34cbed8dd1d24f4f15fc03f5d78b6ea` | `COMPLETE` |
+| `copilot_skills-parent-child-pipeline-20260924` | `ralph/parent-child-worker-agent-skill-20260924-2008` | `worker-01` | `COMPLETE` | Not captured (legacy) | Not captured (legacy) | [status](./ralph/ralph-parent-child-worker-agent-skill-20260924-2008/agents/worker-01/status.md) | [progress](./ralph/ralph-parent-child-worker-agent-skill-20260924-2008/agents/worker-01/progress.md) | `fda10605f50b49eeb4bc007a181cf51a5578ae18` → `9558f99cc34cbed8dd1d24f4f15fc03f5d78b6ea` | `COMPLETE` |
+| `copilot_skills-parent-child-pipeline-20260924` | `ralph/parent-child-worker-reference-docs-20260924-2008` | `worker-02` | `COMPLETE` | Not captured (legacy) | Not captured (legacy) | [status](./ralph/ralph-parent-child-worker-reference-docs-20260924-2008/agents/worker-02/status.md) | [progress](./ralph/ralph-parent-child-worker-reference-docs-20260924-2008/agents/worker-02/progress.md) | `1285978056851f2cdfb0ba93753386dab7dcc009` → `9558f99cc34cbed8dd1d24f4f15fc03f5d78b6ea` | `COMPLETE` |
+| `translated-ralph-prompt-skills-recovery-20260925-0318` | `ralph/translated-ralph-skills-worker-02-refresh-9558f99-20260925-0318` | `coordinator` | `IN_PROGRESS` | Not captured (legacy) | Not captured (legacy) | [status](./ralph/ralph-translated-ralph-skills-worker-02-refresh-9558f99-20260925-0318/agents/coordinator/status.md) | [progress](./ralph/ralph-translated-ralph-skills-worker-02-refresh-9558f99-20260925-0318/agents/coordinator/progress.md) | `9dc821917a5ffe32517c44131c1211291d9b1014` | `PENDING` |
 
 The parent-child pipeline run is `COMPLETE`: both workers integrated into the
 parent, the parent merge is verified on `origin/main`, the contract suite and
 post-merge memory review passed, and all child and parent worktrees/branches
 were removed after their respective merge proofs. The prior no-browser Git
-workflow run is also `COMPLETE`.
+workflow run is also `COMPLETE`. Historical branches without schema-version-2
+resource telemetry are marked `Not captured (legacy)` rather than assigned
+invented durations or token counts.

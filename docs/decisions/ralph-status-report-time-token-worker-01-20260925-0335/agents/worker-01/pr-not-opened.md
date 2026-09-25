@@ -89,6 +89,18 @@
   — PASS; 15 tests ran in 0.999s, `OK`.
 - `git diff ralph/status-report-time-token-20260925-0335...HEAD --check`
   and `git show --check --oneline --no-patch HEAD` — PASS.
+- Coordinator integration:
+  `git merge --ff-only ralph/status-report-time-token-worker-01-20260925-0335`
+  — PASS; exact worker tip
+  `14ea97483e70f97bdf1203ec388bb6d6a7d90f9c` is verified on parent ref
+  `refs/heads/ralph/status-report-time-token-20260925-0335` at
+  `2026-09-25T05:40:07Z`.
+- The coordinator's integrated-parent test exposed a missing dashboard row
+  for this now-merged leaf; the coordinator is adding the synchronized
+  branch-agent index entry before the next full-suite run.
+- The coordinator added this leaf to both dashboard indexes and reran
+  `PYTHONDONTWRITEBYTECODE=1 python3 /Users/jrblankenhorn/copilot_skills.worktrees/ralph-status-report-time-token-coordinator-20260925-0335/.github/skills/ralph-loop/tests/test_multi_agent_contract.py`
+  — PASS, 15 tests. The prior dashboard-index failure is resolved.
 - An initial suite invocation used the session's default worktree and passed
   13 tests; it was not counted as child verification. The required suite was
   rerun from the assigned child worktree.

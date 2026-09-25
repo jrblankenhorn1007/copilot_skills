@@ -61,3 +61,69 @@
   `NOT_REPORTED`; the session does not expose those counters.
 - **Next action:** Finish parent rebase, then rebase and retest the worker
   branch on the refreshed parent.
+
+## Worker integration and shared-path hold — 2026-09-25
+
+- **Worker-to-parent integration:** From the coordinator worktree,
+  `git merge --ff-only ralph/status-report-time-token-worker-01-20260925-0335`
+  — PASS. The resulting parent tip is
+  `14ea97483e70f97bdf1203ec388bb6d6a7d90f9c`; verified with
+  `git merge-base --is-ancestor 14ea97483e70f97bdf1203ec388bb6d6a7d90f9c HEAD`.
+  The merge is fast-forward; implementation SHA remains
+  `5f0c7af5bd237fa06dde3b4a4edd9e95db7470b7`.
+- **Documentation suite on the integrated parent:**
+  `PYTHONDONTWRITEBYTECODE=1 python3 /Users/jrblankenhorn/copilot_skills.worktrees/ralph-status-report-time-token-coordinator-20260925-0335/.github/skills/ralph-loop/tests/test_multi_agent_contract.py`
+  — FAIL, 14 of 15 tests passed. The single failure is the expected
+  coordinator-dashboard contract: the newly integrated worker leaf has not
+  yet been added to `branch_agent_index` and the Markdown index. The test
+  passed with 15 tests in the rebased child before coordinator integration.
+- `git -C /Users/jrblankenhorn/copilot_skills.worktrees/ralph-status-report-time-token-coordinator-20260925-0335 diff origin/main...HEAD --check`
+  and `git show --check --format=oneline HEAD` — PASS.
+- **Shared main-path conflict:** The refreshed main checkout contains an
+  active agent-sync follow-up whose recorded edit scope includes the Ralph
+  instructions, contract test, README, and `docs/ralph-status.md`; its local
+  checkout also has unpublished changes in those paths. The agent-sync
+  revision-4 record showed sign-out, but its session has since resumed and
+  the worktree is still dirty. This run is recorded `BLOCKED` in its
+  agent-sync ledger; no shared main checkout changes have been touched.
+- **Current remote base:** `origin/main` is
+  `ad4e663aa21259946ec112f7831b822529117b3b`; the parent has not yet been
+  rebased onto the latest status-only commits. Preserve the verified
+  worker-to-parent merge; rebase the parent after the active owner releases
+  the overlapping paths, then rerun checks.
+- **Resource usage as of `2026-09-25T05:47:40Z`:** Coordinator elapsed
+  wall-clock time is 7,939 seconds since `2026-09-25T03:35:21Z`.
+  Worker-01 elapsed wall-clock time is 5,973 seconds since
+  `2026-09-25T04:08:07Z`. Token counts remain `NOT_REPORTED` for both
+  branches; neither session exposes provider usage telemetry.
+- **Next action:** Serialize after the active main-worktree owner releases
+  the shared paths, rebase onto the then-current `origin/main`, synchronize
+  both worker index formats, and rerun the documentation contract suite.
+
+## Shared-path release and dashboard recovery — 2026-09-25
+
+- The overlapping agent-sync owner released the shared Ralph, README, test,
+  and dashboard paths at `2026-09-25T05:48:55Z`. The primary integration
+  worktree is clean; its configured remote is
+  `https://github.com/jrblankenhorn1007/copilot_skills.git`, and `main`
+  tracks `origin/main`.
+- Refreshed the clean integration checkout with
+  `git pull --ff-only` — PASS (`Already up to date`). Current
+  `origin/main` is `e9fe3d175d1ca76b03fccdbe53431205b80e5c23`.
+- Synchronized the integrated worker leaf into both `branch_agent_index` and
+  the Markdown branch/agent table. Historical entries without schema-version-2
+  measurements are explicitly marked `Not captured (legacy)`.
+- Reran
+  `PYTHONDONTWRITEBYTECODE=1 python3 /Users/jrblankenhorn/copilot_skills.worktrees/ralph-status-report-time-token-coordinator-20260925-0335/.github/skills/ralph-loop/tests/test_multi_agent_contract.py`
+  — PASS, 15 tests. This resolves the earlier 14-of-15 dashboard-index
+  failure.
+- `git diff --check` — PASS. Worker-to-parent merge remains verified at
+  `14ea97483e70f97bdf1203ec388bb6d6a7d90f9c`.
+- **Resource usage as of `2026-09-25T05:59:27Z`:** coordinator wall-clock
+  elapsed time is 8,646 seconds from `2026-09-25T03:35:21Z`; worker-01
+  elapsed time is 6,680 seconds from `2026-09-25T04:08:07Z`. Provider token
+  counters remain `NOT_REPORTED` with null values for both branches.
+- **Next action:** Rebase the parent onto the refreshed `origin/main` SHA,
+  preserve both upstream and run records, rerun the contract suite and diff
+  checks, then use the repository's normal parent integration path and
+  complete the post-merge memory review.
