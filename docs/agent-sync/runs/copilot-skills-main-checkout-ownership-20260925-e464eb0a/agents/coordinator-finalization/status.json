@@ -28,22 +28,26 @@
   },
   "prompt_path": "docs/agent-sync/runs/copilot-skills-main-checkout-ownership-20260925-e464eb0a/agents/coordinator-finalization/prompt.md",
   "prompt_sha256": "9c9d31e67e04ae01921475fe728b2a00ec2fa41bb1002559e5c84102d5c543d1",
-  "revision": 1,
+  "revision": 2,
   "run_id": "copilot-skills-main-checkout-ownership-20260925-e464eb0a",
   "schema_version": 1,
   "sign_in_at_utc": "2026-09-25T09:25:25Z",
   "sign_out": {
-    "at_utc": null,
-    "checks": [],
-    "implementation_commit_sha": null,
+    "at_utc": "2026-09-25T09:54:24Z",
+    "checks": [
+      "PASS: 41 Ralph tests after ownership rebase before implementation merge",
+      "PASS: 3 affected dashboard tests after completion branch rebase",
+      "PASS: fetched origin/main includes f9cab16 and 8115c36; MERGE reservation is FREE at revision 14"
+    ],
+    "implementation_commit_sha": "8115c36aceb94932cb4168fa73c4797c50c32e86",
     "next_action": null,
-    "summary": null
+    "summary": "Main ownership protocol and follow-up dashboard verified on origin/main; post-merge memory reviewed with no new entry; coordinator scope released."
   },
   "started_at_utc": "2026-09-25T09:25:25Z",
-  "status": "IN_PROGRESS",
-  "status_reason": "The prior dashboard owner signed out on fetched main; indexing this run's leaf and preparing verified remote integration.",
+  "status": "COMPLETE",
+  "status_reason": "Ownership protocol and synchronized completion records verified on fetched remote main; task edit scope released.",
   "task_id": "main-ownership-finalization",
-  "updated_at_utc": "2026-09-25T09:25:25Z",
+  "updated_at_utc": "2026-09-25T09:54:24Z",
   "worker_id": "coordinator",
   "worker_name": "coordinator - main ownership integration"
 }
