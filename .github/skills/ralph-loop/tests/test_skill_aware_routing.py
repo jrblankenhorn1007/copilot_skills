@@ -1,11 +1,13 @@
 """Contract for conditional specialist dispatch in a Ralph iteration."""
 
+import re
 import unittest
 from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parents[4]
 GUIDE = ROOT / ".github" / "skills" / "ralph-loop" / "references" / "skill-aware-routing.md"
+AGENTS = ROOT / ".github" / "agents"
 
 
 class SkillAwareRoutingTests(unittest.TestCase):
@@ -53,11 +55,52 @@ class SkillAwareRoutingTests(unittest.TestCase):
             with self.subTest(rule=rule):
                 self.assertIn(rule, guide)
 
-    def test_ralph_entrypoint_delegates_specialist_routing_to_the_orchestrator(self):
+    def test_deployed_ralph_coordinator_routes_specialists_until_roles_are_merged(self):
         guide = self.guide()
-        self.assertIn("ralph orchestrator", guide)
-        self.assertIn("ralph loop worker", guide)
-        self.assertIn("the entrypoint does not dispatch specialists", guide)
+        for rule in (
+            "currently deployed ralph loop coordinator",
+            "ralph loop workers",
+            "the future ralph orchestrator",
+            "not yet on `origin/main`",
+        ):
+            with self.subTest(rule=rule):
+                self.assertIn(rule, guide)
+        self.assertNotIn("the entrypoint does not dispatch specialists", guide)
+        self.assertNotIn("ralph loop worker (`ralph-worker`)", guide)
+
+    def test_deployed_coordinator_allows_existing_agents_and_every_specialist(self):
+        content = (AGENTS / "ralph-loop.agent.md").read_text(encoding="utf-8")
+        self.assertTrue(content.startswith("---\n"))
+        metadata = content.split("---\n", 2)[1]
+        match = re.search(r"(?m)^agents: \[([^\]\n]+)\]$", metadata)
+        self.assertIsNotNone(match, "the deployed coordinator needs an agent allowlist")
+        allowed = {name.strip().strip("'\"") for name in match.group(1).split(",")}
+        for name in ("Ralph Loop", "Ralph Code Reviewer", "Ralph Security Reviewer"):
+            with self.subTest(existing_agent=name):
+                self.assertIn(name, allowed)
+
+        profiles = sorted(AGENTS.glob("ralph-*-specialist.agent.md"))
+        self.assertEqual(len(profiles), 4, "all four focused specialists must be installed")
+        for path in profiles:
+            with self.subTest(specialist=path.name):
+                profile = path.read_text(encoding="utf-8").split("---\n", 2)[1]
+                name = re.search(r"(?m)^name: (.+)$", profile)
+                self.assertIsNotNone(name)
+                self.assertIn(name.group(1), allowed)
+                self.assertIn("user-invocable: true", profile)
+                self.assertNotIn("disable-model-invocation: true", profile)
+        self.assertNotIn("disable-model-invocation: true", metadata)
+        self.assertIn("`agent`", content)
+
+    def test_pipeline_surfaces_link_the_conditional_routing_guide(self):
+        for path in (
+            AGENTS / "ralph-loop.agent.md",
+            ROOT / ".github" / "skills" / "ralph-loop" / "SKILL.md",
+            ROOT / ".github" / "skills" / "ralph-loop" / "references" / "multi-agent-orchestration.md",
+            ROOT / "README.md",
+        ):
+            with self.subTest(path=path.relative_to(ROOT)):
+                self.assertIn("skill-aware-routing.md", path.read_text(encoding="utf-8"))
 
     def test_specialists_use_the_same_host_capacity_as_workers(self):
         guide = self.guide()
@@ -75,7 +118,7 @@ class SkillAwareRoutingTests(unittest.TestCase):
         guide = self.guide()
         for rule in (
             "read-only specialists cannot run the registry cli",
-            "the orchestrator must account for their live sessions",
+            "the coordinator must account for their live sessions",
             "if their capacity cannot be verified, do not dispatch",
             "do not grant `execute` solely for registry bookkeeping",
         ):

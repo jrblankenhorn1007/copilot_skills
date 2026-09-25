@@ -46,7 +46,12 @@ license notices are preserved in each skill directory.
   merge is verified. The workflow verifies integration on remote `main` and
   reviews durable lessons after the parent merge. Its
   [multi-agent orchestration guide](.github/skills/ralph-loop/references/multi-agent-orchestration.md)
-  covers configurable worker counts and Git synchronization; the
+  covers configurable worker counts and Git synchronization. The
+  [conditional specialist routing guide](.github/skills/ralph-loop/references/skill-aware-routing.md)
+  explains how the currently deployed Ralph Loop coordinator selects a
+  focused specialist only for a relevant, separable task, while retaining
+  general implementation workers and independent reviewers. The separate
+  Orchestrator/Worker profiles are not yet on `origin/main`; the
   [multi-agent status guide](.github/skills/ralph-loop/references/multi-agent-status.md)
   defines overall and per-worker iteration reporting. Its Git preflight checks
   configured Git identity and remote read access before work, and distinguishes
@@ -75,6 +80,19 @@ license notices are preserved in each skill directory.
 - [Ralph Security Reviewer](.github/agents/ralph-security-reviewer.agent.md):
   provides a separate, read-only security review when a diff touches
   security-sensitive behavior.
+- [Ralph Git Specialist](.github/agents/ralph-git-specialist.agent.md):
+  handles isolated Git worktrees, status publication, and authorized merges.
+- [Ralph Docs Specialist](.github/agents/ralph-docs-specialist.agent.md):
+  audits documentation drift or updates explicitly requested docs.
+- [Ralph Agent Design Specialist](.github/agents/ralph-agent-design-specialist.agent.md):
+  provides read-only architecture, Skill-stack, and evaluation design.
+- [Ralph ASI Specialist](.github/agents/ralph-asi-specialist.agent.md):
+  performs read-only OWASP ASI posture and controls assessment, not diff review.
+
+The four optional specialists are selected on demand by the Ralph Loop
+coordinator, inherit the session model, and share the same host capacity limit.
+Their presence does not imply a measured speed, cost, or accuracy improvement;
+compare observed latency, tokens, and acceptance checks before making one.
 
 ## Pre-merge PR review
 

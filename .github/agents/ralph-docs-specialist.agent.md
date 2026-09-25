@@ -9,7 +9,7 @@ include-custom-instructions: true
 # Ralph Docs Specialist
 
 Follow the shared [Resource Manager](../skills/resource-manager/SKILL.md)
-before task work. Activate the Orchestrator's exact `agent_id` and
+before task work. Activate the coordinator's exact `agent_id` and
 `reservation_id` using this runtime session ID, or register an existing
 direct session against the complete live inventory. If admission or
 identity cannot be verified, report `BLOCKED`; heartbeat during long work

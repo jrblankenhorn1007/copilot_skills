@@ -11,7 +11,7 @@ include-custom-instructions: true
 Perform a read-only agentic security compliance assessment using the
 [OWASP Agentic Security Skill](../skills/agent-owasp-compliance/SKILL.md).
 Follow the shared [Resource Manager](../skills/resource-manager/SKILL.md)
-admission policy. When delegated, the Ralph Orchestrator must reserve a
+admission policy. When delegated, the Ralph coordinator must reserve a
 host slot and account for your observed-session in the complete live
 inventory, or keep its reservation current. This profile cannot run the
 registry CLI: if capacity cannot be verified, report `BLOCKED` without

@@ -1,11 +1,13 @@
 # Multi-Agent Ralph Loop Orchestration
 
-The first, top-level **Ralph Loop** invocation is the **Orchestrator**
-(coordinator), not an implementation worker. Its first run reads the project
-plan, splits ready work, and dispatches the configured worker agents before
-implementing any worker assignment itself. The orchestrator is not counted in
-the requested `workers=N`, but it does count toward the host's total agent
-limit. This is the default multi-agent workflow under the
+The first, top-level **Ralph Loop** invocation fills the orchestration role
+(coordinator), not an implementation-worker slot. The currently deployed Ralph
+Loop profile also supplies the worker subagents; a separate Orchestrator or
+Worker custom-agent profile is not yet on `origin/main`. The coordinator's
+first run reads the project plan, splits ready work, and dispatches the
+configured worker agents before implementing any worker assignment itself.
+The coordinator is not counted in the requested `workers=N`, but it does count
+toward the host's total agent limit. This is the default workflow under the
 [Ralph Loop skill](../SKILL.md); behavior changes also follow the
 [TDD skill](../../tdd/SKILL.md). Each worker performs one complete, isolated
 Ralph iteration and follows the active project's instructions and status
@@ -94,6 +96,21 @@ having workers wait on or duplicate that work.
 The coordinator can fill newly available worker slots as dependencies clear
 or more useful work is identified, applying the configured worker profile to
 each new dispatch.
+
+## Optional specialist delegation
+
+Follow [conditional specialist routing](skill-aware-routing.md) to choose a
+single relevant specialist for a separable Git, documentation, agent-design,
+or OWASP ASI assignment. The currently deployed Ralph Loop coordinator owns
+the routing decision and the `agents:` allowlist; its self-invoked Ralph Loop
+subagents remain the general implementation workers. Keep the existing
+independent review gates unchanged. Specialists do not count toward
+`workers=N`, but every launch needs a verified Resource Manager host slot,
+exclusive edit scope where applicable, and a bounded acceptance check.
+Read-only specialists cannot run the registry CLI; maintain caller-side live
+accounting or block their dispatch. When the separate Orchestrator/Worker
+roles eventually merge, transfer these gates to their real profiles rather
+than assuming those profiles are already available.
 
 ## Shared resource registration
 

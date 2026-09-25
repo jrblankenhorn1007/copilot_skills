@@ -58,12 +58,14 @@ class MultiAgentContractTests(unittest.TestCase):
             "ralph loop",
             "the orchestrator must use Ralph Loop workers",
         )
-        assert_contains(
-            self,
-            orchestrator,
-            "agents: ['ralph loop', 'ralph code reviewer', 'ralph security reviewer']",
-            "the orchestrator must allow workers and both review agents",
+        allowlist = re.search(
+            r"(?m)^agents: \[([^\]]+)\]$",
+            (ROOT / ".github/agents/ralph-loop.agent.md").read_text(encoding="utf-8"),
         )
+        self.assertIsNotNone(allowlist, "the coordinator needs an agent allowlist")
+        for name in ("Ralph Loop", "Ralph Code Reviewer", "Ralph Security Reviewer"):
+            with self.subTest(agent=name):
+                self.assertIn(f"'{name}'", allowlist.group(1))
         self.assertTrue(
             any(
                 term in orchestrator

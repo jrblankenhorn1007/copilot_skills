@@ -96,7 +96,7 @@ class SpecialistAgentContractTests(unittest.TestCase):
                             self.assertIn(requirement, content)
                 else:
                     for requirement in (
-                        "orchestrator",
+                        "coordinator",
                         "observed-session",
                         "capacity cannot be verified",
                     ):

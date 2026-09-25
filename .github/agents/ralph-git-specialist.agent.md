@@ -12,7 +12,7 @@ Handle only the assigned Git lifecycle; leave implementation, PR review, and
 security analysis to their respective owners. Read the [Ralph Loop
 skill](../skills/ralph-loop/SKILL.md) when operating in a Ralph iteration.
 Follow the shared [Resource Manager](../skills/resource-manager/SKILL.md)
-before task work: activate the Orchestrator's exact `agent_id` and
+before task work: activate the coordinator's exact `agent_id` and
 `reservation_id` with this runtime session ID, or register an existing
 direct session using the complete live inventory. If admission or identity
 cannot be verified, report `BLOCKED`. Heartbeat during long work and

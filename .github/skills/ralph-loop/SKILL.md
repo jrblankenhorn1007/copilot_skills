@@ -37,6 +37,16 @@ for applying it in supported harnesses. Follow the
 [Resource Manager skill](../resource-manager/SKILL.md) for the shared local
 registry and dynamic hardware-based capacity policy.
 
+The currently deployed Ralph Loop profile is both the top-level coordinator
+and the general implementation-worker profile. Route only relevant, bounded
+Git, documentation, agent-design, or OWASP ASI assignments to the optional
+specialists following the
+[conditional specialist routing guide](./references/skill-aware-routing.md).
+Specialists consume shared host capacity but do not inflate `workers=N`;
+preserve the general worker fallback and the existing independent PR review
+gates. The separately proposed Orchestrator and Worker profiles are not yet
+on `origin/main`; do not delegate to them as if they were deployed.
+
 ## Parent and child worktrees
 
 After the per-iteration refresh and Git identity/authentication preflight,

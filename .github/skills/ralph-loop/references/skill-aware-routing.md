@@ -1,10 +1,13 @@
 # Conditional specialist routing for Ralph Loop
 
 Select an agent for a bounded task, not an agent for every installed Skill.
-The user-facing Ralph Loop entrypoint delegates the complete request to
-the internal Ralph Orchestrator; the entrypoint does not dispatch specialists.
-The Ralph Orchestrator owns the split plan, exclusive edit scope, worker
-count, dashboard, specialist routing, and final verification. This guide complements the
+The currently deployed Ralph Loop coordinator is the user-facing entrypoint
+and owns the split plan, exclusive edit scope, worker count, dashboard,
+specialist dispatch, and final verification. It self-invokes Ralph Loop workers
+for general implementation. The future Ralph Orchestrator and distinct Ralph
+Loop Worker profiles are not yet on `origin/main`; transfer these routing
+responsibilities only after that separate role branch is merged and verified.
+This guide complements the
 [multi-agent orchestration](multi-agent-orchestration.md),
 [Resource Manager](../../resource-manager/SKILL.md), and the
 main-ownership protocol at `docs/agent-sync/main-ownership.md`.
@@ -16,14 +19,14 @@ status or merge write.
 
 ## Decide at the task boundary
 
-Default to the general Ralph Loop Worker. Look at the user's requested outcome and
+Default to the general Ralph Loop worker. Look at the user's requested outcome and
 the relevant Skill's trigger before routing an independent, bounded
 assignment. Do not run all specialists for every request or duplicate
 investigations across roles.
 
 | Requested work | Agent | Load a Skill only when relevant |
 |---|---|---|
-| Implementation, tests, integration, or a mixed task with no separable specialist scope | Ralph Loop Worker (`ralph-worker`) | `tdd` for behavior changes; `project-memory` for the coordinator's post-merge review |
+| Implementation, tests, integration, or a mixed task with no separable specialist scope | Ralph Loop worker (`Ralph Loop`) | `tdd` for behavior changes; `project-memory` for the coordinator's post-merge review |
 | Code review of a changed branch or PR | `ralph-code-reviewer` | Existing read-only reviewer; not a second implementation worker |
 | Diff-level security review or an explicit search for exploitable vulnerabilities | `ralph-security-reviewer` | Existing security reviewer; not an OWASP ASI posture audit |
 | Fetch/rebase/worktree conflict triage, task status publication, or an authorized Git merge | `ralph-git-specialist` | `ralph-loop` only when acting in a Ralph iteration |
@@ -42,12 +45,12 @@ ownership.
 ## Dispatch and fallback
 
 1. Confirm the named custom agent exists in `.github/agents/` for this
-   workspace and is allowed by the Ralph Orchestrator's `agents:`
+   workspace and is allowed by the deployed Ralph Loop coordinator's `agents:`
    frontmatter. Agent definitions alone do not change the pipeline: the
-   Orchestrator must explicitly route to the selected specialist and permit
-   that agent through its subagent allowlist. Keep Ralph Loop Worker and
-   the existing read-only reviewers in that allowlist; do not add a
-   competing coordinator or let the entrypoint dispatch specialists.
+   coordinator must explicitly route to the selected specialist and permit
+   that agent through its subagent allowlist. Keep the general Ralph Loop
+   worker and the existing read-only reviewers in that allowlist; do not
+   add a competing coordinator.
 2. Allocate a small, exclusive edit scope and concrete expected output
    before invoking `agent/runSubagent`. Supply just the task prompt, exact
    branch/base, relevant paths, applicable Skill trigger, safety limits, and
@@ -56,13 +59,13 @@ ownership.
    specialists run alongside implementation workers.
 3. Count only launched implementation workers in `workers=N`; specialists
    are not counted as implementation workers. Every launched specialist
-   counts toward the Resource Manager's host limit alongside the router,
-   Orchestrator, workers, and reviewers. Refresh the live-agent inventory
+   counts toward the Resource Manager's host limit alongside the coordinator,
+   workers, and reviewers. Refresh the live-agent inventory
    and reserve a host slot before each `agent/runSubagent` call. Pass the
    exact `agent_id` and `reservation_id`; an execution-capable specialist
    activates its reservation before task work, heartbeats while active,
    and releases it when done. Read-only specialists cannot run the registry
-   CLI. The Orchestrator must account for their live sessions through a
+   CLI. The coordinator must account for their live sessions through a
    current reservation or the complete observed-session inventory, and
    keep that accounting valid throughout the task. If their capacity
    cannot be verified, do not dispatch; do not grant `execute` solely for
@@ -73,7 +76,7 @@ ownership.
    claim a specialist ran just because its definition was discoverable.
    Report actual invocations and checks in the status records.
 4. If a specialist, its Skill, or the `agent/runSubagent` capability is
-   unavailable, use the general Ralph Loop Worker with the same relevant
+   unavailable, use the general Ralph Loop worker with the same relevant
    Skill and validation rules when that worker is authorized and capable.
    Otherwise report the blocker; do not skip mandatory security review or
    imply a missing review occurred. A fallback does not grant new tools or

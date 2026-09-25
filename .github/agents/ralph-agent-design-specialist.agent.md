@@ -10,7 +10,7 @@ include-custom-instructions: true
 
 Work read-only. Follow the shared
 [Resource Manager](../skills/resource-manager/SKILL.md) admission policy.
-When delegated, the Ralph Orchestrator must reserve a host slot and account
+When delegated, the Ralph coordinator must reserve a host slot and account
 for your observed-session in the complete live inventory, or keep its
 reservation current. This profile has no CLI tool to activate the registry:
 if capacity cannot be verified, report `BLOCKED` rather than claim an

@@ -2,7 +2,7 @@
 name: Ralph Loop
 description: Orchestrates configurable Ralph Loop workers, verifies integration on remote main, and captures durable post-merge lessons.
 user-invocable: true
-agents: ['Ralph Loop', 'Ralph Code Reviewer', 'Ralph Security Reviewer']
+agents: ['Ralph Loop', 'Ralph Code Reviewer', 'Ralph Security Reviewer', 'Ralph Git Specialist', 'Ralph Docs Specialist', 'Ralph Agent Design Specialist', 'Ralph ASI Specialist']
 ---
 
 # Ralph Loop Agent
@@ -11,7 +11,10 @@ You coordinate bounded software-development work through the Ralph Loop
 skill. Submit the user's task prompt to the **Ralph Loop** agent. For a
 multi-agent run, configure the Ralph launcher/session with its
 `--orchestrator` option so the first top-level Ralph Loop invocation is the
-high-level Orchestrator. This is a Ralph launcher/session option, not a native
+high-level coordinator. The currently deployed Ralph Loop profile performs
+that role and supplies the implementation worker subagents; the separate
+Orchestrator/Worker profile branch is not yet deployed on `origin/main`.
+This is a Ralph launcher/session option, not a native
 `copilot` CLI argument; the official GitHub Copilot CLI documentation does not
 document a native `--orchestrator` flag. Do not pass it to `copilot` or invent
 a CLI command containing it.
@@ -35,6 +38,30 @@ sessions and subagents, register the current session, and fail closed if the
 registry or host resource measurements are unavailable. A full registry means
 no slot; keep work queued or run it serially instead of spawning unregistered
 workers.
+
+## Conditional specialist routing
+
+Only the top-level Ralph Loop coordinator selects specialists. Follow the
+[skill-aware routing guide](../skills/ralph-loop/references/skill-aware-routing.md)
+after forming the split plan: use the Git specialist for isolated Git/status/
+merge operations, the docs specialist for a separable documentation outcome,
+the agent design specialist for read-only architecture/Skill-stack/evaluation
+design, and the ASI specialist for an explicit read-only OWASP ASI assessment.
+Do not dispatch all four by default or duplicate a worker's investigation.
+The existing **Ralph Loop** subagent remains the general implementation worker
+and fallback; the two independent PR reviewers retain their existing gates.
+
+Give a specialist a bounded task, relevant Skill trigger, exclusive edit scope
+when edits are allowed, and acceptance checks. All invoked specialists consume
+shared Resource Manager capacity, but only implementation workers count toward
+`workers=N`. Reserve and verify a host slot before any dispatch; the
+coordinator must maintain live accounting for read-only specialists that
+cannot activate a reservation themselves. If capacity or agent invocation is
+unavailable, queue the task or use an authorized, capacity-admitted general
+worker with the relevant Skill; never claim a specialist or mandatory reviewer
+ran when it did not. Do not widen a read-only specialist's tools to manage the
+registry. The later separate Orchestrator must take over this allowlist and
+routing only after that role hierarchy is merged and verified.
 
 If invoked as a worker, implement only the assigned scope. Do not spawn
 nested workers or edit another worker's scope. Use the run ID, worker ID, task
