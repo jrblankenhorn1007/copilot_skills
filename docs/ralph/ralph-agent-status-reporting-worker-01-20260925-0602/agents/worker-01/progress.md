@@ -109,7 +109,7 @@
 - No platforms or environments remain unverified for this documentation-only
   contract.
 
-## Sign-off — 2026-09-25T06:15:28Z
+## Sign-off — 2026-09-25T06:17:17Z
 
 - **Worker state:** `AWAITING_MERGE`.
 - **Run state:** `IN_PROGRESS`.
@@ -154,9 +154,18 @@
     }
   ],
   "blockers": [],
-  "attested_at_utc": "2026-09-25T06:15:28Z",
+  "attested_at_utc": "2026-09-25T06:17:17Z",
   "attestation_kind": "SELF_ATTESTATION",
   "cryptographic_signature_status": "NOT_CRYPTOGRAPHICALLY_SIGNED",
   "statement": "I, worker-01, sign off iteration 1 for status-first-agent-reporting-guidance at commit c16f2778429f2a76b63e1ca74c7ff50eef17e7ea."
 }
 ```
+
+## Final post-commit verification — 2026-09-25T06:17:17Z
+
+- `git diff --check f602cfcd7e7d7043870857c1fda6b9707a711e5d HEAD` — `PASS`.
+- `cd /Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-status-reporting-worker-01-20260925-0602 && python3 .github/skills/ralph-loop/tests/test_multi_agent_contract.py MultiAgentContractTests.test_status_first_reports_cover_run_and_agent_state_without_stopping_early`
+  — `PASS` (`Ran 1 test in 0.015s`, `OK`).
+- The child worktree is clean; its tip is
+  `b1d113bc8ceeb4b4ae0caf7a91f5dc54641aa519`. The parent remains at the
+  assigned base `f602cfcd7e7d7043870857c1fda6b9707a711e5d`.

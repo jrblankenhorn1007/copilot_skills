@@ -40,7 +40,7 @@ requested_worker_count: 2
 effective_worker_count: 2
 active_worker_count: 0
 started_at_utc: "2026-09-25T06:01:28Z"
-updated_at_utc: "2026-09-25T06:15:28Z"
+updated_at_utc: "2026-09-25T06:17:17Z"
 base_origin_main_sha: "9558f99cc34cbed8dd1d24f4f15fc03f5d78b6ea"
 rebased_onto_origin_main_sha: null
 parent_branch: "ralph/agent-status-reporting-20260924-2313"
@@ -86,7 +86,7 @@ worker_sign_off:
   status: SUBMITTED
   attestation_kind: SELF_ATTESTATION
   cryptographic_signature_status: NOT_CRYPTOGRAPHICALLY_SIGNED
-  attested_at_utc: "2026-09-25T06:15:28Z"
+  attested_at_utc: "2026-09-25T06:17:17Z"
   statement: "I, worker-01, sign off iteration 1 for status-first-agent-reporting-guidance at commit c16f2778429f2a76b63e1ca74c7ff50eef17e7ea."
 commit_signature_verification:
   status: NOT_CRYPTOGRAPHICALLY_SIGNED
