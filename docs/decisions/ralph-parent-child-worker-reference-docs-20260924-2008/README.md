@@ -16,7 +16,7 @@
 - **Parent's latest rebase target / observed `origin/main`:** `485b4a64c871f581f9295e46c867b188b0e3ccee`
 - **Pre-refresh implementation commit SHA:** `652b3dcda2d76188590d90bfbc788a1bc775dae9`
 - **Rewritten implementation commit SHA:** `b4d2d331fc5ad2efd29b96c201c099c8a3642944`
-- **Metadata/status/decision update commit SHA:** Pending separate metadata commit.
+- **Metadata/status/decision update commit SHA:** `fddf99ea99db6ac45dc9a9db5ffcd46882b54a71`
 - **PR:** `NOT_OPENED`. This is child-to-parent work; only the completed
   parent iteration integrates to remote `main`.
 - **Integration state:** No push or merge was performed in this follow-up.
@@ -93,7 +93,9 @@
   pending. No push, PR, merge, or worktree/branch cleanup was performed.
 - **Contract status:** The combined parent-child test is `NOT_RUN` per
   coordinator instruction. No combined-suite pass is claimed.
-- **Metadata update SHA:** Pending separate metadata commit.
+- **Metadata update SHA:** `fddf99ea99db6ac45dc9a9db5ffcd46882b54a71` (the
+  primary status/decision update commit; a separate follow-up records this
+  SHA in the worker-owned records).
 - **Current worker records:** [status](../../ralph/ralph-parent-child-worker-reference-docs-20260924-2008/agents/worker-02/status.md) ·
   [progress](../../ralph/ralph-parent-child-worker-reference-docs-20260924-2008/agents/worker-02/progress.md) ·
   [worker-02 no-PR record](agents/worker-02/pr-not-opened.md).

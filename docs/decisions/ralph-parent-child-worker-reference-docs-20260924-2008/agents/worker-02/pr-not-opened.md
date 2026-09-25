@@ -21,7 +21,7 @@
 - **Current `rebased_onto_parent_sha`:** `268358566c074cf3be35661f15883c588aef622f`
 - **Pre-refresh implementation commit SHA:** `652b3dcda2d76188590d90bfbc788a1bc775dae9`
 - **Rewritten implementation commit SHA:** `b4d2d331fc5ad2efd29b96c201c099c8a3642944`
-- **Metadata/status/decision update commit SHA:** Pending separate metadata commit.
+- **Metadata/status/decision update commit SHA:** `fddf99ea99db6ac45dc9a9db5ffcd46882b54a71`
 - **Pull request:** Not opened (`number: null`, `url: null`). Child changes
   integrate into the parent branch; only the completed parent integrates to
   remote `main`.
@@ -427,7 +427,8 @@ commit—not to this record or the metadata commit:
   explicit that `--orchestrator` is a launcher/session option, not a native
   Copilot CLI flag. All conflicts were resolved; there is no outstanding
   worker-scope conflict.
-- **Metadata/status/decision update SHA:** Pending separate metadata commit.
+- **Metadata/status/decision update SHA:** `fddf99ea99db6ac45dc9a9db5ffcd46882b54a71`
+  (a separate follow-up commit records this SHA in the worker-owned records).
 - **Current status:** `AWAITING_MERGE`; PR is `NOT_OPENED`; worker-to-parent
   merge, parent-to-main merge, memory review, and cleanup are pending.
   Blockers are empty; no push, PR, merge, or cleanup was performed.

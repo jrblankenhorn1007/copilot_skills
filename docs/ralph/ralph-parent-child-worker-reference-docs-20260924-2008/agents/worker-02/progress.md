@@ -15,6 +15,7 @@
 - **Latest observed `origin/main` SHA:** `485b4a64c871f581f9295e46c867b188b0e3ccee`
 - **Previous implementation commit SHA:** `652b3dcda2d76188590d90bfbc788a1bc775dae9`
 - **Latest implementation commit SHA:** `b4d2d331fc5ad2efd29b96c201c099c8a3642944`
+- **Metadata/status/decision update commit SHA:** `fddf99ea99db6ac45dc9a9db5ffcd46882b54a71`
 
 ## 2026-09-25T00:55:42Z — Refresh existing child iteration
 
@@ -347,6 +348,10 @@ this entry supplements rather than replaces that history.
 - **Rewritten implementation commit:**
   `b4d2d331fc5ad2efd29b96c201c099c8a3642944`, replacing
   `652b3dcda2d76188590d90bfbc788a1bc775dae9`.
+- **Separate metadata/status/decision update commit:**
+  `fddf99ea99db6ac45dc9a9db5ffcd46882b54a71`, with the required Copilot
+  co-author trailer. This SHA reference is recorded by the following
+  metadata-reference commit.
 - The final child diff against parent `268358566c074cf3be35661f15883c588aef622f`
   is constrained to the four assigned reference documents and these four
   worker-owned records: this worker's status/progress leaves and the branch
@@ -416,7 +421,7 @@ this entry supplements rather than replaces that history.
   "base_parent_sha": "d54cc120fe25da04d6be887b1a6a7e321512b6e4",
   "rebased_onto_parent_sha": "268358566c074cf3be35661f15883c588aef622f",
   "implementation_commit_sha": "b4d2d331fc5ad2efd29b96c201c099c8a3642944",
-  "metadata_commit_sha": null,
+  "metadata_commit_sha": "fddf99ea99db6ac45dc9a9db5ffcd46882b54a71",
   "pull_request": {
     "status": "NOT_OPENED",
     "number": null,
@@ -443,3 +448,26 @@ this entry supplements rather than replaces that history.
   "statement": "I, worker-02, attest to iteration 1 at exact implementation commit b4d2d331fc5ad2efd29b96c201c099c8a3642944, rebased onto parent 268358566c074cf3be35661f15883c588aef622f while preserving original base_parent_sha d54cc120fe25da04d6be887b1a6a7e321512b6e4. This self-attestation does not claim worker-to-parent or parent-to-main integration, completion of memory review, or cleanup."
 }
 ```
+
+### Final verification after recording the metadata SHA
+
+After recording metadata commit
+`fddf99ea99db6ac45dc9a9db5ffcd46882b54a71` in the worker-owned records, the
+following final checks passed:
+
+- `git diff --check` — `PASS`, exit code 0.
+- `git show --check --format=oneline fddf99ea99db6ac45dc9a9db5ffcd46882b54a71`
+  — `PASS`.
+- `python3 .github/skills/ralph-loop/tests/test_multi_agent_contract.py MultiAgentContractTests.test_status_protocol_records_overall_worker_iteration_and_attestation`
+  — `PASS`; `Ran 1 test in 0.002s`, `OK`.
+- `python3 .github/skills/ralph-loop/tests/test_multi_agent_contract.py MultiAgentContractTests.test_final_response_reports_completion_and_logs_recovered_issues`
+  — `PASS`; `Ran 1 test in 0.004s`, `OK`.
+- Parent-relative path-set assertion — `PASS`; exactly the four assigned
+  reference documents and four worker-owned records differ from the parent.
+- Latest self-attestation JSON validation — `PASS`; the payload is valid,
+  records the metadata update SHA, and is bound to implementation
+  `b4d2d331fc5ad2efd29b96c201c099c8a3642944`.
+- Worker status/progress/decision relative-link check — `PASS`; all 20 links
+  resolve.
+- Combined parent-child contract test — `NOT_RUN` per coordinator instruction;
+  no combined-suite pass is claimed.
