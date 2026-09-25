@@ -13,9 +13,9 @@ worktree: "/Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-communicati
 iteration: 1
 status: AWAITING_MERGE
 started_at_utc: "2026-09-25T07:49:20Z"
-updated_at_utc: "2026-09-25T08:31:34Z"
+updated_at_utc: "2026-09-25T08:35:51Z"
 resource_usage:
-  time_spent_seconds: 2534
+  time_spent_seconds: 2791
   time_basis: WALL_CLOCK_ELAPSED
   token_spend:
     status: NOT_REPORTED
@@ -49,6 +49,8 @@ decision_record_path: "docs/decisions/ralph-agent-communication-worker-01-202609
 decision_index_path: "docs/decisions/ralph-agent-communication-worker-01-20260925-0627/README.md"
 checks:
   - command: "Expiry-handling audit; exact command in progress.md"
+    result: PASS
+  - command: "Parent contract requirements audit; exact command in progress.md"
     result: PASS
   - command: "git -C /Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-communication-worker-01-20260925-0627 diff --check 0294550c92a5d79e1cca682a0c509b5bb6eca3fd...HEAD"
     result: PASS
