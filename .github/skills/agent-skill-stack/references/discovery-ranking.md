@@ -72,6 +72,12 @@ uncertainties: []
 
 ## Hard gates
 
+These gates are non-compensatory. A high retrieval, workflow-fit, adoption,
+or recommendation score cannot offset an unverified source, unsafe
+installation, unacceptable exposure of sensitive data or credentials, or an
+external/write action without authorization. Resolve the gate or mark the
+candidate `Blocked`; never let a score grant consent.
+
 Do not recommend installation while any of these remains unresolved:
 
 - source or exact version cannot be identified;
@@ -79,6 +85,8 @@ Do not recommend installation while any of these remains unresolved:
 - full contents do not support the claimed capability;
 - mandatory runtime, tool, account, or operating system is incompatible;
 - critical security behavior is unexplained;
+- the Skill would expose or transfer sensitive data or credentials without a verified, authorized, narrow handling path;
+- required account access or an external/write action is not authorized for this task;
 - the only test would mutate a real external system;
 - intended use creates material license or terms uncertainty.
 

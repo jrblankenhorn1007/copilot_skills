@@ -90,14 +90,16 @@ Abort before writing if a destination exists or validation fails. Report any par
 
 ## Recall check
 
-Test whether the stack is selected correctly, not how fast it runs:
+Test selection, not speed, with the same four synthetic cases and comparison
+procedure in [the Agent Skill Stack recall check](../SKILL.md#10-run-a-recall-check).
+Keep the model, inventory/profile, tools, and permission boundary equivalent
+for a before/after runtime comparison; if that is not possible, mark it
+`NOT_MEASURED` rather than inferring a gain from the written expectations.
 
-1. **Direct wording**: explicitly names the desired task.
-2. **Natural paraphrase**: expresses the same outcome with different words and no Skill name.
-3. **Supporting wording**: asks for a quality, safety, or compliance improvement that should select a helper.
-
-Record internally which primary and supporting Skills should appear and which unrelated Skills should stay out. If routing is ambiguous, narrow descriptions, update the local index, or remove the redundant global install.
-
-Show a novice only a result such as `3/3 种说法都能正确识别` plus any failure that needs a decision.
-
-Do not create or store prompt-history, hit/miss, manual-selection, or routing-feedback logs.
+A recall result checks routing only. It is not an installation safety check,
+a safe trial, permission to expose data or credentials, or authorization for
+an external/write action. Those gates and the user's separate installation
+consent still apply. If actually evaluated, report only an aggregate result
+such as `4/4 cases matched` and any failure needing a decision. Do not create
+or store real user prompt history, per-case hit/miss or manual-selection
+logs, or routing feedback.
