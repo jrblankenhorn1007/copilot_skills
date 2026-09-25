@@ -47,3 +47,28 @@
   - **PASS**, 14 tests in 10.331 seconds. `git diff --check` and
   `git diff --cached --check` both passed; the new remote base is an ancestor
   of the rebased parent. Worker branches have not been created yet.
+
+### Signed-out child integration - 2026-09-25T10:22:38Z
+
+- The earlier worker launches failed. The coordinator completed both
+  assignments on disjoint isolated branches; their task ledgers show
+  `AWAITING_MERGE` with sign-out in remote revision 2. No worker execution
+  or parallel speedup is claimed.
+- Published the coordinator's narrow task sign-in at
+  `cbb53d076af8901145b1773131dd74c2fabb1ce2`. The publisher's
+  main `STATUS` sign-in at `3acd46f6f8ebf73d0bf0e3e1f23a8be59193af58`
+  was immediately released at
+  `ae47c04ce092a1c0af7d854878ffbf0ef3529dd8`.
+- Merged the specialist child into the preserved parent at
+  `c37f00081b4cb3cbae565437bcd8c8da709a8c3e` and the routing child
+  at `082f0d0dd543b516f875a232357390fcdadadffc`. Both child tips
+  are ancestors of the parent; `PYTHONDONTWRITEBYTECODE=1 python3 -m
+  unittest test_specialist_agent_contract test_skill_aware_routing -q`
+  passed all **8** focused tests after serial integration. The parent
+  worktree is clean and `git diff --check origin/main...HEAD` passed.
+- The role-hierarchy coordinator published an `IN_PROGRESS` task sign-in
+  for the shared Ralph entrypoint, orchestrator, README, dashboard,
+  decision index, and existing contract. Leave those files untouched
+  until its verified scope release. The children are staged locally,
+  not yet rebased onto final main or verified on remote main; their
+  status leaves and aggregate dashboard must be synchronized afterward.
