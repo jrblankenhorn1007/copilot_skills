@@ -254,3 +254,33 @@
 - **Next action:** Acquire `MERGE` ownership, reconcile its sign-in commit
   into the parent, perform the documented no-PR fast-forward, verify the
   fetched `origin/main`, then complete the post-merge memory review.
+
+## Parent rebase after latest status-only main update
+
+- `origin/main` advanced through agent-sync status-only commits to
+  `5e673fa5235b99bd36c1cd56ea7d2dab6e7562c0`. The parent was rebased onto
+  that exact SHA; parent tip before this status refresh was
+  `c924ba7f95826fe6fef568d07c84a06382ebfe04`. The reporting-guidance
+  implementation commit after rebase is
+  `4097b48af54c3e1c31740ffcffcf2bb0dbca9ffb`.
+- Revalidation from the explicit parent worktree:
+  `python3 -m unittest discover -s .github/skills/ralph-loop/tests` —
+  **PASS** (`Ran 60 tests in 29.204s, OK`). `git diff --check
+  origin/main...HEAD` also passed.
+- The latest fetched main-ownership record was `FREE` at revision 102. The
+  task remains `IN_PROGRESS`; worker-02 is `COMPLETE`, worker-01 is
+  `AWAITING_MERGE`, and there are no active workers or unresolved blockers.
+- **Next action:** Acquire `MERGE` ownership, reconcile the reservation
+  sign-in commit into the parent, perform the documented no-PR fast-forward,
+  verify fetched `origin/main`, then complete the required memory review.
+
+## Final dashboard verification
+
+- After updating the coordinator dashboard, status leaf, and decision
+  records, the explicit parent-worktree command
+  `python3 -m unittest discover -s .github/skills/ralph-loop/tests`
+  passed all 60 tests in 44.178s. `git diff --check origin/main...HEAD`
+  passed on the same parent.
+- The parent remains based on `5e673fa5235b99bd36c1cd56ea7d2dab6e7562c0`.
+  The run is still `IN_PROGRESS`: worker-02 is `COMPLETE`, worker-01 is
+  `AWAITING_MERGE`, and remote-main integration plus memory review remain.

@@ -12,8 +12,8 @@ resource-manager integration are complete.
 ```yaml
 schema_version: 2
 snapshot_path: "docs/ralph-status.md"
-snapshot_revision: 70
-updated_at_utc: "2026-09-25T14:03:14Z"
+snapshot_revision: 71
+updated_at_utc: "2026-09-25T14:08:39Z"
 overall_status: IN_PROGRESS
 current_run_ids:
   - "copilot-skills-docs-status-organization-20260924"
@@ -406,10 +406,10 @@ runs:
     effective_worker_count: 2
     active_worker_count: 0
     base_origin_main_sha: "9558f99cc34cbed8dd1d24f4f15fc03f5d78b6ea"
-    current_origin_main_sha: "d78b3e2dbb5151016df3fdd7fa7be05b3a26144d"
-    parent_rebased_onto_origin_main_sha: "d78b3e2dbb5151016df3fdd7fa7be05b3a26144d"
+    current_origin_main_sha: "5e673fa5235b99bd36c1cd56ea7d2dab6e7562c0"
+    parent_rebased_onto_origin_main_sha: "5e673fa5235b99bd36c1cd56ea7d2dab6e7562c0"
     created_at_utc: "2026-09-25T03:13:20Z"
-    updated_at_utc: "2026-09-25T14:03:14Z"
+    updated_at_utc: "2026-09-25T14:08:39Z"
     agent_sync_status_commit_sha: "0ef4cb615a5586f383a3fbcffba296ab687251a0"
     agent_sync_main_sign_in_commit_sha: "1fc1ecae1f798824e4186676a476c346c4081b04"
     agent_sync_main_sign_out_commit_sha: "65ed98d9c3169953f05477d4d248236e1f514542"
@@ -1363,7 +1363,7 @@ branch_agent_index:
     status: IN_PROGRESS
     iteration: 1
     resource_usage:
-      time_spent_seconds: 38994
+      time_spent_seconds: 39319
       time_basis: WALL_CLOCK_ELAPSED
       token_spend:
         status: NOT_REPORTED
@@ -1377,8 +1377,8 @@ branch_agent_index:
     decision_record_path: "docs/decisions/ralph-agent-status-reporting-20260924-2313/agents/coordinator/pr-not-opened.md"
     decision_index_path: "docs/decisions/ralph-agent-status-reporting-20260924-2313/README.md"
     base_origin_main_sha: "9558f99cc34cbed8dd1d24f4f15fc03f5d78b6ea"
-    parent_rebased_onto_origin_main_sha: "d78b3e2dbb5151016df3fdd7fa7be05b3a26144d"
-    implementation_commit_sha: "96476afc3e5014c14ca5ad829eb1f39cf6abfbea"
+    parent_rebased_onto_origin_main_sha: "5e673fa5235b99bd36c1cd56ea7d2dab6e7562c0"
+    implementation_commit_sha: "4097b48af54c3e1c31740ffcffcf2bb0dbca9ffb"
     parent_to_main_merge:
       status: PENDING
       sha: null
@@ -1444,7 +1444,7 @@ branch_agent_index:
     decision_record_path: "docs/decisions/ralph-agent-status-reporting-worker-01-20260925-0602/agents/worker-01/pr-not-opened.md"
     decision_index_path: "docs/decisions/ralph-agent-status-reporting-worker-01-20260925-0602/README.md"
     base_origin_main_sha: "9558f99cc34cbed8dd1d24f4f15fc03f5d78b6ea"
-    parent_rebased_onto_origin_main_sha: "d78b3e2dbb5151016df3fdd7fa7be05b3a26144d"
+    parent_rebased_onto_origin_main_sha: "5e673fa5235b99bd36c1cd56ea7d2dab6e7562c0"
     base_parent_sha: "f602cfcd7e7d7043870857c1fda6b9707a711e5d"
     rebased_onto_parent_sha: "c3f834fcff1ef69a442abb0c70b615327d40be9a"
     implementation_commit_sha: "eeb087c1914929b5c93a400af0a9c161ea73d7dc"
@@ -1470,7 +1470,7 @@ branch_agent_index:
 |---|---|---|---|---|---|---|---|---|---|
 | `copilot-skills-status-report-time-token-20260925` | `ralph/status-report-time-token-20260925-0335` | `coordinator` | `COMPLETE` | `10,023 s (wall-clock)` | `NOT_REPORTED` | [status](./ralph/ralph-status-report-time-token-20260925-0335/agents/coordinator/status.md) | [progress](./ralph/ralph-status-report-time-token-20260925-0335/agents/coordinator/progress.md) | `05b1b23da974ed7b171c3a29ee266e43721d4e7` | `COMPLETE` |
 | `copilot-skills-status-report-time-token-20260925` | `ralph/status-report-time-token-worker-01-20260925-0335` | `worker-01` | `COMPLETE` | `8,057 s (wall-clock)` | `NOT_REPORTED` | [status](./ralph/ralph-status-report-time-token-worker-01-20260925-0335/agents/worker-01/status.md) | [progress](./ralph/ralph-status-report-time-token-worker-01-20260925-0335/agents/worker-01/progress.md) | `019ab357f25e1b04133bacb242460e063d94be9d` | `COMPLETE` |
-| `copilot_skills-agent-status-reporting-20260924` | `ralph/agent-status-reporting-20260924-2313` | `coordinator` | `IN_PROGRESS` | `38,994 s (wall-clock)` | `NOT_REPORTED` | [status](./ralph/ralph-agent-status-reporting-20260924-2313/agents/coordinator/status.md) | [progress](./ralph/ralph-agent-status-reporting-20260924-2313/agents/coordinator/progress.md) | `PENDING` | `PENDING` |
+| `copilot_skills-agent-status-reporting-20260924` | `ralph/agent-status-reporting-20260924-2313` | `coordinator` | `IN_PROGRESS` | `39,319 s (wall-clock)` | `NOT_REPORTED` | [status](./ralph/ralph-agent-status-reporting-20260924-2313/agents/coordinator/status.md) | [progress](./ralph/ralph-agent-status-reporting-20260924-2313/agents/coordinator/progress.md) | `PENDING` | `PENDING` |
 | `copilot_skills-agent-status-reporting-20260924` | `ralph/agent-status-contract-worker-02-20260924-2324` | `worker-02` | `COMPLETE` | Not captured (legacy) | Not captured (legacy) | [status](./ralph/ralph-agent-status-contract-worker-02-20260924-2324/agents/worker-02/status.md) | [progress](./ralph/ralph-agent-status-contract-worker-02-20260924-2324/agents/worker-02/progress.md) | `a17b1a1` | `PENDING` |
 | `copilot_skills-agent-status-reporting-20260924` | `ralph/agent-status-reporting-worker-01-20260925-0602` | `worker-01` | `AWAITING_MERGE` | `5,229 s (wall-clock)` | `NOT_REPORTED` | [status](./ralph/ralph-agent-status-reporting-worker-01-20260925-0602/agents/worker-01/status.md) | [progress](./ralph/ralph-agent-status-reporting-worker-01-20260925-0602/agents/worker-01/progress.md) | `PENDING` | `PENDING` |
 | `copilot_skills-two-agent-ralph-test-batch-20260924` | `ralph/multi-agent-orchestration-20260924-1918` | `coordinator` | `COMPLETE` | Not captured (legacy) | Not captured (legacy) | [status](./ralph/ralph-multi-agent-orchestration-20260924-1918/agents/coordinator/status.md) | [progress](./ralph/ralph-multi-agent-orchestration-20260924-1918/agents/coordinator/progress.md) | `61dd22e5bcdf1a8557fc2fd221bba38810e8905f` | `COMPLETE` |

@@ -4,9 +4,9 @@
 - **Runtime agent ID:** `copilotcli:/c5d38c95-4501-4780-afca-ae20c479fa27`
 - **Branch:** `ralph/agent-status-reporting-20260924-2313`
 - **Base `origin/main`:** `9558f99cc34cbed8dd1d24f4f15fc03f5d78b6ea`
-- **Latest rebase onto `origin/main`:** `d78b3e2dbb5151016df3fdd7fa7be05b3a26144d`
-- **Latest fetched `origin/main`:** `d78b3e2dbb5151016df3fdd7fa7be05b3a26144d`
-- **Implementation commit SHA:** `96476afc3e5014c14ca5ad829eb1f39cf6abfbea`
+- **Latest rebase onto `origin/main`:** `5e673fa5235b99bd36c1cd56ea7d2dab6e7562c0`
+- **Latest fetched `origin/main`:** `5e673fa5235b99bd36c1cd56ea7d2dab6e7562c0`
+- **Implementation commit SHA:** `4097b48af54c3e1c31740ffcffcf2bb0dbca9ffb`
 - **PR:** `NOT_OPENED`
 - **Integration path:** The repository's current documented workflow uses a
   coordinator-serialized fast-forward to `origin/main`; follow any active
@@ -184,3 +184,17 @@
 - **Next action:** Acquire `MERGE` ownership, reconcile its sign-in commit,
   push only through the documented no-PR fast-forward process, verify
   `origin/main`, and complete the memory review.
+
+## Latest status-only main refresh
+
+- `origin/main` advanced to `5e673fa5235b99bd36c1cd56ea7d2dab6e7562c0` through
+  agent-sync updates. The parent was rebased onto that exact SHA and the
+  complete contract suite passed again (`60` tests, `OK`); whitespace checks
+  also passed.
+- The current parent tip before this status refresh is
+  `c924ba7f95826fe6fef568d07c84a06382ebfe04`, with status-first implementation
+  commit `4097b48af54c3e1c31740ffcffcf2bb0dbca9ffb`. The main-ownership ledger
+  is `FREE` at revision 102.
+- **Next:** Reserve main for `MERGE`, reconcile the reservation sign-in
+  commit, fast-forward only through the documented no-PR path, and verify
+  the exact fetched `origin/main` before memory review.
