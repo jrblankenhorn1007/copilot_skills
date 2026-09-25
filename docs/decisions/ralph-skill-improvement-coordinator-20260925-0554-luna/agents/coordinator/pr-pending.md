@@ -5,13 +5,15 @@
 - **Branch:** `ralph/skill-improvement-coordinator-20260925-0554-luna`.
 - **Parent base `origin/main`:**
   `e9fe3d175d1ca76b03fccdbe53431205b80e5c23`.
-- **Parent rebased onto `origin/main`:**
-  `20293c720b18a1a21ff150f566823493b7a2717d`.
-- **Parent tip immediately after rebase:**
+- **First parent rebase onto `origin/main`:**
+  `20293c720b18a1a21ff150f566823493b7a2717d`; tip
   `d7b0d02ede3666825e6b4fb64fe6f3dd641bb87f`.
+- **Latest parent rebase onto `origin/main`:**
+  `36bf3fad31b2965dc6a0516a20ec9b2e6ac64355`; tip after rebase
+  `c833b2d19c7bfa3a643ec6e2e7efd0dac467afa3`.
 - **Parent worktree:** `/Users/jrblankenhorn/copilot_skills.worktrees/ralph-skill-improvement-coordinator-20260925-0554-luna`.
-- **Coordinator README implementation commit:**
-  `acbb1d96f6a74db9fbad73d55d6953dd7c394bec`.
+- **Coordinator README implementation commit after rebase:**
+  `8c255ae6e72c6311a456c29f66e9cbb1ac747d05`.
 - **Final parent implementation commit:** pending worker integration.
 - **PR:** pending; expected to follow the repository's normal protected
   parent-to-main pull request process.
@@ -54,6 +56,10 @@
   contract-test path lead was verified against the existing file. Agent Skill
   Stack missing-script leads remain in worker-02's review scope; the audit
   output is not represented as a clean pass.
+- Remote main advanced after child sign-offs. Parent rebase conflicts were
+  confined to the aggregate dashboard and resolved by preserving refreshed
+  upstream entries. Neither assigned skill changed upstream; both child
+  branches remain unmerged and require rebase/retest and renewed sign-off.
 
 ## Unresolved blockers
 

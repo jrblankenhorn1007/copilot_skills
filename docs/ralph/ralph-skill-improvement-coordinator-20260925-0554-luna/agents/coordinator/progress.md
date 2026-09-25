@@ -73,8 +73,8 @@
   yet. Worker changes are child branches based on the parent and will be
   integrated serially only after exact commit sign-off and scoped checks.
 - Parent-to-`origin/main` merge and Project Memory review: **PENDING**.
-- Next action: launch both disjoint workers from fresh child branches at the
-  exact parent tip after the dispatch-evidence commit.
+- Next action: rerun the parent checks and commit the refreshed dashboard and
+  leaf records; then have both workers rebase/retest onto that exact parent tip.
 
 ## 2026-09-25T06:22Z–06:37Z — Remote-main advancement and rebase
 
@@ -184,3 +184,85 @@
   both workers.
 - Next: launch both disjoint child workers from that exact tip using the
   explicit `gpt-6-luna` / `max` / `default` profile.
+
+## 2026-09-25T07:25Z–07:37Z — Latest origin-main rebase and child review
+
+- After worker dispatch, remote main advanced first to `6b1903e...` and then,
+  on the coordinator's own clean canonical refresh, to
+  `36bf3fad31b2965dc6a0516a20ec9b2e6ac64355`. The attached canonical `main`
+  worktree is `/Users/jrblankenhorn/copilot_skills`; `git pull --ff-only`,
+  `git fetch origin`, and Git identity preflight passed. The refreshed
+  dashboard and README contain unrelated pre-merge review-run updates; those
+  records and guidance are being preserved.
+- Compared `20293c720...` with refreshed `origin/main`: README and
+  `docs/ralph-status.md` changed, but neither assigned skill directory changed.
+  Parent README merged automatically and retains both the new cross-skill
+  workflow and the upstream reviewer documentation.
+- Rebased the clean parent from `68eb00cdd987773f6e7fb44564afa93037dd0d71`
+  onto `36bf3fad31b2965dc6a0516a20ec9b2e6ac64355`; resulting parent tip
+  `c833b2d19c7bfa3a643ec6e2e7efd0dac467afa3`. The three replayed parent
+  commits each conflicted in `docs/ralph-status.md`. For each conflict the
+  exact refreshed upstream dashboard was retained; this run's records have
+  now been reapplied once to the final rebased dashboard, preserving all
+  remote runs.
+  The final commit rewrite changed the coordinator README implementation SHA
+  from `acbb1d96...` to `8c255ae6e72c6311a456c29f66e9cbb1ac747d05`.
+- Re-read the refreshed Ralph Loop skill/agent, orchestration and status
+  references, Project Memory skill/index/workflow, target skills, current
+  README, and parent records. Verified the current parent remains at its
+  rebase tip and contains the latest main SHA.
+- Reviewed worker reports and leaf evidence:
+  - worker-01 sign-off is bound to
+    `fe8d26162c4fc7ea99dbce40bf5724b6050585bb`; its implementation commit is
+    followed by records commit `94ea629cc4fc136ff84472271728780272857d6f`.
+  - worker-02 sign-off is bound to
+    `1b9cfde1a44b6176fce261b35d69a790612f3d69`; record commits include
+    `5cf36ef39d19468f414f900a2179d839964bae07` and branch tip
+    `cf558ddb8a6e5ea174161ceec9e2d6624f5bc887`.
+  - Both child branches were created from exact parent base
+    `68eb00cdd987773f6e7fb44564afa93037dd0d71`; both remain
+    `AWAITING_MERGE`, with no PR, no child integration, and no remote-main
+    completion.
+- Because parent and `origin/main` advanced after the workers' sign-offs,
+  their existing attestations are stale for integration. Each worker must
+  perform its own per-iteration refresh, rebase its unpublished child onto
+  the exact current parent tip after the dashboard commit, update its leaf and
+  decision records, rerun scoped checks, and issue a new sign-off bound to
+  the rewritten implementation commit. The worker branches have not been
+  integrated or modified by the coordinator.
+- Resource usage at `2026-09-25T07:36:45Z`: `6,158` seconds wall-clock
+  elapsed from coordinator start; provider token counters remain
+  `NOT_REPORTED`.
+- Dashboard and coordinator leaf synchronized at `2026-09-25T07:40:22Z`:
+  `6,375` seconds wall-clock elapsed; provider token counters remain
+  `NOT_REPORTED`.
+- Next: commit the synchronized parent records, then refresh and rebase/retest
+  both children onto the resulting exact parent tip and obtain renewed
+  sign-offs.
+
+## 2026-09-25T07:37Z–07:44Z — Dashboard reconciliation and parent checks
+
+- Re-applied only this run's parent entry and split plan to the
+  `36bf3fad31b2965dc6a0516a20ec9b2e6ac64355` upstream dashboard. Kept all
+  remote run records and status-index rows untouched. Added the coordinator
+  leaf/index row with its matching schema-version-2 resource usage. Child
+  leaves remain on their unintegrated child branches; the active contract
+  explicitly allows those pending current-child leaves to be indexed after
+  coordinator integration.
+- `PYTHONDONTWRITEBYTECODE=1 python3
+  .github/skills/ralph-loop/tests/test_multi_agent_contract.py` — **PASS**,
+  20 tests on the rebased parent.
+- README local Markdown-link check — **PASS**, 31 valid local links, zero
+  broken.
+- Ruby safe-load verification of the embedded YAML, active run, coordinator
+  branch index, exact matching resource-usage object, and matching timestamps
+  — **PASS**.
+- `git diff --check` — **PASS**.
+- `git merge-base --is-ancestor
+  36bf3fad31b2965dc6a0516a20ec9b2e6ac64355
+  ralph/skill-improvement-coordinator-20260925-0554-luna` — **PASS**.
+- Resource usage at `2026-09-25T07:43:07Z`: `6,540` seconds wall-clock
+  elapsed; provider token counters remain `NOT_REPORTED`.
+- Next: commit this parent status/dashboard synchronization, then request
+  serial worker refresh/rebase/retest follow-ups against the resulting exact
+  parent tip.

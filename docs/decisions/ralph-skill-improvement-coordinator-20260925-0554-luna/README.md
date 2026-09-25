@@ -5,12 +5,15 @@
 - **Workers:** `worker-01` Agentic Eval; `worker-02` Agent Skill Stack.
 - **Parent base `origin/main`:**
   `e9fe3d175d1ca76b03fccdbe53431205b80e5c23`
-- **Parent rebased onto current `origin/main`:**
+- **First parent rebase onto `origin/main`:**
   `20293c720b18a1a21ff150f566823493b7a2717d`
-- **Parent tip immediately after rebase:**
+- **First rebase tip:**
   `d7b0d02ede3666825e6b4fb64fe6f3dd641bb87f`
-- **Coordinator README implementation commit:**
-  `acbb1d96f6a74db9fbad73d55d6953dd7c394bec`.
+- **Latest parent rebase onto `origin/main`:**
+  `36bf3fad31b2965dc6a0516a20ec9b2e6ac64355`
+- **Parent tip after latest rebase:** `c833b2d19c7bfa3a643ec6e2e7efd0dac467afa3`.
+- **Coordinator README implementation commit after rebase:**
+  `8c255ae6e72c6311a456c29f66e9cbb1ac747d05`.
 - **Final parent implementation commit:** pending worker integration.
 - **Parent PR:** expected; see [coordinator PR-pending record](agents/coordinator/pr-pending.md).
 
@@ -57,6 +60,12 @@
   commit, or sign-off. Its clean attempt branch/worktree remains preserved;
   the resolution is a fresh child branch from the refreshed parent with the
   same explicitly configured `gpt-6-luna` / `max` / `default` profile.
+- After the workers signed off, `origin/main` advanced to
+  `36bf3fad31b2965dc6a0516a20ec9b2e6ac64355`. The parent was rebased and
+  three dashboard conflicts were resolved by preserving the full refreshed
+  main dashboard. No assigned skill path changed upstream. Both unpublished
+  child branches now need rebase/retest and renewed commit-bound sign-off
+  before integration; their old reports are preserved as historical evidence.
 - The read-only Docs Sync Audit script reported 36 repository-wide leads.
   The README contract-test path it flagged was confirmed to exist; Agent
   Skill Stack missing-script leads are assigned for worker-02 review, and
