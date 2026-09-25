@@ -1,22 +1,22 @@
 {
   "owner": {
-    "agent_id": "integration-coordinator",
+    "agent_id": "coordinator",
     "operation": "STATUS",
-    "run_id": "copilot-skills-agent-routing-20260925-8bc457e9",
-    "runtime_agent_id": "8bc457e9-1724-42bb-b3c8-cdf453f54a32",
-    "signed_in_at_utc": "2026-09-25T10:39:02Z",
-    "start_main_sha": "70b8e200807e4f1ca4c96cd4a1b20fce2744695f",
-    "token": "326b7705852871bfd7880c1c4aea3d07",
+    "run_id": "copilot-skills-runecore-image-doc-agent-20260924",
+    "runtime_agent_id": "copilotcli:/b13023da-f0f0-4a52-becb-7d3064a09175",
+    "signed_in_at_utc": "2026-09-25T10:40:56Z",
+    "start_main_sha": "d313126de581b144aaae65ce71ba11d42dd93a63",
+    "token": "d25d5f59756afe03b6db03d7c9f4a503",
     "worktree_path": null
   },
   "ref": "refs/heads/main",
   "repository": "jrblankenhorn1007/copilot_skills",
-  "revision": 24,
+  "revision": 25,
   "schema_version": 1,
   "sign_out": {
-    "at_utc": "2026-09-25T10:39:07Z",
-    "outcome": "PUBLISHED",
-    "result_commit_sha": "894ac6c51c3dae65aa9687e31f4e22e5d1998c51"
+    "at_utc": null,
+    "outcome": null,
+    "result_commit_sha": null
   },
-  "state": "FREE"
+  "state": "OWNED"
 }
