@@ -22,8 +22,10 @@
    promptly released with that exact result.
 2. Keep the original memory review `PENDING`. A fresh inventory at
    `2026-09-25T15:19:48Z` reported 21 active agents, `max_agents: 0`, and no
-   available slots. Refresh capacity and invoke the dedicated updater exactly
-   once only after an atomic reservation succeeds.
+   available slots. A complete follow-up inventory at `2026-09-25T15:37:46Z`
+   reported 19 active agents, `max_agents: 0`, and zero slots because load
+   7.54 met/exceeded the six-core limit. Refresh capacity and invoke the
+   dedicated updater exactly once only after an atomic reservation succeeds.
 
 No PR was opened. The implementation integration is verified; the independent
 Project Memory review remains blocked on capacity.

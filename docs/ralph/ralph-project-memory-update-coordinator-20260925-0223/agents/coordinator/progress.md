@@ -372,3 +372,24 @@ These are implementation-time reports, not accepted memory entries. The Project 
   atomic reservation for the dedicated updater.
 - **Next action:** request a capacity remedy; then refresh live inventory and
   invoke the updater exactly once when a slot is safely reserved.
+
+## 2026-09-25T15:40:03Z - Resume status and capacity reconciled
+
+- Refreshed the clean attached integration checkout, fetched the latest
+  `origin/main` at `529413495b3bdef3605280657f8e0878a1bcbf9e`, and confirmed
+  the canonical skills repository is the active project repository. The
+  status-only follow-up branch currently needs rebasing onto that latest tip.
+- The implementation result `d47262de92a322392e0bbbf57cb075238d278a4a`
+  remains verified as an ancestor of fetched `origin/main`.
+- A complete live-session/subagent inventory at `2026-09-25T15:37:46Z` was
+  passed to Resource Manager after heartbeating this coordinator. It reported
+  19 active agents, `max_agents: 0`, zero available slots, and
+  `can_spawn: false` because one-minute host load 7.54 met/exceeded the
+  six-core limit. No updater reservation or dispatch was attempted.
+- **Current outcome:** the implementation is integrated; the independent
+  Project Memory review remains `PENDING`, and the parent run remains
+  `BLOCKED`. No `.github/memory/` file was changed and no coordinator
+  self-review was substituted.
+- **Next action:** finish/recheck the status-only rebase and integration, then
+  refresh capacity after a user-provided remedy; reserve a slot and invoke the
+  dedicated updater exactly once only when admission succeeds.

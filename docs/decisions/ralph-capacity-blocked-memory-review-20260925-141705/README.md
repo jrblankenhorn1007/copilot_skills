@@ -58,6 +58,10 @@
   agents, `max_agents: 0`, and zero slots; no updater was reserved or
   dispatched. Keep `.github/memory/` unchanged until the dedicated updater
   can be invoked under an atomic reservation.
+- A later complete inventory at `2026-09-25T15:37:46Z` reported 19 active
+  agents, `max_agents: 0`, and zero slots because one-minute load 7.54 met or
+  exceeded the six-core limit. No updater reservation or dispatch was
+  attempted; refresh capacity before resuming.
 - A relative-path patch attempt initially targeted the original stale session
   worktree and failed without changing files. The patch was reapplied using
   the new branch's absolute path and the intended diff was verified.

@@ -116,3 +116,27 @@ lesson_candidates:
       - "TDD Red/Green evidence in this branch's progress.md"
 no_durable_lessons_reason: null
 ```
+
+## 2026-09-25T15:40:03Z - Fresh capacity check; review still pending
+
+- The status-only follow-up commit was rebased onto fetched `origin/main`
+  `33bbdc181509d3c63404260dd9398f8947744796`, producing
+  `b9e4e419cb07c49b60ee637f48c6bee0a6434349`. The implementation merge
+  `d47262de92a322392e0bbbf57cb075238d278a4a` remains an ancestor of
+  `origin/main`.
+- On that rebase, the Ralph multi-agent contract passed 25 tests, the Project
+  Memory Update contract passed 1 test, the main-ownership contract passed 8
+  tests, and both `git diff --check` and
+  `git diff --check origin/main...HEAD` passed.
+- A complete Resource Manager inventory at `2026-09-25T15:37:46Z` reported
+  19 active agents, `max_agents: 0`, zero available slots, and
+  `can_spawn: false` because one-minute load was 7.54 on six logical cores.
+  No updater reservation or dispatch was attempted; `.github/memory/` remains
+  unchanged.
+- The latest fetched `origin/main` is now
+  `529413495b3bdef3605280657f8e0878a1bcbf9e`; this status update must be
+  rebased and rechecked on that tip before authorized integration.
+- **Next action:** rebase this status-only follow-up onto the latest fetched
+  main, rerun the three contract suites, then integrate with a fresh `MERGE`
+  reservation. Keep the independent memory review pending until a later fresh
+  inventory permits an atomic updater reservation.
