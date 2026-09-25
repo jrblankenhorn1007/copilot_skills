@@ -180,3 +180,103 @@
   `7376bc80f8876a28eb0570760b783c389884fc96` and passed the scoped checks
   listed above. This attestation does not claim child-to-parent or
   parent-to-main integration.
+
+## Coordinator refresh — latest parent synchronization
+
+This entry refreshes the same unpublished worker-02 iteration; it does not
+create a new child assignment or replace the historical decisions and
+attestation above.
+
+- **Run/task/worker/iteration:** `copilot_skills-parent-child-pipeline-20260924` /
+  `parent-child-reference-docs` / `worker-02` / 1.
+- **Branch:** `ralph/parent-child-worker-reference-docs-20260924-2008`.
+- **Worktree:** `/Users/jrblankenhorn/copilot_skills.worktrees/ralph-parent-child-worker-reference-docs-20260924-2008`.
+- **Original `base_parent_sha`:**
+  `d54cc120fe25da04d6be887b1a6a7e321512b6e4`.
+- **Previous rebase target:** `7376bc80f8876a28eb0570760b783c389884fc96`.
+- **Latest `rebased_onto_parent_sha`:**
+  `0688b70d8995a6900f29d9d3eeac6ffe8a9cfc42`.
+- **Parent `origin/main` base SHA:** `d26900cc201218fb84f5ad4987285c0c24b85bb7`.
+- **Previous implementation SHA:** `5f3f86287dc04848a0edcd2115273b75594afc63`.
+- **Rewritten implementation SHA:**
+  `b75a67b699a5e063691a36746d8795656a84ca90`.
+- **Prior metadata commit replayed by this rebase:**
+  `e80765120d776518d8208bb7610d597c5956248e`.
+- **PR:** `NOT_OPENED`. Child-to-parent integration remains
+  coordinator-serialized; no push, merge, or cleanup was performed.
+- **Current status:** `AWAITING_MERGE`; parent integration, post-merge memory
+  review, and cleanup are pending.
+- **Worker records:** [status](../../../../ralph/ralph-parent-child-worker-reference-docs-20260924-2008/agents/worker-02/status.md) ·
+  [progress](../../../../ralph/ralph-parent-child-worker-reference-docs-20260924-2008/agents/worker-02/progress.md) ·
+  [branch index](../../README.md).
+
+### Rebase recovery evidence
+
+- **Command:** `git rebase 0688b70d8995a6900f29d9d3eeac6ffe8a9cfc42`.
+- **Recovered issue:** Git skipped the child contract-test commit because the
+  target parent already had the identical file content; the test path was not
+  changed. The rebase stopped only on an overlap in
+  `.github/skills/ralph-loop/references/multi-agent-orchestration.md`.
+- **Resolution:** Combined the parent's current `docs/` status/progress path
+  and aggregate-dashboard ownership rules with the worker's parent-based
+  child-branch and worker-to-parent integration instructions. Preserved the
+  other three assigned documents and all prior decision history.
+- **Implementation result:** The rebase completed at
+  `b75a67b699a5e063691a36746d8795656a84ca90`; the branch differs from the
+  parent only in the four assigned reference documents and this branch's
+  decision/leaf records.
+- **Status:** Recovered; no unresolved rebase blocker.
+
+### Refreshed scoped verification
+
+- `git diff --check` — `PASS` (exit code 0).
+- `python3 .github/skills/ralph-loop/tests/test_multi_agent_contract.py MultiAgentContractTests.test_status_protocol_records_overall_worker_iteration_and_attestation`
+  — `PASS`; final precommit run `Ran 1 test in 0.001s`, `OK`.
+- `python3 .github/skills/ralph-loop/tests/test_multi_agent_contract.py MultiAgentContractTests.test_final_response_reports_completion_and_logs_recovered_issues`
+  — `PASS`; final precommit run `Ran 1 test in 0.003s`, `OK`.
+- Worker status/progress and decision-record relative links — `PASS`; 10 links
+  resolve.
+- Combined parent-child contract suite: `NOT_RUN`; worker-01 and
+  coordinator-owned documentation are not yet integrated, so no combined
+  result is claimed.
+
+## Refreshed worker-02 sign-off
+
+The following `SELF_ATTESTATION` is bound to the rewritten implementation
+commit—not to this record or the metadata commit:
+
+```json
+{
+  "run_id": "copilot_skills-parent-child-pipeline-20260924",
+  "task_ids": ["parent-child-reference-docs"],
+  "task_id": "parent-child-reference-docs",
+  "worker_id": "worker-02",
+  "worker_name": "worker-02 — parent-child reference documentation",
+  "runtime_agent_id": null,
+  "runtime_session_id": "copilotcli:/2f06d4f9-e0c1-4b03-bbbe-edfc40054447 (coordinator follow-up; not attributed as the original worker runtime)",
+  "iteration": 1,
+  "branch": "ralph/parent-child-worker-reference-docs-20260924-2008",
+  "worktree": "/Users/jrblankenhorn/copilot_skills.worktrees/ralph-parent-child-worker-reference-docs-20260924-2008",
+  "parent_branch": "ralph/parent-child-orchestrator-20260924-2008",
+  "parent_worktree": "/Users/jrblankenhorn/copilot_skills.worktrees/ralph-parent-child-orchestrator-20260924-2008",
+  "base_parent_sha": "d54cc120fe25da04d6be887b1a6a7e321512b6e4",
+  "rebased_onto_parent_sha": "0688b70d8995a6900f29d9d3eeac6ffe8a9cfc42",
+  "implementation_commit_sha": "b75a67b699a5e063691a36746d8795656a84ca90",
+  "pull_request": "NOT_OPENED",
+  "status": "AWAITING_MERGE",
+  "checks": [
+    {"command": "git diff --check", "result": "PASS"},
+    {"command": "python3 .github/skills/ralph-loop/tests/test_multi_agent_contract.py MultiAgentContractTests.test_status_protocol_records_overall_worker_iteration_and_attestation", "result": "PASS: final precommit run Ran 1 test in 0.001s, OK"},
+    {"command": "python3 .github/skills/ralph-loop/tests/test_multi_agent_contract.py MultiAgentContractTests.test_final_response_reports_completion_and_logs_recovered_issues", "result": "PASS: final precommit run Ran 1 test in 0.003s, OK"},
+    {"check": "Relative links among worker status/progress and branch decision records", "result": "PASS: 10 links resolve"}
+  ],
+  "blockers": [],
+  "parent_merge_status": "PENDING",
+  "memory_review_status": "PENDING",
+  "cleanup_status": "PENDING",
+  "attested_at_utc": "2026-09-25T01:00:37Z",
+  "attestation_kind": "SELF_ATTESTATION",
+  "cryptographic_signature_status": "NOT_CRYPTOGRAPHICALLY_SIGNED",
+  "statement": "I, worker-02, attest to iteration 1 for parent-child-reference-docs at exact implementation commit b75a67b699a5e063691a36746d8795656a84ca90, rebased onto parent 0688b70d8995a6900f29d9d3eeac6ffe8a9cfc42. This sign-off does not claim parent integration, remote-main integration, or completion of the coordinator's post-merge memory review."
+}
+```
