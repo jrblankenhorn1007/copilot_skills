@@ -27,7 +27,7 @@
   },
   "prompt_path": "docs/agent-sync/runs/ralph-protected-main-pr-recovery-20260925-1423/agents/coordinator-01/prompt.md",
   "prompt_sha256": "cf2c63fd55565396baeb793a5bd9949f10d85dc72a7c1c06287badf975b8766c",
-  "revision": 2,
+  "revision": 3,
   "run_id": "ralph-protected-main-pr-recovery-20260925-1423",
   "schema_version": 1,
   "sign_in_at_utc": "2026-09-25T14:23:38Z",
@@ -40,9 +40,9 @@
   },
   "started_at_utc": "2026-09-25T14:23:38Z",
   "status": "IN_PROGRESS",
-  "status_reason": "Adding a focused contract test to lock in the GH013 PR-only recovery rules before editing the test.",
+  "status_reason": "Canonical recovery guidance and its focused contract test are committed locally. All 37 Ralph contract tests and git diff checks pass; next publish the branch and complete required PR review and integration.",
   "task_id": "document-gh013-pr-recovery",
-  "updated_at_utc": "2026-09-25T14:27:33Z",
+  "updated_at_utc": "2026-09-25T14:34:39Z",
   "worker_id": "coordinator-01",
   "worker_name": "coordinator-01 / protected-main PR recovery"
 }
