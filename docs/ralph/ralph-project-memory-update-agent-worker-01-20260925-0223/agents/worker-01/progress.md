@@ -1,23 +1,17 @@
 # Worker progress
 
-**Current summary:** Iteration 1 is `AWAITING_MERGE`. The worker's old child
-tip `bee55408fc624a6b3fe75bf994bcb4c77da4816a` was rebased from verified old
-fork point `11e5394c7a479e25444945b8db917b58cfb3f086` onto exact parent tip
-`0e3bef1d96eb29ef3c41d8235d5b278a2b3e3907`; the rebased pre-handoff tip was
-`b8d6040107688fae56b953c54a2d0b933b273cba`. The parent was rebased onto
-`origin/main` `6b1903ec7bfa5c798eb5e48c085bfc3845176bab`; its original main
-base remains `114e4d60567d05cd048916339ed86e324c6eeef3`. The rewritten
-implementation commit is `2298cbf6a78ca41f0b92b41e1278434fc2ccae41`. The
-focused agent contract passed (1 test), the Ralph contract suite passed (20
-tests), and diff checks passed. The no-PR flow has review
-`NOT_APPLICABLE`; `worker_to_parent_merge` remains pending. The required
-primary-worktree pull observed `origin/main` at
-`d868d684564658bdc9488e27f5bfeaa592b04338`; the shared local tracking ref
-was later observed at `7ee1307cb47f5a88cd6b46ee135444777ddeb665`. The
-coordinator must reconcile the parent and update its dashboard before
-integration. This worker did not edit coordinator-owned state or push/merge.
+**Current summary:** Iteration 1 is `COMPLETE`. The coordinator verified
+worker-to-parent integration `7e34d1b7a74ebaef8d8b9ab56f44ac2db1ac8c4e`
+as an ancestor of parent `ac8ffd1fdb9cf89eaa395b3d2873541ba77641e0`, rebased
+onto fetched `origin/main` `0e8e98e0088bdf2ae93dd2c1b1b6e30f1203c5ff`.
+The worker's signed-off implementation remains
+`3ececee894c930f87efa554dc5a9c1362cb0365e`; its focused agent contract and
+Ralph contract suite passed before integration. Parent acceptance checks after
+the latest rebase remain pending. The no-PR flow has review `NOT_APPLICABLE`;
+the overall run remains `IN_PROGRESS` until final parent-to-main verification
+and the post-merge Project Memory Update review.
 
-**Updated at UTC:** `2026-09-25T08:12:01Z`
+**Updated at UTC:** `2026-09-25T10:43:13Z`
 
 ## Iteration history
 
@@ -198,6 +192,13 @@ implementation commit SHA. The current sign-off follows it.
   }
 }
 ```
+
+## Coordinator integration reverified after origin refresh — 2026-09-25T10:43:13Z
+
+- The parent was rebased from `d313126de581b144aaae65ce71ba11d42dd93a63` onto fetched `origin/main` `0e8e98e0088bdf2ae93dd2c1b1b6e30f1203c5ff`; `git range-diff` preserved all 21 parent patches.
+- Worker integration `3c4f1f7f36f8e6bee07c70fdea3f28bf62fa7f65` replayed as `7e34d1b7a74ebaef8d8b9ab56f44ac2db1ac8c4e`; stable patch ID `457e943bdfd9be5cb94a63cf3ff32d72e34ce887` is unchanged. The current integration SHA is an ancestor of parent `ac8ffd1fdb9cf89eaa395b3d2873541ba77641e0`.
+- The parent-side implementation commit `335f546dbb86ad6605e857458a04f2b715f27859` replayed as `54203858951f92debff6e9f875d7b4689d79b5e1`; stable patch ID `1571aec2fe973545242da3e2d925c6027d49d9ef` is unchanged. Worker-01's own signed-off child implementation SHA remains `3ececee894c930f87efa554dc5a9c1362cb0365e`.
+- The child-to-parent merge is verified again, so the coordinator advanced this worker to `COMPLETE`. The overall run remains `IN_PROGRESS` pending final parent-to-main integration and the post-merge Project Memory Update review. Post-rebase acceptance checks remain pending.
 
 #### Previous parent-rebased worker sign-off — superseded
 
