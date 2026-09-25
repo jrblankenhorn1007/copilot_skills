@@ -4,7 +4,7 @@
 - **Branch:** `ralph/agent-communication-parent-20260925-0627`
 - **Parent worktree:** `/Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-communication-parent-20260925-0627`
 - **Base `origin/main` SHA:** `20293c720b18a1a21ff150f566823493b7a2717d`
-- **Implementation commit:** `3295e1be1f295bf190ae3ee40358af5f4bce8873`
+- **Implementation commit:** `3fc786e0892626210f3d0c96364b28e6187b39d4`
 - **Agents:** `coordinator`, `worker-01`, `worker-02`
 - **Integration:** Pending; use coordinator-reviewed, verified fast-forward
   without a PR, as documented by the repository.
@@ -138,3 +138,20 @@
 - **Consequence:** All 46 commits mapped one-to-one, and both worker
   implementation targets have new exact SHAs; prior attestations remain
   superseded.
+
+### Rebase onto the latest ownership/status ledger
+
+- **Context:** `origin/main` advanced from `75d4e4a8...` to
+  `76afaf32ac3bb692dfad8a6f4146e87e8588a680`; the changed paths were the
+  main-ownership ledger and one coordinator status record.
+- **Alternatives:** Keep the parent on its prior base, or replay the clean
+  unpublished history and verify it before dispatch.
+- **Choice:** Rebase the parent onto exact fetched `origin/main`
+  `76afaf32...`; verify the 47-commit mapping, whitespace, and the intentional
+  TDD Red.
+- **Rationale:** The pipeline requires the exact active main base before
+  starting a fresh child branch.
+- **Consequence:** The current worker targets are
+  `090fa93deb90b31f9bf4ff9ca6ff1d15d2871a32` (skill) and
+  `b99ee3b5c1cfd39491de0e5cf14f32276cd547d6` (pipeline); previous
+  attestations remain superseded.

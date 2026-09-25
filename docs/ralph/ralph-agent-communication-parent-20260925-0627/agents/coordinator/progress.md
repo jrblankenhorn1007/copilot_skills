@@ -970,3 +970,49 @@
 - **Next:** Commit this status synchronization and send worker-01 a fresh,
   exact-parent task assignment. Do not resume worker-02 until worker-01's
   update is integrated.
+
+## 2026-09-25T16:50:46Z — parent rebased through latest ownership update
+
+- **Refresh:** The origin advanced from
+  `75d4e4a8e356e1980fc32ee5c6e185a97098cd04` to
+  `76afaf32ac3bb692dfad8a6f4146e87e8588a680`. The changed files were only
+  the main-ownership ledger and a coordinator status snapshot.
+- **Rebase:** Rebased the clean parent from
+  `4195d88d03ab6993a8acf158d3d1c846254a9986` onto the exact latest main,
+  producing `3fc786e0892626210f3d0c96364b28e6187b39d4` without conflicts.
+- **Verification:** `git range-diff` mapped all 47 commits one-to-one,
+  `git diff --check origin/main...HEAD` passed, and the absolute-path target
+  test still fails only the three expected message-limit fallback assertions.
+- **Worker targets:** The final skill and pipeline commits are now
+  `090fa93deb90b31f9bf4ff9ca6ff1d15d2871a32` and
+  `b99ee3b5c1cfd39491de0e5cf14f32276cd547d6`. Earlier SHAs and attestations
+  remain historical only.
+- **Next:** Synchronize status to `76afaf32...`, then send worker-01 a fresh
+  parent-based task sign-in and the bounded skill refinement. Keep worker-02
+  paused.
+
+## 2026-09-25T16:52:12Z — coordinator status synchronized on latest base
+
+- **Status:** Coordinator leaf, run record, branch-agent index, and dashboard
+  now use `origin/main` `76afaf32ac3bb692dfad8a6f4146e87e8588a680`, parent
+  implementation snapshot `3fc786e0892626210f3d0c96364b28e6187b39d4`, and
+  `37,478` seconds elapsed wall-clock. Dashboard snapshot revision is 105.
+- **Worker targets:** The aggregate run record contains the exact current
+  skill commit `090fa93deb90b31f9bf4ff9ca6ff1d15d2871a32` and pipeline commit
+  `b99ee3b5c1cfd39491de0e5cf14f32276cd547d6`; prior worker status leaves
+  remain untouched pending owner refresh.
+- **Next:** Commit this status synchronization, recheck main, then send
+  worker-01 the exact parent base and scope. Keep worker-02 paused.
+
+## 2026-09-25T16:53:33Z — main moved by status-only commits
+
+- **Refresh:** A new fetch advanced `origin/main` from
+  `76afaf32ac3bb692dfad8a6f4146e87e8588a680` to
+  `50edf0dc7d010a95484ccb7ac79d4407c68b068f`. The three changed files are
+  the ownership ledger and two coordinator status snapshots; no guidance or
+  implementation file changed.
+- **State:** The parent and the just-synchronized coordinator status remain
+  based on `76afaf32...`. The fresh coordinator status commit will be
+  replayed onto `50edf0dc...` before worker dispatch.
+- **Next:** Commit the current status snapshot, rebase and reverify against
+  the exact latest main, update the worker targets, then dispatch worker-01.

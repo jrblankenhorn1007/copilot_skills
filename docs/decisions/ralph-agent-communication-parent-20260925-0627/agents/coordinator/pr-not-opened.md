@@ -4,7 +4,7 @@
   `communication-baseline` / `coordinator` / 1
 - **Branch:** `ralph/agent-communication-parent-20260925-0627`
 - **Base `origin/main` SHA:** `20293c720b18a1a21ff150f566823493b7a2717d`
-- **Current parent implementation SHA:** `3295e1be1f295bf190ae3ee40358af5f4bce8873`
+- **Current parent implementation SHA:** `3fc786e0892626210f3d0c96364b28e6187b39d4`
 - **Agent:** `coordinator`; runtime ID
   `copilotcli:/870bde06-54d5-4b31-b052-c6167704e5fb`
 - **PR:** Not opened. The repository's documented normal path is a
@@ -61,6 +61,14 @@
   and the targeted Red test remains limited to the three intended assertions.
   Fresh worker targets are `d20992c9190da1f62c840795db1269db5f517268`
   (skill) and `03461e7054432bb34d6c1d1ae97acfb373c4913b` (pipeline).
+- Main then advanced by three status-only commits to
+  `76afaf32ac3bb692dfad8a6f4146e87e8588a680`. The clean parent rebased from
+  `4195d88d03ab6993a8acf158d3d1c846254a9986` to
+  `3fc786e0892626210f3d0c96364b28e6187b39d4`; all 47 commits map
+  one-to-one, `git diff --check` passes, and the targeted Red test still has
+  exactly the three expected missing skill requirements. Current worker
+  targets are `090fa93deb90b31f9bf4ff9ca6ff1d15d2871a32` (skill) and
+  `b99ee3b5c1cfd39491de0e5cf14f32276cd547d6` (pipeline).
 
 ## Unresolved blockers
 
