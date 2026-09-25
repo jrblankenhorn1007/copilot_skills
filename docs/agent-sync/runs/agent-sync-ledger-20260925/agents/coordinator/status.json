@@ -11,6 +11,8 @@
     "runtime_agent_id": null,
     "unavailable_fields_reason": "The current session does not expose model, reasoning, or context telemetry to the agent."
   },
+  "edit_scope_released_at_utc": "2026-09-25T05:48:55Z",
+  "edit_scope_status": "RELEASED",
   "git": {
     "base_ref": "refs/remotes/origin/main",
     "base_sha": "87c65f50752f4d59dfd387ca95f0d4ebe497a7e1",
@@ -47,16 +49,34 @@
     {
       "command": "Verify downloaded gh v2.101.0 macOS arm64 archive with official checksums",
       "result": "PASS: SHA-256 e4303e39d8f07141c4bad4b99b01079f05029c59b27076e8fbc825c985ecdd8b"
+    },
+    {
+      "command": "git fetch origin refs/heads/main:refs/remotes/origin/main",
+      "result": "PASS: refreshed origin/main to ad4e663aa21259946ec112f7831b822529117b3b"
     }
   ],
   "prompt_path": "docs/agent-sync/runs/agent-sync-ledger-20260925/agents/coordinator/prompt.md",
   "prompt_sha256": "fae29f4beb3602ec23bef01af892d3a43d028f7ee2096ccf0b63cd818ac35160",
-  "revision": 4,
+  "revision": 5,
   "run_id": "agent-sync-ledger-20260925",
   "schema_version": 1,
+  "scope_release": {
+    "released_at_utc": "2026-09-25T05:48:55Z",
+    "released_paths": [
+      "docs/agent-sync/**",
+      ".github/skills/ralph-loop/**",
+      ".github/agents/ralph-loop.agent.md",
+      "README.md",
+      "docs/ralph-status.md",
+      "docs/ralph/main/agents/coordinator/**",
+      "docs/decisions/README.md",
+      "docs/decisions/main/**"
+    ],
+    "status": "RELEASED"
+  },
   "sign_in_at_utc": "2026-09-25T05:18:52Z",
   "sign_out": {
-    "at_utc": "2026-09-25T05:43:00Z",
+    "at_utc": "2026-09-25T05:48:55Z",
     "checks": [
       {
         "command": "PYTHONDONTWRITEBYTECODE=1 python3 .github/skills/ralph-loop/tests/test_multi_agent_contract.py",
@@ -73,17 +93,21 @@
       {
         "command": "Verify downloaded gh v2.101.0 macOS arm64 archive with official checksums",
         "result": "PASS: SHA-256 e4303e39d8f07141c4bad4b99b01079f05029c59b27076e8fbc825c985ecdd8b"
+      },
+      {
+        "command": "git fetch origin refs/heads/main:refs/remotes/origin/main",
+        "result": "PASS: refreshed origin/main to ad4e663aa21259946ec112f7831b822529117b3b"
       }
     ],
     "implementation_commit_sha": "bc366c34cbe996538f677faf7e113806df8033ae",
-    "next_action": "Implementation is committed to local main; no remote code push was requested or performed.",
-    "summary": "Implemented the agent synchronization ledger, publisher, Ralph pipeline guidance, and gh dependency documentation; installed and verified gh 2.101.0."
+    "next_action": "No further edits; all task paths are released and remote main is refreshed.",
+    "summary": "Implemented and locally committed the agent synchronization ledger, Ralph guidance, and gh dependency setup. Signed out and released all task paths; implementation commits remain unpushed."
   },
   "started_at_utc": "2026-09-25T05:18:52Z",
   "status": "COMPLETE",
-  "status_reason": "The user-requested direct commit to local main is verified, all 18 contract tests pass, and gh 2.101.0 is installed. Implementation changes have not been pushed remotely.",
+  "status_reason": "Signed out and released all task paths, including the Ralph skill/agent, README, and dashboard. Local main contains commits bc366c3 and 05e3189; the implementation commits are not pushed. origin/main was refreshed to ad4e663.",
   "task_id": "agent-sync-protocol-and-gh-dependency",
-  "updated_at_utc": "2026-09-25T05:43:00Z",
+  "updated_at_utc": "2026-09-25T05:48:55Z",
   "worker_id": "coordinator",
   "worker_name": "coordinator - Ralph agent synchronization pipeline"
 }
