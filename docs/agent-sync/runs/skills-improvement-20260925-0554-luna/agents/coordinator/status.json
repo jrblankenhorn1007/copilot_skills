@@ -27,7 +27,7 @@
   },
   "prompt_path": "docs/agent-sync/runs/skills-improvement-20260925-0554-luna/agents/coordinator/prompt.md",
   "prompt_sha256": "21a20cba452a600f6f3af29c1ee6d611ac302f4b38626e6c3515bc7277996c89",
-  "revision": 1,
+  "revision": 2,
   "run_id": "skills-improvement-20260925-0554-luna",
   "schema_version": 1,
   "sign_in_at_utc": "2026-09-25T10:49:43Z",
@@ -39,10 +39,10 @@
     "summary": null
   },
   "started_at_utc": "2026-09-25T10:49:43Z",
-  "status": "IN_PROGRESS",
-  "status_reason": "Resuming the preserved parent branch and coordinating separately signed-off Luna worker branches.",
+  "status": "BLOCKED",
+  "status_reason": "Parent rebased and dashboard restored at commit 68ad978e1b611fee4febdef0f5ebad527db93259; Luna worker replays and the independent PR reviewer await an admissible agent slot.",
   "task_id": "skill-improvement-workflow-readme",
-  "updated_at_utc": "2026-09-25T10:49:43Z",
+  "updated_at_utc": "2026-09-25T10:59:25Z",
   "worker_id": "coordinator",
   "worker_name": "coordinator - skills improvement workflow"
 }
