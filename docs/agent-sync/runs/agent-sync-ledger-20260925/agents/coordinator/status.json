@@ -14,12 +14,16 @@
   "git": {
     "base_ref": "refs/remotes/origin/main",
     "base_sha": "87c65f50752f4d59dfd387ca95f0d4ebe497a7e1",
-    "current_worktree_head_sha": "2c3ccc39da9654b0a903b1472ad595110c2668a5",
+    "current_worktree_head_sha": "bc366c34cbe996538f677faf7e113806df8033ae",
     "edit_scope": [
       "docs/agent-sync/**",
       ".github/skills/ralph-loop/**",
       ".github/agents/ralph-loop.agent.md",
-      "README.md"
+      "README.md",
+      "docs/ralph-status.md",
+      "docs/ralph/main/agents/coordinator/**",
+      "docs/decisions/README.md",
+      "docs/decisions/main/**"
     ],
     "implementation_branch": "refs/heads/main",
     "remote_name": "origin",
@@ -29,36 +33,57 @@
   },
   "last_checks": [
     {
-      "command": "PYTHONDONTWRITEBYTECODE=1 python3 .github/skills/ralph-loop/tests/test_multi_agent_contract.py AgentSyncContractTests.test_status_publisher_commits_only_agent_records_to_main_without_worktree",
-      "result": "PASS"
-    },
-    {
-      "command": "PYTHONDONTWRITEBYTECODE=1 python3 .github/skills/ralph-loop/tests/test_multi_agent_contract.py AgentSyncContractTests.test_ralph_guidance_defines_the_fast_status_only_mainline_ledger MultiAgentContractTests.test_docs_status_dashboard_indexes_every_branch_agent_folder",
-      "result": "PASS"
-    },
-    {
       "command": "PYTHONDONTWRITEBYTECODE=1 python3 .github/skills/ralph-loop/tests/test_multi_agent_contract.py",
-      "result": "16 of 17 tests passed; only the intentionally deferred gh setup documentation contract remains"
+      "result": "PASS: 18 tests"
+    },
+    {
+      "command": "git diff --check",
+      "result": "PASS"
+    },
+    {
+      "command": "gh --version",
+      "result": "PASS: gh version 2.101.0 (2026-09-15)"
+    },
+    {
+      "command": "Verify downloaded gh v2.101.0 macOS arm64 archive with official checksums",
+      "result": "PASS: SHA-256 e4303e39d8f07141c4bad4b99b01079f05029c59b27076e8fbc825c985ecdd8b"
     }
   ],
   "prompt_path": "docs/agent-sync/runs/agent-sync-ledger-20260925/agents/coordinator/prompt.md",
   "prompt_sha256": "fae29f4beb3602ec23bef01af892d3a43d028f7ee2096ccf0b63cd818ac35160",
-  "revision": 3,
+  "revision": 4,
   "run_id": "agent-sync-ledger-20260925",
   "schema_version": 1,
   "sign_in_at_utc": "2026-09-25T05:18:52Z",
   "sign_out": {
-    "at_utc": null,
-    "checks": [],
-    "implementation_commit_sha": null,
-    "next_action": null,
-    "summary": null
+    "at_utc": "2026-09-25T05:43:00Z",
+    "checks": [
+      {
+        "command": "PYTHONDONTWRITEBYTECODE=1 python3 .github/skills/ralph-loop/tests/test_multi_agent_contract.py",
+        "result": "PASS: 18 tests"
+      },
+      {
+        "command": "git diff --check",
+        "result": "PASS"
+      },
+      {
+        "command": "gh --version",
+        "result": "PASS: gh version 2.101.0 (2026-09-15)"
+      },
+      {
+        "command": "Verify downloaded gh v2.101.0 macOS arm64 archive with official checksums",
+        "result": "PASS: SHA-256 e4303e39d8f07141c4bad4b99b01079f05029c59b27076e8fbc825c985ecdd8b"
+      }
+    ],
+    "implementation_commit_sha": "bc366c34cbe996538f677faf7e113806df8033ae",
+    "next_action": "Implementation is committed to local main; no remote code push was requested or performed.",
+    "summary": "Implemented the agent synchronization ledger, publisher, Ralph pipeline guidance, and gh dependency documentation; installed and verified gh 2.101.0."
   },
   "started_at_utc": "2026-09-25T05:18:52Z",
-  "status": "IN_PROGRESS",
-  "status_reason": "The synchronization protocol, publisher, Ralph wiring, durable records, and targeted tests are complete. Beginning the ordered gh dependency documentation and installation phase.",
+  "status": "COMPLETE",
+  "status_reason": "The user-requested direct commit to local main is verified, all 18 contract tests pass, and gh 2.101.0 is installed. Implementation changes have not been pushed remotely.",
   "task_id": "agent-sync-protocol-and-gh-dependency",
-  "updated_at_utc": "2026-09-25T05:32:33Z",
+  "updated_at_utc": "2026-09-25T05:43:00Z",
   "worker_id": "coordinator",
   "worker_name": "coordinator - Ralph agent synchronization pipeline"
 }
