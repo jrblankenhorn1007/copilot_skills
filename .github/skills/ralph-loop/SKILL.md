@@ -375,18 +375,22 @@ follow the existing Git identity and authentication rules.
    Reserve main for the authorized merge transaction; if the reservation's
    status-only commit invalidates strict branch checks, release it and
    report the repository-policy blocker instead of bypassing those checks.
-7. After the completed parent implementation is merged and verified on
-   fetched `origin/main`, the coordinator performs one post-merge memory
-   review using the [Project Memory skill](../project-memory/SKILL.md);
-   do not perform a shared-memory follow-up for each child merge. Keep
-   reusable lessons in the project's categorized memory store. If a memory
-   change is warranted, make it on a fresh follow-up branch from the latest
-   `origin/main`, integrate it through the same remote merge process, and
-   verify its merge before completing the overall run. This is part of the
-   same parent iteration and does not trigger another memory review. Never
-   write directly to shared `main` or amend an already merged branch. If no
-   durable lesson emerged, leave memory unchanged and record that outcome in
-   the active progress or status record when one exists.
+7. Only after the final parent-to-main merge is verified on fetched
+   `origin/main`, invoke the dedicated
+   [Project Memory Update agent](../../agents/project-memory-update.agent.md)
+   exactly once with the coordinator report, its own `memory_handoff`, every
+   worker's `memory_handoff`, and their source paths. The updater independently
+   verifies the implementation merge and reviews the active project's
+   categorized memory. Do not invoke it after a child merge or before final
+   verification; if a required handoff is missing, report a blocker rather
+   than filling gaps. Workers never edit shared memory. If the updater finds a
+   durable, evidence-backed lesson, it creates a fresh follow-up branch from
+   the latest `origin/main`, uses the same remote merge process, and verifies
+   that merge before completing the overall run. A memory-only follow-up
+   belongs to the same parent iteration and does not trigger another review.
+   Never write directly to shared `main` or amend an already merged branch.
+   If no durable lesson emerged, leave memory unchanged and record the
+   updater's `NO_UPDATE` outcome in the active progress or status record.
 8. If child-to-parent integration, the parent-to-main merge, a memory update,
    or remote verification is blocked, preserve the affected worktree and
    branch and report the blocker. Remove a child worktree and branch only
