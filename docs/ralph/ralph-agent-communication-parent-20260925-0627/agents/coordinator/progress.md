@@ -139,3 +139,31 @@
   requests for their status leaves and a short progress/blocker response;
   no worker files were visible at 07:24:10Z. Rebase the child branches onto
   the current parent tip and rerun checks before integrating them.
+
+## 2026-09-25T07:39:06Z — separate-session probe and interface test expansion
+
+- **Independent-session probe:** Created a separate Agent Host session at
+  `agent-host-session://copilotcli/2a5f3e4a-b78e-44ef-abc2-5bf630b1b486`
+  in its own worktree, then sent it an `agent-message/v1` known-answer request.
+  `send_message` returned `Message sent`, but `get_session_context` exposed no
+  conversation or processing acknowledgment by 07:31:25Z. No retry was issued;
+  this is an unconfirmed transport acceptance, not a successful task result.
+  Added the result and caveat to
+  `docs/agent-communication/baseline-benchmark.md`.
+- **TDD Red expanded:** Extended
+  `test_inter_session_communication_contract_is_actionable_and_bounded` to
+  require the pipeline document to spell out `agent-message/v1`, the
+  routing/correlation/deadline fields, transport states, and delivery,
+  processing, and completion acknowledgments. The exact command
+  `python3 .github/skills/ralph-loop/tests/test_multi_agent_contract.py MultiAgentContractTests.test_inter_session_communication_contract_is_actionable_and_bounded`
+  exited 1 as expected: the skill and pipeline contract are still absent.
+- **Coordinator commit:** Committed the expanded Red test and benchmark record
+  as `44380045e7bccc2b512f3f0da6d273760b3be3c3` after the earlier parent
+  status commit `8be774ac67db1516b50b3f5964aa44bacc0a3ef6`.
+- **Verification:** `git diff --check` passed before commit. The parent branch
+  has four commits ahead of fetched `origin/main` and three behind it; its
+  latest fetch is `36bf3fad31b2965dc6a0516a20ec9b2e6ac64355`. Rebase only after
+  integrating and validating the worker branches, then rerun checks.
+- **Next:** Receive worker reports and exact commit attestations, rebase their
+  branches onto the current parent, and integrate serially before running the
+  Green contract and full Ralph test suite.
