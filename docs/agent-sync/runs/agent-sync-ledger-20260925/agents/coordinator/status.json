@@ -33,13 +33,17 @@
       "result": "PASS"
     },
     {
-      "command": "PYTHONDONTWRITEBYTECODE=1 python3 .github/skills/ralph-loop/tests/test_multi_agent_contract.py AgentSyncContractTests.test_ralph_guidance_defines_the_fast_status_only_mainline_ledger",
+      "command": "PYTHONDONTWRITEBYTECODE=1 python3 .github/skills/ralph-loop/tests/test_multi_agent_contract.py AgentSyncContractTests.test_ralph_guidance_defines_the_fast_status_only_mainline_ledger MultiAgentContractTests.test_docs_status_dashboard_indexes_every_branch_agent_folder",
       "result": "PASS"
+    },
+    {
+      "command": "PYTHONDONTWRITEBYTECODE=1 python3 .github/skills/ralph-loop/tests/test_multi_agent_contract.py",
+      "result": "16 of 17 tests passed; only the intentionally deferred gh setup documentation contract remains"
     }
   ],
   "prompt_path": "docs/agent-sync/runs/agent-sync-ledger-20260925/agents/coordinator/prompt.md",
   "prompt_sha256": "fae29f4beb3602ec23bef01af892d3a43d028f7ee2096ccf0b63cd818ac35160",
-  "revision": 2,
+  "revision": 3,
   "run_id": "agent-sync-ledger-20260925",
   "schema_version": 1,
   "sign_in_at_utc": "2026-09-25T05:18:52Z",
@@ -52,9 +56,9 @@
   },
   "started_at_utc": "2026-09-25T05:18:52Z",
   "status": "IN_PROGRESS",
-  "status_reason": "The status publisher, isolated bare-remote test, and Ralph instruction wiring are in progress; next finish durable records, verify the full synchronization contract, then install gh.",
+  "status_reason": "The synchronization protocol, publisher, Ralph wiring, durable records, and targeted tests are complete. Beginning the ordered gh dependency documentation and installation phase.",
   "task_id": "agent-sync-protocol-and-gh-dependency",
-  "updated_at_utc": "2026-09-25T05:29:18Z",
+  "updated_at_utc": "2026-09-25T05:32:33Z",
   "worker_id": "coordinator",
   "worker_name": "coordinator - Ralph agent synchronization pipeline"
 }
