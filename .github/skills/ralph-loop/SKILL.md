@@ -105,6 +105,16 @@ use `git branch -d` for its branch. Delete a published parent ref only after
 that verification and if repository policy permits. Do not use force-delete
 operations.
 
+## Inter-session communication
+
+When a task needs coordination between already-running sessions, use the
+[Agent Communication skill](../agent-communication/SKILL.md) and the
+[inter-session pipeline contract](./references/multi-agent-orchestration.md#inter-session-communication).
+This capability-gated message path supplements—never replaces—worker
+dispatch, exclusive worktree/path ownership, or durable status and progress
+records. It does not make ordinary VS Code sessions addressable automatically,
+and a cooperative interrupt request is not a hard cancellation.
+
 ## Refresh repositories and instructions on every iteration
 
 At the beginning of every Ralph iteration—including the orchestrator, each
@@ -535,6 +545,8 @@ confirmation before applying results.
 
 ## References
 
+- [Agent Communication](../agent-communication/SKILL.md) for capability-
+  checked, privacy-safe messages between distinct sessions.
 - [Test-Driven Development](../tdd/SKILL.md) for behavior-changing code work.
 - [Multi-agent orchestration](./references/multi-agent-orchestration.md) for
   splitting a project into independent worker assignments.

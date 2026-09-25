@@ -16,6 +16,9 @@ extend the mirrored guidance.
 
 - [Agent Architecture](.github/skills/agent-architecture/SKILL.md):
   designs or audits AI-agent architecture without implementing it.
+- [Agent Communication](.github/skills/agent-communication/SKILL.md):
+  routes concise, capability-checked messages between verified sessions and
+  distinguishes delivery, receipt, completion, and cooperative interruption.
 - [Agentic Eval](.github/skills/agentic-eval/SKILL.md):
   provides patterns for evaluating and improving agent outputs.
 - [Agent OWASP Compliance](.github/skills/agent-owasp-compliance/SKILL.md):
@@ -70,6 +73,9 @@ extend the mirrored guidance.
 - [Ralph PR Review](.github/skills/ralph-pr-review/SKILL.md):
   defines the independent, evidence-bounded review rubric and report format
   used by the pre-merge review gate.
+- [Agent Communication](.github/skills/agent-communication/SKILL.md):
+  provides a host-gated, session-addressed message contract and honest
+  acknowledgment/interrupt limits for inter-session coordination.
 - [Test-Driven Development](.github/skills/tdd/SKILL.md):
   applies test-first Red-Green-Refactor to behavior changes and bug fixes.
 

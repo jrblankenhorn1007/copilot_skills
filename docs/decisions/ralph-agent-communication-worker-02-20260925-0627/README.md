@@ -1,0 +1,47 @@
+# Agent Communication Pipeline Decisions
+
+- **Run ID:** `copilot-skills-agent-communication-20260925-0627`
+- **Task ID:** `agent-session-pipeline-contract`
+- **Branch:** `ralph/agent-communication-worker-02-20260925-0627`
+- **Parent branch/worktree:** `ralph/agent-communication-parent-20260925-0627` /
+  `/Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-communication-parent-20260925-0627`
+- **Assigned `base_parent_sha`:**
+  `0294550c92a5d79e1cca682a0c509b5bb6eca3fd`
+- **Implementation commit:** Pending
+- **Integration:** Pending coordinator action; no PR is part of the worker's
+  assigned path.
+
+## Agent records
+
+- [Worker-02 — no PR](agents/worker-02/pr-not-opened.md)
+
+## Decisions
+
+### Keep the transport capability-gated and asynchronous
+
+- **Context:** The available host bridge exposes `list_sessions`,
+  `send_message`, and `get_session_context`; its send operation is
+  asynchronous and queues messages for busy sessions. Ordinary VS Code
+  session documentation does not promise a cross-session messaging API.
+- **Alternatives:** Promise automatic session messaging or hard cancellation;
+  treat transport acceptance as receipt; serialize all communication through
+  a shared mailbox.
+- **Choice:** Specify discovery, one-session addressing, delivery versus
+  recipient receipt/completion states, optional interruption outcomes, and a
+  coordinator-relay fallback. Align the typed envelope with the sibling
+  Agent Communication skill.
+- **Consequence:** Hosts without the advertised capability must not claim
+  direct delivery or preemption; the durable worker progress/status protocol
+  remains authoritative.
+
+### Keep communication evidence in the existing progress log
+
+- **Context:** The project has one coordinator-owned aggregate dashboard and
+  branch/agent progress leaves.
+- **Alternatives:** Add another benchmark dashboard or copy full message
+  transcripts into the status snapshot.
+- **Choice:** Record compact timing, outcome, and check evidence in
+  `progress.md`; retain only the normal status summary and leaf links in the
+  aggregate dashboard.
+- **Consequence:** Measurement remains auditable without duplicating or
+  exposing private message content.

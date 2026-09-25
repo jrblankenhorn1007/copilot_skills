@@ -513,6 +513,26 @@ applicable and list the documentation checks actually run; do not fabricate
 a failing behavior test. Keep historical iteration entries even when
 `status.md` advances to a newer state.
 
+### Inter-session communication evidence
+
+When an iteration coordinates across sessions or measures a messaging
+workflow, keep the compact evidence in the responsible branch/agent
+`progress.md`: scenario and expected result, baseline and message topology,
+capabilities observed, timestamps for `accepted`/`queued`, recipient
+`received`, and final `completed`, result accuracy, exact checks, and any
+environment or host limitations. Separate delivery wait from end-to-end
+completion time, state the timing method, and link committed evidence by
+repository path and full SHA. Do not copy full message bodies, logs, or
+transcripts into the dashboard.
+
+The existing `docs/ralph-status.md` remains the sole aggregate dashboard;
+keep its usual compact state and leaf links, and do not create a second
+dashboard for communication or benchmark results. See the
+[Agent Communication skill](../../agent-communication/SKILL.md) for the
+envelope and delivery-state contract and the
+[orchestration contract](multi-agent-orchestration.md#inter-session-communication)
+for capability limits and fallback.
+
 ### Aggregate dashboard example
 
 The coordinator maintains a single `docs/ralph-status.md`. The example below

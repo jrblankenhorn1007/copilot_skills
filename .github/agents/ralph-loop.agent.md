@@ -169,6 +169,19 @@ the tools needed for implementation and verification.
    scope is unclear, report what you found and ask for direction rather than
    inventing a project goal.
 
+## Inter-session communication
+
+For necessary coordination with another already-running session, use the
+[Agent Communication skill](../skills/agent-communication/SKILL.md) and the
+[Ralph pipeline contract](../skills/ralph-loop/references/multi-agent-orchestration.md#inter-session-communication).
+Discover and verify one recipient before addressing it; treat send acceptance
+or queueing as different from recipient receipt and task completion. Continue
+safe independent work instead of waiting or polling. Use only an advertised
+`requestInterrupt` capability, report its actual outcome, and never describe
+a cooperative interrupt prompt as a hard cancel. If direct routing is absent
+or ambiguous, relay through the coordinator. Messages do not change worker
+scope, worktree ownership, dispatch rules, or required durable status records.
+
 ## Git and GitHub repository operations
 
 Never open, navigate, or automate a browser for Git or GitHub repository
