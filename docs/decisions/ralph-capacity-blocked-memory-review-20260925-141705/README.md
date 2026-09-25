@@ -4,9 +4,10 @@
   `capacity-blocked-review-resume-guidance`
 - **Branch:** `ralph/capacity-blocked-memory-review-20260925-141705`
 - **Base `origin/main`:**
-  `1e9a6dab03c07ea9994b01317a983ae89c4a1f51d`
+  `1e9a6dab03c07ea9990fe4f65039ffdc4e784f45`
 - **Implementation commit:**
-  `ec0c9867068a5313a3ef0a5b42955d8c8512d9e9`
+  `8925bae1fa80d9eacbb7ca13e73e7752fab01d26`
+- **Latest rebase base:** `3873311c9eb041df86285a31199fd68e7c3ae6a3`
 - **PR:** `NOT_OPENED`; integration uses the repository's authorized
   coordinator-managed no-PR fast-forward path.
 
@@ -41,10 +42,11 @@
 
 - TDD Red: the new focused contract test failed because the capacity-blocked
   completion/resume requirements were absent.
-- TDD Green/refactor: after rebasing over the upstream status-first reporting
-  change and indexing this branch's status leaf, the focused capacity test
-  passed and the Ralph multi-agent, Project Memory Update, and main-ownership
-  contracts passed 25, 1, and 7 tests respectively. `git diff --check` passed.
+- TDD Green/refactor: after the latest rebase onto
+  `3873311c9eb041df86285a31199fd68e7c3ae6a3` and indexing this branch's status
+  leaf, the focused capacity test passed and the Ralph multi-agent, Project
+  Memory Update, and main-ownership contracts passed 25, 1, and 7 tests
+  respectively. `git diff --check` passed.
 - No PR or remote-main merge is claimed. Recheck the main-ownership record
   and acquire `MERGE` before integration.
 - A relative-path patch attempt initially targeted the original stale session

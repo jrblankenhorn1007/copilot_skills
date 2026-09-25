@@ -5,9 +5,10 @@
 - **Branch:** `ralph/capacity-blocked-memory-review-20260925-141705`
 - **Worktree:** `/Users/jrblankenhorn/copilot_skills.worktrees/ralph-capacity-blocked-memory-review-20260925-141705`
 - **Base `origin/main`:**
-  `1e9a6dab03c07ea9994b01317a983ae89c4a1f51d`
+  `1e9a6dab03c07ea9990fe4f65039ffdc4e784f45`
 - **Implementation commit:**
-  `ec0c9867068a5313a3ef0a5b42955d8c8512d9e9`
+  `8925bae1fa80d9eacbb7ca13e73e7752fab01d26`
+- **Latest rebase base:** `3873311c9eb041df86285a31199fd68e7c3ae6a3`
 - **PR:** `NOT_OPENED`; the repository's normal path is coordinator-managed
   fast-forward integration with a verified `origin/main` result.
 
