@@ -1,0 +1,57 @@
+{
+  "agent_id": "coordinator",
+  "agent_profile": {
+    "agent_definition": ".github/agents/ralph-loop.agent.md",
+    "context_tier": null,
+    "context_usage_tokens": null,
+    "context_window_tokens": null,
+    "harness": "Copilot SDK in VS Code",
+    "model_id": null,
+    "reasoning_effort": null,
+    "runtime_agent_id": "copilotcli:/c45bb4ea-44ab-4ad8-8ec3-63a2398a4603"
+  },
+  "git": {
+    "base_ref": "refs/remotes/origin/main",
+    "base_sha": "8da9310fda1b2e3042a379081dfb0675f1b22d6b",
+    "edit_scope": [
+      ".github/agents/ralph-loop.agent.md",
+      ".github/agents/ralph-orchestrator.agent.md",
+      ".github/agents/ralph-worker.agent.md",
+      ".github/skills/ralph-loop/SKILL.md",
+      ".github/skills/ralph-loop/references/copilot-cli-usage.md",
+      ".github/skills/ralph-loop/references/multi-agent-orchestration.md",
+      ".github/skills/ralph-loop/tests/test_multi_agent_contract.py",
+      "README.md",
+      "docs/ralph-status.md",
+      "docs/ralph/ralph-agent-role-hierarchy-20260925-042745-coordinator/agents/coordinator/status.md",
+      "docs/ralph/ralph-agent-role-hierarchy-20260925-042745-coordinator/agents/coordinator/progress.md",
+      "docs/decisions/ralph-agent-role-hierarchy-20260925-042745-coordinator/README.md",
+      "docs/decisions/ralph-agent-role-hierarchy-20260925-042745-coordinator/agents/coordinator/pr-not-opened.md"
+    ],
+    "implementation_branch": "refs/heads/ralph/agent-role-hierarchy-20260925-042745-coordinator",
+    "remote_name": "origin",
+    "repository": "jrblankenhorn1007/copilot_skills",
+    "worktree_head_sha_at_sign_in": "f38322825c0ee0d19dfd5d4f412832acdbad6be2",
+    "worktree_path": "/Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-role-hierarchy-20260925-042745-coordinator"
+  },
+  "prompt_path": "docs/agent-sync/runs/copilot-skills-agent-role-hierarchy-20260924-2215/agents/coordinator/prompt.md",
+  "prompt_sha256": "5274d54946abb1b8dbf1f1d50ba4fb806994cacd7d5076ef468e58619c551580",
+  "revision": 1,
+  "run_id": "copilot-skills-agent-role-hierarchy-20260924-2215",
+  "schema_version": 1,
+  "sign_in_at_utc": "2026-09-25T10:00:46Z",
+  "sign_out": {
+    "at_utc": null,
+    "checks": [],
+    "implementation_commit_sha": null,
+    "next_action": null,
+    "summary": null
+  },
+  "started_at_utc": "2026-09-25T10:00:46Z",
+  "status": "IN_PROGRESS",
+  "status_reason": "Resuming the existing parent branch after refreshing the canonical main worktree; finishing role wiring, current-guidance alignment, verification, and integration.",
+  "task_id": "entrypoint-and-nested-agent-wiring",
+  "updated_at_utc": "2026-09-25T10:00:46Z",
+  "worker_id": "coordinator",
+  "worker_name": "coordinator - Ralph agent role hierarchy"
+}
