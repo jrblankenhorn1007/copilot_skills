@@ -101,3 +101,12 @@ These are implementation-time reports, not accepted memory entries. The Project 
 
 - Corrected worker-02's aggregate branch-index state to `BLOCKED` (its child-to-parent merge remains `PENDING`) and aligned worker-01's recorded implementation SHA with its current leaf sign-off.
 - From the coordinator parent worktree, `python3 .github/skills/ralph-loop/tests/test_multi_agent_contract.py` passed (`Ran 15 tests`, `OK`). Both `git diff --check` and `git diff --check origin/main...HEAD` passed.
+
+## 2026-09-25T07:37:24Z - Parent refreshed onto latest origin/main
+
+- The shared clean primary worktree was refreshed again because `origin/main` advanced from `20293c720b18a1a21ff150f566823493b7a2717d` to `6b1903ec7bfa5c798eb5e48c085bfc3845176bab`. `git -C /Users/jrblankenhorn/copilot_skills pull --ff-only` reported `Already up to date.`; `git fetch origin` passed. Re-read the updated Ralph review-gate instructions and preserved their no-PR `NOT_APPLICABLE` policy for this coordinator-managed fast-forward run.
+- A normal rebase stopped on concurrent dashboard edits. Aborted that attempt without changing the committed parent, then reran `GIT_EDITOR=true git rebase -X ours origin/main` to retain the entire newly-upstream schema-v2 dashboard while replaying the four unpublished coordinator commits. Re-added this run's status/index rows to the refreshed dashboard and preserved the concurrent code-review records.
+- The rebased parent is `88a764d1523710651e4a1ec80e1b34cf035a7d4`; `git merge-base HEAD origin/main` returned `6b1903ec7bfa5c798eb5e48c085bfc3845176bab`, and `git rev-list --count origin/main..HEAD` returned `4`.
+- From the coordinator parent worktree, `python3 .github/skills/ralph-loop/tests/test_multi_agent_contract.py` passed (`Ran 20 tests`, `OK`). Both `git diff --check` and `git diff --check origin/main...HEAD` passed after dashboard reconciliation.
+- No child-to-parent or parent-to-main merge is claimed; worker-01 must rebase and renew sign-off, while worker-02's prior conflicting attempts remain preserved for fresh-child replay.
+- **Next action:** commit the refreshed coordinator status, then dispatch worker-01 against the exact resulting parent tip.
