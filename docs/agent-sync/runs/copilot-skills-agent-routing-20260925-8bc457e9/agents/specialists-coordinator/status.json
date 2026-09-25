@@ -10,6 +10,8 @@
     "reasoning_effort": null,
     "runtime_agent_id": "8bc457e9-1724-42bb-b3c8-cdf453f54a32"
   },
+  "edit_scope_released_at_utc": "2026-09-25T11:40:39Z",
+  "edit_scope_status": "RELEASED",
   "git": {
     "base_ref": "refs/heads/ralph/agent-optimization-parent-20260925-8bc457e9",
     "base_sha": "4eb15e69434df810958c3d488e223e1366f00d39",
@@ -28,28 +30,46 @@
     "worktree_head_sha_at_sign_in": "4eb15e69434df810958c3d488e223e1366f00d39",
     "worktree_path": "/Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-optimization-specialists-coordinator-20260925-8bc457e9"
   },
+  "last_checks": [
+    "PASS: PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s .github/skills/ralph-loop/tests -p test_*.py (56 tests on fetched main)",
+    "PASS: git merge-base --is-ancestor 2176793d3d30811ffe44baef755eff0fdce78904 origin/main",
+    "PASS: git diff --check (original topic worktree)"
+  ],
   "prompt_path": "docs/agent-sync/runs/copilot-skills-agent-routing-20260925-8bc457e9/agents/specialists-coordinator/prompt.md",
   "prompt_sha256": "869fbe01ca57a5f2c4ed8a89ad3d7c205e779755e4a10f49f8df4f28eec0b54e",
-  "revision": 2,
+  "revision": 3,
   "run_id": "copilot-skills-agent-routing-20260925-8bc457e9",
   "schema_version": 1,
+  "scope_release": {
+    "released_at_utc": "2026-09-25T11:40:39Z",
+    "released_paths": [
+      ".github/agents/ralph-git-specialist.agent.md",
+      ".github/agents/ralph-docs-specialist.agent.md",
+      ".github/agents/ralph-agent-design-specialist.agent.md",
+      ".github/agents/ralph-asi-specialist.agent.md",
+      ".github/skills/ralph-loop/tests/test_specialist_agent_contract.py",
+      "docs/ralph/ralph-agent-optimization-specialists-coordinator-20260925-8bc457e9/",
+      "docs/decisions/ralph-agent-optimization-specialists-coordinator-20260925-8bc457e9/"
+    ],
+    "status": "RELEASED"
+  },
   "sign_in_at_utc": "2026-09-25T07:25:01Z",
   "sign_out": {
-    "at_utc": "2026-09-25T07:39:08Z",
+    "at_utc": "2026-09-25T11:40:39Z",
     "checks": [
-      "PASS: 4 focused specialist contract tests",
-      "PASS: git diff --cached --check",
-      "BLOCKED: broader 18-test Ralph contract has one unindexed dashboard leaf owned by another task"
+      "PASS: PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s .github/skills/ralph-loop/tests -p test_*.py (56 tests on fetched main)",
+      "PASS: git merge-base --is-ancestor 2176793d3d30811ffe44baef755eff0fdce78904 origin/main",
+      "PASS: git diff --check (original topic worktree)"
     ],
     "implementation_commit_sha": "cb8ba5bb4cac293b130e7be0a443cb6d42bb1b93",
-    "next_action": "After foreign dashboard sign-out, index child leaf, integrate child into parent and continue skill-aware routing.",
-    "summary": "Added four focused, selectable, skill-aware Ralph agents with contract tests and child handoff records."
+    "next_action": "No remaining specialist-child edits; original branch preserved.",
+    "summary": "Preserved the original specialist child branch and verified its rewritten tip 2176793d3d30811ffe44baef755eff0fdce78904 is integrated on main; all task paths released."
   },
   "started_at_utc": "2026-09-25T07:25:01Z",
-  "status": "AWAITING_MERGE",
-  "status_reason": "Specialist child committed and handed off for parent integration; foreign dashboard ownership prevents indexing the leaf yet.",
+  "status": "COMPLETE",
+  "status_reason": "Four specialist profiles are integrated: original child branch cb8ba5bb4cac293b130e7be0a443cb6d42bb1b93 is preserved; rewritten child tip 2176793d3d30811ffe44baef755eff0fdce78904 is reachable through parent merge 491772f476bdade69bb332600fd27e86d6f997bf on fetched remote main. Completion snapshot ed4c98715b6881b1e7f0a7738d726175cfc154c8 and main FREE verified; edit scope released.",
   "task_id": "specialist-agent-catalog",
-  "updated_at_utc": "2026-09-25T07:39:08Z",
+  "updated_at_utc": "2026-09-25T11:40:39Z",
   "worker_id": "coordinator",
   "worker_name": "coordinator - focused agent specialists"
 }
