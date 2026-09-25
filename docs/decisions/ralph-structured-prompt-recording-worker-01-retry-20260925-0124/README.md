@@ -47,6 +47,11 @@ integration. If a PR is later created, the worker must remain
 `AWAITING_MERGE` until the coordinator authorizes that exact PR and must not
 merge before authorization.
 
+The status leaf now exposes `BLOCKED` in the repository's recognized Markdown
+table form. The coordinator-reported test failure on the previous status
+format is recorded in the worker progress/PR records; verification after this
+correction is pending the coordinator's dashboard-only commit SHA.
+
 The latest fetched `origin/main` is
 `3ea889103bb7db6fb1f5eadf647045a511ea9a03`, seven commits beyond this
 branch's base. No rebase was performed: the worktree contains a separate

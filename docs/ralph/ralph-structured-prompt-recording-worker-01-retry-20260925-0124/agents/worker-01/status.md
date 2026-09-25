@@ -1,6 +1,6 @@
-Worker status:
-
-- **status:** `BLOCKED`
+| Field | Value |
+| --- | --- |
+| Status | `BLOCKED` |
 
 ```yaml
 schema_version: 1
@@ -15,7 +15,7 @@ worktree: "/Users/jrblankenhorn/copilot_skills.worktrees/ralph-structured-prompt
 iteration: 2
 status: BLOCKED
 started_at_utc: "2026-09-25T01:24:00Z"
-updated_at_utc: "2026-09-25T01:53:14Z"
+updated_at_utc: "2026-09-25T01:56:39Z"
 base_origin_main_sha: "485b4a64c871f581f9295e46c867b188b0e3ccee"
 latest_fetched_origin_main_sha: "3ea889103bb7db6fb1f5eadf647045a511ea9a03"
 rebased_onto_origin_main_sha: null
@@ -53,20 +53,23 @@ checks:
   - command: "python3 .github/skills/ralph-loop/tests/test_multi_agent_contract.py"
     result: PASS
     note: "Ran 10 tests after a coordinator-owned unstaged dashboard update indexed this worker leaf; that dashboard change is not part of the worker implementation commit."
+  - command: "python3 .github/skills/ralph-loop/tests/test_multi_agent_contract.py"
+    result: FAIL
+    note: "Coordinator-reported rerun after dashboard edit: the contract rejected the previous leaf status format; it expects a Markdown table row such as | Status | `BLOCKED` |."
   - command: "git diff --check"
     result: PASS
     note: "Exit code 0; no whitespace errors."
 blockers:
-  - "The worker implementation commit alone lacks the required index for its docs/ralph leaf. The current combined worktree passes only with a coordinator-owned, unstaged docs/ralph-status.md update, which worker-01 must not stage or commit."
+  - "The coordinator dashboard row is being committed separately. The contract-reported status-format failure is corrected in this worker leaf but awaits rerun after the dashboard-only commit."
   - "PR creation is blocked: gh is not installed, the browser is signed out, and available GitHub MCP operations are read-only."
   - "origin/main advanced to 3ea889103bb7db6fb1f5eadf647045a511ea9a03; this branch remains based on 485b4a64c871f581f9295e46c867b188b0e3ccee and has not been rebased."
-next_action: "Coordinator: preserve/integrate the dashboard update and re-scope rebase timing. Worker-01 must not publish until the branch is current and a supported authenticated PR action is available."
+next_action: "Wait for the coordinator's dashboard-only commit SHA; then rerun both Ralph tests and git diff --check. Keep BLOCKED while PR creation is unavailable."
 worker_sign_off:
-  status: RECEIVED
+  status: PENDING
   attestation_kind: SELF_ATTESTATION
   cryptographic_signature_status: NOT_CRYPTOGRAPHICALLY_SIGNED
-  attested_at_utc: "2026-09-25T01:53:14Z"
-  statement: "I, worker-01, sign off iteration 2 at implementation commit 1b77c316b33672cc2f4d55a683d7a4d0acfb5655 as locally committed. The iteration is BLOCKED: a combined worktree suite passes only with the external coordinator dashboard diff, PR creation is unavailable, and latest origin/main 3ea889103bb7db6fb1f5eadf647045a511ea9a03 has not been rebased. It is not published, awaiting merge, or complete."
+  attested_at_utc: null
+  statement: "Fresh sign-off pending the post-dashboard verification; implementation_commit_sha remains 1b77c316b33672cc2f4d55a683d7a4d0acfb5655 and status remains BLOCKED."
 commit_signature_verification:
   status: NOT_CRYPTOGRAPHICALLY_SIGNED
   verifier: null

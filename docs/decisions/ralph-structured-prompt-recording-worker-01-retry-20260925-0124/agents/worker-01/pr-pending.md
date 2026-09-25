@@ -52,6 +52,11 @@
    while the worktree contains the coordinator-owned unstaged dashboard
    change; wait for the coordinator to reconcile it and re-scope the
    rebase/retest path.
+7. **Use the contract-supported Markdown status representation.** The
+   coordinator reported that the full suite rejected the previous status
+   summary and expects a table row such as `| Status | \`BLOCKED\` |`. Update
+   only this worker's status/progress/decision records; do not edit the
+   coordinator dashboard or worker-02's test.
 
 ## Recovered issues
 
@@ -67,6 +72,11 @@
   passed. Worker-01 did not stage or commit the dashboard. The implementation
   commit alone still lacks that aggregate index until the coordinator's
   change is integrated.
+- The coordinator then reported a subsequent contract failure because the
+  leaf status did not use the recognized Markdown table form. Worker-01 has
+  changed only its own status/progress/decision records to show `BLOCKED` in
+  that form. A fresh worker-run verification is pending the dashboard-only
+  commit SHA.
 
 ## PR details
 
@@ -96,3 +106,6 @@ opened, and no merge has been attempted.
   `485b4a64c871f581f9295e46c867b188b0e3ccee`. The branch is 7 commits behind
   and has not been rebased; preserve the coordinator-owned unstaged dashboard
   change and obtain coordinator direction before resuming.
+- The latest coordinator-reported status-table failure is corrected in the
+  worker-owned leaf. Do not commit or rerun the requested verification until
+  the coordinator supplies the dashboard-only commit SHA.

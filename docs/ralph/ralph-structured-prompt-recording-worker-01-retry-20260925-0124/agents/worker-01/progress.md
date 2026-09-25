@@ -99,7 +99,7 @@
   - `git diff --check` exited 0.
 - Self-attestation at `2026-09-25T01:53:14Z` is bound to the implementation
   SHA above. The iteration status is `BLOCKED`, not `AWAITING_MERGE` or
-  `COMPLETE`.
+  `COMPLETE`; it is superseded pending the latest contract rerun.
 - A fresh `git fetch origin` completed with exit code 0; `origin/main` remains
   `485b4a64c871f581f9295e46c867b188b0e3ccee`. The shared main worktree remains
   clean at that SHA, and the published iteration-1 branch remains clean at
@@ -117,6 +117,23 @@
   unauthenticated browser action was attempted.
 - Merge has not been attempted and is not authorized. This branch is
   `BLOCKED` before PR creation, not `AWAITING_MERGE` or `COMPLETE`.
+
+## Coordinator-reported status-format failure and correction
+
+- The coordinator reported that its contract rerun after the dashboard edit
+  advanced past the dashboard row and failed because the leaf did not expose
+  `status` in the recognized Markdown form. The expected form is a table row
+  such as `| Status | \`BLOCKED\` |`.
+- Worker-01 changed only its own status/progress/decision records. The leaf
+  status now has that table row and retains the YAML `status: BLOCKED` and
+  exact `implementation_commit_sha` of
+  `1b77c316b33672cc2f4d55a683d7a4d0acfb5655`.
+- This was coordinator-reported evidence; worker-01 has not rerun the focused
+  test, full Ralph contract suite, or `git diff --check` after the correction.
+  Those checks are paused until the coordinator supplies the dashboard-only
+  commit SHA.
+- No staging or commit was performed for this update. Status remains
+  `BLOCKED` while authenticated PR creation is unavailable.
 
 ## Current decisions and status
 
