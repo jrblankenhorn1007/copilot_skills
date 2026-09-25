@@ -16,15 +16,15 @@ skills-improvement run merged (PR #2) and the protected-main GH013 recovery
 docs merged (PR #3). The OpenCode Ralph Loop migration has passed its
 independent review and full contract suite and is merging, pending
 authenticated runtime validation as a follow-up (OpenCode has no connected
-providers in this environment). The agent-communication skill iteration is
-proceeding with authorized remote integration; its post-merge memory review
-remains pending an available agent slot.
+providers in this environment). The agent-communication parent is verified
+on `origin/main`; its required post-merge memory review remains blocked until
+Resource Manager capacity is available.
 
 ```yaml
 schema_version: 2
 snapshot_path: "docs/ralph-status.md"
-snapshot_revision: 122
-updated_at_utc: "2026-09-25T19:54:39Z"
+snapshot_revision: 124
+updated_at_utc: "2026-09-25T20:00:45Z"
 overall_status: IN_PROGRESS
 current_run_ids:
   - "copilot-skills-docs-status-organization-20260924"
@@ -884,10 +884,10 @@ branch_agent_index:
     runtime_agent_id: "copilotcli:/870bde06-54d5-4b31-b052-c6167704e5fb"
     branch: "ralph/agent-communication-parent-20260925-0627"
     branch_slug: "ralph-agent-communication-parent-20260925-0627"
-    status: IN_PROGRESS
+    status: BLOCKED
     iteration: 1
     resource_usage:
-      time_spent_seconds: 48425
+      time_spent_seconds: 48791
       time_basis: WALL_CLOCK_ELAPSED
       token_spend:
         status: NOT_REPORTED
@@ -903,7 +903,19 @@ branch_agent_index:
     base_origin_main_sha: "20293c720b18a1a21ff150f566823493b7a2717d"
     implementation_commit_sha: "cda846f586072e15480d8c8d274c0ea5d92eaa37"
     rebased_onto_origin_main_sha: "c79bc7e328bda4900cbe4c98d8c59da59e735ed1"
-    next_action: "Acquire the MERGE lease, integrate its sign-in commit into the parent, and verify a non-force fast-forward on origin/main. Then refresh Resource Manager capacity and dispatch the required memory review only after reserving an available slot."
+    current_origin_main_sha: "c662779a7af9de510ee66356294bf5dcdad400ae"
+    parent_to_main_merge:
+      status: VERIFIED
+      sha: "be3d5cbdca8a4c361db9e31cbe4f45cf10e544eb"
+      verified_remote_ref: "refs/heads/main"
+      verified_origin_main_sha: "c662779a7af9de510ee66356294bf5dcdad400ae"
+      verification_method: "git merge-base --is-ancestor be3d5cbdca8a4c361db9e31cbe4f45cf10e544eb origin/main"
+      verified_at_utc: "2026-09-25T19:59:32Z"
+    memory_review_status: PENDING
+    memory_review_outcome: null
+    blockers:
+      - "The required post-merge Project Memory Update agent cannot be dispatched while Resource Manager reports 8 active agents, max_agents 2, and zero available slots."
+    next_action: "Wait for an available Resource Manager slot. On resume, refresh the live-session inventory, reserve one slot, and dispatch the dedicated Project Memory Update with the coordinator and both worker handoffs; keep the run blocked until its result and any warranted follow-up merge are verified."
   - run_id: "copilot-skills-agent-communication-20260925-0627"
     task_ids: ["agent-communication-skill"]
     worker_id: "worker-01"

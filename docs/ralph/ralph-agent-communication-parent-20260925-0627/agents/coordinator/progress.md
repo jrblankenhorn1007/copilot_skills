@@ -1323,3 +1323,30 @@
   (`PYTHONDONTWRITEBYTECODE=1 python3 .github/skills/ralph-loop/tests/test_multi_agent_contract.py`,
   29 tests), and `git diff --check` passed after synchronizing the
   authorization status with the dashboard.
+
+## 2026-09-25T20:00:45Z — parent merge verified; memory review capacity-blocked
+
+- **Main reservation:** Acquired the documented `MERGE` lease at ownership
+  revision 233. The sign-in commit was
+  `3f3404549b7cef795192dbc98a6f6cadf9691e17`; the parent incorporated it
+  without rewriting worker commits.
+- **Parent integration:** Fast-forwarded `origin/main` from the sign-in
+  commit to parent merge `be3d5cbdca8a4c361db9e31cbe4f45cf10e544eb`.
+  `git push origin HEAD:refs/heads/main` succeeded without force. The full
+  contract suite passed (29 tests), `git diff --check origin/main...HEAD`
+  passed, and both worker implementation/series attestations plus the
+  sign-in commit remain ancestors of the parent.
+- **Remote verification and release:** Fetched `origin/main` at
+  `c662779a7af9de510ee66356294bf5dcdad400ae` and verified
+  `git merge-base --is-ancestor be3d5cbdca8a4c361db9e31cbe4f45cf10e544eb origin/main`.
+  Released the lease as `MERGED` at ownership revision 234; the release
+  record names the verified parent merge SHA.
+- **Memory review gate:** Refreshed the live session inventory and Resource
+  Manager after integration. It reports 8 active agents, `max_agents: 2`,
+  and zero available slots. No memory agent was dispatched and no
+  coordinator self-review or `NO_UPDATE` outcome was substituted.
+- **Status:** Marked the coordinator run `BLOCKED` on the required
+  post-merge Project Memory Update; the parent merge itself is verified.
+- **Next:** Wait for a Resource Manager slot. On resume, refresh the full
+  inventory, reserve a slot, and dispatch the dedicated memory updater once
+  with all three preserved handoffs and source paths.

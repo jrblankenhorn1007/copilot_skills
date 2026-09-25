@@ -4,7 +4,10 @@
   `communication-baseline` / `coordinator` / 1
 - **Branch:** `ralph/agent-communication-parent-20260925-0627`
 - **Base `origin/main` SHA:** `20293c720b18a1a21ff150f566823493b7a2717d`
-- **Current parent implementation SHA:** `fcf9c24c2dfe5aaf9864bb59a76e97b7b51c8c91`
+- **Worker implementation commits:** `cda846f586072e15480d8c8d274c0ea5d92eaa37` (skill) and
+  `af17568b72ae383d5e0889a46de9d7ba1ef11e99` (pipeline)
+- **Parent-to-main merge SHA:** `be3d5cbdca8a4c361db9e31cbe4f45cf10e544eb`
+- **`origin/main` after parent merge verification:** `c662779a7af9de510ee66356294bf5dcdad400ae`
 - **Agent:** `coordinator`; runtime ID
   `copilotcli:/870bde06-54d5-4b31-b052-c6167704e5fb`
 - **PR:** Not opened. The repository's documented normal path is a
@@ -14,19 +17,35 @@
 ## Decision
 
 - **Context:** The active Ralph Loop guidance documents a coordinator-managed
-  no-PR fast-forward path. The parent is unpublished and both child branches
-  have been integrated and ancestry-verified.
+  no-PR fast-forward path. Both child branches were integrated and
+  ancestry-verified before the parent was published.
 - **Alternatives:** Open a PR despite the repository's normal path, or push
   directly to `main` without the required ownership transaction.
-- **Choice:** Do not open a PR. Rebase and retest the parent against the latest
-  fetched `origin/main`, then perform a coordinator-reviewed fast-forward
-  under the exclusive `MERGE` ownership reservation and verify the resulting
-  remote-main SHA.
+- **Choice:** Do not open a PR. Acquire the exclusive `MERGE` reservation,
+  integrate its sign-in commit into the parent without rewriting worker
+  commits, and perform a verified non-force fast-forward.
 - **Rationale:** This follows the documented integration process while
   preserving the exclusive-main reservation and remote verification gates.
-- **Consequence:** A branch push alone is not completion; worker leaves remain
-  `AWAITING_MERGE` until remote integration and post-merge memory review are
-  verified.
+- **Consequence:** The parent merge is verified on fetched `origin/main`.
+  Worker leaves remain `COMPLETE` based on their verified child-to-parent
+  integrations; the overall run remains blocked until the required
+  post-merge memory review and any warranted follow-up are complete.
+
+## Verified integration and pending memory review
+
+- The user's explicit authorization resolved the earlier remote-write gate.
+- Acquired the `MERGE` reservation at ownership revision 233. Its
+  sign-in commit was `3f3404549b7cef795192dbc98a6f6cadf9691e17`.
+- Published parent merge `be3d5cbdca8a4c361db9e31cbe4f45cf10e544eb` as a
+  non-force fast-forward. Fetched `origin/main` at
+  `c662779a7af9de510ee66356294bf5dcdad400ae`; ancestry verification passed.
+- Released main as `MERGED` at ownership revision 234, naming the parent
+  merge SHA. No PR was opened because the documented integration path is a
+  coordinator-managed fast-forward without a PR.
+- Post-merge memory review remains pending. A fresh Resource Manager
+  inventory observed 8 active agents, `max_agents: 2`, and zero available
+  slots. Do not dispatch without a reservation or substitute a coordinator
+  self-review.
 
 ## Recovered issues
 
