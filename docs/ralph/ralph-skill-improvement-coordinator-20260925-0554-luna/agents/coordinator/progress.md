@@ -73,8 +73,9 @@
   yet. Worker changes are child branches based on the parent and will be
   integrated serially only after exact commit sign-off and scoped checks.
 - Parent-to-`origin/main` merge and Project Memory review: **PENDING**.
-- Next action: rerun the parent checks and commit the refreshed dashboard and
-  leaf records; then have both workers rebase/retest onto that exact parent tip.
+- Next action: update the parent records for the latest `origin/main` tip,
+  rerun parent checks, and commit the synchronization before serial child
+  rebases.
 
 ## 2026-09-25T06:22Z–06:37Z — Remote-main advancement and rebase
 
@@ -263,6 +264,54 @@
   ralph/skill-improvement-coordinator-20260925-0554-luna` — **PASS**.
 - Resource usage at `2026-09-25T07:43:07Z`: `6,540` seconds wall-clock
   elapsed; provider token counters remain `NOT_REPORTED`.
-- Next: commit this parent status/dashboard synchronization, then request
-  serial worker refresh/rebase/retest follow-ups against the resulting exact
-  parent tip.
+- Next: record the d868 rebase, rerun parent checks, commit the refreshed
+  records, then request serial worker refresh/rebase/retest against the
+  resulting exact parent tip.
+
+## 2026-09-25T07:48Z–07:53Z — d868 dashboard sync and parent checks
+
+- Updated the coordinator leaf and aggregate run/index to report the latest
+  fetched `origin/main` `d868d684564658bdc9488e27f5bfeaa592b04338`, parent
+  README implementation `a36ef7f55a8ddb622b997615e7b71e3cfc907aa6`, and
+  synchronized schema-version-2 resource usage. All unrelated remote
+  dashboard entries remain preserved.
+- `PYTHONDONTWRITEBYTECODE=1 python3
+  .github/skills/ralph-loop/tests/test_multi_agent_contract.py` — **PASS**,
+  20 tests after the latest parent rebase.
+- README local link check — **PASS**, 31 valid and zero broken.
+- Ruby YAML/run/index/resource/timestamp synchronization — **PASS**.
+- Conflict-marker scan and `git diff --check` — **PASS**.
+- `git merge-base --is-ancestor
+  d868d684564658bdc9488e27f5bfeaa592b04338
+  ralph/skill-improvement-coordinator-20260925-0554-luna` — **PASS**.
+- Resource usage at `2026-09-25T07:52:51Z`: `7,124` seconds wall-clock
+  elapsed; provider token counters remain `NOT_REPORTED`.
+- Next: commit this parent status/dashboard synchronization. Before each
+  worker follow-up, serialize another canonical `git pull --ff-only` and
+  `git fetch origin`; if main or parent advances, synchronize/retest again
+  before giving the workers their exact base.
+
+## 2026-09-25T07:44Z–07:49Z — Parent rebase onto next remote tip
+
+- The clean canonical integration checkout advanced `origin/main` from
+  `36bf3fad31b2965dc6a0516a20ec9b2e6ac64355` to
+  `d868d684564658bdc9488e27f5bfeaa592b04338`. `git pull --ff-only`,
+  `git fetch origin`, and Git identity checks passed; main remained clean and
+  attached. The update consists of unrelated run-status commits.
+- Compared the two upstream tips: no target skill, README, or
+  `docs/ralph-status.md` path changed between `36bf3fad...` and `d868d684...`.
+  Existing upstream entries and the parent README improvement/reviewer text
+  remain preserved.
+- Rebased parent `48a2795e19d55cd40a67250d2b00cda49fb50546` onto exact
+  `origin/main` `d868d684564658bdc9488e27f5bfeaa592b04338`; the rebase was
+  clean and the new parent tip is
+  `21b5ed18e6eb90d5c9a822f5e8783ffc18215a64`.
+- The rewritten coordinator README implementation commit is
+  `a36ef7f55a8ddb622b997615e7b71e3cfc907aa6`. Both child branches remain
+  unintegrated and their prior sign-offs are stale until they rebase/retest on
+  the exact post-dashboard parent tip.
+- Resource usage at `2026-09-25T07:48:37Z`: `6,870` seconds wall-clock
+  elapsed; provider token counters remain `NOT_REPORTED`.
+- Next: synchronize parent status/dashboard to `d868d684...`, rerun the
+  contract and link checks, commit, then refresh the shared integration
+  worktree serially before each child rebase follow-up.

@@ -9,11 +9,13 @@
   `20293c720b18a1a21ff150f566823493b7a2717d`
 - **First rebase tip:**
   `d7b0d02ede3666825e6b4fb64fe6f3dd641bb87f`
+- **Previous parent rebase:** `36bf3fad31b2965dc6a0516a20ec9b2e6ac64355`;
+  tip `c833b2d19c7bfa3a643ec6e2e7efd0dac467afa3`.
 - **Latest parent rebase onto `origin/main`:**
-  `36bf3fad31b2965dc6a0516a20ec9b2e6ac64355`
-- **Parent tip after latest rebase:** `c833b2d19c7bfa3a643ec6e2e7efd0dac467afa3`.
-- **Coordinator README implementation commit after rebase:**
-  `8c255ae6e72c6311a456c29f66e9cbb1ac747d05`.
+  `d868d684564658bdc9488e27f5bfeaa592b04338`.
+- **Parent tip after latest rebase:** `21b5ed18e6eb90d5c9a822f5e8783ffc18215a64`.
+- **Coordinator README implementation commit after latest rebase:**
+  `a36ef7f55a8ddb622b997615e7b71e3cfc907aa6`.
 - **Final parent implementation commit:** pending worker integration.
 - **Parent PR:** expected; see [coordinator PR-pending record](agents/coordinator/pr-pending.md).
 
@@ -66,6 +68,10 @@
   main dashboard. No assigned skill path changed upstream. Both unpublished
   child branches now need rebase/retest and renewed commit-bound sign-off
   before integration; their old reports are preserved as historical evidence.
+- A subsequent refresh advanced `origin/main` to
+  `d868d684564658bdc9488e27f5bfeaa592b04338`. The parent rebase completed
+  cleanly; only unrelated status-sync commits were added upstream. The exact
+  refreshed main state is preserved.
 - The read-only Docs Sync Audit script reported 36 repository-wide leads.
   The README contract-test path it flagged was confirmed to exist; Agent
   Skill Stack missing-script leads are assigned for worker-02 review, and

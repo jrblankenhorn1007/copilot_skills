@@ -8,12 +8,14 @@
 - **First parent rebase onto `origin/main`:**
   `20293c720b18a1a21ff150f566823493b7a2717d`; tip
   `d7b0d02ede3666825e6b4fb64fe6f3dd641bb87f`.
+- **Previous parent rebase:** `36bf3fad31b2965dc6a0516a20ec9b2e6ac64355`;
+  tip `c833b2d19c7bfa3a643ec6e2e7efd0dac467afa3`.
 - **Latest parent rebase onto `origin/main`:**
-  `36bf3fad31b2965dc6a0516a20ec9b2e6ac64355`; tip after rebase
-  `c833b2d19c7bfa3a643ec6e2e7efd0dac467afa3`.
+  `d868d684564658bdc9488e27f5bfeaa592b04338`; tip
+  `21b5ed18e6eb90d5c9a822f5e8783ffc18215a64`.
 - **Parent worktree:** `/Users/jrblankenhorn/copilot_skills.worktrees/ralph-skill-improvement-coordinator-20260925-0554-luna`.
-- **Coordinator README implementation commit after rebase:**
-  `8c255ae6e72c6311a456c29f66e9cbb1ac747d05`.
+- **Coordinator README implementation commit after latest rebase:**
+  `a36ef7f55a8ddb622b997615e7b71e3cfc907aa6`.
 - **Final parent implementation commit:** pending worker integration.
 - **PR:** pending; expected to follow the repository's normal protected
   parent-to-main pull request process.
@@ -60,6 +62,10 @@
   confined to the aggregate dashboard and resolved by preserving refreshed
   upstream entries. Neither assigned skill changed upstream; both child
   branches remain unmerged and require rebase/retest and renewed sign-off.
+- A later `origin/main` advancement to
+  `d868d684564658bdc9488e27f5bfeaa592b04338` added only unrelated run-status
+  commits. The parent rebase completed without conflict; existing upstream
+  status content remains preserved.
 
 ## Unresolved blockers
 
