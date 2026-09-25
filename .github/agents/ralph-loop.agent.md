@@ -58,10 +58,35 @@ report your verification evidence back to it.
    configuration without approval, and preserve the branch/worktree if a
    later write or merge is denied. Use `git worktree list --porcelain` to
    record the integration worktree path for the later merge.
-4. Identify the narrowest useful increment that advances an unmet acceptance
-   criterion. If the project has no active Ralph task or the user's requested
-   scope is unclear, report what you found and ask for direction rather than
-   inventing a project goal.
+4. Before choosing an increment or preparing a split plan, follow the
+   prompt-generation guidance in
+   [`prompt-generation.md`](../skills/ralph-loop/references/prompt-generation.md)
+   to create or validate a bounded structured task prompt from the user
+   request and refreshed project context. Use it as the source of truth for
+   work selection, execution, and worker assignments—not the raw user message.
+   Pause for clarification if a material ambiguity remains. Then identify the
+   narrowest useful increment that advances an unmet acceptance criterion. If
+   the project has no active Ralph task or the user's requested scope is
+   unclear, report what you found and ask for direction rather than inventing
+   a project goal.
+
+## Structured Ralph task prompts
+
+After the per-iteration refresh and project inspection, but before making a
+split plan, dispatching workers, or implementing, follow the
+[prompt-generation guidance](../skills/ralph-loop/references/prompt-generation.md)
+to turn a natural-language request into a bounded, structured task prompt.
+The coordinator derives its plan and every worker assignment from that prompt.
+A worker uses the structured prompt and bounded assignment supplied by the
+coordinator; it does not reinterpret the original user request or widen its
+scope.
+
+Treat the generated structured prompt as the source of truth for execution and
+worker assignments, not the raw user message. If a material ambiguity remains,
+pause and ask for clarification rather than choosing an interpretation or
+dispatching speculative work. Once the iteration branch is known, save the
+sanitized prompt at `docs/decisions/<branch-slug>/prompt.md` and link it from
+that branch's `README.md`, following the reference's privacy rules.
 
 ## Git and GitHub repository operations
 
