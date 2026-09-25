@@ -398,6 +398,25 @@ follow the existing Git identity and authentication rules.
    only after its remote-main merge is fetched and verified. Follow the
    repository's PR/remote-ref cleanup policy; never delete an unmerged branch
    or force-remove a worktree.
+
+### Capacity-blocked post-merge memory review
+
+Capacity denial is pending work, not task completion. Keep the run `BLOCKED`
+and `memory_review_status: PENDING`; preserve all handoffs and record the
+specific capacity blocker and next action. Do not substitute coordinator
+self-review or report `NO_UPDATE` before the updater completes its review.
+Continue safe non-agent work, but do not busy-poll or dispatch without a
+reservation. If no safe work remains, use `ask_user` to ask the user for a
+capacity remedy and wait with the run still blocked.
+
+On every user resume, refresh the complete live-session inventory and current
+Resource Manager status. If capacity remains unavailable, preserve the same
+pending gate and next action. Otherwise atomically reserve a slot before
+invoking the updater exactly once with all required handoffs. Do not call
+`task_complete` or emit `RALPH_COMPLETE` while the memory review is pending;
+the run becomes complete only after the updater reports a valid outcome and
+any required memory merge is verified on fetched `origin/main`.
+
 9. Follow the active project's exact continuation, blocked, and completion
    markers, and emit them only when their conditions are met. Never report
    completion before the parent merge and any required memory merge are
