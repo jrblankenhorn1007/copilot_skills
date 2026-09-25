@@ -4,9 +4,9 @@
 
 - **Run:** `copilot-skills-agent-communication-20260925-0627`
 - **Worker:** `worker-01 / agent communication skill`
-- **Status:** `AWAITING_MERGE`
+- **Status:** `IN_PROGRESS`
 - **Started:** `2026-09-25T07:49:20Z`
-- **Updated:** `2026-09-25T08:05:05Z`
+- **Updated:** `2026-09-25T08:16:50Z`
 - **Branch/worktree:** `ralph/agent-communication-worker-01-20260925-0627` /
   `/Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-communication-worker-01-20260925-0627`
 - **Parent:** `ralph/agent-communication-parent-20260925-0627` /
@@ -129,3 +129,25 @@
   "statement": "I, worker-01, sign off iteration 1 for agent-communication-skill at commit 0463c8c6309c03c66b1c0db8e006acf9f810329a."
 }
 ```
+
+## Follow-up — expired-instruction safeguard (same worker iteration)
+
+- **Follow-up requested:** `2026-09-25T08:12:33Z`. New live-experiment
+  evidence: an urgent cooperative interrupt arrived after `expires_at`, and
+  the recipient still acted on it.
+- **State transition:** `AWAITING_MERGE` → `IN_PROGRESS` at
+  `2026-09-25T08:16:50Z`; the parent dashboard still showed this worker as
+  `IN_PROGRESS`.
+- **Scope:** Add a normative receiver rule to the owned
+  `.github/skills/agent-communication/SKILL.md`: re-check expiry at processing
+  time, acknowledge `expired` against the original message, take no requested
+  action, and escalate a safety-critical expired request through a current
+  authorized channel. Neither `priority: urgent` nor an expired cooperative
+  interrupt is preemption.
+- **Branch state:** The child is still based on
+  `0294550c92a5d79e1cca682a0c509b5bb6eca3fd`; the parent tip observed at
+  follow-up start is `d8b3992af53a292a83ff094c5cd9837670ea968d`. No rebase,
+  publish, merge, or cleanup was performed.
+- **TDD:** Documentation-only clarification; Red/Green/Refactor is not
+  applicable. Targeted wording and whitespace checks will be recorded after
+  the change.
