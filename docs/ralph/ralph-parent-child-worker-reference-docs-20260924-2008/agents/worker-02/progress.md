@@ -17,8 +17,8 @@
 - **Latest implementation commit SHA:** `7fa094bcfe9d0f6cdfd4b793f98b8f02e8e32f92`
 - **Metadata/status/decision update commit SHA:**
   `fc6ee11d94ba892ca9c42f50256ba4ae4e6bf858`.
-- **Metadata SHA-reference follow-up commit SHA:** pending until its separate
-  follow-up is created.
+- **Metadata SHA-reference follow-up commit SHA:**
+  `244f5cb87bdfb60a35f05b3536de040e13853f82`.
 
 ## 2026-09-25T00:55:42Z — Refresh existing child iteration
 
@@ -476,106 +476,6 @@ following final checks passed:
 - Combined parent-child contract test — `NOT_RUN` per coordinator instruction;
   no combined-suite pass is claimed.
 
-## 2026-09-25T02:20:05Z — Rebase same worker iteration onto reconciled parent
-
-### Parent refresh and rebase
-
-- **Assignment:** Existing `worker-02` iteration 1 and the same unpublished
-  child branch/worktree; no new logical iteration, worktree, branch, or
-  subagent was created.
-- **Remote and worktrees:** `git fetch origin` succeeded and reported
-  `origin/main` at `114e4d60567d05cd048916339ed86e324c6eeef3`. The attached
-  integration worktree `/Users/jrblankenhorn/copilot_skills` is clean,
-  attached to `main` at that SHA. The parent worktree
-  `/Users/jrblankenhorn/copilot_skills.worktrees/ralph-parent-child-orchestrator-20260924-2008`
-  is clean on `ralph/parent-child-orchestrator-20260924-2008` at
-  `fda10605f50b49eeb4bc007a181cf51a5578ae18`; the parent contains the fetched
-  `origin/main` SHA.
-- **Original `base_parent_sha`:**
-  `d54cc120fe25da04d6be887b1a6a7e321512b6e4` (preserved).
-- **Previous rebase target:** `268358566c074cf3be35661f15883c588aef622f`.
-- **Rebase command:**
-  `git rebase --onto fda10605f50b49eeb4bc007a181cf51a5578ae18 268358566c074cf3be35661f15883c588aef622f`.
-  Git replayed the nine worker commits and completed the rebase.
-- **Recovered conflict:** The expected content conflict was in
-  `.github/skills/ralph-loop/references/multi-agent-orchestration.md`.
-  Resolution preserved the parent's no-browser Git/GitHub operations
-  instructions and GitHub workflow boundary while retaining parent creation
-  before worker dispatch, child branches based on the parent, serialized
-  worker-to-parent integration, status/PR details, merge verification,
-  cleanup, and the existing authentication rules. Other upstream no-browser
-  guidance in `worker-pr-merging.md`, `.github/agents/ralph-loop.agent.md`,
-  `.github/skills/ralph-loop/SKILL.md`, and the tests remains from the parent;
-  those files were not changed by this worker. No GitHub browser, `gh`, or
-  `curl` operation was used.
-- **Rewritten implementation commit:**
-  `7fa094bcfe9d0f6cdfd4b793f98b8f02e8e32f92`, replacing
-  `b4d2d331fc5ad2efd29b96c201c099c8a3642944`.
-- **Current `rebased_onto_parent_sha`:**
-  `fda10605f50b49eeb4bc007a181cf51a5578ae18`. The child was not rebased
-  directly onto `origin/main`.
-
-### Scoped verification after rebase
-
-- Documentation-only change: no behavior-changing Red-Green-Refactor phase
-  was applicable; no TDD Red result was fabricated.
-- `git diff --check` — `PASS`, exit code 0.
-- `git diff --check fda10605f50b49eeb4bc007a181cf51a5578ae18..7fa094bcfe9d0f6cdfd4b793f98b8f02e8e32f92`
-  — `PASS`, exit code 0.
-- `git show --check --format=oneline 7fa094bcfe9d0f6cdfd4b793f98b8f02e8e32f92`
-  — `PASS`.
-- `python3 .github/skills/ralph-loop/tests/test_multi_agent_contract.py MultiAgentContractTests.test_git_and_github_repository_operations_never_use_a_browser`
-  — `PASS`; `Ran 1 test in 0.002s`, `OK`.
-- `python3 .github/skills/ralph-loop/tests/test_multi_agent_contract.py MultiAgentContractTests.test_status_protocol_records_overall_worker_iteration_and_attestation`
-  — `PASS`; `Ran 1 test in 0.001s`, `OK`.
-- `python3 .github/skills/ralph-loop/tests/test_multi_agent_contract.py MultiAgentContractTests.test_final_response_reports_completion_and_logs_recovered_issues`
-  — `PASS`; `Ran 1 test in 0.002s`, `OK`.
-- The implementation diff against the exact parent contains only the four
-  assigned reference documents. The refreshed leaf/decision records are the
-  only additional changed paths; no README, dashboard, contract test,
-  worker-01 artifact, or root Ralph file was changed.
-- Exact path-set assertion against the parent — `PASS`; exactly the four
-  assigned references and four worker-02 run/decision records differ.
-- Upstream-preservation check
-  `git diff --exit-code fda10605f50b49eeb4bc007a181cf51a5578ae18 HEAD -- .github/skills/ralph-loop/references/worker-pr-merging.md .github/agents/ralph-loop.agent.md .github/skills/ralph-loop/SKILL.md .github/skills/ralph-loop/tests/test_multi_agent_contract.py README.md docs/ralph-status.md`
-  — `PASS`; upstream no-browser guidance and coordinator-owned files are
-  unchanged.
-- Final `SELF_ATTESTATION` JSON validation and worker decision/status link
-  validation are pending final metadata SHA binding.
-- The combined parent-child contract test remains `NOT_RUN` per coordinator
-  instruction while coordinator README/dashboard/test work remains pending;
-  no combined-suite pass is claimed.
-- No platform-specific behavior changed; no platform or environment gap
-  applies to this documentation-only slice.
-
-### Integration and metadata state
-
-- Worker remains `AWAITING_MERGE`; PR remains `NOT_OPENED`.
-- Worker-to-parent merge, parent-to-main merge, coordinator memory review,
-  parent cleanup, and child cleanup remain `PENDING`. No push, PR, merge, or
-  cleanup was performed. `blockers: []`; these are pending coordinator-owned
-  workflow steps, not worker-scope blockers.
-- Primary status/progress/decision update commit:
-  `fc6ee11d94ba892ca9c42f50256ba4ae4e6bf858`, separate from implementation
-  and carrying the required Copilot coauthor trailer. The metadata
-  SHA-reference follow-up and final self-attestation remain pending.
-- **Next action:** Return the completed worker sign-off and scoped evidence to
-  the coordinator for serialized worker-to-parent integration. Do not publish,
-  open a PR, merge, or clean up this child.
-
-## 2026-09-25T02:21:11Z — Record primary metadata commit
-
-- **Primary metadata/status/decision commit:**
-  `fc6ee11d94ba892ca9c42f50256ba4ae4e6bf858`.
-- This commit contains only the worker-02 `status.md`, `progress.md`, branch
-  decision index, and `pr-not-opened.md`, and includes the Copilot coauthor
-  trailer. It does not alter implementation commit
-  `7fa094bcfe9d0f6cdfd4b793f98b8f02e8e32f92`.
-- The worker leaf records now identify primary metadata SHA
-  `fc6ee11d94ba892ca9c42f50256ba4ae4e6bf858`. The exact follow-up SHA and
-  final implementation/metadata-bound `SELF_ATTESTATION` will be added once
-  that follow-up commit exists.
-
 ## 2026-09-25T01:59:30Z — Remote main advanced after the parent sync
 
 - A final read-only `git fetch origin` reported `origin/main` at
@@ -617,3 +517,167 @@ following final checks passed:
   resolve.
 - Combined parent-child contract test — `NOT_RUN` per coordinator instruction;
   no combined-suite pass is claimed.
+
+## 2026-09-25T02:20:05Z — Rebase same worker iteration onto reconciled parent
+
+### Parent refresh and rebase
+
+- **Assignment:** Existing `worker-02` iteration 1 and the same unpublished
+  child branch/worktree; no new logical iteration, worktree, branch, or
+  subagent was created.
+- **Remote and worktrees:** `git fetch origin` succeeded and reported
+  `origin/main` at `114e4d60567d05cd048916339ed86e324c6eeef3`. The attached
+  integration worktree `/Users/jrblankenhorn/copilot_skills` is clean,
+  attached to `main` at that SHA. The parent worktree
+  `/Users/jrblankenhorn/copilot_skills.worktrees/ralph-parent-child-orchestrator-20260924-2008`
+  is clean on `ralph/parent-child-orchestrator-20260924-2008` at
+  `fda10605f50b49eeb4bc007a181cf51a5578ae18`; the parent contains the fetched
+  `origin/main` SHA.
+- **Original `base_parent_sha`:**
+  `d54cc120fe25da04d6be887b1a6a7e321512b6e4` (preserved).
+- **Previous rebase target:** `268358566c074cf3be35661f15883c588aef622f`.
+- **Rebase command:**
+  `git rebase --onto fda10605f50b49eeb4bc007a181cf51a5578ae18 268358566c074cf3be35661f15883c588aef622f`.
+  Git replayed the nine worker commits and completed the rebase.
+- **Recovered conflict:** The expected content conflict was in
+  `.github/skills/ralph-loop/references/multi-agent-orchestration.md`.
+  Resolution preserved the parent's no-browser Git/GitHub operations
+  instructions and GitHub workflow boundary while retaining parent creation
+  before worker dispatch, child branches based on the parent, serialized
+  worker-to-parent integration, status/PR details, merge verification,
+  cleanup, and existing authentication rules. Other upstream no-browser
+  guidance in `worker-pr-merging.md`, `.github/agents/ralph-loop.agent.md`,
+  `.github/skills/ralph-loop/SKILL.md`, and tests remains from the parent;
+  those files were not changed by this worker. No GitHub browser, `gh`, or
+  `curl` operation was used.
+- **Rewritten implementation commit:**
+  `7fa094bcfe9d0f6cdfd4b793f98b8f02e8e32f92`, replacing
+  `b4d2d331fc5ad2efd29b96c201c099c8a3642944`.
+- **Current `rebased_onto_parent_sha`:**
+  `fda10605f50b49eeb4bc007a181cf51a5578ae18`. The child was not rebased
+  directly onto `origin/main`.
+
+### Rebase checks and metadata commits
+
+- Documentation-only change: no behavior-changing Red-Green-Refactor phase
+  was applicable; no TDD Red result was fabricated.
+- `git diff --check` and
+  `git diff --check fda10605f50b49eeb4bc007a181cf51a5578ae18..7fa094bcfe9d0f6cdfd4b793f98b8f02e8e32f92`
+  — `PASS`, exit code 0. `git show --check --format=oneline 7fa094bcfe9d0f6cdfd4b793f98b8f02e8e32f92`
+  — `PASS`.
+- `python3 .github/skills/ralph-loop/tests/test_multi_agent_contract.py MultiAgentContractTests.test_git_and_github_repository_operations_never_use_a_browser`
+  — `PASS`; final run `Ran 1 test in 0.001s`, `OK`.
+- `python3 .github/skills/ralph-loop/tests/test_multi_agent_contract.py MultiAgentContractTests.test_status_protocol_records_overall_worker_iteration_and_attestation`
+  — `PASS`; final run `Ran 1 test in 0.003s`, `OK`.
+- `python3 .github/skills/ralph-loop/tests/test_multi_agent_contract.py MultiAgentContractTests.test_final_response_reports_completion_and_logs_recovered_issues`
+  — `PASS`; final run `Ran 1 test in 0.002s`, `OK`.
+- Exact path-set and upstream-preservation checks passed: exactly the four
+  assigned references and four worker-02 records differ from the parent;
+  coordinator-owned README/dashboard/tests and upstream agent/skill/PR
+  instructions are unchanged.
+- Final `SELF_ATTESTATION` JSON parsing/binding — `PASS`; the progress and
+  no-PR record payloads are identical and bind the implementation, primary
+  metadata commit, and latest metadata SHA-reference follow-up.
+- Worker/status/decision relative-link check — `PASS`; all 23 links resolve.
+- Primary metadata/status/decision commit:
+  `fc6ee11d94ba892ca9c42f50256ba4ae4e6bf858`; metadata SHA-reference
+  follow-up: `244f5cb87bdfb60a35f05b3536de040e13853f82`. Both are separate
+  from implementation and carry the required Copilot coauthor trailer.
+- Final `SELF_ATTESTATION` JSON/link validation is recorded below. The
+  combined parent-child contract test remains `NOT_RUN` per coordinator
+  instruction; README/dashboard/test work is pending and no combined-suite
+  pass is claimed.
+
+## 2026-09-25T02:27:49Z — Final worker-02 self-attestation
+
+- **Implementation commit:** `7fa094bcfe9d0f6cdfd4b793f98b8f02e8e32f92`.
+- **Primary metadata commit:** `fc6ee11d94ba892ca9c42f50256ba4ae4e6bf858`.
+- **Latest metadata SHA-reference follow-up:**
+  `244f5cb87bdfb60a35f05b3536de040e13853f82`.
+- **Parent:** `fda10605f50b49eeb4bc007a181cf51a5578ae18`; original
+  `base_parent_sha` remains `d54cc120fe25da04d6be887b1a6a7e321512b6e4`.
+- **State:** `AWAITING_MERGE`; PR `NOT_OPENED`; worker-to-parent and
+  parent-to-main merges, memory review, and cleanup remain `PENDING`.
+  `blockers: []`.
+- The final `SELF_ATTESTATION` below binds the rewritten implementation to
+  both the primary metadata commit and latest known metadata SHA-reference
+  follow-up. It does not claim remote integration, memory review, or cleanup.
+
+```json
+{
+  "run_id": "copilot_skills-parent-child-pipeline-20260924",
+  "task_ids": ["parent-child-reference-docs"],
+  "task_id": "parent-child-reference-docs",
+  "worker_id": "worker-02",
+  "worker_name": "worker-02 — parent-child reference documentation",
+  "runtime_agent_id": null,
+  "runtime_session_id": "copilotcli:/2f06d4f9-e0c1-4b03-bbbe-edfc40054447 (coordinator follow-up; not attributed to the original worker runtime)",
+  "iteration": 1,
+  "branch": "ralph/parent-child-worker-reference-docs-20260924-2008",
+  "worktree": "/Users/jrblankenhorn/copilot_skills.worktrees/ralph-parent-child-worker-reference-docs-20260924-2008",
+  "parent_branch": "ralph/parent-child-orchestrator-20260924-2008",
+  "parent_worktree": "/Users/jrblankenhorn/copilot_skills.worktrees/ralph-parent-child-orchestrator-20260924-2008",
+  "base_origin_main_sha": "b4dac949e976d48f7bd976fc1c93ddc703bc7319",
+  "parent_base_origin_main_sha": "b4dac949e976d48f7bd976fc1c93ddc703bc7319",
+  "parent_rebased_onto_origin_main_sha": "114e4d60567d05cd048916339ed86e324c6eeef3",
+  "observed_origin_main_sha": "114e4d60567d05cd048916339ed86e324c6eeef3",
+  "base_parent_sha": "d54cc120fe25da04d6be887b1a6a7e321512b6e4",
+  "rebased_onto_parent_sha": "fda10605f50b49eeb4bc007a181cf51a5578ae18",
+  "previous_implementation_commit_sha": "b4d2d331fc5ad2efd29b96c201c099c8a3642944",
+  "implementation_commit_sha": "7fa094bcfe9d0f6cdfd4b793f98b8f02e8e32f92",
+  "metadata_commit_sha": "fc6ee11d94ba892ca9c42f50256ba4ae4e6bf858",
+  "metadata_reference_followup_sha": "244f5cb87bdfb60a35f05b3536de040e13853f82",
+  "latest_metadata_sha": "244f5cb87bdfb60a35f05b3536de040e13853f82",
+  "pull_request": {
+    "status": "NOT_OPENED",
+    "number": null,
+    "url": null
+  },
+  "merge_actor_worker_id": null,
+  "status": "AWAITING_MERGE",
+  "checks": [
+    {
+      "command": "git diff --check",
+      "result": "PASS: exit code 0"
+    },
+    {
+      "command": "python3 .github/skills/ralph-loop/tests/test_multi_agent_contract.py MultiAgentContractTests.test_git_and_github_repository_operations_never_use_a_browser",
+      "result": "PASS: Ran 1 test in 0.001s, OK"
+    },
+    {
+      "command": "python3 .github/skills/ralph-loop/tests/test_multi_agent_contract.py MultiAgentContractTests.test_status_protocol_records_overall_worker_iteration_and_attestation",
+      "result": "PASS: Ran 1 test in 0.003s, OK"
+    },
+    {
+      "command": "python3 .github/skills/ralph-loop/tests/test_multi_agent_contract.py MultiAgentContractTests.test_final_response_reports_completion_and_logs_recovered_issues",
+      "result": "PASS: Ran 1 test in 0.002s, OK"
+    },
+    {
+      "check": "Exact diff scope against the assigned parent",
+      "result": "PASS: exactly four assigned reference docs and four worker-02 records differ; no forbidden paths changed"
+    },
+    {
+      "check": "Final SELF_ATTESTATION JSON binding",
+      "result": "PASS: identical valid JSON in progress and no-PR records; bound to implementation, primary metadata, and latest metadata reference SHA"
+    },
+    {
+      "check": "Relative worker/status/decision links",
+      "result": "PASS: 23 relative links resolve"
+    },
+    {
+      "check": "Combined parent-child contract suite",
+      "result": "NOT_RUN per coordinator instruction; no combined-suite pass is claimed"
+    }
+  ],
+  "worker_to_parent_merge_status": "PENDING",
+  "parent_to_main_merge_status": "PENDING",
+  "memory_review_status": "PENDING",
+  "parent_cleanup_status": "PENDING",
+  "cleanup_status": "PENDING",
+  "blockers": [],
+  "attested_at_utc": "2026-09-25T02:27:49Z",
+  "attestation_kind": "SELF_ATTESTATION",
+  "cryptographic_signature_status": "NOT_CRYPTOGRAPHICALLY_SIGNED",
+  "statement": "I, worker-02, attest to iteration 1 implementation commit 7fa094bcfe9d0f6cdfd4b793f98b8f02e8e32f92, rebased onto parent fda10605f50b49eeb4bc007a181cf51a5578ae18 while preserving original base_parent_sha d54cc120fe25da04d6be887b1a6a7e321512b6e4. This attestation is bound to primary metadata commit fc6ee11d94ba892ca9c42f50256ba4ae4e6bf858 and latest metadata SHA-reference follow-up 244f5cb87bdfb60a35f05b3536de040e13853f82. It does not claim worker-to-parent integration, parent-to-main integration, completion of memory review, or cleanup."
+}
+```

@@ -14,7 +14,7 @@ runtime_agent_id: null
 runtime_session_id: "copilotcli:/2f06d4f9-e0c1-4b03-bbbe-edfc40054447 (coordinator follow-up; not the original worker runtime)"
 iteration: 1
 status: AWAITING_MERGE
-updated_at_utc: "2026-09-25T02:21:11Z"
+updated_at_utc: "2026-09-25T02:27:49Z"
 branch: "ralph/parent-child-worker-reference-docs-20260924-2008"
 branch_slug: "ralph-parent-child-worker-reference-docs-20260924-2008"
 worktree: "/Users/jrblankenhorn/copilot_skills.worktrees/ralph-parent-child-worker-reference-docs-20260924-2008"
@@ -30,7 +30,7 @@ rebased_onto_parent_sha: "fda10605f50b49eeb4bc007a181cf51a5578ae18"
 previous_implementation_commit_sha: "b4d2d331fc5ad2efd29b96c201c099c8a3642944"
 implementation_commit_sha: "7fa094bcfe9d0f6cdfd4b793f98b8f02e8e32f92"
 metadata_commit_sha: "fc6ee11d94ba892ca9c42f50256ba4ae4e6bf858"
-metadata_reference_followup_commit_sha: null
+metadata_reference_followup_commit_sha: "244f5cb87bdfb60a35f05b3536de040e13853f82"
 pull_request:
   status: NOT_OPENED
   number: null
@@ -66,13 +66,14 @@ coordination_dependencies:
   - "The parent was reconciled to fda10605f50b49eeb4bc007a181cf51a5578ae18 and contains observed origin/main 114e4d60567d05cd048916339ed86e324c6eeef3. Worker-02 has rebased onto that exact parent; serialized worker-to-parent integration, parent-to-main integration, memory review, and cleanup remain pending."
 next_action: "Coordinator: review the refreshed worker-02 implementation, final self-attestation, and scoped checks, then serialize worker-to-parent integration. Do not publish or open a PR for this child, merge it, or clean up its worktree/branch."
 worker_sign_off:
-  status: PENDING_METADATA_FINALIZATION
-  attestation_kind: null
+  status: RECEIVED
+  attestation_kind: SELF_ATTESTATION
   implementation_commit_sha: "7fa094bcfe9d0f6cdfd4b793f98b8f02e8e32f92"
   metadata_commit_sha: "fc6ee11d94ba892ca9c42f50256ba4ae4e6bf858"
+  metadata_reference_followup_commit_sha: "244f5cb87bdfb60a35f05b3536de040e13853f82"
   cryptographic_signature_status: NOT_CRYPTOGRAPHICALLY_SIGNED
-  attested_at_utc: null
-  statement: "The prior attestation is superseded by the parent rebase. Primary metadata commit fc6ee11d94ba892ca9c42f50256ba4ae4e6bf858 is recorded; final SELF_ATTESTATION will follow after the metadata SHA-reference follow-up is known. No worker-to-parent or parent-to-main integration, memory review, or cleanup is claimed."
+  attested_at_utc: "2026-09-25T02:27:49Z"
+  statement: "I, worker-02, attest that iteration 1 implementation commit 7fa094bcfe9d0f6cdfd4b793f98b8f02e8e32f92 is based on parent tip fda10605f50b49eeb4bc007a181cf51a5578ae18, preserving original base_parent_sha d54cc120fe25da04d6be887b1a6a7e321512b6e4. This SELF_ATTESTATION is bound to primary metadata commit fc6ee11d94ba892ca9c42f50256ba4ae4e6bf858 and latest metadata reference follow-up 244f5cb87bdfb60a35f05b3536de040e13853f82. It does not claim worker-to-parent or parent-to-main integration, completion of memory review, or cleanup."
 commit_signature_verification:
   status: NOT_CRYPTOGRAPHICALLY_SIGNED
   verifier: null
@@ -105,12 +106,12 @@ historical_metadata_commits:
 | `git diff --check` | `PASS` — exit code 0. |
 | `git diff --check fda10605f50b49eeb4bc007a181cf51a5578ae18..7fa094bcfe9d0f6cdfd4b793f98b8f02e8e32f92` | `PASS` — exit code 0. |
 | `git show --check --format=oneline 7fa094bcfe9d0f6cdfd4b793f98b8f02e8e32f92` | `PASS`. |
-| `python3 .github/skills/ralph-loop/tests/test_multi_agent_contract.py MultiAgentContractTests.test_git_and_github_repository_operations_never_use_a_browser` | `PASS` — `Ran 1 test in 0.002s`, `OK`. |
-| `python3 .github/skills/ralph-loop/tests/test_multi_agent_contract.py MultiAgentContractTests.test_status_protocol_records_overall_worker_iteration_and_attestation` | `PASS` — `Ran 1 test in 0.001s`, `OK`. |
+| `python3 .github/skills/ralph-loop/tests/test_multi_agent_contract.py MultiAgentContractTests.test_git_and_github_repository_operations_never_use_a_browser` | `PASS` — `Ran 1 test in 0.001s`, `OK`. |
+| `python3 .github/skills/ralph-loop/tests/test_multi_agent_contract.py MultiAgentContractTests.test_status_protocol_records_overall_worker_iteration_and_attestation` | `PASS` — `Ran 1 test in 0.003s`, `OK`. |
 | `python3 .github/skills/ralph-loop/tests/test_multi_agent_contract.py MultiAgentContractTests.test_final_response_reports_completion_and_logs_recovered_issues` | `PASS` — `Ran 1 test in 0.002s`, `OK`. |
 | Diff-scope assertion against parent `fda10605f50b49eeb4bc007a181cf51a5578ae18` | `PASS` — exactly the four assigned references and four worker-owned records differ; no forbidden files are changed. |
 | Upstream-preservation diff against parent | `PASS` — updated `worker-pr-merging.md`, Ralph agent/skill instructions, tests, README, and dashboard are unchanged by this worker. |
-| Latest `SELF_ATTESTATION` JSON validation and record-link check | Pending final metadata SHA/reference follow-up. |
+| Latest `SELF_ATTESTATION` JSON validation and record-link check | `PASS` — identical valid attestations in progress/no-PR records; 23 relative links resolve. |
 | Combined parent-child contract test | `NOT_RUN` per coordinator instruction; README/dashboard/test work remains pending and no combined-suite pass is claimed. |
 
 ## Integration state

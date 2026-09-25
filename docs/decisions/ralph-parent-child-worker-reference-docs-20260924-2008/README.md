@@ -19,7 +19,8 @@
 - **Rewritten implementation commit SHA:** `7fa094bcfe9d0f6cdfd4b793f98b8f02e8e32f92`
 - **Metadata/status/decision update commit SHA:**
   `fc6ee11d94ba892ca9c42f50256ba4ae4e6bf858`.
-- **Metadata SHA-reference follow-up commit SHA:** pending until committed.
+- **Metadata SHA-reference follow-up commit SHA:**
+  `244f5cb87bdfb60a35f05b3536de040e13853f82`.
 - **PR:** `NOT_OPENED`. This is child-to-parent work; only the completed
   parent iteration integrates to remote `main`.
 - **Integration state:** No push or merge was performed in this follow-up.
@@ -211,21 +212,27 @@
 - **Primary metadata commit:**
   `fc6ee11d94ba892ca9c42f50256ba4ae4e6bf858`; it is separate from
   implementation and carries the required Copilot coauthor trailer.
-  **Metadata SHA-reference follow-up and final attestation:** pending.
+  **Metadata SHA-reference follow-up:**
+  `244f5cb87bdfb60a35f05b3536de040e13853f82`. The final
+  implementation/metadata-bound `SELF_ATTESTATION` is in the worker progress
+  and no-PR records.
 - **Scoped checks after rebase:** `git diff --check` and
   `git diff --check fda10605f50b49eeb4bc007a181cf51a5578ae18..7fa094bcfe9d0f6cdfd4b793f98b8f02e8e32f92`
   passed with exit code 0; `git show --check --format=oneline 7fa094bcfe9d0f6cdfd4b793f98b8f02e8e32f92`
   passed.
 - `python3 .github/skills/ralph-loop/tests/test_multi_agent_contract.py MultiAgentContractTests.test_git_and_github_repository_operations_never_use_a_browser`
-  — `PASS`; `Ran 1 test in 0.002s`, `OK`.
+  — `PASS`; final run `Ran 1 test in 0.001s`, `OK`.
 - `python3 .github/skills/ralph-loop/tests/test_multi_agent_contract.py MultiAgentContractTests.test_status_protocol_records_overall_worker_iteration_and_attestation`
-  — `PASS`; `Ran 1 test in 0.001s`, `OK`.
+  — `PASS`; final run `Ran 1 test in 0.003s`, `OK`.
 - `python3 .github/skills/ralph-loop/tests/test_multi_agent_contract.py MultiAgentContractTests.test_final_response_reports_completion_and_logs_recovered_issues`
-  — `PASS`; `Ran 1 test in 0.002s`, `OK`.
+  — `PASS`; final run `Ran 1 test in 0.002s`, `OK`.
 - Exact diff scope and upstream-preservation checks passed: only four assigned
   references and four worker-02 records differ from the parent; README,
   dashboard, tests, agent/skill, worker-PR guide, worker-01, and root Ralph
   files are unchanged.
+- Final `SELF_ATTESTATION` validation — `PASS`; the progress and no-PR JSON
+  payloads are identical and bound to the implementation and metadata SHAs.
+- Worker/status/decision relative-link check — `PASS`; all 23 links resolve.
   The full parent-child suite remains `NOT_RUN` per coordinator instruction
   until README/dashboard/test work is complete. No combined-suite pass is
   claimed.

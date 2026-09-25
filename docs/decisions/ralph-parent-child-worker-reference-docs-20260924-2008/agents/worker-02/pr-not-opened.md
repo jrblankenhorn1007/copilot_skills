@@ -24,7 +24,8 @@
 - **Rewritten implementation commit SHA:** `7fa094bcfe9d0f6cdfd4b793f98b8f02e8e32f92`
 - **Metadata/status/decision update commit SHA:**
   `fc6ee11d94ba892ca9c42f50256ba4ae4e6bf858`.
-- **Metadata SHA-reference follow-up commit SHA:** pending until committed.
+- **Metadata SHA-reference follow-up commit SHA:**
+  `244f5cb87bdfb60a35f05b3536de040e13853f82`.
 - **Pull request:** Not opened (`number: null`, `url: null`). Child changes
   integrate into the parent branch; only the completed parent integrates to
   remote `main`.
@@ -518,11 +519,11 @@ retained in the worker's [progress record](../../../../ralph/ralph-parent-child-
   `git show --check --format=oneline 7fa094bcfe9d0f6cdfd4b793f98b8f02e8e32f92`
   passed.
 - `python3 .github/skills/ralph-loop/tests/test_multi_agent_contract.py MultiAgentContractTests.test_git_and_github_repository_operations_never_use_a_browser`
-  — `PASS`; `Ran 1 test in 0.002s`, `OK`.
+  — `PASS`; final run `Ran 1 test in 0.001s`, `OK`.
 - `python3 .github/skills/ralph-loop/tests/test_multi_agent_contract.py MultiAgentContractTests.test_status_protocol_records_overall_worker_iteration_and_attestation`
-  — `PASS`; `Ran 1 test in 0.001s`, `OK`.
+  — `PASS`; final run `Ran 1 test in 0.003s`, `OK`.
 - `python3 .github/skills/ralph-loop/tests/test_multi_agent_contract.py MultiAgentContractTests.test_final_response_reports_completion_and_logs_recovered_issues`
-  — `PASS`; `Ran 1 test in 0.002s`, `OK`.
+  — `PASS`; final run `Ran 1 test in 0.002s`, `OK`.
 - Exact diff scope and upstream-preservation checks passed: only four
   assigned references and four worker-02 records differ from the parent.
   The combined parent-child contract suite was not run per coordinator
@@ -533,12 +534,90 @@ retained in the worker's [progress record](../../../../ralph/ralph-parent-child-
 
 ### Refreshed worker-02 `SELF_ATTESTATION`
 
-The primary metadata SHA is
-`fc6ee11d94ba892ca9c42f50256ba4ae4e6bf858`. The final self-attestation will
-be added here and in the progress record after the metadata SHA-reference
-follow-up is known. It will bind implementation
-`7fa094bcfe9d0f6cdfd4b793f98b8f02e8e32f92`, the primary metadata SHA, and
-that follow-up while preserving original `base_parent_sha`
-`d54cc120fe25da04d6be887b1a6a7e321512b6e4` and current
-`rebased_onto_parent_sha`
+This final sign-off is bound to implementation
+`7fa094bcfe9d0f6cdfd4b793f98b8f02e8e32f92`, primary metadata commit
+`fc6ee11d94ba892ca9c42f50256ba4ae4e6bf858`, and latest metadata
+SHA-reference follow-up `244f5cb87bdfb60a35f05b3536de040e13853f82`.
+Original `base_parent_sha`
+`d54cc120fe25da04d6be887b1a6a7e321512b6e4` is unchanged, and
+`rebased_onto_parent_sha` is
 `fda10605f50b49eeb4bc007a181cf51a5578ae18`.
+
+```json
+{
+  "run_id": "copilot_skills-parent-child-pipeline-20260924",
+  "task_ids": ["parent-child-reference-docs"],
+  "task_id": "parent-child-reference-docs",
+  "worker_id": "worker-02",
+  "worker_name": "worker-02 — parent-child reference documentation",
+  "runtime_agent_id": null,
+  "runtime_session_id": "copilotcli:/2f06d4f9-e0c1-4b03-bbbe-edfc40054447 (coordinator follow-up; not attributed to the original worker runtime)",
+  "iteration": 1,
+  "branch": "ralph/parent-child-worker-reference-docs-20260924-2008",
+  "worktree": "/Users/jrblankenhorn/copilot_skills.worktrees/ralph-parent-child-worker-reference-docs-20260924-2008",
+  "parent_branch": "ralph/parent-child-orchestrator-20260924-2008",
+  "parent_worktree": "/Users/jrblankenhorn/copilot_skills.worktrees/ralph-parent-child-orchestrator-20260924-2008",
+  "base_origin_main_sha": "b4dac949e976d48f7bd976fc1c93ddc703bc7319",
+  "parent_base_origin_main_sha": "b4dac949e976d48f7bd976fc1c93ddc703bc7319",
+  "parent_rebased_onto_origin_main_sha": "114e4d60567d05cd048916339ed86e324c6eeef3",
+  "observed_origin_main_sha": "114e4d60567d05cd048916339ed86e324c6eeef3",
+  "base_parent_sha": "d54cc120fe25da04d6be887b1a6a7e321512b6e4",
+  "rebased_onto_parent_sha": "fda10605f50b49eeb4bc007a181cf51a5578ae18",
+  "previous_implementation_commit_sha": "b4d2d331fc5ad2efd29b96c201c099c8a3642944",
+  "implementation_commit_sha": "7fa094bcfe9d0f6cdfd4b793f98b8f02e8e32f92",
+  "metadata_commit_sha": "fc6ee11d94ba892ca9c42f50256ba4ae4e6bf858",
+  "metadata_reference_followup_sha": "244f5cb87bdfb60a35f05b3536de040e13853f82",
+  "latest_metadata_sha": "244f5cb87bdfb60a35f05b3536de040e13853f82",
+  "pull_request": {
+    "status": "NOT_OPENED",
+    "number": null,
+    "url": null
+  },
+  "merge_actor_worker_id": null,
+  "status": "AWAITING_MERGE",
+  "checks": [
+    {
+      "command": "git diff --check",
+      "result": "PASS: exit code 0"
+    },
+    {
+      "command": "python3 .github/skills/ralph-loop/tests/test_multi_agent_contract.py MultiAgentContractTests.test_git_and_github_repository_operations_never_use_a_browser",
+      "result": "PASS: Ran 1 test in 0.001s, OK"
+    },
+    {
+      "command": "python3 .github/skills/ralph-loop/tests/test_multi_agent_contract.py MultiAgentContractTests.test_status_protocol_records_overall_worker_iteration_and_attestation",
+      "result": "PASS: Ran 1 test in 0.003s, OK"
+    },
+    {
+      "command": "python3 .github/skills/ralph-loop/tests/test_multi_agent_contract.py MultiAgentContractTests.test_final_response_reports_completion_and_logs_recovered_issues",
+      "result": "PASS: Ran 1 test in 0.002s, OK"
+    },
+    {
+      "check": "Exact diff scope against the assigned parent",
+      "result": "PASS: exactly four assigned reference docs and four worker-02 records differ; no forbidden paths changed"
+    },
+    {
+      "check": "Final SELF_ATTESTATION JSON binding",
+      "result": "PASS: identical valid JSON in progress and no-PR records; bound to implementation, primary metadata, and latest metadata reference SHA"
+    },
+    {
+      "check": "Relative worker/status/decision links",
+      "result": "PASS: 23 relative links resolve"
+    },
+    {
+      "check": "Combined parent-child contract suite",
+      "result": "NOT_RUN per coordinator instruction; no combined-suite pass is claimed"
+    }
+  ],
+  "worker_to_parent_merge_status": "PENDING",
+  "parent_to_main_merge_status": "PENDING",
+  "memory_review_status": "PENDING",
+  "parent_cleanup_status": "PENDING",
+  "cleanup_status": "PENDING",
+  "blockers": [],
+  "attested_at_utc": "2026-09-25T02:27:49Z",
+  "attestation_kind": "SELF_ATTESTATION",
+  "cryptographic_signature_status": "NOT_CRYPTOGRAPHICALLY_SIGNED",
+  "statement": "I, worker-02, attest to iteration 1 implementation commit 7fa094bcfe9d0f6cdfd4b793f98b8f02e8e32f92, rebased onto parent fda10605f50b49eeb4bc007a181cf51a5578ae18 while preserving original base_parent_sha d54cc120fe25da04d6be887b1a6a7e321512b6e4. This attestation is bound to primary metadata commit fc6ee11d94ba892ca9c42f50256ba4ae4e6bf858 and latest metadata SHA-reference follow-up 244f5cb87bdfb60a35f05b3536de040e13853f82. It does not claim worker-to-parent integration, parent-to-main integration, completion of memory review, or cleanup."
+}
+```
