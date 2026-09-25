@@ -121,10 +121,11 @@ shared checkout. The worker must:
 
 The coordinator authorizes one worker PR at a time after reviewing its
 sign-off, checks, and integration readiness. The worker who owns the branch
-executes its own PR merge, using its own already-authenticated GitHub CLI
-session and the repository's normal merge or merge-queue process. The
-coordinator does not use its own credentials to merge a worker PR; it verifies
-the resulting remote merge and owns the post-merge memory review. See the
+executes its own PR merge, using its own existing authentication through the
+configured GitHub CLI (`gh`) or supported GitHub integration/MCP tools and the
+repository's normal merge or merge-queue process. The coordinator does not
+use its own credentials to merge a worker PR; it verifies the resulting
+remote merge and owns the post-merge memory review. See the
 [worker-owned PR merge guide](worker-pr-merging.md) for the exact protocol.
 
 Never use `--admin` or override managed policy. If the worker's merge

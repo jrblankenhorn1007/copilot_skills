@@ -19,13 +19,15 @@ follow the existing Git identity and authentication rules.
 1. Confirm the coordinator authorized this exact PR and that required reviews,
    checks, and branch-update requirements are satisfied. Do not merge another
    worker's PR or treat an open PR as authorization.
-2. Use the worker session's already-authenticated GitHub CLI and the
-   repository's configured merge method. For example, when merge commits are
-   the configured method, use `gh pr merge <number> --merge`. If the repository
-   requires a merge queue, use its normal queue-enabled merge process instead
-   (for example, `gh pr merge <number> --auto --merge` when configured).
-   `gh auth status` can confirm the CLI is signed in; it does not prove that
-   the worker has permission to merge this PR.
+2. Use the worker's own existing authentication through the configured
+   GitHub CLI (`gh`) or supported GitHub integration/MCP tools, following the
+   repository's configured merge method. For example, when using `gh` and
+   merge commits are configured, use `gh pr merge <number> --merge`. If the
+   repository requires a merge queue, use its normal queue-enabled merge
+   process instead (for example, `gh pr merge <number> --auto --merge` when
+   configured). `gh auth status`, when using the CLI, can confirm that it is
+   signed in; it does not prove the worker has permission to merge this PR.
+   An integration being available likewise does not prove merge permission.
 3. Wait for GitHub to report the PR as merged. Fetch `origin`, identify the
    resulting merge SHA, and verify that the exact SHA is reachable from
    `origin/main` (for example, with

@@ -113,10 +113,11 @@ dashboard.
 For every PR-backed iteration, the branch owner is the merge actor. In a
 multi-agent run, the coordinator authorizes one worker PR at a time after
 reviewing its sign-off and checks; the worker performs the remote merge of its
-own PR after coordinator authorization, using its own already-authenticated
-GitHub CLI session. Do not rely on coordinator credentials. The coordinator
-verifies the remote merge and performs the post-merge memory review, but does
-not merge a worker's PR on its behalf. Follow the
+own PR after coordinator authorization, using its own existing authentication
+through the configured GitHub CLI (`gh`) or supported GitHub integration/MCP
+tools. Do not rely on coordinator credentials. The coordinator verifies the
+remote merge and performs the post-merge memory review, but does not merge a
+worker's PR on its behalf. Follow the
 [worker-owned PR merge guide](references/worker-pr-merging.md).
 
 A worker remains `AWAITING_MERGE` until the coordinator verifies integration

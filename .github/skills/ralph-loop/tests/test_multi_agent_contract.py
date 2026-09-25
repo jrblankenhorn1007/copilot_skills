@@ -197,6 +197,7 @@ class MultiAgentContractTests(unittest.TestCase):
         ralph_skill = read_document(".github/skills/ralph-loop/SKILL.md")
         for requirement in (
             "worker performs the remote merge of its own pr after coordinator authorization",
+            "configured github cli (`gh`) or supported github integration/mcp tools",
             "do not rely on coordinator credentials",
         ):
             with self.subTest(requirement=requirement):
@@ -213,7 +214,7 @@ class MultiAgentContractTests(unittest.TestCase):
         for requirement in (
             "coordinator authorizes one worker pr at a time",
             "worker who owns the branch executes its own pr merge",
-            "using its own already-authenticated github cli session",
+            "using its own existing authentication through the configured github cli (`gh`) or supported github integration/mcp tools",
             "coordinator does not use its own credentials to merge a worker pr",
             "never use `--admin` or override managed policy",
             "if the worker's merge permission is denied, preserve the branch and pr and report a sanitized blocker",
@@ -250,6 +251,12 @@ class MultiAgentContractTests(unittest.TestCase):
             merge_guide,
             "coordinator authorization",
             "the dedicated PR merge guide must require coordinator authorization",
+        )
+        assert_contains(
+            self,
+            merge_guide,
+            "configured github cli (`gh`) or supported github integration/mcp tools",
+            "the merge guide must allow the configured CLI or supported GitHub integration",
         )
         assert_contains(
             self,
