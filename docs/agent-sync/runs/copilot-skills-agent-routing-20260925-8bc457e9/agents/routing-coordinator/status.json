@@ -1,0 +1,48 @@
+{
+  "agent_id": "routing-coordinator",
+  "agent_profile": {
+    "agent_definition": null,
+    "context_tier": null,
+    "context_usage_tokens": null,
+    "context_window_tokens": null,
+    "harness": "Copilot SDK in VS Code",
+    "model_id": null,
+    "reasoning_effort": null,
+    "runtime_agent_id": "8bc457e9-1724-42bb-b3c8-cdf453f54a32"
+  },
+  "git": {
+    "base_ref": "refs/heads/ralph/agent-optimization-parent-20260925-8bc457e9",
+    "base_sha": "4eb15e69434df810958c3d488e223e1366f00d39",
+    "edit_scope": [
+      ".github/skills/ralph-loop/references/skill-aware-routing.md",
+      ".github/skills/ralph-loop/tests/test_skill_aware_routing.py",
+      "docs/ralph/ralph-agent-optimization-routing-coordinator-20260925-8bc457e9/",
+      "docs/decisions/ralph-agent-optimization-routing-coordinator-20260925-8bc457e9/"
+    ],
+    "implementation_branch": "refs/heads/ralph/agent-optimization-routing-coordinator-20260925-8bc457e9",
+    "remote_name": "origin",
+    "repository": "jrblankenhorn1007/copilot_skills",
+    "worktree_head_sha_at_sign_in": "4eb15e69434df810958c3d488e223e1366f00d39",
+    "worktree_path": "/Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-optimization-routing-coordinator-20260925-8bc457e9"
+  },
+  "prompt_path": "docs/agent-sync/runs/copilot-skills-agent-routing-20260925-8bc457e9/agents/routing-coordinator/prompt.md",
+  "prompt_sha256": "3cac5c9646f2d38319f246b079bd84a9d18fff04b760edf4467297dbcac07c17",
+  "revision": 1,
+  "run_id": "copilot-skills-agent-routing-20260925-8bc457e9",
+  "schema_version": 1,
+  "sign_in_at_utc": "2026-09-25T07:44:52Z",
+  "sign_out": {
+    "at_utc": null,
+    "checks": [],
+    "implementation_commit_sha": null,
+    "next_action": null,
+    "summary": null
+  },
+  "started_at_utc": "2026-09-25T07:44:52Z",
+  "status": "IN_PROGRESS",
+  "status_reason": "Building the conditional routing contract without editing another task's claimed files.",
+  "task_id": "skill-aware-ralph-routing",
+  "updated_at_utc": "2026-09-25T07:44:52Z",
+  "worker_id": "coordinator",
+  "worker_name": "coordinator - conditional Skill routing"
+}
