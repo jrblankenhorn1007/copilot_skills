@@ -9,6 +9,10 @@ fresh child worktrees and branches from the current parent tip. Integrate
 worker branches serially into the parent and verify each merge there; only
 after final acceptance checks may the parent merge to remote `origin/main`.
 Fetch and verify that final merge before calling the iteration complete.
+Bind each worker session to its assigned child worktree and verify the
+session's actual path, branch, and base before editing. A worktree path in the
+prompt is not sufficient; follow the shared
+[worktree isolation guide](worktree-isolation.md).
 
 The original [`dj_maxxed_beats` runner](https://github.com/jrblankenhorn1007/dj_maxxed_beats/blob/main/scripts/ralph-loop.sh)
 assumes an already checked out branch and pushes commits directly; it does not
