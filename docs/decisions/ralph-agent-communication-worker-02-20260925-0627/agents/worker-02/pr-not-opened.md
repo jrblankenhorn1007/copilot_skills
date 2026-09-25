@@ -80,12 +80,36 @@ a rebase or fresh child branch and rerun the scoped checks before integration.
   `AWAITING_MERGE` while final parent-to-main integration and memory review
   remain pending; the focused test and full 29-test suite then passed. No
   `docs/ralph-status.md` edit was made.
-- Worker status remains `AWAITING_MERGE`: the child-to-parent proof is
-  verified, but final parent-to-main integration and post-merge memory review
-  are still pending. This also keeps the leaf synchronized with the current
-  coordinator dashboard until the coordinator updates it during integration.
+- Worker status is `COMPLETE` because the child-to-parent proof is verified.
+  Final parent-to-main integration and post-merge memory review remain
+  coordinator-owned run gates; they do not keep this integrated worker leaf
+  open. The coordinator owns the dashboard and will synchronize its entry
+  when this metadata branch is integrated.
 - The status-only reconciliation branch is
   `ralph/agent-communication-worker-02-status-reconcile-20260925-1851-ca13`,
   based on parent `ca13d838d90cea2ba33296ec74ac8a27907747dc`. It is not
   pushed or merged by the worker; its exact commit is returned separately
   for serial coordinator integration.
+
+## Status-transition verification — 2026-09-25T19:14:46Z
+
+- The coordinator clarified that a worker leaf may be `COMPLETE` once its
+  child-to-parent merge is verified. The exact series head
+  `c43d1eaebaaae91405f918e7b857a37db79fdd71` is an ancestor of parent
+  `ca13d838d90cea2ba33296ec74ac8a27907747dc`; the worker leaf now reflects
+  that verified integration, with terminal `next_action: null`.
+- The focused communication contract test passed (1 test). The targeted
+  dashboard-index assertion and the full suite (28/29 passed) fail solely
+  because the coordinator-owned dashboard still records `AWAITING_MERGE`
+  while this leaf is `COMPLETE`. The dashboard is not worker-owned and was
+  not edited; coordinator synchronization and a full 29-test rerun are
+  pending integration.
+- This recurs the earlier dashboard mismatch incident. At that time the
+  then-current rule required `AWAITING_MERGE`, restoring that state recovered
+  the mismatch and the full suite passed. The coordinator's newer rule
+  supersedes that state choice; the current mismatch is therefore a pending
+  dashboard-sync action, not a reason to revert the verified leaf.
+- The initial status YAML validation command did not load Ruby's `Date`
+  constant and stopped with `uninitialized constant Date`. Re-running with
+  `ruby -rdate -ryaml` passed the YAML, terminal status, sign-off, merge-proof,
+  and `memory_handoff` checks.

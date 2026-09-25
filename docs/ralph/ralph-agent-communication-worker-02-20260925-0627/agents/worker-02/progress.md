@@ -631,3 +631,51 @@
   claimed.
 - **Next:** Preserve the integration proof in worker status history if the
   parent is rebased; await final parent checks and remote-main verification.
+
+## 2026-09-25T19:12:52Z - Worker leaf completion after verified child integration
+
+- The coordinator clarified that the status rule permits a worker leaf to
+  become `COMPLETE` once its child-to-parent integration is verified. The
+  exact worker-series head `c43d1eaebaaae91405f918e7b857a37db79fdd71` is an
+  ancestor of parent `ca13d838d90cea2ba33296ec74ac8a27907747dc`; preserved
+  that proof, the `90993383c243e2f55fe7f21b53d71e3ca15dbcdc` implementation
+  sign-off, and the existing `memory_handoff`.
+- Updated the worker leaf and decision record to `COMPLETE` with terminal
+  `next_action: null`. Parent-to-main integration and the coordinator's
+  post-merge memory review remain overall-run gates; they are not reasons to
+  keep this verified child leaf `AWAITING_MERGE`.
+- The coordinator-owned dashboard still lists this leaf as
+  `AWAITING_MERGE`. It was not edited. The dashboard-index assertion
+  temporarily fails until coordinator integration updates the dashboard;
+  the coordinator will rerun all 29 contract tests afterward.
+- The mismatch is recorded as a recovered status-sync issue: the earlier
+  `COMPLETE` transition was reverted while the then-current rule/dashboard
+  required `AWAITING_MERGE`, and the 29-test suite passed. The coordinator's
+  newer clarification now makes `COMPLETE` correct upon verified child
+  integration; this branch intentionally does not edit the coordinator-owned
+  dashboard.
+- Before editing, published worker agent-sync revision 3 as `IN_PROGRESS`
+  (`f548d7a9f3a4f2ca214f24ad354a8fcb53551ed5`); latest observed
+  `origin/main` is `1f09bbabb884d8a71bb3729f24cd0d7d79249b39`. The branch
+  remains status-only and awaits serial coordinator integration.
+
+## 2026-09-25T19:14:46Z - Resumed status-transition verification
+
+- `PYTHONDONTWRITEBYTECODE=1 python3 .github/skills/ralph-loop/tests/test_multi_agent_contract.py MultiAgentContractTests.test_inter_session_communication_contract_is_actionable_and_bounded` passed (1 test).
+- The targeted dashboard check,
+  `PYTHONDONTWRITEBYTECODE=1 python3 .github/skills/ralph-loop/tests/test_multi_agent_contract.py MultiAgentContractTests.test_docs_status_dashboard_indexes_every_branch_agent_folder`,
+  failed only on this worker leaf: the parent dashboard still says
+  `AWAITING_MERGE` while this leaf correctly says `COMPLETE` under the
+  clarified child-integration rule.
+- The full contract suite ran 29 tests: 28 passed and the sole failure was
+  the same dashboard/leaf synchronization assertion. No coordinator-owned
+  dashboard or implementation file was edited; the coordinator will update
+  the dashboard on integration and rerun all 29 tests.
+- The earlier status-sync incident is retained as recovered history: at the
+  time, restoring `AWAITING_MERGE` made the dashboard and leaf agree and all
+  29 tests passed. The current status rule has since been clarified, so the
+  dashboard mismatch is pending the coordinator's synchronized update.
+- The first YAML validation invocation stopped at the validator setup because
+  Ruby's `Date` constant was not loaded (`uninitialized constant Date`).
+  Re-running with `ruby -rdate -ryaml` passed the status YAML, terminal-state,
+  sign-off SHA, integration proof, and `memory_handoff` checks.
