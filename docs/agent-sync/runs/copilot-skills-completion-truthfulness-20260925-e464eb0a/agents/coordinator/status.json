@@ -28,22 +28,28 @@
   },
   "prompt_path": "docs/agent-sync/runs/copilot-skills-completion-truthfulness-20260925-e464eb0a/agents/coordinator/prompt.md",
   "prompt_sha256": "fb00dcb838e8ab0fb46d58386cfab9964a10ed204dc5eede75078061b1029c3b",
-  "revision": 1,
+  "revision": 2,
   "run_id": "copilot-skills-completion-truthfulness-20260925-e464eb0a",
   "schema_version": 1,
   "sign_in_at_utc": "2026-09-25T14:19:22Z",
   "sign_out": {
-    "at_utc": null,
-    "checks": [],
-    "implementation_commit_sha": null,
-    "next_action": "Add the automatic full-request completion instruction and record remaining outcomes without modifying paths owned by active tasks.",
-    "summary": null
+    "at_utc": "2026-09-25T15:25:35Z",
+    "checks": [
+      "PASS: Final branch head d915ebdb7cc3c5f07fbb3aa80335eef474c80c8d includes the completion instruction and final status, progress, and decision records. Implementation commit: c54dac34a47352c059a310d4a6016798dc39bf09.",
+      "PASS: git diff --check and targeted assertions for instruction frontmatter, Ralph completion-gate link/section, full-request outcome guard, and local decision links.",
+      "PASS: specialist-routing and memory commits 0b7db073e365e6c1c6e29d410c424d7c7637c9bf and 74f3efe14e4ee3bd9638969ad5b222978ae942c5 are ancestors of fetched origin/main; main-ownership protocol is present.",
+      "NOT_RUN: Ralph behavior suite; this branch changes documentation only.",
+      "BLOCKED: The broad request remains PARTIAL. The separate Orchestrator/Worker hierarchy is unmerged; speed, cost, and accuracy remain unmeasured; agent-communication still owns docs/ralph-status.md (revision 1, IN_PROGRESS). No full-request completion or integration is claimed."
+    ],
+    "implementation_commit_sha": "d915ebdb7cc3c5f07fbb3aa80335eef474c80c8d",
+    "next_action": "After the agent-communication owner publishes a verified sign-out for docs/ralph-status.md, obtain a fresh task sign-in, fetch/rebase on current origin/main, update the aggregate dashboard under STATUS ownership, and follow authorized integration. Separately resume the role-hierarchy work only with fresh sign-in, capacity, worker sign-off, checks, and independent review; define and run baseline comparisons for speed, cost, and accuracy before claiming gains.",
+    "summary": "Added global documentation that prevents a completed implementation slice from being represented as completion of the full user request, and recorded a full outcome audit. This task stops BLOCKED with its own edit scope released; the broader user request is PARTIAL and not merged."
   },
   "started_at_utc": "2026-09-25T14:19:22Z",
-  "status": "IN_PROGRESS",
-  "status_reason": "Audited the complete user request. The specialist-routing increment is merged, but the separate Orchestrator/Worker hierarchy remains on an active blocked branch and performance gains are unmeasured. This iteration adds end-to-end completion criteria; shared Ralph/dashboard/profile paths remain owned by other active runs.",
+  "status": "BLOCKED",
+  "status_reason": "The scoped completion-truthfulness documentation is committed and verified, but the user's broader agent-pipeline request is still PARTIAL. Shared dashboard ownership remains active; role hierarchy and performance evaluation are outstanding. Stop and release this task's scope without claiming whole-request completion.",
   "task_id": "completion-truthfulness-and-full-scope-remediation",
-  "updated_at_utc": "2026-09-25T14:19:22Z",
+  "updated_at_utc": "2026-09-25T15:25:35Z",
   "worker_id": "coordinator",
   "worker_name": "coordinator - end-to-end completion truthfulness"
 }
