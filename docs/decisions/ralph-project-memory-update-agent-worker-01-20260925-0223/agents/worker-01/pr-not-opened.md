@@ -11,7 +11,9 @@
   path is coordinator-reviewed fast-forward integration without a PR, as
   recorded in the completed no-browser Git workflow's agent decision record.
 - **Base `origin/main`:** `114e4d60567d05cd048916339ed86e324c6eeef3`
-- **Implementation commit SHA:** `5c1db129cfd1c20f88c63754657d1304e4a0b346`
+- **Rebased onto `origin/main`:**
+  `9558f99cc34cbed8dd1d24f4f15fc03f5d78b6ea`
+- **Implementation commit SHA:** `36cbe8927ac4ae9736437ab6d8a2b11bf5b7973e`
 - **Current worker status:** `BLOCKED`
 
 ## Decisions
@@ -95,6 +97,25 @@
 - **Consequences:** The new agent is protected by a direct runnable contract
   check without adding third-party test dependencies.
 
+### Rebase the unpublished iteration onto the advanced remote base
+
+- **Context:** Before integration, a fresh fetch advanced `origin/main` from
+  the starting SHA to
+  `9558f99cc34cbed8dd1d24f4f15fc03f5d78b6ea`. The worker branch was
+  unpublished.
+- **Alternatives:** Keep the stale base and risk integrating outdated work,
+  or rebase the unpublished branch onto the fetched remote base and rerun
+  checks.
+- **Decision:** Rebase onto the latest `origin/main`; do not force-push.
+- **Rationale:** The Ralph synchronization rules require workers to catch up
+  before integration. An unpublished branch can be rebased without
+  rewriting a remote ref.
+- **Consequences:** The implementation commit changed from
+  `5c1db129cfd1c20f88c63754657d1304e4a0b346` to
+  `36cbe8927ac4ae9736437ab6d8a2b11bf5b7973e`. The worker obtained a new
+  sign-off for the rebased commit and reran the focused contract and Ralph
+  suite.
+
 ## Recovered issues
 
 - The first post-implementation contract run reported ten phrase mismatches.
@@ -108,10 +129,12 @@
 
 - The final run of
   `python3 .github/skills/ralph-loop/tests/test_multi_agent_contract.py`
-  failed `test_docs_status_dashboard_indexes_every_branch_agent_folder`
-  because the new worker leaf is not yet indexed in
-  `docs/ralph-status.md`. The coordinator exclusively owns that dashboard;
-  worker-01 must not edit it. Coordinator indexing and a passing rerun are
-  required before integration proceeds.
+  after rebasing onto
+  `9558f99cc34cbed8dd1d24f4f15fc03f5d78b6ea` ran 13 tests and failed
+  `test_docs_status_dashboard_indexes_every_branch_agent_folder` because the
+  new worker leaf is not yet indexed in `docs/ralph-status.md`. The
+  coordinator exclusively owns that dashboard; worker-01 must not edit it.
+  Coordinator indexing and a passing rerun are required before integration
+  proceeds.
 - Normal integration, remote merge verification, and the required post-merge
   memory review remain pending.
