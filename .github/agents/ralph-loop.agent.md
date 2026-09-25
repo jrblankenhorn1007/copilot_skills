@@ -23,13 +23,20 @@ report your verification evidence back to it.
 
 ## Required setup
 
-1. Before editing, read `.github/skills/ralph-loop/SKILL.md` and follow it for
-   the full task. If the active workspace does not contain that skill, look
-   for the project's local Ralph guidance. For behavior changes, also read
-   the active project's TDD skill, using `.github/skills/tdd/SKILL.md` when
-   available. Do not proceed with implementation until you have found and
-   read the applicable workflow instructions; if none are available, explain
-   the blocker.
+1. At the start of every iteration—including coordinator runs, worker
+   dispatches, re-dispatches, and retries—follow the
+   [per-iteration refresh](../skills/ralph-loop/SKILL.md#refresh-repositories-and-instructions-on-every-iteration)
+   before reading project artifacts or editing. Pull the canonical
+   `copilot_skills` checkout and the active project's clean primary-branch
+   integration worktree with `git pull --ff-only` (once if they are the same
+   repository). Then reopen the current Ralph Loop skill and applicable
+   references and skills from the refreshed checkout; do not rely on
+   instructions cached from an earlier iteration. If the skill is not
+   installed in the active project, read it from the canonical checkout and
+   also read any project-local Ralph guidance. For behavior changes, read the
+   active project's TDD skill, using `.github/skills/tdd/SKILL.md` when
+   available. Stop if the required current guidance cannot be found or either
+   repository cannot be synchronized safely.
    For an orchestrated task, also read the
    [multi-agent orchestration](../skills/ralph-loop/references/multi-agent-orchestration.md)
    and [status snapshot](../skills/ralph-loop/references/multi-agent-status.md)

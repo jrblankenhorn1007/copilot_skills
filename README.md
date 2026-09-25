@@ -30,10 +30,11 @@ license notices are preserved in each skill directory.
   repository memory; see the [memory index](.github/memory/README.md).
 
 - [Ralph Loop](.github/skills/ralph-loop/SKILL.md):
-  makes the first run an orchestrator (not a worker), dispatches two
-  configurable worker agents by default when independent work allows, and
-  verifies integration on remote `main` and reviews durable lessons after
-  each merge. Its
+  refreshes the canonical skills and active project repositories at the start
+  of every iteration and re-reads applicable guidance. It makes the first run
+  an orchestrator (not a worker), dispatches two configurable worker agents by
+  default when independent work allows, verifies integration on remote `main`,
+  and reviews durable lessons after each merge. Its
   [multi-agent orchestration guide](.github/skills/ralph-loop/references/multi-agent-orchestration.md)
   covers configurable worker counts and Git synchronization; the
   [multi-agent status guide](.github/skills/ralph-loop/references/multi-agent-status.md)
@@ -43,10 +44,11 @@ license notices are preserved in each skill directory.
 
 ## Agents
 
-- [Ralph Loop](.github/agents/ralph-loop.agent.md): orchestrates configurable
-  workers through isolated iterations, acts as the top-level orchestrator on
-  the first run, verifies remote-main integration, reviews durable lessons,
-  and applies TDD to behavior changes.
+- [Ralph Loop](.github/agents/ralph-loop.agent.md): refreshes repositories and
+  instructions per iteration, orchestrates configurable workers through
+  isolated iterations, acts as the top-level orchestrator on the first run,
+  verifies remote-main integration, reviews durable lessons, and applies TDD
+  to behavior changes.
 
 ## Using the agent and model controls
 

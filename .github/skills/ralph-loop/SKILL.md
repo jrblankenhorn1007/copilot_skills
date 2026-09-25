@@ -25,9 +25,38 @@ See [multi-agent orchestration](./references/multi-agent-orchestration.md) for
 the run configuration and [Copilot agent selection and model controls](./references/copilot-cli-usage.md)
 for applying it in supported harnesses.
 
+## Refresh repositories and instructions on every iteration
+
+At the beginning of every Ralph iteration—including the orchestrator, each
+worker dispatch or re-dispatch, and retries—synchronize the skills source and
+active project before planning, dispatching work, or editing:
+
+1. Identify the canonical `jrblankenhorn1007/copilot_skills` checkout and the
+   active project's Git repository. Verify each checkout by its configured
+   Git remote, not its directory name alone. If both are the same repository,
+   update it once.
+2. In each distinct repository, locate its clean, attached primary integration
+   worktree (normally `main`) and verify that it tracks the intended upstream.
+   From that worktree, run `git -C <integration-worktree> pull --ff-only`.
+   Never pull in an iteration or feature worktree. If a checkout cannot be
+   identified, is dirty or detached, tracks the wrong upstream, or cannot be
+   fast-forwarded, stop and report the blocker. Preserve all changes; do not
+   stash, reset, or silently continue with stale instructions.
+3. After the pulls succeed, reopen the current Ralph Loop skill and (when
+   used) agent definition from the refreshed `copilot_skills` checkout. Re-read
+   the references needed for the current mode, applicable task skills
+   (including TDD before behavior changes, Project Memory for post-merge
+   review, and any other skills triggered by the task), and the active
+   project's plan, prompt or runner, progress, status, decision, and local
+   instruction files from its refreshed checkout. Read the files again even
+   if their contents are already in the conversation or preloaded in the
+   agent context. Canonical skills complement; they do not replace,
+   project-specific requirements.
+
 ## Required setup
 
-1. Read the active project's implementation plan, Ralph prompt or runner,
+1. After completing the per-iteration refresh above, read the active project's
+   implementation plan, Ralph prompt or runner,
    progress log, current status snapshot, decision log, and applicable local
    instructions. Read the project's memory index and relevant categories when
    available using the [Project Memory skill](../project-memory/SKILL.md), and
