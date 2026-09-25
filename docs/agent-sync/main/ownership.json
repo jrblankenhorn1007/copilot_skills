@@ -4,19 +4,19 @@
     "operation": "STATUS",
     "run_id": "copilot-skills-agent-role-hierarchy-20260924-2215",
     "runtime_agent_id": "copilotcli:/c45bb4ea-44ab-4ad8-8ec3-63a2398a4603",
-    "signed_in_at_utc": "2026-09-25T13:41:34Z",
-    "start_main_sha": "d45606cb53765266e470154f6f98b9860d103d42",
-    "token": "d25f7595b8fda0ea6eddf5b3394fb898",
+    "signed_in_at_utc": "2026-09-25T13:46:34Z",
+    "start_main_sha": "13abaa65308345f7d34af0f99e745be6ce5fcd9d",
+    "token": "3e81956a3c93a9ff29ea2aeb4e93956e",
     "worktree_path": null
   },
   "ref": "refs/heads/main",
   "repository": "jrblankenhorn1007/copilot_skills",
-  "revision": 90,
+  "revision": 91,
   "schema_version": 1,
   "sign_out": {
-    "at_utc": "2026-09-25T13:41:38Z",
-    "outcome": "PUBLISHED",
-    "result_commit_sha": "f0f15a00db05ffe32796b5797014de3da8de5773"
+    "at_utc": null,
+    "outcome": null,
+    "result_commit_sha": null
   },
-  "state": "FREE"
+  "state": "OWNED"
 }
