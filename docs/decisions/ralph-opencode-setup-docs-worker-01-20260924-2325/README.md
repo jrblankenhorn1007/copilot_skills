@@ -19,10 +19,11 @@
   `9f8e5e850df47700763d8d74d2250fb200804d7e`
 - **Current state:** `AWAITING_MERGE`; the worker branch is local and
   unmerged.
-- **Validation:** The Ralph contract test passed (13 tests) before creating
-  this leaf. Documentation whitespace and README-link checks passed. The
-  coordinator must rerun the full contract test after indexing this leaf in
-  the aggregate dashboard.
+- **Validation:** Iteration 1's contract test passed (13 tests) before this
+  leaf existed. Iteration 2's contract test ran 13 tests and failed because
+  the coordinator-owned dashboard does not yet index this worker. README/
+  reference content and whitespace checks passed; rerun the contract suite
+  after the coordinator adds this leaf to the dashboard.
 - **Agent records:**
   - [worker-01 — no PR opened](agents/worker-01/pr-not-opened.md)
 - **Integration:** No PR was opened, and the branch was not published, per
@@ -70,8 +71,8 @@
 - **Iteration-2 whitespace check:** `git diff --check` passed for the worker
   record edits. `git diff --check
   8da9310fda1b2e3042a379081dfb0675f1b22d6b..HEAD` also passed after
-  worker-record commit `1e085323e8009ad2999819b56062f006782b6f31`; it will
-  be rerun after this verification-record update.
+  worker-record commit `674ae2733221ddc00f7d499d2fdc046e6381536b`; it will
+  be rerun after this sign-off-record synchronization.
 - **Current integration dependency:** The coordinator must add the worker
   leaf to `docs/ralph-status.md` and rerun the contract suite before
   integration; this worker remains `AWAITING_MERGE`.

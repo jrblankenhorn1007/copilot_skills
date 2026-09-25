@@ -159,5 +159,5 @@
   record edits.
 - **Post-commit `git diff --check
   8da9310fda1b2e3042a379081dfb0675f1b22d6b..HEAD`:** **PASS** through
-  worker-record commit `1e085323e8009ad2999819b56062f006782b6f31`; rerun
-  after this verification-record update.
+  worker-record commit `674ae2733221ddc00f7d499d2fdc046e6381536b`; rerun
+  after this sign-off-record synchronization.
