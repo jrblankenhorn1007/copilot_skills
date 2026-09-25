@@ -166,3 +166,20 @@
 - **Next:** Receive worker reports and exact commit attestations, rebase their
   branches onto the current parent, and integrate serially before running the
   Green contract and full Ralph test suite.
+
+## 2026-09-25T07:44:36Z — metric wording and expected Red confirmation
+
+- **Contract check:** The first expanded run had 44 failing subtests, including
+  one benchmark-label mismatch (`recipient acknowledgement`). Updated the
+  metric contract to use the exact term and reran the targeted test; it still
+  exited 1 with 43 failures, now confined to the not-yet-integrated skill and
+  pipeline requirements. The known-answer/latency benchmark assertions pass.
+- **Worker coordination:** Sent worker-02 the exact pipeline interface fields,
+  transport states, and three acknowledgment stages asserted by the parent
+  test, plus the unconfirmed-delivery and expired-message requirements.
+  Worker leaves and commit attestations remain pending.
+- **Commit:** The metric wording correction is commit
+  `c378206c65037c846e7be39edeea044646316716`.
+- **Next:** Integrate and verify both completed worker branches; fetch and
+  rebase the final parent onto current `origin/main`, then rerun targeted and
+  full contract tests.
