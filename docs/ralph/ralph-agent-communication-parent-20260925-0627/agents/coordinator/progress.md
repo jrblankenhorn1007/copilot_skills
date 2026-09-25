@@ -633,3 +633,43 @@
 - **Next:** Obtain new worker-01 exact-SHA attestation/status/handoff from the
   current parent; integrate its metadata serially, synchronize the dashboard,
   and then ask worker-02 to refresh from that resulting parent.
+
+## 2026-09-25T13:34:53Z — parent rebased after remote advanced during handoff
+
+- **Upstream movement:** Before worker-01 could create its metadata branch,
+  `origin/main` advanced from
+  `612d6eafbb4b48e7354473383ec4feab1ddbea57` to
+  `d45606cb53765266e470154f6f98b9860d103d42` via three status-only commits
+  for the agent-role-hierarchy run. Main ownership is `FREE` at revision 88.
+- **Worker stop condition:** Worker-01 verified the assigned implementation
+  at `85be213e854bfb6f98d54ae102097eafb8ac947d`, passed its 37/37 audit,
+  `git show --check`, and ancestry checks, but correctly stopped before
+  creating a metadata branch because main moved. Prior metadata commit
+  `a515fd269a12930470ace4a0882e263102aa976a` remains preserved and
+  unintegrated. No new worker-owned records were changed.
+- **Shared integration worktree:** Worker-01 reports that the clean primary
+  checkout was fast-forwarded from `6f85b64ce0abc495f5edd414ef6f18ac4c21438b`
+  to `612d6eafbb4b48e7354473383ec4feab1ddbea57`; it remained clean and behind
+  the then-current remote. This was a no-loss fast-forward. No further shared
+  checkout refresh will be used; the parent worktree remains isolated.
+- **Rebase:** Rebased the clean parent from
+  `b729834c75ad266a0fc3b1de3a126eb78d6bd0f5` onto the fetched main SHA above
+  without conflicts. New parent HEAD is
+  `048d9fad64543dc73165535728725682766c082a`.
+- **Worker SHA mapping:** Worker-01 implementation/series
+  `85be213e854bfb6f98d54ae102097eafb8ac947d` /
+  `42f503217f5e04e7b69bf078def11d70777f58da` map to
+  `ae6375c870258c7108bbd16b4dd17ca1c5256661` /
+  `5b0a37afda5cd13d581aa252cf5e1d047506f0ac`. Worker-02 implementation/
+  series `9f87eb41e0dad155f7c7ea4c53cbbf4b521e35c5` /
+  `ab72fb8b02b8af55dae4507d607b7e597f3b59dc` map to
+  `ae16ea608b282ad9e429a169728b645e4e8865be` /
+  `128730bfde9d9f3c1a469d49c292b4345c5efb02`. Range-diff confirms the
+  mappings; all four current implementation/series commits are ancestors.
+- **Green:** Full contract suite passed 24/24 after rebase.
+  `git diff --check origin/main...HEAD`, both implementation `git show
+  --check` commands, and all four ancestry checks passed.
+- **Next:** Fetch once more and, if main is unchanged, ask worker-01 for a
+  fresh attestation and four-path metadata update based on the exact new
+  parent; then integrate it and synchronize the dashboard before resuming
+  worker-02.
