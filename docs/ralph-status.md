@@ -4,15 +4,16 @@ This is the active repository's aggregate Ralph status dashboard. It indexes
 every branch/agent status and progress folder under `docs/ralph/`. The
 coordinator updates this file in the same loop as affected leaf records.
 
-**Overall status:** `IN_PROGRESS`. Earlier runs are complete; the current
-prompt-generation and clean-main completion run is being coordinated.
+**Overall status:** `BLOCKED`. Earlier runs are complete; the current
+prompt-generation and clean-main completion run is blocked on authenticated
+PR integration.
 
 ```yaml
 schema_version: 1
 snapshot_path: "docs/ralph-status.md"
-snapshot_revision: 7
-updated_at_utc: "2026-09-25T02:13:27Z"
-overall_status: IN_PROGRESS
+snapshot_revision: 8
+updated_at_utc: "2026-09-25T02:21:37Z"
+overall_status: BLOCKED
 current_run_ids:
   - "copilot-skills-docs-status-organization-20260924"
   - "copilot-skills-no-browser-git-20260924"
@@ -87,17 +88,17 @@ runs:
 
   - run_id: "ralph-prompt-generation-main-clean-20260925-0032"
     task_ids: ["structured-ralph-prompt-generation", "merged-main-clean-completion"]
-    aggregate_status: IN_PROGRESS
+    aggregate_status: BLOCKED
     requested_worker_count: 2
     effective_worker_count: 2
     active_worker_count: 0
     base_origin_main_sha: "c7e34ca99365e71999466253b413e9be692bb18b"
     current_origin_main_sha: "114e4d60567d05cd048916339ed86e324c6eeef3"
     created_at_utc: "2026-09-25T00:32:00Z"
-    updated_at_utc: "2026-09-25T02:13:27Z"
+    updated_at_utc: "2026-09-25T02:21:37Z"
     coordinator_scope: "Generate a structured Ralph task prompt and require verified remote-main integration plus a clean local-main comparison."
     coordinator_branch: "ralph/prompt-generation-main-clean-coordinator-20260925-0033"
-    next_action: "Complete worker-01 checks and resolve authenticated PR integration before rebasing worker-02 and finalizing coordinator records."
+    next_action: "Enable supported authenticated PR creation and merge; then integrate worker-01 before rebasing worker-02 and finalizing coordinator records."
     split_plan:
       - task_id: "structured-ralph-prompt-generation"
         worker_id: "worker-01"
@@ -330,6 +331,6 @@ branch_agent_index:
 | `copilot-skills-no-browser-git-20260924` | `ralph/no-browser-git-workflows-worker-01-20260924-2131` | `worker-01` | `COMPLETE` | [status](./ralph/ralph-no-browser-git-workflows-worker-01-20260924-2131/agents/worker-01/status.md) | [progress](./ralph/ralph-no-browser-git-workflows-worker-01-20260924-2131/agents/worker-01/progress.md) | `3ea889103bb7db6fb1f5eadf647045a511ea9a03` | `COMPLETE` |
 | `ralph-prompt-generation-main-clean-20260925-0032` | `ralph/structured-prompt-recording-worker-01-retry-20260925-0124` | `worker-01` | `BLOCKED` | [status](./ralph/ralph-structured-prompt-recording-worker-01-retry-20260925-0124/agents/worker-01/status.md) | [progress](./ralph/ralph-structured-prompt-recording-worker-01-retry-20260925-0124/agents/worker-01/progress.md) | Not merged | `PENDING` |
 
-Earlier runs remain complete. The current prompt-generation and clean-main
-completion run is `IN_PROGRESS`; worker-owned PR integration, memory review,
-and final local-main verification remain pending.
+Earlier runs remain complete. The current prompt-generation and clean-main completion run is `BLOCKED`
+pending authenticated worker-owned PR integration, memory review, and final
+local-main verification.
