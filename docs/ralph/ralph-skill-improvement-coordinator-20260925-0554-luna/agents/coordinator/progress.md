@@ -485,3 +485,38 @@
 - At `2026-09-25T10:57:05Z`, coordinator wall-clock elapsed is `18,178`
   seconds; provider token counters are `NOT_REPORTED`. The worker replay,
   independent parent PR review, merge, and memory review remain pending.
+
+## 2026-09-25T12:00Z–12:02Z — Current-main rebase before worker replay
+
+- The Resource Manager briefly reported a possible opening. After registering
+  the existing coordinator and refreshing live observations, the actual
+  dynamic limit was two total agents with both slots occupied. No new worker
+  or reviewer was launched without a reservation.
+- Published task-ledger revision 3 (`IN_PROGRESS`) through the status-only
+  publisher. Its status commit is
+  `5914142ed9935c214ff2a7b1af8365c7e9e41f0b`; automatic main release
+  and refreshed `origin/main` are
+  `4f5fee342c7e08ce556ae10c8a693f9e30a2ee2b`.
+- `git -C /Users/jrblankenhorn/copilot_skills.worktrees/ralph-skill-improvement-coordinator-20260925-0554-luna
+  rebase origin/main` replayed all eight unpublished parent commits. One
+  conflict in `docs/ralph-status.md` involved the overview and revision
+  metadata. Preserved the newer upstream overview and all 10 upstream
+  run/22 agent entries, added this run's one run/agent entry, and set
+  snapshot revision 50. A Ruby YAML parse confirmed 11 runs/23 entries
+  before non-interactive `git rebase --continue` succeeded.
+- Parent rebase tip:
+  `6578ae99a01a35528363d5a228927469765da855`; rewritten README
+  implementation: `2d6b04af1b89f969deec057a0f5b5b6dd42167c9`.
+  Upstream's newly documented conditional Ralph specialists are preserved.
+- At `2026-09-25T12:01:50Z`, coordinator wall-clock elapsed is `22,063`
+  seconds with provider token counters `NOT_REPORTED`. Worker replay and
+  independent PR review remain pending until a genuine reserved slot opens.
+- Post-rebase `PYTHONDONTWRITEBYTECODE=1 python3
+  .github/skills/ralph-loop/tests/test_multi_agent_contract.py` in the parent
+  worktree — **PASS**, 20 tests. Ruby YAML run/index/leaf sync — **PASS**,
+  11 preserved runs and 23 indexed agents. Focused README/dashboard/decision
+  index link check — **PASS**, 85 links and none broken.
+- `git diff --check && git merge-base --is-ancestor origin/main HEAD` —
+  **PASS**; the dashboard conflict is resolved without losing upstream runs.
+  At `2026-09-25T12:03:13Z`, elapsed wall time is `22,146` seconds; token
+  counters remain `NOT_REPORTED`.

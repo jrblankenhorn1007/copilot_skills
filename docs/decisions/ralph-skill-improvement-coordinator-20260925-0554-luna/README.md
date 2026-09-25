@@ -13,11 +13,13 @@
   tip `c833b2d19c7bfa3a643ec6e2e7efd0dac467afa3`.
 - **Previous parent rebase onto `origin/main`:**
   `7ee1307cb47f5a88cd6b46ee135444777ddeb665`.
-- **Latest parent rebase onto `origin/main`:**
+- **Previous parent rebase onto `origin/main`:**
   `2b0e3b002d9596eea6773ad7a1a33654613d0008`.
-- **Parent tip after latest rebase:** `92a3ab68e3fd3d27bcbb6d966795382637ffbdde`.
+- **Latest parent rebase onto `origin/main`:**
+  `4f5fee342c7e08ce556ae10c8a693f9e30a2ee2b`.
+- **Parent tip after latest rebase:** `6578ae99a01a35528363d5a228927469765da855`.
 - **Coordinator README implementation commit after latest rebase:**
-  `77c49c67303326b5720fc832eb33fd30c9fab154`.
+  `2d6b04af1b89f969deec057a0f5b5b6dd42167c9`.
 - **Final parent implementation commit:** pending worker integration.
 - **Parent PR:** expected; see [coordinator PR-pending record](agents/coordinator/pr-pending.md).
 
@@ -95,6 +97,14 @@
   resolve. The Resource Manager presently permits no new worker or
   independent reviewer agents, so both child integrations remain pending
   their renewed sign-offs and the parent PR remains unopened.
+- A second fetch-only refresh rebased the parent onto `4f5fee3`. One
+  dashboard conflict was resolved by combining the newer upstream overview
+  and revision with this run's entry, preserving all 10 upstream runs and 22
+  agent rows. The rewritten README retains upstream specialist documentation.
+  Targeted validation then passed 20 Ralph contract tests, YAML synchronization
+  for 11 runs/23 rows, 85 focused links, and ancestry/whitespace checks. The
+  host limit rose to two agents, but both are active; apparent capacity was
+  not treated as permission to dispatch a worker.
 - The read-only Docs Sync Audit script reported 36 repository-wide leads.
   The README contract-test path it flagged was confirmed to exist; Agent
   Skill Stack missing-script leads are assigned for worker-02 review, and

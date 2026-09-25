@@ -12,7 +12,7 @@ skills-improvement run awaits agent capacity.
 schema_version: 2
 snapshot_path: "docs/ralph-status.md"
 snapshot_revision: 50
-updated_at_utc: "2026-09-25T12:01:12Z"
+updated_at_utc: "2026-09-25T12:03:13Z"
 overall_status: IN_PROGRESS
 current_run_ids:
   - "copilot-skills-docs-status-organization-20260924"
@@ -378,10 +378,10 @@ runs:
     effective_worker_count: 2
     active_worker_count: 0
     base_origin_main_sha: "e9fe3d175d1ca76b03fccdbe53431205b80e5c23"
-    current_origin_main_sha: "2b0e3b002d9596eea6773ad7a1a33654613d0008"
-    parent_rebased_onto_origin_main_sha: "2b0e3b002d9596eea6773ad7a1a33654613d0008"
+    current_origin_main_sha: "4f5fee342c7e08ce556ae10c8a693f9e30a2ee2b"
+    parent_rebased_onto_origin_main_sha: "4f5fee342c7e08ce556ae10c8a693f9e30a2ee2b"
     created_at_utc: "2026-09-25T05:54:07Z"
-    updated_at_utc: "2026-09-25T10:57:05Z"
+    updated_at_utc: "2026-09-25T12:03:13Z"
     coordinator_scope: "Add a concise README workflow for using the repository's existing skills to evaluate and improve other skills; preserve all unrelated dashboard runs."
     coordinator_branch: "ralph/skill-improvement-coordinator-20260925-0554-luna"
     coordinator_status_path: "docs/ralph/ralph-skill-improvement-coordinator-20260925-0554-luna/agents/coordinator/status.md"
@@ -405,7 +405,7 @@ runs:
       local_branch: PENDING
       remote_ref: NOT_PUBLISHED
     blockers:
-      - "The Resource Manager currently permits zero additional agent slots under host load. The signed-off child branches predate this parent rebase, so the Luna workers must replay, retest, and re-sign before coordinator integration; the parent PR also requires an independent reviewer."
+      - "The Resource Manager currently has no free agent slot (limit two, two active). The signed-off child branches predate this parent rebase, so the Luna workers must replay, retest, and re-sign before coordinator integration; the parent PR also requires an independent reviewer."
     next_action: "Wait for capacity, then have each Luna worker replay, retest, and re-sign against the current parent; integrate serially, open the parent PR, and obtain independent review."
     split_plan:
       - task_id: "agentic-eval-bounded-skill-improvement"
@@ -437,14 +437,14 @@ branch_agent_index:
     decision_record_path: "docs/decisions/ralph-skill-improvement-coordinator-20260925-0554-luna/agents/coordinator/pr-pending.md"
     decision_index_path: "docs/decisions/ralph-skill-improvement-coordinator-20260925-0554-luna/README.md"
     base_origin_main_sha: "e9fe3d175d1ca76b03fccdbe53431205b80e5c23"
-    parent_rebased_onto_origin_main_sha: "2b0e3b002d9596eea6773ad7a1a33654613d0008"
-    implementation_commit_sha: "77c49c67303326b5720fc832eb33fd30c9fab154"
+    parent_rebased_onto_origin_main_sha: "4f5fee342c7e08ce556ae10c8a693f9e30a2ee2b"
+    implementation_commit_sha: "2d6b04af1b89f969deec057a0f5b5b6dd42167c9"
     pull_request:
       status: PENDING
       number: null
       url: null
     resource_usage:
-      time_spent_seconds: 18178
+      time_spent_seconds: 22146
       time_basis: WALL_CLOCK_ELAPSED
       token_spend:
         status: NOT_REPORTED
@@ -462,7 +462,7 @@ branch_agent_index:
       verified_at_utc: null
     memory_review: PENDING
     blockers:
-      - "The Resource Manager currently permits zero additional agent slots under host load. The signed-off child branches predate this parent rebase, so the Luna workers must replay, retest, and re-sign before coordinator integration; the parent PR also requires an independent reviewer."
+      - "The Resource Manager currently has no free agent slot (limit two, two active). The signed-off child branches predate this parent rebase, so the Luna workers must replay, retest, and re-sign before coordinator integration; the parent PR also requires an independent reviewer."
     next_action: "Wait for capacity, then have each Luna worker replay, retest, and re-sign against the current parent; integrate serially, open the parent PR, and obtain independent review."
 
   - run_id: "copilot-skills-status-report-time-token-20260925"
@@ -1272,7 +1272,7 @@ branch_agent_index:
 | `copilot-skills-premerge-code-review-20260924` | `ralph/code-review-gate-20260924-2131` | `coordinator` | `COMPLETE` | `21,245 s (wall-clock)` | `NOT_REPORTED` | [status](./ralph/ralph-code-review-gate-20260924-2131/agents/coordinator/status.md) | [progress](./ralph/ralph-code-review-gate-20260924-2131/agents/coordinator/progress.md) | `6b1903ec7bfa5c798eb5e48c085bfc3845176bab` | `COMPLETE` |
 | `copilot-skills-premerge-code-review-20260924` | `ralph/code-review-skill-worker-01-20260924-2131` | `worker-01` | `CANCELLED` | Not captured (legacy) | `NOT_REPORTED` | [status](./ralph/ralph-code-review-skill-worker-01-20260924-2131/agents/worker-01/status.md) | [progress](./ralph/ralph-code-review-skill-worker-01-20260924-2131/agents/worker-01/progress.md) | Not merged | N/A |
 | `copilot-skills-premerge-code-review-20260924` | `ralph/code-review-process-worker-02-20260924-2131` | `worker-02` | `COMPLETE` | `20,270 s (wall-clock)` | `NOT_REPORTED` | [status](./ralph/ralph-code-review-process-worker-02-20260924-2131/agents/worker-02/status.md) | [progress](./ralph/ralph-code-review-process-worker-02-20260924-2131/agents/worker-02/progress.md) | `6b1903ec7bfa5c798eb5e48c085bfc3845176bab` | `COMPLETE` |
-| `skills-improvement-20260925-0554-luna` | `ralph/skill-improvement-coordinator-20260925-0554-luna` | `coordinator` | `BLOCKED` | `18,178 s (wall-clock)` | `NOT_REPORTED` | [status](./ralph/ralph-skill-improvement-coordinator-20260925-0554-luna/agents/coordinator/status.md) | [progress](./ralph/ralph-skill-improvement-coordinator-20260925-0554-luna/agents/coordinator/progress.md) | Pending | `PENDING` |
+| `skills-improvement-20260925-0554-luna` | `ralph/skill-improvement-coordinator-20260925-0554-luna` | `coordinator` | `BLOCKED` | `22,146 s (wall-clock)` | `NOT_REPORTED` | [status](./ralph/ralph-skill-improvement-coordinator-20260925-0554-luna/agents/coordinator/status.md) | [progress](./ralph/ralph-skill-improvement-coordinator-20260925-0554-luna/agents/coordinator/progress.md) | Pending | `PENDING` |
 | `copilot-skills-agent-resource-manager-20260925` | `ralph/resource-manager-shared-registry-20260925-8abd5d4e` | `coordinator` | `COMPLETE` | `10,916 s (wall-clock)` | `NOT_REPORTED` | [status](./ralph/ralph-resource-manager-shared-registry-20260925-8abd5d4e/agents/coordinator/status.md) | [progress](./ralph/ralph-resource-manager-shared-registry-20260925-8abd5d4e/agents/coordinator/progress.md) | `ec50b548debb7a5f32dcb82f4b68f62806255894` | `COMPLETE` |
 | `copilot-skills-main-checkout-ownership-20260925-e464eb0a` | `ralph/main-checkout-ownership-20260925-e464eb0a` | `coordinator` | `COMPLETE` | `14,629 s (wall-clock)` | `NOT_REPORTED` | [status](./ralph/ralph-main-checkout-ownership-20260925-e464eb0a/agents/coordinator/status.md) | [progress](./ralph/ralph-main-checkout-ownership-20260925-e464eb0a/agents/coordinator/progress.md) | `f9cab16e19f22586192c93da76f7aedceced63ce` | `COMPLETE` |
 | `copilot-skills-agent-routing-20260925-8bc457e9` | `ralph/agent-optimization-parent-20260925-8bc457e9` | `coordinator` | `COMPLETE` | `25,103 s (wall-clock)` | `NOT_REPORTED` | [status](./ralph/ralph-agent-optimization-parent-20260925-8bc457e9/agents/coordinator/status.md) | [progress](./ralph/ralph-agent-optimization-parent-20260925-8bc457e9/agents/coordinator/progress.md) | `0b7db073e365e6c1c6e29d410c424d7c7637c9bf` | `COMPLETE` |
