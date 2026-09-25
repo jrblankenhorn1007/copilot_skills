@@ -7,8 +7,7 @@
   coordinator-managed, verified fast-forward to `origin/main`; the worker is
   explicitly not to publish or merge its branch.
 - **Base `origin/main`:** `c7e34ca99365e71999466253b413e9be692bb18b`
-- **Implementation commit SHA:** Pending first commit; this field will be
-  finalized in the status-record commit.
+- **Implementation commit SHA:** `563e91d3bd93164f30e50f745cdb271fe3c5b48b`
 
 ## Decisions
 
