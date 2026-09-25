@@ -55,6 +55,13 @@ the orchestrator model in the active session's model picker and set worker
 models through the host's per-worker session controls. Use only effort values
 supported by the selected model.
 
+`--orchestrator`, when used by a Ralph launcher, is a launcher-level/session
+configuration option, not a native Copilot CLI flag; the official GitHub
+Copilot CLI documentation does not document it. Do not append it to `copilot`
+unless an external wrapper explicitly implements that option. Use the
+documented Copilot agent and prompt options shown above; keep orchestration
+role selection in the Ralph launcher or session host.
+
 Copilot CLI reads repository defaults from `.github/copilot/settings.json`.
 This repository configures `contextTier` separately for the top-level session
 and `subagents.agents.Ralph Loop`, so the orchestrator and Ralph Loop workers

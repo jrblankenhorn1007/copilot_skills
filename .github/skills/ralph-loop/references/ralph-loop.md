@@ -2,16 +2,21 @@
 
 Use this as the task prompt for the **development Ralph loop**. This outer
 engineering loop implements the product; it is not the in-SuperCollider
-music-exploration loop. Every iteration must run in a fresh worktree and
-branch from the latest `origin/main`, and is not complete until its changes
-are merged and verified on remote `origin/main`.
+music-exploration loop. A single-agent iteration uses a fresh worktree and
+branch from the latest `origin/main`. In a multi-agent run, the coordinator
+creates the parent worktree and branch from `origin/main`, and workers use
+fresh child worktrees and branches from the current parent tip. Integrate
+worker branches serially into the parent and verify each merge there; only
+after final acceptance checks may the parent merge to remote `origin/main`.
+Fetch and verify that final merge before calling the iteration complete.
 
 The original [`dj_maxxed_beats` runner](https://github.com/jrblankenhorn1007/dj_maxxed_beats/blob/main/scripts/ralph-loop.sh)
 assumes an already checked out branch and pushes commits directly; it does not
-create a per-iteration worktree/branch or merge changes to remote `main`. It
-does not implement this workflow. Do not invoke that runner until it has been
-updated to do so. The Ralph Loop custom agent can perform one iteration
-directly when the project's status protocol and remote merge permissions allow.
+create the required per-iteration worktrees/branches or perform the
+parent/child-to-remote-main merge lifecycle. It does not implement this
+workflow. Do not invoke that runner until it has been updated to do so. The
+Ralph Loop custom agent can perform one iteration directly when the project's
+status protocol and remote merge permissions allow.
 
 For multi-agent runs, the branch-owning worker executes its own PR merge after
 the coordinator authorizes one worker PR at a time, using its own existing
@@ -24,8 +29,11 @@ but does not merge a worker's PR on its behalf. Follow the shared
 You are the autonomous implementation agent for the SuperCollider AI Music
 Agent. Implement the product described in IMPLEMENTATION_PLAN.md, including
 the requirements and completion criteria in this prompt. Work incrementally
-across repeated Ralph-loop iterations. Use a fresh Git worktree and unique
-branch from the latest `origin/main` for every iteration; never edit the base
+across repeated Ralph-loop iterations. For a single-agent iteration, use a
+fresh Git worktree and unique branch from the latest `origin/main`. In a
+multi-agent run, create a fresh coordinator parent worktree and branch from
+the latest `origin/main`, then create each worker's fresh child worktree and
+unique branch from the exact current parent branch tip. Never edit the base
 checkout directly.
 
 SOURCE OF TRUTH
@@ -34,11 +42,14 @@ At the start of every iteration, before reading the project plan or editing,
 follow the [Ralph Loop skill's per-iteration refresh](../SKILL.md#refresh-repositories-and-instructions-on-every-iteration).
 Fast-forward-pull the canonical `copilot_skills` checkout and this project's
 clean primary-branch integration worktree with `git pull --ff-only`; pull only
-once if they are the same repository. Stop if either pull cannot be completed
-safely. Then reopen the current Ralph Loop skill, this prompt, and all
-task-relevant skills from the refreshed checkout; also read project-local
-copies or additions. Do not rely on skill or prompt text cached from a
-previous iteration.
+once if they are the same repository. In a multi-agent run, the coordinator
+owns and serializes refreshes for a shared integration worktree before
+dispatch; workers must not concurrently pull or update that shared main
+worktree. Refresh distinct integration worktrees one at a time. Stop if a
+required pull cannot be completed safely. Then reopen the current Ralph Loop
+skill, this prompt, and all task-relevant skills from the refreshed checkout;
+also read project-local copies or additions. Do not rely on skill or prompt
+text cached from a previous iteration.
 
 Read IMPLEMENTATION_PLAN.md and this prompt on every iteration, then inspect
 the current workspace, existing progress notes, the memory index and relevant
@@ -67,18 +78,34 @@ the relevant failing test has been observed.
 
 Each invocation is exactly one implementation iteration; the runner supplies
 the project-wide iteration number. The runner or agent must complete the
-per-iteration repository and skill refresh before invoking Copilot. Then a
-compatible runner fetches `origin` and creates a fresh worktree and iteration
-branch from `origin/main`. Copilot creates the implementation commit there.
-The runner may finalize status metadata in a separate status-only commit on
-that same branch. Complete all checks and required commits, publish the branch
-as needed, and merge it into remote `origin/main` through the configured
-remote merge process. Fetch again and verify remote main contains the merged
-work before reporting completion or starting the next iteration. A local
-merge, pushed branch, or open pull request is not sufficient. For squash or
-merge-queue flows, verify the resulting merge SHA on `origin/main` rather than
-requiring the iteration branch commit itself to be an ancestor. Do not use a
-runner that skips this lifecycle.
+per-iteration repository and skill refresh before invoking Copilot. Before
+creating branches, follow the Ralph Loop skill's Git identity and
+authentication preflight, including `git fetch origin`; a successful fetch
+proves read access, not branch-push or merge permission.
+
+For a single-agent iteration, a compatible runner creates a fresh worktree and
+branch from fetched `origin/main`, and Copilot creates the implementation
+commit there. For a multi-agent iteration, the coordinator creates a fresh
+parent worktree and branch from fetched `origin/main`; each worker creates a
+fresh child worktree and branch from the exact current parent tip and commits
+there. The runner may finalize status metadata in a separate status-only
+commit on the corresponding branch.
+
+In a multi-agent run, serialize worker-to-parent integration. If a child is
+stale after another child merge, rebase it onto the current parent branch and
+rerun relevant checks; verify each resulting worker-to-parent merge SHA on the
+parent. After all child merges, run final acceptance checks on the parent.
+Before remote integration, fetch `origin`; if `origin/main` advanced, rebase
+the parent onto the latest `origin/main` and rerun final checks. If this
+rewrites child integrations, update their records and re-verify each affected
+merge on the rebased parent. Use the configured remote merge process to
+integrate the parent (or the single-agent iteration branch) into remote
+`origin/main`, fetch again, and verify the exact resulting merge SHA on fetched
+`origin/main`. A child merge, parent push, local parent merge, or open pull
+request alone is not final completion. For squash or merge-queue flows,
+verify the resulting merge SHA rather than requiring the iteration branch
+commit itself to be an ancestor. Do not use a runner that skips the applicable
+single-agent or parent/child lifecycle.
 
 POST-MERGE LEARNING
 
@@ -257,24 +284,42 @@ IMPLEMENTATION METHOD
   rewrite earlier decisions; keep secrets out and commit records with the
   iteration.
 - Make exactly one implementation commit for each iteration on its fresh
-  branch, including its progress update, status snapshot, and any decision-log
-  entry. Use a specific commit message and include the required
+  branch, including its progress update, status snapshot, and any
+  decision-log entry. In a parent/child run, create a worker branch from the
+  current parent tip; for a single-agent run, create the iteration branch from
+  fetched `origin/main`. Use a specific commit message and include the required
   `Co-authored-by: Copilot <223556219+Copilot@users.noreply.github.com>` trailer.
-  If the runner requires a separate status-report commit, create it on the same
-  iteration branch after the implementation commit and before merging. After
-  validation and all required commits succeed, publish the iteration branch as
-  needed and merge its work into remote `origin/main` using the configured
-  remote process. Fetch `origin` and verify that remote main contains the merge
-  before treating the iteration as complete. For squash or merge-queue flows,
-  verify the resulting remote commit, not only the iteration branch commit.
-  Never amend or force-push, and never include credentials, generated audio,
-  build outputs, or the upstream `supercollider/` reference checkout. If
-  validation, merge, or remote
-  verification fails, preserve the worktree and branch and report the blocker;
-  do not claim the iteration completed.
+  If the runner requires a separate status-report commit, create it on the
+  corresponding branch after the implementation commit and before integration.
+  In multi-agent runs, serialize child-branch integration into the parent;
+  if a child is stale, rebase it onto the current parent tip and rerun relevant
+  checks. Verify every child merge on the parent before proceeding. After all
+  child merges, run final acceptance checks on the parent; before remote
+  integration, fetch `origin` and, if `origin/main` advanced, rebase the parent
+  onto the latest main and rerun those checks. Use the configured remote
+  process to merge the parent (or the single-agent iteration branch) into
+  remote `origin/main`, fetch again, and verify the resulting merge SHA on
+  fetched `origin/main` before treating the iteration as complete. For squash
+  or merge-queue flows, verify the resulting remote commit, not only the
+  iteration branch commit. Never amend or force-push, and never include
+  credentials, generated audio, build outputs, or the upstream `supercollider/`
+  reference checkout. If validation, merge, or remote verification fails,
+  preserve the worktree and branch and report the blocker; do not claim the
+  iteration completed.
+- Clean up a worker child worktree and local branch only after its merge is
+  verified on the parent; clean up the parent worktree and local branch only
+  after the parent-to-main merge is verified on fetched `origin/main`. If a
+  branch was published, delete its remote ref only after its corresponding
+  merge is verified and repository policy permits it. Never delete an
+  unmerged branch. Use safe cleanup only; if Git refuses, preserve the
+  worktree or branch and report the blocker rather than force-removing it.
 - Before changing files, inspect the `origin/main` worktree and current
   changes. Preserve user work; if the `origin/main` worktree is dirty, stop
-  before creating the iteration worktree. Never use destructive
+  before creating the parent or single-agent iteration worktree. In an
+  orchestrated run, workers branch from the coordinator's committed parent
+  tip, do not edit the parent worktree, and do not concurrently pull or update
+  a shared main worktree. If the parent worktree or target tip is not safe to
+  use, stop and coordinate. Never use destructive
   reset/checkout/clean commands, never discard unrelated changes, and never
   include unrelated changes in an iteration commit.
 - In each iteration, select one or a few tightly related tasks from the plan,
@@ -295,12 +340,13 @@ IMPLEMENTATION METHOD
   Non-interactive tool access can run shell commands outside the worktree.
   Do not use `--allow-all-paths`, destructive Git commands, or commands
   targeting paths unrelated to the active repository. Restrict repository
-  operations to the identified `origin/main` worktree and this iteration's
-  worktree. Use only a runner that creates a fresh worktree and branch for each
-  iteration and verifies its remote-main merge before proceeding; the human
-  launching multiple iterations must run it only in a trusted environment and
-  monitor it. Stop on the completion/blocker markers, operational errors,
-  merge failures, or manual interruption.
+  operations to the identified `origin/main` worktree and the current parent
+  and child worktrees. Use only a runner that creates fresh branches for the
+  selected single-agent or parent/child lifecycle, verifies each child merge
+  on its parent, and verifies the final remote-main merge before proceeding;
+  the human launching multiple iterations must run it only in a trusted
+  environment and monitor it. Stop on the completion/blocker markers,
+  operational errors, merge failures, or manual interruption.
 
 DEFINITION OF DONE
 
@@ -329,11 +375,14 @@ IMPLEMENTATION_PLAN.md is implemented and verified, including:
 
 At the end of each iteration, update the branch/agent `progress.md` and
 `status.md` under `docs/` and refresh `docs/ralph-status.md` before creating
-the implementation or status commit. After all
-required checks and commits pass, merge the iteration branch into remote
-`origin/main` and verify the remote contains the merged work. Then complete
-the post-merge learning review and verify any required memory follow-up merge
-before reporting the iteration complete. If all criteria pass, report
+the implementation or status commit.
+
+In a parent/child run, integrate each child branch into the parent serially
+and verify each child merge on the parent before running final acceptance
+checks and merging the parent into remote `origin/main`. In a single-agent
+run, merge the checked iteration branch into remote `origin/main`. Fetch and
+verify the final remote-main merge before completing the post-merge learning
+review and any required memory follow-up merge. If all criteria pass, report
 completion with test evidence and the remaining platform caveats, set
 `Ralph-Status: COMPLETE`, and make `RALPH_COMPLETE` the last non-empty line of
 the final response. If blocked, report the specific blocker, what was tried,

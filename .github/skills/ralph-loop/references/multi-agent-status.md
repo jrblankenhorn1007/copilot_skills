@@ -100,34 +100,48 @@ has one canonical home.
     individual worker being blocked does not block the whole run if other
     authorized work can continue.
   - `COMPLETE` only after every assigned task meets its acceptance criteria,
-    required checks and sign-offs are recorded, every required merge is
-    verified on fetched `origin/main`, and the post-merge memory review is
-    complete. Any memory follow-up merge must also be verified. A pushed
-    branch or open PR is not complete.
+    required checks and sign-offs are recorded, every worker-to-parent merge
+    is verified on the current parent branch, and the final parent-to-main
+    merge is verified on fetched `origin/main`; the post-merge memory review
+    and any required memory follow-up merge must also be complete and verified.
+    For a single-branch run, verify its final merge on fetched `origin/main`.
+    A pushed branch, child merge alone, or open PR is not complete.
 - A worker's `status` is one of `NOT_STARTED`, `IN_PROGRESS`,
-  `AWAITING_MERGE`, `BLOCKED`, `COMPLETE`, `FAILED`, or `CANCELLED`. Mark it
-  `COMPLETE` only after its assigned work is merged, the remote merge is
-  verified, and the coordinator's post-merge memory review is complete. Any
-  memory follow-up merge must also be verified.
+  `AWAITING_MERGE`, `BLOCKED`, `COMPLETE`, `FAILED`, or `CANCELLED`. In a
+  parent/child run, keep a worker `AWAITING_MERGE` until its child change is
+  integrated and verified on the current parent branch; after that child
+  merge, the worker may become `COMPLETE` while the overall run remains
+  `IN_PROGRESS` until final parent-to-main verification and the coordinator's
+  post-merge memory review (including any warranted memory follow-up) are
+  complete. For a single-branch run, the worker remains subject to its final
+  remote merge and memory-review gates.
 - `merge_actor_worker_id` records the stable worker ID that performed the
   remote PR merge action: the worker who submitted or queued the merge action.
   For a worker-owned PR, it must match the branch owner's `worker_id`; use
   `null` until the merge is verified. Coordinator authorization and
   verification do not make the coordinator the merge actor, and a GitHub
-  merge-queue identity does not replace the worker ID.
+  merge-queue identity does not replace the worker ID. Parent/child runs
+  record child-to-parent and parent-to-main integration in their separate
+  merge objects; a coordinator's local parent integration is not a worker
+  PR merge actor.
 - Keep the agent's `status.md` current; keep `iteration_history` in its
   `progress.md`. Add one entry for each worker iteration and retain prior
   entries. Do not replace earlier evidence on a retry. Every fresh-branch
   retry gets its own branch/agent folder and dashboard index entry. If
-  `origin/main` moves and an iteration is rebased before integration, record
-  the new SHA in `rebased_onto_origin_main_sha`, update the final
-  `implementation_commit_sha`, and obtain a new sign-off bound to that
-  rewritten SHA.
-- Record the iteration's `implementation_commit_sha` separately from
-  `merge.sha`. They can differ after a squash or merge-queue merge. Verify the
-  resulting merge SHA on fetched `origin/main` and record the observed remote
-  SHA, verification method, and time; do not require the implementation
-  commit itself to remain an ancestor after a squash merge.
+  a single-branch iteration is rebased onto newer `origin/main`, record the
+  new SHA in `rebased_onto_origin_main_sha`. For a parent/child run, record a
+  child's latest parent tip in `rebased_onto_parent_sha` and the parent's
+  latest main base in `parent_rebased_onto_origin_main_sha`. Update the final
+  `implementation_commit_sha`, rerun relevant checks, and obtain a new
+  sign-off bound to that rewritten SHA.
+- Record the implementation SHA separately from its integration SHA. In a
+  parent/child run, a worker's `worker_to_parent_merge.sha` and the parent's
+  `parent_to_main_merge.sha` may differ from each other and from the worker's
+  `implementation_commit_sha`, including after squash or merge-queue
+  integration. Verify each worker merge on the parent and the final parent
+  merge on fetched `origin/main`, recording the verified ref and tip,
+  verification method, and time. Do not require an implementation commit
+  itself to remain an ancestor after squash integration.
 - Each check records the exact command or procedure and its result: `PASS`,
   `FAIL`, `NOT_RUN`, or `BLOCKED`. List blockers explicitly; use an empty
   list only when there are none. Keep run-level and worker-level
@@ -144,15 +158,86 @@ has one canonical home.
   IDs, not abbreviations. Use `null` for unavailable runtime agent/session
   IDs instead of inventing one.
 
+### Parent/child integration, rebase, and cleanup
+
+Keep the upstream status layout: `docs/ralph-status.md` remains the one
+coordinator-owned dashboard, and the branch/agent index continues to point to
+the canonical `docs/ralph/<branch-slug>/agents/<agent-id>/status.md` and
+`progress.md` leaves. Do not create a per-run dashboard or copy full
+iteration/rebase history into the aggregate dashboard.
+
+In a parent/child run, record the coordinator's parent branch, parent
+worktree, and `parent_base_origin_main_sha` in its current leaf status and
+progress records. The parent branch/worktree are created from `origin/main`.
+Record a child's exact branch and worktree in its worker leaf; each child
+branch and worktree is based on the current parent tip, **not** directly on
+`origin/main`. The child's `base_parent_sha` is the exact parent commit used
+as its base. Preserve the run's canonical `base_origin_main_sha` as the
+parent's original main base.
+
+Integrate child branches serially into the parent. Record each current
+`worker_to_parent_merge` with its exact merge SHA, `verified_parent_ref`,
+`verified_parent_sha`, verification method, and UTC time. A push, local
+unverified merge, or child merge by itself does not complete the run. Only
+after all worker merges and final acceptance checks are verified does the
+coordinator integrate the completed parent to `origin/main`. Record the
+current `parent_to_main_merge` SHA, `verified_remote_ref`,
+`verified_origin_main_sha`, verification method, and UTC time in the
+coordinator's run/leaf state. Verify that final merge on fetched
+`origin/main`; no worker child branch merges directly to `origin/main`.
+Use `PENDING`, `VERIFIED`, or `BLOCKED` for both worker-to-parent and
+parent-to-main merge-object `status` values. A merge is `VERIFIED` only when
+the exact resulting merge SHA is reachable from the target parent/main ref
+and the observed target tip, verification method, and time are recorded.
+
+Use these current-state fields in the canonical leaf records:
+
+- Parent: `parent_branch`, `parent_worktree`,
+  `parent_base_origin_main_sha`, `parent_rebased_onto_origin_main_sha`,
+  `parent_implementation_commit_sha`, `parent_to_main_merge`, and
+  `parent_cleanup`.
+- Worker child: `branch`, `worktree`, `parent_branch`, `parent_worktree`,
+  `parent_base_origin_main_sha`, `base_parent_sha`,
+  `rebased_onto_parent_sha`, `implementation_commit_sha`,
+  `worker_to_parent_merge`, and `cleanup`.
+- `parent_to_main_merge` records the parent-only remote integration. A child
+  worker's `worker_to_parent_merge` records the child-to-parent integration;
+  do not represent that merge as a verified child-to-main merge.
+
+Keep rebase evidence append-only in the owning `progress.md`: record parent
+rebases in the coordinator's `parent_rebase_history` and child rebases in the
+worker's `child_rebase_history`, including old and new parent SHAs, rewritten
+implementation commit SHA, exact retest commands/results, and timestamps.
+The current status fields are `parent_rebased_onto_origin_main_sha` for a
+parent rebased onto newer `origin/main` and `rebased_onto_parent_sha` for a
+child rebased onto a newer parent. A rewritten child commit needs fresh checks
+and a new self-attestation bound to its exact new implementation SHA. If a
+parent rebase rewrites a previously verified child merge, preserve the old
+merge proof in `worker_to_parent_merge_history`, update the current merge
+record, and verify it again on the rebased parent.
+
+Cleanup follows integration, never the reverse. After a worker-to-parent
+merge is verified, the coordinator may remove that child's worktree/local
+branch and, when published, its remote ref if repository policy permits. The
+parent worktree/local branch may be removed only after the parent-to-main
+merge is verified on fetched `origin/main`. Keep branches and worktrees for
+unmerged changes; never force-delete an unmerged branch. Record worktree and
+local-branch cleanup as `PENDING`, `REMOVED`, or `BLOCKED`; record remote-ref
+cleanup as `NOT_PUBLISHED`, `PENDING`, `DELETED`, or `BLOCKED`. Record
+safe-cleanup failures as blockers and preserve the affected branch/worktree.
+
 ### Current-state leaf and append-only evidence
 
 Every agent's `status.md` describes only the current state of that
 branch/agent assignment. It must identify at least the run and task IDs,
 stable `worker_id` and `worker_name`, `runtime_agent_id` (or `null`), branch
-and slug, current iteration and `status`, base/rebased `origin/main` SHAs,
-current implementation commit, checks, blockers, next action, PR state,
-decision-record path, `merge_actor_worker_id`, merge verification state, and
-sign-off/signature state.
+and slug, worker worktree, current iteration and `status`, base/rebased
+`origin/main` SHAs, current implementation commit, checks, blockers, next
+action, PR state, decision-record path, `merge_actor_worker_id`, merge
+verification state, and sign-off/signature state. For parent/child work,
+also include the parent branch/worktree/base and the worker's original
+`base_parent_sha` and latest `rebased_onto_parent_sha`, plus the appropriate
+worker-to-parent or parent-to-main merge records and cleanup state.
 It may be written as Markdown with a YAML block or a table, but keep the
 field names and enum values unambiguous.
 
@@ -291,6 +376,61 @@ commit_signature_verification:
   verified_at_utc: null
 ```
 
+For a parent/child run, keep the canonical leaf fields above and add the
+following current parent/worker integration fields to the owning leaves. Put
+the full rebase and merge history in each owner's append-only `progress.md`,
+not in `docs/ralph-status.md`.
+
+```yaml
+# Current coordinator/parent state
+parent_branch: "ralph/example-parent"
+parent_worktree: "<path to coordinator's parent worktree>"
+parent_base_origin_main_sha: "<full origin/main SHA used to create the parent>"
+parent_rebased_onto_origin_main_sha: null
+parent_implementation_commit_sha: null
+parent_to_main_merge:
+  status: PENDING
+  sha: null
+  verified_remote_ref: "refs/heads/main"
+  verified_origin_main_sha: null
+  verification_method: null
+  verified_at_utc: null
+parent_cleanup:
+  worktree: PENDING
+  local_branch: PENDING
+  remote_ref: NOT_PUBLISHED
+
+# Current worker-child state
+branch: "ralph/example-worker-02"
+worktree: "<path to worker-02 worktree>"
+parent_branch: "ralph/example-parent"
+parent_worktree: "<path to coordinator's parent worktree>"
+parent_base_origin_main_sha: "<same parent main base SHA>"
+base_parent_sha: "<full parent tip used to create this child branch>"
+rebased_onto_parent_sha: null
+worker_to_parent_merge:
+  status: PENDING
+  sha: null
+  verified_parent_ref: "refs/heads/ralph/example-parent"
+  verified_parent_sha: null
+  verification_method: null
+  verified_at_utc: null
+cleanup:
+  worktree: PENDING
+  local_branch: PENDING
+  remote_ref: NOT_PUBLISHED
+```
+
+When a child is rebased, retain its original `base_parent_sha`, set
+`rebased_onto_parent_sha` to the exact new parent tip, and append the previous
+and new parent SHAs, rewritten implementation SHA, retest evidence, and time
+to that worker's progress history. When the parent is rebased, update
+`parent_rebased_onto_origin_main_sha` and append the old/new parent and main
+SHAs and retest evidence to the coordinator's progress history. If a parent
+rebase rewrites a verified child integration, append the old merge proof to
+the worker's `worker_to_parent_merge_history` before replacing the current
+verification.
+
 ### Worker sign-off and signatures
 
 Before handing an iteration to the coordinator for integration, each worker
@@ -336,6 +476,11 @@ matching `progress.md`; summarize its current state in `status.md`):
   },
   "decision_record_path": "docs/decisions/<branch-slug>/agents/worker-02/pr-not-opened.md",
   "base_origin_main_sha": "<full origin/main SHA>",
+  "parent_branch": "<coordinator's parent branch>",
+  "parent_worktree": "<coordinator's parent worktree path>",
+  "parent_base_origin_main_sha": "<full origin/main SHA used for the parent>",
+  "base_parent_sha": "<full parent branch SHA used as this child's base>",
+  "rebased_onto_parent_sha": "<full parent SHA after child rebase, or null>",
   "implementation_commit_sha": "<exact full implementation commit SHA>",
   "checks": [
     { "command": "<exact command>", "result": "PASS" }
