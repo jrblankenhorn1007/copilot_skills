@@ -1244,3 +1244,37 @@
 - **Next:** Rebase the complete parent onto current `origin/main`, inspect
   the commit `range-diff`, rerun the full suite, and renew both worker
   attestations for the rewritten implementation SHAs before main integration.
+
+## 2026-09-25T19:38:28Z — final parent rebase and worker attestations verified
+
+- **Parent rebase:** Rebased parent from pre-rebase tip
+  `ed723af5888c75536db6bf14417ca6725f861404` onto fetched `origin/main`
+  `c79bc7e328bda4900cbe4c98d8c59da59e735ed1`. The new parent tip before
+  this metadata synchronization is
+  `2229cbafdeb0b9205b43158bb510c0a66c0ec46f`; all 61 commits replayed
+  without conflict, and `range-diff` maps all 61 one-to-one with unchanged
+  patches.
+- **Worker-01:** Renewed `SELF_ATTESTATION` at `2026-09-25T19:32:58Z` for
+  implementation `cda846f586072e15480d8c8d274c0ea5d92eaa37` (mapped from
+  `d93041a2d19108929e44e03b2b977429e56ed6fa`). Rebased worker-series head
+  `5a94334d2de8e64f704d5d76ce2c9f3285b6a764` is verified in the parent.
+- **Worker-02:** Renewed `SELF_ATTESTATION` at `2026-09-25T19:29:59Z` for
+  implementation `af17568b72ae383d5e0889a46de9d7ba1ef11e99` (mapped from
+  `90993383c243e2f55fe7f21b53d71e3ca15dbcdc`). Rebased worker-series head
+  `59e91d980048780249b84ef87fae1a9e003c4308` is verified in the parent.
+  Both attestations are plain-text self-attestations and are
+  `NOT_CRYPTOGRAPHICALLY_SIGNED`.
+- **Verification:** The full Ralph contract suite passes (**29 tests**) on
+  the rebased parent; focused communication checks and both implementation
+  `git show --check` checks pass; worker implementation/series ancestry and
+  `git diff --check origin/main...HEAD` pass.
+- **Capacity / integration:** A fresh Resource Manager inventory observed
+  11 active agents with `max_agents: 2` and `available_slots: 0`; no new
+  agent was spawned. The required dedicated post-merge memory review remains
+  pending until capacity permits its dispatch. The parent remains local and
+  unmerged; remote publication requires explicit authorization and a fresh
+  `origin/main`/MERGE-lease check.
+- **Next:** Obtain authorization before publishing or merging. After any
+  verified main integration, dispatch the required Project Memory Update
+  agent only when Resource Manager reports a free slot, then verify any
+  warranted follow-up on fetched `origin/main`.
