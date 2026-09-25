@@ -343,3 +343,23 @@ recorded in the timestamped progress entry below.
   `d868d684564658bdc9488e27f5bfeaa592b04338`.
 - The status-only branch still needs its final fast-forward integration and
   fetched remote verification. No second memory review is required.
+
+## 2026-09-25T07:50:36Z — rebase after a concurrent main advance
+
+- During integration preparation, `origin/main` advanced from
+  `d868d684564658bdc9488e27f5bfeaa592b04338` to
+  `9579ab57d434d05d1389eb1d311cb7d032c0792e` with three more agent-sync
+  commits. An `--ff-only` attempt from the stale status branch was rejected;
+  the clean primary worktree was first pulled explicitly to the latest
+  `origin/main`.
+- Fetched `origin` and rebased the status-only branch onto
+  `9579ab57d434d05d1389eb1d311cb7d032c0792e`. The new commits again touched
+  only `docs/agent-sync`; the dashboard and status changes applied without
+  conflicts.
+- The post-rebase
+  `PYTHONDONTWRITEBYTECODE=1 python3 /Users/jrblankenhorn/copilot_skills.worktrees/ralph-code-review-gate-status-followup-20260925-0703-6b1903e/.github/skills/ralph-loop/tests/test_multi_agent_contract.py`
+  command passed all 20 tests. Both working-tree and branch-wide
+  `git diff --check` passed, and `git merge-base HEAD origin/main` returned
+  `9579ab57d434d05d1389eb1d311cb7d032c0792e`.
+- No user changes were lost. The status-only fast-forward still needs a
+  fresh fetch, final integration, and remote verification.
