@@ -71,8 +71,9 @@
 - **Iteration-2 whitespace check:** `git diff --check` passed for the worker
   record edits. `git diff --check
   8da9310fda1b2e3042a379081dfb0675f1b22d6b..HEAD` also passed after
-  worker-record commit `674ae2733221ddc00f7d499d2fdc046e6381536b`; it will
-  be rerun after this sign-off-record synchronization.
+  worker-record commit `997b9e9eb4ebbf01f18db2f98b22e14e0e415d3b`. The
+  README/reference content check passed; the contract suite still requires
+  the coordinator's dashboard link.
 - **Current integration dependency:** The coordinator must add the worker
   leaf to `docs/ralph-status.md` and rerun the contract suite before
   integration; this worker remains `AWAITING_MERGE`.

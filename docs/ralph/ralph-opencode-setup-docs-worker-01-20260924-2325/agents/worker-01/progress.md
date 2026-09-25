@@ -202,11 +202,12 @@ confirmed working OpenCode.
   tree.
 - `git diff --check 8da9310fda1b2e3042a379081dfb0675f1b22d6b..HEAD` —
   **PASS** after worker-record commit
-  `674ae2733221ddc00f7d499d2fdc046e6381536b`. The exact check will be rerun
-  after this sign-off-record synchronization.
+  `997b9e9eb4ebbf01f18db2f98b22e14e0e415d3b`.
 - The contract suite was rerun after commit
-  `674ae2733221ddc00f7d499d2fdc046e6381536b`; it again ran 13 tests and
+  `997b9e9eb4ebbf01f18db2f98b22e14e0e415d3b`; it again ran 13 tests and
   failed only the dashboard-index assertion for this unindexed worker leaf.
+- The README/reference link and content command was rerun after commit
+  `997b9e9eb4ebbf01f18db2f98b22e14e0e415d3b` and passed.
 - The dashboard-index failure is a coordinator-owned integration dependency;
   the leaf state remains `AWAITING_MERGE` until the coordinator adds both
   worker paths and reruns the contract suite.
@@ -266,13 +267,13 @@ confirmed working OpenCode.
     {
       "command": "git diff --check 8da9310fda1b2e3042a379081dfb0675f1b22d6b..HEAD",
       "result": "PASS",
-      "evidence": "Passed after worker-record commit 674ae2733221ddc00f7d499d2fdc046e6381536b; rerun after the sign-off-record synchronization."
+      "evidence": "Passed after worker-record commit 997b9e9eb4ebbf01f18db2f98b22e14e0e415d3b."
     }
   ],
   "blockers": [
     "The coordinator must index this worker leaf in docs/ralph-status.md and rerun the contract suite before integration."
   ],
-  "attested_at_utc": "2026-09-25T04:21:16Z",
+  "attested_at_utc": "2026-09-25T04:27:03Z",
   "attestation_kind": "SELF_ATTESTATION",
   "cryptographic_signature_status": "NOT_CRYPTOGRAPHICALLY_SIGNED",
   "statement": "I, worker-01, sign off iteration 2 for opencode-setup-docs at implementation commit 9f8e5e850df47700763d8d74d2250fb200804d7e."

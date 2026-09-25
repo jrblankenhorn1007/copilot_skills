@@ -159,5 +159,9 @@
   record edits.
 - **Post-commit `git diff --check
   8da9310fda1b2e3042a379081dfb0675f1b22d6b..HEAD`:** **PASS** through
-  worker-record commit `674ae2733221ddc00f7d499d2fdc046e6381536b`; rerun
-  after this sign-off-record synchronization.
+  worker-record commit `997b9e9eb4ebbf01f18db2f98b22e14e0e415d3b`.
+- **Post-commit README/reference check:** **PASS** through worker-record
+  commit `997b9e9eb4ebbf01f18db2f98b22e14e0e415d3b`.
+- **Post-commit Ralph contract check:** The same dashboard-index subtest
+  remains **FAIL** until the coordinator adds this leaf to
+  `docs/ralph-status.md`.
