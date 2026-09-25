@@ -158,9 +158,26 @@
   alongside the prompt-generation instructions; upstream status/test changes
   were preserved. Worker-01 did not edit `docs/ralph-status.md` or
   `test_multi_agent_contract.py`.
-- No post-rebase tests or `git diff --check` have run. They are deferred until
-  the coordinator adds the dashboard row and supplies its commit SHA. The
-  worker sign-off remains pending and status remains `BLOCKED`.
+- The coordinator dashboard row was committed as
+  `facfc0d5c833aa99d100fc0196dfc77952d6d570` on the current branch worktree;
+  this dashboard-only commit changes no implementation files.
+
+## Post-dashboard verification and fresh sign-off
+
+- The post-dashboard checks were run locally against the rebased tree with the
+  coordinator dashboard commit above:
+  - `python3 .github/skills/ralph-loop/tests/test_prompt_generation_contract.py`
+    — exit 0; 7 tests passed.
+  - `python3 .github/skills/ralph-loop/tests/test_multi_agent_contract.py`
+    — exit 0; 11 tests passed.
+  - `git diff --check` — exit 0.
+- Fresh self-attestation at `2026-09-25T02:16:45Z` is bound to the exact
+  rebased implementation commit
+  `2032d6a5a3696e70369e95d347017d2f4a6bdab3`. It is
+  `NOT_CRYPTOGRAPHICALLY_SIGNED`.
+- Status remains `BLOCKED`: no authenticated PR-creation mechanism is
+  available. The branch remains unpublished, no PR is open, and no merge was
+  attempted or authorized.
 
 ## Current decisions and status
 

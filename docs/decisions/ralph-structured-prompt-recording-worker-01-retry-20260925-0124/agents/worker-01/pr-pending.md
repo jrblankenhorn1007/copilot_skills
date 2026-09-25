@@ -12,6 +12,8 @@
 - Rebased `origin/main`: `114e4d60567d05cd048916339ed86e324c6eeef3`
 - Implementation commit: `2032d6a5a3696e70369e95d347017d2f4a6bdab3`
   (local; not published).
+- Coordinator dashboard commit in current branch worktree:
+  `facfc0d5c833aa99d100fc0196dfc77952d6d570` (dashboard-only).
 - PR: pending; no PR number or URL assigned yet.
 - State: `BLOCKED`; the expected PR has not been created.
 
@@ -79,7 +81,11 @@
   commit SHA.
 - The coordinator's current main now parses YAML status records. After the
   rebase, the worker leaf retains both the Markdown status row and YAML
-  `status: BLOCKED`; no post-rebase tests have run yet.
+  `status: BLOCKED`.
+- After dashboard commit `facfc0d5c833aa99d100fc0196dfc77952d6d570`, worker-01
+  reran the focused prompt-generation contract (7 passed), the full Ralph
+  contract suite (11 passed), and `git diff --check` (passed). No implementation
+  files were changed by the dashboard commit.
 
 ## PR details
 
@@ -94,16 +100,12 @@ The pre-rebase implementation commit
 current rebased implementation commit is
 `2032d6a5a3696e70369e95d347017d2f4a6bdab3`; it and the worker-owned records
 are committed locally with the required Copilot co-author trailer. The
-feature branch has not been pushed, no PR has been opened, and no merge has
-been attempted.
+post-dashboard check results are 7 focused tests passed, 11 full contract
+tests passed, and `git diff --check` passed. The feature branch has not been
+pushed, no PR has been opened, and no merge has been attempted.
 
 ## Unresolved blockers
 
-- Post-rebase verification is pending the coordinator-owned dashboard row
-  commit. Worker-01 must not edit or commit that dashboard row or worker-02's
-  test.
 - PR creation is blocked because `gh` is not installed, the browser is signed
   out, and the available GitHub MCP methods are read-only. No branch
   publication or merge has been attempted.
-- Fresh post-rebase tests, diff checks, and sign-off are pending the
-  coordinator's dashboard commit SHA.
