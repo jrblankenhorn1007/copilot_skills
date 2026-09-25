@@ -43,7 +43,11 @@ opencode run --dir <child-worktree> --agent ralph-loop-worker \
   --model provider/model-id "<bounded worker assignment>"
 ```
 
-Replace the placeholders before running the command. OpenCode's Task
+Before starting a worker session, verify that the host can bind it to its
+assigned child worktree; a path in the prompt is not a workspace switch. See
+the [worktree isolation guide](./references/worktree-isolation.md) for the
+collision-resistant naming and fail-closed identity checks. Replace the
+placeholders before running the command. OpenCode's Task
 subagents inherit the current session's worktree; they do not create Git
 worktrees. Do not use them for implementation assignments that require
 child-worktree isolation. Use the Task tool only for the named, read-only
@@ -83,16 +87,24 @@ from the exact fetched `origin/main` SHA. Run the top-level Orchestrator
 session with the user's prompt in that parent worktree, not in the
 integration checkout.
 
-Each worker receives a fresh, unique child worktree and branch based on the
-parent branch and exact parent base SHA supplied by the coordinator. Workers
-do not create child branches from `origin/main` or merge directly to it. Keep
-worker path ownership disjoint. The coordinator integrates one completed
-child branch at a time into the parent and verifies each integration before
-proceeding to the next worker. Only after all child work has been integrated
-and the parent passes its acceptance checks may the coordinator publish and
-merge the completed parent branch to `origin/main`. Fetch `origin` and verify
-the resulting parent merge SHA there; a child commit or child-to-parent merge
-is not remote-main completion.
+The coordinator creates and assigns each worker a fresh, unique child
+worktree and branch based on the parent branch and exact parent base SHA.
+Workers do not create child branches from `origin/main` or merge directly to
+it. Keep worker path ownership disjoint and bind each worker session to its
+assigned path. Before editing, the session must prove that its actual Git root,
+branch, base SHA, clean state, and worktree registry match the assignment. If
+the host cannot bind the session or any value differs, stop without editing;
+do not continue from the parent or default checkout. See the
+[worktree isolation guide](./references/worktree-isolation.md) for the
+collision checks and identity record.
+
+The coordinator integrates one completed child branch at a time into the
+parent and verifies each integration before proceeding to the next worker.
+Only after all child work has been integrated and the parent passes its
+acceptance checks may the coordinator publish and merge the completed parent
+branch to `origin/main`. Fetch `origin` and verify the resulting parent merge
+SHA there; a child commit or child-to-parent merge is not remote-main
+completion.
 
 Never delete an unmerged branch. After a child's merge into the parent is
 verified, the coordinator may remove its worktree with

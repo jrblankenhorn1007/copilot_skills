@@ -533,6 +533,22 @@ envelope and delivery-state contract and the
 [orchestration contract](multi-agent-orchestration.md#inter-session-communication)
 for capability limits and fallback.
 
+### Worktree identity evidence
+
+Every coordinator and worker leaf includes a `worktree_identity` object from
+the agent's actual session, not values copied from the assignment. Record
+`expected_path`, `observed_pwd`, `observed_git_root`, `expected_branch`,
+`observed_branch`, `expected_base_sha`, `observed_head_sha`,
+`working_tree_clean`, and `registry_match`. Use `state: VERIFIED` only when
+the observed canonical path, Git root, branch, base SHA, clean status, and
+`git worktree list --porcelain` mapping all match. Use `state: BLOCKED` on any
+mismatch; retain both expected and observed values and record that no edits
+were made. A task agent that cannot bind its session to its assigned worktree
+must remain blocked rather than switching to another checkout.
+
+See the [worktree isolation guide](worktree-isolation.md) for the exact
+pre-edit commands, unique naming, and collision checks.
+
 ### Aggregate dashboard example
 
 The coordinator maintains a single `docs/ralph-status.md`. The example below

@@ -11,7 +11,9 @@ toward the host's total agent limit. This is the default workflow under the
 [Ralph Loop skill](../SKILL.md); behavior changes also follow the
 [TDD skill](../../tdd/SKILL.md). Each worker performs one complete, isolated
 Ralph iteration and follows the active project's instructions and status
-protocol.
+protocol. Parent and worker sessions must use collision-resistant worktree
+identities and verify their actual session paths before editing; follow the
+[worktree isolation guide](worktree-isolation.md).
 
 ## OpenCode runtime and session isolation
 
@@ -329,7 +331,9 @@ shared checkout. The worker must:
    SHA, parent branch/worktree, and child `base_parent_sha`. If the parent
    advances before integration, rebase the child onto its latest tip, record
    `rebased_onto_parent_sha`, rerun relevant checks, and obtain a new sign-off
-   bound to the rewritten implementation commit.
+   bound to the rewritten implementation commit. The worker session must
+   verify its actual worktree identity before editing; a worktree path in the
+   prompt alone is not proof that the host bound its tools to that path.
 
    Store each worker current-state summary and dated verification evidence at
    `docs/ralph/<branch-slug>/agents/<agent-id>/status.md` and `progress.md`.
@@ -418,6 +422,35 @@ same branch/PR.
 When a child-to-parent or parent-to-main integration uses a coordinator-managed
 fast-forward without a PR, set review status to `NOT_APPLICABLE`, launch no
 reviewers, and preserve that existing path.
+
+### Worktree allocation and session binding
+
+The coordinator creates the parent and each child worktree before launching
+the corresponding session. Give every run a unique `run-id` and every worker
+launch or retry a new unique `dispatch-id`; include those IDs and the stable
+`worker-id` in both the child path and branch. Never name a path or branch
+from the task slug or worker ID alone. Before creation, check the candidate
+absolute path and `git worktree list --porcelain`, the local branch with
+`git show-ref --verify`, and the remote branch with
+`git ls-remote --heads origin`. On any collision, choose a new dispatch ID;
+never reuse or override another worktree.
+
+The host's supported session mechanism must bind the worker's shell and
+editing tools to that exact child path. Passing the path in the prompt does
+not change the session working directory. Before reading or editing project
+files, the worker verifies `pwd -P`, `git rev-parse --show-toplevel`,
+`git branch --show-current`, `git rev-parse HEAD`, `git status --porcelain`,
+and the matching worktree/branch/base entry in `git worktree list --porcelain`.
+The coordinator checks the worker's reported identity against the assignment.
+Keep the identity evidence in the worker status leaf as described in the
+[worktree isolation guide](worktree-isolation.md).
+
+If the host cannot bind the session or any observed value differs from the
+assignment, stop before editing, do not switch/check out another branch, and
+report the mismatch as `BLOCKED` with no edits. If distinct worktree binding
+is unavailable, do not dispatch in parallel; proceed sequentially from the
+coordinator's own verified worktree only when project policy allows it, or
+report the host limitation.
 
 ### Worker-owned PR merge
 
