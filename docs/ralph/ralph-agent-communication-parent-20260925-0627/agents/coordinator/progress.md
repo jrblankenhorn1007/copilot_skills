@@ -299,3 +299,81 @@
 - **Next:** Synchronize current implementation/series hashes and worker
   attestations in the leaves and dashboard, rerun checks, then publish and
   verify the coordinator-managed remote-main fast-forward.
+
+## 2026-09-25T11:51:17Z — latest-main rebase and contract suite Green
+
+- **Refresh:** Fetched `origin/main` advanced from
+  `3102cdd78453c03a666f1c04f1efd858e22dcfd6` to
+  `96fca381f96a743a08eb2e758d1eae8eb2fd483a`. The clean, attached primary
+  checkout was fast-forwarded to that exact SHA.
+- **Rebase:** Rebased parent `b8426ff18cc476825ed901684aaf319775c0d8b7`
+  onto fetched `origin/main` `96fca381f96a743a08eb2e758d1eae8eb2fd483a`,
+  producing `9f74e80a92829f27d612ee635f646fe8a8e37cd6` with no conflicts.
+- **Worker mapping:** `git range-diff` confirmed the worker changes were
+  preserved. Worker-01 implementation `ce8ea9db57bdcd47f43f515fecc69b29822c9733`
+  and series head `2908a2bc7d9b41bf241f5dbac0c94685981d009e`, and worker-02
+  implementation `9d2320db1cb463af1c08441033f0ef056c34aef5` and series head
+  `5d172ded4681bbcce097650687d88f5d1c8d0476` are ancestors of the new parent.
+- **Green:** `PYTHONDONTWRITEBYTECODE=1 python3
+  .github/skills/ralph-loop/tests/test_multi_agent_contract.py` passed all
+  21 tests after the rebase.
+- **Whitespace/ancestry:** `git diff --check origin/main...HEAD` passed;
+  explicit `git merge-base --is-ancestor` checks passed for both worker
+  implementation commits and both worker-series heads.
+- **Sign-off:** Previous exact-SHA attestations were superseded by this
+  rebase. Fresh scope-limited attestations were requested for the rewritten
+  implementation commits; no new attestation is claimed yet.
+- **Next:** Record fresh worker attestations in their worker-owned leaves,
+  synchronize coordinator/dashboard metadata, rerun checks, then publish the
+  parent and perform the reserved, verified remote-main fast-forward.
+
+## 2026-09-25T11:54:47Z — worker-01 exact-SHA sign-off refreshed
+
+- **Worker-01:** Fresh `SELF_ATTESTATION` received for implementation
+  `ce8ea9db57bdcd47f43f515fecc69b29822c9733`; worker-series head
+  `2908a2bc7d9b41bf241f5dbac0c94685981d009e` is an ancestor of parent
+  `9f74e80a92829f27d612ee635f646fe8a8e37cd6`.
+- **Scope checks:** The exact-commit 37-term skill audit passed 37/37 and
+  `git show --check` passed. The skill blob matches the parent; no implementation
+  edits were made during verification. The attestation is not cryptographically
+  signed.
+- **Worker-02:** Fresh attestation for its rewritten implementation remains
+  pending.
+- **Next:** Worker-01 is updating only its own status/progress/decision records
+  from the current parent. After that commit is integrated, refresh worker-02's
+  leaf records and synchronize the coordinator-owned dashboard.
+
+## 2026-09-25T11:55:29Z — worker-02 exact-SHA sign-off refreshed
+
+- **Worker-02:** Fresh `SELF_ATTESTATION` received for implementation
+  `9d2320db1cb463af1c08441033f0ef056c34aef5`; worker-series head
+  `5d172ded4681bbcce097650687d88f5d1c8d0476` is an ancestor of parent
+  `9f74e80a92829f27d612ee635f646fe8a8e37cd6`.
+- **Scope checks:** The targeted communication contract test passed 1/1 and
+  `git show --check` passed. Worker-02 reports its pipeline scope is unchanged
+  between the exact implementation commit and parent; no files were edited.
+  The attestation is not cryptographically signed.
+- **Next:** Worker-02 is waiting while worker-01 updates its own leaf and
+  decision records; then worker-02 will update its records from the resulting
+  parent tip.
+
+## 2026-09-25T12:06:15Z — worker-01 metadata update committed; upstream advanced
+
+- **Worker-01 records:** Worker-01 committed metadata-only update
+  `f8861d5c153342523309bbc138a9ae56e1b75ce6` on
+  `ralph/agent-communication-worker-01-metadata-20260925-834e0e9a`, based on
+  parent `9f74e80a92829f27d612ee635f646fe8a8e37cd6`. It changes only the
+  worker's status, progress, and decision records; `git diff --check` and
+  staged/committed whitespace checks passed. The records preserve the prior
+  worker integration history and current state `AWAITING_MERGE`.
+- **Upstream refresh:** A fresh fetch found `origin/main` at
+  `4f5fee342c7e08ce556ae10c8a693f9e30a2ee2b`, three commits beyond the
+  parent's base `96fca381f96a743a08eb2e758d1eae8eb2fd483a`. The remote main
+  ownership record was `FREE` at revision 60 when inspected.
+- **Integration:** The worker metadata commit remains unintegrated. The parent
+  must be rebased onto the latest main before metadata integration; doing so
+  will rewrite both implementation commits and require fresh exact-SHA
+  attestations. Worker-02 remains paused.
+- **Next:** Commit this coordinator progress evidence, rebase the parent onto
+  the fetched latest main, rerun acceptance checks, and request fresh worker
+  attestations before integrating the worker-owned metadata updates.
