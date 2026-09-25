@@ -205,3 +205,17 @@ no_durable_lessons_reason: null
   dispatch occurred.
 - **Next action:** commit this status refresh, recheck main ownership, acquire
   a fresh `MERGE` reservation, then verify and release after integration.
+
+## 2026-09-25T15:59:16Z - Latest-main status rebase revalidated
+
+- Rebased the capacity-status branch onto fetched `origin/main`
+  `2002fb502245274d0cf5db621032ef11f3bc310b`; the pre-refresh branch tip was
+  `2da19a6b844c44a87ef00c6646bc229cf5059ddc`.
+- The Ralph multi-agent contract passed 25 tests, the Project Memory Update
+  contract passed 1 test, the main-ownership contract passed 8 tests, and
+  both diff checks passed after the rebase.
+- The latest full Resource Manager inventory remains
+  `2026-09-25T15:51:57Z` (21 active agents, `max_agents: 0`, zero slots,
+  load 12.17 on six cores). No updater reservation or dispatch occurred.
+- **Next action:** commit this refreshed status, acquire a new authorized
+  `MERGE` reservation, and integrate/verify the status branch.

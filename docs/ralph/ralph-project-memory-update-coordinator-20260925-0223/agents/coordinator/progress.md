@@ -459,3 +459,18 @@ These are implementation-time reports, not accepted memory entries. The Project 
 - **Next action:** integrate the latest capacity-status synchronization
   through a fresh main-ownership transaction, then wait for an actionable
   capacity remedy before reserving and invoking the updater.
+
+## 2026-09-25T15:59:16Z - Current capacity update rebased
+
+- Fetched `origin/main` at
+  `2002fb502245274d0cf5db621032ef11f3bc310b` and rebased the status-only
+  follow-up onto it. The previously verified implementation and status
+  integrations remain present on the remote.
+- Post-rebase checks passed: Ralph multi-agent 25 tests, Project Memory Update
+  1 test, main-ownership 8 tests, and both diff checks.
+- The complete inventory at `2026-09-25T15:51:57Z` still blocks updater
+  dispatch (21 active agents, `max_agents: 0`, zero slots, load 12.17 on six
+  logical cores).
+- **Next action:** integrate this status refresh using a fresh `MERGE`
+  transaction, then ask the user to free host capacity before any updater
+  reservation.
