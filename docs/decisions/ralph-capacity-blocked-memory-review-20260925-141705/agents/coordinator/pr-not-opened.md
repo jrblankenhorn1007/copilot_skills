@@ -24,8 +24,13 @@
    `2026-09-25T15:19:48Z` reported 21 active agents, `max_agents: 0`, and no
    available slots. A complete follow-up inventory at `2026-09-25T15:37:46Z`
    reported 19 active agents, `max_agents: 0`, and zero slots because load
-   7.54 met/exceeded the six-core limit. Refresh capacity and invoke the
-   dedicated updater exactly once only after an atomic reservation succeeds.
+   7.54 met/exceeded the six-core limit. After status integration
+   `4b125745977ecab1dd2a5ed413a083d073c814dc` was verified and main released by
+   `5830958dc1cf1ed4afe6059b72879afdba26bc6c`, a fresh inventory at
+   `2026-09-25T15:51:57Z` reported 21 active agents, `max_agents: 0`, and
+   zero slots because load 12.17 met/exceeded the six-core limit. Refresh
+   capacity and invoke the dedicated updater exactly once only after an atomic
+   reservation succeeds.
 
 No PR was opened. The implementation integration is verified; the independent
 Project Memory review remains blocked on capacity.

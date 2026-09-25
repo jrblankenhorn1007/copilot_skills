@@ -173,3 +173,20 @@ no_durable_lessons_reason: null
 - **Next action:** commit the refreshed sign-in-base status, verify the
   reservation and ancestry, fast-forward the status branch, verify the remote
   result, and promptly release `MERGE`.
+
+## 2026-09-25T15:54:12Z - Status integration verified; capacity remains blocked
+
+- The status-only follow-up commit
+  `4b125745977ecab1dd2a5ed413a083d073c814dc` and the implementation merge
+  `d47262de92a322392e0bbbf57cb075238d278a4a` are both verified ancestors of
+  fetched `origin/main` `1099e8a4bb29c2ab3db21a5f0dffd3c39b8bd2d3`.
+- The `MERGE` reservation was released with `MERGED` at
+  `5830958dc1cf1ed4afe6059b72879afdba26bc6c`.
+- A fresh complete Resource Manager inventory at `2026-09-25T15:51:57Z`
+  reported 21 active agents, `max_agents: 0`, zero available slots, and
+  `can_spawn: false` because one-minute load was 12.17 on six logical cores.
+  No updater reservation or dispatch was attempted; `.github/memory/` is
+  unchanged.
+- **Next action:** request an actionable capacity remedy. Resume only after a
+  new full inventory permits an atomic slot reservation for the dedicated
+  updater.
