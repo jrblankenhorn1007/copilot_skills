@@ -1016,3 +1016,21 @@
   replayed onto `50edf0dc...` before worker dispatch.
 - **Next:** Commit the current status snapshot, rebase and reverify against
   the exact latest main, update the worker targets, then dispatch worker-01.
+
+## 2026-09-25T16:56:17Z — parent status synchronized onto current main
+
+- **Parent:** Rebased onto exact `origin/main`
+  `50edf0dc7d010a95484ccb7ac79d4407c68b068f`; implementation snapshot is
+  `cc488235fff40f3a205f6a4ab475f42599ed9950`.
+- **Checks:** The clean rebase mapped all 48 commits one-to-one,
+  `git diff --check origin/main...HEAD` passed, and the targeted
+  communication-contract test confirmed the three expected Red assertions.
+- **Workers:** Updated the dashboard's exact code targets to
+  `aac395c6e58891d91507f7b3ad751f7e7178ebd9` (worker-01 skill) and
+  `9cf67ba58bb730e9ffb49632458eeedc4cd5b5c8` (worker-02 pipeline). Their
+  prior attestations remain superseded; neither worker has a new sign-in.
+- **Dashboard:** Coordinator status and index now report 37,723 elapsed
+  seconds and snapshot revision 107.
+- **Next:** Commit this status update, refresh main/ownership once more, and
+  send worker-01 the exact new parent and TDD refinement. Keep worker-02
+  paused.
