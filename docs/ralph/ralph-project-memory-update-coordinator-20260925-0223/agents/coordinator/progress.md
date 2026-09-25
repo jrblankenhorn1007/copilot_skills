@@ -110,3 +110,18 @@ These are implementation-time reports, not accepted memory entries. The Project 
 - From the coordinator parent worktree, `python3 .github/skills/ralph-loop/tests/test_multi_agent_contract.py` passed (`Ran 20 tests`, `OK`). Both `git diff --check` and `git diff --check origin/main...HEAD` passed after dashboard reconciliation.
 - No child-to-parent or parent-to-main merge is claimed; worker-01 must rebase and renew sign-off, while worker-02's prior conflicting attempts remain preserved for fresh-child replay.
 - **Next action:** commit the refreshed coordinator status, then dispatch worker-01 against the exact resulting parent tip.
+
+## 2026-09-25T08:18:51Z - Parent refreshed after worker-01 sign-off
+
+- Worker-01 rebased its clean unpublished child from verified fork point `11e5394c7a479e25444945b8db917b58cfb3f086` onto the then-current parent `0e3bef1d96eb29ef3c41d8235d5b278a2b3e3907`. It replayed eight commits, producing child tip `8a343749a99fd3ec1284dc6b95fa8302b300d61f` and implementation commit `2298cbf6a78ca41f0b92b41e1278434fc2ccae41`. Its focused Project Memory agent contract (1 test), Ralph multi-agent contract (20 tests), and diff checks passed; it renewed `AWAITING_MERGE` sign-off with a `NOT_APPLICABLE` review state. This child must be rebased again because the parent has since been refreshed.
+- The worker ran `git pull --ff-only` in the clean primary worktree, although its bounded assignment did not call for that operation. Its report said local `main` advanced from `36bf3fa…` to `d868d68…`. The coordinator then verified the primary worktree was clean with `main` and `origin/main` both at `7ee1307cb47f5a88cd6b46ee135444777ddeb665`; no source modifications or push were reported. A coordinator `git fetch origin` confirmed the same tracking SHA.
+- Rebased the clean coordinator parent using `GIT_EDITOR=true git rebase -X ours origin/main`. It replayed five parent commits and completed at `e16557ef7193097b9793a38700ccc9e4ca456709`; `git merge-base HEAD origin/main` returned `7ee1307cb47f5a88cd6b46ee135444777ddeb665`, and `git rev-list --count origin/main..HEAD` returned `5`.
+- The upstream-priority rebase restored the latest upstream dashboard, which did not yet index this run's coordinator/worker leaves or mark the run current. Re-added the memory-run ID, coordinator/worker branch-index entries, and Markdown rows; the reconciliation was verified as recorded below.
+- No worker-to-parent, parent-to-main, or memory-store update is claimed. Worker-01 must rebase onto the exact post-status-commit parent; worker-02's prior conflicting attempts remain preserved for fresh-child replay.
+- **Next action at that point:** run the Ralph contract suite and diff checks on this refreshed dashboard, commit the coordinator state, then rebase and retest worker-01 against the resulting exact parent tip.
+
+## 2026-09-25T08:30:11Z - Refreshed parent/dashboard verification
+
+- From the coordinator parent worktree, `python3 .github/skills/ralph-loop/tests/test_multi_agent_contract.py` passed (`Ran 20 tests`, `OK`). Both `git diff --check` and `git diff --check origin/main...HEAD` passed.
+- The current parent is `e16557ef7193097b9793a38700ccc9e4ca456709`, based on `origin/main` `7ee1307cb47f5a88cd6b46ee135444777ddeb665`; it is five commits ahead. The updated dashboard now indexes the coordinator and both workers and lists the current run ID.
+- No child-to-parent or parent-to-main merge is claimed. **Next action:** commit the synchronized parent status, then rebase and retest worker-01 against that exact resulting tip.
