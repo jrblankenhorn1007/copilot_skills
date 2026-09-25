@@ -124,6 +124,18 @@ merge a worker PR, and workers must not share or request credentials. Never
 use `--admin`, push directly to `main`, or override managed host or repository
 policy to force a merge.
 
+Before submitting an authorized merge, follow the
+[exclusive main ownership protocol](../../../../docs/agent-sync/main-ownership.md):
+sign in to `docs/agent-sync/main/ownership.json` for `MERGE`. If main already
+has an owner, wait for its verified sign-out rather than checking out or
+changing main. For an immediate merge, fetch and verify its remote result,
+then sign out promptly before doing progress reporting. For a merge queue,
+sign out promptly after the queue accepts the submission; do not reserve the
+local checkout while the queue independently waits to merge. The worker
+remains the merge actor even after releasing main ownership. Sign out
+immediately after committing any status update; this does not end the
+worker's separate task edit-scope sign-in.
+
 If the worker's merge permission is denied, a required check or review is
 missing, or the host does not expose the normal merge tool, preserve the
 branch and PR and report a sanitized blocker. Do not retry with another

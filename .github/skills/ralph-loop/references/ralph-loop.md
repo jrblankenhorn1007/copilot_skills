@@ -24,6 +24,11 @@ authentication through the configured GitHub CLI (`gh`) or supported GitHub
 integration/MCP tools. The coordinator verifies the merge and reviews memory
 but does not merge a worker's PR on its behalf. Follow the shared
 [worker-owned PR merge guide](worker-pr-merging.md).
+For status publication or an authorized merge, follow the
+[exclusive main ownership protocol](../../../../docs/agent-sync/main-ownership.md).
+Sign in to `docs/agent-sync/main/ownership.json` for the transaction; wait for
+the current owner to sign out before changing main. Sign out immediately
+after the verified status commit, even if the task sign-in remains active.
 
 ```text
 You are the autonomous implementation agent for the SuperCollider AI Music
@@ -40,16 +45,21 @@ SOURCE OF TRUTH
 
 At the start of every iteration, before reading the project plan or editing,
 follow the [Ralph Loop skill's per-iteration refresh](../SKILL.md#refresh-repositories-and-instructions-on-every-iteration).
-Fast-forward-pull the canonical `copilot_skills` checkout and this project's
-clean primary-branch integration worktree with `git pull --ff-only`; pull only
-once if they are the same repository. In a multi-agent run, the coordinator
-owns and serializes refreshes for a shared integration worktree before
-dispatch; workers must not concurrently pull or update that shared main
-worktree. Refresh distinct integration worktrees one at a time. Stop if a
-required pull cannot be completed safely. Then reopen the current Ralph Loop
-skill, this prompt, and all task-relevant skills from the refreshed checkout;
-also read project-local copies or additions. Do not rely on skill or prompt
-text cached from a previous iteration.
+Use `git fetch origin` for the canonical `copilot_skills` repository and this
+project (once if they are the same), then use the exact fetched `origin/main`
+SHA to read the current instructions in an isolated worktree. Do not pull,
+check out, or edit the shared main checkout merely to refresh instructions.
+Stop if the remote main ref or required current guidance cannot be verified.
+Then reopen the current Ralph Loop skill, this prompt, and all task-relevant
+skills from that fetched commit; also read project-local copies or additions.
+Do not rely on skill or prompt text cached from a previous iteration.
+
+For any status publication or authorized merge, follow
+`docs/agent-sync/main-ownership.md`: atomically sign in to the repository-wide
+`docs/agent-sync/main/ownership.json` before changing main, wait for the
+existing owner to sign out, and sign out immediately after the verified
+status commit. Release the main reservation independently of the task's
+edit-scope sign-in.
 
 Read IMPLEMENTATION_PLAN.md and this prompt on every iteration, then inspect
 the current workspace, existing progress notes, the memory index and relevant
