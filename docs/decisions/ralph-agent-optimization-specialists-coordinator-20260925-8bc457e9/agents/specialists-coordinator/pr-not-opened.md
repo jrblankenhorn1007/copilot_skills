@@ -7,8 +7,9 @@
 - **Branch ref:** `refs/heads/ralph/agent-optimization-specialists-coordinator-20260925-8bc457e9`
 - **Exact parent base:** `4eb15e69434df810958c3d488e223e1366f00d39`
 - **Implementation commit:** `1d9b29931ce3317162a126f482f87eb672af58b3`
-- **PR:** `NOT_OPENED`; this child branch is local, unpublished, and will
-  be integrated into the preserved parent after coordinator verification.
+- **PR:** `NOT_OPENED`; this child branch is local and unpublished. Its
+  rewritten tip was integrated into the preserved parent and verified
+  locally; parent-to-main integration remains pending.
 
 ## Decisions
 
@@ -55,3 +56,17 @@
 - **Unresolved:** The foreign dashboard claim prevents indexing this new
   leaf and passing the broader Ralph dashboard contract. Parent routing,
   remote-main merge, and post-merge memory review are still pending.
+
+### Resolution of the shared-file and integration blockers
+
+The previous owner released its dashboard claim. The parent rebase mapped
+the original implementation `1d9b29931ce3317162a126f482f87eb672af58b3`
+and child tip `cb8ba5bb4cac293b130e7be0a443cb6d42bb1b93` to
+`3a46abd5089f096804af6c0dc38daab35ddcfdcf` and
+`74854cd8992e9ab5563f3e95c48ba7270482004a`. The tip's owned-file
+contents are identical. The latter tip is an ancestor of parent
+`56340cb2f89a738d560532046332c3794b5fec5c` via verified merge
+`1f2f5488241f905f072f0fce94351f1b1264fd1b`. Both child dashboard
+entries are now indexed and 13 focused tests pass. The deployed Ralph
+coordinator allowlist now includes all four specialists; final remote-main
+verification and memory review remain pending.

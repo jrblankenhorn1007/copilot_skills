@@ -40,3 +40,23 @@
 - **Next:** Preserve this child branch, wait for the foreign edit-scope
   release, index the leaf in the dashboard, rerun the broader contract,
   integrate into the original parent, and continue skill-aware routing.
+
+### Parent integration and dashboard handoff - 2026-09-25T10:56:49Z
+
+- The foreign shared edit claim was released; this run claimed the shared
+  paths in task revision 2. The parent rebase rewrote implementation
+  `1d9b29931ce3317162a126f482f87eb672af58b3` to
+  `3a46abd5089f096804af6c0dc38daab35ddcfdcf` and signed-out child tip
+  `cb8ba5bb4cac293b130e7be0a443cb6d42bb1b93` to
+  `74854cd8992e9ab5563f3e95c48ba7270482004a`. The original and
+  rewritten tips have identical contents on this child's owned paths.
+- The rebased child tip is an ancestor of preserved parent
+  `56340cb2f89a738d560532046332c3794b5fec5c` through specialist
+  merge `1f2f5488241f905f072f0fce94351f1b1264fd1b`. This is a
+  verified **local parent merge**, not a remote-main merge.
+- The previously failing dashboard-index contract now passes for both new
+  child leaves: `PYTHONDONTWRITEBYTECODE=1 python3 -m unittest
+  test_multi_agent_contract.MultiAgentContractTests.test_docs_status_dashboard_indexes_every_branch_agent_folder
+  test_specialist_agent_contract test_skill_aware_routing -q` passed all
+  **13** tests after the coordinator indexed them. The deployed coordinator
+  now has a specialist allowlist, pending final rebase and remote verification.

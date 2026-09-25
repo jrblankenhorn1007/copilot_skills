@@ -42,3 +42,27 @@
 - **Next:** Once the other owners release their claims, index both new
   leaves, wire and test the coordinator, integrate the children into the
   parent, and verify remote-main completion plus memory review.
+
+### Rebased parent handoff and live routing - 2026-09-25T10:56:49Z
+
+- The previous shared-path owner released its editing claim. Parent rebase
+  rewrote the final routing implementation
+  `c0796984ff10bfbe460656663da1f3e297fc7529` to
+  `3cf5558464cba08807a81be2330df4ea39af2720`, and child tip
+  `9e4936e8f31b14a756fde01cdf33a8d99532f600` to
+  `5c1bcdbcc3ad780c94f3284cbe77bb647f1fc442`. The original and
+  rewritten tips have identical contents on this child's owned paths.
+- The rebased child tip is an ancestor of preserved parent
+  `56340cb2f89a738d560532046332c3794b5fec5c` through routing
+  merge `eba1d05043ed80a6c0a60eb4c2a20404f3a00959`. The
+  dashboard-index contract now passes for both new leaves (13 focused
+  dashboard/specialist/routing tests). Parent-to-main remains pending.
+- Test-first parent wiring: `PYTHONDONTWRITEBYTECODE=1 python3 -m unittest
+  test_skill_aware_routing test_specialist_agent_contract
+  test_multi_agent_contract.MultiAgentContractTests.test_ralph_agent_accepts_worker_count_and_creates_a_split_plan
+  -q` ran 15 tests and failed with **15 expected assertions** for the
+  missing deployed allowlist, current-role guidance, guide links, and
+  coordinator handoffs. After wiring the deployed Ralph Loop profile and
+  updating the guide and four specialists, the same command passed all
+  **15** tests. The separate role-hierarchy branch is blocked and
+  unmerged; no standalone Orchestrator or Worker agent is claimed as live.

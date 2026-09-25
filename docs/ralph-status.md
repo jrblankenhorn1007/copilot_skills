@@ -10,8 +10,8 @@ skill-aware agent routing run remain in progress.
 ```yaml
 schema_version: 2
 snapshot_path: "docs/ralph-status.md"
-snapshot_revision: 42
-updated_at_utc: "2026-09-25T10:44:48Z"
+snapshot_revision: 45
+updated_at_utc: "2026-09-25T11:03:34Z"
 overall_status: IN_PROGRESS
 current_run_ids:
   - "copilot-skills-docs-status-organization-20260924"
@@ -335,10 +335,10 @@ runs:
     effective_worker_count: 0
     active_worker_count: 0
     base_origin_main_sha: "8da9310fda1b2e3042a379081dfb0675f1b22d6b"
-    current_origin_main_sha: "d313126de581b144aaae65ce71ba11d42dd93a63"
-    parent_rebased_onto_origin_main_sha: "d313126de581b144aaae65ce71ba11d42dd93a63"
+    current_origin_main_sha: "55c30b3eb3c8e1cdf735ff4b987c9235bf5456e6"
+    parent_rebased_onto_origin_main_sha: "0e8e98e0088bdf2ae93dd2c1b1b6e30f1203c5ff"
     created_at_utc: "2026-09-25T04:32:37Z"
-    updated_at_utc: "2026-09-25T10:44:48Z"
+    updated_at_utc: "2026-09-25T11:03:34Z"
     coordinator_branch: "ralph/agent-optimization-parent-20260925-8bc457e9"
     coordinator_status_path: "docs/ralph/ralph-agent-optimization-parent-20260925-8bc457e9/agents/coordinator/status.md"
     coordinator_progress_path: "docs/ralph/ralph-agent-optimization-parent-20260925-8bc457e9/agents/coordinator/progress.md"
@@ -347,7 +347,7 @@ runs:
       sha: null
     memory_review: PENDING
     worker_count_note: "Host worker launches failed; the coordinator implemented the two disjoint children without claiming worker execution."
-    next_action: "Rebase and retest the specialist children; wire conditional routing into the deployed Ralph coordinator and verify remote integration."
+    next_action: "Rebase the tested parent onto fetched main, retest, reserve main for merge, and verify remote integration."
     split_plan:
       - task_id: "specialist-agent-catalog"
         worker_id: "coordinator"
@@ -1062,7 +1062,7 @@ branch_agent_index:
     status: IN_PROGRESS
     iteration: 1
     resource_usage:
-      time_spent_seconds: 22049
+      time_spent_seconds: 23457
       time_basis: WALL_CLOCK_ELAPSED
       token_spend:
         status: NOT_REPORTED
@@ -1076,12 +1076,76 @@ branch_agent_index:
     decision_record_path: "docs/decisions/ralph-agent-optimization-parent-20260925-8bc457e9/agents/coordinator/pr-not-opened.md"
     decision_index_path: "docs/decisions/ralph-agent-optimization-parent-20260925-8bc457e9/README.md"
     base_origin_main_sha: "8da9310fda1b2e3042a379081dfb0675f1b22d6b"
-    parent_rebased_onto_origin_main_sha: "d313126de581b144aaae65ce71ba11d42dd93a63"
+    parent_rebased_onto_origin_main_sha: "0e8e98e0088bdf2ae93dd2c1b1b6e30f1203c5ff"
     parent_to_main_merge:
       status: PENDING
       sha: null
     memory_review: PENDING
-    next_action: "Rebase and retest the specialist children; wire conditional routing into the deployed Ralph coordinator and verify remote integration."
+    next_action: "Rebase the tested parent onto fetched main, retest, reserve main for merge, and verify remote integration."
+  - run_id: "copilot-skills-agent-routing-20260925-8bc457e9"
+    task_ids: ["specialist-agent-catalog"]
+    worker_id: "coordinator"
+    worker_name: "specialists-coordinator - focused agent catalog"
+    branch: "ralph/agent-optimization-specialists-coordinator-20260925-8bc457e9"
+    branch_slug: "ralph-agent-optimization-specialists-coordinator-20260925-8bc457e9"
+    status: AWAITING_MERGE
+    iteration: 1
+    resource_usage:
+      time_spent_seconds: 12054
+      time_basis: WALL_CLOCK_ELAPSED
+      token_spend:
+        status: NOT_REPORTED
+        input_tokens: null
+        output_tokens: null
+        total_tokens: null
+        cached_input_tokens: null
+        source: null
+    status_path: "docs/ralph/ralph-agent-optimization-specialists-coordinator-20260925-8bc457e9/agents/specialists-coordinator/status.md"
+    progress_path: "docs/ralph/ralph-agent-optimization-specialists-coordinator-20260925-8bc457e9/agents/specialists-coordinator/progress.md"
+    decision_record_path: "docs/decisions/ralph-agent-optimization-specialists-coordinator-20260925-8bc457e9/agents/specialists-coordinator/pr-not-opened.md"
+    decision_index_path: "docs/decisions/ralph-agent-optimization-specialists-coordinator-20260925-8bc457e9/README.md"
+    base_parent_sha: "4eb15e69434df810958c3d488e223e1366f00d39"
+    rebased_child_tip_sha: "74854cd8992e9ab5563f3e95c48ba7270482004a"
+    worker_to_parent_merge:
+      status: VERIFIED
+      sha: "1f2f5488241f905f072f0fce94351f1b1264fd1b"
+    parent_to_main_merge:
+      status: PENDING
+      sha: null
+    memory_review: PENDING
+    next_action: "Await parent-to-main verification and memory review."
+  - run_id: "copilot-skills-agent-routing-20260925-8bc457e9"
+    task_ids: ["skill-aware-ralph-routing"]
+    worker_id: "coordinator"
+    worker_name: "routing-coordinator - conditional specialist routing"
+    branch: "ralph/agent-optimization-routing-coordinator-20260925-8bc457e9"
+    branch_slug: "ralph-agent-optimization-routing-coordinator-20260925-8bc457e9"
+    status: AWAITING_MERGE
+    iteration: 1
+    resource_usage:
+      time_spent_seconds: 10978
+      time_basis: WALL_CLOCK_ELAPSED
+      token_spend:
+        status: NOT_REPORTED
+        input_tokens: null
+        output_tokens: null
+        total_tokens: null
+        cached_input_tokens: null
+        source: null
+    status_path: "docs/ralph/ralph-agent-optimization-routing-coordinator-20260925-8bc457e9/agents/routing-coordinator/status.md"
+    progress_path: "docs/ralph/ralph-agent-optimization-routing-coordinator-20260925-8bc457e9/agents/routing-coordinator/progress.md"
+    decision_record_path: "docs/decisions/ralph-agent-optimization-routing-coordinator-20260925-8bc457e9/agents/routing-coordinator/pr-not-opened.md"
+    decision_index_path: "docs/decisions/ralph-agent-optimization-routing-coordinator-20260925-8bc457e9/README.md"
+    base_parent_sha: "4eb15e69434df810958c3d488e223e1366f00d39"
+    rebased_child_tip_sha: "5c1bcdbcc3ad780c94f3284cbe77bb647f1fc442"
+    worker_to_parent_merge:
+      status: VERIFIED
+      sha: "eba1d05043ed80a6c0a60eb4c2a20404f3a00959"
+    parent_to_main_merge:
+      status: PENDING
+      sha: null
+    memory_review: PENDING
+    next_action: "Await parent-to-main verification and memory review."
 ```
 
 ## Branch/agent index
@@ -1107,7 +1171,9 @@ branch_agent_index:
 | `copilot-skills-premerge-code-review-20260924` | `ralph/code-review-process-worker-02-20260924-2131` | `worker-02` | `COMPLETE` | `20,270 s (wall-clock)` | `NOT_REPORTED` | [status](./ralph/ralph-code-review-process-worker-02-20260924-2131/agents/worker-02/status.md) | [progress](./ralph/ralph-code-review-process-worker-02-20260924-2131/agents/worker-02/progress.md) | `6b1903ec7bfa5c798eb5e48c085bfc3845176bab` | `COMPLETE` |
 | `copilot-skills-agent-resource-manager-20260925` | `ralph/resource-manager-shared-registry-20260925-8abd5d4e` | `coordinator` | `COMPLETE` | `10,916 s (wall-clock)` | `NOT_REPORTED` | [status](./ralph/ralph-resource-manager-shared-registry-20260925-8abd5d4e/agents/coordinator/status.md) | [progress](./ralph/ralph-resource-manager-shared-registry-20260925-8abd5d4e/agents/coordinator/progress.md) | `ec50b548debb7a5f32dcb82f4b68f62806255894` | `COMPLETE` |
 | `copilot-skills-main-checkout-ownership-20260925-e464eb0a` | `ralph/main-checkout-ownership-20260925-e464eb0a` | `coordinator` | `COMPLETE` | `14,629 s (wall-clock)` | `NOT_REPORTED` | [status](./ralph/ralph-main-checkout-ownership-20260925-e464eb0a/agents/coordinator/status.md) | [progress](./ralph/ralph-main-checkout-ownership-20260925-e464eb0a/agents/coordinator/progress.md) | `f9cab16e19f22586192c93da76f7aedceced63ce` | `COMPLETE` |
-| `copilot-skills-agent-routing-20260925-8bc457e9` | `ralph/agent-optimization-parent-20260925-8bc457e9` | `coordinator` | `IN_PROGRESS` | `22,049 s (wall-clock)` | `NOT_REPORTED` | [status](./ralph/ralph-agent-optimization-parent-20260925-8bc457e9/agents/coordinator/status.md) | [progress](./ralph/ralph-agent-optimization-parent-20260925-8bc457e9/agents/coordinator/progress.md) | Pending | `PENDING` |
+| `copilot-skills-agent-routing-20260925-8bc457e9` | `ralph/agent-optimization-parent-20260925-8bc457e9` | `coordinator` | `IN_PROGRESS` | `23,457 s (wall-clock)` | `NOT_REPORTED` | [status](./ralph/ralph-agent-optimization-parent-20260925-8bc457e9/agents/coordinator/status.md) | [progress](./ralph/ralph-agent-optimization-parent-20260925-8bc457e9/agents/coordinator/progress.md) | Pending | `PENDING` |
+| `copilot-skills-agent-routing-20260925-8bc457e9` | `ralph/agent-optimization-specialists-coordinator-20260925-8bc457e9` | `specialists-coordinator` | `AWAITING_MERGE` | `12,054 s (wall-clock)` | `NOT_REPORTED` | [status](./ralph/ralph-agent-optimization-specialists-coordinator-20260925-8bc457e9/agents/specialists-coordinator/status.md) | [progress](./ralph/ralph-agent-optimization-specialists-coordinator-20260925-8bc457e9/agents/specialists-coordinator/progress.md) | `1f2f5488241f905f072f0fce94351f1b1264fd1b` (parent; main pending) | `PENDING` |
+| `copilot-skills-agent-routing-20260925-8bc457e9` | `ralph/agent-optimization-routing-coordinator-20260925-8bc457e9` | `routing-coordinator` | `AWAITING_MERGE` | `10,978 s (wall-clock)` | `NOT_REPORTED` | [status](./ralph/ralph-agent-optimization-routing-coordinator-20260925-8bc457e9/agents/routing-coordinator/status.md) | [progress](./ralph/ralph-agent-optimization-routing-coordinator-20260925-8bc457e9/agents/routing-coordinator/progress.md) | `eba1d05043ed80a6c0a60eb4c2a20404f3a00959` (parent; main pending) | `PENDING` |
 
 The earlier parent-child pipeline run is `COMPLETE`: both workers integrated into the
 parent, the parent merge is verified on `origin/main`, the contract suite and

@@ -8,9 +8,8 @@
 - **Exact parent base:** `4eb15e69434df810958c3d488e223e1366f00d39`
 - **Implementation commits:** `56a9fa44e2446553424a254babbb8330429592e5`,
   `c0796984ff10bfbe460656663da1f3e297fc7529`
-- **PR:** `NOT_OPENED`; this child is unpublished and will be verified
-  on the original parent before that parent enters the normal remote
-  integration process.
+- **PR:** `NOT_OPENED`; this child is unpublished. Its rewritten tip was
+  verified on the preserved parent before final remote integration.
 
 ## Decisions
 
@@ -56,3 +55,18 @@
 - **Unresolved:** The separate dashboard claim blocks indexing this
   new leaf, and agent-allowlist wiring, child/parent integration,
   remote-main merge, and post-merge memory review remain pending.
+
+### Resolution of the shared-file and integration blockers
+
+The previous shared-file owner released its edit claim. Parent rebase
+mapped final routing commit `c0796984ff10bfbe460656663da1f3e297fc7529`
+and child tip `9e4936e8f31b14a756fde01cdf33a8d99532f600` to
+`3cf5558464cba08807a81be2330df4ea39af2720` and
+`5c1bcdbcc3ad780c94f3284cbe77bb647f1fc442`. The original and
+rewritten tips have identical owned-file contents. The latter tip is an
+ancestor of parent `56340cb2f89a738d560532046332c3794b5fec5c` via
+verified merge `eba1d05043ed80a6c0a60eb4c2a20404f3a00959`.
+Both dashboard entries are indexed and the deployed Ralph Loop profile
+now routes the four specialists conditionally with 15 targeted contract
+tests passing. Its role-hierarchy successor is blocked and unmerged;
+parent-to-main verification and memory review remain pending.

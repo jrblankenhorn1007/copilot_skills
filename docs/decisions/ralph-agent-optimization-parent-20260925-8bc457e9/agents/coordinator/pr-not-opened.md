@@ -77,3 +77,29 @@
   remains unmerged: adapt the deployed Ralph coordinator now and preserve
   that branch for later rebase rather than silently integrating unfinished
   worker sign-off.
+
+### Deploy routing in the current profile; leave the role branch isolated
+
+- **Context:** The separate Orchestrator/Worker change is blocked and
+  unmerged, but its owner released the overlapping edit scope. Both
+  coordinator-owned specialist children are locally verified in the
+  parent after rebase; the dashboard now indexes them.
+- **Decision:** Add the four focused names to the existing Ralph Loop
+  `agents:` allowlist and route bounded work conditionally there. Keep
+  its Ralph Loop implementation worker and both independent reviewers.
+  Treat the standalone Orchestrator/Worker profiles as a later, separately
+  verified handoff, not as a shipped dependency of this change.
+- **Verification:** Fifteen targeted contracts failed for the missing
+  allowlist/current-role guidance and passed after wiring. The
+  dashboard-index contract and twelve specialist/routing tests also passed.
+  Full-suite checks, final rebase, remote-main merge, and memory review
+  remain pending. Use the short `MERGE` reservation and normal repository
+  process for remote integration, then release main promptly.
+
+Subsequent pre-rebase validation passed all 55 Ralph and 15 Resource Manager
+tests, plus both original-to-rebased child owned-file tree comparisons. The
+tested routing change is committed at
+`2d7db54f144449d5ee938c1a8de614a50c8201e8`; fetched
+`origin/main` advanced to `55c30b3eb3c8e1cdf735ff4b987c9235bf5456e6`
+with only other tasks' status transactions. This run must rebase and retest
+before a main reservation; the separate role branch remains unmerged.
