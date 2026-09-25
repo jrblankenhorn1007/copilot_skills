@@ -12,18 +12,55 @@ tests, status protocol, or decision history; read and follow those sources.
 
 ## First-run orchestration
 
-For multi-agent work, the first top-level Ralph Loop invocation is the
-orchestrator, not an implementation worker. Its first run plans and dispatches
-the configured workers before taking on any worker assignment; it does not
-count toward `workers=N`. The default is two workers. If fewer than two useful,
-independent assignments are ready, launch only the available work and record
-why; never invent or duplicate assignments to meet the default.
+Submit the user's task prompt to the **Ralph Loop** agent. For multi-agent
+work, configure the Ralph launcher/session with its `--orchestrator` option
+so the first top-level Ralph Loop invocation is the high-level orchestrator,
+not an implementation worker. This is a Ralph launcher/session option, not a
+native `copilot` CLI argument; the official GitHub Copilot CLI documentation
+does not document a native `--orchestrator` flag. Do not pass it to `copilot`
+or invent a CLI command containing it.
+
+The orchestrator's first run plans and dispatches the configured workers
+before taking on any worker assignment; it does not count toward `workers=N`.
+The default is two workers. If fewer than two useful, independent assignments
+are ready, launch only the available work and record why; never invent or
+duplicate assignments to meet the default.
 
 Configure the orchestrator's model and supported parameters for the initial
 session, and configure worker defaults or per-worker overrides at dispatch.
 See [multi-agent orchestration](./references/multi-agent-orchestration.md) for
 the run configuration and [Copilot agent selection and model controls](./references/copilot-cli-usage.md)
 for applying it in supported harnesses.
+
+## Parent and child worktrees
+
+After the per-iteration refresh and Git identity/authentication preflight,
+fetch `origin` and create a dedicated parent worktree and unique parent branch
+from the exact fetched `origin/main` SHA. Run the top-level Orchestrator
+session with the user's prompt in that parent worktree, not in the
+integration checkout.
+
+Each worker receives a fresh, unique child worktree and branch based on the
+parent branch and exact parent base SHA supplied by the coordinator. Workers
+do not create child branches from `origin/main` or merge directly to it. Keep
+worker path ownership disjoint. The coordinator integrates one completed
+child branch at a time into the parent and verifies each integration before
+proceeding to the next worker. Only after all child work has been integrated
+and the parent passes its acceptance checks may the coordinator publish and
+merge the completed parent branch to `origin/main`. Fetch `origin` and verify
+the resulting parent merge SHA there; a child commit or child-to-parent merge
+is not remote-main completion.
+
+Never delete an unmerged branch. After a child's merge into the parent is
+verified, the coordinator may remove its worktree with
+`git worktree remove <child-worktree>` and delete its local branch with
+`git branch -d <child-branch>`. Delete a published child ref only after that
+verification and if repository policy permits. Keep the parent worktree and
+branch until the completed parent merge has been fetched and verified on
+`origin/main`; only then may the coordinator remove the parent worktree and
+use `git branch -d` for its branch. Delete a published parent ref only after
+that verification and if repository policy permits. Do not use force-delete
+operations.
 
 ## Refresh repositories and instructions on every iteration
 
@@ -170,17 +207,13 @@ follow the existing Git identity and authentication rules.
 
 ## Iteration workflow
 
-1. Perform one coherent implementation iteration per invocation. Create a
-   fresh worktree and unique branch from the latest remote `main` before
-   editing, following the project's location and naming conventions. Otherwise
-   use:
-
-   ```sh
-   git worktree add -b <branch> <path> origin/main
-   ```
-
-   Do not reuse or remove another task's worktree or branch. Make all changes,
-   tests, and commits for the iteration in the new worktree.
+1. Perform one coherent implementation iteration per invocation. The
+   coordinator creates the parent worktree and branch from the exact fetched
+   `origin/main` SHA; each worker creates a fresh child worktree and branch
+   from its assigned parent base. Follow project conventions for unique
+   worktree paths and branch names. Do not reuse or remove another task's
+   worktree or branch. Make all changes, tests, and commits only in the
+   assigned worktree.
 2. For behavior changes, follow the project's TDD requirements and the
    [TDD skill](../tdd/SKILL.md): write and run the narrowest relevant failing
    test first, implement to Green, then refactor with targeted checks passing.
@@ -195,38 +228,46 @@ follow the existing Git identity and authentication rules.
    loop, and coordinate the aggregate-dashboard update described above. Keep
    append-only decision history in `docs/decisions/<branch-slug>/`; preserve
    runner-owned fields and do not create Ralph run records outside `docs/`.
-5. Complete the implementation commit and any required runner-managed status
-   commit on the iteration branch before integration. Do not amend commits or
-   use destructive Git operations.
-6. Publish the iteration branch and use the repository's normal PR process.
-   For a worker-owned PR, the branch-owning worker performs the remote merge
-   with its own existing authentication after the coordinator authorizes that
-   PR; the coordinator serializes authorization and does not merge on the
-   worker's behalf. An open pull request, pushed branch, or local merge is not
-   completion. Fetch `origin` again and verify the resulting merge SHA is
-   reachable from remote `main`. For squash or merge-queue flows, verify the
-   merge result rather than requiring the iteration commit itself to remain
-   an ancestor.
-7. After the implementation content is merged and verified on fetched
-   `origin/main`, perform a memory review using the
-   [Project Memory skill](../project-memory/SKILL.md). Keep reusable lessons
-   in the project's categorized memory store. If a memory change is warranted,
-   make it on a fresh follow-up branch from the latest `origin/main`, integrate
-   it through the same remote merge process, and verify its merge before
-   completing the iteration. This is part of the same iteration, not a new
-   iteration, and does not trigger another memory review. Never write directly
-   to `main` or amend the merged implementation branch. If no durable lesson
-   emerged, leave memory unchanged and record that outcome in the active
-   progress or status record when one exists.
-8. If validation, implementation merge, memory update, or remote verification
-   is blocked, preserve the affected worktree and branch and report the
-   blocker. Remove only this iteration's worktree and branch, and only after
-   all required merges are verified and when the project's workflow permits
-   cleanup.
+5. Complete each worker's implementation commit and any required
+   runner-managed status and decision-record commits before integration. Do
+   not amend commits or use destructive Git operations. The coordinator
+   integrates one completed child branch at a time into the parent; workers
+   never merge child branches directly to `origin/main`. If a child-to-parent
+   PR is part of the repository's normal process, the coordinator authorizes
+   it and the branch-owning worker performs its own PR merge with its existing
+   authentication. The coordinator does not merge a worker PR on the worker's
+   behalf. Verify each worker-to-parent merge before proceeding.
+6. Only the completed parent branch goes through the repository's normal
+   remote merge process to `origin/main`. Use a PR or merge queue when
+   required; never bypass branch protection with a direct push. An open PR,
+   pushed parent branch, or child-to-parent merge is not final completion.
+   Wait for the parent merge to complete, fetch `origin`, and verify the
+   resulting merge SHA on remote `main`. For squash or merge-queue flows,
+   verify the parent merge result rather than requiring the parent
+   implementation commit itself to remain an ancestor.
+7. After the completed parent implementation is merged and verified on
+   fetched `origin/main`, the coordinator performs one post-merge memory
+   review using the [Project Memory skill](../skills/project-memory/SKILL.md);
+   do not perform a shared-memory follow-up for each child merge. Keep
+   reusable lessons in the project's categorized memory store. If a memory
+   change is warranted, make it on a fresh follow-up branch from the latest
+   `origin/main`, integrate it through the same remote merge process, and
+   verify its merge before completing the overall run. This is part of the
+   same parent iteration and does not trigger another memory review. Never
+   write directly to shared `main` or amend an already merged branch. If no
+   durable lesson emerged, leave memory unchanged and record that outcome in
+   the active progress or status record when one exists.
+8. If child-to-parent integration, the parent-to-main merge, a memory update,
+   or remote verification is blocked, preserve the affected worktree and
+   branch and report the blocker. Remove a child worktree and branch only
+   after its parent merge is verified; remove the parent worktree and branch
+   only after its remote-main merge is fetched and verified. Follow the
+   repository's PR/remote-ref cleanup policy; never delete an unmerged branch
+   or force-remove a worktree.
 9. Follow the active project's exact continuation, blocked, and completion
    markers, and emit them only when their conditions are met. Never report
-   completion before the implementation merge and any required memory merge
-   are verified on fetched remote `main`.
+   completion before the parent merge and any required memory merge are
+   verified on fetched remote `main`.
 
 ## Completion reporting and branch decision records
 
@@ -287,7 +328,12 @@ branch/agent leaf folder; workers update only their assigned `status.md` and
 `progress.md` and send the coordinator the exact changes and evidence needed
 to refresh its entry. Workers use fresh worktrees and branches, refresh from
 `origin/main` before starting and before integration, and rebase/retest if
-main moves. See the
+main moves. A child worker records the exact parent base SHA;
+the parent records its fetched `origin/main` base and remote merge evidence.
+If the parent changes while child work is in flight, coordinate a rebase or a
+fresh child branch from the updated parent and rerun checks before integration.
+The coordinator serializes refreshes of any shared integration worktree and
+re-syncs the parent with `origin/main` before its final integration. See the
 [multi-agent orchestration](./references/multi-agent-orchestration.md) and
 [multi-agent status](./references/multi-agent-status.md) references for the
 split-plan, worker configuration, synchronization, and attestation contract.
