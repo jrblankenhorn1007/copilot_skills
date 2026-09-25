@@ -474,3 +474,17 @@ These are implementation-time reports, not accepted memory entries. The Project 
 - **Next action:** integrate this status refresh using a fresh `MERGE`
   transaction, then ask the user to free host capacity before any updater
   reservation.
+
+## 2026-09-25T16:01:21Z - Status refresh rebased to reservation sign-in
+
+- Main ownership revision 171 was acquired for the coordinator; sign-in commit
+  `a8c68b1e8cc2e15b4b0c6582a5274e316cd052d7` is now included in the isolated
+  status branch.
+- After rebasing, the Ralph multi-agent contract passed 25 tests, Project
+  Memory Update passed 1 test, main-ownership passed 8 tests, and both diff
+  checks passed.
+- The latest complete Resource Manager inventory is still
+  `2026-09-25T15:51:57Z` (21 active agents, zero slots, load 12.17 on six
+  cores). The memory review remains pending.
+- **Next action:** complete and verify the status integration, release main,
+  then refresh capacity; request a capacity remedy if no slot is available.

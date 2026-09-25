@@ -219,3 +219,15 @@ no_durable_lessons_reason: null
   load 12.17 on six cores). No updater reservation or dispatch occurred.
 - **Next action:** commit this refreshed status, acquire a new authorized
   `MERGE` reservation, and integrate/verify the status branch.
+
+## 2026-09-25T16:01:21Z - Reserved-base status validation
+
+- Acquired main `MERGE` revision 171; sign-in commit
+  `a8c68b1e8cc2e15b4b0c6582a5274e316cd052d7` is the base for this update.
+- Rebased the three status commits onto the sign-in. The Ralph multi-agent
+  contract passed 25 tests, the Project Memory Update contract passed 1 test,
+  the main-ownership contract passed 8 tests, and both diff checks passed.
+- The complete inventory at `2026-09-25T15:51:57Z` still reported zero
+  dispatch capacity; no updater reservation or dispatch was attempted.
+- **Next action:** commit the refreshed status, verify reservation ownership
+  and ancestry, fast-forward, verify remote main, and promptly release.
