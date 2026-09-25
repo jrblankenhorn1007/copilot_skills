@@ -88,3 +88,36 @@
 - **Blockers / environment gaps:** No unresolved blockers or platform test
   gaps. Provider token telemetry is unavailable; no token estimate or
   monetary cost was recorded.
+
+## Parent rebase, retest, and renewed sign-off — 2026-09-25
+
+- **Parent refresh:** Main advanced to
+  `d56db4de163fb261d323be7a74fba18a373cd30a`. The coordinator rebased the
+  parent onto that exact SHA, producing parent tip
+  `a2b8c0f2ff99b9a5447accd6cfdd93e550c50ade`.
+- **Child rebase:** `git rebase --onto a2b8c0f2ff99b9a5447accd6cfdd93e550c50ade 74c6b1bb24f01bb7876bb489c810f1309a718373`
+  — PASS; replayed both worker commits without conflicts. Preserve original
+  `base_parent_sha: 74c6b1bb24f01bb7876bb489c810f1309a718373` and record
+  `rebased_onto_parent_sha: a2b8c0f2ff99b9a5447accd6cfdd93e550c50ade`.
+- **Implementation SHA rewrite:** Previous
+  `8848ebe818af7bb8d86e2b4e541cf4dbf4528a3`; rebased
+  `5f0c7af5bd237fa06dde3b4a4edd9e95db7470b7`.
+- **Rebase verification:** `python3 .github/skills/ralph-loop/tests/test_multi_agent_contract.py`
+  — PASS from the rebased child worktree; 15 tests ran in 0.999s, `OK`.
+  The first post-rebase invocation accidentally used the session's default
+  checkout and was not counted; the explicit child-worktree invocation above
+  is the accepted result.
+- **Diff verification:** `git diff ralph/status-report-time-token-20260925-0335...HEAD --check`
+  and `git show --check --oneline --no-patch HEAD` — PASS, no whitespace
+  diagnostics.
+- **Resource usage at renewed sign-off:** As of
+  `2026-09-25T05:39:04Z`, wall-clock elapsed is 5,457 seconds since
+  `2026-09-25T04:08:07Z`; provider token counters remain unavailable and
+  `NOT_REPORTED`.
+- **Renewed sign-off:** `SELF_ATTESTATION`,
+  `NOT_CRYPTOGRAPHICALLY_SIGNED`, for implementation commit
+  `5f0c7af5bd237fa06dde3b4a4edd9e95db7470b7`.
+- **State / next action:** `AWAITING_MERGE`; coordinator to integrate into
+  parent `ralph/status-report-time-token-20260925-0335` and verify the exact
+  worker-to-parent result.
+- **Blockers:** None.

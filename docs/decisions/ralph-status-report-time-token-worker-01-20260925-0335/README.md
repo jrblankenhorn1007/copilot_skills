@@ -7,7 +7,8 @@
 - **Parent branch:** `ralph/status-report-time-token-20260925-0335`
 - **Base parent SHA:** `74c6b1bb24f01bb7876bb489c810f1309a718373`
 - **Base `origin/main` SHA:** `8da9310fda1b2e3042a379081dfb0675f1b22d6b`
-- **Implementation commit SHA:** `8848ebe818af7bb8d86e2b4e541cf4dbf4528a3`
+- **Implementation commit SHA:** `5f0c7af5bd237fa06dde3b4a4edd9e95db7470b7`
+- **Rebased onto parent SHA:** `a2b8c0f2ff99b9a5447accd6cfdd93e550c50ade`
 - **PR/integration:** No PR; the coordinator's documented path is a
   reviewed, verified fast-forward into the parent branch.
 

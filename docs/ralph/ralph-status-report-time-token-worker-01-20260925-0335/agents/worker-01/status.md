@@ -10,7 +10,7 @@ runtime_agent_id: "copilotcli:/b3f44ce6-c093-476d-ab74-b633b1be1939"
 iteration: 1
 status: AWAITING_MERGE
 started_at_utc: "2026-09-25T04:08:07Z"
-updated_at_utc: "2026-09-25T04:53:27Z"
+updated_at_utc: "2026-09-25T05:39:04Z"
 branch: "ralph/status-report-time-token-worker-01-20260925-0335"
 branch_slug: "ralph-status-report-time-token-worker-01-20260925-0335"
 worktree: "/Users/jrblankenhorn/copilot_skills.worktrees/ralph-status-report-time-token-worker-01-20260925-0335"
@@ -19,11 +19,12 @@ rebased_onto_origin_main_sha: null
 parent_branch: "ralph/status-report-time-token-20260925-0335"
 parent_worktree: "/Users/jrblankenhorn/copilot_skills.worktrees/ralph-status-report-time-token-coordinator-20260925-0335"
 parent_base_origin_main_sha: "8da9310fda1b2e3042a379081dfb0675f1b22d6b"
+parent_rebased_onto_origin_main_sha: "d56db4de163fb261d323be7a74fba18a373cd30a"
 base_parent_sha: "74c6b1bb24f01bb7876bb489c810f1309a718373"
-rebased_onto_parent_sha: null
-implementation_commit_sha: "8848ebe818af7bb8d86e2b4e541cf4dbf4528a3"
+rebased_onto_parent_sha: "a2b8c0f2ff99b9a5447accd6cfdd93e550c50ade"
+implementation_commit_sha: "5f0c7af5bd237fa06dde3b4a4edd9e95db7470b7"
 resource_usage:
-  time_spent_seconds: 2720
+  time_spent_seconds: 5457
   time_basis: WALL_CLOCK_ELAPSED
   token_spend:
     status: NOT_REPORTED
@@ -62,8 +63,8 @@ worker_sign_off:
   status: RECEIVED
   attestation_kind: SELF_ATTESTATION
   cryptographic_signature_status: NOT_CRYPTOGRAPHICALLY_SIGNED
-  attested_at_utc: "2026-09-25T04:53:27Z"
-  statement: "I, worker-01, sign off iteration 1 for branch-status-resource-usage at exact implementation commit 8848ebe818af7bb8d86e2b4e541cf4dbf4528a3."
+  attested_at_utc: "2026-09-25T05:39:04Z"
+  statement: "I, worker-01, re-attest iteration 1 for branch-status-resource-usage at exact implementation commit 5f0c7af5bd237fa06dde3b4a4edd9e95db7470b7 after rebasing onto parent a2b8c0f2ff99b9a5447accd6cfdd93e550c50ade and rerunning all checks."
 commit_signature_verification:
   status: NOT_CRYPTOGRAPHICALLY_SIGNED
   verifier: null
