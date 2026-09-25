@@ -21,8 +21,8 @@
 - **Parent rebased onto `origin/main`:**
   `e9fe3d175d1ca76b03fccdbe53431205b80e5c23`
 - **Latest fetched `origin/main` after child rebase:**
-  `05b1b23da974ed7b171c3a29ee266e43721d4e7b` (observed
-  `2026-09-25T06:22:11Z`)
+  `20293c720b18a1a21ff150f566823493b7a2717d` (observed
+  `2026-09-25T06:28:26Z`)
 - **Original child parent base:** `114e4d60567d05cd048916339ed86e324c6eeef3`
 - **Previous child parent base:** `8e779409e0fef0bc4550409533e9326efe8d64b4`
 - **Current child rebased onto parent:** `11e5394c7a479e25444945b8db917b58cfb3f086`
@@ -203,6 +203,26 @@
   `05b1b23da974ed7b171c3a29ee266e43721d4e7b`. The coordinator must refresh
   the parent and direct any child rebase/retest required by that refresh.
 
+### Preserve ownership after a subsequent origin/main advance
+
+- **Context:** A later fetch from the clean primary integration worktree
+  observed `origin/main` advance again, to
+  `20293c720b18a1a21ff150f566823493b7a2717d` at
+  `2026-09-25T06:28:26Z`; the parent remained at
+  `11e5394c7a479e25444945b8db917b58cfb3f086`, based on
+  `e9fe3d175d1ca76b03fccdbe53431205b80e5c23`.
+- **Alternatives:** Rebase or edit the coordinator-owned parent and worker
+  branch from this assignment, or preserve both worktrees and update the
+  coordinator handoff with the newest fetched ref.
+- **Decision:** Preserve the exact requested child rebase and leave the
+  parent untouched. The coordinator must refresh the parent and decide
+  whether the child needs another rebase and retest before integration.
+- **Rationale:** Parent synchronization and serial child integration belong
+  to the coordinator; this worker must not bypass or modify that boundary.
+- **Consequences:** No worker-to-parent merge or remote-main integration is
+  claimed. Current `origin/main` is recorded separately from the parent's
+  rebase base.
+
 ## Recovered issues
 
 - The first post-implementation contract run reported ten phrase mismatches.
@@ -222,7 +242,7 @@
   contract suite therefore fails its dashboard/leaf synchronization check.
   Only the coordinator may update the aggregate dashboard.
 - `origin/main` has advanced to
-  `05b1b23da974ed7b171c3a29ee266e43721d4e7b` since parent tip
+  `20293c720b18a1a21ff150f566823493b7a2717d` since parent tip
   `11e5394c7a479e25444945b8db917b58cfb3f086` was rebased onto
   `e9fe3d175d1ca76b03fccdbe53431205b80e5c23`. The coordinator must refresh
   the parent and determine whether to rebase/retest this child before

@@ -11,8 +11,8 @@
 - **Parent rebase base at the supplied parent tip:**
   `e9fe3d175d1ca76b03fccdbe53431205b80e5c23`
 - **Latest fetched `origin/main` after the child rebase:**
-  `05b1b23da974ed7b171c3a29ee266e43721d4e7b` (observed
-  `2026-09-25T06:22:11Z`; parent refresh is coordinator-owned)
+  `20293c720b18a1a21ff150f566823493b7a2717d` (observed
+  `2026-09-25T06:28:26Z`; parent refresh is coordinator-owned)
 - **Original child parent base:**
   `114e4d60567d05cd048916339ed86e324c6eeef3`
 - **Previous child parent base:**
@@ -38,7 +38,7 @@
   `origin/main` `e9fe3d175d1ca76b03fccdbe53431205b80e5c23`.
 - **Current blocker:** The coordinator must synchronize its dashboard entry
   with the worker leaf and refresh the parent because `origin/main` advanced
-  to `05b1b23da974ed7b171c3a29ee266e43721d4e7b`; child-to-parent integration
+  to `20293c720b18a1a21ff150f566823493b7a2717d`; child-to-parent integration
   remains coordinator-owned and pending.
 - **Agent records:**
   - [worker-01 — no PR opened](agents/worker-01/pr-not-opened.md)
