@@ -32,7 +32,7 @@
   },
   "prompt_path": "docs/agent-sync/runs/copilot-skills-agent-role-hierarchy-20260924-2215/agents/coordinator/prompt.md",
   "prompt_sha256": "5274d54946abb1b8dbf1f1d50ba4fb806994cacd7d5076ef468e58619c551580",
-  "revision": 7,
+  "revision": 8,
   "run_id": "copilot-skills-agent-role-hierarchy-20260924-2215",
   "schema_version": 1,
   "sign_in_at_utc": "2026-09-25T11:03:27Z",
@@ -45,9 +45,9 @@
   },
   "started_at_utc": "2026-09-25T10:00:46Z",
   "status": "IN_PROGRESS",
-  "status_reason": "The 2-test Orchestrator specialist-routing contract is green after extending only the Orchestrator profile. The 24-test hierarchy suite now has three failures because its shared assertions still require the old three-agent allowlist. The separate routing integration coordinator's revision-3 scope still owns that test and remains IN_PROGRESS with no sign-out; do not edit its owned files or rebase until released. The distinct test path is in this coordinator's scope. No workers are dispatched because Resource Manager capacity remains unverified/full.",
+  "status_reason": "The Orchestrator specialist-routing implementation is committed as f519cde53dbf712674d73c6bc22225073b2ce09e and its focused tests pass 2/2. The routing integration coordinator has released its scope at revision 4, but the separate agent-communication coordinator remains IN_PROGRESS at revision 1 with no sign-out and owns overlapping public-entrypoint, shared Ralph skill/reference/test, README, and dashboard paths. Do not rebase or edit those paths until that task releases. The full 24-test hierarchy contract still has three old allowlist assertions in its active scope. The last fresh Resource Manager snapshot at 11:39Z had no available slots; no worker was dispatched.",
   "task_id": "entrypoint-and-nested-agent-wiring",
-  "updated_at_utc": "2026-09-25T11:32:55Z",
+  "updated_at_utc": "2026-09-25T11:48:12Z",
   "worker_id": "coordinator",
   "worker_name": "coordinator - Ralph agent role hierarchy"
 }
