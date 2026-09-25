@@ -6,8 +6,7 @@
 - **PR:** Not opened. The repository's established Ralph integration uses a
   non-force fast-forward push to `origin/main`.
 - **Base `origin/main`:** `cde9affc1afe87b8e0b4f369ec4a44866ce3886b`
-- **Implementation commit SHA:** Pending first implementation commit; update
-  before integration.
+- **Implementation commit SHA:** `e21bdd999f511b149481b41f027241fdd06326b`
 - **Merge verification:** Only claim completion after fetching and verifying
   the merge result on remote `origin/main`.
 
