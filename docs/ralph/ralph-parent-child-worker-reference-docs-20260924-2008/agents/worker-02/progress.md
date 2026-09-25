@@ -10,7 +10,7 @@
 - **Original `base_parent_sha`:** `d54cc120fe25da04d6be887b1a6a7e321512b6e4`
 - **Previous `rebased_onto_parent_sha`:** `268358566c074cf3be35661f15883c588aef622f`
 - **Latest `rebased_onto_parent_sha`:** `fda10605f50b49eeb4bc007a181cf51a5578ae18`
-- **Parent `origin/main` base SHA:** `b4dac949e976d48f7bd976fc1c93ddc703bc7319`
+- **Parent's original `origin/main` base SHA:** `12c5a8ae22eac19023befaaf5883ab63512bee27`
 - **Latest parent rebase target:** `114e4d60567d05cd048916339ed86e324c6eeef3`
 - **Latest observed `origin/main` SHA:** `114e4d60567d05cd048916339ed86e324c6eeef3`
 - **Previous implementation commit SHA:** `b4d2d331fc5ad2efd29b96c201c099c8a3642944`
@@ -312,6 +312,21 @@ this entry supplements rather than replaces that history.
   "statement": "I, worker-02, attest to iteration 1 for parent-child-reference-docs at exact implementation commit 652b3dcda2d76188590d90bfbc788a1bc775dae9, rebased onto parent 47982b9570f46eb4ccf3319fa3d90087d66db19a. This is a self-attestation, not a cryptographic signature, and does not claim worker-to-parent or parent-to-main integration, memory review completion, or cleanup."
 }
 ```
+
+## 2026-09-25T02:39:09Z — Coordinator verified worker-to-parent integration
+
+- Fast-forward integration SHA:
+  `1285978056851f2cdfb0ba93753386dab7dcc009`.
+- Exact verification command:
+  `git -C /Users/jrblankenhorn/copilot_skills.worktrees/ralph-parent-child-orchestrator-20260924-2008 merge-base --is-ancestor 1285978056851f2cdfb0ba93753386dab7dcc009 HEAD`
+  — PASS; the child result is the verified parent tip.
+- The child worktree was clean at that SHA and the branch had no published
+  remote ref. After verification, the coordinator ran
+  `git -C /Users/jrblankenhorn/copilot_skills.worktrees/ralph-parent-child-orchestrator-20260924-2008 worktree remove /Users/jrblankenhorn/copilot_skills.worktrees/ralph-parent-child-worker-reference-docs-20260924-2008`
+  and `git -C /Users/jrblankenhorn/copilot_skills.worktrees/ralph-parent-child-orchestrator-20260924-2008 branch -d ralph/parent-child-worker-reference-docs-20260924-2008`.
+- Worker state is now `COMPLETE`; its sign-off remains bound to implementation
+  SHA `7fa094bcfe9d0f6cdfd4b793f98b8f02e8e32f92`. Parent-to-main integration,
+  memory review, and parent cleanup remain pending.
 
 ## 2026-09-25T01:53:52Z — Rebase onto the refreshed parent
 

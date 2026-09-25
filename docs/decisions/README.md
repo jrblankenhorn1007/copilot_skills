@@ -27,6 +27,7 @@ and reports only unresolved blockers as failures.
 
 - [Ralph completion and PR decision-log contract](ralph-clear-completion-branch-pr-decisions-20260924-2018/README.md)
 - [Ralph docs status organization](ralph-docs-status-dashboard-coordinator-c437fcd1/README.md)
+- [Ralph parent-child pipeline](ralph-parent-child-orchestrator-20260924-2008/README.md)
 
 ## Ralph status and progress
 
