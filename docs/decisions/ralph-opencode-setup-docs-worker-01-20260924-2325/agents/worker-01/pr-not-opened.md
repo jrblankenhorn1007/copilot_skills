@@ -5,7 +5,8 @@
   `copilotcli:/448bf82f-6090-4317-8657-100d5f02d256`
 - **Run/task:** `copilot-skills-opencode-setup-20260924-2325` /
   `opencode-setup-docs`
-- **Iteration:** 1
+- **Initial iteration record:** 1
+- **Current iteration:** 2
 - **Branch:** `ralph/opencode-setup-docs-worker-01-20260924-2325`
 - **Worktree:**
   `/Users/jrblankenhorn/copilot_skills.worktrees/ralph-opencode-setup-docs-worker-01-20260924-2325`
@@ -14,9 +15,12 @@
   review and parent integration.
 - **Parent branch/worktree:** `agents/update-dependencies-docs-opencode-setup` /
   `/Users/jrblankenhorn/copilot_skills.worktrees/update-dependencies-docs-opencode-setup`
-- **Base parent SHA:** `9558f99cc34cbed8dd1d24f4f15fc03f5d78b6ea`
-- **Implementation commit SHA:**
+- **Original base parent SHA:** `9558f99cc34cbed8dd1d24f4f15fc03f5d78b6ea`
+- **Current parent/origin SHA:** `8da9310fda1b2e3042a379081dfb0675f1b22d6b`
+- **Iteration-1 implementation commit SHA:**
   `c3294a5f7e3a1fb4022192f44e5a082640deb2a1`
+- **Current implementation commit SHA:**
+  `9f8e5e850df47700763d8d74d2250fb200804d7e`
 - **Current worker state:** `AWAITING_MERGE`
 
 ## Decisions
@@ -97,12 +101,34 @@
 - The first staged-record `git diff --cached --check` reported trailing
   spaces on three hard-break lines in `progress.md`. Rewrote those lines
   without trailing spaces and reran the check successfully.
+- **Iteration 2 — parent-base movement:** The assigned parent branch moved
+  from `9558f99cc34cbed8dd1d24f4f15fc03f5d78b6ea` to
+  `8da9310fda1b2e3042a379081dfb0675f1b22d6b` while this child was awaiting
+  integration. After the canonical `main` pull, clean-worktree checks,
+  configured identity checks, and `git fetch origin`, both the parent and
+  `origin/main` were confirmed at the supplied new SHA. The existing child was
+  rebased onto that SHA in its assigned worktree. Rebase completed without
+  conflicts; `git range-diff` confirmed both original commits' patches were
+  preserved. The implementation SHA changed from
+  `c3294a5f7e3a1fb4022192f44e5a082640deb2a1` to
+  `9f8e5e850df47700763d8d74d2250fb200804d7e`. The prior worker-record commit
+  changed from `2d76ffc243089c92a70cf5a64ff960d46a65304e` to
+  `f35636f27b75870bc8dcb8824e9e0e03205928f4` before the iteration-2 records
+  were added.
+- **Iteration 2 — content-probe correction:** An initial `rg -F` probe tried
+  to match a phrase across a Markdown line break and returned non-zero. The
+  check was narrowed to the line-local wording already present in the
+  reference; rerunning the complete README/reference probe passed without a
+  documentation change.
 
 ## Unresolved blockers
 
-- None for the assigned documentation scope. OpenCode runtime validation is
-  an explicit environment gap and remains a prerequisite for the separate
-  Ralph-specific integration work.
+- The Ralph contract suite has one failing dashboard-index subtest because
+  coordinator-owned `docs/ralph-status.md` does not yet link this worker's
+  status and progress paths. The coordinator must update the dashboard and
+  rerun the suite before integration; this worker did not edit the dashboard.
+- OpenCode runtime validation is an explicit environment gap and remains a
+  prerequisite for the separate Ralph-specific integration work.
 
 ## Integration and memory review
 
@@ -111,3 +137,23 @@
 - The worker did not publish, merge, or remove the child branch/worktree.
 - The coordinator owns the post-merge Project Memory review. No shared memory
   was changed by this worker.
+
+## Iteration 2 — Rebase handoff
+
+- **Parent branch/worktree:** `agents/update-dependencies-docs-opencode-setup` /
+  `/Users/jrblankenhorn/copilot_skills.worktrees/update-dependencies-docs-opencode-setup`
+- **Original parent and child base:** `9558f99cc34cbed8dd1d24f4f15fc03f5d78b6ea`
+- **Current parent and fetched `origin/main`:**
+  `8da9310fda1b2e3042a379081dfb0675f1b22d6b`
+- **Rebase command:** `git rebase 8da9310fda1b2e3042a379081dfb0675f1b22d6b`
+- **Rebased implementation commit:**
+  `9f8e5e850df47700763d8d74d2250fb200804d7e`
+- **Rebased prior worker-record commit:**
+  `f35636f27b75870bc8dcb8824e9e0e03205928f4`
+- **Current state:** `AWAITING_MERGE`; still unpublished, unmerged, and without
+  a PR. The coordinator owns dashboard updates and parent integration.
+- **README/reference link and content check:** **PASS** after correcting the
+  line-wrapping mismatch; exact command and result are in iteration 2
+  progress.
+- **Working-tree `git diff --check`:** **PASS** for the pending iteration-2
+  record edits. The required post-commit base-to-HEAD check remains to be run.

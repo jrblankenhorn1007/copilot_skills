@@ -136,3 +136,133 @@ sequence are not applicable; no failing behavior test was fabricated.
   "statement": "I, worker-01, sign off iteration 1 for opencode-setup-docs at implementation commit c3294a5f7e3a1fb4022192f44e5a082640deb2a1."
 }
 ```
+
+## Iteration 2 — Rebase onto the updated parent
+
+**Status:** `AWAITING_MERGE`
+**Run/task:** `copilot-skills-opencode-setup-20260924-2325` / `opencode-setup-docs`
+**Branch:** `ralph/opencode-setup-docs-worker-01-20260924-2325`
+**Original child base parent SHA:** `9558f99cc34cbed8dd1d24f4f15fc03f5d78b6ea`
+**Current parent and fetched `origin/main`:** `8da9310fda1b2e3042a379081dfb0675f1b22d6b`
+**Rebased implementation commit:** `9f8e5e850df47700763d8d74d2250fb200804d7e`
+
+### Refresh and rebase evidence
+
+- `git -C /Users/jrblankenhorn/copilot_skills pull --ff-only` —
+  **PASS**, `Already up to date.` The clean attached `main` integration
+  worktree tracks `origin/main`.
+- `git var GIT_AUTHOR_IDENT` and `git var GIT_COMMITTER_IDENT` —
+  **PASS**, both configured.
+- `git fetch origin` — **PASS**; fetched `origin/main` was
+  `8da9310fda1b2e3042a379081dfb0675f1b22d6b`.
+- Before rebase, the assigned parent worktree was clean at
+  `8da9310fda1b2e3042a379081dfb0675f1b22d6b`; the child worktree was clean
+  at worker-record commit `2d76ffc243089c92a70cf5a64ff960d46a65304e`.
+- Compared `9558f99cc34cbed8dd1d24f4f15fc03f5d78b6ea..8da9310fda1b2e3042a379081dfb0675f1b22d6b`
+  with the child's changed paths. The parent moved only unrelated status and
+  decision records; no owned paths overlapped.
+- `git rebase 8da9310fda1b2e3042a379081dfb0675f1b22d6b` — **PASS**, both
+  commits replayed without conflict.
+- `git merge-base HEAD 8da9310fda1b2e3042a379081dfb0675f1b22d6b` —
+  **PASS**, returned the exact new parent SHA.
+- `git range-diff 9558f99cc34cbed8dd1d24f4f15fc03f5d78b6ea..2d76ffc243089c92a70cf5a64ff960d46a65304e 8da9310fda1b2e3042a379081dfb0675f1b22d6b..HEAD` —
+  **PASS**; old implementation commit
+  `c3294a5f7e3a1fb4022192f44e5a082640deb2a1` maps unchanged to
+  `9f8e5e850df47700763d8d74d2250fb200804d7e`, and old worker-record commit
+  `2d76ffc243089c92a70cf5a64ff960d46a65304e` maps unchanged to
+  `f35636f27b75870bc8dcb8824e9e0e03205928f4`.
+- `git diff --check 8da9310fda1b2e3042a379081dfb0675f1b22d6b..HEAD` —
+  **PASS** for the committed rebased implementation and prior worker-record
+  commits. The current iteration-2 worker-record edits were separately
+  checked with `git diff --check`.
+
+### TDD and runtime scope
+
+This is a documentation-only rebase and metadata update. TDD Red/Green/
+Refactor was not applicable; no behavior test was fabricated. OpenCode was
+absent from `PATH` during iteration 1 and was not installed or run during this
+iteration. The separate Ralph-specific runtime integration remains gated on
+confirmed working OpenCode.
+
+### Iteration 2 verification
+
+- `python3 .github/skills/ralph-loop/tests/test_multi_agent_contract.py` —
+  **FAIL**, 13 tests ran; the dashboard-index subtest failed because
+  coordinator-owned `docs/ralph-status.md` does not yet link this worker's
+  status and progress paths. This worker did not edit the aggregate dashboard.
+- README/reference link and content check — **PASS** after correcting a
+  line-wrapping mismatch in the initial text probe. The exact successful
+  command, run from the child worktree, was:
+
+  ```sh
+  test -f .github/skills/ralph-loop/references/opencode-setup.md && test -f .github/skills/ralph-loop/references/copilot-cli-usage.md && rg -F 'See [OpenCode setup](.github/skills/ralph-loop/references/opencode-setup.md)' README.md && rg -F 'curl -fsSL https://opencode.ai/install | bash' .github/skills/ralph-loop/references/opencode-setup.md && rg -F 'brew install anomalyco/tap/opencode' .github/skills/ralph-loop/references/opencode-setup.md && rg -F '`/connect`' .github/skills/ralph-loop/references/opencode-setup.md && rg -F '`~/.local/share/opencode/auth.json`' .github/skills/ralph-loop/references/opencode-setup.md && rg -F 'Continue using the existing Copilot CLI instructions for Ralph Loop' .github/skills/ralph-loop/references/opencode-setup.md && rg -F 'Ralph-specific OpenCode invocation and integration remain pending' .github/skills/ralph-loop/references/opencode-setup.md
+  ```
+
+- `git diff --check` — **PASS** for the iteration-2 worker-record working
+  tree.
+- The dashboard-index failure is a coordinator-owned integration dependency;
+  the leaf state remains `AWAITING_MERGE` until the coordinator adds both
+  worker paths and reruns the contract suite.
+
+### Current handoff
+
+- The original two commits and their content are preserved on the existing
+  child branch; no second branch was created.
+- No PR was opened, and the branch was not published, merged, or removed.
+- Worker state remains `AWAITING_MERGE`; the coordinator owns the aggregate
+  dashboard and parent integration.
+- The iteration-2 self-attestation is bound to the unchanged implementation
+  commit `9f8e5e850df47700763d8d74d2250fb200804d7e`; see the final handoff
+  payload below.
+
+### Iteration 2 worker sign-off payload
+
+```json
+{
+  "run_id": "copilot-skills-opencode-setup-20260924-2325",
+  "task_ids": ["opencode-setup-docs"],
+  "worker_id": "worker-01",
+  "worker_name": "worker-01 / OpenCode setup documentation",
+  "runtime_agent_id": "copilotcli:/448bf82f-6090-4317-8657-100d5f02d256",
+  "iteration": 2,
+  "branch": "ralph/opencode-setup-docs-worker-01-20260924-2325",
+  "worktree": "/Users/jrblankenhorn/copilot_skills.worktrees/ralph-opencode-setup-docs-worker-01-20260924-2325",
+  "pull_request": {
+    "status": "NOT_OPENED",
+    "number": null,
+    "url": null
+  },
+  "decision_record_path": "docs/decisions/ralph-opencode-setup-docs-worker-01-20260924-2325/agents/worker-01/pr-not-opened.md",
+  "base_origin_main_sha": "9558f99cc34cbed8dd1d24f4f15fc03f5d78b6ea",
+  "current_origin_main_sha": "8da9310fda1b2e3042a379081dfb0675f1b22d6b",
+  "parent_branch": "agents/update-dependencies-docs-opencode-setup",
+  "parent_worktree": "/Users/jrblankenhorn/copilot_skills.worktrees/update-dependencies-docs-opencode-setup",
+  "parent_base_origin_main_sha": "9558f99cc34cbed8dd1d24f4f15fc03f5d78b6ea",
+  "parent_rebased_onto_origin_main_sha": "8da9310fda1b2e3042a379081dfb0675f1b22d6b",
+  "base_parent_sha": "9558f99cc34cbed8dd1d24f4f15fc03f5d78b6ea",
+  "rebased_onto_parent_sha": "8da9310fda1b2e3042a379081dfb0675f1b22d6b",
+  "implementation_commit_sha": "9f8e5e850df47700763d8d74d2250fb200804d7e",
+  "checks": [
+    {
+      "command": "python3 .github/skills/ralph-loop/tests/test_multi_agent_contract.py",
+      "result": "FAIL",
+      "evidence": "13 tests ran; the dashboard-index assertion fails because docs/ralph-status.md does not yet link this worker's status and progress paths."
+    },
+    {
+      "command": "README/reference link and content check (exact command recorded above)",
+      "result": "PASS"
+    },
+    {
+      "command": "git diff --check",
+      "result": "PASS"
+    }
+  ],
+  "blockers": [
+    "The coordinator must index this worker leaf in docs/ralph-status.md and rerun the contract suite before integration."
+  ],
+  "attested_at_utc": "2026-09-25T04:08:16Z",
+  "attestation_kind": "SELF_ATTESTATION",
+  "cryptographic_signature_status": "NOT_CRYPTOGRAPHICALLY_SIGNED",
+  "statement": "I, worker-01, sign off iteration 2 for opencode-setup-docs at implementation commit 9f8e5e850df47700763d8d74d2250fb200804d7e."
+}
+```
