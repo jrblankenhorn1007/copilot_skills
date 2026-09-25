@@ -878,3 +878,42 @@
   coordinator/dashboard records, and ask worker-01 to complete the
   test-first message-limit fallback refinement plus its owned status refresh.
   Worker-02 remains paused until worker-01 is integrated.
+
+## 2026-09-25T16:38:53Z — parent rebased onto latest status-only main
+
+- **Refresh:** Fetched `origin/main` at
+  `5d87b5289aeac271696df3ce2c3201e0b631c3c3`. Since
+  `6178835a9450e405d355160c25ffcbeb325733ca`, only the main-ownership record
+  and one coordinator status snapshot changed; task guidance and
+  communication implementation files did not change.
+- **Rebase:** Rebased parent commit
+  `bdf45dc62bc924b1d6ff3ec9797738c17a89a263` onto the refreshed main,
+  producing `15638054cffca7eb054cff80430ff2998d97a3df` without conflicts.
+  `git range-diff` mapped all 45 commits one-to-one, `git diff --check
+  origin/main...HEAD` passed, and no conflict markers remain.
+- **Red reconfirmed:** The absolute-path inter-session contract test again
+  failed only the three new message-limit fallback assertions. No full-suite
+  result is claimed from this deliberately red state.
+- **Current state:** At rebase verification the parent was clean and exactly
+  based on fetched `5d87b528...` main; coordinator status/dashboard
+  synchronization is now in progress. The new worker refresh must start from
+  the post-status coordinator commit, not from any preserved stale metadata
+  branch.
+- **Next:** Publish the coordinator's refreshed status, send worker-01 the
+  exact parent and test-first assignment, integrate its verified metadata and
+  skill refinement, then resume worker-02.
+
+## 2026-09-25T16:42:33Z — another status-only main advance
+
+- **Refresh:** Fetched `origin/main` at
+  `75d4e4a8e356e1980fc32ee5c6e185a97098cd04`, nine commits beyond the prior
+  parent base `5d87b5289aeac271696df3ce2c3201e0b631c3c3`. The changed paths
+  are the main-ownership record and two coordinator status snapshots; no
+  task guidance, tests, or communication implementation files changed.
+- **State:** The parent remains based on `5d87b528...`; coordinator status
+  now distinguishes that rebase base from the latest fetched main. After the
+  coordinator status commit, rebase onto `75d4e4a8...` before asking the
+  workers to create new status branches.
+- **Next:** Complete the coordinator/dashboard status commit, replay and
+  verify it against the latest main, then send worker-01 the exact post-rebase
+  parent and scope.

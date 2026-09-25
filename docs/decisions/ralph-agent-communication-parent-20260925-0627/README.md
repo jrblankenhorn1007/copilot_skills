@@ -4,7 +4,7 @@
 - **Branch:** `ralph/agent-communication-parent-20260925-0627`
 - **Parent worktree:** `/Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-communication-parent-20260925-0627`
 - **Base `origin/main` SHA:** `20293c720b18a1a21ff150f566823493b7a2717d`
-- **Implementation commit:** `ce5d5c742ae5a9085c6db11695fa7570dad0ba5a`
+- **Implementation commit:** `15638054cffca7eb054cff80430ff2998d97a3df`
 - **Agents:** `coordinator`, `worker-01`, `worker-02`
 - **Integration:** Pending; use coordinator-reviewed, verified fast-forward
   without a PR, as documented by the repository.
@@ -62,6 +62,37 @@
   session host; the skill can improve routing, acknowledgments, and
   checkpoint responsiveness immediately.
 
+### Keep the explicitly requested Copilot host for this run
+
+- **Context:** Refreshed main now documents OpenCode as the default Ralph
+  runtime, while the user specifically requested communication between
+  sessions in Copilot's Agents window. This session exposes the Copilot-
+  compatible session tools used in the benchmark.
+- **Alternatives:** Switch to OpenCode, or describe the communication contract
+  as universally available.
+- **Choice:** Continue in this Copilot-compatible host and keep the skill
+  capability-gated. Do not claim VS Code or every agent host has a general
+  cross-session messaging API.
+- **Rationale:** This preserves the user's explicitly selected target; the
+  current environment also has no connected OpenCode providers.
+- **Consequence:** Results apply to observed Copilot host capabilities only;
+  other hosts must provide and verify their own adapter.
+
+### Treat fixed or shared message-limit errors as route failures
+
+- **Context:** Existing tooling memory records repeated, identical messaging
+  cap failures across independent sessions and warns that new sessions do
+  not bypass the shared limit.
+- **Alternatives:** Retry after a delay, start another session, or keep
+  relaying through the same capped tool.
+- **Choice:** The skill will treat a reported message limit as a failed route,
+  stop retries from new sessions, and direct the sender to an already
+  available durable coordination channel.
+- **Rationale:** Repeated attempts consume time and capacity without improving
+  delivery confidence.
+- **Consequence:** A test-first contract assertion is currently Red; worker-01
+  will add the bounded fallback guidance before integration.
+
 ### Rebase onto the refreshed main before child integration
 
 - **Context:** `origin/main` advanced by twelve commits while the benchmark
@@ -77,3 +108,18 @@
   new PR-only review gate.
 - **Consequence:** Both workers must rebase from their original parent base
   onto the current parent tip and rerun scoped checks before integration.
+
+### Reconcile later status-only main advances before dispatch
+
+- **Context:** After the parent rebase onto
+  `16b98ea828d1c25efeeb07f0bacbd19add71804c`, main advanced to
+  `5d87b5289aeac271696df3ce2c3201e0b631c3c3`; the intervening changes were
+  limited to ownership/status metadata.
+- **Alternatives:** Ignore the new main tip, merge stale worker leaves, or
+  rebase the unpublished parent and verify the replay.
+- **Choice:** Rebase the clean parent onto the latest fetched `origin/main`,
+  retain every active dashboard entry, and rerun the targeted Red check.
+- **Rationale:** Status-only commits are still part of the exact remote base;
+  current worker attestations must refer to the refreshed parent.
+- **Consequence:** All 45 commits mapped one-to-one in `git range-diff`;
+  previous worker sign-offs are superseded and must be refreshed.
