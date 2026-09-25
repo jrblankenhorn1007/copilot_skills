@@ -19,6 +19,11 @@ def assert_contains(test_case, text: str, requirement: str, message: str) -> Non
     test_case.assertTrue(requirement in text, message)
 
 
+def assert_all_contains(test_case, text: str, requirements: str, message: str) -> None:
+    missing = [item for item in requirements.split("|") if item not in text]
+    test_case.assertEqual([], missing, f"{message}: {missing}")
+
+
 class MultiAgentContractTests(unittest.TestCase):
     def test_ralph_agent_accepts_worker_count_and_creates_a_split_plan(self):
         orchestrator = read_document(".github/agents/ralph-loop.agent.md")
@@ -283,6 +288,84 @@ class MultiAgentContractTests(unittest.TestCase):
             project_prompt,
             "branch-owning worker executes its own pr merge",
             "the project Ralph prompt must use worker-owned PR merging",
+        )
+
+    def test_pr_review_gate_is_independent_read_only_and_sha_bound(self):
+        docs = " ".join(
+            read_document(path)
+            for path in (
+                ".github/skills/ralph-loop/SKILL.md",
+                ".github/skills/ralph-loop/references/multi-agent-orchestration.md",
+                ".github/skills/ralph-loop/references/worker-pr-merging.md",
+            )
+        )
+        assert_all_contains(
+            self,
+            docs,
+            "for every pr-backed iteration|ralph code reviewer|"
+            "ralph security reviewer|read-only|exact full|stale|"
+            "branch protection|human approval|if the diff touches|"
+            "security configuration|after worker sign-off|"
+            "before the coordinator authorizes|review.status: not_applicable|"
+            ".github/skills/ralph-pr-review/skill.md",
+            "PR review contract",
+        )
+        assert_all_contains(
+            self,
+            read_document("README.md"),
+            "ralph-pr-review/skill.md|ralph-code-reviewer.agent.md|"
+            "ralph-security-reviewer.agent.md",
+            "README reviewer links",
+        )
+
+    def test_review_round_cap_requires_an_explicit_author_decision(self):
+        contract = " ".join(
+            read_document(path)
+            for path in (
+                ".github/skills/ralph-loop/SKILL.md",
+                ".github/skills/ralph-loop/references/worker-pr-merging.md",
+                ".github/skills/ralph-loop/references/multi-agent-status.md",
+            )
+        )
+        assert_all_contains(
+            self,
+            contract,
+            "10 completed review rounds per branch/pr|"
+            "first completed reviewer report|round 1|max_rounds: 10|"
+            "rounds_completed|fix_manually|"
+            "accept_findings_and_request_merge|escalate_for_human_review|"
+            "close|rationale",
+            "review round cap and author-choice contract",
+        )
+        self.assertTrue(
+            any(x in contract for x in ("round 11", "11th round", "11th review"))
+        )
+
+    def test_review_evidence_and_states_are_in_leaf_and_dashboard_schemas(self):
+        source = (
+            ROOT / ".github/skills/ralph-loop/references/multi-agent-status.md"
+        ).read_text(encoding="utf-8")
+        dashboard_example = source.split("### Aggregate dashboard example", 1)[1].split(
+            "### Agent leaf status example", 1
+        )[0].lower()
+        leaf_example = source.split("### Agent leaf status example", 1)[1].split(
+            "### Worker sign-off", 1
+        )[0].lower()
+        fields = (
+            "review:|reviewer_agents:|reviewed_base_sha:|"
+            "reviewed_head_sha:|rounds_completed:|max_rounds: 10|"
+            "unresolved_finding_count:"
+            "|author_decision:|choice:|rationale:|base_sha:|head_sha:"
+        )
+        for schema in (dashboard_example, leaf_example):
+            assert_all_contains(self, schema, fields, "review status schema")
+        assert_all_contains(
+            self,
+            source.lower(),
+            "not_applicable|pending|in_progress|clean|findings|blocked|"
+            "limit_reached|author_decision_recorded|awaiting_review|"
+            "awaiting_author_decision",
+            "review and worker states",
         )
 
     def test_final_response_reports_completion_and_logs_recovered_issues(self):

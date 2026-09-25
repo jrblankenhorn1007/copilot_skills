@@ -204,6 +204,55 @@ memory follow-up). Only then may its leaf and dashboard status become
 decision indexes and per-agent/PR decision records at the `docs/decisions/`
 paths above.
 
+## Independent pre-merge PR review
+
+For every PR-backed iteration, after worker sign-off and before the coordinator
+authorizes its merge, launch an independent **Ralph Code Reviewer**. Also
+launch a **Ralph Security Reviewer** when the diff touches authentication or
+authorization, untrusted input, secrets or sensitive data, cryptography,
+process execution, external boundaries, dependencies, or security
+configuration. Reviewers follow
+[`.github/skills/ralph-pr-review/SKILL.md`](../ralph-pr-review/SKILL.md), are
+separate from the author, and are read-only: they report findings but do not
+edit the branch, apply fixes, or merge.
+
+Bind every completed review pass to the exact full base and head commit SHAs.
+Before authorizing a merge, compare both SHAs with the PR's current base and
+head. If either differs, the report is stale and blocks authorization until a
+fresh review is complete. A clean agent report is evidence, not a guarantee
+of correctness and not a substitute for required CI, branch protection, or
+human approvals.
+
+Review for design, intended functionality and edge cases, complexity,
+correctness, and appropriate tests. Ground findings in the changed code and
+available project context; distinguish actionable defects from suggestions.
+Personal preference, cosmetic style, and nits are nonblocking unless they
+violate an applicable written project standard. Use structured,
+evidence-bounded findings and an adversarial challenge to check that each
+finding is real and relevant. Do not use unverified numeric scoring or grant
+reviewers broad autonomous fixing.
+
+Allow at most **10 completed review rounds per branch/PR**. A round is one
+complete pass on one exact base/head pair; the first completed reviewer report
+counts as round 1, and any required code and security reports for that pair
+belong to that same pass. Stop at round 10: do not reset the count or launch an
+11th review. At the cap, the author must record one explicit choice and its
+rationale: `FIX_MANUALLY`, `ACCEPT_FINDINGS_AND_REQUEST_MERGE`,
+`ESCALATE_FOR_HUMAN_REVIEW`, or `CLOSE`. Accepting findings requests normal
+merge consideration; it does not waive CI, branch protection, or required
+human approvals. A later base or head change still makes the report stale.
+After the cap, do not launch another agent review for that branch/PR; obtain
+any needed fresh human review or use a new branch/PR rather than silently
+resetting its review budget.
+
+For the repository's coordinator-managed fast-forward path with no PR, do not
+launch reviewers or change the integration process; record
+`review.status: NOT_APPLICABLE`. See the
+[multi-agent orchestration](./references/multi-agent-orchestration.md),
+[status schema](./references/multi-agent-status.md), and
+[worker-owned PR merge guide](./references/worker-pr-merging.md) for the
+review gate and status fields.
+
 ## Git identity and authentication
 
 Before creating an iteration branch or editing files, verify the configured

@@ -102,8 +102,9 @@ has one canonical home.
   `effective_worker_count` is the number of distinct workers actually
   launched; if it is lower than requested, record why in the split plan.
   `active_worker_count` is the number of workers currently marked
-  `IN_PROGRESS`; it excludes `NOT_STARTED` (queued), blocked, awaiting-merge,
-  and terminal workers.
+  `IN_PROGRESS`; it excludes `NOT_STARTED` (queued), `AWAITING_REVIEW`,
+  `AWAITING_AUTHOR_DECISION`, `AWAITING_MERGE`, `BLOCKED`, and terminal
+  workers.
 - `overall_status` on the dashboard and `aggregate_status` for each run use
   the same meanings:
   - `IN_PROGRESS` while authorized work, review, checks, or integration can
@@ -119,7 +120,14 @@ has one canonical home.
     For a single-branch run, verify its final merge on fetched `origin/main`.
     A pushed branch, child merge alone, or open PR is not complete.
 - A worker's `status` is one of `NOT_STARTED`, `IN_PROGRESS`,
-  `AWAITING_MERGE`, `BLOCKED`, `COMPLETE`, `FAILED`, or `CANCELLED`. In a
+  `AWAITING_REVIEW`, `AWAITING_AUTHOR_DECISION`, `AWAITING_MERGE`, `BLOCKED`,
+  `COMPLETE`, `FAILED`, or `CANCELLED`. For PR-backed work, use
+  `AWAITING_REVIEW` after worker sign-off while the independent review is
+  pending or running; use `AWAITING_AUTHOR_DECISION` when findings or the
+  round limit require an explicit author action. A current clean report, or a
+  recorded `ACCEPT_FINDINGS_AND_REQUEST_MERGE` choice at the cap, may advance
+  to `AWAITING_MERGE` only after all other gates are satisfied. The no-PR
+  path skips review and retains its existing integration state. In a
   parent/child run, keep a worker `AWAITING_MERGE` until its child change is
   integrated and verified on the current parent branch; after that child
   merge, the worker may become `COMPLETE` while the overall run remains
@@ -136,6 +144,110 @@ has one canonical home.
   record child-to-parent and parent-to-main integration in their separate
   merge objects; a coordinator's local parent integration is not a worker
   PR merge actor.
+
+### PR review state and evidence
+
+Every PR-backed leaf status and dashboard branch/agent entry carries the same
+`review` object. Its `status` is exactly one of:
+
+- `NOT_APPLICABLE` — the repository's normal integration has no PR; do not
+  launch a reviewer or alter the coordinator-managed fast-forward path.
+- `PENDING` — a PR exists and a review is not yet running, or the last report
+  became stale and another permitted round is needed.
+- `IN_PROGRESS` — the required independent reviewer pass is running.
+- `CLEAN` — all required reviewers completed the current base/head pass with
+  zero unresolved findings.
+- `FINDINGS` — all required reviewers completed the current pass with one or
+  more unresolved findings; the worker waits in `AWAITING_AUTHOR_DECISION`.
+- `BLOCKED` — a reviewer cannot complete or the review cannot safely proceed;
+  merge authorization is blocked.
+- `LIMIT_REACHED` — the maximum 10 completed review rounds per branch/PR
+  have been reached; no 11th round may start, and the author must record a
+  choice.
+- `AUTHOR_DECISION_RECORDED` — the author recorded an allowed choice and
+  rationale; merge eligibility still depends on that choice, current SHAs,
+  and every independent repository gate.
+
+Use these exact fields in the `review` object:
+
+```yaml
+review:
+  status: PENDING
+  reviewer_agents: ["Ralph Code Reviewer"]
+  reviewed_base_sha: null
+  reviewed_head_sha: null
+  rounds_completed: 0
+  max_rounds: 10
+  unresolved_finding_count: 0
+  author_decision:
+    status: NOT_REQUIRED
+    choice: null
+    rationale: null
+    recorded_at_utc: null
+```
+
+`reviewer_agents` lists the independent `Ralph Code Reviewer` and, when the
+diff is security-sensitive, `Ralph Security Reviewer`. Store the PR's current
+base and head SHAs in `pull_request.base_sha` and `pull_request.head_sha`;
+`reviewed_base_sha` and `reviewed_head_sha` identify the exact completed
+report. Both must equal the current PR SHAs before merge authorization. If
+either current SHA changes, the old report is stale and cannot authorize a
+merge. Below the cap, set the review back to `PENDING` until a fresh report
+for both current SHAs completes. Preserve the completed-round count and the
+previous report SHAs as evidence; never reset the count. At the cap, use
+`LIMIT_REACHED` until the author records a decision, then use
+`AUTHOR_DECISION_RECORDED`; a stale base/head report blocks merge in either
+state. Do not launch an 11th agent review on that branch/PR.
+
+One review round is one complete pass for one exact base/head pair. The first
+completed reviewer report counts as round 1; if a security review is required,
+its report and the code review report for that same pair are part of the same
+pass.
+Increment `rounds_completed` only when all required reviewers have completed
+that pass; `max_rounds` is always exactly 10. A completed clean pass sets
+`unresolved_finding_count` to 0. Keep reported findings unresolved until a
+fresh report verifies them or the author explicitly chooses to accept the
+remaining findings at the cap.
+
+`author_decision.status` is exactly `NOT_APPLICABLE`, `NOT_REQUIRED`,
+`PENDING`, or `RECORDED`. Use `NOT_APPLICABLE` for a no-PR fast-forward,
+`NOT_REQUIRED` before findings need action or after a clean report, and
+`PENDING` after findings or at the round cap until the author acts. The only
+choices are `FIX_MANUALLY`, `ACCEPT_FINDINGS_AND_REQUEST_MERGE`,
+`ESCALATE_FOR_HUMAN_REVIEW`, and `CLOSE`; use `choice: null` unless status
+is `RECORDED`. Record the choice, non-empty rationale, and
+`recorded_at_utc`. At round 10, an author decision is mandatory. Accepting
+findings permits only normal merge consideration; it does not waive CI,
+branch protection, or required human approval. `FIX_MANUALLY` followed by a
+new commit makes the report stale; after the cap, obtain a fresh human review
+or use a new branch/PR rather than resetting the existing limit. `CLOSE`
+does not authorize a merge.
+
+For a `NOT_OPENED` fast-forward iteration, the review record is explicitly
+not applicable and carries no reviewer or author decision:
+
+```yaml
+pull_request:
+  status: NOT_OPENED
+  number: null
+  url: null
+review:
+  status: NOT_APPLICABLE
+  reviewer_agents: []
+  reviewed_base_sha: null
+  reviewed_head_sha: null
+  rounds_completed: 0
+  max_rounds: 10
+  unresolved_finding_count: 0
+  author_decision:
+    status: NOT_APPLICABLE
+    choice: null
+    rationale: null
+    recorded_at_utc: null
+```
+
+### Iteration history and merge evidence
+
 - Keep the agent's `status.md` current; keep `iteration_history` in its
   `progress.md`. Add one entry for each worker iteration and retain prior
   entries. Do not replace earlier evidence on a retry. Every fresh-branch
@@ -297,8 +409,11 @@ stable `worker_id` and `worker_name`, `runtime_agent_id` (or `null`), branch
 and slug, worker worktree, current iteration and `status`, base/rebased
 `origin/main` SHAs, current implementation commit, checks, blockers, next
 action, PR state, decision-record path, `merge_actor_worker_id`, merge
-verification state, sign-off/signature state, and the current
-`resource_usage` object. For parent/child work,
+verification state, sign-off/signature state, the full `review` object above,
+and the current `resource_usage` object. For a PR, record its current
+`base_sha` and `head_sha` alongside the PR state so the stored review SHAs can
+be compared before authorization. The coordinator copies the same review
+evidence into that branch/agent's dashboard entry. For parent/child work,
 also include the parent branch/worktree/base and the worker's original
 `base_parent_sha` and latest `rebased_onto_parent_sha`, plus the appropriate
 worker-to-parent or parent-to-main merge records and cleanup state.
@@ -337,11 +452,11 @@ runs:
     aggregate_status: IN_PROGRESS
     requested_worker_count: 2
     effective_worker_count: 2
-    active_worker_count: 1
+    active_worker_count: 0
     base_origin_main_sha: "<full SHA>"
     created_at_utc: "2026-09-25T00:00:00Z"
     updated_at_utc: "2026-09-25T00:00:00Z"
-    next_action: "Coordinator: authorize worker-02's PR; worker-02 then merges and verifies it."
+    next_action: "Worker-02: record the author decision for the current review findings."
     split_plan:
       - task_id: "<worker-01-task>"
         worker_id: "worker-01"
@@ -359,7 +474,7 @@ branch_agent_index:
     worker_name: "worker-01 / orchestration"
     branch: "ralph/orchestration-worker-01-<unique-id>"
     branch_slug: "ralph-orchestration-worker-01-<unique-id>"
-    status: IN_PROGRESS
+    status: AWAITING_REVIEW
     iteration: 1
     merge_actor_worker_id: null
     resource_usage:
@@ -372,18 +487,37 @@ branch_agent_index:
         total_tokens: null
         cached_input_tokens: null
         source: null
+    pull_request:
+      status: OPEN
+      number: "<PR number>"
+      url: "<PR URL>"
+      base_sha: "<current full base SHA>"
+      head_sha: "<current full head SHA>"
+    review:
+      status: IN_PROGRESS
+      reviewer_agents: ["Ralph Code Reviewer"]
+      reviewed_base_sha: null
+      reviewed_head_sha: null
+      rounds_completed: 0
+      max_rounds: 10
+      unresolved_finding_count: 0
+      author_decision:
+        status: NOT_REQUIRED
+        choice: null
+        rationale: null
+        recorded_at_utc: null
     status_path: "docs/ralph/ralph-orchestration-worker-01-<unique-id>/agents/worker-01/status.md"
     progress_path: "docs/ralph/ralph-orchestration-worker-01-<unique-id>/agents/worker-01/progress.md"
     decision_record_path: "docs/decisions/ralph-orchestration-worker-01-<unique-id>/agents/worker-01/pr-pending.md"
     decision_index_path: "docs/decisions/ralph-orchestration-worker-01-<unique-id>/README.md"
-    next_action: "Worker-01: finish the assigned checks and report its leaf update."
+    next_action: "Coordinator: finish the code review for the current PR SHAs."
   - run_id: "<run-id>"
     task_ids: ["<task-id>"]
     worker_id: "worker-02"
     worker_name: "worker-02 / status schema"
     branch: "ralph/status-schema-worker-02-<unique-id>"
     branch_slug: "ralph-status-schema-worker-02-<unique-id>"
-    status: AWAITING_MERGE
+    status: AWAITING_AUTHOR_DECISION
     iteration: 1
     merge_actor_worker_id: null
     resource_usage:
@@ -396,11 +530,30 @@ branch_agent_index:
         total_tokens: null
         cached_input_tokens: null
         source: null
+    pull_request:
+      status: OPEN
+      number: "<PR number>"
+      url: "<PR URL>"
+      base_sha: "<reviewed full base SHA>"
+      head_sha: "<reviewed full head SHA>"
+    review:
+      status: FINDINGS
+      reviewer_agents: ["Ralph Code Reviewer", "Ralph Security Reviewer"]
+      reviewed_base_sha: "<reviewed full base SHA>"
+      reviewed_head_sha: "<reviewed full head SHA>"
+      rounds_completed: 1
+      max_rounds: 10
+      unresolved_finding_count: 2
+      author_decision:
+        status: PENDING
+        choice: null
+        rationale: null
+        recorded_at_utc: null
     status_path: "docs/ralph/ralph-status-schema-worker-02-<unique-id>/agents/worker-02/status.md"
     progress_path: "docs/ralph/ralph-status-schema-worker-02-<unique-id>/agents/worker-02/progress.md"
     decision_record_path: "docs/decisions/ralph-status-schema-worker-02-<unique-id>/agents/worker-02/pr-<number>.md"
     decision_index_path: "docs/decisions/ralph-status-schema-worker-02-<unique-id>/README.md"
-    next_action: "Coordinator: authorize worker-02; worker-02: merge and verify its PR."
+    next_action: "Worker-02: review findings and record the next author action."
 ```
 
 The branch/agent index is deliberately explicit rather than a glob-only list:
@@ -422,7 +575,7 @@ runtime_agent_id: "<host-provided agent/session ID or null>"
 branch: "<exact branch ref>"
 branch_slug: "<lowercase branch with slashes replaced by hyphens>"
 iteration: 1
-status: AWAITING_MERGE
+status: AWAITING_REVIEW
 started_at_utc: "<ISO 8601 UTC timestamp>"
 updated_at_utc: "<ISO 8601 UTC timestamp>"
 resource_usage:
@@ -442,6 +595,21 @@ pull_request:
   status: OPEN
   number: "<PR number>"
   url: "<PR URL>"
+  base_sha: "<current full base SHA>"
+  head_sha: "<current full head SHA>"
+review:
+  status: IN_PROGRESS
+  reviewer_agents: ["Ralph Code Reviewer"]
+  reviewed_base_sha: null
+  reviewed_head_sha: null
+  rounds_completed: 0
+  max_rounds: 10
+  unresolved_finding_count: 0
+  author_decision:
+    status: NOT_REQUIRED
+    choice: null
+    rationale: null
+    recorded_at_utc: null
 merge_actor_worker_id: null
 decision_record_path: "docs/decisions/<branch-slug>/agents/<agent-id>/pr-<number>.md"
 decision_index_path: "docs/decisions/<branch-slug>/README.md"
@@ -456,7 +624,7 @@ checks:
   - command: "<exact command>"
     result: PASS
 blockers: []
-next_action: "Worker-02: after coordinator authorization, merge the PR and verify its remote SHA."
+next_action: "Coordinator: complete review for the current base/head SHAs before authorizing merge."
 worker_sign_off:
   status: RECEIVED
   attestation_kind: SELF_ATTESTATION

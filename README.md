@@ -51,6 +51,9 @@ license notices are preserved in each skill directory.
   [worker-owned PR merge guide](.github/skills/ralph-loop/references/worker-pr-merging.md)
   requires an authorized worker to merge its own PR with its existing GitHub
   CLI access.
+- [Ralph PR Review](.github/skills/ralph-pr-review/SKILL.md):
+  defines the independent, evidence-bounded review rubric and report format
+  used by the pre-merge review gate.
 - [Test-Driven Development](.github/skills/tdd/SKILL.md):
   applies test-first Red-Green-Refactor to behavior changes and bug fixes.
 
@@ -62,6 +65,27 @@ license notices are preserved in each skill directory.
   verifies remote-main integration, reviews durable lessons, and applies TDD
   to behavior changes. It distinguishes Git identity, remote read access,
   branch-push access, and merge permissions.
+- [Ralph Code Reviewer](.github/agents/ralph-code-reviewer.agent.md):
+  independently reviews every PR after worker sign-off and before merge
+  authorization; it is read-only and does not replace required human review.
+- [Ralph Security Reviewer](.github/agents/ralph-security-reviewer.agent.md):
+  provides a separate, read-only security review when a diff touches
+  security-sensitive behavior.
+
+## Pre-merge PR review
+
+Every PR receives an independent Ralph Code Reviewer pass after worker
+sign-off and before the coordinator authorizes the worker-owned merge. Launch
+Ralph Security Reviewer as well when the diff touches authentication or
+authorization, untrusted input, secrets or sensitive data, cryptography,
+process execution, external boundaries, dependencies, or security
+configuration. Reports are bound to exact base/head SHAs; a changed SHA
+invalidates the report and blocks merge authorization until a fresh review.
+The review loop stops at 10 completed rounds per branch/PR and requires an
+explicit author decision at the cap. A clean report is evidence, not a
+guarantee or replacement for CI, branch protection, or required human
+approvals. The coordinator-managed no-PR fast-forward path remains unchanged
+and records review as `NOT_APPLICABLE`.
 
 ## Using the agent and model controls
 

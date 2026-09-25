@@ -134,7 +134,57 @@ shared checkout. The worker must:
    branch, implementation commit SHA, changed paths, verification
    commands/results, and any blocker. The worker integration target is the
    parent branch; workers do not merge their child branches directly to
-   `origin/main`.
+   `origin/main`. For a PR-backed child-to-parent integration, report
+   `AWAITING_REVIEW` after sign-off; the coordinator completes the review gate
+   below before authorizing the child branch owner to merge that PR into the
+   parent. For a no-PR child-to-parent fast-forward, record review
+   `NOT_APPLICABLE` and let the coordinator verify the integration. If the
+   parent-to-main integration uses a PR, apply the same review gate to that
+   exact PR before its normal merge. A no-PR parent fast-forward retains the
+   existing coordinator-managed path. The run is complete only after
+   remote-main verification and the coordinator's required post-merge memory
+   review.
+### Independent pre-merge review gate
+
+For every PR-backed iteration, whether child-to-parent or parent-to-main,
+after the branch owner's sign-off and before merge authorization, the
+coordinator launches an independent **Ralph Code Reviewer**. Also launch
+**Ralph Security Reviewer** if the diff touches authentication or
+authorization, untrusted input, secrets or sensitive data, cryptography,
+process execution, external boundaries, dependencies, or security
+configuration. The reviewer is not the author, follows
+`.github/skills/ralph-pr-review/SKILL.md`, and is read-only; it reports
+findings without editing files, applying fixes, or merging.
+
+Each review pass is bound to the exact full base and head commit SHAs. Before
+authorization, the coordinator confirms both still match the current PR. A
+changed base or head invalidates the earlier report and blocks merge until a
+fresh review is complete. A clean report is evidence only; it does not
+guarantee correctness or replace required CI, branch protection rules, or
+human approvals.
+
+Keep review findings evidence-bounded and grounded in the changed code and
+available project context. Prioritize design, functionality, edge cases,
+complexity, correctness, and tests. Noncritical personal style preferences
+and nits are not merge blockers unless they violate a written project
+standard. Use structured findings and an adversarial check for relevance;
+do not add unverified numeric scores or broad autonomous fixing.
+
+There are at most **10 completed review rounds per branch/PR**. One round is
+one complete pass for an exact base/head pair; the first completed reviewer
+report counts as round 1, with the code and any required security report for
+that same pair forming one pass. Stop at round 10 and never silently reset
+the count or launch round 11. At the cap, pause for the author's recorded
+choice and rationale: `FIX_MANUALLY`, `ACCEPT_FINDINGS_AND_REQUEST_MERGE`,
+`ESCALATE_FOR_HUMAN_REVIEW`, or `CLOSE`. An accept decision permits only
+normal merge consideration and does not override required CI, branch
+protection, or human approval. Any later base/head change remains stale; after
+the cap, obtain any needed fresh human review or use a new branch/PR, not an
+11th agent review on the same branch/PR.
+
+When a child-to-parent or parent-to-main integration uses a coordinator-managed
+fast-forward without a PR, set review status to `NOT_APPLICABLE`, launch no
+reviewers, and preserve that existing path.
 
 ### Worker-owned PR merge
 
@@ -155,16 +205,19 @@ The coordinator maintains the aggregate ledger at `docs/ralph-status.md` with
 the parent branch/worktree and its `origin/main` base; each assignment's
 worker, owned paths, dependencies, acceptance criteria, child base and rebase
 SHAs, branch and implementation commit, PR number or explicit no-PR state,
-branch decision-record path, and exact check results. Record the
-worker-to-parent merge SHA and verification, the implementation/remote merge
-SHA and verification where applicable, and `merge_actor_worker_id` for a
-worker-owned PR merge. Also record the final parent-to-main merge SHA and
-verification, worktree/branch/remote-ref cleanup state, memory-review outcome
-and any memory follow-up merge SHA, and current state (for example: queued,
-ready, running, awaiting integration, merged-and-verified, or blocked).
-Record evidence from the worker; do not mark an assignment complete or
-release dependent work merely because a branch was published or a pull
-request was opened.
+branch decision-record path, and exact check results. For every PR, also
+record review status and reviewer agents, current and reviewed base/head SHAs,
+rounds completed and maximum, unresolved finding count, and any explicit
+author decision and rationale. Record the worker-to-parent merge SHA and
+verification, the implementation/remote merge SHA and verification where
+applicable, and `merge_actor_worker_id` for a worker-owned PR merge. Also
+record the final parent-to-main merge SHA and verification,
+worktree/branch/remote-ref cleanup state, memory-review outcome and any
+memory follow-up merge SHA, and current state (for example: queued, ready,
+running, awaiting review, awaiting author decision, awaiting integration,
+merged-and-verified, or blocked). Record evidence from the worker; do not
+mark an assignment complete or release dependent work merely because a
+branch was published or a pull request was opened.
 
 
 The coordinator serializes child-branch integration into the parent branch.
