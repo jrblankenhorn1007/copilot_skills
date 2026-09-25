@@ -706,3 +706,36 @@
   worker-01 sign-off/status/handoff against the resulting exact parent.
   Integrate worker-01 metadata and synchronize the dashboard before
   dispatching worker-02 again.
+
+## 2026-09-25T13:47:58Z — parent rebased through another ledger update
+
+- **Upstream movement:** `origin/main` advanced from
+  `13abaa65308345f7d34af0f99e745be6ce5fcd9d` to
+  `435fd371c0121c8318c3c8459e3f8e0dfca635e6` through three status-only
+  commits for the agent-role-hierarchy coordinator. Ownership is `FREE` at
+  revision 92.
+- **Rebase:** Rebased the clean parent from
+  `4cab113a0d284f38a0bc581cbb1da3cdb718c835` onto the fetched main SHA above
+  without conflicts. New parent HEAD is
+  `e83b68a3cba5c6487f84880a8a4bec4f33f249b7`; the 39-commit rebase completed.
+- **Worker SHA mapping:** Worker-01 implementation/series
+  `58672907ea13f8244a1f02913ab0a7497a293067` /
+  `0d28443c31b2ae04047251151546f7dd2a64c720` map to
+  `fee91826a7df8346fb28df66eed0fd558fd1b729` /
+  `048ee8df39df8bbeba2cedb5f442a50052bb6382`. Worker-02 implementation/
+  series `401ab0c660bd8d98e0f3c1bf78f63cc7c9473101` /
+  `ceb4b360a33c17be766bd5de21dd5582bbdca202` map to
+  `76c5f6ac8369525891b178e9a83bc93ad66955d0` /
+  `04b7b4ac8f9cbca8620ab940c958c68273693aab`. Range-diff confirms these
+  mappings; all four commits are ancestors of the parent.
+- **Green:** Full contract suite passed 24/24; parent `git diff --check`,
+  both implementation `git show --check` commands, and all four ancestry
+  checks passed after rebase.
+- **Worker metadata:** Worker-01 commit
+  `c2b643ad6cd5c68fddf59da420934f9119f09f82` remains preserved but
+  unintegrated on its old parent `856288d…`; it is superseded by this
+  rebase. Prior metadata commits `a515fd…` and `c3b9eb1…` remain untouched.
+- **Next:** Confirm one final stable fetch after committing this entry, then
+  request worker-01's fresh exact-SHA status/handoff against the current
+  parent. Integrate that update, synchronize the dashboard, and only then
+  resume worker-02.
