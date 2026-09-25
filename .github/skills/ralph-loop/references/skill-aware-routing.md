@@ -7,7 +7,9 @@ count, dashboard, and final verification. This guide complements the
 main-ownership protocol at `docs/agent-sync/main-ownership.md`.
 If the latter is not yet present on an older task branch, read the current
 fetched main version before any main transaction; do not treat its absence
-as permission to bypass the ownership rules.
+as permission to bypass the ownership rules. If fetched main lacks the
+protocol too, stop and report that prerequisite instead of improvising a
+status or merge write.
 
 ## Decide at the task boundary
 
