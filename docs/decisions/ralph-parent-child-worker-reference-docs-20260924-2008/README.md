@@ -10,18 +10,21 @@
   the original worker runtime ID.
 - **Original base parent SHA:** `d54cc120fe25da04d6be887b1a6a7e321512b6e4`
 - **Parent branch:** `refs/heads/ralph/parent-child-orchestrator-20260924-2008`
-- **Current `rebased_onto_parent_sha`:** `47982b9570f46eb4ccf3319fa3d90087d66db19a`
-- **Parent's `origin/main` base SHA:** `b4dac949e976d48f7bd976fc1c93ddc703bc7319`
-- **Pre-rebase implementation commit SHA:** `b75a67b699a5e063691a36746d8795656a84ca90`
-- **Rewritten implementation commit SHA:** `652b3dcda2d76188590d90bfbc788a1bc775dae9`
+- **Previous `rebased_onto_parent_sha`:** `47982b9570f46eb4ccf3319fa3d90087d66db19a`
+- **Current `rebased_onto_parent_sha`:** `268358566c074cf3be35661f15883c588aef622f`
+- **Parent's previously recorded `origin/main` base SHA:** `b4dac949e976d48f7bd976fc1c93ddc703bc7319`
+- **Parent's latest rebase target / observed `origin/main`:** `485b4a64c871f581f9295e46c867b188b0e3ccee`
+- **Pre-refresh implementation commit SHA:** `652b3dcda2d76188590d90bfbc788a1bc775dae9`
+- **Rewritten implementation commit SHA:** `b4d2d331fc5ad2efd29b96c201c099c8a3642944`
+- **Metadata/status/decision update commit SHA:** Pending separate metadata commit.
 - **PR:** `NOT_OPENED`. This is child-to-parent work; only the completed
   parent iteration integrates to remote `main`.
 - **Integration state:** No push or merge was performed in this follow-up.
   Child-to-parent integration remains pending; this branch does not claim
   remote-main integration or overall run completion.
-- **Contract status:** The parent-child contract suite is intentionally
-  incomplete until the other worker and coordinator-owned documentation land.
-  No full-suite pass is claimed.
+- **Contract status:** The combined parent-child contract test remains
+  `NOT_RUN` per coordinator instruction; it depends on coordinator
+  README/dashboard/test updates. No combined-suite pass is claimed.
 - **Agent records:**
   - [worker-02 — no PR opened](agents/worker-02/pr-not-opened.md)
 
@@ -49,6 +52,51 @@
   [status](../../ralph/ralph-parent-child-worker-reference-docs-20260924-2008/agents/worker-02/status.md) ·
   [progress](../../ralph/ralph-parent-child-worker-reference-docs-20260924-2008/agents/worker-02/progress.md).
 - **No-PR record:** [worker-02 — no PR opened](agents/worker-02/pr-not-opened.md).
+
+## Coordinator refresh — latest parent synchronization
+
+- **Same assignment:** Existing worker-02 iteration 1 and the same unpublished
+  child branch/worktree; no new branch or worker was created.
+- **Parent branch/worktree:** `ralph/parent-child-orchestrator-20260924-2008` /
+  `/Users/jrblankenhorn/copilot_skills.worktrees/ralph-parent-child-orchestrator-20260924-2008`.
+- **Parent tip used:** `268358566c074cf3be35661f15883c588aef622f`.
+- **Parent's previously recorded `origin/main` base:**
+  `b4dac949e976d48f7bd976fc1c93ddc703bc7319`.
+- **Latest parent rebase target and observed `origin/main`:**
+  `485b4a64c871f581f9295e46c867b188b0e3ccee`.
+- **Original `base_parent_sha`:**
+  `d54cc120fe25da04d6be887b1a6a7e321512b6e4`.
+- **Previous `rebased_onto_parent_sha`:**
+  `47982b9570f46eb4ccf3319fa3d90087d66db19a`.
+- **Current `rebased_onto_parent_sha`:**
+  `268358566c074cf3be35661f15883c588aef622f`.
+- **Rebase command:**
+  `git rebase --onto 268358566c074cf3be35661f15883c588aef622f 47982b9570f46eb4ccf3319fa3d90087d66db19a`.
+  The child test-only commit `47982b9570f46eb4ccf3319fa3d90087d66db19a`
+  was not replayed: the parent already carries its updated contract-test
+  commit `5a4fdf3fb7b88e179b81bb0286b2679ed0c077bf`, including the
+  parent-child contract coverage. The worker did not edit contract tests.
+- **Previous implementation SHA:**
+  `652b3dcda2d76188590d90bfbc788a1bc775dae9`.
+- **Rewritten implementation SHA:**
+  `b4d2d331fc5ad2efd29b96c201c099c8a3642944`.
+- **Conflict resolution:** Retained the parent branch's current dashboard,
+  branch/agent leaf, PR, `merge_actor_worker_id`, signature, and
+  decision-record requirements while preserving the parent-child branch
+  lifecycle, worker-to-parent and parent-to-main merge verification, rebase
+  history, and cleanup state. The conflicts were in
+  `multi-agent-orchestration.md`, `multi-agent-status.md`, and `ralph-loop.md`.
+  The CLI accuracy note remains: `--orchestrator` is launcher/session
+  configuration only, not a native Copilot CLI flag.
+- **Current state:** `AWAITING_MERGE`; PR is `NOT_OPENED`. Worker-to-parent
+  integration, parent-to-main verification, memory review, and cleanup remain
+  pending. No push, PR, merge, or worktree/branch cleanup was performed.
+- **Contract status:** The combined parent-child test is `NOT_RUN` per
+  coordinator instruction. No combined-suite pass is claimed.
+- **Metadata update SHA:** Pending separate metadata commit.
+- **Current worker records:** [status](../../ralph/ralph-parent-child-worker-reference-docs-20260924-2008/agents/worker-02/status.md) ·
+  [progress](../../ralph/ralph-parent-child-worker-reference-docs-20260924-2008/agents/worker-02/progress.md) ·
+  [worker-02 no-PR record](agents/worker-02/pr-not-opened.md).
 
 ## Post-dispatch remote-main movement
 
