@@ -1,6 +1,7 @@
 # Agent Decision Record — No PR Opened
 
 - **Run ID:** `copilot_skills-parent-child-pipeline-20260924`
+- **Task ID:** `parent-child-worker-agent-skill`
 - **Worker:** `worker-01`
 - **Scope:** Document the Ralph parent-child worktree flow in the Ralph Loop
   agent and skill.
@@ -8,15 +9,31 @@
   (this follow-up; the original implementation session ID was not available)
 - **Branch ref:** `refs/heads/ralph/parent-child-worker-agent-skill-20260924-2008`
 - **Worktree:** `/Users/jrblankenhorn/copilot_skills.worktrees/ralph-parent-child-worker-agent-skill-20260924-2008`
+- **Parent branch:** `ralph/parent-child-orchestrator-20260924-2008`
+- **Parent worktree:** `/Users/jrblankenhorn/copilot_skills.worktrees/ralph-parent-child-orchestrator-20260924-2008`
 - **Original base parent SHA:** `d54cc120fe25da04d6be887b1a6a7e321512b6e4`
-- **Pre-rebase implementation SHA:** `55c04781f329687e6638721f03d00037d61e9b60`
-- **Rebased onto parent SHA (`rebased_onto_parent_sha`):**
+- **Previous rebase parent SHA:**
   `7376bc80f8876a28eb0570760b783c389884fc96`
-- **Rewritten implementation commit SHA:** `078c2eb2676c874949dc847cbb7465ab33284325`
+- **Latest `rebased_onto_parent_sha`:**
+  `0688b70d8995a6900f29d9d3eeac6ffe8a9cfc42`
+- **Parent's current `origin/main` SHA:** `d26900cc201218fb84f5ad4987285c0c24b85bb7`
+- **Original implementation SHA:** `55c04781f329687e6638721f03d00037d61e9b60`
+- **Implementation SHA before latest rebase:** `078c2eb2676c874949dc847cbb7465ab33284325`
+- **Rewritten implementation commit SHA:** `52443ce80ca8ce612a7383ae3848d6f3af36f579`
+- **Prior rewritten metadata commit SHA:** `a4271b6d5711a722340b32b493998c3b65391cc4`
+- **Latest metadata update commit SHA:** Reported in the worker sign-off after commit; it cannot be embedded in its own commit content.
 - **Pull request:** Not opened. Child branches integrate into the parent
   worktree; only the completed parent branch proceeds to remote `main`.
-- **Integration status:** Awaiting coordinator integration into the parent.
-  No remote-main merge is claimed.
+- **Worker status:** `AWAITING_MERGE`
+- **Integration status:** Awaiting coordinator child-to-parent integration
+  and post-merge memory review. No remote-main merge is claimed; cleanup is
+  pending.
+
+## Worker leaf records
+
+- [Branch decision index](../../README.md)
+- [Current status](../../../../ralph/ralph-parent-child-worker-agent-skill-20260924-2008/agents/worker-01/status.md)
+- [Current progress](../../../../ralph/ralph-parent-child-worker-agent-skill-20260924-2008/agents/worker-01/progress.md)
 
 ## Decisions
 
@@ -75,3 +92,59 @@
 - None for this child iteration. The parent-child contract suite remains
   intentionally pending the other worker's and coordinator-owned
   documentation; that aggregate check is not claimed as passing here.
+
+## Latest parent refresh and worker artifact update
+
+### Rebase decision
+
+- **Context:** The coordinator refreshed this same parent branch to
+  `0688b70d8995a6900f29d9d3eeac6ffe8a9cfc42`, based on fetched
+  `origin/main` `d26900cc201218fb84f5ad4987285c0c24b85bb7`. This unpublished
+  child had already been rebased onto
+  `7376bc80f8876a28eb0570760b783c389884fc96`.
+- **Alternatives:** Rebase onto `origin/main`, create a replacement child
+  branch, or leave the existing child stale.
+- **Decision:** Keep the existing branch and rebase only its two outstanding
+  commits from the previous parent tip onto the exact latest parent:
+  `git rebase --onto 0688b70d8995a6900f29d9d3eeac6ffe8a9cfc42 7376bc80f8876a28eb0570760b783c389884fc96`.
+- **Rationale:** Preserve this worker iteration and the coordinator-owned
+  parent-child topology without bypassing the parent via `origin/main`.
+- **Consequences:** The implementation commit is now
+  `52443ce80ca8ce612a7383ae3848d6f3af36f579`; the previous decision-record
+  commit was rewritten to `a4271b6d5711a722340b32b493998c3b65391cc4`. The
+  original `base_parent_sha` remains
+  `d54cc120fe25da04d6be887b1a6a7e321512b6e4`. The exact SHA of the new
+  metadata commit is returned in the worker sign-off because it cannot be
+  embedded in its own commit content.
+
+### Recovered rebase conflicts
+
+- The rebase conflicted in the two worker-owned files:
+  `.github/agents/ralph-loop.agent.md` and
+  `.github/skills/ralph-loop/SKILL.md`.
+- Resolved the conflicts by preserving the parent-child workflow together
+  with the latest parent artifact rules, including worker-owned
+  `docs/ralph/<branch-slug>/agents/<agent-id>/status.md` and `progress.md`
+  leaves and coordinator ownership of `docs/ralph-status.md`. No test,
+  README, aggregate status, root Ralph log, or other worker path was changed.
+
+### Follow-up verification
+
+- `git diff --check` — PASS.
+- `python3 .github/skills/ralph-loop/tests/test_multi_agent_contract.py MultiAgentContractTests.test_git_preflight_separates_identity_and_access_permissions`
+  — PASS, `Ran 1 test`, `OK`.
+- `python3 .github/skills/ralph-loop/tests/test_multi_agent_contract.py MultiAgentContractTests.test_final_response_reports_completion_and_logs_recovered_issues`
+  — PASS, `Ran 1 test`, `OK`.
+- `python3 -c 'import re; from pathlib import Path; files = [Path("docs/decisions/ralph-parent-child-worker-agent-skill-20260924-2008/README.md"), Path("docs/decisions/ralph-parent-child-worker-agent-skill-20260924-2008/agents/worker-01/pr-not-opened.md"), Path("docs/ralph/ralph-parent-child-worker-agent-skill-20260924-2008/agents/worker-01/status.md"), Path("docs/ralph/ralph-parent-child-worker-agent-skill-20260924-2008/agents/worker-01/progress.md")]; missing = [(str(f), u) for f in files for u in re.findall(r"\[[^\]]+\]\(([^)]+)\)", f.read_text()) if not u.startswith(("http://", "https://", "#")) and not (f.parent / u.split("#", 1)[0]).resolve().exists()]; print("PASS: all relative Markdown links resolve" if not missing else "FAIL: " + repr(missing)); raise SystemExit(bool(missing))'`
+  — PASS; all relative Markdown links resolve.
+- The combined parent-child contract suite was not run as directed; the
+  coordinator-owned documentation and worker-02 are not integrated yet.
+- TDD Red/Green/Refactor is not applicable to this documentation rebase and
+  worker-artifact update.
+
+### Current lifecycle
+
+- Worker status remains `AWAITING_MERGE`; PR is `NOT_OPENED`.
+- Parent integration, the coordinator's post-merge memory review, and cleanup
+  remain pending. The worker did not push, merge, or remove this child branch
+  or worktree.
