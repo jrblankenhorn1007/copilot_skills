@@ -13,9 +13,11 @@
 | Worktree | `/Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-status-reporting-worker-01-20260925-0602` |
 | Parent branch / worktree | `ralph/agent-status-reporting-20260924-2313` / `/Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-status-reporting-20260924-2313` |
 | Parent base `origin/main` SHA | `9558f99cc34cbed8dd1d24f4f15fc03f5d78b6ea` |
-| Parent latest rebase onto `origin/main` | `20293c720b18a1a21ff150f566823493b7a2717d` |
+| Parent latest rebase onto `origin/main` | `7ee1307cb47f5a88cd6b46ee135444777ddeb665` |
 | Child base parent SHA | `f602cfcd7e7d7043870857c1fda6b9707a711e5d` |
-| Implementation commit SHA | `9a5b1db184fb6d3f638304e1abd60f42d2c4133d` |
+| Rebased onto parent SHA | `c3f834fcff1ef69a442abb0c70b615327d40be9a` |
+| Rebased child tip before this record refresh | `8eab63d4eaef5390b9d72150716540ae8169b959` |
+| Implementation commit SHA | `eeb087c1914929b5c93a400af0a9c161ea73d7dc` |
 | Pull request | `NOT_OPENED` — coordinator performs child-to-parent integration |
 | Worker-to-parent merge | `PENDING` |
 | Memory review | `PENDING` — coordinator-owned after parent-to-main integration |
@@ -40,9 +42,9 @@ requested_worker_count: 2
 effective_worker_count: 2
 active_worker_count: 0
 started_at_utc: "2026-09-25T06:01:28Z"
-updated_at_utc: "2026-09-25T07:28:37Z"
+updated_at_utc: "2026-09-25T08:48:25Z"
 resource_usage:
-  time_spent_seconds: 5229
+  time_spent_seconds: 10017
   time_basis: WALL_CLOCK_ELAPSED
   token_spend:
     status: NOT_REPORTED
@@ -56,14 +58,27 @@ rebased_onto_origin_main_sha: null
 parent_branch: "ralph/agent-status-reporting-20260924-2313"
 parent_worktree: "/Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-status-reporting-20260924-2313"
 parent_base_origin_main_sha: "9558f99cc34cbed8dd1d24f4f15fc03f5d78b6ea"
-parent_rebased_onto_origin_main_sha: "20293c720b18a1a21ff150f566823493b7a2717d"
+parent_rebased_onto_origin_main_sha: "7ee1307cb47f5a88cd6b46ee135444777ddeb665"
 base_parent_sha: "f602cfcd7e7d7043870857c1fda6b9707a711e5d"
-rebased_onto_parent_sha: "bfc044acb477af7abf17717644adf9edfe9614db"
-implementation_commit_sha: "9a5b1db184fb6d3f638304e1abd60f42d2c4133d"
+rebased_onto_parent_sha: "c3f834fcff1ef69a442abb0c70b615327d40be9a"
+implementation_commit_sha: "eeb087c1914929b5c93a400af0a9c161ea73d7dc"
 pull_request:
   status: NOT_OPENED
   number: null
   url: null
+review:
+  status: NOT_APPLICABLE
+  reviewer_agents: []
+  reviewed_base_sha: null
+  reviewed_head_sha: null
+  rounds_completed: 0
+  max_rounds: 2
+  unresolved_finding_count: 0
+  author_decision:
+    status: NOT_APPLICABLE
+    choice: null
+    rationale: null
+    recorded_at_utc: null
 decision_record_path: "docs/decisions/ralph-agent-status-reporting-worker-01-20260925-0602/agents/worker-01/pr-not-opened.md"
 decision_index_path: "docs/decisions/ralph-agent-status-reporting-worker-01-20260925-0602/README.md"
 merge_actor_worker_id: null
@@ -80,36 +95,24 @@ cleanup:
   remote_ref: NOT_PUBLISHED
 memory_review: PENDING
 checks:
+  - command: "git -C /Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-status-reporting-worker-01-20260925-0602 rebase --onto c3f834fcff1ef69a442abb0c70b615327d40be9a bfc044acb477af7abf17717644adf9edfe9614db; resolve the status-reference conflict and continue with git rebase --continue"
+    result: "PASS (six worker commits replayed; both parent status-state exclusions and the worker status-first nonterminal-zero explanation were retained.)"
   - command: "cd /Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-status-reporting-worker-01-20260925-0602 && python3 .github/skills/ralph-loop/tests/test_multi_agent_contract.py"
-    result: "FAIL (expected Red before documentation edits: 15 tests, 17 failures)"
-  - command: "cd /Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-status-reporting-worker-01-20260925-0602 && python3 .github/skills/ralph-loop/tests/test_multi_agent_contract.py"
-    result: "PASS (15 tests, OK after documentation edits)"
-  - command: "cd /Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-status-reporting-worker-01-20260925-0602 && python3 .github/skills/ralph-loop/tests/test_multi_agent_contract.py MultiAgentContractTests.test_status_first_reports_cover_run_and_agent_state_without_stopping_early"
-    result: "PASS (1 test in 0.006s after worker records were added)"
-  - command: "git -C /Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-status-reporting-worker-01-20260925-0602 diff --cached --check"
-    result: "PASS for the staged worker-owned records"
-  - command: "git -C /Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-status-reporting-worker-01-20260925-0602 diff --check"
-    result: PASS
-  - command: "cd /Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-status-reporting-worker-01-20260925-0602 && python3 .github/skills/ralph-loop/tests/test_multi_agent_contract.py"
-    result: "PASS (Ran 16 tests in 2.370s, OK after the final AWAITING_MERGE update.)"
-  - command: "git -C /Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-status-reporting-worker-01-20260925-0602 rebase --onto bfc044acb477af7abf17717644adf9edfe9614db f602cfcd7e7d7043870857c1fda6b9707a711e5d"
-    result: "PASS (replayed the four child commits after the original base; rebase conflicts were resolved without dropping either reporting or schema-v2 guidance.)"
+    result: "PASS (Ran 21 tests in 4.005s, OK after refreshing the full schema-v2 leaf and worker decision records.)"
   - command: "cd /Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-status-reporting-worker-01-20260925-0602 && git diff --check"
-    result: "PASS (no whitespace errors in the worker-owned record updates.)"
-  - command: "cd /Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-status-reporting-worker-01-20260925-0602 && git diff --check bfc044acb477af7abf17717644adf9edfe9614db..HEAD"
-    result: "PASS (no whitespace errors in the rebased committed changes.)"
-  - command: "cd /Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-status-reporting-worker-01-20260925-0602 && git merge-base --is-ancestor bfc044acb477af7abf17717644adf9edfe9614db HEAD"
-    result: "PASS (the exact parent rebase target is an ancestor of the child.)"
-  - command: "cd /Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-status-reporting-worker-01-20260925-0602 && git diff --check"
-    result: PASS
+    result: "PASS (no whitespace errors in current worker-owned updates.)"
+  - command: "cd /Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-status-reporting-worker-01-20260925-0602 && git diff --check c3f834fcff1ef69a442abb0c70b615327d40be9a..HEAD"
+    result: "PASS (no whitespace errors in the rebased implementation range before the current leaf/decision-record refresh.)"
+  - command: "cd /Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-status-reporting-worker-01-20260925-0602 && git merge-base --is-ancestor c3f834fcff1ef69a442abb0c70b615327d40be9a HEAD"
+    result: "PASS (the exact current parent SHA is an ancestor of the child.)"
 blockers: []
 next_action: "Coordinator: integrate this child into the parent, verify the resulting parent SHA, and synchronize docs/ralph-status.md. Keep this leaf AWAITING_MERGE until that verification is complete."
 worker_sign_off:
   status: SUBMITTED
   attestation_kind: SELF_ATTESTATION
   cryptographic_signature_status: NOT_CRYPTOGRAPHICALLY_SIGNED
-  attested_at_utc: "2026-09-25T07:28:37Z"
-  statement: "I, worker-01, sign off iteration 1 for status-first-agent-reporting-guidance at commit 9a5b1db184fb6d3f638304e1abd60f42d2c4133d."
+  attested_at_utc: "2026-09-25T08:48:25Z"
+  statement: "I, worker-01, sign off iteration 1 for status-first-agent-reporting-guidance at commit eeb087c1914929b5c93a400af0a9c161ea73d7dc."
 commit_signature_verification:
   status: NOT_CRYPTOGRAPHICALLY_SIGNED
   verifier: null

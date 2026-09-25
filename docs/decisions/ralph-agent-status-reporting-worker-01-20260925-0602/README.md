@@ -5,13 +5,14 @@
 - **Parent branch:** `ralph/agent-status-reporting-20260924-2313`
 - **Parent worktree:** `/Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-status-reporting-20260924-2313`
 - **Base parent SHA:** `f602cfcd7e7d7043870857c1fda6b9707a711e5d`
-- **Child rebase target parent SHA:** `bfc044acb477af7abf17717644adf9edfe9614db`
+- **Child rebase target parent SHA:** `c3f834fcff1ef69a442abb0c70b615327d40be9a`
 - **Parent base `origin/main` SHA:** `9558f99cc34cbed8dd1d24f4f15fc03f5d78b6ea`
-- **Parent latest rebase onto `origin/main`:** `20293c720b18a1a21ff150f566823493b7a2717d`
+- **Parent latest rebase onto `origin/main`:** `7ee1307cb47f5a88cd6b46ee135444777ddeb665`
 - **Worker:** `worker-01` / `worker-01 - status-first agent reporting documentation`
 - **Task:** `status-first-agent-reporting-guidance`
-- **Implementation commit SHA:** `9a5b1db184fb6d3f638304e1abd60f42d2c4133d`
-- **State:** `AWAITING_MERGE`; the refreshed sign-off is submitted and child-to-parent integration is pending.
+- **Implementation commit SHA:** `eeb087c1914929b5c93a400af0a9c161ea73d7dc`
+- **Child tip after rebase, before this record refresh:** `8eab63d4eaef5390b9d72150716540ae8169b959`
+- **State:** `AWAITING_MERGE`; the latest sign-off is bound to the rewritten implementation SHA and child-to-parent integration is pending.
 - **PR:** `NOT_OPENED`; this parent/child run integrates child branches locally
   into the coordinator's parent, then verifies the resulting parent-side SHA.
 
@@ -66,6 +67,26 @@
 - **Consequences:** The worker implementation commit is rewritten and must
   be freshly tested and attested; parent-owned changes remain untouched.
 
+### Rebase the unpublished child onto the latest parent tip
+
+- **Context:** After the parent was rebased onto fetched `origin/main`
+  `7ee1307cb47f5a88cd6b46ee135444777ddeb665`, its current tip became
+  `c3f834fcff1ef69a442abb0c70b615327d40be9a`. This unpublished child was
+  based on its previous parent rebase target
+  `bfc044acb477af7abf17717644adf9edfe9614db`.
+- **Alternatives:** Continue with the stale child, use a default rebase that
+  might replay parent-owned history, or replay only the worker commits after
+  the prior parent tip onto the current parent.
+- **Decision:** Use
+  `git rebase --onto c3f834fcff1ef69a442abb0c70b615327d40be9a bfc044acb477af7abf17717644adf9edfe9614db`
+  to update the existing unpublished child branch.
+- **Rationale:** This replays only the worker's six commits, avoids
+  reapplying coordinator-owned parent/dashboard history, and preserves the
+  exact latest parent integration target.
+- **Consequences:** The implementation commit was rewritten to
+  `eeb087c1914929b5c93a400af0a9c161ea73d7dc`; a fresh full-suite run and
+  self-attestation are required before integration.
+
 ## Verification
 
 - Red: the full multi-agent contract suite failed as expected before docs
@@ -113,6 +134,34 @@
   parent-target ancestry verification passed.
 - `active_worker_count: 0` is explicitly documented as nonterminal while
   queued, awaiting-merge, or coordinator work remains.
+
+### Latest parent refresh and child revalidation
+
+- Verified the canonical clean `main` worktree and fetched `origin/main` at
+  `7ee1307cb47f5a88cd6b46ee135444777ddeb665`; the coordinator had already
+  performed its required fast-forward pull on the shared worktree.
+- Rebasing from prior child target
+  `bfc044acb477af7abf17717644adf9edfe9614db` to parent tip
+  `c3f834fcff1ef69a442abb0c70b615327d40be9a` encountered a conflict in
+  `.github/skills/ralph-loop/references/multi-agent-status.md`. Resolution
+  retained both the parent's complete worker-state exclusions and the
+  worker's explicit explanation of nonterminal `active_worker_count: 0`.
+- Rewritten implementation SHA:
+  `eeb087c1914929b5c93a400af0a9c161ea73d7dc`; child tip immediately after
+  rebase and before the current record refresh:
+  `8eab63d4eaef5390b9d72150716540ae8169b959`.
+- `python3 .github/skills/ralph-loop/tests/test_multi_agent_contract.py`:
+  `PASS` (`Ran 21 tests in 3.432s`, `OK`).
+- After the worker-owned status, progress, and decision records were
+  refreshed and the new sign-off was prepared, the same full suite passed
+  again (`Ran 21 tests in 3.259s`, `OK`).
+- Final suite rerun after the remaining documentation details were updated:
+  `Ran 21 tests in 3.682s`, `OK`.
+- Schema-v2 timestamp and sign-off refresh verification:
+  `Ran 21 tests in 4.005s`, `OK`.
+- `git diff --check c3f834fcff1ef69a442abb0c70b615327d40be9a..HEAD` and
+  `git merge-base --is-ancestor c3f834fcff1ef69a442abb0c70b615327d40be9a HEAD`:
+  `PASS`.
 
 ## Unresolved blockers
 

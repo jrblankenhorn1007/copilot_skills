@@ -9,10 +9,11 @@
 - **Base parent SHA:** `f602cfcd7e7d7043870857c1fda6b9707a711e5d`
 - **Parent branch:** `ralph/agent-status-reporting-20260924-2313`
 - **Parent base `origin/main` SHA:** `9558f99cc34cbed8dd1d24f4f15fc03f5d78b6ea`
-- **Parent latest rebase onto `origin/main`:** `20293c720b18a1a21ff150f566823493b7a2717d`
-- **Child rebased onto parent SHA:** `bfc044acb477af7abf17717644adf9edfe9614db`
-- **Implementation commit SHA:** `9a5b1db184fb6d3f638304e1abd60f42d2c4133d`
-- **Rebase-evidence/records commit SHA:** `822b31929b5f1ec7faa04a907934675325baa2c4`
+- **Parent latest rebase onto `origin/main`:** `7ee1307cb47f5a88cd6b46ee135444777ddeb665`
+- **Child rebased onto parent SHA:** `c3f834fcff1ef69a442abb0c70b615327d40be9a`
+- **Implementation commit SHA:** `eeb087c1914929b5c93a400af0a9c161ea73d7dc`
+- **Child tip immediately after rebase, before this record refresh:** `8eab63d4eaef5390b9d72150716540ae8169b959`
+- **Previous rebase-evidence/records commit SHA:** `822b31929b5f1ec7faa04a907934675325baa2c4`
 - **PR:** Not opened. The coordinator integrates the child branch into the
   parent through the run's local parent/child process; workers do not merge
   directly to `origin/main`.
@@ -48,6 +49,23 @@
   work while avoiding a binary task-completion verdict.
 - **Consequences:** The status guide, core instructions, README, and decision
   guide link to a consistent report contract.
+
+### Rebase the unpublished child onto the current parent
+
+- **Context:** The parent was rebased onto current `origin/main`
+  `7ee1307cb47f5a88cd6b46ee135444777ddeb665`, producing current parent tip
+  `c3f834fcff1ef69a442abb0c70b615327d40be9a`; this child was previously
+  rebased onto `bfc044acb477af7abf17717644adf9edfe9614db`.
+- **Alternatives:** Keep the stale child, replay parent-owned history with a
+  default rebase, or replay only this unpublished worker's commits after the
+  previous parent tip.
+- **Decision:** Rebase the existing child with
+  `git rebase --onto c3f834fcff1ef69a442abb0c70b615327d40be9a bfc044acb477af7abf17717644adf9edfe9614db`.
+- **Rationale:** The targeted base avoids replaying coordinator-owned parent
+  and dashboard changes and preserves the existing child branch.
+- **Consequences:** The worker's implementation commit was rewritten and
+  needs current checks and fresh sign-off; the child remains
+  `AWAITING_MERGE`.
 
 ## Recovered issues
 
@@ -113,6 +131,46 @@
 - **Verification:** The targeted rebase completed, and the full 16-test
   contract suite passed. The failed inspection command changed no files.
 - **Status:** Resolved.
+
+## Latest parent rebase and revalidation
+
+- Verified the clean canonical `main` integration worktree and fetched
+  `origin/main` at `7ee1307cb47f5a88cd6b46ee135444777ddeb665`; the
+  coordinator had already performed the required shared-worktree pull.
+- The child was clean at `23f58d69ab28c5fbe6eff67a23105588ffb346b1`;
+  the parent was clean at target
+  `c3f834fcff1ef69a442abb0c70b615327d40be9a`.
+- `git rebase --onto c3f834fcff1ef69a442abb0c70b615327d40be9a bfc044acb477af7abf17717644adf9edfe9614db`
+  stopped on a content conflict in
+  `.github/skills/ralph-loop/references/multi-agent-status.md`. The
+  resolution retained the parent's complete worker-state enum exclusions
+  and the worker's status-first zero-active-count explanation. The
+  continuation
+  `git -C /Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-status-reporting-worker-01-20260925-0602 add .github/skills/ralph-loop/references/multi-agent-status.md && GIT_EDITOR=true git -C /Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-status-reporting-worker-01-20260925-0602 rebase --continue`
+  completed successfully, replaying all six worker commits.
+- Rewritten implementation commit:
+  `eeb087c1914929b5c93a400af0a9c161ea73d7dc`. Child tip immediately after
+  rebase and before this record refresh:
+  `8eab63d4eaef5390b9d72150716540ae8169b959`.
+- `python3 .github/skills/ralph-loop/tests/test_multi_agent_contract.py`:
+  `PASS` (`Ran 21 tests in 3.432s`, `OK`).
+- After the worker-owned status, progress, and decision records were
+  refreshed and the new sign-off was prepared, the same full suite passed
+  again (`Ran 21 tests in 3.259s`, `OK`).
+- Final suite rerun after the remaining documentation details were updated:
+  `Ran 21 tests in 3.682s`, `OK`.
+- Schema-v2 timestamp and sign-off refresh verification:
+  `Ran 21 tests in 4.005s`, `OK`.
+- `git diff --check c3f834fcff1ef69a442abb0c70b615327d40be9a..HEAD` and
+  `git merge-base --is-ancestor c3f834fcff1ef69a442abb0c70b615327d40be9a HEAD`:
+  `PASS`.
+- **Resolved patch invocations:** The first conflict-resolution hunk was
+  rejected because its removal markers were malformed; a first status-check
+  hunk was also rejected because its expected old result text did not match.
+  Neither attempt changed files. Corrected, narrower hunks were applied;
+  the later `git diff --check` passed.
+- **Status:** Resolved. No coordinator-owned `docs/ralph-status.md` or parent
+  file was edited; child-to-parent integration remains pending.
 
 ## Unresolved blockers
 
