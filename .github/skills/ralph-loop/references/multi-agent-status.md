@@ -480,16 +480,6 @@ branch_agent_index:
     status: AWAITING_REVIEW
     iteration: 1
     merge_actor_worker_id: null
-    resource_usage:
-      time_spent_seconds: 600 # illustrative; calculate from the leaf timestamps
-      time_basis: WALL_CLOCK_ELAPSED
-      token_spend:
-        status: NOT_REPORTED
-        input_tokens: null
-        output_tokens: null
-        total_tokens: null
-        cached_input_tokens: null
-        source: null
     pull_request:
       status: OPEN
       number: "<PR number>"
@@ -509,6 +499,16 @@ branch_agent_index:
         choice: null
         rationale: null
         recorded_at_utc: null
+    resource_usage:
+      time_spent_seconds: 600 # illustrative; calculate from the leaf timestamps
+      time_basis: WALL_CLOCK_ELAPSED
+      token_spend:
+        status: NOT_REPORTED
+        input_tokens: null
+        output_tokens: null
+        total_tokens: null
+        cached_input_tokens: null
+        source: null
     status_path: "docs/ralph/ralph-orchestration-worker-01-<unique-id>/agents/worker-01/status.md"
     progress_path: "docs/ralph/ralph-orchestration-worker-01-<unique-id>/agents/worker-01/progress.md"
     decision_record_path: "docs/decisions/ralph-orchestration-worker-01-<unique-id>/agents/worker-01/pr-pending.md"
@@ -523,16 +523,6 @@ branch_agent_index:
     status: AWAITING_AUTHOR_DECISION
     iteration: 1
     merge_actor_worker_id: null
-    resource_usage:
-      time_spent_seconds: 420 # illustrative; calculate from the leaf timestamps
-      time_basis: WALL_CLOCK_ELAPSED
-      token_spend:
-        status: NOT_REPORTED
-        input_tokens: null
-        output_tokens: null
-        total_tokens: null
-        cached_input_tokens: null
-        source: null
     pull_request:
       status: OPEN
       number: "<PR number>"
@@ -552,6 +542,16 @@ branch_agent_index:
         choice: null
         rationale: null
         recorded_at_utc: null
+    resource_usage:
+      time_spent_seconds: 420 # illustrative; calculate from the leaf timestamps
+      time_basis: WALL_CLOCK_ELAPSED
+      token_spend:
+        status: NOT_REPORTED
+        input_tokens: null
+        output_tokens: null
+        total_tokens: null
+        cached_input_tokens: null
+        source: null
     status_path: "docs/ralph/ralph-status-schema-worker-02-<unique-id>/agents/worker-02/status.md"
     progress_path: "docs/ralph/ralph-status-schema-worker-02-<unique-id>/agents/worker-02/progress.md"
     decision_record_path: "docs/decisions/ralph-status-schema-worker-02-<unique-id>/agents/worker-02/pr-<number>.md"

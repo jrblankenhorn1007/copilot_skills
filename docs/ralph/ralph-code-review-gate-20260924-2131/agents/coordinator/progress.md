@@ -214,3 +214,24 @@ recorded in the timestamped progress entry below.
 - No external integration blocker is present. Rebase this unpublished
   coordinator branch onto the latest `origin/main`, then rerun the contract
   suite before integration.
+
+## 2026-09-25T06:37:08Z — schema-contract recovery and latest-main refresh
+
+- **Rebase regression:** after rebasing the unpublished branch onto
+  `05b1b23da974ed7b171c3a29ee266e43721d4e7b`, the full 20-test suite exposed
+  `test_per_branch_time_and_token_usage_contract`: placing `resource_usage`
+  before `review` caused the test's branch-index parser to consume the nested
+  author-decision `PENDING` value instead of the resource token status.
+- **Correction:** moved each example's `resource_usage` block after its
+  `review` object. The targeted command
+  `python3 /Users/jrblankenhorn/copilot_skills.worktrees/ralph-code-review-gate-20260924-2131/.github/skills/ralph-loop/tests/test_multi_agent_contract.py MultiAgentContractTests.test_per_branch_time_and_token_usage_contract MultiAgentContractTests.test_two_review_rounds_end_with_author_agent_action`
+  passed both tests. The full command
+  `python3 /Users/jrblankenhorn/copilot_skills.worktrees/ralph-code-review-gate-20260924-2131/.github/skills/ralph-loop/tests/test_multi_agent_contract.py`
+  then passed all 20 tests; `git diff --check` also passed.
+- **Latest-main refresh:** fetched `origin/main` at
+  `20293c720b18a1a21ff150f566823493b7a2717d`. The clean primary integration
+  worktree is synchronized to that SHA. The feature branch is still based on
+  `05b1b23da974ed7b171c3a29ee266e43721d4e7b`; commit the verified correction
+  and rebase it onto the fetched latest main before final verification.
+- This test failure was an integration/schema-example regression, not the
+  task's TDD Red. No external blocker is currently known.
