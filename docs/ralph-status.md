@@ -22,8 +22,8 @@ remains in progress.
 ```yaml
 schema_version: 2
 snapshot_path: "docs/ralph-status.md"
-snapshot_revision: 116
-updated_at_utc: "2026-09-25T17:43:21Z"
+snapshot_revision: 117
+updated_at_utc: "2026-09-25T18:37:22Z"
 overall_status: IN_PROGRESS
 current_run_ids:
   - "copilot-skills-docs-status-organization-20260924"
@@ -334,17 +334,17 @@ runs:
     active_worker_count: 0
     base_origin_main_sha: "20293c720b18a1a21ff150f566823493b7a2717d"
     created_at_utc: "2026-09-25T06:27:34Z"
-    updated_at_utc: "2026-09-25T17:43:21Z"
+    updated_at_utc: "2026-09-25T18:37:22Z"
     coordinator_scope: "Research, benchmark, integrate, and validate a bounded inter-session communication protocol and Copilot skill."
     coordinator_branch: "ralph/agent-communication-parent-20260925-0627"
     coordinator_worktree: "/Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-communication-parent-20260925-0627"
     coordinator_status_path: "docs/ralph/ralph-agent-communication-parent-20260925-0627/agents/coordinator/status.md"
     coordinator_progress_path: "docs/ralph/ralph-agent-communication-parent-20260925-0627/agents/coordinator/progress.md"
     parent_base_origin_main_sha: "20293c720b18a1a21ff150f566823493b7a2717d"
-    current_origin_main_sha: "d8af3e8d87cd32aaab128bb6edabd6e8402da5e4"
+    current_origin_main_sha: "88af044b4b4f1fcbc9b356954885cd2de54e4ad7"
     parent_rebased_onto_origin_main_sha: "c1ac03a4d3378789450b7ac59a655fcbff974241"
-    parent_implementation_commit_sha: "db6d18e1c49fe3a0af962b0b3c6add156b4ca460"
-    next_action: "Coordinator: after this status commit, rebase worker-01's clean child onto the exact current parent tip and send READY_TO_EDIT. Defer parent rebase across unrelated status-only commits until immediately before integration."
+    parent_implementation_commit_sha: "d93041a2d19108929e44e03b2b977429e56ed6fa"
+    next_action: "Coordinator: resume worker-02 to refresh its exact implementation-SHA sign-off and required memory handoff against the current parent; then rebase and retest the completed parent immediately before final integration."
     split_plan:
       - task_id: "agent-communication-skill"
         worker_id: "worker-01"
@@ -361,17 +361,33 @@ runs:
     worker_assignments:
       - worker_id: "worker-01"
         worker_name: "worker-01 / agent communication skill"
-        branch: "ralph/agent-communication-worker-01-20260925-0627"
+        branch: "ralph/agent-communication-worker-01-fallback-20260925-1647"
         branch_slug: "ralph-agent-communication-worker-01-20260925-0627"
-        worktree: "/Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-communication-worker-01-20260925-0627"
+        worktree: "/Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-communication-worker-01-fallback-20260925-1647"
         runtime_agent_id: "4b590f58-600f-4d99-92b7-29db9c14b7a4"
-        status: AWAITING_MERGE
-        base_parent_sha: "0294550c92a5d79e1cca682a0c509b5bb6eca3fd"
-        implementation_commit_sha: "223d1df7d2a762a81a2fd2de1f8e96160a4e2e69"
+        status: COMPLETE
+        resource_usage:
+          time_spent_seconds: 38523
+          time_basis: WALL_CLOCK_ELAPSED
+          token_spend:
+            status: NOT_REPORTED
+            input_tokens: null
+            output_tokens: null
+            total_tokens: null
+            cached_input_tokens: null
+            source: null
+        base_parent_sha: "15d0597d1bf693f9ebea3c348ad73d160e896fee"
+        rebased_onto_parent_sha: "3257768c7e43824d38a46f89e751add006d0790e"
+        implementation_commit_sha: "d93041a2d19108929e44e03b2b977429e56ed6fa"
+        worker_to_parent_merge:
+          status: VERIFIED
+          sha: "63e309f6447c57abd27c3f70395b2897ca60d21e"
+          verified_parent_ref: "refs/heads/ralph/agent-communication-parent-20260925-0627"
+          verified_parent_sha: "63e309f6447c57abd27c3f70395b2897ca60d21e"
         status_path: "docs/ralph/ralph-agent-communication-worker-01-20260925-0627/agents/worker-01/status.md"
         progress_path: "docs/ralph/ralph-agent-communication-worker-01-20260925-0627/agents/worker-01/progress.md"
         decision_record_path: "docs/decisions/ralph-agent-communication-worker-01-20260925-0627/agents/worker-01/pr-not-opened.md"
-        next_action: "Coordinator: refresh the skill with the message-limit fallback, obtain exact-SHA attestation, and integrate this worker's updated records."
+        next_action: null
       - worker_id: "worker-02"
         worker_name: "worker-02 / agent communication pipeline contract"
         branch: "ralph/agent-communication-worker-02-20260925-0627"
@@ -384,8 +400,8 @@ runs:
         status_path: "docs/ralph/ralph-agent-communication-worker-02-20260925-0627/agents/worker-02/status.md"
         progress_path: "docs/ralph/ralph-agent-communication-worker-02-20260925-0627/agents/worker-02/progress.md"
         decision_record_path: "docs/decisions/ralph-agent-communication-worker-02-20260925-0627/agents/worker-02/pr-not-opened.md"
-        next_action: "Remain paused until worker-01's updated skill and metadata are integrated; then refresh this worker's status and sign-off from the updated parent."
-    worker_count_note: "The parent is rebased onto origin/main c1ac03a4... and includes worker-01's verified sign-in ledger commit; latest origin/main d8af3e8d... adds only three unrelated agent-sync commits. Current worker implementation commits are 223d1df7... (skill) and 90993383... (pipeline); earlier attestations and merge heads are superseded. Worker-01's clean signed-in child is paused for the exact parent tip and READY_TO_EDIT; worker-02 remains paused. Further parent rebases are deferred until immediately before final integration, when checks will be rerun."
+        next_action: "Coordinator: refresh worker-02's status, exact-SHA self-attestation, and required memory_handoff from the current parent."
+    worker_count_note: "Worker-01 fallback implementation d93041a2... and worker-series head 63e309f6... are integrated in the parent; the worker leaf and dashboard now agree on COMPLETE. The worker's status-only completion record a793bd4c... is also integrated. Parent remains based on origin/main c1ac03a4... while fetched origin/main is 88af044b...; observed upstream movement is agent-sync status-only. Worker-02 remains paused for its exact-SHA status/sign-off and required memory_handoff. The final parent rebase and checks are deferred until all worker records are reconciled."
     memory_review:
       status: PENDING
       owner: coordinator
@@ -854,7 +870,7 @@ branch_agent_index:
     status: IN_PROGRESS
     iteration: 1
     resource_usage:
-      time_spent_seconds: 40547
+      time_spent_seconds: 43788
       time_basis: WALL_CLOCK_ELAPSED
       token_spend:
         status: NOT_REPORTED
@@ -868,20 +884,20 @@ branch_agent_index:
     decision_record_path: "docs/decisions/ralph-agent-communication-parent-20260925-0627/agents/coordinator/pr-not-opened.md"
     decision_index_path: "docs/decisions/ralph-agent-communication-parent-20260925-0627/README.md"
     base_origin_main_sha: "20293c720b18a1a21ff150f566823493b7a2717d"
-    implementation_commit_sha: "db6d18e1c49fe3a0af962b0b3c6add156b4ca460"
+    implementation_commit_sha: "d93041a2d19108929e44e03b2b977429e56ed6fa"
     rebased_onto_origin_main_sha: "c1ac03a4d3378789450b7ac59a655fcbff974241"
-    next_action: "Coordinator: after this status commit, rebase worker-01's clean child onto the exact current parent tip and send READY_TO_EDIT. Rebase and retest the parent against the latest main before final integration."
+    next_action: "Coordinator: resume worker-02 to refresh its exact implementation-SHA sign-off and required memory handoff against the current parent; then rebase and retest the completed parent immediately before final integration."
   - run_id: "copilot-skills-agent-communication-20260925-0627"
     task_ids: ["agent-communication-skill"]
     worker_id: "worker-01"
     worker_name: "worker-01 / agent communication skill"
     runtime_agent_id: "4b590f58-600f-4d99-92b7-29db9c14b7a4"
-    branch: "ralph/agent-communication-worker-01-20260925-0627"
+    branch: "ralph/agent-communication-worker-01-fallback-20260925-1647"
     branch_slug: "ralph-agent-communication-worker-01-20260925-0627"
-    status: AWAITING_MERGE
+    status: COMPLETE
     iteration: 1
     resource_usage:
-      time_spent_seconds: 10627
+      time_spent_seconds: 38523
       time_basis: WALL_CLOCK_ELAPSED
       token_spend:
         status: NOT_REPORTED
@@ -895,16 +911,19 @@ branch_agent_index:
     decision_record_path: "docs/decisions/ralph-agent-communication-worker-01-20260925-0627/agents/worker-01/pr-not-opened.md"
     decision_index_path: "docs/decisions/ralph-agent-communication-worker-01-20260925-0627/README.md"
     base_origin_main_sha: "20293c720b18a1a21ff150f566823493b7a2717d"
-    base_parent_sha: "0294550c92a5d79e1cca682a0c509b5bb6eca3fd"
-    rebased_onto_parent_sha: "44a262954564a058436bd4115908605e67302d5f"
-    parent_rebased_onto_origin_main_sha: "70b8e200807e4f1ca4c96cd4a1b20fce2744695f"
-    parent_implementation_commit_sha: "ce955f4955f779819d0ac1f5fbd4ffe384cbe90f"
-    implementation_commit_sha: "72ede0d8e05deab32f56699a342ca60dc1b55e5a"
+    base_parent_sha: "15d0597d1bf693f9ebea3c348ad73d160e896fee"
+    rebased_onto_parent_sha: "3257768c7e43824d38a46f89e751add006d0790e"
+    parent_rebased_onto_origin_main_sha: "c1ac03a4d3378789450b7ac59a655fcbff974241"
+    parent_implementation_commit_sha: "d93041a2d19108929e44e03b2b977429e56ed6fa"
+    implementation_commit_sha: "d93041a2d19108929e44e03b2b977429e56ed6fa"
     worker_to_parent_merge:
       status: VERIFIED
-      sha: "6d16a3a6c09901238050085de1563495ed2748ce"
-      verified_parent_sha: "ce955f4955f779819d0ac1f5fbd4ffe384cbe90f"
-    next_action: "Await parent-to-main integration and coordinator post-merge memory review."
+      sha: "63e309f6447c57abd27c3f70395b2897ca60d21e"
+      verified_parent_ref: "refs/heads/ralph/agent-communication-parent-20260925-0627"
+      verified_parent_sha: "63e309f6447c57abd27c3f70395b2897ca60d21e"
+      verification_method: "git merge-base --is-ancestor 63e309f6447c57abd27c3f70395b2897ca60d21e 63e309f6447c57abd27c3f70395b2897ca60d21e"
+      verified_at_utc: "2026-09-25T18:28:34Z"
+    next_action: null
   - run_id: "copilot-skills-agent-communication-20260925-0627"
     task_ids: ["agent-session-pipeline-contract"]
     worker_id: "worker-02"
@@ -2087,8 +2106,8 @@ branch_agent_index:
 
 | Run | Branch | Agent | Status | Time spent | Token spend | Status file | Progress file | Merge | Memory review |
 |---|---|---|---|---|---|---|---|---|---|
-| `copilot-skills-agent-communication-20260925-0627` | `ralph/agent-communication-parent-20260925-0627` | `coordinator` | `IN_PROGRESS` | `40,547 s (wall-clock)` | `NOT_REPORTED` | [status](./ralph/ralph-agent-communication-parent-20260925-0627/agents/coordinator/status.md) | [progress](./ralph/ralph-agent-communication-parent-20260925-0627/agents/coordinator/progress.md) | `PENDING` | `PENDING` |
-| `copilot-skills-agent-communication-20260925-0627` | `ralph/agent-communication-worker-01-20260925-0627` | `worker-01` | `AWAITING_MERGE` | `10,627 s (wall-clock)` | `NOT_REPORTED` | [status](./ralph/ralph-agent-communication-worker-01-20260925-0627/agents/worker-01/status.md) | [progress](./ralph/ralph-agent-communication-worker-01-20260925-0627/agents/worker-01/progress.md) | `6d16a3a6c09901238050085de1563495ed2748ce` | `PENDING` |
+| `copilot-skills-agent-communication-20260925-0627` | `ralph/agent-communication-parent-20260925-0627` | `coordinator` | `IN_PROGRESS` | `43,788 s (wall-clock)` | `NOT_REPORTED` | [status](./ralph/ralph-agent-communication-parent-20260925-0627/agents/coordinator/status.md) | [progress](./ralph/ralph-agent-communication-parent-20260925-0627/agents/coordinator/progress.md) | `PENDING` | `PENDING` |
+| `copilot-skills-agent-communication-20260925-0627` | `ralph/agent-communication-worker-01-fallback-20260925-1647` | `worker-01` | `COMPLETE` | `38,523 s (wall-clock)` | `NOT_REPORTED` | [status](./ralph/ralph-agent-communication-worker-01-20260925-0627/agents/worker-01/status.md) | [progress](./ralph/ralph-agent-communication-worker-01-20260925-0627/agents/worker-01/progress.md) | `63e309f6447c57abd27c3f70395b2897ca60d21e` | `PENDING` |
 | `copilot-skills-agent-communication-20260925-0627` | `ralph/agent-communication-worker-02-20260925-0627` | `worker-02` | `AWAITING_MERGE` | `10,627 s (wall-clock)` | `NOT_REPORTED` | [status](./ralph/ralph-agent-communication-worker-02-20260925-0627/agents/worker-02/status.md) | [progress](./ralph/ralph-agent-communication-worker-02-20260925-0627/agents/worker-02/progress.md) | `5d47c35f7c5cef3e17687f86306a7ef470945b13` | `PENDING` |
 | `copilot-skills-status-report-time-token-20260925` | `ralph/status-report-time-token-20260925-0335` | `coordinator` | `COMPLETE` | `10,023 s (wall-clock)` | `NOT_REPORTED` | [status](./ralph/ralph-status-report-time-token-20260925-0335/agents/coordinator/status.md) | [progress](./ralph/ralph-status-report-time-token-20260925-0335/agents/coordinator/progress.md) | `05b1b23da974ed7b171c3a29ee266e43721d4e7` | `COMPLETE` |
 | `copilot-skills-status-report-time-token-20260925` | `ralph/status-report-time-token-worker-01-20260925-0335` | `worker-01` | `COMPLETE` | `8,057 s (wall-clock)` | `NOT_REPORTED` | [status](./ralph/ralph-status-report-time-token-worker-01-20260925-0335/agents/worker-01/status.md) | [progress](./ralph/ralph-status-report-time-token-worker-01-20260925-0335/agents/worker-01/progress.md) | `019ab357f25e1b04133bacb242460e063d94be9d` | `COMPLETE` |
