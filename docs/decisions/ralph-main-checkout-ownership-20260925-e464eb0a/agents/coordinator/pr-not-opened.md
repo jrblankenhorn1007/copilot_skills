@@ -1,10 +1,11 @@
 # Coordinator decisions - exclusive main ownership
 
-No PR has been opened. The repository's prior Ralph runs use an authorized,
-verified fast-forward integration when policy permits; this branch remains
-unpublished and unmerged until final acceptance checks pass. A local
-implementation commit or a status commit does not establish remote-main
-completion.
+No PR was opened. The repository's authorized no-PR fast-forward was
+verified on fetched `origin/main` at
+`f9cab16e19f22586192c93da76f7aedceced63ce` after all 41 Ralph
+tests passed; the main reservation was released at
+`ebb4cce4b8889b3693ffd218c7a7cf41f5610c3c`. A local implementation
+commit or a status commit alone would not establish remote-main completion.
 
 ## Decisions
 
@@ -48,9 +49,8 @@ completion.
   outcome alongside this run's new `AWAITING_MERGE` entry; rerun the
   complete contract before publishing.
 
-## Pending integration and memory review
+## Post-merge memory review
 
-The coordinator must commit final records, rebase/retest on the latest
-fetched `origin/main`, perform the authorized
-merge, fetch/verify its merge SHA, and review durable project lessons.
-If merge authorization is denied, preserve this branch and worktree.
+The coordinator reviewed the memory index and workflow category after
+verifying the merge. No new entry is needed: the ownership protocol and
+tests already capture this iteration's reusable constraints.

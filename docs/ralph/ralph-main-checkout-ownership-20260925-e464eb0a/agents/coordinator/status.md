@@ -8,9 +8,9 @@ worker_id: "coordinator"
 worker_name: "coordinator / main ownership handoff"
 runtime_agent_id: "copilotcli:/e464eb0a-8639-4fda-8608-3416a4bc5eae"
 iteration: 1
-status: AWAITING_MERGE
+status: COMPLETE
 started_at_utc: "2026-09-25T05:45:49Z"
-updated_at_utc: "2026-09-25T09:41:17Z"
+updated_at_utc: "2026-09-25T09:49:38Z"
 branch: "ralph/main-checkout-ownership-20260925-e464eb0a"
 branch_slug: "ralph-main-checkout-ownership-20260925-e464eb0a"
 worktree: "/Users/jrblankenhorn/copilot_skills.worktrees/ralph-main-checkout-ownership-20260925-e464eb0a"
@@ -19,10 +19,10 @@ parent_worktree: "/Users/jrblankenhorn/copilot_skills.worktrees/ralph-main-check
 base_origin_main_sha: "ad4e663aa21259946ec112f7831b822529117b3b"
 parent_base_origin_main_sha: "ad4e663aa21259946ec112f7831b822529117b3b"
 parent_rebased_onto_origin_main_sha: "5accb6c96ff8049f63c0a9d61265153b3008e1dc"
-parent_implementation_commit_sha: null
-implementation_commit_sha: null
+parent_implementation_commit_sha: "f9cab16e19f22586192c93da76f7aedceced63ce"
+implementation_commit_sha: "f9cab16e19f22586192c93da76f7aedceced63ce"
 resource_usage:
-  time_spent_seconds: 14128
+  time_spent_seconds: 14629
   time_basis: WALL_CLOCK_ELAPSED
   token_spend:
     status: NOT_REPORTED
@@ -35,25 +35,25 @@ pull_request:
   status: NOT_OPENED
   number: null
   url: null
-  reason: "No PR has been opened; use the authorized no-PR fast-forward only when policy permits."
-merge_actor_worker_id: null
+  reason: "The authorized no-PR fast-forward was verified on fetched origin/main."
+merge_actor_worker_id: coordinator
 decision_record_path: "docs/decisions/ralph-main-checkout-ownership-20260925-e464eb0a/agents/coordinator/pr-not-opened.md"
 decision_index_path: "docs/decisions/ralph-main-checkout-ownership-20260925-e464eb0a/README.md"
 parent_to_main_merge:
-  status: PENDING
-  sha: null
+  status: VERIFIED
+  sha: "f9cab16e19f22586192c93da76f7aedceced63ce"
   verified_remote_ref: "refs/heads/main"
-  verified_origin_main_sha: null
-  verification_method: null
-  verified_at_utc: null
+  verified_origin_main_sha: "ebb4cce4b8889b3693ffd218c7a7cf41f5610c3c"
+  verification_method: "git merge-base --is-ancestor f9cab16e19f22586192c93da76f7aedceced63ce origin/main"
+  verified_at_utc: "2026-09-25T09:49:38Z"
 parent_cleanup:
   worktree: PENDING
   local_branch: PENDING
   remote_ref: NOT_PUBLISHED
 memory_review:
-  status: PENDING
+  status: COMPLETE
   owner: coordinator
-  outcome: null
+  outcome: "No separate memory entry: the reservation lifecycle and cooperative-writer limitation are codified in the main-ownership protocol and tests; existing workflow memory covers safe synchronization."
 checks:
   - command: "PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s .github/skills/ralph-loop/tests -p 'test_*.py' -q"
     result: PASS
@@ -63,8 +63,14 @@ checks:
     evidence: "21 ownership and publisher tests passed after rebasing onto fetched main 43815c8, including the malformed FREE record guard."
   - command: "git diff --check"
     result: PASS
+  - command: "PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s .github/skills/ralph-loop/tests -p 'test_*.py' -q"
+    result: PASS
+    evidence: "All 41 Ralph tests passed in 52.718 seconds after rebasing onto the MERGE reservation, before publishing the fast-forward."
+  - command: "git merge-base --is-ancestor f9cab16e19f22586192c93da76f7aedceced63ce origin/main"
+    result: PASS
+    evidence: "Fetched origin/main includes the exact implementation commit and the main sign-out at ebb4cce4b8889b3693ffd218c7a7cf41f5610c3c; the reservation is FREE with outcome MERGED."
 blockers: []
-next_action: "Verify the contract after the MERGE claim, push the authorized parent, and verify remote-main integration."
+next_action: null
 worker_count:
   requested: 2
   effective: 0

@@ -110,3 +110,22 @@ memory review is pending, and no completion marker is justified.
   `COMPLETE` state, merge verification, memory-review outcome, and
   dashboard row, while keeping this run's leaf and index. The coordinator
   must rerun the relevant contracts before publishing its parent.
+
+### Remote integration and memory review - 2026-09-25T09:49:38Z
+
+- `PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s
+  .github/skills/ralph-loop/tests -p 'test_*.py' -q` passed all **41**
+  tests in 52.718 seconds after the final rebase; `git diff --check`
+  and the dashboard-index check also passed.
+- Published the authorized fast-forward to `refs/heads/main` at
+  `f9cab16e19f22586192c93da76f7aedceced63ce`. Fetched the exact
+  remote result and verified its ancestry from the reservation. The
+  `MERGE` sign-out commit
+  `ebb4cce4b8889b3693ffd218c7a7cf41f5610c3c` records outcome
+  `MERGED` and revision 12; fetched main confirms the record is `FREE`.
+- Reviewed `.github/memory/README.md` and `workflow.md` after remote
+  integration. The exclusive reservation lifecycle, cooperative-writer
+  limitation, and race handling are already codified in
+  `docs/agent-sync/main-ownership.md` and the publisher tests; existing
+  workflow memory covers branch synchronization. No additional reusable
+  memory entry is warranted.
