@@ -11,9 +11,13 @@
   improving another `SKILL.md` without promising a measured gain.
 - **Agent records:**
   - [worker-01 — no PR opened](agents/worker-01/pr-not-opened.md)
-- **Current state:** `IN_PROGRESS`; worker records and branch publication
-  are pending, coordinator review and remote integration have not begun.
+- **Current state:** `AWAITING_MERGE`; this worker branch was published,
+  coordinator review and remote integration have not begun.
 - **Pull request:** `NOT_OPENED`; the repository's prior normal integration
   path is coordinator-reviewed verified fast-forward without a PR.
 - **Memory review:** `NOT_STARTED`; coordinator owns the post-merge review,
   so this branch does not modify shared memory.
+- **Branch publication:** `git push --quiet --set-upstream origin
+  HEAD:refs/heads/ralph/skill-evaluation-worker-01-20260925-0215-bce7`
+  passed for the first worker-records commit; final leaf update will be
+  pushed before coordinator handoff.

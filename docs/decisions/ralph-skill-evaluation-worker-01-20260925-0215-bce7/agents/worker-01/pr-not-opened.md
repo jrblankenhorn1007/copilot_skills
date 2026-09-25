@@ -16,7 +16,7 @@
   verified fast-forward without a PR. This worker was instructed to push
   only its own branch, then stop for review; neither a remote main push nor
   an integration attempt is authorized yet.
-- **Current status:** `IN_PROGRESS`; merge and memory review are pending.
+- **Current status:** `AWAITING_MERGE`; merge and memory review are pending.
 
 ## Decisions (append-only)
 
@@ -84,6 +84,11 @@
 
 ## Integration and memory review
 
+- `git push --quiet --set-upstream origin
+  HEAD:refs/heads/ralph/skill-evaluation-worker-01-20260925-0215-bce7`
+  succeeded for the worker branch; `git ls-remote --heads origin
+  ralph/skill-evaluation-worker-01-20260925-0215-bce7` returned the expected
+  first published tip `89e37b2e9b785c67e951b3bc0c282b91262309da`.
 - No PR was opened; the branch is not merged and remote `main` has not been
   updated by this worker. The coordinator must review and reconcile the
   dashboard before authorizing integration.
