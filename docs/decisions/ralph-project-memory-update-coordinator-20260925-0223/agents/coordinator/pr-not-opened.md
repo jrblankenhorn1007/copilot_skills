@@ -83,3 +83,6 @@
 - A later fresh inventory at `2026-09-25T12:44:27Z` reported 10 active
   agents against a limit of 2, zero available slots, and `can_spawn: false`.
   The coordinator heartbeat succeeded; the memory updater remains undispatched.
+- The next fresh inventory at `2026-09-25T12:49:48Z` still reported 10 active
+  agents and zero slots; high system load reduced the dynamic limit to 1.
+  The memory updater remains undispatched.
