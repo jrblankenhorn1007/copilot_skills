@@ -45,3 +45,19 @@
 - **Consequence:** A true interrupt SLA requires implementation by the
   session host; the skill can improve routing, acknowledgments, and
   checkpoint responsiveness immediately.
+
+### Rebase onto the refreshed main before child integration
+
+- **Context:** `origin/main` advanced by twelve commits while the benchmark
+  and worker assignments were in progress; the updated main also added an
+  independent PR review gate.
+- **Alternatives:** Integrate the original parent tip and leave current main
+  changes out; abandon the new run; rebase and retest.
+- **Choice:** Rebase the clean, unpublished parent onto the refreshed
+  `origin/main` and preserve both main's active code-review run and this
+  run's dashboard entries.
+- **Rationale:** The parent-child workflow requires the latest main before
+  final integration; no-PR fast-forward runs are explicitly exempt from the
+  new PR-only review gate.
+- **Consequence:** Both workers must rebase from their original parent base
+  onto the current parent tip and rerun scoped checks before integration.

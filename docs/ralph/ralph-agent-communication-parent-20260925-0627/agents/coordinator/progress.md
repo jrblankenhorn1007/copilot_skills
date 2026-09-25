@@ -112,3 +112,30 @@
   is the remaining implementation boundary.
 - **Next:** Complete the scoped worker assignments, integrate their leaf
   records, then run the Green contract test and final status reconciliation.
+
+## 2026-09-25T07:26:20Z — upstream refresh and parent rebase
+
+- **Refreshed main:** The clean integration worktree was fast-forwarded to
+  `6b1903ec7bfa5c798eb5e48c085bfc3845176bab`. The refreshed Ralph docs add a
+  PR review gate; this run uses the documented no-PR parent-child fast-forward
+  path, so review status is `NOT_APPLICABLE`.
+- **Rebase:** Rebased parent `ralph/agent-communication-parent-20260925-0627`
+  from base `20293c720b18a1a21ff150f566823493b7a2717d` onto
+  `6b1903ec7bfa5c798eb5e48c085bfc3845176bab`. Parent commit
+  `0294550c92a5d79e1cca682a0c509b5bb6eca3fd` became
+  `8e5956f98f5966baf8d42d82f863df2f7b46b360`; baseline commit
+  `494f745c9e377bf2c524ca088834a8b72631ac49` became
+  `2e93536e6abbe9d3c7192acd4c684ca8ba9932ee`.
+- **Conflict resolution:** `docs/ralph-status.md` conflicted with upstream's
+  pre-merge code-review run. Preserved both that run and the agent
+  communication run, kept the newest dashboard revision/timestamp, and
+  verified the parent is clean at the rebased tip.
+- **Post-rebase Red:** Re-ran
+  `python3 .github/skills/ralph-loop/tests/test_multi_agent_contract.py MultiAgentContractTests.test_inter_session_communication_contract_is_actionable_and_bounded`;
+  it exited 1 as expected on the missing `list_sessions` skill contract.
+- **Post-rebase diff check:** `git diff origin/main...HEAD --check` passed.
+- **Worker coordination:** Both child branches still point to their supplied
+  base `0294550c92a5d79e1cca682a0c509b5bb6eca3fd`. Coordinator sent repeated
+  requests for their status leaves and a short progress/blocker response;
+  no worker files were visible at 07:24:10Z. Rebase the child branches onto
+  the current parent tip and rerun checks before integrating them.

@@ -27,6 +27,10 @@
   fetched SHA `20293c720b18a1a21ff150f566823493b7a2717d`.
 - The new contract test's expected Red is due to the missing skill and
   pipeline behavior; test discovery and execution succeeded.
+- `origin/main` later advanced to
+  `6b1903ec7bfa5c798eb5e48c085bfc3845176bab`. The parent was rebased and
+  the dashboard conflict was resolved by preserving both the upstream
+  code-review run and this run. `git diff origin/main...HEAD --check` passed.
 
 ## Unresolved blockers
 
