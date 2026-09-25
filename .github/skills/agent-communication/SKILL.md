@@ -195,6 +195,16 @@ Use a **fallback relay** when a required host tool is unavailable, no unique
 destination can be verified, `send_message` fails, or the recipient stays
 unconfirmed past the reply deadline:
 
+### Fixed/shared message limits
+
+When the host reports a fixed/shared message limit, treat that route as
+`failed`, not transient: do not retry from a new session or spawn a relay
+session to bypass it. Do not assert a universal numeric quota; use only the
+limit the host explicitly reports. Prefer an already available, authorized
+durable coordination channel to reach the intended recipient. If no such
+channel is available, report the route blocked and continue independent
+work; do not claim delivery or processing through the failed route.
+
 1. Send a short `agent-message/v1` envelope to the coordinator in the current
    coordination channel, identifying the intended `to_session` if known and
    the last proven delivery state (`accepted`, `queued`, `received`, `expired`,
