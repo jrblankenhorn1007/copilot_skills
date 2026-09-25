@@ -10,7 +10,7 @@
   `/Users/jrblankenhorn/copilot_skills.worktrees/ralph-capacity-blocked-memory-review-20260925-141705`.
 - **Base:** rebased onto fetched `origin/main` at
   `1e9a6dab03c07ea9990fe4f65039ffdc4e784f45`.
-- **Implementation commit:** `606dd32df732a705ecd8cffe2769c47eb555f5aa`;
+- **Implementation commit:** `ec0c9867068a5313a3ef0a5b42955d8c8512d9e9`;
   the test/docs patch was rebased over the upstream status-first reporting
   change without dropping either contract.
 - **Test-first Red:**
@@ -45,15 +45,15 @@
   `2026-09-25T14:30:28Z`; main status ownership was released at
   `2026-09-25T14:30:32Z`. The sign-in was delayed because another main owner
   was active while the isolated documentation/test change was being prepared.
-- **Latest-main refresh:** Rebased both commits onto fetched `origin/main`
+- **Latest-main refresh:** Rebased the branch onto fetched `origin/main`
   `88051ce785a38965e26b5744b6c8fc53e37fcc41`; the source implementation is
-  now `045ea5295d976fadde833f129daba74488a2bfa9`. The main-ownership
+  now `ec0c9867068a5313a3ef0a5b42955d8c8512d9e9`. The main-ownership
   transaction was `FREE` at the preceding inventory; recheck immediately
   before acquiring `MERGE`.
 - A subsequent three-commit main-ownership status transaction advanced
   `origin/main` to `1e9a6dab03c07ea9994b01317a983ae89c4a1f51d`. Rebased the
-  three branch commits onto that exact ref; the source implementation is now
-  `606dd32df732a705ecd8cffe2769c47eb555f5aa`.
+  four branch commits onto that exact ref; the source implementation is now
+  `ec0c9867068a5313a3ef0a5b42955d8c8512d9e9`.
 - **Memory-review blocker:** The latest previously recorded Resource Manager
   inventory had zero available slots. Refresh the complete live inventory
   before any updater dispatch; do not self-review or dispatch without an

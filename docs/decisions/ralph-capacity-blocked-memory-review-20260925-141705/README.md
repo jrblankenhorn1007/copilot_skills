@@ -6,7 +6,7 @@
 - **Base `origin/main`:**
   `1e9a6dab03c07ea9994b01317a983ae89c4a1f51d`
 - **Implementation commit:**
-  `606dd32df732a705ecd8cffe2769c47eb555f5aa`
+  `ec0c9867068a5313a3ef0a5b42955d8c8512d9e9`
 - **PR:** `NOT_OPENED`; integration uses the repository's authorized
   coordinator-managed no-PR fast-forward path.
 
