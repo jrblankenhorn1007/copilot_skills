@@ -126,6 +126,11 @@ See [Copilot agent selection and model controls](.github/skills/ralph-loop/refer
 for selecting the orchestrator model and configuring separate worker models,
 reasoning-effort, and context-window options in VS Code/Copilot CLI.
 
+See [OpenCode setup](.github/skills/ralph-loop/references/opencode-setup.md)
+for general OpenCode installation and provider authentication. This does not
+change the Ralph Loop's Copilot CLI runtime; OpenCode integration remains
+pending validation.
+
 ## Current Ralph status
 
 See [docs/ralph-status.md](docs/ralph-status.md) for the overall status and
