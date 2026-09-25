@@ -142,9 +142,8 @@
 
 ## 2026-09-25T07:39:06Z — separate-session probe and interface test expansion
 
-- **Independent-session probe:** Created a separate Agent Host session at
-  `agent-host-session://copilotcli/2a5f3e4a-b78e-44ef-abc2-5bf630b1b486`
-  in its own worktree, then sent it an `agent-message/v1` known-answer request.
+- **Independent-session probe:** Created a separate Agent Host session in its
+  own worktree, then sent it an `agent-message/v1` known-answer request.
   `send_message` returned `Message sent`, but `get_session_context` exposed no
   conversation or processing acknowledgment by 07:31:25Z. No retry was issued;
   this is an unconfirmed transport acceptance, not a successful task result.
