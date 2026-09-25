@@ -12,8 +12,8 @@ skills-improvement run has integrated its workers and awaits parent PR review.
 ```yaml
 schema_version: 2
 snapshot_path: "docs/ralph-status.md"
-snapshot_revision: 70
-updated_at_utc: "2026-09-25T13:09:20Z"
+snapshot_revision: 71
+updated_at_utc: "2026-09-25T13:11:38Z"
 overall_status: IN_PROGRESS
 current_run_ids:
   - "copilot-skills-docs-status-organization-20260924"
@@ -382,15 +382,16 @@ runs:
     base_origin_main_sha: "e9fe3d175d1ca76b03fccdbe53431205b80e5c23"
     current_origin_main_sha: "f59ecc1deb73ba7bdb60efb0d8998bf8d7b68fd2"
     parent_rebased_onto_origin_main_sha: "4f5fee342c7e08ce556ae10c8a693f9e30a2ee2b"
+    parent_merged_origin_main_sha: "f59ecc1deb73ba7bdb60efb0d8998bf8d7b68fd2"
     created_at_utc: "2026-09-25T05:54:07Z"
-    updated_at_utc: "2026-09-25T13:04:38Z"
+    updated_at_utc: "2026-09-25T13:11:38Z"
     coordinator_scope: "Add a concise README workflow for using the repository's existing skills to evaluate and improve other skills; preserve all unrelated dashboard runs."
     coordinator_branch: "ralph/skill-improvement-coordinator-20260925-0554-luna"
     coordinator_status_path: "docs/ralph/ralph-skill-improvement-coordinator-20260925-0554-luna/agents/coordinator/status.md"
     coordinator_progress_path: "docs/ralph/ralph-skill-improvement-coordinator-20260925-0554-luna/agents/coordinator/progress.md"
     parent_worktree: "/Users/jrblankenhorn/copilot_skills.worktrees/ralph-skill-improvement-coordinator-20260925-0554-luna"
     parent_base_origin_main_sha: "e9fe3d175d1ca76b03fccdbe53431205b80e5c23"
-    parent_implementation_commit_sha: null
+    parent_implementation_commit_sha: "0e235859df61540fad409e98666d78663aae8ed9"
     parent_to_main_merge:
       status: PENDING
       sha: null
@@ -407,8 +408,8 @@ runs:
       local_branch: PENDING
       remote_ref: NOT_PUBLISHED
     blockers:
-      - "The completed parent PR requires an independent Ralph Code Reviewer. The Resource Manager has no admissible agent slot; do not merge without review."
-    next_action: "Publish the integrated parent by its normal PR path and obtain an independent review of exact base/head SHAs before any merge."
+      - "The parent PR requires independent Ralph Code and Security Reviewer passes for its sensitive-data and external-action guidance. Resource Manager capacity cannot admit new reviewers; do not merge without exact-SHA review."
+    next_action: "Publish the reconciled parent PR, then obtain independent code and security reports for its exact base/head SHAs before any merge."
     memory_handoffs:
       coordinator:
         implementation_summary: "Documented the existing-skill improvement handoff in README and verified both child integrations."
@@ -488,13 +489,29 @@ branch_agent_index:
     decision_index_path: "docs/decisions/ralph-skill-improvement-coordinator-20260925-0554-luna/README.md"
     base_origin_main_sha: "e9fe3d175d1ca76b03fccdbe53431205b80e5c23"
     parent_rebased_onto_origin_main_sha: "4f5fee342c7e08ce556ae10c8a693f9e30a2ee2b"
+    parent_merged_origin_main_sha: "f59ecc1deb73ba7bdb60efb0d8998bf8d7b68fd2"
     implementation_commit_sha: "2d6b04af1b89f969deec057a0f5b5b6dd42167c9"
     pull_request:
       status: PENDING
       number: null
       url: null
+      base_sha: null
+      head_sha: null
+    review:
+      status: PENDING
+      reviewer_agents: ["Ralph Code Reviewer", "Ralph Security Reviewer"]
+      reviewed_base_sha: null
+      reviewed_head_sha: null
+      rounds_completed: 0
+      max_rounds: 2
+      unresolved_finding_count: 0
+      author_decision:
+        status: NOT_REQUIRED
+        choice: null
+        rationale: null
+        recorded_at_utc: null
     resource_usage:
-      time_spent_seconds: 25831
+      time_spent_seconds: 26251
       time_basis: WALL_CLOCK_ELAPSED
       token_spend:
         status: NOT_REPORTED
@@ -512,8 +529,8 @@ branch_agent_index:
       verified_at_utc: null
     memory_review: PENDING
     blockers:
-      - "The completed parent PR requires an independent Ralph Code Reviewer. The Resource Manager has no admissible agent slot; do not merge without review."
-    next_action: "Publish the integrated parent by its normal PR path and obtain an independent review of exact base/head SHAs before any merge."
+      - "The parent PR requires independent Ralph Code and Security Reviewer passes for its sensitive-data and external-action guidance. Resource Manager capacity cannot admit new reviewers; do not merge without exact-SHA review."
+    next_action: "Publish the reconciled parent PR, then obtain independent code and security reports for its exact base/head SHAs before any merge."
 
   - run_id: "skills-improvement-20260925-0554-luna"
     task_ids: ["agentic-eval-bounded-skill-improvement"]
@@ -1541,7 +1558,7 @@ branch_agent_index:
 | `copilot-skills-premerge-code-review-20260924` | `ralph/code-review-gate-20260924-2131` | `coordinator` | `COMPLETE` | `21,245 s (wall-clock)` | `NOT_REPORTED` | [status](./ralph/ralph-code-review-gate-20260924-2131/agents/coordinator/status.md) | [progress](./ralph/ralph-code-review-gate-20260924-2131/agents/coordinator/progress.md) | `6b1903ec7bfa5c798eb5e48c085bfc3845176bab` | `COMPLETE` |
 | `copilot-skills-premerge-code-review-20260924` | `ralph/code-review-skill-worker-01-20260924-2131` | `worker-01` | `CANCELLED` | Not captured (legacy) | `NOT_REPORTED` | [status](./ralph/ralph-code-review-skill-worker-01-20260924-2131/agents/worker-01/status.md) | [progress](./ralph/ralph-code-review-skill-worker-01-20260924-2131/agents/worker-01/progress.md) | Not merged | N/A |
 | `copilot-skills-premerge-code-review-20260924` | `ralph/code-review-process-worker-02-20260924-2131` | `worker-02` | `COMPLETE` | `20,270 s (wall-clock)` | `NOT_REPORTED` | [status](./ralph/ralph-code-review-process-worker-02-20260924-2131/agents/worker-02/status.md) | [progress](./ralph/ralph-code-review-process-worker-02-20260924-2131/agents/worker-02/progress.md) | `6b1903ec7bfa5c798eb5e48c085bfc3845176bab` | `COMPLETE` |
-| `skills-improvement-20260925-0554-luna` | `ralph/skill-improvement-coordinator-20260925-0554-luna` | `coordinator` | `IN_PROGRESS` | `25,831 s (wall-clock)` | `NOT_REPORTED` | [status](./ralph/ralph-skill-improvement-coordinator-20260925-0554-luna/agents/coordinator/status.md) | [progress](./ralph/ralph-skill-improvement-coordinator-20260925-0554-luna/agents/coordinator/progress.md) | Pending | `PENDING` |
+| `skills-improvement-20260925-0554-luna` | `ralph/skill-improvement-coordinator-20260925-0554-luna` | `coordinator` | `IN_PROGRESS` | `26,251 s (wall-clock)` | `NOT_REPORTED` | [status](./ralph/ralph-skill-improvement-coordinator-20260925-0554-luna/agents/coordinator/status.md) | [progress](./ralph/ralph-skill-improvement-coordinator-20260925-0554-luna/agents/coordinator/progress.md) | Pending | `PENDING` |
 | `skills-improvement-20260925-0554-luna` | `ralph/skill-eval-worker-01-replay-20260925-1234-luna` | `worker-01` | `COMPLETE` | `452 s (wall-clock)` | `NOT_REPORTED` | [status](./ralph/ralph-skill-eval-worker-01-replay-20260925-1234-luna/agents/worker-01/status.md) | [progress](./ralph/ralph-skill-eval-worker-01-replay-20260925-1234-luna/agents/worker-01/progress.md) | `478f97845fba19f3f3b3ac87d7a01d294ae331db` | `PENDING` |
 | `skills-improvement-20260925-0554-luna` | `ralph/skill-stack-worker-02-replay-20260925-1254-luna` | `worker-02` | `COMPLETE` | `356 s (wall-clock)` | `NOT_REPORTED` | [status](./ralph/ralph-skill-stack-worker-02-replay-20260925-1254-luna/agents/worker-02/status.md) | [progress](./ralph/ralph-skill-stack-worker-02-replay-20260925-1254-luna/agents/worker-02/progress.md) | `45fbd82b1bdd2112d3e720221567aac118892775` | `PENDING` |
 | `copilot-skills-agent-resource-manager-20260925` | `ralph/resource-manager-shared-registry-20260925-8abd5d4e` | `coordinator` | `COMPLETE` | `10,916 s (wall-clock)` | `NOT_REPORTED` | [status](./ralph/ralph-resource-manager-shared-registry-20260925-8abd5d4e/agents/coordinator/status.md) | [progress](./ralph/ralph-resource-manager-shared-registry-20260925-8abd5d4e/agents/coordinator/progress.md) | `ec50b548debb7a5f32dcb82f4b68f62806255894` | `COMPLETE` |

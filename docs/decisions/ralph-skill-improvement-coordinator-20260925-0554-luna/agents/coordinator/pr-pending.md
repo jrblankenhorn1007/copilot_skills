@@ -122,8 +122,34 @@
   `45fbd82b1bdd2112d3e720221567aac118892775` are both verified on
   the parent. The coordinator preserved the worker's learning handoff.
 
+## Main reconciliation decision
+
+- **Context:** Before publishing this parent, fetched `origin/main`
+  `f59ecc1deb73ba7bdb60efb0d8998bf8d7b68fd2` was 55 commits ahead
+  of the parent base. Both worker task ledgers had already signed out
+  `COMPLETE` on remote main and named exact child implementation SHAs.
+- **Choice:** Merge fetched main into the unpublished isolated parent,
+  resolving only the aggregate dashboard conflict. The merge commit is
+  `0e235859df61540fad409e98666d78663aae8ed9`. No force push or
+  direct main implementation write was performed.
+- **Alternative rejected:** A linear parent rebase would rewrite the
+  previously signed-off and verified child SHAs and invalidate their
+  published remote ledger and merge-ancestry claims. Preserving those
+  exact-worker attestations is more reliable here than applying the
+  usual rebase recommendation mechanically.
+- **Verification:** Every upstream README addition survived the
+  automatic merge. Parsed dashboard comparison confirmed the 11 upstream
+  runs and 24 upstream agent rows unchanged, plus this run and its three
+  rows (12/27 total); 23 Ralph and one memory-agent contract tests, 100
+  local links, and ancestry of fetched main and both child tips passed.
+- **Consequence:** This reconciles the local parent; it is not remote
+  implementation integration. The parent must still publish a normal
+  PR and obtain independent exact-SHA review and checks before merging.
+
 ## Unresolved blockers
 
-- The parent PR cannot merge without an independent Ralph reviewer. The
-  Resource Manager has no free slot for that reviewer; neither a self-review
-  nor a direct implementation push to `main` is permitted.
+- The parent PR cannot merge without independent Ralph Code and Security
+  Reviewer reports bound to exact base/head SHAs. The skill guidance
+  changes sensitive-data and external-action gates, so both reviewers
+  apply. The Resource Manager has no admissible slot; neither a
+  self-review nor a direct implementation push to `main` is permitted.

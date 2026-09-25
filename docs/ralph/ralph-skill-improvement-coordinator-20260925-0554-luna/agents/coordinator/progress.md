@@ -607,3 +607,40 @@
   worker-02 decision indexes - **PASS**, 94 local links, zero broken.
   `git diff --check` - **PASS**. At `2026-09-25T13:04:38Z`, coordinator
   elapsed wall time is `25,831` seconds; token counters `NOT_REPORTED`.
+
+## 2026-09-25T13:08Z–13:11Z — Merge latest main while preserving child sign-offs
+
+- Before parent publication, fetched `origin/main` at
+  `f59ecc1deb73ba7bdb60efb0d8998bf8d7b68fd2`. Upstream had advanced
+  55 commits since the previous parent base and changed README and the
+  aggregate dashboard, but not either assigned skill. Both workers'
+  task-ledger `COMPLETE` sign-outs already bind to exact implementation
+  SHAs on remote main.
+- The usual parent rebase would rewrite those exact signed-off worker
+  commits, making their remote task ledger and worker-to-parent merge proof
+  stale. In the unpublished, isolated parent, used `git merge --no-commit
+  --no-ff origin/main` and committed the resolved dashboard union as
+  `0e235859df61540fad409e98666d78663aae8ed9` instead. This
+  non-force reconciliation retains each worker's verified commit ancestry
+  and does not merge our implementation directly to remote main. The
+  coordinator decision record documents the deviation and its rationale.
+- README auto-merged with both our skill-improvement workflow and
+  upstream's Project Memory Update agent links intact. Dashboard conflict
+  was resolved by preserving all 11 upstream runs and 24 upstream
+  branch/agent entries unchanged, plus our one run/three agents:
+  `snapshot_revision: 70`, 12 runs and 27 indexed agents.
+- Updated `PYTHONDONTWRITEBYTECODE=1 python3
+  .github/skills/ralph-loop/tests/test_multi_agent_contract.py` - **PASS**,
+  23 tests. `PYTHONDONTWRITEBYTECODE=1 python3
+  .github/skills/project-memory/tests/test_memory_update_agent_contract.py`
+  - **PASS**, one test. Ruby YAML upstream-equivalence, all-leaves-indexed,
+  and resource-clock validation - **PASS**, 12 runs and 27 agents. Focused
+  README/dashboard/decision-index local link check - **PASS**, 100 links.
+  `git diff --cached --check` - **PASS**.
+- `git merge-base --is-ancestor origin/main HEAD` and ancestry of
+  both signed-off child integration SHAs
+  `478f97845fba19f3f3b3ac87d7a01d294ae331db` and
+  `45fbd82b1bdd2112d3e720221567aac118892775` - **PASS**.
+- The parent PR and its independent exact-SHA code and security reviewers
+  remain pending. At `2026-09-25T13:11:38Z`, coordinator elapsed wall
+  time is `26,251` seconds, provider tokens `NOT_REPORTED`.
