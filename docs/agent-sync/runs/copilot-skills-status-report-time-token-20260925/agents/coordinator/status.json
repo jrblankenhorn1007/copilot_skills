@@ -36,7 +36,7 @@
   },
   "prompt_path": "docs/agent-sync/runs/copilot-skills-status-report-time-token-20260925/agents/coordinator/prompt.md",
   "prompt_sha256": "1ba495630c823937786bafc1bac2faa20bf915f0553595ad5728b64e059a9cb8",
-  "revision": 1,
+  "revision": 2,
   "run_id": "copilot-skills-status-report-time-token-20260925",
   "schema_version": 1,
   "sign_in_at_utc": "2026-09-25T05:42:31Z",
@@ -48,10 +48,10 @@
     "summary": null
   },
   "started_at_utc": "2026-09-25T03:35:21Z",
-  "status": "IN_PROGRESS",
-  "status_reason": "Recording the in-progress run after the refreshed agent-sync contract was discovered. Implementation is integrated into local parent 14ea97483e70f97bdf1203ec388bb6d6a7d90f9c. Before any further shared-path edits or publication, serialize against active agent-sync-ledger-20260925, whose current edit scope overlaps the Ralph skill, contract test, agent definition, and README paths in this run.",
+  "status": "BLOCKED",
+  "status_reason": "Blocked from final shared-path synchronization while active agent-sync-ledger-20260925 owns overlapping Ralph skill, contract test, agent definition, README, and dashboard paths and the main integration worktree has corresponding uncommitted changes. This task's branch and verified worker-to-parent integration are preserved at 14ea97483e70f97bdf1203ec388bb6d6a7d90f9c. Next: wait for the active owner to sign out/release overlapping paths, fetch latest main, rebase and retest this parent, then complete normal integration and memory review.",
   "task_id": "branch-status-resource-usage",
-  "updated_at_utc": "2026-09-25T05:42:31Z",
+  "updated_at_utc": "2026-09-25T05:43:42Z",
   "worker_id": "coordinator",
   "worker_name": "coordinator / branch time and token reporting"
 }
