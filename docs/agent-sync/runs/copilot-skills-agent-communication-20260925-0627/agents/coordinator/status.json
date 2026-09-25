@@ -30,7 +30,7 @@
   },
   "prompt_path": "docs/agent-sync/runs/copilot-skills-agent-communication-20260925-0627/agents/coordinator/prompt.md",
   "prompt_sha256": "37c463d1ced88611a048448013b3c33ea8d5b6c6f9c97e90cc680f052e3c2c2d",
-  "revision": 2,
+  "revision": 3,
   "run_id": "copilot-skills-agent-communication-20260925-0627",
   "schema_version": 1,
   "sign_in_at_utc": "2026-09-25T10:44:47Z",
@@ -42,10 +42,10 @@
     "summary": null
   },
   "started_at_utc": "2026-09-25T06:27:34Z",
-  "status": "IN_PROGRESS",
-  "status_reason": "Narrowing the coordinator's edit scope to coordinator-owned benchmark, dashboard, and records before publishing worker-specific metadata assignments.",
+  "status": "BLOCKED",
+  "status_reason": "Parent integration and acceptance checks are verified. The required post-merge Project Memory Update is pending because Resource Manager reports 8 active sessions, max_agents 2, and 0 available slots; do not dispatch without a reservation.",
   "task_id": "communication-baseline",
-  "updated_at_utc": "2026-09-25T15:31:57Z",
+  "updated_at_utc": "2026-09-25T20:05:58Z",
   "worker_id": "coordinator",
   "worker_name": "coordinator / communication benchmark and integration"
 }
