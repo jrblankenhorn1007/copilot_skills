@@ -1237,6 +1237,37 @@ class MultiAgentContractTests(unittest.TestCase):
                     f"communication skill must define {requirement!r}",
                 )
 
+        for requirement in (
+            "agent-message/v1",
+            "message_id",
+            "run_id",
+            "task_id",
+            "from_session",
+            "to_session",
+            "kind",
+            "priority",
+            "sent_at",
+            "expires_at",
+            "deadline",
+            "correlation_id",
+            "ack_required",
+            "body",
+            "artifact_refs",
+            "accepted",
+            "queued",
+            "failed",
+            "delivery acknowledgement",
+            "processing acknowledgement",
+            "completion acknowledgement",
+        ):
+            with self.subTest(document="orchestration", requirement=requirement):
+                assert_contains(
+                    self,
+                    orchestration,
+                    requirement,
+                    f"pipeline must define message interface {requirement!r}",
+                )
+
         for document_name, document in (
             ("orchestration", orchestration),
             ("Ralph agent", agent),
