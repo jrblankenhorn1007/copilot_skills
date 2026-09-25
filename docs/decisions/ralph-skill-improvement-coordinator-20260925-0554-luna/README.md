@@ -12,10 +12,10 @@
 - **Previous parent rebase:** `36bf3fad31b2965dc6a0516a20ec9b2e6ac64355`;
   tip `c833b2d19c7bfa3a643ec6e2e7efd0dac467afa3`.
 - **Latest parent rebase onto `origin/main`:**
-  `d868d684564658bdc9488e27f5bfeaa592b04338`.
-- **Parent tip after latest rebase:** `21b5ed18e6eb90d5c9a822f5e8783ffc18215a64`.
+  `7ee1307cb47f5a88cd6b46ee135444777ddeb665`.
+- **Parent tip after latest rebase:** `9c94704bb0e999e497f4b9eeb0cf9c253b57b351`.
 - **Coordinator README implementation commit after latest rebase:**
-  `a36ef7f55a8ddb622b997615e7b71e3cfc907aa6`.
+  `5e880f96087faa144803d865e56ee45fa40257a0`.
 - **Final parent implementation commit:** pending worker integration.
 - **Parent PR:** expected; see [coordinator PR-pending record](agents/coordinator/pr-pending.md).
 
@@ -72,6 +72,18 @@
   `d868d684564658bdc9488e27f5bfeaa592b04338`. The parent rebase completed
   cleanly; only unrelated status-sync commits were added upstream. The exact
   refreshed main state is preserved.
+- A further canonical refresh advanced `origin/main` to
+  `7ee1307cb47f5a88cd6b46ee135444777ddeb665`. The README workflow and both
+  target skill changes remain absent from remote main; since d868, only the
+  aggregate dashboard changed upstream. Rebase conflicts were limited to
+  `docs/ralph-status.md`; the exact latest upstream dashboard was preserved
+  during both conflicts. The rebased parent tip is
+  `9c94704bb0e999e497f4b9eeb0cf9c253b57b351`, and the README implementation
+  commit is now `5e880f96087faa144803d865e56ee45fa40257a0`.
+- Preserve the previously signed-off child branches as historical evidence.
+  Their base and sign-offs are stale; fresh child branches from the updated
+  parent are required, and any ported changes need new checks and exact-SHA
+  self-attestations under the explicitly requested profile.
 - The read-only Docs Sync Audit script reported 36 repository-wide leads.
   The README contract-test path it flagged was confirmed to exist; Agent
   Skill Stack missing-script leads are assigned for worker-02 review, and

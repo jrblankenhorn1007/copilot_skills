@@ -315,3 +315,103 @@
 - Next: synchronize parent status/dashboard to `d868d684...`, rerun the
   contract and link checks, commit, then refresh the shared integration
   worktree serially before each child rebase follow-up.
+
+## 2026-09-25T07:52Z–08:07Z — Rebase onto latest remote main
+
+- **Refresh:** `/Users/jrblankenhorn/copilot_skills` remained the clean,
+  attached `main` integration worktree. Serialized
+  `git pull --ff-only` and `git fetch origin` passed; the exact fetched
+  `origin/main` is `7ee1307cb47f5a88cd6b46ee135444777ddeb665`. Git author and
+  committer identity checks passed without recording identity values.
+- **Duplicate-work check:** the requested README workflow and this run marker
+  are absent from `origin/main`. Comparing d868 with the fetched tip showed
+  only `docs/ralph-status.md` changed; neither assigned skill, the README, nor
+  the Docs Sync Audit skill changed. The existing README on `origin/main`
+  lists Agentic Eval and Agent Skill Stack but has no "Improving an existing
+  skill" workflow. The earlier worker branches remain unpublished,
+  unintegrated, and reference-only.
+- **Parent rebase:** rebased from parent tip
+  `5446fd7b04b879203d1932097cd2043c0112b3f4` onto exact fetched main
+  `7ee1307cb47f5a88cd6b46ee135444777ddeb665`, producing rebase tip
+  `9c94704bb0e999e497f4b9eeb0cf9c253b57b351`. Two replayed commits
+  conflicted only in `docs/ralph-status.md`. Before each resolution,
+  `git diff --quiet origin/main HEAD -- docs/ralph-status.md` passed; the
+  exact fetched upstream dashboard and all of its unrelated run entries were
+  preserved. The run's own dashboard record is being re-applied with the
+  latest base and current status rather than replaying stale snapshots.
+- The README workflow remains present after rebase; its rewritten
+  implementation commit is
+  `5e880f96087faa144803d865e56ee45fa40257a0`.
+- Prior worker sign-offs are stale because their child base predates this
+  parent rebase. Keep the original child branches intact and use fresh child
+  worktrees/branches from the post-status-commit parent tip. Port only
+  reviewed skill changes, rerun their scoped checks, and obtain new
+  exact-commit self-attestations under `gpt-6-luna` / `max` / `default`.
+- At `2026-09-25T08:07:23Z`, coordinator elapsed wall time was `7,996`
+  seconds; provider token counters remain `NOT_REPORTED`.
+- Parent contract, dashboard/YAML parity, README local-link, and final diff
+  checks are pending after dashboard reapplication.
+- **Next action:** run those parent checks, update their evidence and paired
+  status/dashboard timestamps, commit the synchronized parent records, then
+  dispatch the two fresh child iterations serially after their required
+  canonical refreshes.
+
+## 2026-09-25T08:07Z–08:13Z — Parent checks after dashboard reapplication
+
+- `PYTHONDONTWRITEBYTECODE=1 python3
+  .github/skills/ralph-loop/tests/test_multi_agent_contract.py` — **PASS**,
+  20 tests.
+- `python3 -c 'import pathlib,re,sys; p=pathlib.Path("README.md");
+  text=p.read_text(); links=re.findall(r"\[[^\]]+\]\(([^)]+)\)",text);
+  local=[u.strip().split("#",1)[0] for u in links if not
+  re.match(r"^[A-Za-z][A-Za-z0-9+.-]*:",u) and not u.startswith("#")];
+  missing=[u for u in local if u and not (p.parent/u).exists()];
+  print(f"README Markdown links={len(links)} local paths={len(local)}
+  broken={len(missing)}"); [print(u) for u in missing];
+  sys.exit(bool(missing))'` — **PASS**, 31 Markdown links, 29 local paths,
+  zero broken.
+- Ruby standard-library `YAML.safe_load` of the dashboard's YAML block and
+  the coordinator leaf, with assertions for the active run, coordinator
+  index row, matching resource object, parent main base, and synchronized
+  timestamps — **PASS**.
+- `git diff --check` — **PASS**; conflict-marker scan across the changed
+  README, dashboard, leaf, and decision files — **PASS**, no markers.
+- `git merge-base --is-ancestor
+  7ee1307cb47f5a88cd6b46ee135444777ddeb665
+  ralph/skill-improvement-coordinator-20260925-0554-luna` — **PASS**.
+- The parent dashboard is reconstructed from the latest fetched
+  `origin/main` and includes this coordinator run as snapshot revision 38;
+  unrelated upstream runs and their complete/active states remain intact.
+- Resource usage at `2026-09-25T08:13:27Z`: `8,360` seconds elapsed; token
+  counters remain `NOT_REPORTED`.
+- **Next action:** commit the synchronized coordinator records. Before each
+  fresh child dispatch, serialize the canonical pull/fetch and reread, pass
+  the exact parent tip to the worker, and require its own clean scoped
+  checks and new exact-commit self-attestation.
+
+## 2026-09-25T08:15Z — Final parent status synchronization checks
+
+- `PYTHONDONTWRITEBYTECODE=1 python3
+  .github/skills/ralph-loop/tests/test_multi_agent_contract.py` — **PASS**,
+  20 tests after the coordinator leaf and dashboard timestamps were updated.
+- README local-link check — **PASS**, 31 Markdown links, 29 local paths,
+  zero broken. Exact read-only command:
+
+  ```sh
+  python3 -c 'import pathlib,re,sys; p=pathlib.Path("README.md"); text=p.read_text(); links=re.findall(r"\[[^\]]+\]\(([^)]+)\)",text); local=[u.strip().split("#",1)[0] for u in links if not re.match(r"^[A-Za-z][A-Za-z0-9+.-]*:",u) and not u.startswith("#")]; missing=[u for u in local if u and not (p.parent/u).exists()]; print(f"README Markdown links={len(links)} local paths={len(local)} broken={len(missing)}"); [print(u) for u in missing]; sys.exit(bool(missing))'
+  ```
+
+- Ruby dashboard/leaf parity check — **PASS**. Exact command:
+
+  ```sh
+  ruby -ryaml -e 'text = File.read("docs/ralph-status.md"); match = text.match(/```yaml\n(.*?)\n```/m) or abort("dashboard YAML block missing"); dash = YAML.safe_load(match[1], permitted_classes: [], permitted_symbols: [], aliases: false); id = "skills-improvement-20260925-0554-luna"; run = dash.fetch("runs").find { |entry| entry["run_id"] == id } or abort("run missing"); row = dash.fetch("branch_agent_index").find { |entry| entry["run_id"] == id && entry["worker_id"] == "coordinator" } or abort("coordinator index row missing"); leaf = YAML.safe_load(File.read("docs/ralph/ralph-skill-improvement-coordinator-20260925-0554-luna/agents/coordinator/status.md"), permitted_classes: [], permitted_symbols: [], aliases: false); abort("resource_usage mismatch") unless leaf["resource_usage"] == row["resource_usage"]; abort("timestamp mismatch") unless leaf["updated_at_utc"] == dash["updated_at_utc"] && run["updated_at_utc"] == dash["updated_at_utc"]; abort("run id absent") unless dash.fetch("current_run_ids").include?(id); abort("base mismatch") unless leaf["parent_rebased_onto_origin_main_sha"] == run["parent_rebased_onto_origin_main_sha"]; puts "PASS: schema-v2 dashboard YAML parses; run/index/leaf, resource usage, and timestamps synchronize"'
+  ```
+
+- `git -C /Users/jrblankenhorn/copilot_skills.worktrees/ralph-skill-improvement-coordinator-20260925-0554-luna diff --check` — **PASS**.
+- Conflict-marker scan across the changed README, dashboard, leaf, progress,
+  and decision files — **PASS**, no markers.
+- Resource usage at `2026-09-25T08:15:14Z`: `8,467` seconds wall-clock;
+  provider token counters remain `NOT_REPORTED`.
+- **Next action:** commit this status/dashboard synchronization, then perform
+  the serialized canonical refresh and guidance reread immediately before
+  each worker dispatch.

@@ -11,11 +11,11 @@
 - **Previous parent rebase:** `36bf3fad31b2965dc6a0516a20ec9b2e6ac64355`;
   tip `c833b2d19c7bfa3a643ec6e2e7efd0dac467afa3`.
 - **Latest parent rebase onto `origin/main`:**
-  `d868d684564658bdc9488e27f5bfeaa592b04338`; tip
-  `21b5ed18e6eb90d5c9a822f5e8783ffc18215a64`.
+  `7ee1307cb47f5a88cd6b46ee135444777ddeb665`; tip
+  `9c94704bb0e999e497f4b9eeb0cf9c253b57b351`.
 - **Parent worktree:** `/Users/jrblankenhorn/copilot_skills.worktrees/ralph-skill-improvement-coordinator-20260925-0554-luna`.
 - **Coordinator README implementation commit after latest rebase:**
-  `a36ef7f55a8ddb622b997615e7b71e3cfc907aa6`.
+  `5e880f96087faa144803d865e56ee45fa40257a0`.
 - **Final parent implementation commit:** pending worker integration.
 - **PR:** pending; expected to follow the repository's normal protected
   parent-to-main pull request process.
@@ -66,6 +66,15 @@
   `d868d684564658bdc9488e27f5bfeaa592b04338` added only unrelated run-status
   commits. The parent rebase completed without conflict; existing upstream
   status content remains preserved.
+- The next clean refresh advanced `origin/main` to
+  `7ee1307cb47f5a88cd6b46ee135444777ddeb665`. The requested README workflow
+  and skill improvements were still absent from remote main. Rebase conflicts
+  were limited to the aggregate status dashboard; the fetched dashboard was
+  preserved, the parent was rebased to
+  `9c94704bb0e999e497f4b9eeb0cf9c253b57b351`, and the README implementation
+  is now `5e880f96087faa144803d865e56ee45fa40257a0`. The prior worker
+  branches/sign-offs remain untouched and will not be reused as current
+  attestations.
 
 ## Unresolved blockers
 
