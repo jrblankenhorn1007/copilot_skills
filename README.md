@@ -36,15 +36,19 @@ license notices are preserved in each skill directory.
   refreshes the canonical skills and active project repositories at the start
   of every iteration and re-reads applicable guidance. It makes the first run
   an orchestrator (not a worker), dispatches two configurable worker agents by
-  default when independent work allows. For orchestrated runs, configure the
-  launcher/session with `--orchestrator` (not as a native Copilot CLI flag),
-  start the orchestrator in a parent worktree and parent branch, and give
-  workers their own child worktrees and child branches. The coordinator merges
-  completed worker branches into the parent serially; only the completed
-  parent merges to `origin/main`. Close each child branch/worktree only after
-  its parent merge is verified; close the parent only after its remote-main
-  merge is verified. The workflow verifies integration on remote `main` and
-  reviews durable lessons after the parent merge. Its
+  default when independent work allows. OpenCode is the default runtime:
+  start the primary profile with
+  `opencode run --agent ralph-loop --model provider/model-id`. The coordinator
+  creates a parent worktree and parent branch, then gives workers their own
+  child worktrees and child branches, starting each worker with
+  `opencode run --dir <child-worktree> --agent ralph-loop-worker`; OpenCode
+  Task subagents do not create Git worktrees. The coordinator merges completed
+  worker branches into the parent serially; only the completed parent merges
+  to `origin/main`. Close each child branch/worktree only after its parent
+  merge is verified; close the parent only after its remote-main merge is
+  verified. The workflow verifies integration on remote `main` and reviews
+  durable lessons after the parent merge. The legacy Copilot launcher option
+  `--orchestrator` is not an OpenCode CLI flag and is not used by default. Its
   [multi-agent orchestration guide](.github/skills/ralph-loop/references/multi-agent-orchestration.md)
   covers configurable worker counts and Git synchronization. The
   [conditional specialist routing guide](.github/skills/ralph-loop/references/skill-aware-routing.md)
@@ -70,14 +74,18 @@ license notices are preserved in each skill directory.
 
 ## Agents
 
-- [Ralph Loop](.github/agents/ralph-loop.agent.md): refreshes repositories and
-  instructions per iteration, orchestrates configurable workers through
-  isolated iterations, acts as the top-level orchestrator on the first run,
-  verifies remote-main integration, and invokes the Project Memory Update
-  agent after final integration. It applies TDD to behavior changes,
-  registers the orchestrator, reserves worker slots through the Resource
-  Manager, and distinguishes Git identity, remote read access, branch-push
-  access, and merge permissions.
+- [OpenCode Ralph Loop](.opencode/agents/ralph-loop.md): default primary
+  profile for one bounded Ralph iteration; follows the Ralph Loop skill,
+  registers with the Resource Manager, starts workers in dedicated child
+  worktrees, and delegates only read-only reviews through OpenCode's Task tool.
+- [OpenCode Ralph Loop Worker](.opencode/agents/ralph-loop-worker.md):
+  completes one coordinator-assigned iteration in its child worktree.
+- [OpenCode Ralph Code Reviewer](.opencode/agents/ralph-code-reviewer.md) and
+  [OpenCode Ralph Security Reviewer](.opencode/agents/ralph-security-reviewer.md):
+  separate read-only review profiles.
+- [Copilot Ralph Loop](.github/agents/ralph-loop.agent.md): compatibility
+  only for Copilot CLI and compatible hosts; it retains the Resource Manager
+  guidance for users who explicitly choose that legacy runtime.
 - [Project Memory Update](.github/agents/project-memory-update.agent.md):
   reviews the coordinator's and every worker's `memory_handoff` exactly once
   after the implementation merge is verified on fetched `origin/main`.
@@ -85,11 +93,10 @@ license notices are preserved in each skill directory.
   memory store; when none is warranted it returns `NO_UPDATE` and leaves
   memory unchanged. See the [memory index](.github/memory/README.md).
 - [Ralph Code Reviewer](.github/agents/ralph-code-reviewer.agent.md):
-  independently reviews every PR after worker sign-off and before merge
-  authorization; it is read-only and does not replace required human review.
+  Copilot-compatible, read-only reviewer for PRs; does not replace required
+  human review.
 - [Ralph Security Reviewer](.github/agents/ralph-security-reviewer.agent.md):
-  provides a separate, read-only security review when a diff touches
-  security-sensitive behavior.
+  Copilot-compatible, read-only security review for security-sensitive diffs.
 - [Ralph Git Specialist](.github/agents/ralph-git-specialist.agent.md):
   handles isolated Git worktrees, status publication, and authorized merges.
 - [Ralph Docs Specialist](.github/agents/ralph-docs-specialist.agent.md):
@@ -122,14 +129,14 @@ fast-forward path remains unchanged and records review as `NOT_APPLICABLE`.
 
 ## Using the agent and model controls
 
-See [Copilot agent selection and model controls](.github/skills/ralph-loop/references/copilot-cli-usage.md)
-for selecting the orchestrator model and configuring separate worker models,
-reasoning-effort, and context-window options in VS Code/Copilot CLI.
-
 See [OpenCode setup](.github/skills/ralph-loop/references/opencode-setup.md)
-for general OpenCode installation and provider authentication. This does not
-change the Ralph Loop's Copilot CLI runtime; OpenCode integration remains
-pending validation.
+for CLI installation, provider authentication, model selection, smoke tests,
+and Ralph entry points. Use an exact `provider/model-id` from
+`opencode models`; do not use `--auto` for Ralph work.
+
+See [Copilot CLI compatibility](.github/skills/ralph-loop/references/copilot-cli-usage.md)
+for the optional legacy runtime and its launcher-level `--orchestrator`
+configuration. This option is not a native OpenCode CLI flag.
 
 ## Current Ralph status
 

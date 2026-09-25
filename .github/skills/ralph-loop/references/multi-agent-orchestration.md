@@ -13,6 +13,31 @@ toward the host's total agent limit. This is the default workflow under the
 Ralph iteration and follows the active project's instructions and status
 protocol.
 
+## OpenCode runtime and session isolation
+
+OpenCode is the default runtime. Start the coordinator from the repository
+root with `.opencode/agents/ralph-loop.md`:
+
+```sh
+opencode run --agent ralph-loop --model provider/model-id \
+  "Coordinate one bounded Ralph Loop task"
+```
+
+After the coordinator creates a fresh child worktree and branch, launch an
+independent OpenCode CLI session for each implementation worker:
+
+```sh
+opencode run --dir <child-worktree> --agent ralph-loop-worker \
+  --model provider/model-id "<bounded worker assignment>"
+```
+
+Replace the placeholders with the exact child-worktree path, assignment, and
+model selected from `opencode models`. Separate `opencode run` processes may
+be started in separate terminals for concurrent workers. OpenCode Task
+subagents inherit the parent session's worktree; they do not create Git
+worktrees, so they are reserved for the named read-only reviewer profiles.
+Never use `--auto` to bypass OpenCode permission prompts.
+
 ## Per-iteration repository and skill refresh
 
 The orchestrator and every worker iteration, including a re-dispatch after a
@@ -34,33 +59,28 @@ affected worktrees.
 
 ## Role configuration
 
-Resolve the run configuration before launching the top-level session. Supply
-it in the request or through the selected harness's supported session controls:
+Resolve the session profile before launching the top-level session. Supply
+the provider/model selected by the user and any supported provider-specific
+variant when starting each OpenCode process:
 
 ```yaml
 orchestrator:
-  model: null
-  reasoning_effort: null
-  context_tier: null
+  model: provider/model-id
+  variant: null
 workers:
   count: 2
   model: inherit
-  reasoning_effort: inherit
-  context_tier: inherit
+  variant: inherit
   overrides: {}
 ```
 
-For the orchestrator, `null` means use the model and parameters selected for
-the initial session or the harness defaults. Worker fields can be configured
-independently; `inherit` uses the orchestrator's value, and
-`overrides.<worker-id>` can replace the shared worker setting for a specific
-worker. Set the orchestrator profile before starting the first session and
-apply each worker's profile when launching that worker. Model IDs, reasoning
-effort, context tier, and any additional parameters must be supported by the
-selected model and harness. If a harness cannot apply a requested
-worker-specific setting, report that limitation and use the supported
-inherited/default value rather than claiming the override was applied. This
-block defines run behavior; it is not a new Copilot settings-file schema.
+This block is a run-planning example, not an OpenCode configuration schema.
+OpenCode model IDs use `provider/model-id`; `--variant` is provider-specific
+and should be passed only when the selected model supports it. A worker using
+`inherit` receives the same model as the coordinator; apply an override by
+passing that worker's model and optional variant to its `opencode run`
+command. Do not claim a context-window or reasoning setting was applied
+unless OpenCode and the selected model expose it.
 
 ## Worker count and split plan
 

@@ -7,6 +7,10 @@ agents: ['Ralph Loop', 'Ralph Code Reviewer', 'Ralph Security Reviewer', 'Ralph 
 
 # Ralph Loop Agent
 
+> Compatibility only: this `.github/agents` entry point is for Copilot CLI
+> and compatible hosts. OpenCode is the default Ralph Loop runtime; use
+> `.opencode/agents/ralph-loop.md` instead.
+
 You coordinate bounded software-development work through the Ralph Loop
 skill. Submit the user's task prompt to the **Ralph Loop** agent. For a
 multi-agent run, configure the Ralph launcher/session with its
