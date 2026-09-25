@@ -1,0 +1,67 @@
+schema_version: 1
+run_id: "translated-ralph-prompt-skills-recovery-20260925-0318"
+parent_request_run_id: "skills-routing-20260925-0108"
+task_ids: ["generate-relevant-skills-in-translated-ralph-prompt"]
+worker_id: "coordinator"
+worker_name: "coordinator - translated Ralph prompt skills recovery"
+runtime_agent_id: null
+repository: "jrblankenhorn1007/copilot_skills"
+branch: "ralph/translated-ralph-skills-worker-02-refresh-9558f99-20260925-0318"
+branch_slug: "ralph-translated-ralph-skills-worker-02-refresh-9558f99-20260925-0318"
+worktree: "/Users/jrblankenhorn/copilot_skills.worktrees/ralph-translated-ralph-skills-worker-02-refresh-9558f99-20260925-0318"
+iteration: 1
+status: AWAITING_MERGE
+started_at_utc: "2026-09-25T03:18:30Z"
+updated_at_utc: "2026-09-25T03:50:25Z"
+base_origin_main_sha: "9558f99cc34cbed8dd1d24f4f15fc03f5d78b6ea"
+rebased_onto_origin_main_sha: "8da9310fda1b2e3042a379081dfb0675f1b22d6b"
+implementation_commit_sha: "7f079cd4c28228966707cdc7ec486cca8eba1ed1"
+pull_request:
+  status: NOT_OPENED
+  number: null
+  url: null
+merge_actor_worker_id: null
+decision_record_path: "docs/decisions/ralph-translated-ralph-skills-worker-02-refresh-9558f99-20260925-0318/agents/coordinator/pr-not-opened.md"
+decision_index_path: "docs/decisions/ralph-translated-ralph-skills-worker-02-refresh-9558f99-20260925-0318/README.md"
+merge:
+  status: PENDING
+  sha: null
+  verified_remote_ref: "refs/heads/main"
+  verified_origin_main_sha: null
+  verification_method: null
+  verified_at_utc: null
+memory_review: PENDING
+checks:
+  - command: "git -C /Users/jrblankenhorn/copilot_skills pull --ff-only"
+    result: "PASS (canonical main refreshed to 9558f99cc34cbed8dd1d24f4f15fc03f5d78b6ea)"
+  - command: "git -C /Users/jrblankenhorn/dj_maxxed_beats pull --ff-only"
+    result: "PASS (Maxxed main refreshed to 0736add11eae7b7f745d7b7bf9806c116d72eed6)"
+  - command: "cd /Users/jrblankenhorn/copilot_skills.worktrees/ralph-translated-ralph-skills-worker-02-refresh-9558f99-20260925-0318 && PYTHONDONTWRITEBYTECODE=1 python3 .github/skills/ralph-loop/tests/test_multi_agent_contract.py"
+    result: "PASS (baseline on 9558f99: 13 tests)"
+  - command: "cd /Users/jrblankenhorn/copilot_skills.worktrees/ralph-translated-ralph-skills-worker-02-refresh-9558f99-20260925-0318 && PYTHONDONTWRITEBYTECODE=1 python3 .github/skills/ralph-loop/tests/test_multi_agent_contract.py MultiAgentContractTests.test_project_specific_ralph_prompts_include_task_relevant_skills"
+    result: "FAIL (expected Red: the baseline skill lacked the prompt-generation procedure)"
+  - command: "cd /Users/jrblankenhorn/copilot_skills.worktrees/ralph-translated-ralph-skills-worker-02-refresh-9558f99-20260925-0318 && PYTHONDONTWRITEBYTECODE=1 python3 .github/skills/ralph-loop/tests/test_multi_agent_contract.py MultiAgentContractTests.test_project_specific_ralph_prompts_include_task_relevant_skills"
+    result: "PASS on rebased commit (1 test)"
+  - command: "cd /Users/jrblankenhorn/copilot_skills.worktrees/ralph-translated-ralph-skills-worker-02-refresh-9558f99-20260925-0318 && PYTHONDONTWRITEBYTECODE=1 python3 .github/skills/ralph-loop/tests/test_multi_agent_contract.py"
+    result: "PASS on rebased commit (14 tests)"
+  - command: "cd /Users/jrblankenhorn/copilot_skills.worktrees/ralph-translated-ralph-skills-worker-02-refresh-9558f99-20260925-0318 && PYTHONDONTWRITEBYTECODE=1 python3 .github/skills/ralph-loop/tests/test_multi_agent_contract.py"
+    result: "PASS after recovery status-record edits (14 tests)"
+  - command: "Ruby standard-library YAML parse and exact dashboard leaf-index validation (see coordinator progress)"
+    result: "PASS: root and leaf YAML parse; all 12 status/progress leaf pairs indexed once in both dashboard indexes"
+  - command: "git -C /Users/jrblankenhorn/copilot_skills.worktrees/ralph-translated-ralph-skills-worker-02-refresh-9558f99-20260925-0318 diff --check origin/main...HEAD"
+    result: PASS
+  - command: "git -C /Users/jrblankenhorn/copilot_skills.worktrees/ralph-translated-ralph-skills-worker-02-refresh-9558f99-20260925-0318 show --check --format=oneline HEAD"
+    result: PASS
+blockers: []
+next_action: "Coordinator: integrate this iteration through the documented verified fast-forward process, then verify remote main and complete the post-merge memory review."
+coordinator_sign_off:
+  status: RECEIVED
+  attestation_kind: SELF_ATTESTATION
+  cryptographic_signature_status: NOT_CRYPTOGRAPHICALLY_SIGNED
+  attested_at_utc: "2026-09-25T03:34:06Z"
+  statement: "I, coordinator, sign off the prompt-generation recovery iteration at implementation commit 7f079cd4c28228966707cdc7ec486cca8eba1ed1."
+commit_signature_verification:
+  status: NOT_CRYPTOGRAPHICALLY_SIGNED
+  verifier: null
+  evidence: null
+  verified_at_utc: null
