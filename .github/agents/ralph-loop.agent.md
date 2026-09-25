@@ -51,8 +51,13 @@ report your verification evidence back to it.
    `origin/main`. If no remote main ref is available, the current checkout is
    detached, or the integration worktree has uncommitted changes, preserve the
    current state and report the blocker rather than guessing or cleaning it.
-   Use `git worktree list --porcelain` to record the integration worktree path
-   for the later merge.
+   Follow the Ralph Loop skill's Git identity and authentication preflight
+   before creating the iteration worktree or editing: a successful fetch
+   proves read access, not branch push or merge permission. Use only existing
+   authentication, never expose credentials or change credential
+   configuration without approval, and preserve the branch/worktree if a
+   later write or merge is denied. Use `git worktree list --porcelain` to
+   record the integration worktree path for the later merge.
 4. Identify the narrowest useful increment that advances an unmet acceptance
    criterion. If the project has no active Ralph task or the user's requested
    scope is unclear, report what you found and ask for direction rather than
@@ -96,7 +101,10 @@ report your verification evidence back to it.
   failures honestly; never claim unrun checks passed.
 - Complete the iteration's implementation commit and any required
   runner-managed status commit on the new branch. Publish the branch as needed
-  and use the repository's remote merge process to merge its changes into
+  using the verified Git identity, repository commit conventions, and the
+  required co-author trailer
+  `Co-authored-by: Copilot <223556219+Copilot@users.noreply.github.com>`. Use
+  the repository's remote merge process to merge its changes into
   `origin/main`. If a pull request or merge queue is required, wait for it to
   report merged; creating or pushing the branch is not enough. Fetch `origin`
   again and verify remote main contains the merged work before reporting

@@ -110,6 +110,59 @@ class MultiAgentContractTests(unittest.TestCase):
                     f"worker Git protocol must include {requirement!r}",
                 )
 
+    def test_git_preflight_separates_identity_and_access_permissions(self):
+        ralph_skill = read_document(".github/skills/ralph-loop/SKILL.md")
+
+        for requirement in (
+            "git var git_author_ident",
+            "git var git_committer_ident",
+            "git fetch origin",
+            "fetch proves read access only",
+            "publishing the actual iteration branch",
+            "merge permission",
+            "never ask the user to paste credentials",
+            "bypass branch protection",
+        ):
+            with self.subTest(requirement=requirement):
+                assert_contains(
+                    self,
+                    ralph_skill,
+                    requirement,
+                    f"Ralph skill Git preflight must include {requirement!r}",
+                )
+
+        agent = read_document(".github/agents/ralph-loop.agent.md")
+        for requirement in (
+            "authentication preflight",
+            "branch push or merge permission",
+            "co-authored-by: copilot",
+        ):
+            with self.subTest(requirement=requirement):
+                assert_contains(
+                    self,
+                    agent,
+                    requirement,
+                    f"Ralph agent instructions must include {requirement!r}",
+                )
+
+        orchestration = read_document(
+            ".github/skills/ralph-loop/references/multi-agent-orchestration.md"
+        )
+        assert_contains(
+            self,
+            orchestration,
+            "fetch success proves read access only",
+            "worker guidance must distinguish read access from write access",
+        )
+
+        readme = read_document("README.md")
+        assert_contains(
+            self,
+            readme,
+            "configured git identity and remote read access",
+            "README must surface the Git preflight",
+        )
+
     def test_status_protocol_records_overall_worker_iteration_and_attestation(self):
         status_guide = read_document(
             ".github/skills/ralph-loop/references/multi-agent-status.md"

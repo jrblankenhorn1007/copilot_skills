@@ -74,6 +74,37 @@ active project before planning, dispatching work, or editing:
    remote-merge lifecycle below. Do not invoke a runner that assumes an
    in-place branch, pushes before integration, or skips remote verification.
 
+## Git identity and authentication
+
+Before creating an iteration branch or editing files, verify the configured
+commit identity and remote read access:
+
+```sh
+git var GIT_AUTHOR_IDENT
+git var GIT_COMMITTER_IDENT
+git fetch origin
+```
+
+If either identity is missing or incorrect, stop before editing and report
+that the intended Git `user.name` and `user.email` must be configured. Do not
+invent an identity, override the author, or change shared Git configuration.
+Use only authentication already configured for the session, such as the
+platform credential helper, an SSH agent, or the host's GitHub integration.
+Never ask the user to paste credentials, expose or inspect credential values,
+embed a token in a remote URL or command, or write credentials to a file. Do
+not run sign-in/setup commands or change remotes or credential configuration
+without the user's explicit approval.
+
+A successful fetch proves read access only; it does not establish permission
+to publish a branch or merge it. Test write access by publishing the actual
+iteration branch through the repository's normal process, and test merge
+permission through its required PR, review, or merge-queue process. A dry-run
+or local commit is not proof of either permission. If publishing or merging
+fails because of authentication or repository policy, preserve the worktree
+and branch, report the operation and sanitized error, and stop. Do not guess
+credentials, repeatedly retry, force-push, or bypass branch protection by
+writing directly to `main`.
+
 ## Iteration workflow
 
 1. Perform one coherent implementation iteration per invocation. Create a
