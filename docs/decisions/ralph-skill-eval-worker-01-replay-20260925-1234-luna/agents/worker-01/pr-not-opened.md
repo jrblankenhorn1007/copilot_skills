@@ -41,6 +41,12 @@
   `SELF_ATTESTATION`, not a cryptographic Git signature or proof of the
   current session's model profile. No runtime routing improvement was
   measured.
+- The coordinator fast-forwarded and verified the original child tip
+  `478f97845fba19f3f3b3ac87d7a01d294ae331db` on the parent.
+- An attempted `AWAITING_MERGE` task-ledger update was rejected before
+  publication because the terminal state requires sign-out. Keeping the
+  ledger `IN_PROGRESS` until the child merge was verified permits an accurate
+  final `COMPLETE` sign-out; no unauthorized main update occurred.
 
 ## Current blockers
 

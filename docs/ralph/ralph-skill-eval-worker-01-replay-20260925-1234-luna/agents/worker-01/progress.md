@@ -53,3 +53,25 @@
   no-PR parent integration.
 - **Next action:** Coordinator reviews this sign-off and fast-forwards the
   parent branch, then synchronizes worker leaf and dashboard status.
+
+## 2026-09-25T12:42:45Z - Verified child integration
+
+- The coordinator ran `git merge --ff-only
+  ralph/skill-eval-worker-01-replay-20260925-1234-luna` in its isolated
+  parent worktree. Parent tip became
+  `478f97845fba19f3f3b3ac87d7a01d294ae331db`. Both the replayed
+  implementation commit `110028610887e4d879a0129fcb81f417faf51eef`
+  and the signed-off child tip were verified with
+  `git merge-base --is-ancestor` - **PASS**.
+- Status changes to `COMPLETE` for this child-to-parent integration. The
+  overall run remains unfinished: worker-02, the parent PR/review and
+  remote-main merge, and post-merge memory review are pending. The
+  `memory_handoff` remains available for the later coordinator review.
+- A live-ledger `AWAITING_MERGE` publication failed validation because that
+  terminal state requires task sign-out. No remote status was written. Keep
+  the revision-1 task record `IN_PROGRESS` through this verified merge,
+  then publish the worker's final `COMPLETE` record with sign-out. This
+  resolves the validation error without claiming an unverified merge.
+- Wall-clock elapsed at this status update is `452` seconds; token counters
+  are `NOT_REPORTED`. The coordinator must fast-forward this status-only
+  child commit and synchronize the dashboard before continuing.

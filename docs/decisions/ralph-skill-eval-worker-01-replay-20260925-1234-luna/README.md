@@ -9,6 +9,8 @@
 - **Original Luna implementation:**
   `3473972fa9babc05bdc48e7a8a0d8deae0f65bcc`.
 - **Replayed implementation:** `110028610887e4d879a0129fcb81f417faf51eef`.
+- **Verified worker-to-parent integration:**
+  `478f97845fba19f3f3b3ac87d7a01d294ae331db`.
 - **Integration:** Coordinator-managed child-to-parent fast-forward, no child
   PR. The parent-to-main PR and independent review remain separate.
 
@@ -17,3 +19,6 @@
 - [Worker PR-not-opened decision](agents/worker-01/pr-not-opened.md)
 - [Worker status](../../ralph/ralph-skill-eval-worker-01-replay-20260925-1234-luna/agents/worker-01/status.md)
 - [Worker progress](../../ralph/ralph-skill-eval-worker-01-replay-20260925-1234-luna/agents/worker-01/progress.md)
+
+The parent contains the signed-off child tip; its dashboard still needs to
+index this completed worker before the next assignment proceeds.
