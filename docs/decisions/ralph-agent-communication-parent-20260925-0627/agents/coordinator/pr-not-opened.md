@@ -4,7 +4,7 @@
   `communication-baseline` / `coordinator` / 1
 - **Branch:** `ralph/agent-communication-parent-20260925-0627`
 - **Base `origin/main` SHA:** `20293c720b18a1a21ff150f566823493b7a2717d`
-- **Current parent implementation SHA:** `db6d18e1c49fe3a0af962b0b3c6add156b4ca460`
+- **Current parent implementation SHA:** `fcf9c24c2dfe5aaf9864bb59a76e97b7b51c8c91`
 - **Agent:** `coordinator`; runtime ID
   `copilotcli:/870bde06-54d5-4b31-b052-c6167704e5fb`
 - **PR:** Not opened. The repository's documented normal path is a
@@ -132,6 +132,12 @@
   `223d1df7d2a762a81a2fd2de1f8e96160a4e2e69` and
   `90993383c243e2f55fe7f21b53d71e3ca15dbcdc`; ownership is free at revision
   220.
+- `origin/main` then advanced from `c1ac03a4...` to
+  `d8af3e8d87cd32aaab128bb6edabd6e8402da5e4` through three more status-only
+  agent-sync commits. The parent remains based on c1ac while work proceeds
+  in its child. Repeated status-only rebases have produced one-to-one commit
+  mappings and no changed task-source behavior; defer another parent rebase
+  until immediately before final integration, then rerun the relevant checks.
 
 ## Unresolved blockers
 

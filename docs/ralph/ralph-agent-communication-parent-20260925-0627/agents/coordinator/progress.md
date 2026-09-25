@@ -1169,3 +1169,21 @@
   `90993383c243e2f55fe7f21b53d71e3ca15dbcdc`.
 - **Next:** Commit the current parent records, then rebase worker-01's clean
   child onto the resulting exact parent tip and authorize its implementation.
+
+## 2026-09-25T17:43:21Z — defer zero-code main rebases
+
+- **Remote movement:** `origin/main` advanced from
+  `c1ac03a4d3378789450b7ac59a655fcbff974241` to
+  `d8af3e8d87cd32aaab128bb6edabd6e8402da5e4` through three agent-sync
+  commits. Only ownership and an unrelated coordinator status changed;
+  ownership is `FREE` at revision 222.
+- **Parent state:** Parent HEAD `fcf9c24c...` remains based on
+  `c1ac03a4...`. The source/test/guidance diff is unaffected by the three
+  status-only commits.
+- **Optimization decision:** Repeated rebases over status-only main advances
+  have mapped every parent commit one-to-one and reproduced the same three
+  intentional Red assertions. Further zero-code rebase cycles now have
+  diminishing returns; keep the worker moving from the exact current parent
+  and rebase/retest the parent once immediately before final integration.
+- **Next:** Commit this state, rebase worker-01's clean child onto the exact
+  resulting parent tip, then issue `READY_TO_EDIT`.
