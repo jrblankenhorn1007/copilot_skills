@@ -1,0 +1,56 @@
+{
+  "agent_id": "coordinator",
+  "agent_profile": {
+    "agent_definition": ".github/agents/ralph-loop.agent.md",
+    "context_tier": null,
+    "context_usage_tokens": null,
+    "context_window_tokens": null,
+    "harness": "Copilot SDK in VS Code",
+    "model_id": null,
+    "reasoning_effort": null,
+    "runtime_agent_id": "copilotcli:/b13023da-f0f0-4a52-becb-7d3064a09175"
+  },
+  "git": {
+    "base_ref": "refs/remotes/origin/main",
+    "base_sha": "61353504e0e99ec82d415a44ca5a305b57dfacf6",
+    "edit_scope": [
+      ".github/agents/documentation-update.agent.md",
+      ".github/agents/ralph-loop.agent.md",
+      ".github/skills/ralph-loop/SKILL.md",
+      ".github/skills/ralph-loop/references/multi-agent-orchestration.md",
+      ".github/skills/ralph-loop/tests/test_multi_agent_contract.py",
+      ".github/skills/runecore-image-asset-pipeline/SKILL.md",
+      "README.md",
+      "docs/ralph-status.md",
+      "docs/ralph/ralph-runecore-image-doc-agent-20260924-b13023da/agents/coordinator/status.md",
+      "docs/ralph/ralph-runecore-image-doc-agent-20260924-b13023da/agents/coordinator/progress.md",
+      "docs/decisions/ralph-runecore-image-doc-agent-20260924-b13023da/README.md",
+      "docs/decisions/ralph-runecore-image-doc-agent-20260924-b13023da/agents/coordinator/pr-not-opened.md"
+    ],
+    "implementation_branch": "refs/heads/ralph/runecore-image-doc-agent-20260924-b13023da",
+    "remote_name": "origin",
+    "repository": "jrblankenhorn1007/copilot_skills",
+    "worktree_head_sha_at_sign_in": "622e66680b2c6975fe429187e738889845198b2b",
+    "worktree_path": "/Users/jrblankenhorn/copilot_skills.worktrees/ralph-runecore-image-doc-agent-20260924-b13023da"
+  },
+  "prompt_path": "docs/agent-sync/runs/copilot-skills-runecore-image-doc-agent-20260924/agents/coordinator/prompt.md",
+  "prompt_sha256": "c83d282577345f9d0ef1958696e0fbf1611194e6c87d534538c142654816e5f0",
+  "revision": 1,
+  "run_id": "copilot-skills-runecore-image-doc-agent-20260924",
+  "schema_version": 1,
+  "sign_in_at_utc": "2026-09-25T10:40:29Z",
+  "sign_out": {
+    "at_utc": null,
+    "checks": [],
+    "implementation_commit_sha": null,
+    "next_action": null,
+    "summary": null
+  },
+  "started_at_utc": "2026-09-25T10:40:29Z",
+  "status": "IN_PROGRESS",
+  "status_reason": "Late recovery of the required task sign-in: no ledger record for this run was found on fetched origin/main. This sign-in begins now and does not claim it preceded the existing parent or worker edits. Resuming integration and documentation verification from the preserved parent branch.",
+  "task_id": "parent-integration",
+  "updated_at_utc": "2026-09-25T10:40:29Z",
+  "worker_id": "coordinator",
+  "worker_name": "coordinator - Runecore skill and documentation-update agent"
+}
