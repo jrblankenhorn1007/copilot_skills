@@ -27,22 +27,26 @@
   },
   "prompt_path": "docs/agent-sync/runs/copilot-skills-agent-routing-20260925-8bc457e9/agents/routing-coordinator/prompt.md",
   "prompt_sha256": "3cac5c9646f2d38319f246b079bd84a9d18fff04b760edf4467297dbcac07c17",
-  "revision": 1,
+  "revision": 2,
   "run_id": "copilot-skills-agent-routing-20260925-8bc457e9",
   "schema_version": 1,
   "sign_in_at_utc": "2026-09-25T07:44:52Z",
   "sign_out": {
-    "at_utc": null,
-    "checks": [],
-    "implementation_commit_sha": null,
-    "next_action": null,
-    "summary": null
+    "at_utc": "2026-09-25T07:56:47Z",
+    "checks": [
+      "PASS: 4 targeted routing tests",
+      "PASS: git diff --cached --check",
+      "BLOCKED: broader 18-test Ralph contract has one unindexed dashboard leaf owned by another task"
+    ],
+    "implementation_commit_sha": "9e4936e8f31b14a756fde01cdf33a8d99532f600",
+    "next_action": "After foreign dashboard and agent-role releases, index leaves, integrate both children and wire coordinator dispatch.",
+    "summary": "Specified conditional Ralph specialist routing, honest fallback, scope and main gates, and focused contract tests."
   },
   "started_at_utc": "2026-09-25T07:44:52Z",
-  "status": "IN_PROGRESS",
-  "status_reason": "Building the conditional routing contract without editing another task's claimed files.",
+  "status": "AWAITING_MERGE",
+  "status_reason": "Routing reference and tests committed; separate dashboard ownership and coordinator wiring remain.",
   "task_id": "skill-aware-ralph-routing",
-  "updated_at_utc": "2026-09-25T07:44:52Z",
+  "updated_at_utc": "2026-09-25T07:56:47Z",
   "worker_id": "coordinator",
   "worker_name": "coordinator - conditional Skill routing"
 }
