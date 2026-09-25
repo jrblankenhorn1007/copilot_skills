@@ -7,10 +7,12 @@
   `e9fe3d175d1ca76b03fccdbe53431205b80e5c23`.
 - **Parent rebased onto `origin/main`:**
   `20293c720b18a1a21ff150f566823493b7a2717d`.
-- **Current parent tip:**
+- **Parent tip immediately after rebase:**
   `d7b0d02ede3666825e6b4fb64fe6f3dd641bb87f`.
 - **Parent worktree:** `/Users/jrblankenhorn/copilot_skills.worktrees/ralph-skill-improvement-coordinator-20260925-0554-luna`.
-- **Implementation commit:** pending.
+- **Coordinator README implementation commit:**
+  `acbb1d96f6a74db9fbad73d55d6953dd7c394bec`.
+- **Final parent implementation commit:** pending worker integration.
 - **PR:** pending; expected to follow the repository's normal protected
   parent-to-main pull request process.
 - **Agent/runtime ID:** coordinator; runtime ID unavailable.

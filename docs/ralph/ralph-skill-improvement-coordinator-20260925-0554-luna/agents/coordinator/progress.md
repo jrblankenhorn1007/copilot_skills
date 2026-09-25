@@ -73,8 +73,8 @@
   yet. Worker changes are child branches based on the parent and will be
   integrated serially only after exact commit sign-off and scoped checks.
 - Parent-to-`origin/main` merge and Project Memory review: **PENDING**.
-- Next action: rebase/retest worker-01 on the latest parent, then retry
-  worker-02 from a fresh child branch with the explicitly requested profile.
+- Next action: launch both disjoint workers from fresh child branches at the
+  exact parent tip after the dispatch-evidence commit.
 
 ## 2026-09-25T06:22Z–06:37Z — Remote-main advancement and rebase
 
@@ -112,10 +112,10 @@
   `NOT_REPORTED` (not estimated).
 - **Worker-01:** its successful skill changes are committed on
   `ralph/skill-evaluation-worker-01-20260925-0554-luna`, but the branch is
-  still based on the old parent tip. It must rebase onto
-  `d7b0d02ede3666825e6b4fb64fe6f3dd641bb87f`, update its schema-version-2
-  leaf with measured elapsed time and provider-reported-token status, rerun
-  checks, and issue a new self-attestation bound to the rewritten
+  still based on the old parent tip. Preserve that branch/worktree and
+  re-dispatch worker-01 on a fresh child branch from the current parent,
+  porting only the reviewed skill change. The new leaf must use schema
+  version 2, checks must be rerun, and its sign-off must bind to the new
   implementation SHA before integration.
 - **Worker-02 dispatch recovery:** the first explicit
   `gpt-6-luna` / `max` / `default` task launch returned no edits, checks, leaf
@@ -152,5 +152,35 @@
 - Documentation-only: no behavior-test Red phase fabricated.
 - Resource usage at `2026-09-25T06:43:51Z`: `2,984` seconds wall-clock
   elapsed; provider token counters remain `NOT_REPORTED`.
-- Next: commit these coordinator-owned README and status/decision records,
-  then dispatch both disjoint workers from the resulting exact parent tip.
+- Next: launch both disjoint workers from the exact parent tip produced by
+  the dispatch-evidence commit.
+
+## 2026-09-25T06:42Z–06:48Z — Coordinator commit and serialized dispatch refreshes
+
+- Coordinator README/status/decision implementation commit:
+  `acbb1d96f6a74db9fbad73d55d6953dd7c394bec`; includes the cross-skill
+  workflow, synchronized schema-version-2 records, and required Copilot
+  co-author trailer. The commit passed the 15-test Ralph contract suite,
+  README local-link check (28 valid/0 broken), schema/resource synchronization
+  check, and `git diff --check`.
+- Before worker-01 dispatch, the coordinator refreshed the clean canonical
+  integration checkout with `git pull --ff-only` and `git fetch origin`;
+  both passed and the fetched `origin/main` remained
+  `20293c720b18a1a21ff150f566823493b7a2717d`.
+- Before worker-02 dispatch, the same shared integration checkout was
+  refreshed serially again with `git pull --ff-only` and `git fetch origin`;
+  both passed with the same `origin/main` SHA. Git author/committer identity
+  preflight passed without recording identity values.
+- `git worktree list --porcelain` confirmed `/Users/jrblankenhorn/copilot_skills`
+  is the attached `main` integration worktree. Parent tip before the dispatch
+  record update was `acbb1d96f6a74db9fbad73d55d6953dd7c394bec`, and the
+  refreshed `origin/main` was verified as its ancestor. The exact new parent
+  tip after committing this dispatch record will be supplied to both workers.
+- Resource usage at `2026-09-25T06:46:30Z`: `3,144` seconds wall-clock
+  elapsed; provider token counters remain `NOT_REPORTED`.
+- Final status synchronization at `2026-09-25T06:47:37Z`: `3,210` seconds
+  wall-clock elapsed; the coordinator leaf/dashboard are synchronized. The
+  exact parent tip after committing this status update will be supplied to
+  both workers.
+- Next: launch both disjoint child workers from that exact tip using the
+  explicit `gpt-6-luna` / `max` / `default` profile.

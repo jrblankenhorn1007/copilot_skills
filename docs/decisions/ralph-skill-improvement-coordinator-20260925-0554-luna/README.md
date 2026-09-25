@@ -7,8 +7,11 @@
   `e9fe3d175d1ca76b03fccdbe53431205b80e5c23`
 - **Parent rebased onto current `origin/main`:**
   `20293c720b18a1a21ff150f566823493b7a2717d`
-- **Current parent tip:** `d7b0d02ede3666825e6b4fb64fe6f3dd641bb87f`
-- **Parent implementation commit:** pending.
+- **Parent tip immediately after rebase:**
+  `d7b0d02ede3666825e6b4fb64fe6f3dd641bb87f`
+- **Coordinator README implementation commit:**
+  `acbb1d96f6a74db9fbad73d55d6953dd7c394bec`.
+- **Final parent implementation commit:** pending worker integration.
 - **Parent PR:** expected; see [coordinator PR-pending record](agents/coordinator/pr-pending.md).
 
 ## Decisions
