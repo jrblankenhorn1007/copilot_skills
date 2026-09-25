@@ -1,22 +1,22 @@
 {
   "owner": {
-    "agent_id": "coordinator-01",
+    "agent_id": "coordinator",
     "operation": "STATUS",
-    "run_id": "ralph-protected-main-pr-recovery-20260925-1423",
-    "runtime_agent_id": "copilotcli:/d0f1b531-19ef-4644-92f9-2b17966bcb95",
-    "signed_in_at_utc": "2026-09-25T14:35:31Z",
-    "start_main_sha": "cef85f23ae91ea9994b01317a983ae89c4a1f51d",
-    "token": "ea12d55a6ed3bde708332eca28bfc1de",
+    "run_id": "copilot-skills-runecore-image-doc-agent-20260924",
+    "runtime_agent_id": "copilotcli:/b13023da-f0f0-4a52-becb-7d3064a09175",
+    "signed_in_at_utc": "2026-09-25T14:38:57Z",
+    "start_main_sha": "88051ce785a38965e26b5744b6c8fc53e37fcc41",
+    "token": "4cd1e7c0d2b0014f46aebbc6523ecf48",
     "worktree_path": null
   },
   "ref": "refs/heads/main",
   "repository": "jrblankenhorn1007/copilot_skills",
-  "revision": 120,
+  "revision": 121,
   "schema_version": 1,
   "sign_out": {
-    "at_utc": "2026-09-25T14:35:37Z",
-    "outcome": "PUBLISHED",
-    "result_commit_sha": "2fd75d92faf2c05b370ad084d417669e5dfca60d"
+    "at_utc": null,
+    "outcome": null,
+    "result_commit_sha": null
   },
-  "state": "FREE"
+  "state": "OWNED"
 }
