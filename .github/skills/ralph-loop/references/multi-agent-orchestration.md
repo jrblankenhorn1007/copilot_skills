@@ -121,8 +121,14 @@ verified.
 ## Git synchronization and integration
 
 1. **Before branch creation:** run `git fetch origin`, confirm `origin/main`
-   is available, and create the worker's fresh branch from that ref. Record
-   the exact base SHA for the coordinator's ledger.
+   is available, and create the worker's fresh branch from that ref. Follow
+   the parent Ralph Loop skill's Git identity and authentication preflight
+   before making changes: fetch success proves read access only, so
+   branch-push and merge permissions must be established through the
+   repository's normal integration process. Preserve the worker branch and
+   report a sanitized blocker if either write operation is denied; never pass
+   credentials in worker instructions or change credential configuration
+   without approval. Record the exact base SHA for the coordinator's ledger.
 2. **Before publishing and again before integration:** run `git fetch origin`.
    If `origin/main` has advanced since the recorded base, rebase the feature
    branch onto the latest `origin/main`. Resolve conflicts only within the

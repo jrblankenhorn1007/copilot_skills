@@ -37,7 +37,9 @@ license notices are preserved in each skill directory.
   [multi-agent orchestration guide](.github/skills/ralph-loop/references/multi-agent-orchestration.md)
   covers configurable worker counts and Git synchronization; the
   [multi-agent status guide](.github/skills/ralph-loop/references/multi-agent-status.md)
-  defines overall and per-worker iteration reporting.
+  defines overall and per-worker iteration reporting. Its Git preflight checks
+  configured Git identity and remote read access before work, and distinguishes
+  those from branch-push and merge permissions.
 - [Test-Driven Development](.github/skills/tdd/SKILL.md):
   applies test-first Red-Green-Refactor to behavior changes and bug fixes.
 
@@ -46,7 +48,8 @@ license notices are preserved in each skill directory.
 - [Ralph Loop](.github/agents/ralph-loop.agent.md): orchestrates configurable
   workers through isolated iterations, acts as the top-level orchestrator on
   the first run, verifies remote-main integration, reviews durable lessons,
-  and applies TDD to behavior changes.
+  and applies TDD to behavior changes. It distinguishes Git identity, remote
+  read access, branch-push access, and merge permissions.
 
 ## Using the agent and model controls
 
