@@ -79,7 +79,7 @@
   paths and this branch's decision/worker-leaf records (8 paths total). The
   agent edit is limited to invoking the new reference and establishing the
   structured-prompt contract; no dashboard or other-worker path is staged.
-- Local implementation commit:
+- Pre-rebase implementation commit:
   `1b77c316b33672cc2f4d55a683d7a4d0acfb5655`
   (`Add structured Ralph prompt generation`). Its message includes the
   required trailer:
@@ -126,7 +126,7 @@
   such as `| Status | \`BLOCKED\` |`.
 - Worker-01 changed only its own status/progress/decision records. The leaf
   status now has that table row and retains the YAML `status: BLOCKED` and
-  exact `implementation_commit_sha` of
+  pre-rebase `implementation_commit_sha` of
   `1b77c316b33672cc2f4d55a683d7a4d0acfb5655`.
 - This was coordinator-reported evidence; worker-01 has not rerun the focused
   test, full Ralph contract suite, or `git diff --check` after the correction.
@@ -134,6 +134,33 @@
   commit SHA.
 - No staging or commit was performed for this update. Status remains
   `BLOCKED` while authenticated PR creation is unavailable.
+
+## Rebase onto refreshed main
+
+- Old base `origin/main`:
+  `485b4a64c871f581f9295e46c867b188b0e3ccee`.
+- Rebase target and `rebased_onto_origin_main_sha`:
+  `114e4d60567d05cd048916339ed86e324c6eeef3`.
+- Before rebase, worker-owned record updates were committed in
+  `18c9ef0935d0017c8f2f2a857fae5c54771b546f`.
+- Exact commands and results:
+  - `git fetch origin` — exit 0; fetched `origin/main` at
+    `114e4d60567d05cd048916339ed86e324c6eeef3`.
+  - `git rebase origin/main` — exit 0; all four local commits replayed
+    without conflicts.
+- The rebased implementation commit is
+  `2032d6a5a3696e70369e95d347017d2f4a6bdab3` (`Add structured Ralph prompt
+  generation`). Its pre-rebase implementation SHA was
+  `1b77c316b33672cc2f4d55a683d7a4d0acfb5655`.
+- The rebased branch tip before this status-record update was
+  `0d8211dc77bf94252fb768f2c86ab5dbb0c1e52b`.
+- Review confirmed the upstream no-browser GitHub workflow section remains
+  alongside the prompt-generation instructions; upstream status/test changes
+  were preserved. Worker-01 did not edit `docs/ralph-status.md` or
+  `test_multi_agent_contract.py`.
+- No post-rebase tests or `git diff --check` have run. They are deferred until
+  the coordinator adds the dashboard row and supplies its commit SHA. The
+  worker sign-off remains pending and status remains `BLOCKED`.
 
 ## Current decisions and status
 

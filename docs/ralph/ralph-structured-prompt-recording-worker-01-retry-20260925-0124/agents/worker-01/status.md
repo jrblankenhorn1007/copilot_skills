@@ -15,11 +15,11 @@ worktree: "/Users/jrblankenhorn/copilot_skills.worktrees/ralph-structured-prompt
 iteration: 2
 status: BLOCKED
 started_at_utc: "2026-09-25T01:24:00Z"
-updated_at_utc: "2026-09-25T01:56:39Z"
+updated_at_utc: "2026-09-25T02:09:05Z"
 base_origin_main_sha: "485b4a64c871f581f9295e46c867b188b0e3ccee"
-latest_fetched_origin_main_sha: "3ea889103bb7db6fb1f5eadf647045a511ea9a03"
-rebased_onto_origin_main_sha: null
-implementation_commit_sha: "1b77c316b33672cc2f4d55a683d7a4d0acfb5655"
+latest_fetched_origin_main_sha: "114e4d60567d05cd048916339ed86e324c6eeef3"
+rebased_onto_origin_main_sha: "114e4d60567d05cd048916339ed86e324c6eeef3"
+implementation_commit_sha: "2032d6a5a3696e70369e95d347017d2f4a6bdab3"
 pull_request:
   status: BLOCKED
   number: null
@@ -43,7 +43,7 @@ checks:
     note: "Post-implementation Green: ran 7 tests; OK."
   - command: "python3 .github/skills/ralph-loop/tests/test_prompt_generation_contract.py"
     result: PASS
-    note: "Final targeted rerun after staging; 7 tests passed."
+    note: "Pre-rebase targeted rerun after staging; 7 tests passed."
   - command: "python3 .github/skills/ralph-loop/tests/test_multi_agent_contract.py"
     result: PASS
     note: "Earlier run before adding this worker's docs/ralph leaf; 10 tests passed."
@@ -56,20 +56,28 @@ checks:
   - command: "python3 .github/skills/ralph-loop/tests/test_multi_agent_contract.py"
     result: FAIL
     note: "Coordinator-reported rerun after dashboard edit: the contract rejected the previous leaf status format; it expects a Markdown table row such as | Status | `BLOCKED` |."
+  - command: "python3 .github/skills/ralph-loop/tests/test_prompt_generation_contract.py"
+    result: NOT_RUN
+    note: "Post-rebase run deferred until the coordinator adds the dashboard row and supplies its commit SHA."
+  - command: "python3 .github/skills/ralph-loop/tests/test_multi_agent_contract.py"
+    result: NOT_RUN
+    note: "Post-rebase run deferred until the coordinator adds the dashboard row and supplies its commit SHA."
+  - command: "git diff --check"
+    result: NOT_RUN
+    note: "Post-rebase check deferred until the coordinator adds the dashboard row and supplies its commit SHA."
   - command: "git diff --check"
     result: PASS
     note: "Exit code 0; no whitespace errors."
 blockers:
-  - "The coordinator dashboard row is being committed separately. The contract-reported status-format failure is corrected in this worker leaf but awaits rerun after the dashboard-only commit."
+  - "Post-rebase checks await the coordinator-owned dashboard row commit and its SHA."
   - "PR creation is blocked: gh is not installed, the browser is signed out, and available GitHub MCP operations are read-only."
-  - "origin/main advanced to 3ea889103bb7db6fb1f5eadf647045a511ea9a03; this branch remains based on 485b4a64c871f581f9295e46c867b188b0e3ccee and has not been rebased."
-next_action: "Wait for the coordinator's dashboard-only commit SHA; then rerun both Ralph tests and git diff --check. Keep BLOCKED while PR creation is unavailable."
+next_action: "Coordinator: add the dashboard row on refreshed main and send its commit SHA; worker-01: rerun both tests and git diff --check, then provide fresh sign-off."
 worker_sign_off:
   status: PENDING
   attestation_kind: SELF_ATTESTATION
   cryptographic_signature_status: NOT_CRYPTOGRAPHICALLY_SIGNED
   attested_at_utc: null
-  statement: "Fresh sign-off pending the post-dashboard verification; implementation_commit_sha remains 1b77c316b33672cc2f4d55a683d7a4d0acfb5655 and status remains BLOCKED."
+  statement: "Fresh sign-off pending post-dashboard verification; rebased implementation_commit_sha is 2032d6a5a3696e70369e95d347017d2f4a6bdab3 and status remains BLOCKED."
 commit_signature_verification:
   status: NOT_CRYPTOGRAPHICALLY_SIGNED
   verifier: null

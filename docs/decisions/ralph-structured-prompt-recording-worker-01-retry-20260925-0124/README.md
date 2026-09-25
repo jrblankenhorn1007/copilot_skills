@@ -7,7 +7,8 @@
 - Branch: `ralph/structured-prompt-recording-worker-01-retry-20260925-0124`
 - Branch slug: `ralph-structured-prompt-recording-worker-01-retry-20260925-0124`
 - Base `origin/main`: `485b4a64c871f581f9295e46c867b188b0e3ccee`
-- Implementation commit: `1b77c316b33672cc2f4d55a683d7a4d0acfb5655`
+- Rebased onto `origin/main`: `114e4d60567d05cd048916339ed86e324c6eeef3`
+- Implementation commit: `2032d6a5a3696e70369e95d347017d2f4a6bdab3`
   (local; not published).
 
 ## Branch records
@@ -32,28 +33,19 @@ artifact/status conventions in the shared agent file, and this retry also
 uses the coordinator-authorized, worker-owned PR workflow. The new branch
 preserves iteration 1 and reapplies the prompt behavior on current
 `origin/main`; it does not rebase, force-push, merge, or delete iteration 1.
+The initial iteration-2 implementation commit
+`1b77c316b33672cc2f4d55a683d7a4d0acfb5655` was rewritten by the unpublished
+rebase onto `114e4d60567d05cd048916339ed86e324c6eeef3`; the current
+implementation commit is the SHA above.
 
 ## Current integration state
 
-The branch is locally verified as far as current ownership permits, but is
-`BLOCKED` before PR creation. The required full contract suite initially
-failed because the new worker leaf was absent from the coordinator-owned
-`docs/ralph-status.md`. A coordinator-owned, unstaged dashboard update now
-indexes the leaf, and the suite passes in the combined worktree; worker-01
-did not edit or stage that file, so the worker commit alone still lacks the
-index. No authenticated PR-creation mechanism is available in this session.
-The branch/worktree is preserved. There is no PR, merge, or remote-main
-integration. If a PR is later created, the worker must remain
-`AWAITING_MERGE` until the coordinator authorizes that exact PR and must not
-merge before authorization.
-
-The status leaf now exposes `BLOCKED` in the repository's recognized Markdown
-table form. The coordinator-reported test failure on the previous status
-format is recorded in the worker progress/PR records; verification after this
-correction is pending the coordinator's dashboard-only commit SHA.
-
-The latest fetched `origin/main` is
-`3ea889103bb7db6fb1f5eadf647045a511ea9a03`, seven commits beyond this
-branch's base. No rebase was performed: the worktree contains a separate
-coordinator-owned unstaged dashboard update that must be preserved, and the
-branch is not ready for publication or integration.
+The branch is clean after rebase onto current `origin/main` and remains
+`BLOCKED` before PR creation. The leaf status uses the recognized Markdown
+table form and retains matching YAML `status: BLOCKED`. The coordinator will
+add the dashboard row on this refreshed base; worker-01 will not edit
+`docs/ralph-status.md` or worker-02's contract test. Post-rebase verification
+is pending that dashboard commit. No PR, merge, publication, or remote-main
+integration has occurred. PR creation remains unavailable in this session.
+If a PR is later created, the worker must remain `AWAITING_MERGE` until the
+coordinator authorizes that exact PR and must not merge before authorization.

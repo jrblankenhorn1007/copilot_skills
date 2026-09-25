@@ -8,9 +8,9 @@
 - Branch: `ralph/structured-prompt-recording-worker-01-retry-20260925-0124`
 - Worktree: `/Users/jrblankenhorn/copilot_skills.worktrees/ralph-structured-prompt-recording-worker-01-retry-20260925-0124`
 - Base `origin/main`: `485b4a64c871f581f9295e46c867b188b0e3ccee`
-- Latest fetched `origin/main`: `3ea889103bb7db6fb1f5eadf647045a511ea9a03`
-- Rebased `origin/main`: `null` (not rebased; branch is 7 commits behind latest main)
-- Implementation commit: `1b77c316b33672cc2f4d55a683d7a4d0acfb5655`
+- Latest fetched `origin/main`: `114e4d60567d05cd048916339ed86e324c6eeef3`
+- Rebased `origin/main`: `114e4d60567d05cd048916339ed86e324c6eeef3`
+- Implementation commit: `2032d6a5a3696e70369e95d347017d2f4a6bdab3`
   (local; not published).
 - PR: pending; no PR number or URL assigned yet.
 - State: `BLOCKED`; the expected PR has not been created.
@@ -46,12 +46,12 @@
    `docs/ralph-status.md` lacks this branch's status/progress paths. The
    assignment forbids changing the dashboard and another worker owns that
    contract test; retain the failure as a blocker for coordinator resolution.
-6. **Preserve the latest main and coordinator work.** A later fetch found
-   `origin/main` at `3ea889103bb7db6fb1f5eadf647045a511ea9a03`, seven commits
-   ahead of the branch base. Do not publish this stale branch. Do not rebase
-   while the worktree contains the coordinator-owned unstaged dashboard
-   change; wait for the coordinator to reconcile it and re-scope the
-   rebase/retest path.
+6. **Preserve and rebase onto refreshed main.** The branch was held
+   unpublished while `origin/main` advanced. After the coordinator reverted
+   its stale dashboard patch and supplied the verified current SHA, the
+   worker fetched and rebased the unpublished branch onto
+   `114e4d60567d05cd048916339ed86e324c6eeef3`; the rebase completed without
+   conflicts and preserved upstream workflow changes.
 7. **Use the contract-supported Markdown status representation.** The
    coordinator reported that the full suite rejected the previous status
    summary and expects a table row such as `| Status | \`BLOCKED\` |`. Update
@@ -77,6 +77,9 @@
   changed only its own status/progress/decision records to show `BLOCKED` in
   that form. A fresh worker-run verification is pending the dashboard-only
   commit SHA.
+- The coordinator's current main now parses YAML status records. After the
+  rebase, the worker leaf retains both the Markdown status row and YAML
+  `status: BLOCKED`; no post-rebase tests have run yet.
 
 ## PR details
 
@@ -86,26 +89,21 @@ creation: `gh` is unavailable, the browser is signed out, and GitHub MCP
 operations are read-only. No unauthenticated browser, credential change, or
 tool installation was attempted.
 
-The implementation and branch-local records are committed locally at
-`1b77c316b33672cc2f4d55a683d7a4d0acfb5655` with the required Copilot
-co-author trailer. The feature branch has not been pushed, no PR has been
-opened, and no merge has been attempted.
+The pre-rebase implementation commit
+`1b77c316b33672cc2f4d55a683d7a4d0acfb5655` was rewritten during rebase. The
+current rebased implementation commit is
+`2032d6a5a3696e70369e95d347017d2f4a6bdab3`; it and the worker-owned records
+are committed locally with the required Copilot co-author trailer. The
+feature branch has not been pushed, no PR has been opened, and no merge has
+been attempted.
 
 ## Unresolved blockers
 
-- Full Ralph contract suite fails because the required new worker leaf is not
-  indexed in the worker implementation commit's tree. A coordinator-owned
-  unstaged dashboard update makes the current combined worktree pass, but
-  worker-01 must not stage or commit that out-of-scope file. Coordinator/
-  worker-02 must resolve the status/test ownership boundary.
+- Post-rebase verification is pending the coordinator-owned dashboard row
+  commit. Worker-01 must not edit or commit that dashboard row or worker-02's
+  test.
 - PR creation is blocked because `gh` is not installed, the browser is signed
   out, and the available GitHub MCP methods are read-only. No branch
   publication or merge has been attempted.
-- `origin/main` advanced to
-  `3ea889103bb7db6fb1f5eadf647045a511ea9a03` after this branch was based at
-  `485b4a64c871f581f9295e46c867b188b0e3ccee`. The branch is 7 commits behind
-  and has not been rebased; preserve the coordinator-owned unstaged dashboard
-  change and obtain coordinator direction before resuming.
-- The latest coordinator-reported status-table failure is corrected in the
-  worker-owned leaf. Do not commit or rerun the requested verification until
-  the coordinator supplies the dashboard-only commit SHA.
+- Fresh post-rebase tests, diff checks, and sign-off are pending the
+  coordinator's dashboard commit SHA.
