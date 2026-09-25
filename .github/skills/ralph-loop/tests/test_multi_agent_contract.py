@@ -164,6 +164,89 @@ class MultiAgentContractTests(unittest.TestCase):
             "README must surface the Git preflight",
         )
 
+    def test_workers_merge_their_own_prs_after_coordinator_authorizes(self):
+        ralph_skill = read_document(".github/skills/ralph-loop/SKILL.md")
+        for requirement in (
+            "worker performs the remote merge of its own pr after coordinator authorization",
+            "do not rely on coordinator credentials",
+        ):
+            with self.subTest(requirement=requirement):
+                assert_contains(
+                    self,
+                    ralph_skill,
+                    requirement,
+                    f"Ralph skill must require worker-owned PR merging: {requirement!r}",
+                )
+
+        orchestration = read_document(
+            ".github/skills/ralph-loop/references/multi-agent-orchestration.md"
+        )
+        for requirement in (
+            "coordinator authorizes one worker pr at a time",
+            "worker who owns the branch executes its own pr merge",
+            "using its own already-authenticated github cli session",
+            "coordinator does not use its own credentials to merge a worker pr",
+            "never use `--admin` or override managed policy",
+            "if the worker's merge permission is denied, preserve the branch and pr and report a sanitized blocker",
+        ):
+            with self.subTest(requirement=requirement):
+                assert_contains(
+                    self,
+                    orchestration,
+                    requirement,
+                    f"orchestration must define worker-owned PR merging: {requirement!r}",
+                )
+
+        status_guide = read_document(
+            ".github/skills/ralph-loop/references/multi-agent-status.md"
+        )
+        assert_contains(
+            self,
+            status_guide,
+            "merge_actor_worker_id",
+            "the worker status must record who performed the PR merge",
+        )
+        assert_contains(
+            self,
+            status_guide,
+            "worker who submitted or queued the merge action",
+            "the merge actor must remain attributable when GitHub applies a queued merge",
+        )
+
+        merge_guide = read_document(
+            ".github/skills/ralph-loop/references/worker-pr-merging.md"
+        )
+        assert_contains(
+            self,
+            merge_guide,
+            "coordinator authorization",
+            "the dedicated PR merge guide must require coordinator authorization",
+        )
+        assert_contains(
+            self,
+            merge_guide,
+            "worker who submitted or queued the merge action",
+            "the merge guide must define the actor for merge-queue integrations",
+        )
+
+        readme = read_document("README.md")
+        assert_contains(
+            self,
+            readme,
+            "worker-pr-merging.md",
+            "README must link the worker-owned PR merge guidance",
+        )
+
+        project_prompt = read_document(
+            ".github/skills/ralph-loop/references/ralph-loop.md"
+        )
+        assert_contains(
+            self,
+            project_prompt,
+            "branch-owning worker executes its own pr merge",
+            "the project Ralph prompt must use worker-owned PR merging",
+        )
+
     def test_final_response_reports_completion_and_logs_recovered_issues(self):
         ralph_skill = read_document(".github/skills/ralph-loop/SKILL.md")
         for requirement in (
