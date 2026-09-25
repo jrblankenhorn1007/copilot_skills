@@ -46,5 +46,11 @@
 ## Verification and unresolved blockers
 
 - Baseline Ralph contract suite: **PASS**, 13 tests.
+- After the remote advanced to `9dc821917a5ffe32517c44131c1211291d9b1014`,
+  the parent split-plan commit was rebased before worker dispatch. The
+  dashboard and decision index conflicted with the separate prompt recovery
+  run; retaining both runs resolved the conflict. The existing Ralph contract
+  suite then passed all 14 tests, and the new parent tip
+  `2039e03b288b0b98e0b424b80b0e91ba65febf0e` contains the remote base.
 - No unresolved blocker has been established yet. Remote write and merge
   permissions remain unverified until the actual publication/integration step.
