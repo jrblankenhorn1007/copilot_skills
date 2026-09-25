@@ -8,7 +8,9 @@
 - **Implementation commit SHA:** `188df6dd3f6555da56dc515cb63c2bebfda411d5`
 - **Agent records:**
   - [coordinator — no PR opened](agents/coordinator/pr-not-opened.md)
-- **Integration:** No PR is part of the repository's normal workflow. The
-  coordinator will use a verified fast-forward to `origin/main`; integration
-  and remote verification are pending.
-- **Current state:** `AWAITING_MERGE`.
+- **Integration:** No PR was opened. The coordinator fast-forwarded the
+  implementation to `origin/main`; merge SHA
+  `a724f4666a1e6638b82dc3d8528805ae4c6cb1a8` is verified on fetched
+  `origin/main`.
+- **Current state:** `COMPLETE`; the post-merge memory review found no
+  additional durable lesson requiring a separate memory entry.
