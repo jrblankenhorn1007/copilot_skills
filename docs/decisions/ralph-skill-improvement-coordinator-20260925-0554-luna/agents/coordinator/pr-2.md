@@ -1,4 +1,4 @@
-# Coordinator parent PR — pending
+# Coordinator parent PR #2 - independent review pending
 
 - **Run/task:** `skills-improvement-20260925-0554-luna` /
   `skill-improvement-workflow-readme`.
@@ -22,9 +22,14 @@
 - **Parent worktree:** `/Users/jrblankenhorn/copilot_skills.worktrees/ralph-skill-improvement-coordinator-20260925-0554-luna`.
 - **Coordinator README implementation commit after latest rebase:**
   `2d6b04af1b89f969deec057a0f5b5b6dd42167c9`.
-- **Final parent implementation commit:** pending worker integration.
-- **PR:** pending; expected to follow the repository's normal protected
-  parent-to-main pull request process.
+- **Signed-off parent content commit:**
+  `0e235859df61540fad409e98666d78663aae8ed9`.
+- **PR:** [#2](https://github.com/jrblankenhorn1007/copilot_skills/pull/2),
+  `OPEN` against `main`, created with base
+  `f59ecc1deb73ba7bdb60efb0d8998bf8d7b68fd2` and head
+  `55bcbd02f933033637cd758e8162466692afb769`. These are opening
+  SHAs; the head will change with this numbered decision update. Read
+  the PR's live base and head again before dispatching reviewers.
 - **Agent/runtime ID:** coordinator; runtime ID unavailable.
 
 ## Decision
@@ -146,6 +151,47 @@
   implementation integration. The parent must still publish a normal
   PR and obtain independent exact-SHA review and checks before merging.
 
+## PR publication and review gate (2026-09-25T13:16:02Z)
+
+- **Context:** Both Luna-authored worker changes are preserved
+  byte-for-byte on the parent, and the parent includes fetched main and
+  both signed-off child integration SHAs. The protected base requires a
+  normal pull request.
+- **Decision:** Publish the parent non-force and open PR #2. The existing
+  coordinator runtime `SELF_ATTESTATION` applies to exact parent content
+  commit `0e235859df61540fad409e98666d78663aae8ed9`, not to a
+  cryptographic Git signature or a newly verified Luna model profile.
+  Preserve the PR without merging while independent review is blocked.
+- **Alternatives rejected:** Treat `mergeable: MERGEABLE` or
+  `no checks reported` as an independent review result; perform a
+  self-review; bypass the review gate with a direct main push.
+- **Rationale:** Sensitive-data and external-action guidance changes
+  require Ralph Code and Security Reviewer reports for exact current PR
+  base/head SHAs. Resource Manager allowed one agent while 10 active
+  sessions were counted; it admitted neither reviewer. The opening head
+  recorded above changes with this decision commit. GitHub reports no
+  configured branch checks, so passing local tests cannot be presented
+  as passing CI.
+- **Consequence:** Re-read live PR base/head and Resource Manager
+  admission, obtain both independent reports and any required human
+  approval, then merge and verify remote main. Only afterward invoke
+  the dedicated Project Memory Update agent once for all three
+  handoffs. Remote-main integration and memory review remain pending.
+- **Follow-up admission check:** At `2026-09-25T13:21:14Z`, the fresh
+  observed-session inventory counted 10 active agents against a
+  capacity of two; `available_slots: 0`, so launching either named
+  reviewer remains prohibited. Latest fetched `origin/main` at
+  `c9128d752f8ca7304494dfa9bb7b9ff3b36c8ce3` changed only
+  agent-sync ownership and another run's status since PR opening.
+  Dashboard union and skill files have no new upstream conflicts.
+- **Recovered local validator errors:** An inline revision assertion
+  incorrectly assumed the branch revision equaled remote-main revision
+  plus two; the correct contract is one increment over the committed
+  parent dashboard (`71` to `72`). A follow-up inline Ruby invocation
+  omitted its `time` import. Re-running with the correct assertion and
+  import passed all 12 runs, 27 indexed agents, unchanged upstream
+  entries, coordinator leaf equivalence, and elapsed-clock checks.
+
 ## Unresolved blockers
 
 - The parent PR cannot merge without independent Ralph Code and Security
@@ -153,3 +199,7 @@
   changes sensitive-data and external-action gates, so both reviewers
   apply. The Resource Manager has no admissible slot; neither a
   self-review nor a direct implementation push to `main` is permitted.
+- `gh pr checks 2` reports no configured branch checks. This is
+  `NOT_CONFIGURED`, not a passing CI result; the 23 Ralph and one memory
+  contract tests plus documentation checks passed locally. Any required
+  human approval and the post-merge memory review remain pending.

@@ -644,3 +644,64 @@
 - The parent PR and its independent exact-SHA code and security reviewers
   remain pending. At `2026-09-25T13:11:38Z`, coordinator elapsed wall
   time is `26,251` seconds, provider tokens `NOT_REPORTED`.
+
+## 2026-09-25T13:15Z–13:16Z — Publish parent PR and stop at review gate
+
+- `git push --set-upstream origin
+  ralph/skill-improvement-coordinator-20260925-0554-luna` and
+  `git ls-remote --heads origin ...` - **PASS**, published verified parent
+  `55bcbd02f933033637cd758e8162466692afb769` non-force.
+- `gh pr create --repo jrblankenhorn1007/copilot_skills --base main --head
+  ralph/skill-improvement-coordinator-20260925-0554-luna` - **PASS**,
+  [PR #2](https://github.com/jrblankenhorn1007/copilot_skills/pull/2)
+  opened. `gh pr view 2 --json ...` - **PASS**: opening base
+  `f59ecc1deb73ba7bdb60efb0d8998bf8d7b68fd2`, opening head
+  `55bcbd02f933033637cd758e8162466692afb769`,
+  `mergeable: MERGEABLE`. These are historical opening SHAs; the
+  numbered decision commit will advance the PR head. Fetch the
+  current exact base/head immediately before any reviewer pass.
+- `gh pr checks 2` returned `no checks reported` (exit 1) -
+  **NOT_CONFIGURED**, not a claim that CI passed. The targeted local
+  23 Ralph + one memory contract tests, 100 links, and skill checks
+  passed before PR publication. The final metadata update must be
+  rechecked before reporting review readiness.
+- Independent Ralph Code and Security Reviewer passes are required
+  for this PR's sensitive-data and external-action guidance. The
+  Resource Manager limit was one agent while 10 active sessions were
+  counted; no new reviewer was launched. No self-review, bypass, direct
+  implementation main push, or merge was attempted.
+- **SELF_ATTESTATION** to exact parent content commit
+  `0e235859df61540fad409e98666d78663aae8ed9`, with the
+  source-authored skill bytes, local checks, and upstream dashboard
+  preservation verified. Not a cryptographic Git signature or
+  verification of this serial runtime's model profile. Parent run
+  moves to `BLOCKED` pending independent review; post-merge Project
+  Memory review is still required. At `2026-09-25T13:16:02Z`,
+  elapsed wall time `26,515` seconds, provider tokens `NOT_REPORTED`.
+
+## 2026-09-25T13:21:14Z — Validate numbered PR record and review capacity
+
+- Re-ran `PYTHONDONTWRITEBYTECODE=1 python3
+  .github/skills/ralph-loop/tests/test_multi_agent_contract.py` -
+  **PASS**, 23 tests; Project Memory agent contract - **PASS**, one
+  test. Inline Ruby YAML validation - **PASS** after correcting the
+  revision assertion and importing `time`: 12 runs, 27 indexed leaves,
+  unchanged upstream entries, matching blocked coordinator status and
+  review, revision `71` to `72`, and exact wall-clock calculation.
+  Local Markdown link validation - **PASS**, 103 links across seven
+  scoped documents; `git diff --check` - **PASS**.
+- Fetched `origin/main` at
+  `c9128d752f8ca7304494dfa9bb7b9ff3b36c8ce3`. Compared to PR's
+  opening base `f59ecc1deb73ba7bdb60efb0d8998bf8d7b68fd2`,
+  only `docs/agent-sync/main/ownership.json` and another run's
+  agent-sync status changed. No shared dashboard, README, or skill
+  conflict requires another parent rebase; do not rewrite signed-off
+  child commits on the published branch. Read live base/head before
+  later review.
+- Resource Manager `status` with the fresh nine-session observed
+  inventory - **BLOCKED**, maximum two agents, 10 active, zero available
+  slots. Named Ralph Code and Security Reviewers have not launched;
+  PR #2 has no human reviews, GitHub CI checks are `NOT_CONFIGURED`,
+  and no merge is authorized. Keep both worker branches and the parent
+  worktree intact. Coordinator wall-clock elapsed `26,827` seconds,
+  token usage `NOT_REPORTED`.

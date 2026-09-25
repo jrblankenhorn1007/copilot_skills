@@ -9,11 +9,11 @@ branch: "ralph/skill-improvement-coordinator-20260925-0554-luna"
 branch_slug: "ralph-skill-improvement-coordinator-20260925-0554-luna"
 worktree: "/Users/jrblankenhorn/copilot_skills.worktrees/ralph-skill-improvement-coordinator-20260925-0554-luna"
 iteration: 1
-status: IN_PROGRESS
+status: BLOCKED
 started_at_utc: "2026-09-25T05:54:07Z"
-updated_at_utc: "2026-09-25T13:11:38Z"
+updated_at_utc: "2026-09-25T13:21:14Z"
 resource_usage:
-  time_spent_seconds: 26251
+  time_spent_seconds: 26827
   time_basis: WALL_CLOCK_ELAPSED
   token_spend:
     status: NOT_REPORTED
@@ -26,13 +26,15 @@ base_origin_main_sha: "e9fe3d175d1ca76b03fccdbe53431205b80e5c23"
 rebased_onto_origin_main_sha: null
 implementation_commit_sha: "2d6b04af1b89f969deec057a0f5b5b6dd42167c9"
 pull_request:
-  status: PENDING
-  number: null
-  url: null
+  status: OPEN
+  number: 2
+  url: "https://github.com/jrblankenhorn1007/copilot_skills/pull/2"
   base_sha: null
   head_sha: null
+  opened_base_sha: "f59ecc1deb73ba7bdb60efb0d8998bf8d7b68fd2"
+  opened_head_sha: "55bcbd02f933033637cd758e8162466692afb769"
 review:
-  status: PENDING
+  status: BLOCKED
   reviewer_agents: ["Ralph Code Reviewer", "Ralph Security Reviewer"]
   reviewed_base_sha: null
   reviewed_head_sha: null
@@ -45,7 +47,7 @@ review:
     rationale: null
     recorded_at_utc: null
 merge_actor_worker_id: null
-decision_record_path: "docs/decisions/ralph-skill-improvement-coordinator-20260925-0554-luna/agents/coordinator/pr-pending.md"
+decision_record_path: "docs/decisions/ralph-skill-improvement-coordinator-20260925-0554-luna/agents/coordinator/pr-2.md"
 decision_index_path: "docs/decisions/ralph-skill-improvement-coordinator-20260925-0554-luna/README.md"
 parent_branch: "ralph/skill-improvement-coordinator-20260925-0554-luna"
 parent_worktree: "/Users/jrblankenhorn/copilot_skills.worktrees/ralph-skill-improvement-coordinator-20260925-0554-luna"
@@ -63,7 +65,7 @@ parent_to_main_merge:
 parent_cleanup:
   worktree: PENDING
   local_branch: PENDING
-  remote_ref: NOT_PUBLISHED
+  remote_ref: PUBLISHED
 memory_review: PENDING
 memory_handoff:
   implementation_summary: "Documented the existing-skill improvement handoff in README and verified both child integrations."
@@ -216,15 +218,31 @@ checks:
     result: "PASS (100 README/dashboard/task-decision links resolve)"
   - command: "git merge-base --is-ancestor origin/main HEAD && git merge-base --is-ancestor 478f97845fba19f3f3b3ac87d7a01d294ae331db HEAD && git merge-base --is-ancestor 45fbd82b1bdd2112d3e720221567aac118892775 HEAD"
     result: "PASS (fetched main and both signed-off child integration SHAs are parent ancestors)"
+  - command: "git push --set-upstream origin ralph/skill-improvement-coordinator-20260925-0554-luna && git ls-remote --heads origin ralph/skill-improvement-coordinator-20260925-0554-luna"
+    result: "PASS (published remote branch at 55bcbd02f933033637cd758e8162466692afb769 without force)"
+  - command: "gh pr create --base main --head ralph/skill-improvement-coordinator-20260925-0554-luna && gh pr view 2 --json headRefOid,baseRefOid,state"
+    result: "PASS (PR #2 OPEN; opening base f59ecc1deb73ba7bdb60efb0d8998bf8d7b68fd2, opening head 55bcbd02f933033637cd758e8162466692afb769; current SHAs must be re-read before review)"
+  - command: "gh pr checks 2 --repo jrblankenhorn1007/copilot_skills"
+    result: "NOT_CONFIGURED (GitHub reports no checks on this branch; targeted local tests passed)"
+  - command: "PYTHONDONTWRITEBYTECODE=1 python3 .github/skills/ralph-loop/tests/test_multi_agent_contract.py && PYTHONDONTWRITEBYTECODE=1 python3 .github/skills/project-memory/tests/test_memory_update_agent_contract.py"
+    result: "PASS (23 Ralph and one Project Memory contract tests after the numbered PR metadata update)"
+  - command: "Ruby YAML dashboard/run/leaf/upstream-equivalence and wall-clock check"
+    result: "PASS (12 runs, 27 indexed leaves, unchanged upstream entries, consistent blocked coordinator review and correct clock/revision)"
+  - command: "Scoped Markdown local link check && git diff --check"
+    result: "PASS (103 local links across seven scoped documents; no broken links or whitespace errors)"
+  - command: "python3 .github/skills/resource-manager/scripts/resource_manager.py status --observed-session <nine live IDs>"
+    result: "BLOCKED (live inventory fresh; capacity two, 10 active, zero available slots; no reviewer launched)"
+  - command: "git fetch origin && git diff --name-status f59ecc1deb73ba7bdb60efb0d8998bf8d7b68fd2..origin/main"
+    result: "PASS (current main c9128d752f8ca7304494dfa9bb7b9ff3b36c8ce3 changed only agent-sync ownership and another run's status; no README or dashboard conflict)"
 blockers:
-  - "The parent PR requires independent Ralph Code and Security Reviewer passes for its sensitive-data and external-action guidance. Resource Manager capacity cannot admit new reviewers; do not merge without exact-SHA review."
-next_action: "Publish the reconciled parent PR, then obtain independent code and security reports for its exact base/head SHAs before any merge."
+  - "PR #2 requires independent Ralph Code and Security Reviewer reports; Resource Manager capacity is two with 10 active agents and zero available slots. GitHub reports no CI checks on this branch. Do not merge without exact-SHA review and any required human approval."
+next_action: "When reviewer capacity opens, read PR #2 current base/head SHAs and obtain independent code and security reports; merge only after all required gates pass."
 coordinator_sign_off:
-  status: PENDING
+  status: RECEIVED
   attestation_kind: SELF_ATTESTATION
   cryptographic_signature_status: NOT_CRYPTOGRAPHICALLY_SIGNED
-  attested_at_utc: null
-  statement: null
+  attested_at_utc: "2026-09-25T13:16:02Z"
+  statement: "Existing coordinator runtime self-attests exact parent content commit 0e235859df61540fad409e98666d78663aae8ed9 after 23 Ralph and one memory contract tests, 100 local links, dashboard union verification, and preserved worker sign-offs; live model profile and independent PR reviews remain unverified."
 commit_signature_verification:
   status: NOT_CRYPTOGRAPHICALLY_SIGNED
   verifier: null

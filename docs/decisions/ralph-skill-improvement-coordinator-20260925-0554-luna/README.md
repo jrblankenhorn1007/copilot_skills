@@ -20,8 +20,10 @@
 - **Parent tip after latest rebase:** `6578ae99a01a35528363d5a228927469765da855`.
 - **Coordinator README implementation commit after latest rebase:**
   `2d6b04af1b89f969deec057a0f5b5b6dd42167c9`.
-- **Final parent implementation commit:** pending worker integration.
-- **Parent PR:** expected; see [coordinator PR-pending record](agents/coordinator/pr-pending.md).
+- **Signed-off parent content commit:**
+  `0e235859df61540fad409e98666d78663aae8ed9`.
+- **Parent PR:** [#2](https://github.com/jrblankenhorn1007/copilot_skills/pull/2);
+  see the [coordinator PR decision](agents/coordinator/pr-2.md).
 
 ## Decisions
 
@@ -51,7 +53,7 @@
 
 ## Coordinator record
 
-- [Coordinator PR-pending record](agents/coordinator/pr-pending.md)
+- [Coordinator PR #2 decision](agents/coordinator/pr-2.md)
 - [Coordinator status](../../ralph/ralph-skill-improvement-coordinator-20260925-0554-luna/agents/coordinator/status.md)
 - [Coordinator progress](../../ralph/ralph-skill-improvement-coordinator-20260925-0554-luna/agents/coordinator/progress.md)
 - [Verified worker-01 replay](../ralph-skill-eval-worker-01-replay-20260925-1234-luna/README.md)
