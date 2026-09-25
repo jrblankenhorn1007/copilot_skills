@@ -1852,7 +1852,7 @@ branch_agent_index:
     runtime_agent_id: "copilotcli:/448bf82f-6090-4317-8657-100d5f02d256"
     branch: "agents/update-dependencies-docs-opencode-setup"
     branch_slug: "agents-update-dependencies-docs-opencode-setup"
-    status: COMPLETE
+    status: IN_PROGRESS
     iteration: 2
     resource_usage:
       time_spent_seconds: 42072
@@ -1892,7 +1892,7 @@ branch_agent_index:
       sha: null
       verified_origin_main_sha: null
     memory_review: PENDING
-    next_action: "None for this leaf; PR #5 merged after review, rebase, and full 63-test contract suite pass. OpenCode live-runtime validation remains unverified pending provider authentication in a capable environment."
+    next_action: "PR #5 merged (review, rebase, and full 63-test contract suite pass verified by the acting coordinator). This leaf's own status.md still needs the owning agent's self-attestation/sign-off updated to COMPLETE; OpenCode live-runtime validation also remains unverified pending provider authentication in a capable environment."
 
   - run_id: "copilot-skills-opencode-setup-20260924-2325"
     task_ids: ["opencode-setup-docs"]
@@ -1901,7 +1901,7 @@ branch_agent_index:
     runtime_agent_id: "copilotcli:/448bf82f-6090-4317-8657-100d5f02d256"
     branch: "ralph/opencode-setup-docs-worker-01-20260924-2325"
     branch_slug: "ralph-opencode-setup-docs-worker-01-20260924-2325"
-    status: COMPLETE
+    status: AWAITING_MERGE
     iteration: 2
     status_path: "docs/ralph/ralph-opencode-setup-docs-worker-01-20260924-2325/agents/worker-01/status.md"
     progress_path: "docs/ralph/ralph-opencode-setup-docs-worker-01-20260924-2325/agents/worker-01/progress.md"
