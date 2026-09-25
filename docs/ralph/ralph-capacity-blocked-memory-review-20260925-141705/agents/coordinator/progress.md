@@ -140,3 +140,21 @@ no_durable_lessons_reason: null
   main, rerun the three contract suites, then integrate with a fresh `MERGE`
   reservation. Keep the independent memory review pending until a later fresh
   inventory permits an atomic updater reservation.
+
+## 2026-09-25T15:42:04Z - Rebased status follow-up and reran contracts
+
+- Rebased both status-only commits onto fetched `origin/main`
+  `529413495b3bdef3605280657f8e0878a1bcbf9e`, producing
+  `8e8d2cdb...` and `f54492add12cacc669e28baa700ba99d8554689e`. The verified
+  implementation merge `d47262de92a322392e0bbbf57cb075238d278a4a` remains an
+  ancestor of the fetched main tip.
+- On `f54492add12cacc669e28baa700ba99d8554689e`, the Ralph multi-agent
+  contract passed 25 tests, the Project Memory Update contract passed 1 test,
+  the main-ownership contract passed 8 tests, and both working-tree and
+  `origin/main...HEAD` diff checks passed.
+- The latest complete capacity inventory remains the one at
+  `2026-09-25T15:37:46Z` (19 active agents, zero slots, load 7.54 against six
+  logical cores). No updater reservation or dispatch was attempted.
+- **Next action:** integrate the synchronized status records through a fresh
+  authorized `MERGE` transaction, then refresh capacity before any updater
+  reservation or dispatch.
