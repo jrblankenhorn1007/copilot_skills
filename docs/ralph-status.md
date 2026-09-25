@@ -4,8 +4,8 @@ This is the active repository's aggregate Ralph status dashboard. It indexes
 every branch/agent status and progress folder under `docs/ralph/`. The
 coordinator updates this file in the same loop as affected leaf records.
 
-**Overall status:** `IN_PROGRESS`. The prompt-generation memory follow-up is
-still in progress.
+**Overall status:** `IN_PROGRESS`. The prompt-generation memory follow-up and
+pre-merge code-review run are in progress.
 
 ```yaml
 schema_version: 2
@@ -18,6 +18,7 @@ current_run_ids:
   - "copilot-skills-no-browser-git-20260924"
   - "copilot_skills-parent-child-pipeline-20260924"
   - "translated-ralph-prompt-skills-recovery-20260925-0318"
+  - "copilot-skills-premerge-code-review-20260924"
 
 runs:
   - run_id: "copilot_skills-two-agent-ralph-test-batch-20260924"
@@ -84,6 +85,32 @@ runs:
       - task_id: "no-browser-git-workflows"
         worker_id: "worker-01"
         scope: "Prohibit browser use for Git/GitHub repository operations and route those operations to Git CLI or supported GitHub integration tools."
+
+  - run_id: "copilot-skills-premerge-code-review-20260924"
+    task_ids:
+      - "code-review-skill-agents"
+      - "ralph-review-gate-status"
+      - "code-review-gate-coordination"
+    aggregate_status: IN_PROGRESS
+    requested_worker_count: 2
+    effective_worker_count: 2
+    active_worker_count: 2
+    base_origin_main_sha: "485b4a64c871f581f9295e46c867b188b0e3ccee"
+    created_at_utc: "2026-09-25T01:40:57Z"
+    updated_at_utc: "2026-09-25T01:46:16Z"
+    coordinator_scope: "Add an independent pre-merge code-review step for PR-backed Ralph iterations, specialized reviewer agents, a hard ten-round limit, and an explicit author decision at the limit."
+    coordinator_branch: "ralph/code-review-gate-20260924-2131"
+    coordinator_status_path: "docs/ralph/ralph-code-review-gate-20260924-2131/agents/coordinator/status.md"
+    coordinator_progress_path: "docs/ralph/ralph-code-review-gate-20260924-2131/agents/coordinator/progress.md"
+    next_action: "Coordinator: collect both worker sign-offs, synchronize the dashboard, then integrate and verify the changes."
+    split_plan:
+      - task_id: "code-review-skill-agents"
+        worker_id: "worker-01"
+        scope: "Create the read-only PR review skill, general and conditional security reviewer agents, and Ralph Loop agent allowlist."
+        depends_on: []
+      - task_id: "ralph-review-gate-status"
+        worker_id: "worker-02"
+        scope: "Wire mandatory PR review, the ten-round author decision boundary, review status evidence, contract tests, and README guidance."
         depends_on: []
 
   - run_id: "copilot_skills-parent-child-pipeline-20260924"
@@ -695,6 +722,107 @@ branch_agent_index:
       verified_at_utc: "2026-09-25T04:45:24Z"
     memory_review: PENDING
     next_action: "Coordinator: complete the post-merge memory review and merge any required memory follow-up."
+  - run_id: "copilot-skills-premerge-code-review-20260924"
+    task_ids: ["code-review-gate-coordination"]
+    worker_id: "coordinator"
+    worker_name: "coordinator - code review gate"
+    runtime_agent_id: "copilotcli:/ac00179e-f9e2-4693-8f9f-710a82b06af9"
+    branch: "ralph/code-review-gate-20260924-2131"
+    branch_slug: "ralph-code-review-gate-20260924-2131"
+    status: IN_PROGRESS
+    iteration: 1
+    status_path: "docs/ralph/ralph-code-review-gate-20260924-2131/agents/coordinator/status.md"
+    progress_path: "docs/ralph/ralph-code-review-gate-20260924-2131/agents/coordinator/progress.md"
+    decision_record_path: "docs/decisions/ralph-code-review-gate-20260924-2131/agents/coordinator/pr-not-opened.md"
+    decision_index_path: "docs/decisions/ralph-code-review-gate-20260924-2131/README.md"
+    base_origin_main_sha: "485b4a64c871f581f9295e46c867b188b0e3ccee"
+    rebased_onto_origin_main_sha: null
+    implementation_commit_sha: null
+    pull_request:
+      status: NOT_OPENED
+      reason: "The active project records coordinator-managed verified fast-forward integration without a PR."
+    code_review:
+      status: NOT_APPLICABLE
+      reviewer_agents: []
+      reviewed_commit_sha: null
+      rounds_completed: 0
+      max_rounds: 10
+      finding_count: 0
+      author_decision: null
+    merge:
+      status: PENDING
+      sha: null
+      verified_origin_main_sha: null
+    memory_review: PENDING
+    next_action: "Coordinator: gather worker reports and update the aggregate dashboard."
+
+  - run_id: "copilot-skills-premerge-code-review-20260924"
+    task_ids: ["code-review-skill-agents"]
+    worker_id: "worker-01"
+    worker_name: "worker-01 - review skill and agent profiles"
+    runtime_agent_id: "584dded6-ce27-4a8d-a2ff-392acdafe7c1"
+    branch: "ralph/code-review-skill-worker-01-20260924-2131"
+    branch_slug: "ralph-code-review-skill-worker-01-20260924-2131"
+    status: IN_PROGRESS
+    iteration: 1
+    status_path: "docs/ralph/ralph-code-review-skill-worker-01-20260924-2131/agents/worker-01/status.md"
+    progress_path: "docs/ralph/ralph-code-review-skill-worker-01-20260924-2131/agents/worker-01/progress.md"
+    decision_record_path: "docs/decisions/ralph-code-review-skill-worker-01-20260924-2131/agents/worker-01/pr-not-opened.md"
+    decision_index_path: "docs/decisions/ralph-code-review-skill-worker-01-20260924-2131/README.md"
+    base_origin_main_sha: "485b4a64c871f581f9295e46c867b188b0e3ccee"
+    rebased_onto_origin_main_sha: null
+    implementation_commit_sha: null
+    pull_request:
+      status: NOT_OPENED
+      reason: "The active project records coordinator-managed verified fast-forward integration without a PR."
+    code_review:
+      status: NOT_APPLICABLE
+      reviewer_agents: []
+      reviewed_commit_sha: null
+      rounds_completed: 0
+      max_rounds: 10
+      finding_count: 0
+      author_decision: null
+    merge:
+      status: PENDING
+      sha: null
+      verified_origin_main_sha: null
+    memory_review: PENDING
+    next_action: "Worker-01: finish the assigned skill and agent profiles, then report its exact commit and checks."
+
+  - run_id: "copilot-skills-premerge-code-review-20260924"
+    task_ids: ["ralph-review-gate-status"]
+    worker_id: "worker-02"
+    worker_name: "worker-02 - Ralph review gate and status contract"
+    runtime_agent_id: "3a2fe7eb-9c9e-42e2-a3f0-ff42b8d412f3"
+    branch: "ralph/code-review-process-worker-02-20260924-2131"
+    branch_slug: "ralph-code-review-process-worker-02-20260924-2131"
+    status: IN_PROGRESS
+    iteration: 1
+    status_path: "docs/ralph/ralph-code-review-process-worker-02-20260924-2131/agents/worker-02/status.md"
+    progress_path: "docs/ralph/ralph-code-review-process-worker-02-20260924-2131/agents/worker-02/progress.md"
+    decision_record_path: "docs/decisions/ralph-code-review-process-worker-02-20260924-2131/agents/worker-02/pr-not-opened.md"
+    decision_index_path: "docs/decisions/ralph-code-review-process-worker-02-20260924-2131/README.md"
+    base_origin_main_sha: "485b4a64c871f581f9295e46c867b188b0e3ccee"
+    rebased_onto_origin_main_sha: null
+    implementation_commit_sha: null
+    pull_request:
+      status: NOT_OPENED
+      reason: "The active project records coordinator-managed verified fast-forward integration without a PR."
+    code_review:
+      status: NOT_APPLICABLE
+      reviewer_agents: []
+      reviewed_commit_sha: null
+      rounds_completed: 0
+      max_rounds: 10
+      finding_count: 0
+      author_decision: null
+    merge:
+      status: PENDING
+      sha: null
+      verified_origin_main_sha: null
+    memory_review: PENDING
+    next_action: "Worker-02: finish the workflow, status, test, and README guidance, then report its exact commit and checks."
 ```
 
 ## Branch/agent index
@@ -715,12 +843,17 @@ branch_agent_index:
 | `copilot_skills-parent-child-pipeline-20260924` | `ralph/parent-child-worker-agent-skill-20260924-2008` | `worker-01` | `COMPLETE` | Not captured (legacy) | Not captured (legacy) | [status](./ralph/ralph-parent-child-worker-agent-skill-20260924-2008/agents/worker-01/status.md) | [progress](./ralph/ralph-parent-child-worker-agent-skill-20260924-2008/agents/worker-01/progress.md) | `fda10605f50b49eeb4bc007a181cf51a5578ae18` → `9558f99cc34cbed8dd1d24f4f15fc03f5d78b6ea` | `COMPLETE` |
 | `copilot_skills-parent-child-pipeline-20260924` | `ralph/parent-child-worker-reference-docs-20260924-2008` | `worker-02` | `COMPLETE` | Not captured (legacy) | Not captured (legacy) | [status](./ralph/ralph-parent-child-worker-reference-docs-20260924-2008/agents/worker-02/status.md) | [progress](./ralph/ralph-parent-child-worker-reference-docs-20260924-2008/agents/worker-02/progress.md) | `1285978056851f2cdfb0ba93753386dab7dcc009` → `9558f99cc34cbed8dd1d24f4f15fc03f5d78b6ea` | `COMPLETE` |
 | `translated-ralph-prompt-skills-recovery-20260925-0318` | `ralph/translated-ralph-skills-worker-02-refresh-9558f99-20260925-0318` | `coordinator` | `IN_PROGRESS` | Not captured (legacy) | Not captured (legacy) | [status](./ralph/ralph-translated-ralph-skills-worker-02-refresh-9558f99-20260925-0318/agents/coordinator/status.md) | [progress](./ralph/ralph-translated-ralph-skills-worker-02-refresh-9558f99-20260925-0318/agents/coordinator/progress.md) | `9dc821917a5ffe32517c44131c1211291d9b1014` | `PENDING` |
+| `copilot-skills-premerge-code-review-20260924` | `ralph/code-review-gate-20260924-2131` | `coordinator` | `IN_PROGRESS` | Not captured (legacy) | `NOT_REPORTED` | [status](./ralph/ralph-code-review-gate-20260924-2131/agents/coordinator/status.md) | [progress](./ralph/ralph-code-review-gate-20260924-2131/agents/coordinator/progress.md) | Pending | Pending |
+| `copilot-skills-premerge-code-review-20260924` | `ralph/code-review-skill-worker-01-20260924-2131` | `worker-01` | `CANCELLED` | Not captured (legacy) | `NOT_REPORTED` | [status](./ralph/ralph-code-review-skill-worker-01-20260924-2131/agents/worker-01/status.md) | [progress](./ralph/ralph-code-review-skill-worker-01-20260924-2131/agents/worker-01/progress.md) | Not merged | N/A |
+| `copilot-skills-premerge-code-review-20260924` | `ralph/code-review-process-worker-02-20260924-2131` | `worker-02` | `AWAITING_MERGE` | Not captured (legacy) | `NOT_REPORTED` | [status](./ralph/ralph-code-review-process-worker-02-20260924-2131/agents/worker-02/status.md) | [progress](./ralph/ralph-code-review-process-worker-02-20260924-2131/agents/worker-02/progress.md) | Pending | Pending |
 
 The parent-child pipeline run is `COMPLETE`: both workers integrated into the
 parent, the parent merge is verified on `origin/main`, the contract suite and
 post-merge memory review passed, and all child and parent worktrees/branches
 were removed after their respective merge proofs. The prior no-browser Git
-workflow run is also `COMPLETE`. Historical branches without schema-version-2
+workflow run is also `COMPLETE`. The pre-merge code-review run remains
+`IN_PROGRESS` until integration, remote-main verification, and post-merge
+memory review are complete. Historical branches without schema-version-2
 resource telemetry are marked `Not captured (legacy)` rather than assigned
 invented durations or token counts.
 
