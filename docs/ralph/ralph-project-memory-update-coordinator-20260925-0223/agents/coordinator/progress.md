@@ -192,8 +192,15 @@ These are implementation-time reports, not accepted memory entries. The Project 
 - To respect the admission gate while finishing the assigned work, the coordinator is taking the remaining Ralph handoff documentation/test scope serially; worker-02's two prior conflicted attempts remain preserved and are not being reused or deleted.
 - **Red:** `python3 .github/skills/ralph-loop/tests/test_multi_agent_contract.py MultiAgentContractTests.test_ralph_coordinator_and_workers_emit_memory_handoffs` failed as expected with three missing-contract subtests: the Ralph agent and orchestration reference lacked the required `memory_handoff`/per-agent requirement, and the status reference lacked the handoff schema fields.
 - **Green:** after documenting the per-agent handoff requirement and exact YAML shape in the Ralph agent, orchestration guide, and status reference, the same focused command passed (`Ran 1 test`, `OK`). The first Green attempt exposed an assertion wording mismatch (`lesson candidates` vs. the schema field `lesson_candidates`); the test was corrected to assert the exact field and rerun successfully.
-- **Green:** after adding the updater to the Ralph allowlist and documenting its once-only, final-merge gate in the Ralph agent, skill, and orchestration guide, `python3 .github/skills/ralph-loop/tests/test_multi_agent_contract.py MultiAgentContractTests.test_project_memory_update_agent_runs_only_after_verified_final_merge` passed (`Ran 1 test`, `OK`). The first run exposed Markdown bold markup splitting the expected agent-name phrase; bolding the full agent name made the contract readable and passed.
-- **Next action:** run the full Ralph, Project Memory, and main-ownership contracts; verify links, handoff/status consistency, and whitespace; then synchronize with current `origin/main` and revalidate the integrated parent.
+- **Next action:** add a failing contract for explicit Project Memory Update agent availability and its post-merge-only invocation; then wire it through the Ralph agent, skill, and orchestration guide.
+
+## 2026-09-25T10:20:48Z - Post-merge updater contract TDD Red
+
+- Added a contract requiring the Ralph coordinator's agent allowlist to include **Project Memory Update** and requiring the named updater, exactly once, only after the final parent-to-main merge is verified on fetched `origin/main`, with the coordinator and every worker's `memory_handoff`.
+- **Red:** `python3 .github/skills/ralph-loop/tests/test_multi_agent_contract.py MultiAgentContractTests.test_project_memory_update_agent_runs_only_after_verified_final_merge` failed as expected across the Ralph agent, skill, and orchestration guide: explicit named-agent invocation and the once-only/final-merge gate were missing.
+- Copied worker-01's existing sign-off handoff into its current leaf `status.md`; it reports no new durable lesson because its implementation formalizes existing Project Memory and remote-merge rules. The coordinator's current handoff remains provisional until its assigned handoff work and integration checks finish.
+- **Green:** after adding the updater to the Ralph allowlist and documenting its once-only, final-merge gate in the Ralph agent, skill, and orchestration guide, the focused command passed (`Ran 1 test`, `OK`). The first Green attempt exposed Markdown bold markup splitting the expected agent-name phrase; bolding the full agent name made the contract readable and passed.
+- **Next action:** make the persistent memory store and dedicated updater visible in the README, then rerun all acceptance checks.
 
 ## 2026-09-25T10:30:02Z - Recovered worker-02 handoff for the aggregate report
 
@@ -210,9 +217,10 @@ These are implementation-time reports, not accepted memory entries. The Project 
 - `git fetch origin` observed `origin/main` at `70b8e200807e4f1ca4c96cd4a1b20fce2744695f`. Parent `298a36a56cad2bbca8cef6771cb2e102e5bd410d` is still based on `61353504e0e99ec82d415a44ca5a305b57dfacf6`, 19 commits ahead and 6 behind; no rebase or merge has been claimed.
 - **Next action:** commit the verified implementation/status batch, rebase onto the latest fetched `origin/main`, reconcile any concurrent dashboard changes, and rerun all acceptance checks.
 
-## 2026-09-25T10:20:48Z - Post-merge updater contract TDD Red
+## 2026-09-25T10:36:16Z - Implementation committed
 
-- Added a contract requiring the Ralph coordinator's agent allowlist to include **Project Memory Update** and requiring the named updater, exactly once, only after the final parent-to-main merge is verified on fetched `origin/main`, with the coordinator and every worker's `memory_handoff`.
-- **Red:** `python3 .github/skills/ralph-loop/tests/test_multi_agent_contract.py MultiAgentContractTests.test_project_memory_update_agent_runs_only_after_verified_final_merge` failed as expected across the Ralph agent, skill, and orchestration guide: explicit named-agent invocation and the once-only/final-merge gate were missing.
-- Copied worker-01's existing sign-off handoff into its current leaf `status.md`; it reports no new durable lesson because its implementation formalizes existing Project Memory and remote-merge rules. The coordinator's current handoff remains provisional until its assigned handoff work and integration checks finish.
-- **Next action:** add the agent to the Ralph allowlist, wire the gated invocation into each workflow surface, then run the focused contract and Ralph regression suite.
+- Committed the handoff schema, gated updater invocation, README discovery, contract tests, and synchronized status/decision records in `cfb0675d4f47f02285e06f264f983edf61f3430e` (`docs(ralph): wire project memory handoffs and updater`).
+- `git show -s --format=%B HEAD` confirms the required `Co-authored-by: Copilot <223556219+Copilot@users.noreply.github.com>` trailer. The committed worktree is clean.
+- The commit contains the latest pre-rebase acceptance results: Ralph contract 23/23, Project Memory updater contract 1/1, main-ownership contract 6/6, link checks, and whitespace checks passed.
+- A fresh fetch at `2026-09-25T10:38:23Z` still reports `origin/main` `70b8e200807e4f1ca4c96cd4a1b20fce2744695f`. Parent remains based on `61353504e0e99ec82d415a44ca5a305b57dfacf6`, now 20 commits ahead/6 behind after the implementation commit.
+- **Next action:** commit this implementation-SHA/upstream status update, rebase the parent onto the fetched SHA, reconcile any concurrent dashboard changes, and rerun all acceptance checks.

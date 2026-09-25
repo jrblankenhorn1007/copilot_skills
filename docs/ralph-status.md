@@ -11,7 +11,7 @@ complete.
 ```yaml
 schema_version: 2
 snapshot_path: "docs/ralph-status.md"
-snapshot_revision: 49
+snapshot_revision: 50
 updated_at_utc: "2026-09-25T11:31:00Z"
 overall_status: IN_PROGRESS
 current_run_ids:
@@ -1182,6 +1182,119 @@ branch_agent_index:
     memory_review: COMPLETE
     memory_follow_up_merge_sha: "74f3efe14e4ee3bd9638969ad5b222978ae942c5"
     next_action: null
+  - run_id: "copilot-skills-memory-update-agent-20260925-0223"
+    task_ids: ["memory-update-agent-definition", "ralph-memory-handoff"]
+    worker_id: "coordinator"
+    worker_name: "coordinator - Project Memory Update orchestration"
+    runtime_agent_id: "copilotcli:/dfeb3cd8-a5e9-4dec-b4e5-e2cf00dcb998"
+    branch: "ralph/project-memory-update-coordinator-20260925-0223"
+    branch_slug: "ralph-project-memory-update-coordinator-20260925-0223"
+    status: IN_PROGRESS
+    iteration: 1
+    resource_usage:
+      time_spent_seconds: 29719
+      time_basis: WALL_CLOCK_ELAPSED
+      token_spend:
+        status: NOT_REPORTED
+        input_tokens: null
+        output_tokens: null
+        total_tokens: null
+        cached_input_tokens: null
+        source: null
+    status_path: "docs/ralph/ralph-project-memory-update-coordinator-20260925-0223/agents/coordinator/status.md"
+    progress_path: "docs/ralph/ralph-project-memory-update-coordinator-20260925-0223/agents/coordinator/progress.md"
+    decision_record_path: "docs/decisions/ralph-project-memory-update-coordinator-20260925-0223/agents/coordinator/pr-not-opened.md"
+    decision_index_path: "docs/decisions/ralph-project-memory-update-coordinator-20260925-0223/README.md"
+    base_origin_main_sha: "114e4d60567d05cd048916339ed86e324c6eeef3"
+    parent_rebased_onto_origin_main_sha: "61353504e0e99ec82d415a44ca5a305b57dfacf6"
+    implementation_commit_sha: "cfb0675d4f47f02285e06f264f983edf61f3430e"
+    pull_request:
+      status: NOT_OPENED
+      number: null
+      url: null
+      reason: "The repository's normal integration path is coordinator-managed and remotely verified without a PR."
+    merge_actor_worker_id: null
+    review:
+      status: NOT_APPLICABLE
+      reviewer_agents: []
+      reviewed_base_sha: null
+      reviewed_head_sha: null
+      rounds_completed: 0
+      max_rounds: 2
+      unresolved_finding_count: 0
+      author_decision:
+        status: NOT_APPLICABLE
+        choice: null
+        rationale: null
+        recorded_at_utc: null
+    parent_to_main_merge:
+      status: PENDING
+      sha: null
+      verified_remote_ref: "refs/heads/main"
+      verified_origin_main_sha: null
+      verification_method: null
+      verified_at_utc: null
+    memory_review_status: PENDING
+    memory_review_outcome: null
+    next_action: "Commit the implementation SHA and latest upstream observation into the status record, then rebase parent commit cfb0675d4f47f02285e06f264f983edf61f3430e onto origin/main."
+    worker_count_note: "Two assignments were configured; worker-01 completed its child. Resource Manager reported zero available slots, so the coordinator is completing the remaining handoff scope serially; worker-02's prior conflicted attempts remain preserved."
+  - run_id: "copilot-skills-memory-update-agent-20260925-0223"
+    task_ids: ["memory-update-agent-definition", "ralph-memory-handoff"]
+    worker_id: "worker-01"
+    worker_name: "worker-01 - Project Memory Update agent"
+    runtime_agent_id: null
+    branch: "ralph/project-memory-update-agent-worker-01-20260925-0223"
+    branch_slug: "ralph-project-memory-update-agent-worker-01-20260925-0223"
+    status: AWAITING_MERGE
+    iteration: 1
+    resource_usage:
+      time_spent_seconds: 27145
+      time_basis: WALL_CLOCK_ELAPSED
+      token_spend:
+        status: NOT_REPORTED
+        input_tokens: null
+        output_tokens: null
+        total_tokens: null
+        cached_input_tokens: null
+        source: null
+    status_path: "docs/ralph/ralph-project-memory-update-agent-worker-01-20260925-0223/agents/worker-01/status.md"
+    progress_path: "docs/ralph/ralph-project-memory-update-agent-worker-01-20260925-0223/agents/worker-01/progress.md"
+    decision_record_path: "docs/decisions/ralph-project-memory-update-agent-worker-01-20260925-0223/agents/worker-01/pr-not-opened.md"
+    decision_index_path: "docs/decisions/ralph-project-memory-update-agent-worker-01-20260925-0223/README.md"
+    base_origin_main_sha: "114e4d60567d05cd048916339ed86e324c6eeef3"
+    parent_rebased_onto_origin_main_sha: "61353504e0e99ec82d415a44ca5a305b57dfacf6"
+    base_parent_sha: "114e4d60567d05cd048916339ed86e324c6eeef3"
+    rebased_onto_parent_sha: "2237eecc5522d17f3e8feda063bc43e509798eab"
+    implementation_commit_sha: "3ececee894c930f87efa554dc5a9c1362cb0365e"
+    pull_request:
+      status: NOT_OPENED
+      number: null
+      url: null
+      reason: "The repository's normal integration path is coordinator-managed and remotely verified without a PR."
+    merge_actor_worker_id: null
+    review:
+      status: NOT_APPLICABLE
+      reviewer_agents: []
+      reviewed_base_sha: null
+      reviewed_head_sha: null
+      rounds_completed: 0
+      max_rounds: 2
+      unresolved_finding_count: 0
+      author_decision:
+        status: NOT_APPLICABLE
+        choice: null
+        rationale: null
+        recorded_at_utc: null
+    worker_to_parent_merge:
+      status: VERIFIED
+      sha: "d04c7fe3699bb95b91e41ec15bd3dcdb7b4a5d53"
+      verified_parent_ref: "refs/heads/ralph/project-memory-update-coordinator-20260925-0223"
+      verified_parent_sha: "298a36a56cad2bbca8cef6771cb2e102e5bd410d"
+      verification_method: "git merge-base --is-ancestor d04c7fe3699bb95b91e41ec15bd3dcdb7b4a5d53 HEAD"
+      verified_at_utc: "2026-09-25T10:02:52Z"
+    memory_review_status: PENDING
+    memory_review_outcome: null
+    next_action: "Await final parent-to-main integration and the post-merge Project Memory review."
 ```
 
 ## Branch/agent index
@@ -1210,7 +1323,7 @@ branch_agent_index:
 | `copilot-skills-agent-routing-20260925-8bc457e9` | `ralph/agent-optimization-parent-20260925-8bc457e9` | `coordinator` | `COMPLETE` | `25,103 s (wall-clock)` | `NOT_REPORTED` | [status](./ralph/ralph-agent-optimization-parent-20260925-8bc457e9/agents/coordinator/status.md) | [progress](./ralph/ralph-agent-optimization-parent-20260925-8bc457e9/agents/coordinator/progress.md) | `0b7db073e365e6c1c6e29d410c424d7c7637c9bf` | `COMPLETE` |
 | `copilot-skills-agent-routing-20260925-8bc457e9` | `ralph/agent-optimization-specialists-coordinator-20260925-8bc457e9` | `specialists-coordinator` | `COMPLETE` | `14,105 s (wall-clock)` | `NOT_REPORTED` | [status](./ralph/ralph-agent-optimization-specialists-coordinator-20260925-8bc457e9/agents/specialists-coordinator/status.md) | [progress](./ralph/ralph-agent-optimization-specialists-coordinator-20260925-8bc457e9/agents/specialists-coordinator/progress.md) | `491772f476bdade69bb332600fd27e86d6f997bf` -> `0b7db073e365e6c1c6e29d410c424d7c7637c9bf` | `COMPLETE` |
 | `copilot-skills-agent-routing-20260925-8bc457e9` | `ralph/agent-optimization-routing-coordinator-20260925-8bc457e9` | `routing-coordinator` | `COMPLETE` | `13,029 s (wall-clock)` | `NOT_REPORTED` | [status](./ralph/ralph-agent-optimization-routing-coordinator-20260925-8bc457e9/agents/routing-coordinator/status.md) | [progress](./ralph/ralph-agent-optimization-routing-coordinator-20260925-8bc457e9/agents/routing-coordinator/progress.md) | `691d5b4dbb18a87768294326fc924f28b1490249` -> `0b7db073e365e6c1c6e29d410c424d7c7637c9bf` | `COMPLETE` |
-| `copilot-skills-memory-update-agent-20260925-0223` | `ralph/project-memory-update-coordinator-20260925-0223` | `coordinator` | `IN_PROGRESS` | `29,546 s (wall-clock)` | `NOT_REPORTED` | [status](./ralph/ralph-project-memory-update-coordinator-20260925-0223/agents/coordinator/status.md) | [progress](./ralph/ralph-project-memory-update-coordinator-20260925-0223/agents/coordinator/progress.md) | `PENDING` | `PENDING` |
+| `copilot-skills-memory-update-agent-20260925-0223` | `ralph/project-memory-update-coordinator-20260925-0223` | `coordinator` | `IN_PROGRESS` | `29,719 s (wall-clock)` | `NOT_REPORTED` | [status](./ralph/ralph-project-memory-update-coordinator-20260925-0223/agents/coordinator/status.md) | [progress](./ralph/ralph-project-memory-update-coordinator-20260925-0223/agents/coordinator/progress.md) | `PENDING` | `PENDING` |
 | `copilot-skills-memory-update-agent-20260925-0223` | `ralph/project-memory-update-agent-worker-01-20260925-0223` | `worker-01` | `AWAITING_MERGE` | `27,145 s (wall-clock)` | `NOT_REPORTED` | [status](./ralph/ralph-project-memory-update-agent-worker-01-20260925-0223/agents/worker-01/status.md) | [progress](./ralph/ralph-project-memory-update-agent-worker-01-20260925-0223/agents/worker-01/progress.md) | `d04c7fe3699bb95b91e41ec15bd3dcdb7b4a5d53` | `PENDING` |
 
 The earlier parent-child pipeline run is `COMPLETE`: both workers integrated into the
