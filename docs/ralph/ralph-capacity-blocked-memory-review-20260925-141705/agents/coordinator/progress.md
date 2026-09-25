@@ -158,3 +158,18 @@ no_durable_lessons_reason: null
 - **Next action:** integrate the synchronized status records through a fresh
   authorized `MERGE` transaction, then refresh capacity before any updater
   reservation or dispatch.
+
+## 2026-09-25T15:46:58Z - Reserved-base validation
+
+- Acquired the authorized `MERGE` reservation at revision 163; its remote
+  sign-in commit is `e6d1dcd367901e997dc029c1fdb6b7057f91352b`.
+- Rebased the three status-only commits onto that sign-in. The Ralph
+  multi-agent contract passed 25 tests, the Project Memory Update contract
+  passed 1 test, the main-ownership contract passed 8 tests, and both
+  `git diff --check` commands passed on the rebased status.
+- The latest full capacity inventory remains
+  `2026-09-25T15:37:46Z` (19 active agents, zero slots, load 7.54 on six
+  logical cores); no updater reservation or dispatch was attempted.
+- **Next action:** commit the refreshed sign-in-base status, verify the
+  reservation and ancestry, fast-forward the status branch, verify the remote
+  result, and promptly release `MERGE`.

@@ -18,8 +18,8 @@ merging.
 ```yaml
 schema_version: 2
 snapshot_path: "docs/ralph-status.md"
-snapshot_revision: 91
-updated_at_utc: "2026-09-25T15:42:04Z"
+snapshot_revision: 93
+updated_at_utc: "2026-09-25T15:46:58Z"
 overall_status: IN_PROGRESS
 current_run_ids:
   - "copilot-skills-docs-status-organization-20260924"
@@ -462,9 +462,9 @@ runs:
     effective_worker_count: 2
     active_worker_count: 0
     base_origin_main_sha: "114e4d60567d05cd048916339ed86e324c6eeef3"
-    current_origin_main_sha: "529413495b3bdef3605280657f8e0878a1bcbf9e"
+    current_origin_main_sha: "e6d1dcd367901e997dc029c1fdb6b7057f91352b"
     rebased_onto_origin_main_sha: "4f5fee342c7e08ce556ae10c8a693f9e30a2ee2b"
-    updated_at_utc: "2026-09-25T15:42:04Z"
+    updated_at_utc: "2026-09-25T15:46:58Z"
     coordinator_scope: "Add a dedicated gated Project Memory Update agent, wire structured learning handoffs, and keep capacity-blocked post-merge reviews resumable."
     coordinator_branch: "ralph/project-memory-update-coordinator-20260925-0223"
     coordinator_status_path: "docs/ralph/ralph-project-memory-update-coordinator-20260925-0223/agents/coordinator/status.md"
@@ -1624,9 +1624,9 @@ branch_agent_index:
     branch_slug: "ralph-capacity-blocked-memory-review-20260925-141705"
     status: AWAITING_MERGE
     iteration: 2
-    updated_at_utc: "2026-09-25T15:42:04Z"
+    updated_at_utc: "2026-09-25T15:46:58Z"
     resource_usage:
-      time_spent_seconds: 5099
+      time_spent_seconds: 5393
       time_basis: WALL_CLOCK_ELAPSED
       token_spend:
         status: NOT_REPORTED
@@ -1824,7 +1824,7 @@ branch_agent_index:
 | `copilot-skills-agent-routing-20260925-8bc457e9` | `ralph/agent-optimization-routing-coordinator-20260925-8bc457e9` | `routing-coordinator` | `COMPLETE` | `13,029 s (wall-clock)` | `NOT_REPORTED` | [status](./ralph/ralph-agent-optimization-routing-coordinator-20260925-8bc457e9/agents/routing-coordinator/status.md) | [progress](./ralph/ralph-agent-optimization-routing-coordinator-20260925-8bc457e9/agents/routing-coordinator/progress.md) | `691d5b4dbb18a87768294326fc924f28b1490249` -> `0b7db073e365e6c1c6e29d410c424d7c7637c9bf` | `COMPLETE` |
 | `copilot-skills-memory-update-agent-20260925-0223` | `ralph/project-memory-update-coordinator-20260925-0223` | `coordinator` | `BLOCKED` | `36,511 s (wall-clock)` | `NOT_REPORTED` | [status](./ralph/ralph-project-memory-update-coordinator-20260925-0223/agents/coordinator/status.md) | [progress](./ralph/ralph-project-memory-update-coordinator-20260925-0223/agents/coordinator/progress.md) | `aebd168b8d926d51b6cb25a987b2fc313ff55fa7` | `PENDING` |
 | `copilot-skills-memory-update-agent-20260925-0223` | `ralph/project-memory-update-agent-worker-01-20260925-0223` | `worker-01` | `COMPLETE` | `34,992 s (wall-clock)` | `NOT_REPORTED` | [status](./ralph/ralph-project-memory-update-agent-worker-01-20260925-0223/agents/worker-01/status.md) | [progress](./ralph/ralph-project-memory-update-agent-worker-01-20260925-0223/agents/worker-01/progress.md) | `9095c7abc3652089cdc84f9e1d1cb0f5871ec0a6` | `PENDING` |
-| `copilot-skills-memory-update-agent-20260925-0223` | `ralph/capacity-blocked-memory-review-20260925-141705` | `coordinator` | `AWAITING_MERGE` | `5,099 s (wall-clock)` | `NOT_REPORTED` | [status](./ralph/ralph-capacity-blocked-memory-review-20260925-141705/agents/coordinator/status.md) | [progress](./ralph/ralph-capacity-blocked-memory-review-20260925-141705/agents/coordinator/progress.md) | `d47262de92a322392e0bbbf57cb075238d278a4a` | `PENDING` |
+| `copilot-skills-memory-update-agent-20260925-0223` | `ralph/capacity-blocked-memory-review-20260925-141705` | `coordinator` | `AWAITING_MERGE` | `5,393 s (wall-clock)` | `NOT_REPORTED` | [status](./ralph/ralph-capacity-blocked-memory-review-20260925-141705/agents/coordinator/status.md) | [progress](./ralph/ralph-capacity-blocked-memory-review-20260925-141705/agents/coordinator/progress.md) | `d47262de92a322392e0bbbf57cb075238d278a4a` | `PENDING` |
 
 The earlier parent-child pipeline run is `COMPLETE`: both workers integrated into the
 parent, the parent merge is verified on `origin/main`, the contract suite and
