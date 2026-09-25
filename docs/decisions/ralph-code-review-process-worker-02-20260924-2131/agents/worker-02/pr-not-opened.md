@@ -2,7 +2,7 @@
 
 - **Agent:** `worker-02 / Ralph review gate and status contract`
   (`worker-02`)
-- **Runtime session ID:** `null` (not exposed to this worker)
+- **Runtime session ID:** `3a2fe7eb-9c9e-42e2-a3f0-ff42b8d412f3`
 - **Run/task:** `copilot-skills-premerge-code-review-20260924` /
   `ralph-review-gate-status`
 - **Iteration:** 1
@@ -126,9 +126,13 @@
 - `git diff --cached --check` passed for the worker-owned status and decision
   records.
 - Worker sign-off: `SELF_ATTESTATION`,
-  `NOT_CRYPTOGRAPHICALLY_SIGNED`, at `2026-09-25T02:16:36Z`, bound to
+  `NOT_CRYPTOGRAPHICALLY_SIGNED`, initially at `2026-09-25T02:16:36Z`, bound to
   implementation commit
   `e45aaeed57cafdff6c502ee222ec62aa30af8519`.
+- The host-provided runtime agent/session ID
+  `3a2fe7eb-9c9e-42e2-a3f0-ff42b8d412f3` was added in a follow-up
+  self-attestation at `2026-09-25T02:44:06Z`, still bound to the same
+  implementation commit.
 - Post-merge memory review remains pending for the coordinator.
 
 ## Unresolved blockers

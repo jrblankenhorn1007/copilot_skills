@@ -4,6 +4,7 @@
 
 - **Run:** `copilot-skills-premerge-code-review-20260924`
 - **Worker:** `worker-02 / Ralph review gate and status contract`
+- **Runtime agent/session ID:** `3a2fe7eb-9c9e-42e2-a3f0-ff42b8d412f3`
 - **Iteration:** 1
 - **Branch/worktree:** `ralph/code-review-process-worker-02-20260924-2131` /
   `/Users/jrblankenhorn/copilot_skills.worktrees/ralph-code-review-process-worker-02-20260924-2131`
@@ -110,8 +111,8 @@
   targeted review tests and `git diff --check` pass.
 - **Implementation commit:** `e45aaeed57cafdff6c502ee222ec62aa30af8519`.
 - **Self-attestation:** `SELF_ATTESTATION`,
-  `NOT_CRYPTOGRAPHICALLY_SIGNED`, at `2026-09-25T02:16:36Z`; see the exact
-  payload below.
+  `NOT_CRYPTOGRAPHICALLY_SIGNED`; the latest metadata-corrected attestation
+  is `2026-09-25T02:44:06Z`, bound to the same implementation commit.
 - Next action: coordinator reviews the diff and sign-off, indexes the worker
   leaf in `docs/ralph-status.md`, then reruns the full contract test and
   performs the repository's verified fast-forward integration.
@@ -162,6 +163,56 @@
     "The full contract suite needs the coordinator-owned docs/ralph-status.md to index this leaf; worker-02 must not edit the dashboard."
   ],
   "attested_at_utc": "2026-09-25T02:16:36Z",
+  "attestation_kind": "SELF_ATTESTATION",
+  "cryptographic_signature_status": "NOT_CRYPTOGRAPHICALLY_SIGNED",
+  "statement": "I, worker-02, sign off iteration 1 for ralph-review-gate-status at implementation commit e45aaeed57cafdff6c502ee222ec62aa30af8519."
+}
+```
+
+### Sign-off metadata correction — 2026-09-25
+
+The host supplied the runtime agent/session ID after the initial attestation.
+The original payload above is retained as history. No shared integration pull
+or project-file change was performed for this status-only correction. The
+following self-attestation adds the runtime ID and remains bound to the
+unchanged implementation commit:
+
+```json
+{
+  "run_id": "copilot-skills-premerge-code-review-20260924",
+  "task_ids": ["ralph-review-gate-status"],
+  "worker_id": "worker-02",
+  "worker_name": "worker-02 / Ralph review gate and status contract",
+  "runtime_agent_id": "3a2fe7eb-9c9e-42e2-a3f0-ff42b8d412f3",
+  "iteration": 1,
+  "branch": "ralph/code-review-process-worker-02-20260924-2131",
+  "worktree": "/Users/jrblankenhorn/copilot_skills.worktrees/ralph-code-review-process-worker-02-20260924-2131",
+  "pull_request": {
+    "status": "NOT_OPENED",
+    "number": null,
+    "url": null
+  },
+  "decision_record_path": "docs/decisions/ralph-code-review-process-worker-02-20260924-2131/agents/worker-02/pr-not-opened.md",
+  "base_origin_main_sha": "114e4d60567d05cd048916339ed86e324c6eeef3",
+  "implementation_commit_sha": "e45aaeed57cafdff6c502ee222ec62aa30af8519",
+  "checks": [
+    {
+      "command": "cd /Users/jrblankenhorn/copilot_skills.worktrees/ralph-code-review-process-worker-02-20260924-2131 && python3 .github/skills/ralph-loop/tests/test_multi_agent_contract.py",
+      "result": "FAIL"
+    },
+    {
+      "command": "cd /Users/jrblankenhorn/copilot_skills.worktrees/ralph-code-review-process-worker-02-20260924-2131 && python3 .github/skills/ralph-loop/tests/test_multi_agent_contract.py MultiAgentContractTests.test_pr_review_gate_is_independent_read_only_and_sha_bound MultiAgentContractTests.test_review_round_cap_requires_an_explicit_author_decision MultiAgentContractTests.test_review_evidence_and_states_are_in_leaf_and_dashboard_schemas",
+      "result": "PASS"
+    },
+    {
+      "command": "git -C /Users/jrblankenhorn/copilot_skills.worktrees/ralph-code-review-process-worker-02-20260924-2131 diff --check origin/main...HEAD",
+      "result": "PASS"
+    }
+  ],
+  "blockers": [
+    "The full contract suite needs the coordinator-owned docs/ralph-status.md to index this leaf; worker-02 must not edit the dashboard."
+  ],
+  "attested_at_utc": "2026-09-25T02:44:06Z",
   "attestation_kind": "SELF_ATTESTATION",
   "cryptographic_signature_status": "NOT_CRYPTOGRAPHICALLY_SIGNED",
   "statement": "I, worker-02, sign off iteration 1 for ralph-review-gate-status at implementation commit e45aaeed57cafdff6c502ee222ec62aa30af8519."

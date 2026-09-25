@@ -6,11 +6,11 @@ run_id: "copilot-skills-premerge-code-review-20260924"
 task_ids: ["ralph-review-gate-status"]
 worker_id: "worker-02"
 worker_name: "worker-02 / Ralph review gate and status contract"
-runtime_agent_id: null
+runtime_agent_id: "3a2fe7eb-9c9e-42e2-a3f0-ff42b8d412f3"
 iteration: 1
 status: AWAITING_MERGE
 started_at_utc: "2026-09-25T01:57:12Z"
-updated_at_utc: "2026-09-25T02:18:47Z"
+updated_at_utc: "2026-09-25T02:44:06Z"
 branch: "ralph/code-review-process-worker-02-20260924-2131"
 branch_slug: "ralph-code-review-process-worker-02-20260924-2131"
 worktree: "/Users/jrblankenhorn/copilot_skills.worktrees/ralph-code-review-process-worker-02-20260924-2131"
@@ -66,9 +66,10 @@ blockers:
 next_action: "Coordinator: index this leaf in docs/ralph-status.md and rerun the full contract suite before verified fast-forward integration."
 worker_sign_off:
   status: RECEIVED
+  runtime_agent_id: "3a2fe7eb-9c9e-42e2-a3f0-ff42b8d412f3"
   attestation_kind: SELF_ATTESTATION
   cryptographic_signature_status: NOT_CRYPTOGRAPHICALLY_SIGNED
-  attested_at_utc: "2026-09-25T02:16:36Z"
+  attested_at_utc: "2026-09-25T02:44:06Z"
   statement: "I, worker-02, sign off iteration 1 for ralph-review-gate-status at implementation commit e45aaeed57cafdff6c502ee222ec62aa30af8519."
 commit_signature_verification:
   status: NOT_CRYPTOGRAPHICALLY_SIGNED
