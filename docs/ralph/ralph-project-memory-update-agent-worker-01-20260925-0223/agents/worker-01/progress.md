@@ -671,6 +671,18 @@ above.
 - After the coordinator restored the dashboard records, the Ralph multi-agent contract passed all 20 tests in 4.265s, the Project Memory Update contract passed 1 test, the main-ownership contract passed 6 tests, and both diff checks passed.
 - A fresh fetch then advanced `origin/main` to `1aceb82683e4db1a6c73a43f91700d574aa150ee`; the parent now needs another rebase and retest before the next child assignment.
 
+### Parent rebase onto the latest main — 2026-09-25T10:02:52Z
+
+- The coordinator rebased the parent from `6f23415a85aff6a265ce3ba0c8c564817d91fe3c` onto fetched `origin/main` `61353504e0e99ec82d415a44ca5a305b57dfacf6`, producing parent `298a36a56cad2bbca8cef6771cb2e102e5bd410d`.
+- The current worker integration is `d04c7fe3699bb95b91e41ec15bd3dcdb7b4a5d53` and the implementation commit is `4c0b0c8e69f72937ff24889868a25c942aec9ae8`; stable patch IDs match their previous parent versions and the integration is verified as an ancestor of the parent.
+- The latest upstream dashboard needs this run's coordinator and worker-01 entries restored before the Ralph contract suite is rerun.
+
+### Restored dashboard and passing parent checks — 2026-09-25T10:07:13Z
+
+- The coordinator restored the current dashboard rows without dropping the upstream main-ownership completion records.
+- On parent `298a36a56cad2bbca8cef6771cb2e102e5bd410d` based on `origin/main` `61353504e0e99ec82d415a44ca5a305b57dfacf6`, the Ralph contract passed 20 tests, the Project Memory Update contract passed 1 test, the main-ownership contract passed 6 tests, and both diff checks passed.
+- Worker-01 remains `AWAITING_MERGE` until final parent-to-main integration and the single post-merge memory review. The coordinator's next step is a Resource Manager capacity check before creating the fresh worker-02 child.
+
 #### Fresh worker sign-off after exact parent rebase
 
 ```json

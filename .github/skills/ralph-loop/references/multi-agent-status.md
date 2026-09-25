@@ -433,6 +433,35 @@ worker-to-parent or parent-to-main merge records and cleanup state.
 It may be written as Markdown with a YAML block or a table, but keep the
 field names and enum values unambiguous.
 
+### Learning handoff
+
+Each coordinator and worker includes this `memory_handoff` in its current
+leaf `status.md` and returns the same object with its sign-off/final report.
+The coordinator's aggregate report must preserve its own handoff and every
+worker's handoff without inferring missing reports:
+
+```yaml
+memory_handoff:
+  implementation_summary: "<concise summary of what was implemented>"
+  lesson_candidates:
+    - rule: "<reusable proposed rule>"
+      why: "<why the rule matters>"
+      scope: "<optional applicability>"
+      evidence:
+        - "<specific source, test/check, review correction, or integration observation>"
+  no_durable_lessons_reason: null
+```
+
+`lesson_candidates` may be an empty list. When it is empty,
+`no_durable_lessons_reason` must explain why; when candidates are present,
+that reason is `null`. Each candidate needs a reusable `rule`, a `why`, and
+specific `evidence`; `scope` is optional. Report only lessons that may outlive
+the current task, not task chronology or speculation. Never include
+credentials, secrets, or personal data. This handoff is evidence for the
+post-merge **Project Memory Update** agent, not authorization to change shared
+memory before the final implementation merge is verified on fetched
+`origin/main`.
+
 Append iteration evidence to `progress.md`, including the exact commands and
 results, important decisions, rebase/retest details, sign-off payload, the
 merge command and `merge_actor_worker_id` when available, and recovered

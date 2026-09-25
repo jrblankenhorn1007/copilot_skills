@@ -162,6 +162,14 @@ shared checkout. The worker must:
    until the final parent-to-main merge is verified on fetched `origin/main`
    and the post-merge memory review is complete.
 
+   Before sign-off, each coordinator and worker records a structured
+   `memory_handoff` in its own `status.md` and returns the same handoff with
+   its final report. Include a concise implementation summary, evidence-backed
+   durable candidates in `lesson_candidates`, or a reason when there are none.
+   The coordinator preserves every worker handoff and adds its own; do not fill
+   gaps by inferring another agent's learning. Follow the exact schema in the
+   [multi-agent status contract](multi-agent-status.md#learning-handoff).
+
    For behavior changes, follow Red-Green-Refactor; for documentation-only
    changes, run the relevant documentation checks. Maintain this child branch
    `docs/decisions/<branch-slug>/` index and a separate per-agent, per-PR
@@ -271,15 +279,20 @@ reachable from the parent branch before marking that worker complete or
 releasing dependent work. Once all child changes are integrated, run the
 final acceptance checks on the parent branch, merge the parent to remote
 `origin/main` through the repository's normal process, fetch, and verify the
-resulting remote-main merge SHA. Only after that parent merge is verified does
-the coordinator perform the post-merge memory review using the
-[Project Memory skill](../../project-memory/SKILL.md). The coordinator owns
-changes to shared memory: workers do not edit the shared memory store on
-feature branches, and memory updates use a fresh follow-up branch and the
-repository's normal merge process. Verify any memory merge before marking the
-overall run complete. Record a no-new-lesson outcome
-when the review finds nothing durable. A memory-only follow-up is part of the
-same iteration and does not recursively trigger another review.
+resulting remote-main merge SHA. Only after the final parent-to-main merge is
+verified on fetched `origin/main` does the coordinator invoke the dedicated
+[Project Memory Update agent](../../../agents/project-memory-update.agent.md)
+exactly once with its own report and every worker's `memory_handoff`. Do not
+invoke it after child merges or before final verification. If a required
+handoff is missing, report a blocker rather than filling the gap. The updater
+independently verifies the implementation merge and changes the active
+project's categorized memory only for durable, evidence-backed lessons.
+Workers do not edit shared memory on feature branches; any warranted update
+uses a fresh follow-up branch and the repository's normal merge process.
+Verify that merge before marking the overall run complete. Record the
+updater's `NO_UPDATE` outcome when nothing durable is warranted. A memory-only
+follow-up is part of the same iteration and does not recursively trigger
+another review.
 
 After each verified worker-to-parent merge, the coordinator updates the ledger,
 evaluates dependencies, and can dispatch newly ready work. A re-dispatched

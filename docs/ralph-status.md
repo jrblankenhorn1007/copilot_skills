@@ -4,8 +4,9 @@ This is the active repository's aggregate Ralph status dashboard. It indexes
 every branch/agent status and progress folder under `docs/ralph/`. The
 coordinator updates this file in the same loop as affected leaf records.
 
-**Overall status:** `IN_PROGRESS`. The prompt-generation memory follow-up
-remains in progress; skill-aware agent routing is complete.
+**Overall status:** `IN_PROGRESS`. The prompt-generation memory follow-up and
+Project Memory Update run remain in progress; skill-aware agent routing is
+complete.
 
 ```yaml
 schema_version: 2
@@ -18,6 +19,7 @@ current_run_ids:
   - "copilot-skills-no-browser-git-20260924"
   - "copilot_skills-parent-child-pipeline-20260924"
   - "translated-ralph-prompt-skills-recovery-20260925-0318"
+  - "copilot-skills-memory-update-agent-20260925-0223"
 
 runs:
   - run_id: "copilot_skills-two-agent-ralph-test-batch-20260924"
@@ -373,9 +375,9 @@ runs:
     effective_worker_count: 2
     active_worker_count: 0
     base_origin_main_sha: "114e4d60567d05cd048916339ed86e324c6eeef3"
-    current_origin_main_sha: "1aceb82683e4db1a6c73a43f91700d574aa150ee"
-    rebased_onto_origin_main_sha: "ebb4cce4b8889b3693ffd218c7a7cf41f5610c3c"
-    updated_at_utc: "2026-09-25T10:00:51Z"
+    current_origin_main_sha: "61353504e0e99ec82d415a44ca5a305b57dfacf6"
+    rebased_onto_origin_main_sha: "61353504e0e99ec82d415a44ca5a305b57dfacf6"
+    updated_at_utc: "2026-09-25T10:07:13Z"
     coordinator_scope: "Add a dedicated gated Project Memory Update agent and wire structured learning handoffs from each Ralph agent."
     coordinator_branch: "ralph/project-memory-update-coordinator-20260925-0223"
     coordinator_status_path: "docs/ralph/ralph-project-memory-update-coordinator-20260925-0223/agents/coordinator/status.md"
@@ -390,7 +392,7 @@ runs:
         worker_id: "worker-02"
         scope: "Add structured memory_handoff reporting for coordinator and workers and wire the post-integration updater invocation into Ralph."
         depends_on: []
-    next_action: "Rebase and rerun acceptance checks on 1aceb82683e4db1a6c73a43f91700d574aa150ee, then dispatch a fresh worker-02 child."
+    next_action: "Check Resource Manager capacity, then dispatch a fresh worker-02 child from the current verified parent."
     memory_review:
       status: PENDING
       owner: coordinator
@@ -1082,7 +1084,6 @@ branch_agent_index:
     memory_review_status: COMPLETE
     memory_review_outcome: "No separate memory entry: the reservation lifecycle and cooperative-writer limitation are codified in the main-ownership protocol and tests; existing workflow memory covers safe synchronization."
     next_action: null
-
   - run_id: "copilot-skills-agent-routing-20260925-8bc457e9"
     task_ids: ["specialist-agent-catalog", "skill-aware-ralph-routing", "agent-routing-integration"]
     worker_id: "coordinator"
@@ -1209,6 +1210,8 @@ branch_agent_index:
 | `copilot-skills-agent-routing-20260925-8bc457e9` | `ralph/agent-optimization-parent-20260925-8bc457e9` | `coordinator` | `COMPLETE` | `25,103 s (wall-clock)` | `NOT_REPORTED` | [status](./ralph/ralph-agent-optimization-parent-20260925-8bc457e9/agents/coordinator/status.md) | [progress](./ralph/ralph-agent-optimization-parent-20260925-8bc457e9/agents/coordinator/progress.md) | `0b7db073e365e6c1c6e29d410c424d7c7637c9bf` | `COMPLETE` |
 | `copilot-skills-agent-routing-20260925-8bc457e9` | `ralph/agent-optimization-specialists-coordinator-20260925-8bc457e9` | `specialists-coordinator` | `COMPLETE` | `14,105 s (wall-clock)` | `NOT_REPORTED` | [status](./ralph/ralph-agent-optimization-specialists-coordinator-20260925-8bc457e9/agents/specialists-coordinator/status.md) | [progress](./ralph/ralph-agent-optimization-specialists-coordinator-20260925-8bc457e9/agents/specialists-coordinator/progress.md) | `491772f476bdade69bb332600fd27e86d6f997bf` -> `0b7db073e365e6c1c6e29d410c424d7c7637c9bf` | `COMPLETE` |
 | `copilot-skills-agent-routing-20260925-8bc457e9` | `ralph/agent-optimization-routing-coordinator-20260925-8bc457e9` | `routing-coordinator` | `COMPLETE` | `13,029 s (wall-clock)` | `NOT_REPORTED` | [status](./ralph/ralph-agent-optimization-routing-coordinator-20260925-8bc457e9/agents/routing-coordinator/status.md) | [progress](./ralph/ralph-agent-optimization-routing-coordinator-20260925-8bc457e9/agents/routing-coordinator/progress.md) | `691d5b4dbb18a87768294326fc924f28b1490249` -> `0b7db073e365e6c1c6e29d410c424d7c7637c9bf` | `COMPLETE` |
+| `copilot-skills-memory-update-agent-20260925-0223` | `ralph/project-memory-update-coordinator-20260925-0223` | `coordinator` | `IN_PROGRESS` | `29,546 s (wall-clock)` | `NOT_REPORTED` | [status](./ralph/ralph-project-memory-update-coordinator-20260925-0223/agents/coordinator/status.md) | [progress](./ralph/ralph-project-memory-update-coordinator-20260925-0223/agents/coordinator/progress.md) | `PENDING` | `PENDING` |
+| `copilot-skills-memory-update-agent-20260925-0223` | `ralph/project-memory-update-agent-worker-01-20260925-0223` | `worker-01` | `AWAITING_MERGE` | `27,145 s (wall-clock)` | `NOT_REPORTED` | [status](./ralph/ralph-project-memory-update-agent-worker-01-20260925-0223/agents/worker-01/status.md) | [progress](./ralph/ralph-project-memory-update-agent-worker-01-20260925-0223/agents/worker-01/progress.md) | `d04c7fe3699bb95b91e41ec15bd3dcdb7b4a5d53` | `PENDING` |
 
 The earlier parent-child pipeline run is `COMPLETE`: both workers integrated into the
 parent, the parent merge is verified on `origin/main`, the contract suite and
@@ -1243,3 +1246,10 @@ The skill-aware agent routing run is `COMPLETE`: implementation merge
 follow-up `74f3efe14e4ee3bd9638969ad5b222978ae942c5` are verified
 on fetched `origin/main`. Both `MERGE` reservations were released, and
 the resulting main checkout remains an integration-only worktree.
+
+The Project Memory Update run is `IN_PROGRESS`: worker-01's completed child
+and structured memory handoffs are recorded, the coordinator's parent is
+being rebased and retested, and final remote-main integration and the gated
+post-merge memory review remain pending. Resource Manager last reported zero
+available slots, so the coordinator is handling remaining orchestration
+serially.

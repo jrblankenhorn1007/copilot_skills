@@ -70,10 +70,17 @@ license notices are preserved in each skill directory.
 - [Ralph Loop](.github/agents/ralph-loop.agent.md): refreshes repositories and
   instructions per iteration, orchestrates configurable workers through
   isolated iterations, acts as the top-level orchestrator on the first run,
-  verifies remote-main integration, reviews durable lessons, and applies TDD
-  to behavior changes. It registers the orchestrator and reserves worker
-  slots through the Resource Manager. It distinguishes Git identity, remote
-  read access, branch-push access, and merge permissions.
+  verifies remote-main integration, and invokes the Project Memory Update
+  agent after final integration. It applies TDD to behavior changes,
+  registers the orchestrator, reserves worker slots through the Resource
+  Manager, and distinguishes Git identity, remote read access, branch-push
+  access, and merge permissions.
+- [Project Memory Update](.github/agents/project-memory-update.agent.md):
+  reviews the coordinator's and every worker's `memory_handoff` exactly once
+  after the implementation merge is verified on fetched `origin/main`.
+  Durable, evidence-backed lessons go in the active project's categorized
+  memory store; when none is warranted it returns `NO_UPDATE` and leaves
+  memory unchanged. See the [memory index](.github/memory/README.md).
 - [Ralph Code Reviewer](.github/agents/ralph-code-reviewer.agent.md):
   independently reviews every PR after worker sign-off and before merge
   authorization; it is read-only and does not replace required human review.

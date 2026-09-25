@@ -63,7 +63,12 @@ class MultiAgentContractTests(unittest.TestCase):
             (ROOT / ".github/agents/ralph-loop.agent.md").read_text(encoding="utf-8"),
         )
         self.assertIsNotNone(allowlist, "the coordinator needs an agent allowlist")
-        for name in ("Ralph Loop", "Ralph Code Reviewer", "Ralph Security Reviewer"):
+        for name in (
+            "Ralph Loop",
+            "Ralph Code Reviewer",
+            "Ralph Security Reviewer",
+            "Project Memory Update",
+        ):
             with self.subTest(agent=name):
                 self.assertIn(f"'{name}'", allowlist.group(1))
         self.assertTrue(
@@ -318,6 +323,60 @@ class MultiAgentContractTests(unittest.TestCase):
             "single-branch iteration|"
             "remote-main merge and required post-merge memory review are complete",
             "child completion must not wait for parent memory review",
+        )
+
+    def test_ralph_coordinator_and_workers_emit_memory_handoffs(self):
+        for path in (
+            ".github/agents/ralph-loop.agent.md",
+            ".github/skills/ralph-loop/references/multi-agent-orchestration.md",
+        ):
+            with self.subTest(path=path):
+                document = read_document(path)
+                assert_all_contains(
+                    self,
+                    document,
+                    "memory_handoff|each coordinator and worker|lesson_candidates",
+                    f"{path} must require a structured memory handoff from each agent",
+                )
+
+        status_reference = read_document(
+            ".github/skills/ralph-loop/references/multi-agent-status.md"
+        )
+        assert_all_contains(
+            self,
+            status_reference,
+            "memory_handoff|implementation_summary|lesson_candidates|"
+            "no_durable_lessons_reason|evidence",
+            "the leaf-status contract must define the complete memory handoff",
+        )
+
+    def test_project_memory_update_agent_runs_only_after_verified_final_merge(self):
+        for path in (
+            ".github/agents/ralph-loop.agent.md",
+            ".github/skills/ralph-loop/SKILL.md",
+            ".github/skills/ralph-loop/references/multi-agent-orchestration.md",
+        ):
+            with self.subTest(path=path):
+                document = read_document(path)
+                assert_all_contains(
+                    self,
+                    document,
+                    "project memory update agent|exactly once|final parent-to-main merge|"
+                    "verified on fetched `origin/main`|every worker|memory_handoff",
+                    f"{path} must gate the updater on verified final integration "
+                    "and pass every handoff",
+                )
+
+    def test_readme_exposes_memory_store_and_dedicated_updater(self):
+        readme = read_document("README.md")
+        assert_all_contains(
+            self,
+            readme,
+            "[project memory](.github/skills/project-memory/skill.md)|"
+            "[memory index](.github/memory/readme.md)|"
+            "[project memory update](.github/agents/project-memory-update.agent.md)|"
+            "memory_handoff|no_update",
+            "README must show the persistent memory location and updater workflow",
         )
 
     def test_pr_review_gate_is_independent_read_only_and_sha_bound(self):

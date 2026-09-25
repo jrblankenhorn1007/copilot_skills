@@ -2,7 +2,7 @@
 name: Ralph Loop
 description: Orchestrates configurable Ralph Loop workers, verifies integration on remote main, and captures durable post-merge lessons.
 user-invocable: true
-agents: ['Ralph Loop', 'Ralph Code Reviewer', 'Ralph Security Reviewer', 'Ralph Git Specialist', 'Ralph Docs Specialist', 'Ralph Agent Design Specialist', 'Ralph ASI Specialist']
+agents: ['Ralph Loop', 'Ralph Code Reviewer', 'Ralph Security Reviewer', 'Ralph Git Specialist', 'Ralph Docs Specialist', 'Ralph Agent Design Specialist', 'Ralph ASI Specialist', 'Project Memory Update']
 ---
 
 # Ralph Loop Agent
@@ -69,6 +69,15 @@ id, iteration number, and status ownership supplied by the coordinator, and
 report your verification evidence back to it. Activate the coordinator's
 reservation before doing other work; heartbeat the registration while active
 and release it when finished or paused.
+
+Before sign-off, each coordinator and worker must include a structured
+`memory_handoff` in its own leaf `status.md` and return the same handoff with
+its sign-off. Summarize the implementation, propose only durable lessons
+supported by specific evidence, and explain why there are no candidates when
+`lesson_candidates` is empty. Use the exact schema in the
+[multi-agent status contract](../skills/ralph-loop/references/multi-agent-status.md#learning-handoff).
+Do not edit shared memory from a worker branch or include task chronology,
+credentials, secrets, or personal data in a handoff.
 
 ## Independent PR review agents
 
@@ -204,6 +213,9 @@ agent/session ID.
   and completes the required post-merge memory review. Do not change its leaf
   or aggregate status to `COMPLETE` before then; synchronize both records when
   the coordinator confirms that transition.
+- The coordinator also records its own `memory_handoff` and returns one
+  aggregate report containing its handoff and every worker's handoff to the
+  dedicated post-merge updater.
 
 Before any task edit, publish the assigned agent's task sign-in and exclusive
 edit scope through the [agent-sync ledger](../../docs/agent-sync/README.md).
@@ -306,17 +318,20 @@ operations.
   Reserve main for `MERGE` before the authorized remote merge, release
   promptly after its verification (or after a queue accepts the submission),
   and never hold a main checkout while waiting in a queue.
-- After the completed parent is merged and verified on fetched `origin/main`,
-  the coordinator uses the [Project Memory skill](../skills/project-memory/SKILL.md)
-  to review the overall iteration and update categorized memory with durable
-  lessons. Do not perform a shared-memory follow-up for each child merge. If a
-  memory update is warranted, integrate it through a fresh follow-up branch
-  from the latest `origin/main` and the repository's normal merge process,
-  then verify that merge before reporting completion. This follow-up belongs
-  to the same iteration and does not trigger a recursive memory review. Never
-  write directly to `main` or amend the merged parent branch. If no durable
-  lesson emerged, leave memory unchanged and record that disposition when the
-  active project has a progress or status record.
+- Only after the final parent-to-main merge is verified on fetched
+  `origin/main`, the coordinator invokes the **Project Memory Update agent**
+  exactly once with the coordinator report and every worker's `memory_handoff`
+  and source paths. The updater independently verifies the exact implementation
+  merge and reads the active project's Project Memory guidance. Do not invoke
+  it after child merges, before final verification, or when required handoffs
+  are missing; report a blocker instead of inventing a report or substituting
+  an ungated self-review. If a durable lesson warrants a memory change, the
+  updater uses a fresh follow-up branch and the repository's normal merge
+  process; verify that merge before reporting completion. The follow-up belongs
+  to the same iteration and does not trigger a recursive review. Never write
+  directly to `main` or amend the merged parent branch. If no durable lesson
+  emerged, leave memory unchanged and record the updater's `NO_UPDATE`
+  disposition in the active status or progress record.
 - If the project runner assumes an in-place branch, pushes before merging, or
   otherwise cannot honor the fresh-worktree/branch/merge lifecycle, do not
   invoke it. Complete a single agent-managed iteration only if its project
