@@ -13,7 +13,7 @@
 - **Base parent SHA:** `f602cfcd7e7d7043870857c1fda6b9707a711e5d`
 - **Rebased onto parent SHA:** `bfc044acb477af7abf17717644adf9edfe9614db`
 - **Implementation commit SHA:** `9a5b1db184fb6d3f638304e1abd60f42d2c4133d`
-- **Current worker state:** `IN_PROGRESS`; the overall run remains `IN_PROGRESS`.
+- **Current worker state:** `AWAITING_MERGE`; the overall run remains `IN_PROGRESS`.
 
 ## Iteration 1 — 2026-09-25
 
@@ -364,4 +364,273 @@ checks:
     result: "PASS"
 blockers: []
 next_action: "Worker-01: commit the refreshed rebase evidence and worker-owned records, then submit the new sign-off for coordinator integration."
+```
+
+## Post-record verification and refreshed sign-off — 2026-09-25T07:26:36Z
+
+- **Rebase-evidence/records commit:** `822b31929b5f1ec7faa04a907934675325baa2c4`
+  (`docs(ralph): record worker rebase verification`), with the required
+  Copilot co-author trailer. It contains only the worker-owned status,
+  progress, and decision records.
+- **Post-commit verification:** From the child worktree,
+  `python3 .github/skills/ralph-loop/tests/test_multi_agent_contract.py`
+  — `PASS` (`Ran 16 tests in 2.646s`, `OK`).
+  `git diff --check bfc044acb477af7abf17717644adf9edfe9614db..HEAD` and
+  `git merge-base --is-ancestor bfc044acb477af7abf17717644adf9edfe9614db HEAD`
+  — `PASS`.
+- **Current state:** `AWAITING_MERGE`; worker-to-parent integration is
+  `PENDING`. `active_worker_count: 0` means there are no workers currently
+  `IN_PROGRESS`; it is nonterminal because the run remains
+  `IN_PROGRESS` while the coordinator's child integration and dashboard
+  synchronization remain.
+- **Blockers:** None within the worker-owned scope. Do not mark this worker
+  `COMPLETE` until the coordinator verifies the child integration on the
+  parent branch.
+- **Next action:** Coordinator integrates this child into the parent,
+  verifies the resulting parent SHA, and synchronizes
+  `docs/ralph-status.md`.
+
+```json
+{
+  "run_id": "copilot_skills-agent-status-reporting-20260924",
+  "task_ids": ["status-first-agent-reporting-guidance"],
+  "worker_id": "worker-01",
+  "worker_name": "worker-01 - status-first agent reporting documentation",
+  "runtime_agent_id": null,
+  "iteration": 1,
+  "branch": "ralph/agent-status-reporting-worker-01-20260925-0602",
+  "worktree": "/Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-status-reporting-worker-01-20260925-0602",
+  "pull_request": {
+    "status": "NOT_OPENED",
+    "number": null,
+    "url": null
+  },
+  "decision_record_path": "docs/decisions/ralph-agent-status-reporting-worker-01-20260925-0602/agents/worker-01/pr-not-opened.md",
+  "base_origin_main_sha": "9558f99cc34cbed8dd1d24f4f15fc03f5d78b6ea",
+  "parent_branch": "ralph/agent-status-reporting-20260924-2313",
+  "parent_worktree": "/Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-status-reporting-20260924-2313",
+  "parent_base_origin_main_sha": "9558f99cc34cbed8dd1d24f4f15fc03f5d78b6ea",
+  "parent_rebased_onto_origin_main_sha": "20293c720b18a1a21ff150f566823493b7a2717d",
+  "base_parent_sha": "f602cfcd7e7d7043870857c1fda6b9707a711e5d",
+  "rebased_onto_parent_sha": "bfc044acb477af7abf17717644adf9edfe9614db",
+  "implementation_commit_sha": "9a5b1db184fb6d3f638304e1abd60f42d2c4133d",
+  "checks": [
+    {
+      "command": "cd /Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-status-reporting-worker-01-20260925-0602 && python3 .github/skills/ralph-loop/tests/test_multi_agent_contract.py",
+      "result": "PASS (Ran 16 tests in 2.646s, OK)"
+    },
+    {
+      "command": "git -C /Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-status-reporting-worker-01-20260925-0602 diff --check bfc044acb477af7abf17717644adf9edfe9614db..HEAD",
+      "result": "PASS"
+    },
+    {
+      "command": "git -C /Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-status-reporting-worker-01-20260925-0602 merge-base --is-ancestor bfc044acb477af7abf17717644adf9edfe9614db HEAD",
+      "result": "PASS"
+    }
+  ],
+  "blockers": [],
+  "attested_at_utc": "2026-09-25T07:26:36Z",
+  "attestation_kind": "SELF_ATTESTATION",
+  "cryptographic_signature_status": "NOT_CRYPTOGRAPHICALLY_SIGNED",
+  "statement": "I, worker-01, sign off iteration 1 for status-first-agent-reporting-guidance at commit 9a5b1db184fb6d3f638304e1abd60f42d2c4133d."
+}
+```
+
+```yaml
+schema_version: 2
+run_id: "copilot_skills-agent-status-reporting-20260924"
+task_ids: ["status-first-agent-reporting-guidance"]
+worker_id: "worker-01"
+worker_name: "worker-01 - status-first agent reporting documentation"
+runtime_agent_id: null
+iteration: 1
+branch: "ralph/agent-status-reporting-worker-01-20260925-0602"
+worktree: "/Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-status-reporting-worker-01-20260925-0602"
+status: AWAITING_MERGE
+run_aggregate_status: IN_PROGRESS
+requested_worker_count: 2
+effective_worker_count: 2
+active_worker_count: 0
+started_at_utc: "2026-09-25T06:01:28Z"
+updated_at_utc: "2026-09-25T07:26:36Z"
+resource_usage:
+  time_spent_seconds: 5108
+  time_basis: WALL_CLOCK_ELAPSED
+  token_spend:
+    status: NOT_REPORTED
+    input_tokens: null
+    output_tokens: null
+    total_tokens: null
+    cached_input_tokens: null
+    source: null
+base_origin_main_sha: "9558f99cc34cbed8dd1d24f4f15fc03f5d78b6ea"
+rebased_onto_origin_main_sha: null
+parent_branch: "ralph/agent-status-reporting-20260924-2313"
+parent_worktree: "/Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-status-reporting-20260924-2313"
+parent_base_origin_main_sha: "9558f99cc34cbed8dd1d24f4f15fc03f5d78b6ea"
+parent_rebased_onto_origin_main_sha: "20293c720b18a1a21ff150f566823493b7a2717d"
+base_parent_sha: "f602cfcd7e7d7043870857c1fda6b9707a711e5d"
+rebased_onto_parent_sha: "bfc044acb477af7abf17717644adf9edfe9614db"
+implementation_commit_sha: "9a5b1db184fb6d3f638304e1abd60f42d2c4133d"
+pull_request:
+  status: NOT_OPENED
+  number: null
+  url: null
+decision_record_path: "docs/decisions/ralph-agent-status-reporting-worker-01-20260925-0602/agents/worker-01/pr-not-opened.md"
+merge_actor_worker_id: null
+worker_to_parent_merge:
+  status: PENDING
+  sha: null
+  verified_parent_ref: "refs/heads/ralph/agent-status-reporting-20260924-2313"
+  verified_parent_sha: null
+cleanup:
+  worktree: PENDING
+  local_branch: PENDING
+  remote_ref: NOT_PUBLISHED
+memory_review: PENDING
+checks:
+  - command: "git -C /Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-status-reporting-worker-01-20260925-0602 rebase --onto bfc044acb477af7abf17717644adf9edfe9614db f602cfcd7e7d7043870857c1fda6b9707a711e5d"
+    result: "PASS (targeted rebase of the four worker commits)"
+  - command: "cd /Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-status-reporting-worker-01-20260925-0602 && python3 .github/skills/ralph-loop/tests/test_multi_agent_contract.py"
+    result: "PASS (Ran 16 tests in 2.646s, OK after the rebase-evidence records commit)"
+worker_sign_off:
+  status: SUBMITTED
+  attestation_kind: SELF_ATTESTATION
+  cryptographic_signature_status: NOT_CRYPTOGRAPHICALLY_SIGNED
+  attested_at_utc: "2026-09-25T07:26:36Z"
+  statement: "I, worker-01, sign off iteration 1 for status-first-agent-reporting-guidance at commit 9a5b1db184fb6d3f638304e1abd60f42d2c4133d."
+blockers: []
+next_action: "Coordinator: integrate this child into the parent, verify the resulting parent SHA, and synchronize docs/ralph-status.md. Keep this leaf AWAITING_MERGE until that verification is complete."
+```
+
+## Final revalidation and refreshed sign-off — 2026-09-25T07:28:37Z
+
+- After the leaf transitioned to `AWAITING_MERGE`, the full contract suite
+  passed again (`Ran 16 tests in 2.370s`, `OK`).
+- `git diff --check`, the committed-range
+  `git diff --check bfc044acb477af7abf17717644adf9edfe9614db..HEAD`, and
+  `git merge-base --is-ancestor bfc044acb477af7abf17717644adf9edfe9614db HEAD`
+  all passed. The parent remains at the assigned rebase target.
+- The sign-off is refreshed against the rebased implementation commit,
+  **not** the records commit. The status/evidence commit
+  `822b31929b5f1ec7faa04a907934675325baa2c4` is complete; this leaf remains
+  `AWAITING_MERGE` pending coordinator verification of child-to-parent
+  integration. `active_worker_count: 0` is nonterminal because coordinator
+  integration is still in progress.
+
+```json
+{
+  "run_id": "copilot_skills-agent-status-reporting-20260924",
+  "task_ids": ["status-first-agent-reporting-guidance"],
+  "worker_id": "worker-01",
+  "worker_name": "worker-01 - status-first agent reporting documentation",
+  "runtime_agent_id": null,
+  "iteration": 1,
+  "branch": "ralph/agent-status-reporting-worker-01-20260925-0602",
+  "worktree": "/Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-status-reporting-worker-01-20260925-0602",
+  "pull_request": {
+    "status": "NOT_OPENED",
+    "number": null,
+    "url": null
+  },
+  "decision_record_path": "docs/decisions/ralph-agent-status-reporting-worker-01-20260925-0602/agents/worker-01/pr-not-opened.md",
+  "base_origin_main_sha": "9558f99cc34cbed8dd1d24f4f15fc03f5d78b6ea",
+  "parent_branch": "ralph/agent-status-reporting-20260924-2313",
+  "parent_worktree": "/Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-status-reporting-20260924-2313",
+  "parent_base_origin_main_sha": "9558f99cc34cbed8dd1d24f4f15fc03f5d78b6ea",
+  "parent_rebased_onto_origin_main_sha": "20293c720b18a1a21ff150f566823493b7a2717d",
+  "base_parent_sha": "f602cfcd7e7d7043870857c1fda6b9707a711e5d",
+  "rebased_onto_parent_sha": "bfc044acb477af7abf17717644adf9edfe9614db",
+  "implementation_commit_sha": "9a5b1db184fb6d3f638304e1abd60f42d2c4133d",
+  "checks": [
+    {
+      "command": "cd /Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-status-reporting-worker-01-20260925-0602 && python3 .github/skills/ralph-loop/tests/test_multi_agent_contract.py",
+      "result": "PASS (Ran 16 tests in 2.370s, OK)"
+    },
+    {
+      "command": "cd /Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-status-reporting-worker-01-20260925-0602 && git diff --check",
+      "result": "PASS"
+    },
+    {
+      "command": "cd /Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-status-reporting-worker-01-20260925-0602 && git diff --check bfc044acb477af7abf17717644adf9edfe9614db..HEAD",
+      "result": "PASS"
+    },
+    {
+      "command": "cd /Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-status-reporting-worker-01-20260925-0602 && git merge-base --is-ancestor bfc044acb477af7abf17717644adf9edfe9614db HEAD",
+      "result": "PASS"
+    }
+  ],
+  "blockers": [],
+  "attested_at_utc": "2026-09-25T07:28:37Z",
+  "attestation_kind": "SELF_ATTESTATION",
+  "cryptographic_signature_status": "NOT_CRYPTOGRAPHICALLY_SIGNED",
+  "statement": "I, worker-01, sign off iteration 1 for status-first-agent-reporting-guidance at commit 9a5b1db184fb6d3f638304e1abd60f42d2c4133d."
+}
+```
+
+```yaml
+schema_version: 2
+run_id: "copilot_skills-agent-status-reporting-20260924"
+task_ids: ["status-first-agent-reporting-guidance"]
+worker_id: "worker-01"
+worker_name: "worker-01 - status-first agent reporting documentation"
+runtime_agent_id: null
+iteration: 1
+branch: "ralph/agent-status-reporting-worker-01-20260925-0602"
+worktree: "/Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-status-reporting-worker-01-20260925-0602"
+status: AWAITING_MERGE
+run_aggregate_status: IN_PROGRESS
+requested_worker_count: 2
+effective_worker_count: 2
+active_worker_count: 0
+started_at_utc: "2026-09-25T06:01:28Z"
+updated_at_utc: "2026-09-25T07:28:37Z"
+resource_usage:
+  time_spent_seconds: 5229
+  time_basis: WALL_CLOCK_ELAPSED
+  token_spend:
+    status: NOT_REPORTED
+    input_tokens: null
+    output_tokens: null
+    total_tokens: null
+    cached_input_tokens: null
+    source: null
+base_origin_main_sha: "9558f99cc34cbed8dd1d24f4f15fc03f5d78b6ea"
+rebased_onto_origin_main_sha: null
+parent_branch: "ralph/agent-status-reporting-20260924-2313"
+parent_worktree: "/Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-status-reporting-20260924-2313"
+parent_base_origin_main_sha: "9558f99cc34cbed8dd1d24f4f15fc03f5d78b6ea"
+parent_rebased_onto_origin_main_sha: "20293c720b18a1a21ff150f566823493b7a2717d"
+base_parent_sha: "f602cfcd7e7d7043870857c1fda6b9707a711e5d"
+rebased_onto_parent_sha: "bfc044acb477af7abf17717644adf9edfe9614db"
+implementation_commit_sha: "9a5b1db184fb6d3f638304e1abd60f42d2c4133d"
+pull_request:
+  status: NOT_OPENED
+  number: null
+  url: null
+decision_record_path: "docs/decisions/ralph-agent-status-reporting-worker-01-20260925-0602/agents/worker-01/pr-not-opened.md"
+merge_actor_worker_id: null
+worker_to_parent_merge:
+  status: PENDING
+  sha: null
+  verified_parent_ref: "refs/heads/ralph/agent-status-reporting-20260924-2313"
+  verified_parent_sha: null
+cleanup:
+  worktree: PENDING
+  local_branch: PENDING
+  remote_ref: NOT_PUBLISHED
+memory_review: PENDING
+checks:
+  - command: "git -C /Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-status-reporting-worker-01-20260925-0602 rebase --onto bfc044acb477af7abf17717644adf9edfe9614db f602cfcd7e7d7043870857c1fda6b9707a711e5d"
+    result: "PASS (targeted rebase of the four worker commits)"
+  - command: "cd /Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-status-reporting-worker-01-20260925-0602 && python3 .github/skills/ralph-loop/tests/test_multi_agent_contract.py"
+    result: "PASS (Ran 16 tests in 2.370s, OK)"
+worker_sign_off:
+  status: SUBMITTED
+  attestation_kind: SELF_ATTESTATION
+  cryptographic_signature_status: NOT_CRYPTOGRAPHICALLY_SIGNED
+  attested_at_utc: "2026-09-25T07:28:37Z"
+  statement: "I, worker-01, sign off iteration 1 for status-first-agent-reporting-guidance at commit 9a5b1db184fb6d3f638304e1abd60f42d2c4133d."
+blockers: []
+next_action: "Coordinator: integrate this child into the parent, verify the resulting parent SHA, and synchronize docs/ralph-status.md. Keep this leaf AWAITING_MERGE until that verification is complete."
 ```

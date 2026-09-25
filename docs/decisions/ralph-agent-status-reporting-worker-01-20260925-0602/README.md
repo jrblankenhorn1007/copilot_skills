@@ -11,7 +11,7 @@
 - **Worker:** `worker-01` / `worker-01 - status-first agent reporting documentation`
 - **Task:** `status-first-agent-reporting-guidance`
 - **Implementation commit SHA:** `9a5b1db184fb6d3f638304e1abd60f42d2c4133d`
-- **State:** `IN_PROGRESS`; rebase verification is complete and the refreshed worker records/sign-off are being committed.
+- **State:** `AWAITING_MERGE`; the refreshed sign-off is submitted and child-to-parent integration is pending.
 - **PR:** `NOT_OPENED`; this parent/child run integrates child branches locally
   into the coordinator's parent, then verifies the resulting parent-side SHA.
 
@@ -104,6 +104,13 @@
   `PASS` (`Ran 16 tests in 2.520s`, `OK`).
 - Final pre-record-commit verification: `PASS` (`Ran 16 tests in 2.663s`,
   `OK`); both whitespace checks and exact parent-target ancestry passed.
+- After records commit
+  `822b31929b5f1ec7faa04a907934675325baa2c4`, the full suite passed again
+  (`Ran 16 tests in 2.646s`, `OK`); committed-range whitespace and
+  parent-target ancestry checks passed.
+- Final `AWAITING_MERGE` leaf revalidation: `PASS` (`Ran 16 tests in
+  2.370s`, `OK`); working-tree and committed-range whitespace checks and
+  parent-target ancestry verification passed.
 - `active_worker_count: 0` is explicitly documented as nonterminal while
   queued, awaiting-merge, or coordinator work remains.
 

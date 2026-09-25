@@ -12,6 +12,7 @@
 - **Parent latest rebase onto `origin/main`:** `20293c720b18a1a21ff150f566823493b7a2717d`
 - **Child rebased onto parent SHA:** `bfc044acb477af7abf17717644adf9edfe9614db`
 - **Implementation commit SHA:** `9a5b1db184fb6d3f638304e1abd60f42d2c4133d`
+- **Rebase-evidence/records commit SHA:** `822b31929b5f1ec7faa04a907934675325baa2c4`
 - **PR:** Not opened. The coordinator integrates the child branch into the
   parent through the run's local parent/child process; workers do not merge
   directly to `origin/main`.
@@ -94,6 +95,13 @@
   (`Ran 16 tests in 2.663s`, `OK`); `git diff --check`,
   `git diff --check bfc044acb477af7abf17717644adf9edfe9614db..HEAD`, and
   exact parent-target ancestry verification passed.
+- **Post-record-commit verification:** After
+  `822b31929b5f1ec7faa04a907934675325baa2c4`, the full suite passed again
+  (`Ran 16 tests in 2.646s`, `OK`); committed-range whitespace and
+  parent-target ancestry checks passed.
+- **Final leaf verification:** After the `AWAITING_MERGE` update, the full
+  suite passed (`Ran 16 tests in 2.370s`, `OK`); working-tree/committed-range
+  whitespace and parent-target ancestry checks passed.
 - **Status:** Resolved; coordinator-owned parent and dashboard changes were
   not edited or staged.
 

@@ -8,7 +8,7 @@
 | Runtime agent ID | `null` |
 | Iteration | `1` |
 | Overall run status | `IN_PROGRESS` |
-| Worker status | `IN_PROGRESS` |
+| Worker status | `AWAITING_MERGE` |
 | Branch / slug | `ralph/agent-status-reporting-worker-01-20260925-0602` / `ralph-agent-status-reporting-worker-01-20260925-0602` |
 | Worktree | `/Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-status-reporting-worker-01-20260925-0602` |
 | Parent branch / worktree | `ralph/agent-status-reporting-20260924-2313` / `/Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-status-reporting-20260924-2313` |
@@ -21,7 +21,7 @@
 | Memory review | `PENDING` — coordinator-owned after parent-to-main integration |
 | Decision record | `docs/decisions/ralph-agent-status-reporting-worker-01-20260925-0602/agents/worker-01/pr-not-opened.md` |
 | Blockers | None |
-| Next action | Worker-01: commit the refreshed rebase evidence and worker-owned records, then submit the new sign-off for coordinator integration. |
+| Next action | Coordinator: integrate the child into the parent, verify the resulting parent SHA, and synchronize the aggregate dashboard. |
 
 ```yaml
 schema_version: 2
@@ -34,15 +34,15 @@ branch: "ralph/agent-status-reporting-worker-01-20260925-0602"
 branch_slug: "ralph-agent-status-reporting-worker-01-20260925-0602"
 worktree: "/Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-status-reporting-worker-01-20260925-0602"
 iteration: 1
-status: IN_PROGRESS
+status: AWAITING_MERGE
 run_aggregate_status: IN_PROGRESS
 requested_worker_count: 2
 effective_worker_count: 2
-active_worker_count: 1
+active_worker_count: 0
 started_at_utc: "2026-09-25T06:01:28Z"
-updated_at_utc: "2026-09-25T07:23:15Z"
+updated_at_utc: "2026-09-25T07:28:37Z"
 resource_usage:
-  time_spent_seconds: 4907
+  time_spent_seconds: 5229
   time_basis: WALL_CLOCK_ELAPSED
   token_spend:
     status: NOT_REPORTED
@@ -91,7 +91,7 @@ checks:
   - command: "git -C /Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-status-reporting-worker-01-20260925-0602 diff --check"
     result: PASS
   - command: "cd /Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-status-reporting-worker-01-20260925-0602 && python3 .github/skills/ralph-loop/tests/test_multi_agent_contract.py"
-    result: "PASS (Ran 16 tests in 2.663s, OK in final pre-commit verification.)"
+    result: "PASS (Ran 16 tests in 2.370s, OK after the final AWAITING_MERGE update.)"
   - command: "git -C /Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-status-reporting-worker-01-20260925-0602 rebase --onto bfc044acb477af7abf17717644adf9edfe9614db f602cfcd7e7d7043870857c1fda6b9707a711e5d"
     result: "PASS (replayed the four child commits after the original base; rebase conflicts were resolved without dropping either reporting or schema-v2 guidance.)"
   - command: "cd /Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-status-reporting-worker-01-20260925-0602 && git diff --check"
@@ -103,13 +103,13 @@ checks:
   - command: "cd /Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-status-reporting-worker-01-20260925-0602 && git diff --check"
     result: PASS
 blockers: []
-next_action: "Worker-01: commit the refreshed rebase evidence and worker-owned records, then submit the new sign-off for coordinator integration."
+next_action: "Coordinator: integrate this child into the parent, verify the resulting parent SHA, and synchronize docs/ralph-status.md. Keep this leaf AWAITING_MERGE until that verification is complete."
 worker_sign_off:
-  status: PENDING
-  attestation_kind: null
+  status: SUBMITTED
+  attestation_kind: SELF_ATTESTATION
   cryptographic_signature_status: NOT_CRYPTOGRAPHICALLY_SIGNED
-  attested_at_utc: null
-  statement: null
+  attested_at_utc: "2026-09-25T07:28:37Z"
+  statement: "I, worker-01, sign off iteration 1 for status-first-agent-reporting-guidance at commit 9a5b1db184fb6d3f638304e1abd60f42d2c4133d."
 commit_signature_verification:
   status: NOT_CRYPTOGRAPHICALLY_SIGNED
   verifier: null
