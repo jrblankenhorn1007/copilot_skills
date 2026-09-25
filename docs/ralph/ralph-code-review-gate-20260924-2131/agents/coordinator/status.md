@@ -11,7 +11,7 @@
 | Branch / slug | `ralph/code-review-gate-20260924-2131` / `ralph-code-review-gate-20260924-2131` |
 | Worktree | `/Users/jrblankenhorn/copilot_skills.worktrees/ralph-code-review-gate-20260924-2131` |
 | Started at UTC | `2026-09-25T01:40:57Z` |
-| Updated at UTC | `2026-09-25T01:46:16Z` |
+| Updated at UTC | `2026-09-25T01:48:52Z` |
 | Base `origin/main` SHA | `485b4a64c871f581f9295e46c867b188b0e3ccee` |
 | Rebased onto `origin/main` | `null` |
 | Implementation commit SHA | `null` |
@@ -32,8 +32,9 @@
 - `worker-02` owns the PR review/merge lifecycle, review status schema,
   documentation contract tests, and README discovery links.
 - The review contract is shared up front: one independent code reviewer on
-  every PR; a security specialist for security-sensitive diffs; exact-commit
-  review; at most ten review rounds; an explicit author decision at the cap.
+  every PR; a security specialist for security-sensitive diffs; base/head
+  SHA-bound reviews; at most ten review rounds; an explicit author decision
+  at the cap.
   The implementation paths are disjoint.
 
 ## Integration and memory review

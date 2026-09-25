@@ -70,8 +70,8 @@ unchanged.
 1. Every PR must receive one read-only independent correctness/regression
    review; add a conditional security specialist for security-sensitive
    changes rather than paying for overlapping full reviews on every PR.
-2. Bind every report to the reviewed head SHA. Any pushed commit invalidates
-   the prior report.
+2. Bind every report to the reviewed base and head SHAs. Any change to either
+   invalidates the prior report before merge authorization.
 3. Count the initial reviewer report as round one and stop automated
    reviewer/author exchanges after ten rounds. At that point the author must
    explicitly choose a next action; no reviewer may merge or bypass policy.

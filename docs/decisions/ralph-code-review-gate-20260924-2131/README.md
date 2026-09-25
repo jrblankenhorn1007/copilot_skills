@@ -20,10 +20,11 @@ be indexed here when their sign-offs are received.
    `Ralph Security Reviewer` when the diff changes security-sensitive paths.
    This provides separate author/reviewer context while avoiding redundant
    full reviews for low-risk changes.
-2. Bind each review to the exact PR head SHA and repeat review when the head
-   changes. Stop automated review/author exchanges after ten rounds; the
-   author then records the chosen disposition. Existing merge authorization,
-   branch protection, CI, and human approval requirements remain in force.
+2. Bind each review to the exact PR base and head SHAs and repeat review when
+   either changes. Stop automated review/author exchanges after ten rounds;
+   the author then records the chosen disposition. Existing merge
+   authorization, branch protection, CI, and human approval requirements
+   remain in force.
 3. Build a project-local review skill from verified code-review guidance and
    evaluation patterns; do not install or copy third-party skills.
 

@@ -97,7 +97,7 @@ runs:
     active_worker_count: 2
     base_origin_main_sha: "485b4a64c871f581f9295e46c867b188b0e3ccee"
     created_at_utc: "2026-09-25T01:40:57Z"
-    updated_at_utc: "2026-09-25T01:46:16Z"
+    updated_at_utc: "2026-09-25T01:48:52Z"
     coordinator_scope: "Add an independent pre-merge code-review step for PR-backed Ralph iterations, specialized reviewer agents, a hard ten-round limit, and an explicit author decision at the limit."
     coordinator_branch: "ralph/code-review-gate-20260924-2131"
     coordinator_status_path: "docs/ralph/ralph-code-review-gate-20260924-2131/agents/coordinator/status.md"
@@ -744,7 +744,8 @@ branch_agent_index:
     code_review:
       status: NOT_APPLICABLE
       reviewer_agents: []
-      reviewed_commit_sha: null
+      reviewed_base_sha: null
+      reviewed_head_sha: null
       rounds_completed: 0
       max_rounds: 10
       finding_count: 0
@@ -778,7 +779,8 @@ branch_agent_index:
     code_review:
       status: NOT_APPLICABLE
       reviewer_agents: []
-      reviewed_commit_sha: null
+      reviewed_base_sha: null
+      reviewed_head_sha: null
       rounds_completed: 0
       max_rounds: 10
       finding_count: 0
@@ -812,7 +814,8 @@ branch_agent_index:
     code_review:
       status: NOT_APPLICABLE
       reviewer_agents: []
-      reviewed_commit_sha: null
+      reviewed_base_sha: null
+      reviewed_head_sha: null
       rounds_completed: 0
       max_rounds: 10
       finding_count: 0
