@@ -3,17 +3,19 @@
 - **Run/task/agent/iteration:** `copilot-skills-agent-communication-20260925-0627` /
   `agent-communication-skill` / `worker-01` / 1
 - **Runtime agent ID:** `4b590f58-600f-4d99-92b7-29db9c14b7a4`
-- **Branch:** `ralph/agent-communication-worker-01-20260925-0627`
-- **Worktree:** `/Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-communication-worker-01-20260925-0627`
+- **Branch:** `ralph/agent-communication-worker-01-fallback-20260925-1647`
+- **Worktree:** `/Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-communication-worker-01-fallback-20260925-1647`
 - **Parent branch/worktree:** `ralph/agent-communication-parent-20260925-0627` /
   `/Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-communication-parent-20260925-0627`
 - **Run `origin/main` base:** `20293c720b18a1a21ff150f566823493b7a2717d`
-- **Base parent SHA:** `0294550c92a5d79e1cca682a0c509b5bb6eca3fd`
-- **Current parent rebase base (`origin/main`):** `65ed98d9c3169953f05477d4d248236e1f514542`
-- **Current parent HEAD / rebased onto parent SHA:** `8bdc0f495bfe291be94a234d6b8aa350d1ff7419`
-- **Current origin/main:** `5e673fa5235b99bd36c1cd56ea7d2dab6e7562c0`
-- **Current implementation commit:** `00f775d0c4cda85bfd047f529adbd15d75564b00`
-- **Current worker-series head:** `719f457611d028fbba27bc3c4a7b75da8cdc1f19`
+- **Initial base parent SHA for this branch:** `15d0597d1bf693f9ebea3c348ad73d160e896fee`
+- **Rebased onto parent SHA:** `3257768c7e43824d38a46f89e751add006d0790e`
+- **Current parent rebase base (`origin/main`):** `c1ac03a4d3378789450b7ac59a655fcbff974241`
+- **Current parent HEAD:** `3257768c7e43824d38a46f89e751add006d0790e`
+- **Current parent implementation commit:** `db6d18e1c49fe3a0af962b0b3c6add156b4ca460`
+- **Current origin/main:** `d8af3e8d87cd32aaab128bb6edabd6e8402da5e4`
+- **Current implementation commit:** `d93041a2d19108929e44e03b2b977429e56ed6fa`
+- **Current worker-series head:** `d93041a2d19108929e44e03b2b977429e56ed6fa`
 - **Pull request:** `NOT_OPENED`; this child is handed to the coordinator for
   serial parent integration under the assigned no-PR path.
 
@@ -468,3 +470,41 @@ child-to-parent merge is claimed here.
   follow-up; it remains pending coordinator integration. The earlier
   primary-checkout side-effect record remains historical; no primary
   checkout was pulled or modified during this follow-up.
+
+## Latest implementation and sign-off — 2026-09-25T18:02:51Z
+
+- **State:** `AWAITING_MERGE`; no worker PR is opened. The final code
+  implementation commit is
+  `d93041a2d19108929e44e03b2b977429e56ed6fa` on branch
+  `ralph/agent-communication-worker-01-fallback-20260925-1647`; its initial
+  parent was `15d0597d1bf693f9ebea3c348ad73d160e896fee`, and the coordinator
+  rebased it onto exact parent `3257768c7e43824d38a46f89e751add006d0790e`
+  before authorizing edits.
+- **Parent/main:** the parent is based on
+  `c1ac03a4d3378789450b7ac59a655fcbff974241`; its current implementation
+  commit is `db6d18e1c49fe3a0af962b0b3c6add156b4ca460`. Fetched
+  `origin/main` is `d8af3e8d87cd32aaab128bb6edabd6e8402da5e4`, three
+  status-only commits beyond the parent base. This worker did not change the
+  parent or dashboard.
+- **TDD evidence:** the pre-change focused test failed exactly the three
+  expected assertions (`message limit`, `do not retry from a new session`,
+  and `durable coordination channel`); the focused test passed after the
+  change, and the full contract suite passed **29/29**. `git diff --check`
+  and the implementation `git show --check` passed.
+- **Recovered validation-script issue:** the initial inline Ruby YAML/handoff
+  parity check failed to parse its boolean expression; splitting JSON
+  extraction into separate statements resolved it, and all parity assertions
+  then passed.
+- **Decision:** a host-reported fixed/shared message limit is a failed route,
+  not a retry trigger. The skill prohibits retrying via a new session or
+  spawned relay, makes no universal quota claim, and directs the sender to an
+  already available authorized durable coordination channel or to report
+  blocked. The existing evidence in `.github/memory/tooling.md` is referenced
+  without copying its full entry.
+- **Self-attestation:** `SELF_ATTESTATION` for exact implementation commit
+  `d93041a2d19108929e44e03b2b977429e56ed6fa`, at
+  `2026-09-25T18:02:51Z`; `NOT_CRYPTOGRAPHICALLY_SIGNED`. Integration into
+  the parent remains pending.
+
+The matching structured sign-off and `memory_handoff` are retained in the
+latest worker `progress.md` entry and `status.md`.

@@ -1486,3 +1486,131 @@
   }
 }
 ```
+
+## 2026-09-25T18:02:51Z — fixed/shared message-limit fallback
+
+- **Status:** `AWAITING_MERGE`; this continuation changes only
+  `.github/skills/agent-communication/SKILL.md` and the existing worker-01
+  status/progress/decision records. No dashboard, pipeline, worker-02, or
+  shared-memory file was changed.
+- **Sign-in and worktree:** worker-01 revision 1 was published at status
+  commit `b671814e34cddd9554d7209297b733709934e9d8`. Its prompt SHA-256 is
+  `98ba30e35a499a17345a76b1befb3d8f8808b9a32f93464930e1e71b7bffdd7f`.
+  The signed-in branch was later rebased by the coordinator, before
+  `READY_TO_EDIT`, onto parent `3257768c7e43824d38a46f89e751add006d0790e`.
+- **Branch/worktree:** `ralph/agent-communication-worker-01-fallback-20260925-1647` /
+  `/Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-communication-worker-01-fallback-20260925-1647`.
+  Its initial parent was `15d0597d1bf693f9ebea3c348ad73d160e896fee`;
+  `rebased_onto_parent_sha` is
+  `3257768c7e43824d38a46f89e751add006d0790e`.
+- **Parent/main:** the parent is clean at
+  `3257768c7e43824d38a46f89e751add006d0790e`, based on
+  `origin/main` `c1ac03a4d3378789450b7ac59a655fcbff974241`, with parent
+  implementation commit `db6d18e1c49fe3a0af962b0b3c6add156b4ca460`. The
+  latest fetch is `d8af3e8d87cd32aaab128bb6edabd6e8402da5e4`: three commits
+  after the parent's base, changing only
+  `docs/agent-sync/main/ownership.json` and the completion-truthfulness
+  coordinator `status.json`. The coordinator deferred another parent rebase;
+  this worker did not move or edit the parent.
+- **Implementation:** commit
+  `d93041a2d19108929e44e03b2b977429e56ed6fa` adds a bounded rule for a
+  host-reported fixed/shared `message limit`: mark the route `failed`, do not
+  retry from a new session or spawn relay sessions to bypass it, do not claim
+  a universal numeric quota, and use an already available authorized durable
+  coordination channel or report blocked. The change references the existing
+  `.github/memory/tooling.md` evidence without copying its chronology or
+  numeric example.
+- **TDD Red:** ran
+  `PYTHONDONTWRITEBYTECODE=1 python3 /Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-communication-worker-01-fallback-20260925-1647/.github/skills/ralph-loop/tests/test_multi_agent_contract.py MultiAgentContractTests.test_inter_session_communication_contract_is_actionable_and_bounded`.
+  Expected Red: exactly three subtest assertions failed for `message limit`,
+  `do not retry from a new session`, and `durable coordination channel`.
+- **TDD Green:** the same focused command passed (**1 test**). The full
+  `PYTHONDONTWRITEBYTECODE=1 python3 /Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-communication-worker-01-fallback-20260925-1647/.github/skills/ralph-loop/tests/test_multi_agent_contract.py`
+  passed (**29 tests**). `git diff --check` and implementation
+  `git show --check` passed after the final record updates.
+- **Resource Manager:** runtime
+  `4b590f58-600f-4d99-92b7-29db9c14b7a4` remained registered as an active
+  worker; heartbeat refreshed at `2026-09-25T17:52:31Z`. No agent was
+  spawned or reserved.
+- **Elapsed time:** from existing `started_at_utc`
+  `2026-09-25T07:49:20Z` to `updated_at_utc` `2026-09-25T18:02:51Z` is
+  **36,811 seconds** wall-clock. Provider token counters remain
+  `NOT_REPORTED`.
+- **Attestation:** `SELF_ATTESTATION` for implementation commit
+  `d93041a2d19108929e44e03b2b977429e56ed6fa`, attested at
+  `2026-09-25T18:02:51Z`; `NOT_CRYPTOGRAPHICALLY_SIGNED`. No worker-to-parent
+  integration is claimed.
+- **Recovered validation-script issue:** the first inline Ruby YAML/handoff
+  parity check had a syntax error in its boolean expression. Splitting JSON
+  extraction into separate statements resolved it; YAML parsing, handoff
+  parity, implementation-SHA parity, attestation-time parity, and the
+  `AWAITING_MERGE` state check then passed.
+
+```json
+{
+  "run_id": "copilot-skills-agent-communication-20260925-0627",
+  "task_ids": ["agent-communication-skill"],
+  "worker_id": "worker-01",
+  "worker_name": "worker-01 / agent communication skill",
+  "runtime_agent_id": "4b590f58-600f-4d99-92b7-29db9c14b7a4",
+  "iteration": 1,
+  "branch": "ralph/agent-communication-worker-01-fallback-20260925-1647",
+  "worktree": "/Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-communication-worker-01-fallback-20260925-1647",
+  "parent_branch": "ralph/agent-communication-parent-20260925-0627",
+  "parent_worktree": "/Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-communication-parent-20260925-0627",
+  "parent_base_origin_main_sha": "20293c720b18a1a21ff150f566823493b7a2717d",
+  "parent_rebased_onto_origin_main_sha": "c1ac03a4d3378789450b7ac59a655fcbff974241",
+  "current_origin_main_sha": "d8af3e8d87cd32aaab128bb6edabd6e8402da5e4",
+  "parent_base_sha": "15d0597d1bf693f9ebea3c348ad73d160e896fee",
+  "rebased_onto_parent_sha": "3257768c7e43824d38a46f89e751add006d0790e",
+  "implementation_commit_sha": "d93041a2d19108929e44e03b2b977429e56ed6fa",
+  "worker_series_head_sha": "d93041a2d19108929e44e03b2b977429e56ed6fa",
+  "checks": [
+    {
+      "command": "PYTHONDONTWRITEBYTECODE=1 python3 /Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-communication-worker-01-fallback-20260925-1647/.github/skills/ralph-loop/tests/test_multi_agent_contract.py MultiAgentContractTests.test_inter_session_communication_contract_is_actionable_and_bounded (before implementation)",
+      "result": "EXPECTED RED: 3 assertion failures for message limit, do not retry from a new session, and durable coordination channel"
+    },
+    {
+      "command": "PYTHONDONTWRITEBYTECODE=1 python3 /Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-communication-worker-01-fallback-20260925-1647/.github/skills/ralph-loop/tests/test_multi_agent_contract.py MultiAgentContractTests.test_inter_session_communication_contract_is_actionable_and_bounded",
+      "result": "PASS (1 test)"
+    },
+    {
+      "command": "PYTHONDONTWRITEBYTECODE=1 python3 /Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-communication-worker-01-fallback-20260925-1647/.github/skills/ralph-loop/tests/test_multi_agent_contract.py",
+      "result": "PASS (29 tests)"
+    },
+    {
+      "command": "git diff --check",
+      "result": "PASS"
+    },
+    {
+      "command": "git show --check --format=oneline d93041a2d19108929e44e03b2b977429e56ed6fa -- .github/skills/agent-communication/SKILL.md",
+      "result": "PASS"
+    },
+    {
+      "command": "Ruby YAML parse and compare status memory_handoff, implementation SHA, and attestation time with the latest progress sign-off JSON",
+      "result": "PASS"
+    }
+  ],
+  "blockers": [],
+  "attested_at_utc": "2026-09-25T18:02:51Z",
+  "attestation_kind": "SELF_ATTESTATION",
+  "cryptographic_signature_status": "NOT_CRYPTOGRAPHICALLY_SIGNED",
+  "statement": "I, worker-01, sign off iteration 1 for agent-communication-skill at exact implementation commit d93041a2d19108929e44e03b2b977429e56ed6fa.",
+  "memory_handoff": {
+    "implementation_summary": "Added Copilot skill guidance for host-reported fixed/shared message limits: fail the route, avoid new-session or relay-spawn bypasses, and prefer an already available durable coordination channel or report blocked.",
+    "lesson_candidates": [
+      {
+        "rule": "Treat asynchronous message acceptance or queueing as delivery state, not proof of processing or preemption, and reject any instruction once its expires_at is reached regardless of priority.",
+        "why": "Busy-session delivery is not cancellation, and stale instructions must not trigger actions or side effects.",
+        "scope": "Copilot session-agent communication using asynchronous send_message.",
+        "evidence": [
+          "The final agent-communication skill at commit d93041a2d19108929e44e03b2b977429e56ed6fa distinguishes host acceptance/queueing from processing and task completion, documents non-preemption and expired-instruction rejection, and adds the bounded fixed/shared message-limit fallback.",
+          "The focused communication contract passed and the full 29-test contract suite passed; the existing fixed/shared-cap evidence remains in .github/memory/tooling.md rather than being duplicated here.",
+          "The worker's user-reported live experiment observed an expired urgent cooperative interrupt being acted on; the earlier implementation added the normative expiry rejection rule."
+        ]
+      }
+    ],
+    "no_durable_lessons_reason": null
+  }
+}
+```

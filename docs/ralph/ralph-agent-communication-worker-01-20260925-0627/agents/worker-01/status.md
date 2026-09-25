@@ -7,15 +7,15 @@ task_ids: ["agent-communication-skill"]
 worker_id: "worker-01"
 worker_name: "worker-01 / agent communication skill"
 runtime_agent_id: "4b590f58-600f-4d99-92b7-29db9c14b7a4"
-branch: "ralph/agent-communication-worker-01-20260925-0627"
+branch: "ralph/agent-communication-worker-01-fallback-20260925-1647"
 branch_slug: "ralph-agent-communication-worker-01-20260925-0627"
-worktree: "/Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-communication-worker-01-20260925-0627"
+worktree: "/Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-communication-worker-01-fallback-20260925-1647"
 iteration: 1
 status: AWAITING_MERGE
 started_at_utc: "2026-09-25T07:49:20Z"
-updated_at_utc: "2026-09-25T14:10:21Z"
+updated_at_utc: "2026-09-25T18:02:51Z"
 resource_usage:
-  time_spent_seconds: 22861
+  time_spent_seconds: 36811
   time_basis: WALL_CLOCK_ELAPSED
   token_spend:
     status: NOT_REPORTED
@@ -26,8 +26,8 @@ resource_usage:
     source: null
 base_origin_main_sha: "20293c720b18a1a21ff150f566823493b7a2717d"
 rebased_onto_origin_main_sha: null
-implementation_commit_sha: "00f775d0c4cda85bfd047f529adbd15d75564b00"
-worker_series_head_sha: "719f457611d028fbba27bc3c4a7b75da8cdc1f19"
+implementation_commit_sha: "d93041a2d19108929e44e03b2b977429e56ed6fa"
+worker_series_head_sha: "d93041a2d19108929e44e03b2b977429e56ed6fa"
 pull_request:
   status: NOT_OPENED
   number: null
@@ -49,30 +49,26 @@ merge_actor_worker_id: null
 decision_record_path: "docs/decisions/ralph-agent-communication-worker-01-20260925-0627/agents/worker-01/pr-not-opened.md"
 decision_index_path: "docs/decisions/ralph-agent-communication-worker-01-20260925-0627/README.md"
 checks:
-  - command: "git -C /Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-communication-worker-01-metadata-20260925-2c6be4d1 diff-tree --no-commit-id --name-only -r 00f775d0c4cda85bfd047f529adbd15d75564b00"
+  - command: "PYTHONDONTWRITEBYTECODE=1 python3 /Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-communication-worker-01-fallback-20260925-1647/.github/skills/ralph-loop/tests/test_multi_agent_contract.py MultiAgentContractTests.test_inter_session_communication_contract_is_actionable_and_bounded"
     result: PASS
-  - command: "Exact-SHA 37-term agent-message/v1 skill audit at 00f775d0c4cda85bfd047f529adbd15d75564b00 (full command and 37/37 result in progress.md)"
+  - command: "PYTHONDONTWRITEBYTECODE=1 python3 /Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-communication-worker-01-fallback-20260925-1647/.github/skills/ralph-loop/tests/test_multi_agent_contract.py"
+    result: PASS (29 tests)
+  - command: "git -C /Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-communication-worker-01-fallback-20260925-1647 show --check --format=oneline d93041a2d19108929e44e03b2b977429e56ed6fa -- .github/skills/agent-communication/SKILL.md"
     result: PASS
-  - command: "git -C /Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-communication-worker-01-metadata-20260925-2c6be4d1 show --check --format=oneline 00f775d0c4cda85bfd047f529adbd15d75564b00 -- .github/skills/agent-communication/SKILL.md"
+  - command: "git -C /Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-communication-worker-01-fallback-20260925-1647 diff --check"
     result: PASS
-  - command: "git -C /Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-communication-worker-01-metadata-20260925-2c6be4d1 merge-base --is-ancestor 00f775d0c4cda85bfd047f529adbd15d75564b00 8bdc0f495bfe291be94a234d6b8aa350d1ff7419"
-    result: PASS
-  - command: "git -C /Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-communication-worker-01-metadata-20260925-2c6be4d1 merge-base --is-ancestor 719f457611d028fbba27bc3c4a7b75da8cdc1f19 8bdc0f495bfe291be94a234d6b8aa350d1ff7419"
-    result: PASS
-  - command: "git -C /Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-communication-worker-01-metadata-20260925-2c6be4d1 diff --check"
-    result: PASS
-  - command: "Ruby YAML parse and compare memory_handoff and worker sign-off with final progress JSON"
+  - command: "Ruby YAML parse and compare status memory_handoff, implementation SHA, and attestation time with the latest progress sign-off JSON"
     result: PASS
 blockers: []
-next_action: "Coordinator: integrate this metadata-only worker-01 follow-up with the parent-to-main transaction, then complete the post-merge memory review."
+next_action: "Coordinator: integrate the worker-01 message-limit fallback into the parent and synchronize the dashboard; complete the post-merge memory review after final main integration."
 parent_branch: "ralph/agent-communication-parent-20260925-0627"
 parent_worktree: "/Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-communication-parent-20260925-0627"
 parent_base_origin_main_sha: "20293c720b18a1a21ff150f566823493b7a2717d"
-parent_rebased_onto_origin_main_sha: "65ed98d9c3169953f05477d4d248236e1f514542"
-current_origin_main_sha: "5e673fa5235b99bd36c1cd56ea7d2dab6e7562c0"
-parent_implementation_commit_sha: "8bdc0f495bfe291be94a234d6b8aa350d1ff7419"
-base_parent_sha: "0294550c92a5d79e1cca682a0c509b5bb6eca3fd"
-rebased_onto_parent_sha: "8bdc0f495bfe291be94a234d6b8aa350d1ff7419"
+parent_rebased_onto_origin_main_sha: "c1ac03a4d3378789450b7ac59a655fcbff974241"
+current_origin_main_sha: "d8af3e8d87cd32aaab128bb6edabd6e8402da5e4"
+parent_implementation_commit_sha: "db6d18e1c49fe3a0af962b0b3c6add156b4ca460"
+base_parent_sha: "15d0597d1bf693f9ebea3c348ad73d160e896fee"
+rebased_onto_parent_sha: "3257768c7e43824d38a46f89e751add006d0790e"
 worker_to_parent_merge_history:
   - sha: "808bc8819c898d27db9a22dcc670b96c953780b4"
     verified_parent_sha: "5fcc24764d2604e124587b302460f2af523694d8"
@@ -189,12 +185,12 @@ worker_to_parent_merge_history:
     verification_method: "git merge-base --is-ancestor 719f457611d028fbba27bc3c4a7b75da8cdc1f19 8bdc0f495bfe291be94a234d6b8aa350d1ff7419"
     verified_at_utc: "2026-09-25T14:04:04Z"
 worker_to_parent_merge:
-  status: VERIFIED
-  sha: "719f457611d028fbba27bc3c4a7b75da8cdc1f19"
+  status: PENDING
+  sha: null
   verified_parent_ref: "refs/heads/ralph/agent-communication-parent-20260925-0627"
-  verified_parent_sha: "8bdc0f495bfe291be94a234d6b8aa350d1ff7419"
-  verification_method: "git merge-base --is-ancestor 719f457611d028fbba27bc3c4a7b75da8cdc1f19 8bdc0f495bfe291be94a234d6b8aa350d1ff7419"
-  verified_at_utc: "2026-09-25T14:04:04Z"
+  verified_parent_sha: null
+  verification_method: null
+  verified_at_utc: null
 cleanup:
   worktree: PENDING
   local_branch: PENDING
@@ -203,21 +199,22 @@ worker_sign_off:
   status: RECEIVED
   attestation_kind: SELF_ATTESTATION
   cryptographic_signature_status: NOT_CRYPTOGRAPHICALLY_SIGNED
-  attested_at_utc: "2026-09-25T14:10:21Z"
-  statement: "I, worker-01, sign off iteration 1 for agent-communication-skill at exact implementation commit 00f775d0c4cda85bfd047f529adbd15d75564b00."
+  attested_at_utc: "2026-09-25T18:02:51Z"
+  statement: "I, worker-01, sign off iteration 1 for agent-communication-skill at exact implementation commit d93041a2d19108929e44e03b2b977429e56ed6fa."
 commit_signature_verification:
   status: NOT_CRYPTOGRAPHICALLY_SIGNED
   verifier: null
   evidence: null
   verified_at_utc: null
 memory_handoff:
-  implementation_summary: "Implemented a standalone Copilot skill for destination-verified asynchronous agent messaging, bounded checkpoints, acknowledgments, and cooperative interrupts."
+  implementation_summary: "Added Copilot skill guidance for host-reported fixed/shared message limits: fail the route, avoid new-session or relay-spawn bypasses, and prefer an already available durable coordination channel or report blocked."
   lesson_candidates:
     - rule: "Treat asynchronous message acceptance or queueing as delivery state, not proof of processing or preemption, and reject any instruction once its expires_at is reached regardless of priority."
       why: "Busy-session delivery is not cancellation, and stale instructions must not trigger actions or side effects."
       scope: "Copilot session-agent communication using asynchronous send_message."
       evidence:
-        - "The agent-communication skill at commit 00f775d0c4cda85bfd047f529adbd15d75564b00 distinguishes task-result deadlines from reply checkpoints, separates acknowledgment stages, documents non-preemption, and requires expired-message rejection with no action."
-        - "The worker's user-reported live experiment observed an expired urgent cooperative interrupt being acted on; the implementation added the normative expiry rejection rule."
+        - "The final agent-communication skill at commit d93041a2d19108929e44e03b2b977429e56ed6fa distinguishes host acceptance/queueing from processing and task completion, documents non-preemption and expired-instruction rejection, and adds the bounded fixed/shared message-limit fallback."
+        - "The focused communication contract passed and the full 29-test contract suite passed; the existing fixed/shared-cap evidence remains in .github/memory/tooling.md rather than being duplicated here."
+        - "The worker's user-reported live experiment observed an expired urgent cooperative interrupt being acted on; the earlier implementation added the normative expiry rejection rule."
   no_durable_lessons_reason: null
 ```
