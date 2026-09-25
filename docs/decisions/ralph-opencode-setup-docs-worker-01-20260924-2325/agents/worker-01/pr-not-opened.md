@@ -156,4 +156,8 @@
   line-wrapping mismatch; exact command and result are in iteration 2
   progress.
 - **Working-tree `git diff --check`:** **PASS** for the pending iteration-2
-  record edits. The required post-commit base-to-HEAD check remains to be run.
+  record edits.
+- **Post-commit `git diff --check
+  8da9310fda1b2e3042a379081dfb0675f1b22d6b..HEAD`:** **PASS** through
+  worker-record commit `1e085323e8009ad2999819b56062f006782b6f31`; rerun
+  after this verification-record update.

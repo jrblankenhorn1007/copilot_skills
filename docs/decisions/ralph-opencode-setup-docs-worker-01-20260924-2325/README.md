@@ -68,8 +68,10 @@
   installation and provider setup content, and Copilot CLI runtime guard are
   present.
 - **Iteration-2 whitespace check:** `git diff --check` passed for the worker
-  record edits. The required post-commit base-to-HEAD check is recorded after
-  it runs.
+  record edits. `git diff --check
+  8da9310fda1b2e3042a379081dfb0675f1b22d6b..HEAD` also passed after
+  worker-record commit `1e085323e8009ad2999819b56062f006782b6f31`; it will
+  be rerun after this verification-record update.
 - **Current integration dependency:** The coordinator must add the worker
   leaf to `docs/ralph-status.md` and rerun the contract suite before
   integration; this worker remains `AWAITING_MERGE`.

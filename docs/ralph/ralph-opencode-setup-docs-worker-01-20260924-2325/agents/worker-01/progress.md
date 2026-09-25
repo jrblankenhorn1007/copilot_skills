@@ -200,6 +200,13 @@ confirmed working OpenCode.
 
 - `git diff --check` — **PASS** for the iteration-2 worker-record working
   tree.
+- `git diff --check 8da9310fda1b2e3042a379081dfb0675f1b22d6b..HEAD` —
+  **PASS** after worker-record commit
+  `1e085323e8009ad2999819b56062f006782b6f31`. The exact check will be rerun
+  after this verification-record update.
+- The contract suite was rerun after commit
+  `1e085323e8009ad2999819b56062f006782b6f31`; it again ran 13 tests and
+  failed only the dashboard-index assertion for this unindexed worker leaf.
 - The dashboard-index failure is a coordinator-owned integration dependency;
   the leaf state remains `AWAITING_MERGE` until the coordinator adds both
   worker paths and reruns the contract suite.
