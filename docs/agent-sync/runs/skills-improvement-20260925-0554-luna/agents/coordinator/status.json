@@ -27,7 +27,7 @@
   },
   "prompt_path": "docs/agent-sync/runs/skills-improvement-20260925-0554-luna/agents/coordinator/prompt.md",
   "prompt_sha256": "21a20cba452a600f6f3af29c1ee6d611ac302f4b38626e6c3515bc7277996c89",
-  "revision": 6,
+  "revision": 7,
   "run_id": "skills-improvement-20260925-0554-luna",
   "schema_version": 1,
   "sign_in_at_utc": "2026-09-25T10:49:43Z",
@@ -39,10 +39,10 @@
     "summary": null
   },
   "started_at_utc": "2026-09-25T10:49:43Z",
-  "status": "IN_PROGRESS",
-  "status_reason": "Worker-01 Agentic Eval content is byte-identical to the Luna-authored source, integrated and verified on parent 6169687971518094a91f9445f00c6e2e356b2844, and worker-01 COMPLETE ledger revision 2 is on remote main. Worker-02 awaits an isolated serial replay from this parent. Parent PR still needs an independent reviewer, currently unavailable at the Resource Manager limit; this runtime's live model profile is not reported.",
+  "status": "BLOCKED",
+  "status_reason": "Both Luna-authored skill changes are byte-identical to their source commits and integrated with the README workflow on parent PR #2 at published head 9e0664bf3f3b78101dc13862d76e58ac21b1d5b9. Local validation passed 23 Ralph and one Project Memory contract tests, dashboard union and 103 local links. Independent Ralph Code and Security Reviewers cannot be launched: the Resource Manager reports capacity two and 10 active agents. No CI checks are configured; no parent-to-main merge or post-merge memory review has occurred. This coordinator runtime's model profile is not provider-reported. Preserve PR #2 and worktrees; obtain exact-SHA independent reviews and required approvals before merge.",
   "task_id": "skill-improvement-workflow-readme",
-  "updated_at_utc": "2026-09-25T12:52:37Z",
+  "updated_at_utc": "2026-09-25T13:23:27Z",
   "worker_id": "coordinator",
   "worker_name": "coordinator - skills improvement workflow"
 }
