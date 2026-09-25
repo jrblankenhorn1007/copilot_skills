@@ -233,3 +233,44 @@
   `91a6f78fa00cde80a80bea630a763d74041a56ad` base onto the latest
   `origin/main`, resolve dashboard conflicts by preserving concurrent runs,
   then rerun the targeted and full contract checks.
+
+## 2026-09-25T10:46:27Z — final parent refresh and ledger sign-in
+
+- **Parent rebase:** Rebased the integrated parent from
+  `6f848cd99cf5863a404854c388d5ab8864d4f051` onto fetched
+  `origin/main` `70b8e200807e4f1ca4c96cd4a1b20fce2744695f`, producing
+  `ce955f4955f779819d0ac1f5fbd4ffe384cbe90f`. Worker-01 and worker-02
+  series heads `6d16a3a6c09901238050085de1563495ed2748ce` and
+  `5d47c35f7c5cef3e17687f86306a7ef470945b13` are verified ancestors.
+- **Fresh sign-offs:** Worker-01 attested implementation
+  `72ede0d8e05deab32f56699a342ca60dc1b55e5a`; worker-02 attested
+  `26f173ade9d471ca5d07e0e49b24a20f0cee3fba`. Both are
+  `SELF_ATTESTATION` and `NOT_CRYPTOGRAPHICALLY_SIGNED`.
+- **Task ledger:** Published coordinator revision 1 through the agent-sync
+  publisher; status commit `cac1aa786d0f946fc203e4d3164abb7d9557e9ae`
+  was verified, and the reservation was released. Final remote-main tip from
+  that transaction is `173d248e0bda3b0bcec96dc9467b4f24fdec5c70`.
+- **Recovery:** The first publisher invocation used a relative script path
+  absent from the initial worktree and made no changes; retrying with the
+  absolute parent-worktree script path succeeded.
+- **Next:** Synchronize dashboard/leaf states, then fetch and rebase onto the
+  newly advanced `origin/main` before the final test run and verified
+  coordinator-managed fast-forward.
+
+## 2026-09-25T10:51:24Z — synchronized records pass contract suite
+
+- **Status synchronization:** Worker leaves and dashboard now agree on
+  `AWAITING_MERGE`, fresh implementation attestations, current worker-series
+  heads, elapsed wall-clock time, and the parent integration proof. The
+  coordinator decision record documents the normal no-PR fast-forward route.
+- **Green:** `python3
+  .github/skills/ralph-loop/tests/test_multi_agent_contract.py` passed all
+  21 tests after this synchronization.
+- **Whitespace:** `git diff --check` passed across the complete pending
+  status and decision-record changes.
+- **Remote state:** Coordinator ledger sign-in is published; its transaction
+  advanced `origin/main` to
+  `173d248e0bda3b0bcec96dc9467b4f24fdec5c70`. The parent still needs a fresh
+  fetch/rebase from `70b8e200807e4f1ca4c96cd4a1b20fce2744695f`.
+- **Next:** Commit the synchronized run records, fetch and rebase the parent
+  onto the latest `origin/main`, then rerun the full suite and diff checks.

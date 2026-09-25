@@ -143,6 +143,25 @@
   }
   ```
 
+  ## 2026-09-25T10:46:27Z — parent rebase and sign-off refreshed
+
+  - **Implementation sign-off:** Worker-01 supplied a fresh plain-text
+    `SELF_ATTESTATION`, not cryptographically signed, for implementation commit
+    `72ede0d8e05deab32f56699a342ca60dc1b55e5a` at
+    `2026-09-25T10:37:38.962Z`.
+  - **Parent integration:** The parent was rebased from
+    `6f848cd99cf5863a404854c388d5ab8864d4f051` onto fetched
+    `origin/main` `70b8e200807e4f1ca4c96cd4a1b20fce2744695f`, producing
+    `ce955f4955f779819d0ac1f5fbd4ffe384cbe90f`. The current integrated
+    worker-series head is `6d16a3a6c09901238050085de1563495ed2748ce`.
+  - **Verification:** `git merge-base --is-ancestor
+    6d16a3a6c09901238050085de1563495ed2748ce
+    ce955f4955f779819d0ac1f5fbd4ffe384cbe90f` and
+    `git show --check --oneline 72ede0d8e05deab32f56699a342ca60dc1b55e5a`
+    passed.
+  - **Status:** `AWAITING_MERGE`; the parent-to-main merge and coordinator
+    post-merge memory review are still pending.
+
   ## 2026-09-25T10:16:55Z — worker-to-parent integration verified
 
   - **Integration:** The coordinator fast-forwarded worker branch head

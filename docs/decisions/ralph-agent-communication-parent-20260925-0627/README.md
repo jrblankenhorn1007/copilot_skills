@@ -4,16 +4,32 @@
 - **Branch:** `ralph/agent-communication-parent-20260925-0627`
 - **Parent worktree:** `/Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-communication-parent-20260925-0627`
 - **Base `origin/main` SHA:** `20293c720b18a1a21ff150f566823493b7a2717d`
-- **Implementation commit:** Pending
+- **Implementation commit:** `ce955f4955f779819d0ac1f5fbd4ffe384cbe90f`
 - **Agents:** `coordinator`, `worker-01`, `worker-02`
-- **Integration:** Pending; PR route not yet determined
+- **Integration:** Pending; use coordinator-reviewed, verified fast-forward
+  without a PR, as documented by the repository.
 - **Memory review:** Pending
 
 ## Agent records
 
-- [Coordinator / benchmark and integration](agents/coordinator/pr-pending.md)
+- [Coordinator / benchmark and integration](agents/coordinator/pr-not-opened.md)
 
 ## Decisions
+
+### Use the documented no-PR fast-forward path
+
+- **Context:** The active Ralph Loop guidance specifies a
+  coordinator-managed, verified fast-forward without a PR for this repository.
+- **Alternatives:** Open a PR outside the normal path, or push to `main`
+  without the required exclusive-main reservation.
+- **Choice:** Do not open a PR. Rebase and retest the parent against the
+  latest fetched `origin/main`, then perform a coordinator-reviewed
+  fast-forward under the `MERGE` reservation and verify the resulting remote
+  SHA.
+- **Rationale:** This follows the repository's documented integration path
+  without bypassing the main ownership and verification gates.
+- **Consequence:** Worker leaves remain `AWAITING_MERGE` until remote-main
+  integration and post-merge memory review are complete.
 
 ### Use a typed, asynchronous, session-addressed envelope
 
