@@ -13,9 +13,9 @@ worktree: "/Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-communicati
 iteration: 1
 status: IN_PROGRESS
 started_at_utc: "2026-09-25T06:27:34Z"
-updated_at_utc: "2026-09-25T06:47:43Z"
+updated_at_utc: "2026-09-25T07:16:45Z"
 resource_usage:
-  time_spent_seconds: 1209
+  time_spent_seconds: 2951
   time_basis: WALL_CLOCK_ELAPSED
   token_spend:
     status: NOT_REPORTED
@@ -53,8 +53,11 @@ checks:
   - command: "python3 .github/skills/ralph-loop/tests/test_multi_agent_contract.py MultiAgentContractTests.test_inter_session_communication_contract_is_actionable_and_bounded"
     result: FAIL
     evidence: "Expected Red: the new contract assertions fail because the agent-communication skill and pipeline contract have not yet been added."
+  - command: "Copilot Agent Host session benchmark: sum(1..100), split 1..50/51..100, direct message and interrupt probes"
+    result: PASS
+    evidence: "Known answer 5050 verified. Busy messages queued and missed reply deadline; urgent interrupt did not preempt and arrived after expiry. Ready-target message returned Message sent and the result was acknowledged. See docs/agent-communication/baseline-benchmark.md."
 blockers: []
-next_action: "Dispatch worker-01 and worker-02, run the known-answer session-message benchmark, and integrate the owned changes."
+next_action: "Rebase the parent onto refreshed origin/main; collect worker status/sign-offs, integrate both branches, and complete the Green contract test."
 memory_review:
   status: PENDING
   outcome: null

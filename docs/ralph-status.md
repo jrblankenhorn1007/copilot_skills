@@ -195,8 +195,8 @@ runs:
     task_ids: ["generate-relevant-skills-in-translated-ralph-prompt"]
     aggregate_status: BLOCKED
     requested_worker_count: 0
-    effective_worker_count: 0
-    active_worker_count: 0
+    effective_worker_count: 2
+    active_worker_count: 2
     base_origin_main_sha: "9558f99cc34cbed8dd1d24f4f15fc03f5d78b6ea"
     current_origin_main_sha: "9dc821917a5ffe32517c44131c1211291d9b1014"
     verified_origin_main_sha: "9dc821917a5ffe32517c44131c1211291d9b1014"
@@ -334,7 +334,7 @@ runs:
     active_worker_count: 0
     base_origin_main_sha: "20293c720b18a1a21ff150f566823493b7a2717d"
     created_at_utc: "2026-09-25T06:27:34Z"
-    updated_at_utc: "2026-09-25T06:47:43Z"
+    updated_at_utc: "2026-09-25T07:16:45Z"
     coordinator_scope: "Research, benchmark, integrate, and validate a bounded inter-session communication protocol and Copilot skill."
     coordinator_branch: "ralph/agent-communication-parent-20260925-0627"
     coordinator_worktree: "/Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-communication-parent-20260925-0627"
@@ -354,6 +354,33 @@ runs:
         worker_id: "coordinator"
         scope: "Measure a known-answer task with actual session messaging, document baseline and optimization evidence, extend contract tests, and integrate the parent."
         depends_on: []
+    worker_assignments:
+      - worker_id: "worker-01"
+        worker_name: "worker-01 / agent communication skill"
+        branch: "ralph/agent-communication-worker-01-20260925-0627"
+        branch_slug: "ralph-agent-communication-worker-01-20260925-0627"
+        worktree: "/Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-communication-worker-01-20260925-0627"
+        runtime_agent_id: "4b590f58-600f-4d99-92b7-29db9c14b7a4"
+        status: IN_PROGRESS
+        base_parent_sha: "0294550c92a5d79e1cca682a0c509b5bb6eca3fd"
+        implementation_commit_sha: null
+        status_path: "docs/ralph/ralph-agent-communication-worker-01-20260925-0627/agents/worker-01/status.md"
+        progress_path: "docs/ralph/ralph-agent-communication-worker-01-20260925-0627/agents/worker-01/progress.md"
+        decision_record_path: "docs/decisions/ralph-agent-communication-worker-01-20260925-0627/agents/worker-01/pr-not-opened.md"
+        next_action: "Worker-01: create the standalone agent-communication skill and return its verification/sign-off."
+      - worker_id: "worker-02"
+        worker_name: "worker-02 / agent communication pipeline contract"
+        branch: "ralph/agent-communication-worker-02-20260925-0627"
+        branch_slug: "ralph-agent-communication-worker-02-20260925-0627"
+        worktree: "/Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-communication-worker-02-20260925-0627"
+        runtime_agent_id: "f4de98be-e083-4d7d-bbc6-e671670709c7"
+        status: IN_PROGRESS
+        base_parent_sha: "0294550c92a5d79e1cca682a0c509b5bb6eca3fd"
+        implementation_commit_sha: null
+        status_path: "docs/ralph/ralph-agent-communication-worker-02-20260925-0627/agents/worker-02/status.md"
+        progress_path: "docs/ralph/ralph-agent-communication-worker-02-20260925-0627/agents/worker-02/progress.md"
+        decision_record_path: "docs/decisions/ralph-agent-communication-worker-02-20260925-0627/agents/worker-02/pr-not-opened.md"
+        next_action: "Worker-02: define and wire the inter-session interface in Ralph pipeline docs."
     worker_count_note: "Two independent path-owned workstreams are ready; the coordinator owns the shared benchmark, tests, and integration."
     memory_review:
       status: PENDING
@@ -2056,7 +2083,9 @@ branch_agent_index:
 
 | Run | Branch | Agent | Status | Time spent | Token spend | Status file | Progress file | Merge | Memory review |
 |---|---|---|---|---|---|---|---|---|---|
-| `copilot-skills-agent-communication-20260925-0627` | `ralph/agent-communication-parent-20260925-0627` | `coordinator` | `IN_PROGRESS` | `1,209 s (wall-clock)` | `NOT_REPORTED` | [status](./ralph/ralph-agent-communication-parent-20260925-0627/agents/coordinator/status.md) | [progress](./ralph/ralph-agent-communication-parent-20260925-0627/agents/coordinator/progress.md) | `PENDING` | `PENDING` |
+| `copilot-skills-agent-communication-20260925-0627` | `ralph/agent-communication-parent-20260925-0627` | `coordinator` | `IN_PROGRESS` | `2,951 s (wall-clock)` | `NOT_REPORTED` | [status](./ralph/ralph-agent-communication-parent-20260925-0627/agents/coordinator/status.md) | [progress](./ralph/ralph-agent-communication-parent-20260925-0627/agents/coordinator/progress.md) | `PENDING` | `PENDING` |
+| `copilot-skills-agent-communication-20260925-0627` | `ralph/agent-communication-worker-01-20260925-0627` | `worker-01` | `IN_PROGRESS` | `Not yet reported` | `NOT_REPORTED` | [status](./ralph/ralph-agent-communication-worker-01-20260925-0627/agents/worker-01/status.md) | [progress](./ralph/ralph-agent-communication-worker-01-20260925-0627/agents/worker-01/progress.md) | `PENDING` | `PENDING` |
+| `copilot-skills-agent-communication-20260925-0627` | `ralph/agent-communication-worker-02-20260925-0627` | `worker-02` | `IN_PROGRESS` | `Not yet reported` | `NOT_REPORTED` | [status](./ralph/ralph-agent-communication-worker-02-20260925-0627/agents/worker-02/status.md) | [progress](./ralph/ralph-agent-communication-worker-02-20260925-0627/agents/worker-02/progress.md) | `PENDING` | `PENDING` |
 | `copilot-skills-status-report-time-token-20260925` | `ralph/status-report-time-token-20260925-0335` | `coordinator` | `COMPLETE` | `10,023 s (wall-clock)` | `NOT_REPORTED` | [status](./ralph/ralph-status-report-time-token-20260925-0335/agents/coordinator/status.md) | [progress](./ralph/ralph-status-report-time-token-20260925-0335/agents/coordinator/progress.md) | `05b1b23da974ed7b171c3a29ee266e43721d4e7` | `COMPLETE` |
 | `copilot-skills-status-report-time-token-20260925` | `ralph/status-report-time-token-worker-01-20260925-0335` | `worker-01` | `COMPLETE` | `8,057 s (wall-clock)` | `NOT_REPORTED` | [status](./ralph/ralph-status-report-time-token-worker-01-20260925-0335/agents/worker-01/status.md) | [progress](./ralph/ralph-status-report-time-token-worker-01-20260925-0335/agents/worker-01/progress.md) | `019ab357f25e1b04133bacb242460e063d94be9d` | `COMPLETE` |
 | `copilot_skills-agent-status-reporting-20260924` | `ralph/agent-status-reporting-20260924-2313` | `coordinator` | `BLOCKED` | `41,237 s (wall-clock)` | `NOT_REPORTED` | [status](./ralph/ralph-agent-status-reporting-20260924-2313/agents/coordinator/status.md) | [progress](./ralph/ralph-agent-status-reporting-20260924-2313/agents/coordinator/progress.md) | `ca074bea36eda724afd0293f419648e79c0dc9d2` | `PENDING` |

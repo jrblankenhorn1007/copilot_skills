@@ -55,3 +55,60 @@
 - **Next:** Dispatch both workers; conduct the actual session-message
   experiment; record the measured result and platform limitations; then
   rerun the contract and pipeline checks.
+
+## 2026-09-25T07:08:28Z — baseline messaging experiment
+
+- **Known-answer task:** `sum(1..100) = 5050`, split into `1275` and `3775`.
+  A single-agent chat returned the exact answer and verified it by both the
+  Gauss formula and pairwise summation; the response was visible by
+  `07:05:14Z`. Its precise start time was not captured, so no speedup is
+  claimed.
+- **Busy recipient:** A message to a chat that was still working returned
+  `Message queued`. The recipient later acknowledged `bench-20260925-01`,
+  combined `1275 + 3775`, and returned `5050` at `07:01:49Z`. The true
+  enqueue time was only bounded between `06:57:37Z` and `06:59:49Z`, giving
+  a 120–252 second processing-latency interval; its reply missed the
+  `07:00:00Z` deadline but arrived before expiry.
+- **Interruption probe:** A second high-priority `interrupt` also returned
+  `Message queued`; it did not preempt. The recipient processed it at
+  `07:02:22Z`, after its `07:00:49Z` expiry. The recipient followed the
+  stale cooperative-stop request. No external action was involved. The
+  skill must instruct agents to reject expired messages without acting.
+- **Ready recipient refinement:** A separate chat computed `3775` and
+  reported `READY B=3775`. Sending `bench-20260925-optimized-01` returned
+  `Message sent`; the recipient returned `ACK` and `5050` by `07:07:02Z`,
+  at most 108 seconds after its `07:05:14Z` timestamp. This confirms that
+  ready-state routing avoids queueing, but the single sample does not prove
+  a general speedup.
+- **Platform boundary:** `send_message` is a nonblocking sender-side
+  operation; queued messages do not interrupt active work. No hard
+  cancellation tool is exposed in the current host. The usable skill-level
+  improvement is async send + short checkpoints + explicit readiness +
+  separate receipt/processing/completion acknowledgments. A host-level
+  interrupt adapter is required for true preemption.
+- **Experiment artifact:** See
+  `docs/agent-communication/baseline-benchmark.md` for measurements,
+  limitations, and the stopping rationale.
+- **Next:** The direct peer-chat handoff from the single-agent session to the
+  ready receiver is in progress; then integrate workers and complete the
+  optimization review.
+
+## 2026-09-25T07:13:09Z — direct peer-chat result
+
+- Chat A directly sent `bench-20260925-peer-result-01` to chat B using
+  `send_message`; the host reported `Message sent`, not `Message queued`.
+  Chat B replied directly to A with an ACK and the exact result `5050`.
+  The coordinator did not relay the message or synchronously wait. The ACK
+  was visible by `07:13:09Z`; the host did not expose an exact peer-send
+  timestamp, so no precise latency is claimed.
+- The known answer passed in all three measured communication variants:
+  queued busy recipient, ready recipient, and direct peer chat. The
+  direct-chat test is within one Agent Host session; separate independent
+  worktree/remote session types remain unverified.
+- **Diminishing-returns decision:** The ready target avoided queuing, and
+  direct peer routing avoided a coordinator relay. Neither changes the host's
+  inability to preempt an active turn. Further skill/prompt-only variants
+  cannot produce hard interruption; a session-host cancellation capability
+  is the remaining implementation boundary.
+- **Next:** Complete the scoped worker assignments, integrate their leaf
+  records, then run the Green contract test and final status reconciliation.
