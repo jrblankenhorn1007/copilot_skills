@@ -30,6 +30,14 @@ here when a sign-off or terminal disposition is recorded.
 3. Build a project-local review skill from verified code-review guidance and
    evaluation patterns; do not install or copy third-party skills.
 
+4. **Superseding policy:** Limit each branch/PR to two completed review
+   rounds: one initial review and, when needed, one follow-up after the author
+   agent acts on the first report. After the follow-up, the author agent acts
+   on that report alone; no third reviewer pass is dispatched. A clean first
+   report does not need a redundant follow-up. This supersedes the earlier
+   ten-round proposal while retaining SHA binding and all repository merge
+   gates.
+
 ## Research references
 
 - [Google code-review standard](https://google.github.io/eng-practices/review/reviewer/standard.html)

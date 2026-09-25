@@ -74,18 +74,19 @@ license notices are preserved in each skill directory.
 
 ## Pre-merge PR review
 
-Every PR receives an independent Ralph Code Reviewer pass after worker
-sign-off and before the coordinator authorizes the worker-owned merge. Launch
+Every PR receives an independent Ralph Code Reviewer pass after branch-owner
+sign-off and before the applicable merge action. Launch
 Ralph Security Reviewer as well when the diff touches authentication or
 authorization, untrusted input, secrets or sensitive data, cryptography,
 process execution, external boundaries, dependencies, or security
 configuration. Reports are bound to exact base/head SHAs; a changed SHA
 invalidates the report and blocks merge authorization until a fresh review.
-The review loop stops at 10 completed rounds per branch/PR and requires an
-explicit author decision at the cap. A clean report is evidence, not a
-guarantee or replacement for CI, branch protection, or required human
-approvals. The coordinator-managed no-PR fast-forward path remains unchanged
-and records review as `NOT_APPLICABLE`.
+Allow at most two completed rounds per branch/PR: an initial review and one
+follow-up after the author agent acts on the first report. After the follow-up,
+the author agent acts on that report alone; no third reviewer pass is launched.
+A clean report is evidence, not a guarantee or replacement for CI, branch
+protection, or required human approvals. The coordinator-managed no-PR
+fast-forward path remains unchanged and records review as `NOT_APPLICABLE`.
 
 ## Using the agent and model controls
 

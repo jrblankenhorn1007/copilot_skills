@@ -10,7 +10,7 @@
 - **Base `origin/main` SHA:** `485b4a64c871f581f9295e46c867b188b0e3ccee`
 - **Status:** `IN_PROGRESS`
 
-### Acceptance slice
+### Initial acceptance slice (superseded)
 
 Add an independent AI code-review step before each PR-backed Ralph merge,
 specialized reviewer agents, a hard limit of ten reviewer/author rounds per
@@ -18,6 +18,10 @@ branch, and an explicit author decision once that limit is reached. Preserve
 the current coordinator-authorization, branch-owner merge, CI, and human
 approval requirements. Keep the existing no-PR fast-forward workflow
 unchanged.
+
+The user later superseded the proposed ten-round limit: allow one initial
+review and at most one follow-up, then have the author agent act on that
+follow-up report alone without a third reviewer pass.
 
 ### Setup and repository evidence
 
@@ -162,3 +166,51 @@ recorded in the timestamped progress entry below.
 - **Queued follow-up:** do not start the `dj_maxxed_beats`
   `docs/implementation/` branch-log organization until this iteration's
   merge and memory review are verified.
+
+## 2026-09-25T06:03:03Z — two-round policy update
+
+- **Policy change:** the user replaced the original ten-round proposal with
+  at most two completed review rounds: an initial review and, only when
+  needed, one follow-up after author-agent action. After the follow-up, the
+  author agent records and acts on that report alone; no third reviewer pass
+  is dispatched. A clean first report can proceed through the ordinary merge
+  gates without a redundant follow-up.
+- **TDD Red:** before updating the policy documentation, ran
+  `python3 .github/skills/ralph-loop/tests/test_multi_agent_contract.py MultiAgentContractTests.test_two_review_rounds_end_with_author_agent_action`
+  from the coordinator worktree. It failed because the two-round limit and
+  final author-agent action were absent.
+- **Focused Green:** ran
+  `python3 /Users/jrblankenhorn/copilot_skills.worktrees/ralph-code-review-gate-20260924-2131/.github/skills/ralph-loop/tests/test_multi_agent_contract.py MultiAgentContractTests.test_two_review_rounds_end_with_author_agent_action MultiAgentContractTests.test_review_evidence_and_states_are_in_leaf_and_dashboard_schemas MultiAgentContractTests.test_pr_review_gate_is_independent_read_only_and_sha_bound MultiAgentContractTests.test_parent_child_pr_merge_targets_and_status_gate_memory_review`;
+  all four passed.
+- **Full Green:** ran
+  `python3 /Users/jrblankenhorn/copilot_skills.worktrees/ralph-code-review-gate-20260924-2131/.github/skills/ralph-loop/tests/test_multi_agent_contract.py`;
+  all 18 tests passed.
+- **Refinement:** strengthened the policy contract test to assert that the
+  final author-agent action follows the two-round rule and that active
+  contract/status docs no longer advertise `max_rounds: 10`. The focused
+  four-test command and full 18-test suite both pass after this refinement.
+- **Diff check:** `git -C /Users/jrblankenhorn/copilot_skills.worktrees/ralph-code-review-gate-20260924-2131 diff --check`
+  passed.
+- **Recovered setup issue:** one focused test invocation ran from the
+  session's other worktree and could not discover the target test methods.
+  Re-running the same tests via the absolute path in the coordinator
+  worktree passed; this was not a behavior Red.
+- **Refresh/rebase:** the clean primary worktree at
+  `/Users/jrblankenhorn/copilot_skills` was refreshed with `git pull
+  --ff-only` and is attached to `main`, tracking `origin/main` at
+  `e9fe3d175d1ca76b03fccdbe53431205b80e5c23`. The coordinator branch still
+  needs rebasing onto that latest SHA; rerun checks after the rebase.
+
+## 2026-09-25T06:08:26Z — origin and identity preflight
+
+- The primary integration worktree
+  `/Users/jrblankenhorn/copilot_skills` is clean, attached to `main`, and
+  matches `origin/main` at `e9fe3d175d1ca76b03fccdbe53431205b80e5c23`.
+  `git pull --ff-only` reported no updates.
+- `git fetch origin` in the coordinator worktree passed and returned the same
+  `origin/main` SHA. `git var GIT_AUTHOR_IDENT` and
+  `git var GIT_COMMITTER_IDENT` both returned configured identities; no
+  identity values are copied into this log.
+- No external integration blocker is present. Rebase this unpublished
+  coordinator branch onto the latest `origin/main`, then rerun the contract
+  suite before integration.

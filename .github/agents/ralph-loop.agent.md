@@ -34,16 +34,17 @@ report your verification evidence back to it.
 
 ## Independent PR review agents
 
-For each PR-backed iteration, the top-level coordinator launches the
-independent **Ralph Code Reviewer** after worker sign-off and before merge
-authorization. Launch **Ralph Security Reviewer** as well when the change
+For every PR-backed iteration, the top-level coordinator launches the
+independent **Ralph Code Reviewer** after branch-owner sign-off and before
+any merge action. Launch **Ralph Security Reviewer** as well when the change
 touches authentication or authorization, untrusted input, secrets or
 sensitive data, cryptography, process execution, external boundaries,
 dependencies, or security configuration. Pass both exact full base and head
 SHAs, the PR diff, relevant acceptance criteria, and available check results.
 Use the shared
 [PR review skill](../skills/ralph-pr-review/SKILL.md) and keep the author and
-reviewers separate.
+reviewers separate. Complete review before coordinator authorization for a
+worker-owned child PR and before the coordinator merges its own parent PR.
 
 Only the top-level coordinator dispatches reviewers through the host's
 `agent/runSubagent` tool. Workers do not create nested agents. Both reviewers
@@ -51,14 +52,19 @@ are read-only and may report findings but cannot edit, apply fixes, authorize,
 or merge. If the host cannot invoke the named reviewers, record review as
 `BLOCKED`; do not substitute self-review or claim the gate passed. The
 coordinator records the reports and verifies that both SHAs still match the
-PR before authorization. A changed SHA makes the report stale.
+PR before the applicable merge action. A changed SHA makes the report stale.
 
-Stop after 10 completed review rounds for a branch/PR; never launch round 11.
-At the cap, pause until the author records one allowed choice and a
-non-empty rationale in the status and decision records. The choice does not
-override CI, branch protection, or required human approvals. For the existing
-no-PR fast-forward path, record review as `NOT_APPLICABLE` and launch no
-reviewer.
+Allow at most 2 completed review rounds per branch/PR: one initial review and,
+when needed, one follow-up review after the author agent acts on the first
+report. A clean initial report may proceed through normal merge gates without
+an unnecessary follow-up. After round 2, the author agent acts on the
+follow-up report alone; do not dispatch a third reviewer pass. Record its
+final action and non-empty rationale in the status and decision records. The
+action does not override CI, branch protection, or required human approvals.
+If it changes the PR head, the report is stale and the updated head needs
+required human review through the normal process, not a third agent review on
+the same branch/PR. For the existing no-PR fast-forward path, record review
+as `NOT_APPLICABLE` and launch no reviewer.
 
 This agent intentionally leaves `tools` unset to preserve the harness's
 existing development capabilities. The host must expose `agent/runSubagent`

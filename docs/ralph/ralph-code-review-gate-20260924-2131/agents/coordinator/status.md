@@ -11,18 +11,19 @@
 | Branch / slug | `ralph/code-review-gate-20260924-2131` / `ralph-code-review-gate-20260924-2131` |
 | Worktree | `/Users/jrblankenhorn/copilot_skills.worktrees/ralph-code-review-gate-20260924-2131` |
 | Started at UTC | `2026-09-25T01:40:57Z` |
-| Updated at UTC | `2026-09-25T03:11:15Z` |
+| Updated at UTC | `2026-09-25T06:08:26Z` |
 | Base `origin/main` SHA | `485b4a64c871f581f9295e46c867b188b0e3ccee` |
 | Rebased onto `origin/main` | `114e4d60567d05cd048916339ed86e324c6eeef3` |
+| Latest observed `origin/main` SHA | `e9fe3d175d1ca76b03fccdbe53431205b80e5c23` |
 | Implementation commit SHA | `null` |
 | Pull request | `NOT_OPENED` — existing project records use coordinator-managed verified fast-forward integration. |
 | Decision record | `docs/decisions/ralph-code-review-gate-20260924-2131/agents/coordinator/pr-not-opened.md` |
 | PR code review | `NOT_APPLICABLE` — this documentation run has no PR. The new review gate applies to PR-backed iterations. |
 | Merge | `PENDING` |
 | Memory review | `PENDING` |
-| Checks | Focused review tests and the full 15-test contract suite pass on the combined coordinator tree; final diff validation remains pending. |
-| Blockers | The shared local `main` worktree is clean but eight commits ahead of fetched `origin/main`; preserve it and pause integration until that state is safe. |
-| Next action | Finish diff validation, commit the coordinator iteration, and integrate only after the shared main worktree is safe. |
+| Checks | Four focused contract tests and the full 18-test Ralph contract suite pass; `git diff --check` passes before the required rebase. |
+| Blockers | None. Rebase this unpublished branch onto the latest `origin/main` and rerun checks before integration. |
+| Next action | Rebase onto `e9fe3d175d1ca76b03fccdbe53431205b80e5c23`, inspect conflicts/diff, rerun checks, then commit and integrate through the existing verified fast-forward path. |
 
 ## Split plan
 
@@ -34,8 +35,8 @@
   documentation contract tests, and README discovery links.
 - The review contract is shared up front: one independent code reviewer on
   every PR; a security specialist for security-sensitive diffs; base/head
-  SHA-bound reviews; at most ten review rounds; an explicit author decision
-  at the cap.
+  SHA-bound reviews; at most two review rounds (an initial review and one
+  follow-up when needed); the author agent acts on the final report alone.
   The implementation paths are disjoint.
 
 ## Integration and memory review

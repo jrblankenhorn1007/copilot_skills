@@ -28,7 +28,7 @@ review:
   reviewed_base_sha: null
   reviewed_head_sha: null
   rounds_completed: 0
-  max_rounds: 10
+  max_rounds: 2
   unresolved_finding_count: 0
   author_decision:
     status: NOT_APPLICABLE

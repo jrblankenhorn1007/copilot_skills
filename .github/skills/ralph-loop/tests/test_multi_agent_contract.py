@@ -290,6 +290,34 @@ class MultiAgentContractTests(unittest.TestCase):
             "the project Ralph prompt must use worker-owned PR merging",
         )
 
+    def test_parent_child_pr_merge_targets_and_status_gate_memory_review(self):
+        merge_guide = read_document(
+            ".github/skills/ralph-loop/references/worker-pr-merging.md"
+        )
+        assert_all_contains(
+            self,
+            merge_guide,
+            "child-to-parent pr, verify that the merge sha is reachable from the current parent branch (the pr base)|"
+            "parent-to-main or single-branch pr, verify it on fetched `origin/main`|"
+            "memory review only after the final parent-to-main merge|"
+            "git merge-base --is-ancestor <merge-sha> <parent-base-ref>|"
+            "git merge-base --is-ancestor <merge-sha> origin/main",
+            "PR merge verification must follow the actual integration target",
+        )
+
+        ralph_skill = read_document(".github/skills/ralph-loop/SKILL.md")
+        assert_all_contains(
+            self,
+            ralph_skill,
+            "child-to-parent merge is verified on the current parent branch|"
+            "worker may become `complete`|"
+            "overall run remains `in_progress` until final parent-to-main verification|"
+            "coordinator's post-merge memory review|"
+            "single-branch iteration|"
+            "remote-main merge and required post-merge memory review are complete",
+            "child completion must not wait for parent memory review",
+        )
+
     def test_pr_review_gate_is_independent_read_only_and_sha_bound(self):
         docs = " ".join(
             read_document(path)
@@ -305,8 +333,9 @@ class MultiAgentContractTests(unittest.TestCase):
             "for every pr-backed iteration|ralph code reviewer|"
             "ralph security reviewer|read-only|exact full|stale|"
             "branch protection|human approval|if the diff touches|"
-            "security configuration|after worker sign-off|"
-            "before the coordinator authorizes|review.status: not_applicable|"
+            "security configuration|after branch-owner sign-off|"
+            "before any merge action|"
+            "review.status: not_applicable|"
             ".github/skills/ralph-pr-review/skill.md",
             "PR review contract",
         )
@@ -368,7 +397,7 @@ class MultiAgentContractTests(unittest.TestCase):
             "Ralph Loop must be able to dispatch both reviewer subagents",
         )
 
-    def test_review_round_cap_requires_an_explicit_author_decision(self):
+    def test_two_review_rounds_end_with_author_agent_action(self):
         contract = " ".join(
             read_document(path)
             for path in (
@@ -380,15 +409,27 @@ class MultiAgentContractTests(unittest.TestCase):
         assert_all_contains(
             self,
             contract,
-            "10 completed review rounds per branch/pr|"
-            "first completed reviewer report|round 1|max_rounds: 10|"
+            "2 completed review rounds per branch/pr|one follow-up review|"
+            "first completed reviewer report|round 1|max_rounds: 2|"
+            "author agent acts on the follow-up report alone|"
+            "third reviewer pass|"
             "rounds_completed|fix_manually|"
             "accept_findings_and_request_merge|escalate_for_human_review|"
             "close|rationale",
-            "review round cap and author-choice contract",
+            "two review rounds and final author-agent action",
         )
+        self.assertLess(
+            contract.index("2 completed review rounds per branch/pr"),
+            contract.index("author agent acts on the follow-up report alone"),
+            "the author agent must act after the two-round review sequence",
+        )
+        self.assertNotIn("max_rounds: 10", contract)
+        self.assertNotIn("10 completed review rounds per branch/pr", contract)
         self.assertTrue(
-            any(x in contract for x in ("round 11", "11th round", "11th review"))
+            any(
+                x in contract
+                for x in ("round 3", "third round", "third reviewer pass")
+            )
         )
 
     def test_review_evidence_and_states_are_in_leaf_and_dashboard_schemas(self):
@@ -403,7 +444,7 @@ class MultiAgentContractTests(unittest.TestCase):
         )[0].lower()
         fields = (
             "review:|reviewer_agents:|reviewed_base_sha:|"
-            "reviewed_head_sha:|rounds_completed:|max_rounds: 10|"
+            "reviewed_head_sha:|rounds_completed:|max_rounds: 2|"
             "unresolved_finding_count:"
             "|author_decision:|choice:|rationale:|base_sha:|head_sha:"
         )

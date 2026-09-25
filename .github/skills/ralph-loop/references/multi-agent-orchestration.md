@@ -147,14 +147,16 @@ shared checkout. The worker must:
 ### Independent pre-merge review gate
 
 For every PR-backed iteration, whether child-to-parent or parent-to-main,
-after the branch owner's sign-off and before merge authorization, the
-coordinator launches an independent **Ralph Code Reviewer**. Also launch
+after branch-owner sign-off and before any merge action, the coordinator
+launches an independent **Ralph Code Reviewer**. Also launch
 **Ralph Security Reviewer** if the diff touches authentication or
 authorization, untrusted input, secrets or sensitive data, cryptography,
 process execution, external boundaries, dependencies, or security
 configuration. The reviewer is not the author, follows
 `.github/skills/ralph-pr-review/SKILL.md`, and is read-only; it reports
 findings without editing files, applying fixes, or merging.
+Complete review before coordinator authorization for a worker-owned child PR
+and before the coordinator merges its own parent PR.
 
 Each review pass is bound to the exact full base and head commit SHAs. Before
 authorization, the coordinator confirms both still match the current PR. A
@@ -170,17 +172,21 @@ and nits are not merge blockers unless they violate a written project
 standard. Use structured findings and an adversarial check for relevance;
 do not add unverified numeric scores or broad autonomous fixing.
 
-There are at most **10 completed review rounds per branch/PR**. One round is
-one complete pass for an exact base/head pair; the first completed reviewer
-report counts as round 1, with the code and any required security report for
-that same pair forming one pass. Stop at round 10 and never silently reset
-the count or launch round 11. At the cap, pause for the author's recorded
-choice and rationale: `FIX_MANUALLY`, `ACCEPT_FINDINGS_AND_REQUEST_MERGE`,
-`ESCALATE_FOR_HUMAN_REVIEW`, or `CLOSE`. An accept decision permits only
-normal merge consideration and does not override required CI, branch
-protection, or human approval. Any later base/head change remains stale; after
-the cap, obtain any needed fresh human review or use a new branch/PR, not an
-11th agent review on the same branch/PR.
+There are at most **2 completed review rounds per branch/PR**: one initial
+review and, when needed, one follow-up review after the author agent acts on
+the first report. One round is one complete pass for an exact base/head pair; any
+required code and security reports for that pair form one pass. A clean
+initial report may proceed through the normal merge gates without an
+unnecessary follow-up. After round 2, the author agent acts on the follow-up
+report alone, records its final action and rationale, and does not launch a
+third reviewer pass. Its choices are `FIX_MANUALLY`,
+`ACCEPT_FINDINGS_AND_REQUEST_MERGE`, `ESCALATE_FOR_HUMAN_REVIEW`, or `CLOSE`.
+Acceptance permits only normal merge consideration and does not override
+required CI, branch protection, or human approval. A later base/head change
+remains stale; if the author agent changes the head after the follow-up, do
+not merge on that stale report. Obtain any required human review or continue
+through a new PR under the normal process, not a third agent review on the
+same branch/PR.
 
 When a child-to-parent or parent-to-main integration uses a coordinator-managed
 fast-forward without a PR, set review status to `NOT_APPLICABLE`, launch no

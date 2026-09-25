@@ -124,10 +124,11 @@ has one canonical home.
   `COMPLETE`, `FAILED`, or `CANCELLED`. For PR-backed work, use
   `AWAITING_REVIEW` after worker sign-off while the independent review is
   pending or running; use `AWAITING_AUTHOR_DECISION` when findings or the
-  round limit require an explicit author action. A current clean report, or a
-  recorded `ACCEPT_FINDINGS_AND_REQUEST_MERGE` choice at the cap, may advance
-  to `AWAITING_MERGE` only after all other gates are satisfied. The no-PR
-  path skips review and retains its existing integration state. In a
+  two-round limit require the author agent to act. A current clean report, or
+  a recorded `ACCEPT_FINDINGS_AND_REQUEST_MERGE` choice after the final
+  author-agent action, may advance to `AWAITING_MERGE` only after all other
+  gates are satisfied. The no-PR path skips review and retains its existing
+  integration state. In a
   parent/child run, keep a worker `AWAITING_MERGE` until its child change is
   integrated and verified on the current parent branch; after that child
   merge, the worker may become `COMPLETE` while the overall run remains
@@ -161,11 +162,11 @@ Every PR-backed leaf status and dashboard branch/agent entry carries the same
   more unresolved findings; the worker waits in `AWAITING_AUTHOR_DECISION`.
 - `BLOCKED` — a reviewer cannot complete or the review cannot safely proceed;
   merge authorization is blocked.
-- `LIMIT_REACHED` — the maximum 10 completed review rounds per branch/PR
-  have been reached; no 11th round may start, and the author must record a
-  choice.
-- `AUTHOR_DECISION_RECORDED` — the author recorded an allowed choice and
-  rationale; merge eligibility still depends on that choice, current SHAs,
+- `LIMIT_REACHED` — 2 completed review rounds have been reached; no third
+  reviewer pass may start, and the author agent must act on the follow-up
+  report alone.
+- `AUTHOR_DECISION_RECORDED` — the author agent recorded its final action and
+  rationale; merge eligibility still depends on that action, current SHAs,
   and every independent repository gate.
 
 Use these exact fields in the `review` object:
@@ -177,7 +178,7 @@ review:
   reviewed_base_sha: null
   reviewed_head_sha: null
   rounds_completed: 0
-  max_rounds: 10
+  max_rounds: 2
   unresolved_finding_count: 0
   author_decision:
     status: NOT_REQUIRED
@@ -194,34 +195,36 @@ report. Both must equal the current PR SHAs before merge authorization. If
 either current SHA changes, the old report is stale and cannot authorize a
 merge. Below the cap, set the review back to `PENDING` until a fresh report
 for both current SHAs completes. Preserve the completed-round count and the
-previous report SHAs as evidence; never reset the count. At the cap, use
-`LIMIT_REACHED` until the author records a decision, then use
-`AUTHOR_DECISION_RECORDED`; a stale base/head report blocks merge in either
-state. Do not launch an 11th agent review on that branch/PR.
+previous report SHAs as evidence; never reset the count. After findings in
+round 1, the author agent acts on the report before one follow-up review. A
+clean initial report may proceed without an unnecessary follow-up. After
+round 2, set `LIMIT_REACHED`; the author agent acts on the follow-up report
+alone and records its final action and rationale as
+`AUTHOR_DECISION_RECORDED`. Do not launch a third reviewer pass.
 
 One review round is one complete pass for one exact base/head pair. The first
 completed reviewer report counts as round 1; if a security review is required,
 its report and the code review report for that same pair are part of the same
 pass.
 Increment `rounds_completed` only when all required reviewers have completed
-that pass; `max_rounds` is always exactly 10. A completed clean pass sets
+that pass; `max_rounds` is always exactly 2. A completed clean pass sets
 `unresolved_finding_count` to 0. Keep reported findings unresolved until a
-fresh report verifies them or the author explicitly chooses to accept the
-remaining findings at the cap.
+fresh report verifies them or the author agent explicitly chooses to accept
+the remaining findings after the final report.
 
 `author_decision.status` is exactly `NOT_APPLICABLE`, `NOT_REQUIRED`,
 `PENDING`, or `RECORDED`. Use `NOT_APPLICABLE` for a no-PR fast-forward,
 `NOT_REQUIRED` before findings need action or after a clean report, and
-`PENDING` after findings or at the round cap until the author acts. The only
-choices are `FIX_MANUALLY`, `ACCEPT_FINDINGS_AND_REQUEST_MERGE`,
-`ESCALATE_FOR_HUMAN_REVIEW`, and `CLOSE`; use `choice: null` unless status
-is `RECORDED`. Record the choice, non-empty rationale, and
-`recorded_at_utc`. At round 10, an author decision is mandatory. Accepting
-findings permits only normal merge consideration; it does not waive CI,
-branch protection, or required human approval. `FIX_MANUALLY` followed by a
-new commit makes the report stale; after the cap, obtain a fresh human review
-or use a new branch/PR rather than resetting the existing limit. `CLOSE`
-does not authorize a merge.
+`PENDING` after findings or at the two-round limit until the author agent acts.
+The only choices are `FIX_MANUALLY`, `ACCEPT_FINDINGS_AND_REQUEST_MERGE`,
+`ESCALATE_FOR_HUMAN_REVIEW`, and `CLOSE`; use `choice: null` unless status is
+`RECORDED`. Record the choice, non-empty rationale, and
+`recorded_at_utc`. After round 2, the author agent's final action is
+mandatory. Accepting findings permits only normal merge consideration; it
+does not waive CI, branch protection, or required human approval.
+`FIX_MANUALLY` followed by a new commit makes the report stale; obtain any
+required human review through the normal process, not a third agent review.
+`CLOSE` does not authorize a merge.
 
 For a `NOT_OPENED` fast-forward iteration, the review record is explicitly
 not applicable and carries no reviewer or author decision:
@@ -237,7 +240,7 @@ review:
   reviewed_base_sha: null
   reviewed_head_sha: null
   rounds_completed: 0
-  max_rounds: 10
+  max_rounds: 2
   unresolved_finding_count: 0
   author_decision:
     status: NOT_APPLICABLE
@@ -499,7 +502,7 @@ branch_agent_index:
       reviewed_base_sha: null
       reviewed_head_sha: null
       rounds_completed: 0
-      max_rounds: 10
+      max_rounds: 2
       unresolved_finding_count: 0
       author_decision:
         status: NOT_REQUIRED
@@ -542,7 +545,7 @@ branch_agent_index:
       reviewed_base_sha: "<reviewed full base SHA>"
       reviewed_head_sha: "<reviewed full head SHA>"
       rounds_completed: 1
-      max_rounds: 10
+      max_rounds: 2
       unresolved_finding_count: 2
       author_decision:
         status: PENDING
@@ -603,7 +606,7 @@ review:
   reviewed_base_sha: null
   reviewed_head_sha: null
   rounds_completed: 0
-  max_rounds: 10
+  max_rounds: 2
   unresolved_finding_count: 0
   author_decision:
     status: NOT_REQUIRED

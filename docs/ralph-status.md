@@ -96,16 +96,15 @@ runs:
     effective_worker_count: 2
     active_worker_count: 0
     base_origin_main_sha: "485b4a64c871f581f9295e46c867b188b0e3ccee"
-    current_origin_main_sha: "114e4d60567d05cd048916339ed86e324c6eeef3"
+    current_origin_main_sha: "e9fe3d175d1ca76b03fccdbe53431205b80e5c23"
     created_at_utc: "2026-09-25T01:40:57Z"
-    updated_at_utc: "2026-09-25T03:08:32Z"
-    coordinator_scope: "Add an independent pre-merge code-review step for PR-backed Ralph iterations, specialized reviewer agents, a hard ten-round limit, and an explicit author decision at the limit."
+    updated_at_utc: "2026-09-25T06:08:26Z"
+    coordinator_scope: "Add independent pre-merge code-review agents for PR-backed Ralph iterations, with one initial review, one follow-up review when needed, and a final author-agent action."
     coordinator_branch: "ralph/code-review-gate-20260924-2131"
     coordinator_status_path: "docs/ralph/ralph-code-review-gate-20260924-2131/agents/coordinator/status.md"
     coordinator_progress_path: "docs/ralph/ralph-code-review-gate-20260924-2131/agents/coordinator/progress.md"
-    blockers:
-      - "The shared local main worktree is clean but at 445fa15, eight commits ahead of fetched origin/main 114e4d60567d05cd048916339ed86e324c6eeef3. Preserve it and do not integrate until the primary worktree is safe."
-    next_action: "Coordinator: finish the reviewer artifacts and checks, then integrate only after the shared main worktree is safe."
+    blockers: []
+    next_action: "Coordinator: rebase the unpublished branch onto e9fe3d175d1ca76b03fccdbe53431205b80e5c23, inspect the result, rerun checks, then integrate through the existing verified fast-forward path."
     split_plan:
       - task_id: "code-review-skill-agents"
         worker_id: "worker-01"
@@ -113,7 +112,7 @@ runs:
         depends_on: []
       - task_id: "ralph-review-gate-status"
         worker_id: "worker-02"
-        scope: "Wire mandatory PR review, the ten-round author decision boundary, review status evidence, contract tests, and README guidance."
+        scope: "Wire mandatory PR review, the two-round limit and final author-agent action, review status evidence, contract tests, and README guidance."
         depends_on: []
 
   - run_id: "copilot_skills-parent-child-pipeline-20260924"
@@ -750,7 +749,7 @@ branch_agent_index:
       reviewed_base_sha: null
       reviewed_head_sha: null
       rounds_completed: 0
-      max_rounds: 10
+      max_rounds: 2
       finding_count: 0
       author_decision: null
     merge:
@@ -785,7 +784,7 @@ branch_agent_index:
       reviewed_base_sha: null
       reviewed_head_sha: null
       rounds_completed: 0
-      max_rounds: 10
+      max_rounds: 2
       finding_count: 0
       author_decision: null
     merge:
@@ -821,7 +820,7 @@ branch_agent_index:
       reviewed_base_sha: null
       reviewed_head_sha: null
       rounds_completed: 0
-      max_rounds: 10
+      max_rounds: 2
       finding_count: 0
       author_decision: null
     merge:
