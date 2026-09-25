@@ -11,6 +11,8 @@
 - **PR:** Not opened. The active repository's documented normal integration
   path is coordinator-reviewed fast-forward integration without a PR, as
   recorded in the completed no-browser Git workflow's agent decision record.
+- **Review:** `NOT_APPLICABLE`; this no-PR fast-forward path does not launch a
+  reviewer.
 - **Base `origin/main`:** `114e4d60567d05cd048916339ed86e324c6eeef3`
 - **Previous `origin/main` rebase (superseded by the parent-child rebase):**
   `9558f99cc34cbed8dd1d24f4f15fc03f5d78b6ea`
@@ -19,15 +21,19 @@
   `/Users/jrblankenhorn/copilot_skills.worktrees/ralph-project-memory-update-coordinator-20260925-0223`
 - **Parent base `origin/main`:** `114e4d60567d05cd048916339ed86e324c6eeef3`
 - **Parent rebased onto `origin/main`:**
-  `e9fe3d175d1ca76b03fccdbe53431205b80e5c23`
-- **Latest fetched `origin/main` after child rebase:**
-  `20293c720b18a1a21ff150f566823493b7a2717d` (observed
-  `2026-09-25T06:28:26Z`)
+  `6b1903ec7bfa5c798eb5e48c085bfc3845176bab`
+- **Latest `origin/main` fetched by the worker's required refresh:**
+  `d868d684564658bdc9488e27f5bfeaa592b04338`
+- **Later local tracking-ref observation (not fetched by this worker):**
+  `7ee1307cb47f5a88cd6b46ee135444777ddeb665` at
+  `2026-09-25T08:12:01Z`; its local reflog says `update by push` at
+  `2026-09-25T07:57:39Z`.
 - **Original child parent base:** `114e4d60567d05cd048916339ed86e324c6eeef3`
 - **Previous child parent base:** `8e779409e0fef0bc4550409533e9326efe8d64b4`
-- **Current child rebased onto parent:** `11e5394c7a479e25444945b8db917b58cfb3f086`
-- **Implementation commit SHA:** `c8db0f1fff51248bed74deaf9a0983510b181551`
+- **Current child rebased onto parent:** `0e3bef1d96eb29ef3c41d8235d5b278a2b3e3907`
+- **Implementation commit SHA:** `2298cbf6a78ca41f0b92b41e1278434fc2ccae41`
 - **Current worker status:** `AWAITING_MERGE`
+- **Current review status:** `NOT_APPLICABLE` (no-PR fast-forward integration).
 
 ## Decisions
 
@@ -223,6 +229,43 @@
   claimed. Current `origin/main` is recorded separately from the parent's
   rebase base.
 
+### Rebase worker-01 onto the exact refreshed parent tip
+
+- **Context:** The clean child was at
+  `bee55408fc624a6b3fe75bf994bcb4c77da4816a`. The recorded candidate old
+  parent fork point `11e5394c7a479e25444945b8db917b58cfb3f086` was verified
+  as an ancestor of that child. The supplied new parent tip
+  `0e3bef1d96eb29ef3c41d8235d5b278a2b3e3907` is based on
+  `origin/main` `6b1903ec7bfa5c798eb5e48c085bfc3845176bab`; the old child
+  and new parent share a clear ancestor at
+  `e9fe3d175d1ca76b03fccdbe53431205b80e5c23`.
+- **Alternatives:** Keep the child on the stale parent, reset/cherry-pick
+  commits, or rebase only the worker's commits after the verified old fork
+  onto the exact supplied parent. Rebasing directly onto `origin/main` would
+  bypass the coordinator's parent.
+- **Decision:** Rebase with
+  `git -C /Users/jrblankenhorn/copilot_skills.worktrees/ralph-project-memory-update-agent-worker-01-20260925-0223 rebase --onto 0e3bef1d96eb29ef3c41d8235d5b278a2b3e3907 11e5394c7a479e25444945b8db917b58cfb3f086 ralph/project-memory-update-agent-worker-01-20260925-0223`.
+  The eight worker commits replayed without conflicts; no parent, dashboard,
+  worker-02, or remote branch was modified.
+- **Rationale:** The verified fork point bounds the worker-only commit range,
+  while the exact new parent remains the coordinator's serial integration
+  target.
+- **Consequences:** The old child tip became
+  `b8d6040107688fae56b953c54a2d0b933b273cba` before the worker-owned record
+  update. The rewritten implementation commit is
+  `2298cbf6a78ca41f0b92b41e1278434fc2ccae41`. The focused Project Memory
+  Update contract passed (1 test), the Ralph contract suite passed (20
+  tests), and the rebased-range diff check passed. `review.status` is
+  `NOT_APPLICABLE`; `worker_to_parent_merge.status` remains `PENDING`.
+  The worker did not push or merge.
+- **Origin-ref coordination:** The required clean-main pull observed
+  `origin/main` at `d868d684564658bdc9488e27f5bfeaa592b04338`. A later local
+  tracking-ref observation was
+  `7ee1307cb47f5a88cd6b46ee135444777ddeb665`; its reflog reports `update by
+  push` at `2026-09-25T07:57:39Z`. The worker did not push or fetch after the
+  required pull. The coordinator must reconcile the parent and dashboard
+  before integration.
+
 ## Recovered issues
 
 - The first post-implementation contract run reported ten phrase mismatches.
@@ -234,18 +277,22 @@
 - The first final `git diff --check` found trailing spaces on four Markdown
   hard-break lines in the new progress evidence. Those spaces were removed;
   the rerun of `git diff --check` passed with no whitespace errors.
+- A read-only sign-off-format probe initially selected the first historical
+  JSON block, which predates the `review` field and raised `KeyError`.
+  Correcting the probe to validate the newest sign-off block passed; its
+  worker, `review.status: NOT_APPLICABLE`, and pending merge fields are valid.
 
 ## Unresolved blockers
 
-- The coordinator-owned `docs/ralph-status.md` still lists worker-01 as
-  `BLOCKED`, while the updated worker leaf is `AWAITING_MERGE`; the Ralph
-  contract suite therefore fails its dashboard/leaf synchronization check.
-  Only the coordinator may update the aggregate dashboard.
-- `origin/main` has advanced to
-  `20293c720b18a1a21ff150f566823493b7a2717d` since parent tip
-  `11e5394c7a479e25444945b8db917b58cfb3f086` was rebased onto
-  `e9fe3d175d1ca76b03fccdbe53431205b80e5c23`. The coordinator must refresh
-  the parent and determine whether to rebase/retest this child before
+- The coordinator-owned dashboard still has the previous parent tip,
+  implementation SHA, origin-main observation, review/resource fields, and
+  rebase next action. Its owner must synchronize those fields with this
+  worker's leaf; this worker did not edit the dashboard.
+- The local `origin/main` tracking ref is observed at
+  `7ee1307cb47f5a88cd6b46ee135444777ddeb665`, while parent
+  `0e3bef1d96eb29ef3c41d8235d5b278a2b3e3907` is based on
+  `6b1903ec7bfa5c798eb5e48c085bfc3845176bab`. The coordinator must reconcile
+  the parent and decide whether another child rebase/retest is needed before
   integration.
 - Serial child-to-parent integration remains pending under coordinator
   ownership. The worker has not pushed or merged and must preserve its branch

@@ -1,18 +1,23 @@
 # Worker progress
 
-**Current summary:** Iteration 1 is `AWAITING_MERGE`. The child is rebased
-onto current parent tip `11e5394c7a479e25444945b8db917b58cfb3f086`, whose
-parent rebase base
-`e9fe3d175d1ca76b03fccdbe53431205b80e5c23`. A later fetch observed
-`origin/main` at `20293c720b18a1a21ff150f566823493b7a2717d`. The rewritten
-implementation commit is `c8db0f1fff51248bed74deaf9a0983510b181551`. The
-focused contract passes and `git diff --check` passes; the final Ralph suite
-has one dashboard/leaf status-sync failure because the coordinator-owned
-dashboard still shows `BLOCKED` while this leaf is `AWAITING_MERGE`. The
-coordinator must refresh its parent before integration. This worker has not
-pushed or merged.
+**Current summary:** Iteration 1 is `AWAITING_MERGE`. The worker's old child
+tip `bee55408fc624a6b3fe75bf994bcb4c77da4816a` was rebased from verified old
+fork point `11e5394c7a479e25444945b8db917b58cfb3f086` onto exact parent tip
+`0e3bef1d96eb29ef3c41d8235d5b278a2b3e3907`; the rebased pre-handoff tip was
+`b8d6040107688fae56b953c54a2d0b933b273cba`. The parent was rebased onto
+`origin/main` `6b1903ec7bfa5c798eb5e48c085bfc3845176bab`; its original main
+base remains `114e4d60567d05cd048916339ed86e324c6eeef3`. The rewritten
+implementation commit is `2298cbf6a78ca41f0b92b41e1278434fc2ccae41`. The
+focused agent contract passed (1 test), the Ralph contract suite passed (20
+tests), and diff checks passed. The no-PR flow has review
+`NOT_APPLICABLE`; `worker_to_parent_merge` remains pending. The required
+primary-worktree pull observed `origin/main` at
+`d868d684564658bdc9488e27f5bfeaa592b04338`; the shared local tracking ref
+was later observed at `7ee1307cb47f5a88cd6b46ee135444777ddeb665`. The
+coordinator must reconcile the parent and update its dashboard before
+integration. This worker did not edit coordinator-owned state or push/merge.
 
-**Updated at UTC:** `2026-09-25T06:28:26Z`
+**Updated at UTC:** `2026-09-25T08:12:01Z`
 
 ## Iteration history
 
@@ -450,3 +455,148 @@ above.
   `AWAITING_MERGE`. The coordinator must refresh the parent first, then
   direct any required child rebase/retest and dashboard synchronization.
   No push or merge occurred.
+
+### Worker rebase onto the exact coordinator parent — 2026-09-25T07:49:17Z
+
+- **Old child tip:** `bee55408fc624a6b3fe75bf994bcb4c77da4816a`.
+- **Verified old fork point:** `11e5394c7a479e25444945b8db917b58cfb3f086`.
+  Before rebasing, `git merge-base --is-ancestor
+  11e5394c7a479e25444945b8db917b58cfb3f086 HEAD` returned 0. The worker and
+  the new parent had a clear common ancestor at
+  `e9fe3d175d1ca76b03fccdbe53431205b80e5c23`; the new parent is on the
+  descendant line from origin base `6b1903ec7bfa5c798eb5e48c085bfc3845176bab`.
+  The old-fork-to-child range contained eight worker commits.
+- **New exact parent tip:** `0e3bef1d96eb29ef3c41d8235d5b278a2b3e3907`,
+  in `/Users/jrblankenhorn/copilot_skills.worktrees/ralph-project-memory-update-coordinator-20260925-0223`.
+  The parent worktree was clean and attached to
+  `ralph/project-memory-update-coordinator-20260925-0223` at that exact tip.
+- **Rebase command:** `git -C /Users/jrblankenhorn/copilot_skills.worktrees/ralph-project-memory-update-agent-worker-01-20260925-0223 rebase --onto 0e3bef1d96eb29ef3c41d8235d5b278a2b3e3907 11e5394c7a479e25444945b8db917b58cfb3f086 ralph/project-memory-update-agent-worker-01-20260925-0223`
+- **Rebase result:** PASS; all eight worker commits replayed without
+  conflicts. The rebased child tip before this handoff update is
+  `b8d6040107688fae56b953c54a2d0b933b273cba`. The rewritten implementation
+  commit is `2298cbf6a78ca41f0b92b41e1278434fc2ccae41`.
+- **Parent origin base:** The coordinator's original base is
+  `114e4d60567d05cd048916339ed86e324c6eeef3`; its current
+  `parent_rebased_onto_origin_main_sha` is
+  `6b1903ec7bfa5c798eb5e48c085bfc3845176bab`. The worker retains original
+  `base_parent_sha` `114e4d60567d05cd048916339ed86e324c6eeef3` and records
+  `rebased_onto_parent_sha` `0e3bef1d96eb29ef3c41d8235d5b278a2b3e3907`.
+- **Focused contract:** `cd /Users/jrblankenhorn/copilot_skills.worktrees/ralph-project-memory-update-agent-worker-01-20260925-0223 && python3 .github/skills/project-memory/tests/test_memory_update_agent_contract.py` — PASS (`Ran 1 test in 0.004s; OK`).
+- **Ralph contract:** `cd /Users/jrblankenhorn/copilot_skills.worktrees/ralph-project-memory-update-agent-worker-01-20260925-0223 && python3 .github/skills/ralph-loop/tests/test_multi_agent_contract.py` — PASS (`Ran 20 tests in 4.620s; OK`).
+- **Rebased-range diff check:** `git -C /Users/jrblankenhorn/copilot_skills.worktrees/ralph-project-memory-update-agent-worker-01-20260925-0223 diff --check 0e3bef1d96eb29ef3c41d8235d5b278a2b3e3907...HEAD` — PASS (no whitespace errors).
+- **Remote-ref observation:** The required clean-main `git pull --ff-only`
+  advanced the local main worktree from `36bf3fad31b2965dc6a0516a20ec9b2e6ac64355`
+  to `d868d684564658bdc9488e27f5bfeaa592b04338`. Later the shared local
+  `origin/main` tracking ref was observed at
+  `7ee1307cb47f5a88cd6b46ee135444777ddeb665`; its reflog says `update by
+  push` at `2026-09-25T07:57:39Z`. It was observed at
+  `2026-09-25T08:12:01Z`. This worker did not push or run a later fetch. The
+  coordinator owns reconciliation of the parent and dashboard.
+- **Review and integration:** This repository uses a no-PR fast-forward
+  path, so `review.status` is `NOT_APPLICABLE`. The worker remains
+  `AWAITING_MERGE`; `worker_to_parent_merge.status` remains `PENDING`. No
+  parent/dashboard changes, child-to-parent merge, or remote-main merge were
+  made by this worker.
+- **Memory handoff:** The existing evidence-backed handoff is preserved:
+  implementation summary records the agent's verified-merge gate,
+  handoff review, memory isolation, lesson curation, authorized integration,
+  and structured outcomes. `lesson_candidates` remains empty because the
+  implementation codifies existing guidance rather than establishing a
+  distinct durable lesson; this is corroborated by
+  `.github/agents/project-memory-update.agent.md`,
+  `.github/skills/project-memory/SKILL.md`, and
+  `.github/memory/workflow.md`. The no-durable-lesson reason is retained,
+  with no memory store changes made.
+- **Telemetry:** `resource_usage.time_spent_seconds` is the elapsed wall
+  clock from `started_at_utc` to `updated_at_utc`; token counters are
+  `NOT_REPORTED` with null values. No active-work estimate or token count was
+  invented.
+
+#### Fresh worker sign-off after exact parent rebase
+
+```json
+{
+  "run_id": "copilot-skills-memory-update-agent-20260925-0223",
+  "task_ids": ["memory-update-agent-definition"],
+  "worker_id": "worker-01",
+  "worker_name": "worker-01 - Project Memory Update agent",
+  "runtime_agent_id": null,
+  "iteration": 1,
+  "branch": "ralph/project-memory-update-agent-worker-01-20260925-0223",
+  "worktree": "/Users/jrblankenhorn/copilot_skills.worktrees/ralph-project-memory-update-agent-worker-01-20260925-0223",
+  "pull_request": {
+    "status": "NOT_OPENED",
+    "number": null,
+    "url": null,
+    "reason": "The coordinator owns serial child-to-parent fast-forward integration; no PR is part of this branch's integration path."
+  },
+  "review": {
+    "status": "NOT_APPLICABLE",
+    "reviewer_agents": [],
+    "reviewed_base_sha": null,
+    "reviewed_head_sha": null,
+    "rounds_completed": 0,
+    "max_rounds": 2,
+    "unresolved_finding_count": 0,
+    "author_decision": {
+      "status": "NOT_APPLICABLE",
+      "choice": null,
+      "rationale": null,
+      "recorded_at_utc": null
+    }
+  },
+  "decision_record_path": "docs/decisions/ralph-project-memory-update-agent-worker-01-20260925-0223/agents/worker-01/pr-not-opened.md",
+  "base_origin_main_sha": "114e4d60567d05cd048916339ed86e324c6eeef3",
+  "rebased_onto_origin_main_sha": null,
+  "parent_branch": "ralph/project-memory-update-coordinator-20260925-0223",
+  "parent_worktree": "/Users/jrblankenhorn/copilot_skills.worktrees/ralph-project-memory-update-coordinator-20260925-0223",
+  "parent_base_origin_main_sha": "114e4d60567d05cd048916339ed86e324c6eeef3",
+  "parent_rebased_onto_origin_main_sha": "6b1903ec7bfa5c798eb5e48c085bfc3845176bab",
+  "latest_fetched_origin_main_sha": "d868d684564658bdc9488e27f5bfeaa592b04338",
+  "latest_origin_main_observed_sha": "7ee1307cb47f5a88cd6b46ee135444777ddeb665",
+  "latest_origin_main_observed_at_utc": "2026-09-25T08:12:01Z",
+  "base_parent_sha": "114e4d60567d05cd048916339ed86e324c6eeef3",
+  "rebased_onto_parent_sha": "0e3bef1d96eb29ef3c41d8235d5b278a2b3e3907",
+  "implementation_commit_sha": "2298cbf6a78ca41f0b92b41e1278434fc2ccae41",
+  "status": "AWAITING_MERGE",
+  "worker_to_parent_merge": {
+    "status": "PENDING",
+    "sha": null,
+    "verified_parent_ref": "refs/heads/ralph/project-memory-update-coordinator-20260925-0223",
+    "verified_parent_sha": null,
+    "verification_method": null,
+    "verified_at_utc": null
+  },
+  "checks": [
+    {
+      "command": "cd /Users/jrblankenhorn/copilot_skills.worktrees/ralph-project-memory-update-agent-worker-01-20260925-0223 && python3 .github/skills/project-memory/tests/test_memory_update_agent_contract.py",
+      "result": "PASS",
+      "evidence": "Ran 1 test in 0.006s; OK."
+    },
+    {
+      "command": "cd /Users/jrblankenhorn/copilot_skills.worktrees/ralph-project-memory-update-agent-worker-01-20260925-0223 && python3 .github/skills/ralph-loop/tests/test_multi_agent_contract.py",
+      "result": "PASS",
+      "evidence": "Ran 20 tests in 4.386s; OK."
+    },
+    {
+      "command": "cd /Users/jrblankenhorn/copilot_skills.worktrees/ralph-project-memory-update-agent-worker-01-20260925-0223 && git diff --check",
+      "result": "PASS",
+      "evidence": "No whitespace errors."
+    }
+  ],
+  "blockers": [
+    "The coordinator-owned dashboard has stale parent, implementation, origin-main, review/resource, and next-action fields and must be synchronized by its owner.",
+    "The local origin/main ref is observed at 7ee1307cb47f5a88cd6b46ee135444777ddeb665 while the parent tip is based on 6b1903ec7bfa5c798eb5e48c085bfc3845176bab; the coordinator must reconcile the parent before integration.",
+    "Coordinator-owned serial child-to-parent integration remains pending; this worker has not pushed or merged."
+  ],
+  "attested_at_utc": "2026-09-25T08:12:01Z",
+  "attestation_kind": "SELF_ATTESTATION",
+  "cryptographic_signature_status": "NOT_CRYPTOGRAPHICALLY_SIGNED",
+  "statement": "I, worker-01, sign off iteration 1 for memory-update-agent-definition at the exact implementation commit 2298cbf6a78ca41f0b92b41e1278434fc2ccae41.",
+  "memory_handoff": {
+    "implementation_summary": "Added a dedicated Project Memory Update agent with verified-merge gating, complete worker handoff review, active-project memory isolation, durable-lesson curation, authorized integration, and structured outcomes; added a runnable contract test.",
+    "lesson_candidates": [],
+    "no_durable_lessons_reason": "The agent codifies existing Ralph and Project Memory workflow requirements rather than establishing a distinct reusable lesson; this is supported by the new agent definition, the current Project Memory skill, and .github/memory/workflow.md, which already cover verified post-merge updates and reviewable follow-ups."
+  }
+}
+```
