@@ -4,7 +4,7 @@
   `communication-baseline` / `coordinator` / 1
 - **Branch:** `ralph/agent-communication-parent-20260925-0627`
 - **Base `origin/main` SHA:** `20293c720b18a1a21ff150f566823493b7a2717d`
-- **Current parent implementation SHA:** `15638054cffca7eb054cff80430ff2998d97a3df`
+- **Current parent implementation SHA:** `3295e1be1f295bf190ae3ee40358af5f4bce8873`
 - **Agent:** `coordinator`; runtime ID
   `copilotcli:/870bde06-54d5-4b31-b052-c6167704e5fb`
 - **PR:** Not opened. The repository's documented normal path is a
@@ -54,6 +54,13 @@
   fallback assertions are missing. The parent branch is based on
   `5d87b528...`; no Green/full-suite result is claimed for this new assertion
   until worker-01 adds the skill guidance.
+- After the coordinator status update, `origin/main` remained at
+  `75d4e4a8e356e1980fc32ee5c6e185a97098cd04`. Rebased the clean parent from
+  `c1c6106744603126630b451b2bbb6adb4d253db7` onto that exact tip, producing
+  `3295e1be1f295bf190ae3ee40358af5f4bce8873`; all 46 commits map one-to-one
+  and the targeted Red test remains limited to the three intended assertions.
+  Fresh worker targets are `d20992c9190da1f62c840795db1269db5f517268`
+  (skill) and `03461e7054432bb34d6c1d1ae97acfb373c4913b` (pipeline).
 
 ## Unresolved blockers
 

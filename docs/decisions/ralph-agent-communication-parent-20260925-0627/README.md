@@ -4,7 +4,7 @@
 - **Branch:** `ralph/agent-communication-parent-20260925-0627`
 - **Parent worktree:** `/Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-communication-parent-20260925-0627`
 - **Base `origin/main` SHA:** `20293c720b18a1a21ff150f566823493b7a2717d`
-- **Implementation commit:** `15638054cffca7eb054cff80430ff2998d97a3df`
+- **Implementation commit:** `3295e1be1f295bf190ae3ee40358af5f4bce8873`
 - **Agents:** `coordinator`, `worker-01`, `worker-02`
 - **Integration:** Pending; use coordinator-reviewed, verified fast-forward
   without a PR, as documented by the repository.
@@ -123,3 +123,18 @@
   current worker attestations must refer to the refreshed parent.
 - **Consequence:** All 45 commits mapped one-to-one in `git range-diff`;
   previous worker sign-offs are superseded and must be refreshed.
+
+### Refresh after another status-only main advance
+
+- **Context:** Main advanced from `5d87b528...` to
+  `75d4e4a8e356e1980fc32ee5c6e185a97098cd04`; only status/ownership metadata
+  changed. The parent was clean after its coordinator status commit.
+- **Alternatives:** Leave the parent on the earlier base, or rebase and verify
+  the complete coordinator history before refreshing workers.
+- **Choice:** Rebase the unpublished parent onto the exact fetched
+  `75d4e4a8...` main and rerun the targeted communication contract Red check.
+- **Rationale:** The active Ralph workflow requires the exact current main
+  base even when the intervening changes are status-only.
+- **Consequence:** All 46 commits mapped one-to-one, and both worker
+  implementation targets have new exact SHAs; prior attestations remain
+  superseded.

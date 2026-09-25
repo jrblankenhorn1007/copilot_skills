@@ -917,3 +917,56 @@
 - **Next:** Complete the coordinator/dashboard status commit, replay and
   verify it against the latest main, then send worker-01 the exact post-rebase
   parent and scope.
+
+## 2026-09-25T16:44:48Z — parent rebased onto current main
+
+- **Rebase:** Fetched `origin/main` at
+  `75d4e4a8e356e1980fc32ee5c6e185a97098cd04`; its changes since
+  `5d87b528...` were status metadata only. Rebased the clean coordinator
+  branch from `c1c6106744603126630b451b2bbb6adb4d253db7` onto that exact tip,
+  producing `3295e1be1f295bf190ae3ee40358af5f4bce8873` without conflicts.
+- **Verification:** `git range-diff` mapped all 46 commits one-to-one;
+  `git diff --check origin/main...HEAD` passed and no conflict markers
+  remain. The absolute-path communication test again showed exactly the
+  three expected Red failures.
+- **Current worker targets:** The rebased final skill commit is
+  `d20992c9190da1f62c840795db1269db5f517268`; the rebased final pipeline
+  commit is `03461e7054432bb34d6c1d1ae97acfb373c4913b`. Earlier worker
+  attestations and metadata branches remain preserved but are superseded.
+- **Main ownership:** The latest fetched ownership record is `FREE` at
+  revision 190. No sign-in has been published for a new worker refresh yet.
+- **Next:** Synchronize coordinator status/dashboard to this parent, then
+  assign worker-01 the skill fallback and metadata refresh from the exact
+  post-sync parent. Keep worker-02 paused until worker-01 is integrated.
+
+## 2026-09-25T16:46:59Z — coordinator status synchronized after rebase
+
+- **Parent:** Current `origin/main` and the parent rebase base are both
+  `75d4e4a8e356e1980fc32ee5c6e185a97098cd04`. The rebased implementation
+  commit is `3295e1be1f295bf190ae3ee40358af5f4bce8873`.
+- **Worker targets:** Updated the aggregate split plan to the exact rebased
+  code commits `d20992c9190da1f62c840795db1269db5f517268` (skill) and
+  `03461e7054432bb34d6c1d1ae97acfb373c4913b` (pipeline). Their old
+  attestations remain superseded until each owner refreshes its leaf.
+- **Dashboard:** Coordinator status/resource time and the branch index now
+  agree at 37,165 elapsed wall-clock seconds; dashboard snapshot revision is
+  102. Worker leaf records remain unchanged and explicitly pending owner
+  refresh.
+- **Next:** Commit this status synchronization, verify the parent remains on
+  current main, then send worker-01 its fresh task sign-in and test-first
+  assignment. Keep worker-02 paused.
+
+## 2026-09-25T16:47:51Z — status records ready for worker refresh
+
+- **Status:** Coordinator leaf, branch run record, branch-agent index, and
+  dashboard now agree on the parent base `75d4e4a8...`, implementation
+  snapshot `3295e1be...`, and `37,217` seconds of elapsed wall-clock time.
+  Dashboard snapshot revision is 103.
+- **Worker records:** Aggregate assignments now point at exact rebased
+  implementation commits `d20992c9...` and `03461e70...`; the worker-owned
+  leaves intentionally retain their prior history and remain pending refresh.
+- **Remote:** The latest fetch remains `75d4e4a8...`; ownership is `FREE` at
+  revision 190. No new task sign-in has been published.
+- **Next:** Commit this status synchronization and send worker-01 a fresh,
+  exact-parent task assignment. Do not resume worker-02 until worker-01's
+  update is integrated.

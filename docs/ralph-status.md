@@ -22,8 +22,8 @@ remains in progress.
 ```yaml
 schema_version: 2
 snapshot_path: "docs/ralph-status.md"
-snapshot_revision: 100
-updated_at_utc: "2026-09-25T16:42:33Z"
+snapshot_revision: 103
+updated_at_utc: "2026-09-25T16:47:51Z"
 overall_status: IN_PROGRESS
 current_run_ids:
   - "copilot-skills-docs-status-organization-20260924"
@@ -334,7 +334,7 @@ runs:
     active_worker_count: 0
     base_origin_main_sha: "20293c720b18a1a21ff150f566823493b7a2717d"
     created_at_utc: "2026-09-25T06:27:34Z"
-    updated_at_utc: "2026-09-25T16:42:33Z"
+    updated_at_utc: "2026-09-25T16:47:51Z"
     coordinator_scope: "Research, benchmark, integrate, and validate a bounded inter-session communication protocol and Copilot skill."
     coordinator_branch: "ralph/agent-communication-parent-20260925-0627"
     coordinator_worktree: "/Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-communication-parent-20260925-0627"
@@ -342,9 +342,9 @@ runs:
     coordinator_progress_path: "docs/ralph/ralph-agent-communication-parent-20260925-0627/agents/coordinator/progress.md"
     parent_base_origin_main_sha: "20293c720b18a1a21ff150f566823493b7a2717d"
     current_origin_main_sha: "75d4e4a8e356e1980fc32ee5c6e185a97098cd04"
-    parent_rebased_onto_origin_main_sha: "5d87b5289aeac271696df3ce2c3201e0b631c3c3"
-    parent_implementation_commit_sha: "15638054cffca7eb054cff80430ff2998d97a3df"
-    next_action: "Coordinator: rebase onto the latest status-only main advance and refresh worker hashes; then have worker-01 add the tested message-limit fallback and refresh its sign-off/status records, integrate it, resume worker-02, and complete final checks, remote integration, and memory review."
+    parent_rebased_onto_origin_main_sha: "75d4e4a8e356e1980fc32ee5c6e185a97098cd04"
+    parent_implementation_commit_sha: "3295e1be1f295bf190ae3ee40358af5f4bce8873"
+    next_action: "Coordinator: have worker-01 publish a fresh sign-in from the current parent, add the tested message-limit fallback, and refresh its exact-SHA status/decision records. Integrate worker-01 before resuming worker-02; rerun the full contract suite and complete verified remote integration and memory review."
     split_plan:
       - task_id: "agent-communication-skill"
         worker_id: "worker-01"
@@ -367,7 +367,7 @@ runs:
         runtime_agent_id: "4b590f58-600f-4d99-92b7-29db9c14b7a4"
         status: AWAITING_MERGE
         base_parent_sha: "0294550c92a5d79e1cca682a0c509b5bb6eca3fd"
-        implementation_commit_sha: "00f29b07b32aeab1e22d9f712c5fec6fa2a2b1af"
+        implementation_commit_sha: "d20992c9190da1f62c840795db1269db5f517268"
         status_path: "docs/ralph/ralph-agent-communication-worker-01-20260925-0627/agents/worker-01/status.md"
         progress_path: "docs/ralph/ralph-agent-communication-worker-01-20260925-0627/agents/worker-01/progress.md"
         decision_record_path: "docs/decisions/ralph-agent-communication-worker-01-20260925-0627/agents/worker-01/pr-not-opened.md"
@@ -380,12 +380,12 @@ runs:
         runtime_agent_id: "f4de98be-e083-4d7d-bbc6-e671670709c7"
         status: AWAITING_MERGE
         base_parent_sha: "0294550c92a5d79e1cca682a0c509b5bb6eca3fd"
-        implementation_commit_sha: "6c77c01252cea427c73a1e584a115f9e49ec601e"
+        implementation_commit_sha: "03461e7054432bb34d6c1d1ae97acfb373c4913b"
         status_path: "docs/ralph/ralph-agent-communication-worker-02-20260925-0627/agents/worker-02/status.md"
         progress_path: "docs/ralph/ralph-agent-communication-worker-02-20260925-0627/agents/worker-02/progress.md"
         decision_record_path: "docs/decisions/ralph-agent-communication-worker-02-20260925-0627/agents/worker-02/pr-not-opened.md"
         next_action: "Remain paused until worker-01's updated skill and metadata are integrated; then refresh this worker's status and sign-off from the updated parent."
-    worker_count_note: "The parent is rebased onto origin/main 5d87b528...; the current worker implementation commits are 00f29b07... (worker-01) and 6c77c012... (worker-02). Prior attestations and merge heads are superseded. Worker-01 has a test-first message-limit fallback refinement; worker-02 remains paused until worker-01 is integrated. Both leaves remain AWAITING_MERGE."
+    worker_count_note: "The parent is rebased onto origin/main 75d4e4a8...; the current worker implementation commits are d20992c9... (worker-01) and 03461e70... (worker-02). Prior attestations and merge heads are superseded. Worker-01 has a test-first message-limit fallback refinement; worker-02 remains paused until worker-01 is integrated. Both leaves remain AWAITING_MERGE."
     memory_review:
       status: PENDING
       owner: coordinator
@@ -854,7 +854,7 @@ branch_agent_index:
     status: IN_PROGRESS
     iteration: 1
     resource_usage:
-      time_spent_seconds: 36899
+      time_spent_seconds: 37217
       time_basis: WALL_CLOCK_ELAPSED
       token_spend:
         status: NOT_REPORTED
@@ -868,9 +868,9 @@ branch_agent_index:
     decision_record_path: "docs/decisions/ralph-agent-communication-parent-20260925-0627/agents/coordinator/pr-not-opened.md"
     decision_index_path: "docs/decisions/ralph-agent-communication-parent-20260925-0627/README.md"
     base_origin_main_sha: "20293c720b18a1a21ff150f566823493b7a2717d"
-    implementation_commit_sha: "15638054cffca7eb054cff80430ff2998d97a3df"
-    rebased_onto_origin_main_sha: "5d87b5289aeac271696df3ce2c3201e0b631c3c3"
-    next_action: "Coordinator: rebase onto latest status-only origin/main, refresh worker hashes, and then resume worker-01's test-first message-limit fallback and status refresh; integrate workers serially, rerun checks, and complete remote integration and memory review."
+    implementation_commit_sha: "3295e1be1f295bf190ae3ee40358af5f4bce8873"
+    rebased_onto_origin_main_sha: "75d4e4a8e356e1980fc32ee5c6e185a97098cd04"
+    next_action: "Coordinator: refresh worker-01's exact-SHA sign-off and add the test-first message-limit fallback; then refresh worker-owned records, integrate workers serially, rerun checks, and complete remote integration and memory review."
   - run_id: "copilot-skills-agent-communication-20260925-0627"
     task_ids: ["agent-communication-skill"]
     worker_id: "worker-01"
@@ -2087,7 +2087,7 @@ branch_agent_index:
 
 | Run | Branch | Agent | Status | Time spent | Token spend | Status file | Progress file | Merge | Memory review |
 |---|---|---|---|---|---|---|---|---|---|
-| `copilot-skills-agent-communication-20260925-0627` | `ralph/agent-communication-parent-20260925-0627` | `coordinator` | `IN_PROGRESS` | `36,899 s (wall-clock)` | `NOT_REPORTED` | [status](./ralph/ralph-agent-communication-parent-20260925-0627/agents/coordinator/status.md) | [progress](./ralph/ralph-agent-communication-parent-20260925-0627/agents/coordinator/progress.md) | `PENDING` | `PENDING` |
+| `copilot-skills-agent-communication-20260925-0627` | `ralph/agent-communication-parent-20260925-0627` | `coordinator` | `IN_PROGRESS` | `37,217 s (wall-clock)` | `NOT_REPORTED` | [status](./ralph/ralph-agent-communication-parent-20260925-0627/agents/coordinator/status.md) | [progress](./ralph/ralph-agent-communication-parent-20260925-0627/agents/coordinator/progress.md) | `PENDING` | `PENDING` |
 | `copilot-skills-agent-communication-20260925-0627` | `ralph/agent-communication-worker-01-20260925-0627` | `worker-01` | `AWAITING_MERGE` | `10,627 s (wall-clock)` | `NOT_REPORTED` | [status](./ralph/ralph-agent-communication-worker-01-20260925-0627/agents/worker-01/status.md) | [progress](./ralph/ralph-agent-communication-worker-01-20260925-0627/agents/worker-01/progress.md) | `6d16a3a6c09901238050085de1563495ed2748ce` | `PENDING` |
 | `copilot-skills-agent-communication-20260925-0627` | `ralph/agent-communication-worker-02-20260925-0627` | `worker-02` | `AWAITING_MERGE` | `10,627 s (wall-clock)` | `NOT_REPORTED` | [status](./ralph/ralph-agent-communication-worker-02-20260925-0627/agents/worker-02/status.md) | [progress](./ralph/ralph-agent-communication-worker-02-20260925-0627/agents/worker-02/progress.md) | `5d47c35f7c5cef3e17687f86306a7ef470945b13` | `PENDING` |
 | `copilot-skills-status-report-time-token-20260925` | `ralph/status-report-time-token-20260925-0335` | `coordinator` | `COMPLETE` | `10,023 s (wall-clock)` | `NOT_REPORTED` | [status](./ralph/ralph-status-report-time-token-20260925-0335/agents/coordinator/status.md) | [progress](./ralph/ralph-status-report-time-token-20260925-0335/agents/coordinator/progress.md) | `05b1b23da974ed7b171c3a29ee266e43721d4e7` | `COMPLETE` |
