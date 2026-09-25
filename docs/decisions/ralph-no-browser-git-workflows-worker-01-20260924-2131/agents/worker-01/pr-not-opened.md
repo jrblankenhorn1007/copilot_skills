@@ -13,7 +13,7 @@
   authorization.
 - **Base `origin/main`:** `485b4a64c871f581f9295e46c867b188b0e3ccee`
 - **Implementation commit SHA:** `7b39f6a5dd2280de74e43046516aef35056bfc97`
-- **Current worker status:** `AWAITING_MERGE`
+- **Current worker status:** `COMPLETE`
 
 ## Decisions
 
@@ -108,5 +108,19 @@
 
 ## Unresolved blockers
 
-- None. The full contract suite passes; coordinator-reviewed fast-forward
-  integration and post-merge memory review are the remaining workflow steps.
+- None.
+
+## Integration and memory review
+
+- No PR was opened. The coordinator integrated the reviewed branch through
+  the repository's normal fast-forward path at merge SHA
+  `3ea889103bb7db6fb1f5eadf647045a511ea9a03`.
+- A fresh `git fetch origin` reported `origin/main` at that SHA, and
+  `git merge-base --is-ancestor 3ea889103bb7db6fb1f5eadf647045a511ea9a03 origin/main`
+  passed at `2026-09-25T01:53:02Z`.
+- The coordinator reviewed the current Project Memory skill, index, and
+  workflow category after integration. No separate durable lesson was
+  warranted because the no-browser rule is already explicit in the governing
+  Ralph docs and contract test; memory files were left unchanged.
+- The worker status is `COMPLETE`. The iteration's user-facing change,
+  contract checks, remote verification, and memory review are complete.
