@@ -30,7 +30,7 @@
   },
   "prompt_path": "docs/agent-sync/runs/copilot-skills-completion-truthfulness-followup-20260925-e464eb0a/agents/coordinator/prompt.md",
   "prompt_sha256": "66f2b4bd0040fb92c7b4f1b84f4f1fe7b80e83899815acc670c6c35e380d15c7",
-  "revision": 2,
+  "revision": 3,
   "run_id": "copilot-skills-completion-truthfulness-followup-20260925-e464eb0a",
   "schema_version": 1,
   "sign_in_at_utc": "2026-09-25T16:03:12Z",
@@ -43,9 +43,9 @@
   },
   "started_at_utc": "2026-09-25T16:03:12Z",
   "status": "BLOCKED",
-  "status_reason": "The completion instruction and outcome audit are committed on the isolated branch, but the current Ralph contract suite fails its dashboard-index check for this coordinator leaf. The agent-communication coordinator remains IN_PROGRESS revision 2 and owns docs/ralph-status.md; other active claims overlap that dashboard. This run's assigned paths remain ACTIVE while the branch is preserved. The broader request remains PARTIAL: hierarchy deployment and measured performance evidence are outstanding. Do not update the dashboard or claim integration until its owners release scope.",
+  "status_reason": "On user resume, the unpublished branch was rebased onto origin/main 6178835a9450e405d355160c25ffcbeb325733ca; its implementation commit is 8bceba740e659adb5e778142b876c541a5d84c64 and branch head is e98f64e042599b52556e50bcd008c2af95d06629. Targeted instruction, YAML, link, and diff checks pass, but the 28-test Ralph contract suite still has one failure: test_docs_status_dashboard_indexes_every_branch_agent_folder because this coordinator leaf is absent from docs/ralph-status.md. A fresh fetch at 5d87b5289aeac271696df3ce2c3201e0b631c3c3 confirms active dashboard claims from agent-communication, concurrent-edit-pipeline, memory-update-agent, OpenCode setup, and skills-improvement; do not edit the dashboard until all owners release scope. This task remains BLOCKED with its own edit scope ACTIVE and the branch preserved. The overall request remains PARTIAL because the Orchestrator/Worker hierarchy and measured performance evidence are still outstanding.",
   "task_id": "integrating-completion-truthfulness-guard",
-  "updated_at_utc": "2026-09-25T16:19:36Z",
+  "updated_at_utc": "2026-09-25T16:39:24Z",
   "worker_id": "coordinator",
   "worker_name": "coordinator - completion-truthfulness follow-up"
 }
