@@ -86,3 +86,18 @@ Worker-02 (`ralph-memory-handoff`):
 ```
 
 These are implementation-time reports, not accepted memory entries. The Project Memory Update agent must validate them against the integrated parent, current sources/tests, and existing categories after the parent merge is verified.
+
+## 2026-09-25T07:08:58Z - Parent refreshed onto current origin/main
+
+- Refreshed the canonical/active repository once because both resolve to `jrblankenhorn1007/copilot_skills`. `git -C /Users/jrblankenhorn/copilot_skills pull --ff-only` reported `Already up to date.`; configured Git identity checks passed; `git -C /Users/jrblankenhorn/copilot_skills fetch origin` fetched `origin/main` at `20293c720b18a1a21ff150f566823493b7a2717d`.
+- The coordinator parent was based on the prior parent tip `11e5394c7a479e25444945b8db917b58cfb3f086`, itself based on `e9fe3d175d1ca76b03fccdbe53431205b80e5c23`. Continued the paused rebase onto `20293c720b18a1a21ff150f566823493b7a2717d`. Three replayed coordinator commits stopped on concurrent `docs/ralph-status.md` changes; resolved by retaining the upstream schema-version-2 resource-usage run, all historical branch rows, and both active-run records. `git add docs/ralph-status.md && GIT_EDITOR=true git rebase --continue` succeeded for each replayed commit. The refreshed parent tip before this status commit was `d33c056c852b04df19e79db259d2c180a01284b5`.
+- `git merge-base HEAD origin/main` returned `20293c720b18a1a21ff150f566823493b7a2717d`; `git rev-list --count origin/main..HEAD` returned `3`.
+- From the coordinator parent worktree, `python3 .github/skills/ralph-loop/tests/test_multi_agent_contract.py` passed (`Ran 15 tests`, `OK`). `git diff --check origin/main...HEAD` passed.
+- Updated this coordinator leaf and the aggregate snapshot to schema version 2. Elapsed time is calculated from `started_at_utc` to this update; provider token counters were unavailable and remain `NOT_REPORTED` with null values.
+- Worker-01 remains `AWAITING_MERGE` but must rebase its unpublished child onto the parent after this coordinator status commit, rerun the focused contract, and renew sign-off. Worker-02's original paused rebase and replay worktree remain preserved; its implementation must be replayed on a fresh child from the refreshed parent. No child-to-parent or parent-to-main merge is claimed, and no memory files have been changed.
+- **Next action:** dispatch worker-01 for its exact-parent rebase and focused retest; integrate serially, then continue worker-02 from a fresh child based on the then-current parent.
+
+## 2026-09-25T07:11:21Z - Dashboard reconciliation verification
+
+- Corrected worker-02's aggregate branch-index state to `BLOCKED` (its child-to-parent merge remains `PENDING`) and aligned worker-01's recorded implementation SHA with its current leaf sign-off.
+- From the coordinator parent worktree, `python3 .github/skills/ralph-loop/tests/test_multi_agent_contract.py` passed (`Ran 15 tests`, `OK`). Both `git diff --check` and `git diff --check origin/main...HEAD` passed.

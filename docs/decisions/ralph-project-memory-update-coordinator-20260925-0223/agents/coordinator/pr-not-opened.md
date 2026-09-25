@@ -17,9 +17,10 @@
 
 - A combined status-update patch initially failed because its expected command line used the worker worktree path instead of the coordinator's recorded Git command. No files were modified by the failed patch. The exact status file was inspected, the patch was corrected, and `git diff --check` passed.
 - The shared `origin/main` advanced while both workers were running. The coordinator serialized clean-primary-worktree pull/fetch refreshes and stopped worker work until the current parent can be synchronized. Worker-01's full contract check found its leaf missing from the coordinator dashboard; worker-02's rebase onto a newer base conflicted. Both worker branches and worktrees are preserved, and the refreshed guidance requires child branches based on the coordinator parent.
+- A later parent rebase onto fetched `origin/main` `20293c720b18a1a21ff150f566823493b7a2717d` stopped on concurrent `docs/ralph-status.md` updates. The resolution retained the upstream schema-version-2 status-resource run and all current/historical dashboard records, then completed all three replayed coordinator commits. The refreshed parent passed the 15-test Ralph contract suite, `git diff --check origin/main...HEAD`, and exact merge-base/ahead-count verification.
+- Dashboard reconciliation briefly assigned worker-02 the invalid aggregate state `PENDING`; inspection restored its valid leaf state `BLOCKED` and its separate child-to-parent merge state `PENDING`. The 15-test Ralph contract suite and both diff checks passed after correction.
 
 ## Unresolved blockers
 
-- The parent branch must be rebased onto fetched `origin/main` `8da9310fda1b2e3042a379081dfb0675f1b22d6b` before worker child work can resume.
-- Worker-01's previous full contract run failed because the coordinator dashboard did not yet index its leaf; rerun after parent synchronization.
-- Worker-02's rebase is paused on conflicts; preserve that worktree and replay the changes on a fresh child from the updated parent.
+- Worker-01 must rebase its unpublished child onto the exact parent tip after this coordinator status commit, rerun focused checks, and renew sign-off.
+- Worker-02's two prior replay attempts remain preserved with conflicts; replay its assigned changes on a fresh child from the current parent and obtain fresh verification/sign-off.
