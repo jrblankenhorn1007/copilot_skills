@@ -13,8 +13,10 @@
 - **PR:** Not opened. The coordinator serializes integration without a PR;
   this worker may publish only its feature branch if permitted and must not
   push or merge to `main`.
-- **Current state:** `IN_PROGRESS`; final feature-branch publication and
-  coordinator handoff are pending.
+- **Feature-branch publish:** Successfully published to `origin` using a
+  normal non-force push.
+- **Current state:** `AWAITING_MERGE`; coordinator integration and its
+  post-merge memory review remain pending.
 
 ## Decisions
 
@@ -119,7 +121,7 @@
 
 ## Unresolved blockers
 
-- None known. The final fetch and feature-branch push are still pending; push
-  permission has not been inferred from successful fetch access.
+- None known. A successful normal feature-branch push established branch
+  publication access; it does not establish or exercise merge permission.
 - Coordinator integration, remote-main verification, and post-merge memory
   review remain lifecycle steps and are not worker-owned.

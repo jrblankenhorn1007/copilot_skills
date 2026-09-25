@@ -10,7 +10,7 @@
 - **Base `origin/main` SHA:** `d26900cc201218fb84f5ad4987285c0c24b85bb7`
 - **Rebased onto `origin/main` SHA:** `b4dac949e976d48f7bd976fc1c93ddc703bc7319`
 - **Implementation commit SHA:** `aa87a960afb89265fa199172d67c1c720685f79b`
-- **Current status:** `IN_PROGRESS`; feature-branch publication is pending.
+- **Current status:** `AWAITING_MERGE`; feature-branch publication succeeded.
 
 ## 2026-09-25T00:57:25Z — Prompt-generation contract implementation
 
@@ -87,7 +87,45 @@ index.
 
 ### Next action
 
-Fetch `origin` before publication, rebase and rerun checks if `origin/main`
-advanced, then publish only this feature branch if permitted. Do not push or
-merge to `main`; after feature-branch publication, hand off as
-`AWAITING_MERGE` for coordinator integration and post-merge memory review.
+The coordinator serializes integration, verifies the merge on fetched
+`origin/main`, and completes the post-merge memory review. The worker does not
+push or merge to `main`.
+
+## 2026-09-25T01:00:35Z — Feature-branch publication and sign-off
+
+- Final pre-publish `git fetch origin` observed
+  `origin/main=b4dac949e976d48f7bd976fc1c93ddc703bc7319`; the branch name was
+  absent from the remote before publishing.
+- Exact publication command:
+  `cd /Users/jrblankenhorn/copilot_skills.worktrees/ralph-structured-prompt-recording-worker-01-20260925-0033 && git push -u origin ralph/structured-prompt-recording-worker-01-20260925-0033`
+  — passed and created only the feature branch. No PR was opened and no push
+  or merge to `main` was attempted.
+- A subsequent `git fetch origin` and
+  `git ls-remote --heads origin refs/heads/ralph/structured-prompt-recording-worker-01-20260925-0033`
+  confirmed the feature branch was published at
+  `28eca0342157bdf6f326f6172009ab603446eec9`; fetched `origin/main` remained
+  at `b4dac949e976d48f7bd976fc1c93ddc703bc7319`.
+- The exact implementation commit remains
+  `aa87a960afb89265fa199172d67c1c720685f79b`; the separate branch-record
+  commit is `28eca0342157bdf6f326f6172009ab603446eec9`.
+- The worker signs off iteration 1 at the exact implementation commit above
+  as `SELF_ATTESTATION`. This is not a cryptographic signature.
+- **Status:** `AWAITING_MERGE`. The coordinator owns serialized integration,
+  remote-main verification, and post-merge memory review.
+
+## 2026-09-25T01:01:26Z — Final post-record verification
+
+- Exact focused command:
+  `cd /Users/jrblankenhorn/copilot_skills.worktrees/ralph-structured-prompt-recording-worker-01-20260925-0033 && python3 .github/skills/ralph-loop/tests/test_prompt_generation_contract.py`
+  — `Ran 7 tests in 0.002s`, `OK`.
+- Exact regression command:
+  `cd /Users/jrblankenhorn/copilot_skills.worktrees/ralph-structured-prompt-recording-worker-01-20260925-0033 && python3 .github/skills/ralph-loop/tests/test_multi_agent_contract.py`
+  — `Ran 8 tests in 0.005s`, `OK`.
+- Exact command:
+  `cd /Users/jrblankenhorn/copilot_skills.worktrees/ralph-structured-prompt-recording-worker-01-20260925-0033 && git diff --check && git diff --check origin/main...HEAD && git show --check --format=oneline HEAD`
+  — all checks passed.
+- A standard-library path check confirmed the branch README links to the
+  prompt, no-PR record, and this worker's status/progress files.
+- This worker's self-attestation is bound to implementation commit
+  `aa87a960afb89265fa199172d67c1c720685f79b`; it is
+  `NOT_CRYPTOGRAPHICALLY_SIGNED`.

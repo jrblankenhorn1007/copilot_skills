@@ -12,8 +12,9 @@
 - **Rebased onto `origin/main` SHA:** `b4dac949e976d48f7bd976fc1c93ddc703bc7319`
 - **Implementation commit SHA:** `aa87a960afb89265fa199172d67c1c720685f79b`
 - **Pull request:** `NOT_OPENED`; this worker's assigned path is coordinator-serialized integration without a PR.
-- **Feature-branch publish:** Pending final fetch and normal feature-branch push.
-- **Current worker state:** `IN_PROGRESS`; tests and rebase checks are green.
+- **Feature-branch publish:** Successfully published to `origin`; no force-push.
+- **Current worker state:** `AWAITING_MERGE`; assigned checks pass and the
+  feature branch is published.
 - **Integration:** Do not push or merge to `main`. After feature-branch publication, hand off for coordinator integration and post-merge memory review.
 
 ## Branch records
