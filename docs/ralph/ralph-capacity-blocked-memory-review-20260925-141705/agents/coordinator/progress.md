@@ -8,9 +8,9 @@
   post-merge memory review remains pending.
 - **Branch/worktree:** `ralph/capacity-blocked-memory-review-20260925-141705` /
   `/Users/jrblankenhorn/copilot_skills.worktrees/ralph-capacity-blocked-memory-review-20260925-141705`.
-- **Base:** rebased onto fetched `origin/main` at
+- **Starting base:** rebased onto fetched `origin/main` at
   `1e9a6dab03c07ea9990fe4f65039ffdc4e784f45`.
-- **Implementation commit:** `8925bae1fa80d9eacbb7ca13e73e7752fab01d26`;
+- **Implementation commit:** `18e9b961715ced2f49a4f37480e1ba41ce1ab4d9`;
   the test/docs patch was rebased over the upstream status-first reporting
   change without dropping either contract.
 - **Test-first Red:**
@@ -45,21 +45,26 @@
   `2026-09-25T14:30:28Z`; main status ownership was released at
   `2026-09-25T14:30:32Z`. The sign-in was delayed because another main owner
   was active while the isolated documentation/test change was being prepared.
-- **Latest-main refresh:** Rebased the branch onto fetched `origin/main`
-  `88051ce785a38965e26b5744b6c8fc53e37fcc41`; the source implementation is
-  now `ec0c9867068a5313a3ef0a5b42955d8c8512d9e9`. The main-ownership
+- **Main refresh:** Rebased the branch onto fetched `origin/main`
+  `88051ce785a38965e26b5744b6c8fc53e37fcc41`; the source implementation at
+  that point was `ec0c9867068a5313a3ef0a5b42955d8c8512d9e9`. The main-ownership
   transaction was `FREE` at the preceding inventory; recheck immediately
   before acquiring `MERGE`.
 - A subsequent three-commit main-ownership status transaction advanced
   `origin/main` to `1e9a6dab03c07ea9990fe4f65039ffdc4e784f45`. Rebased the
-  four branch commits onto that exact ref; the source implementation is now
+  four branch commits onto that exact ref; the source implementation at that
+  point was
   `ec0c9867068a5313a3ef0a5b42955d8c8512d9e9`.
-- **Latest-main refresh:** Rebased all five branch commits onto fetched
+- **Main refresh:** Rebased all five branch commits onto fetched
   `origin/main` `3873311c9eb041df86285a31199fd68e7c3ae6a3`. The source
-  implementation is now `8925bae1fa80d9eacbb7ca13e73e7752fab01d26`.
+  implementation at that point was
+  `8925bae1fa80d9eacbb7ca13e73e7752fab01d26`.
   Dashboard conflicts during the preceding rebase were resolved by retaining
   newer upstream status and this branch's nonterminal entry.
-- **Fresh capacity inventory:** The complete session inventory and active
+- **Latest-main refresh:** Rebased all six branch commits onto fetched
+  `origin/main` `d0110af8079014e07022a9a935ada6f93f81407d`. The source
+  implementation is now `18e9b961715ced2f49a4f37480e1ba41ce1ab4d9`.
+- **Fresh capacity inventory at 14:55Z:** The complete session inventory and active
   subagent list were refreshed at `2026-09-25T14:55Z`. Resource Manager
   reported 16 active agents, `max_agents: 0`, and zero available slots because
   one-minute system load reached the six-core limit. The inventory was fresh;

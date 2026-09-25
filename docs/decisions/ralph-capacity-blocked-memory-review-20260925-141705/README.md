@@ -6,8 +6,8 @@
 - **Base `origin/main`:**
   `1e9a6dab03c07ea9990fe4f65039ffdc4e784f45`
 - **Implementation commit:**
-  `8925bae1fa80d9eacbb7ca13e73e7752fab01d26`
-- **Latest rebase base:** `3873311c9eb041df86285a31199fd68e7c3ae6a3`
+  `18e9b961715ced2f49a4f37480e1ba41ce1ab4d9`
+- **Latest rebase base:** `d0110af8079014e07022a9a935ada6f93f81407d`
 - **PR:** `NOT_OPENED`; integration uses the repository's authorized
   coordinator-managed no-PR fast-forward path.
 
@@ -43,7 +43,7 @@
 - TDD Red: the new focused contract test failed because the capacity-blocked
   completion/resume requirements were absent.
 - TDD Green/refactor: after the latest rebase onto
-  `3873311c9eb041df86285a31199fd68e7c3ae6a3` and indexing this branch's status
+  `d0110af8079014e07022a9a935ada6f93f81407d` and indexing this branch's status
   leaf, the focused capacity test passed and the Ralph multi-agent, Project
   Memory Update, and main-ownership contracts passed 25, 1, and 7 tests
   respectively. `git diff --check` passed.
