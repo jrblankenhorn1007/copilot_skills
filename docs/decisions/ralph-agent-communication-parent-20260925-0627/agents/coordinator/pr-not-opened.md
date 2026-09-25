@@ -4,7 +4,7 @@
   `communication-baseline` / `coordinator` / 1
 - **Branch:** `ralph/agent-communication-parent-20260925-0627`
 - **Base `origin/main` SHA:** `20293c720b18a1a21ff150f566823493b7a2717d`
-- **Current parent implementation SHA:** `fc584cde2b952c2139b062a1aedd56edb7a80f41`
+- **Current parent implementation SHA:** `fc3800ffd6ec815a442bd7d710221b1d27c04cf8`
 - **Agent:** `coordinator`; runtime ID
   `copilotcli:/870bde06-54d5-4b31-b052-c6167704e5fb`
 - **PR:** Not opened. The repository's documented normal path is a
@@ -113,6 +113,15 @@
   three agent-sync commits affecting only the ownership ledger and another
   coordinator status. The parent will be rebased and retested on the latest
   status-only tip before the worker's new iteration starts.
+- Rebased the clean parent from
+  `f6e2c6eb2d4dd7cd2110f1ce965cdf7497ee0467` onto
+  `origin/main` `e387ac171159a057f5aa31032014e375a3713547`, producing
+  `fc3800ffd6ec815a442bd7d710221b1d27c04cf8`. All 51 commits map one-to-one,
+  whitespace checks pass, and both targeted/full contract runs fail only the
+  three expected fallback assertions. Worker candidates are
+  `d7c166cf9e2f7d497f2680c1cc53398231014dd6` and
+  `c029437bf05260e711d6ccdffbc2e1c382364e8b`; the main ownership record is
+  `FREE` at revision 218.
 
 ## Unresolved blockers
 

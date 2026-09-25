@@ -1131,3 +1131,22 @@
   distinction; worker-01 remains paused.
 - **Next:** Commit this state, rebase onto `e387ac17...`, rerun the target
   and full contract checks, then rebase the worker child before authorization.
+
+## 2026-09-25T17:37:56Z — parent rebased onto latest main
+
+- **Rebase:** After recording the `e387ac17...` status-only advance, rebased
+  the clean parent from `f6e2c6eb2d4dd7cd2110f1ce965cdf7497ee0467` onto
+  `origin/main` `e387ac171159a057f5aa31032014e375a3713547`, producing
+  `fc3800ffd6ec815a442bd7d710221b1d27c04cf8`. All 51 parent commits map
+  one-to-one in `git range-diff`; `git diff --check origin/main...HEAD`
+  passed.
+- **Red:** The targeted communication test and full 29-test suite were
+  rerun. Only the three intended message-limit fallback assertions fail.
+- **Worker targets:** Current rebased skill and pipeline commits are
+  `d7c166cf9e2f7d497f2680c1cc53398231014dd6` and
+  `c029437bf05260e711d6ccdffbc2e1c382364e8b`.
+- **Remote/ownership:** No main movement occurred during this rebase/test
+  cycle; `origin/main` remains `e387ac17...`, ownership is `FREE` at revision
+  218.
+- **Next:** Commit the rebase and Red evidence, rebase the clean worker-01
+  child onto the exact resulting parent tip, then send `READY_TO_EDIT`.
