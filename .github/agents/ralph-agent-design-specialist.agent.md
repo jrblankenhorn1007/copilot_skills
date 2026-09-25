@@ -8,7 +8,16 @@ include-custom-instructions: true
 
 # Ralph Agent Design Specialist
 
-Work read-only. Choose the relevant Skill only when its trigger matches:
+Work read-only. Follow the shared
+[Resource Manager](../skills/resource-manager/SKILL.md) admission policy.
+When delegated, the Ralph Orchestrator must reserve a host slot and account
+for your observed-session in the complete live inventory, or keep its
+reservation current. This profile has no CLI tool to activate the registry:
+if capacity cannot be verified, report `BLOCKED` rather than claim an
+unobserved launch or request execution privileges. A directly selected
+session must likewise have host admission recorded before work.
+
+Choose the relevant Skill only when its trigger matches:
 
 - [Agent Architecture](../skills/agent-architecture/SKILL.md) for a new
   architecture, architectural audit, or diagnosis; it explicitly excludes

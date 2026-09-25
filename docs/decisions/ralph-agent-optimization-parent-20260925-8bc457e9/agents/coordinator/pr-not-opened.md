@@ -71,4 +71,9 @@
   reserve and maintain verified host accounting, or block dispatch and
   use an authorized, capacity-admitted fallback. A `BLOCKED` task record
   with sign-out but no explicit scope release is not assumed to transfer
-  another coordinator's shared paths.
+  another coordinator's shared paths. The blocked role-hierarchy owner
+  subsequently confirmed the shared edit claim's release, and this run
+  claimed those paths in task revision 2. Its separate role implementation
+  remains unmerged: adapt the deployed Ralph coordinator now and preserve
+  that branch for later rebase rather than silently integrating unfinished
+  worker sign-off.

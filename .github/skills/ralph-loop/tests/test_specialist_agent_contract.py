@@ -82,6 +82,28 @@ class SpecialistAgentContractTests(unittest.TestCase):
             with self.subTest(rule=rule):
                 self.assertIn(rule, content)
 
+    def test_specialists_have_capacity_handoffs_without_widening_read_only_tools(self):
+        for filename, expected in AGENTS.items():
+            with self.subTest(agent=filename):
+                content = (ROOT / ".github" / "agents" / filename).read_text(
+                    encoding="utf-8"
+                ).lower()
+                if "../skills/resource-manager/skill.md" not in content:
+                    self.fail(f"{filename} does not reference shared host admission")
+                if "'execute'" in expected["tools"]:
+                    for requirement in ("reservation_id", "activate", "heartbeat", "release"):
+                        with self.subTest(rule=requirement):
+                            self.assertIn(requirement, content)
+                else:
+                    for requirement in (
+                        "orchestrator",
+                        "observed-session",
+                        "capacity cannot be verified",
+                    ):
+                        with self.subTest(rule=requirement):
+                            self.assertIn(requirement, content)
+                    self.assertNotIn("'execute'", content.split("---\n", 2)[1])
+
     def test_analysis_specialists_do_not_turn_audits_into_implementation(self):
         for filename in (
             "ralph-agent-design-specialist.agent.md",

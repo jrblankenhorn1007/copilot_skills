@@ -11,8 +11,8 @@
 | Branch / slug | `ralph/agent-optimization-parent-20260925-8bc457e9` / `ralph-agent-optimization-parent-20260925-8bc457e9` |
 | Worktree | `/Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-optimization-parent-20260925-8bc457e9` |
 | Started at UTC | `2026-09-25T04:32:37Z` |
-| Updated at UTC | `2026-09-25T10:34:01Z` |
-| Time spent / token spend | `21,684 s (wall-clock)` / `NOT_REPORTED` |
+| Updated at UTC | `2026-09-25T10:40:06Z` |
+| Time spent / token spend | `22,049 s (wall-clock)` / `NOT_REPORTED` |
 | Base `origin/main` SHA | `8da9310fda1b2e3042a379081dfb0675f1b22d6b` |
 | Latest parent rebase target | `9dc821917a5ffe32517c44131c1211291d9b1014` |
 | Parent implementation commit | `082f0d0dd543b516f875a232357390fcdadadffc` (before the final parent rebase) |
@@ -21,9 +21,9 @@
 | Child integrations | Local merges verified: specialists `c37f00081b4cb3cbae565437bcd8c8da709a8c3e`; routing `082f0d0dd543b516f875a232357390fcdadadffc`. |
 | Parent-to-main merge | `PENDING` |
 | Memory review | `PENDING` |
-| Checks | Baseline Ralph contract: `PASS` (13 tests); earlier rebased contract: `PASS` (14 tests); both child contracts: `PASS` (8 tests); revised routing contract: `PASS` (7 tests); final checks: `NOT_RUN`. |
-| Blockers | The role-hierarchy coordinator signed out as `BLOCKED`, but has not explicitly confirmed release of the shared Ralph entrypoint, README, dashboard, and contract paths; parent rebase and final wiring await that handoff. |
-| Next action | Confirm shared-scope release, rebase and retest child integrations, then wire conditional specialist dispatch and synchronize the dashboard. |
+| Checks | Baseline Ralph contract: `PASS` (13 tests); earlier rebased contract: `PASS` (14 tests); both child contracts: `PASS` (8 tests); revised specialist/routing/status contracts: `PASS` (13 tests); final checks: `NOT_RUN`. |
+| Blockers | The separate role-hierarchy branch remains blocked and unmerged; its signed-out coordinator explicitly released the shared edit claim, so this parent can integrate against the currently shipped Ralph Loop profile without claiming that role hierarchy is live. |
+| Next action | Rebase onto fetched main, renew child evidence, wire conditional specialist dispatch into the current Ralph coordinator, and synchronize the dashboard. |
 
 ```yaml
 run_id: "copilot-skills-agent-routing-20260925-8bc457e9"
@@ -37,11 +37,11 @@ parent_branch: "ralph/agent-optimization-parent-20260925-8bc457e9"
 parent_worktree: "/Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-optimization-parent-20260925-8bc457e9"
 base_origin_main_sha: "8da9310fda1b2e3042a379081dfb0675f1b22d6b"
 parent_base_origin_main_sha: "8da9310fda1b2e3042a379081dfb0675f1b22d6b"
-current_origin_main_sha: "70b8e200807e4f1ca4c96cd4a1b20fce2744695f"
+current_origin_main_sha: "d313126de581b144aaae65ce71ba11d42dd93a63"
 parent_rebased_onto_origin_main_sha: "9dc821917a5ffe32517c44131c1211291d9b1014"
 parent_implementation_commit_sha: "082f0d0dd543b516f875a232357390fcdadadffc"
 resource_usage:
-  time_spent_seconds: 21684
+  time_spent_seconds: 22049
   time_basis: WALL_CLOCK_ELAPSED
   token_spend:
     status: NOT_REPORTED
@@ -85,7 +85,9 @@ checks:
     result: "PASS: 8 focused tests after serial child integration"
   - command: "PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s .github/skills/ralph-loop/tests -p test_skill_aware_routing.py -q"
     result: "PASS: 7 routing tests after adapting to the Ralph role hierarchy and Resource Manager host admission"
+  - command: "PYTHONDONTWRITEBYTECODE=1 python3 -m unittest test_specialist_agent_contract test_skill_aware_routing test_multi_agent_contract.MultiAgentContractTests.test_status_protocol_records_overall_worker_iteration_and_attestation -q"
+    result: "PASS: 13 specialist, routing, and status tests after adding profile-level host-admission handoffs"
 blockers:
-  - "The role-hierarchy coordinator signed out as BLOCKED, but its task record has no explicit scope_release. Wait for its confirmation before editing the shared entrypoint, skill, README, dashboard, or existing contract."
-next_action: "Confirm the role-hierarchy scope release, rebase and retest this parent, then wire tested specialist dispatch and synchronize the dashboard."
+  - "The separate role-hierarchy branch is blocked and unmerged; do not represent its three-role chain as deployed or take over its worker's unfinished sign-off."
+next_action: "Rebase this parent onto fetched main, renew child merge evidence, wire the currently deployed Ralph coordinator, and synchronize the dashboard."
 ```

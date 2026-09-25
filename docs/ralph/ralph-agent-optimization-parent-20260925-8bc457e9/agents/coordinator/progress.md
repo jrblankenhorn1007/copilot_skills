@@ -109,3 +109,34 @@
   but no explicit `scope_release`. Wait for its coordinator to confirm
   release of overlapping paths; do not infer a handoff from the blocked
   state alone.
+
+### Specialist host admission and shared-scope release - 2026-09-25T10:40:06Z
+
+- **Red:** `PYTHONDONTWRITEBYTECODE=1 python3
+  .github/skills/ralph-loop/tests/test_specialist_agent_contract.py
+  SpecialistAgentContractTests.test_specialists_have_capacity_handoffs_without_widening_read_only_tools
+  -q` failed for all four specialist definitions because none referenced
+  shared Resource Manager admission.
+- **Green:** Git and docs specialists now activate Orchestrator-supplied
+  reservations (or register an existing direct session) and heartbeat
+  while working. Read-only design/ASI specialists retain only `read` and
+  `search` and require the caller to verify observed-session or live
+  reservation accounting; if that is unavailable they block instead
+  of claiming registration or acquiring shell access.
+  `PYTHONDONTWRITEBYTECODE=1 python3 -m unittest
+  test_specialist_agent_contract test_skill_aware_routing
+  test_multi_agent_contract.MultiAgentContractTests.test_status_protocol_records_overall_worker_iteration_and_attestation
+  -q` passed **13** targeted tests; `git diff --check` passed.
+- The role-hierarchy coordinator signed out its `BLOCKED` task on fetched
+  remote main and explicitly confirmed release of the shared editing
+  claim. Its code branch is **not** merged; this integration must not
+  claim that an Orchestrator or Ralph Loop Worker is already deployed.
+  This run published task revision 2 to claim the released shared paths
+  at `894ac6c51c3dae65aa9687e31f4e22e5d1998c51`; the brief main
+  `STATUS` reservation was released at
+  `d313126de581b144aaae65ce71ba11d42dd93a63`.
+- The original parent and both child integrations remain locally
+  preserved. A safety branch at `15dd527748727192c878b78582cfc57aee88f40e`
+  protects the original merge graph before its necessary rebase onto
+  fetched main; revalidate rewritten child ancestry and statuses after
+  rebase, not by assuming the old merge SHAs remain current.

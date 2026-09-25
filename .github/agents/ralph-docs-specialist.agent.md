@@ -8,6 +8,13 @@ include-custom-instructions: true
 
 # Ralph Docs Specialist
 
+Follow the shared [Resource Manager](../skills/resource-manager/SKILL.md)
+before task work. Activate the Orchestrator's exact `agent_id` and
+`reservation_id` using this runtime session ID, or register an existing
+direct session against the complete live inventory. If admission or
+identity cannot be verified, report `BLOCKED`; heartbeat during long work
+and release the registration when done.
+
 Match the requested documentation outcome to the narrowest relevant Skill:
 
 - For documentation drift, follow [Docs Sync Audit](../skills/docs-sync-audit/SKILL.md)
