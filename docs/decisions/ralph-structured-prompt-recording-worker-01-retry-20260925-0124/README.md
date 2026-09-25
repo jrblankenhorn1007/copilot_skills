@@ -9,7 +9,7 @@
 - Base `origin/main`: `485b4a64c871f581f9295e46c867b188b0e3ccee`
 - Rebased onto `origin/main`: `114e4d60567d05cd048916339ed86e324c6eeef3`
 - Implementation commit: `2032d6a5a3696e70369e95d347017d2f4a6bdab3`
-  (local; not published).
+  (published on the worker branch; not merged).
 
 ## Branch records
 
@@ -40,15 +40,16 @@ implementation commit is the SHA above.
 
 ## Current integration state
 
-The branch is clean after rebase onto current `origin/main` and remains
-`BLOCKED` before PR creation. The leaf status uses the recognized Markdown
+The branch is rebased onto current `origin/main` and remains `BLOCKED` because
+PR creation is unavailable. The leaf status uses the recognized Markdown
 table form and retains matching YAML `status: BLOCKED`. The coordinator committed the dashboard row as
 `facfc0d5c833aa99d100fc0196dfc77952d6d570`; it changed no implementation
 files. After that commit, the focused test passed (7), the full Ralph contract
 suite passed (11), and `git diff --check` passed. Worker-01 did not edit
-`docs/ralph-status.md` or worker-02's contract test. No PR, merge, publication,
-or remote-main integration has occurred. PR creation remains unavailable:
-`gh` is unavailable, the available GitHub MCP operations are read-only, and
-the current repository rule prohibits browser use for GitHub operations.
+`docs/ralph-status.md` or worker-02's contract test. The branch was published
+at `c973b9e0aab7614b770509de56289e719540ed7f`; no PR or merge exists. PR
+creation remains unavailable: `gh` is unavailable, the available GitHub MCP
+operations are read-only, and the current repository rule prohibits browser
+use for GitHub operations.
 If a PR is later created, the worker must remain `AWAITING_MERGE` until the
 coordinator authorizes that exact PR and must not merge before authorization.

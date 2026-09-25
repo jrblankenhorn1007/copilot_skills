@@ -206,8 +206,7 @@
 - `git fetch origin` after the record cleanup confirmed
   `origin/main` remains `114e4d60567d05cd048916339ed86e324c6eeef3`.
 - After cleanup, the focused prompt test passed 7 tests, the full Ralph
-  contract suite passed 11 tests, and `git diff --check` passed. A
-  branch-only push attempt is pending.
+  contract suite passed 11 tests, and `git diff --check` passed.
 
 ### Final verification after origin refresh
 
@@ -220,5 +219,23 @@
 - `git diff --check` exited 0.
 - The implementation remains at
   `2032d6a5a3696e70369e95d347017d2f4a6bdab3`; status remains `BLOCKED` while
-  PR creation is unavailable. The required branch-only push attempt is the
-  remaining operation.
+  PR creation is unavailable.
+- After recording the successful initial push, worker-01 reran the focused
+  prompt test (7 passed), full Ralph contract suite (11 passed), and
+  `git diff --check` (passed) on the published branch tree. Fresh
+  self-attestation at `2026-09-25T02:46:02Z` remains bound to implementation
+  commit `2032d6a5a3696e70369e95d347017d2f4a6bdab3`.
+
+## Branch-only publication and sign-off
+
+- `git push -u origin ralph/structured-prompt-recording-worker-01-retry-20260925-0124`
+  exited 0. The remote branch was created and tracks `origin/ralph/structured-prompt-recording-worker-01-retry-20260925-0124`
+  at `c973b9e0aab7614b770509de56289e719540ed7f`. No force push or main push
+  was used.
+- No PR was opened. `gh` is unavailable, GitHub MCP exposes read-only
+  operations, and the current no-browser rule prohibits browser-based
+  GitHub operations. The `create-pr` skill has no writable action exposed in
+  this session; the branch is preserved and status remains `BLOCKED`.
+- Fresh self-attestation at `2026-09-25T02:44:44Z` is bound to implementation
+  commit `2032d6a5a3696e70369e95d347017d2f4a6bdab3`. It is
+  `NOT_CRYPTOGRAPHICALLY_SIGNED`; no merge was attempted or authorized.

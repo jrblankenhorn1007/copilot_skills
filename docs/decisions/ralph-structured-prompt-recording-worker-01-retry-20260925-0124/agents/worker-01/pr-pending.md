@@ -11,9 +11,10 @@
 - Latest fetched `origin/main`: `114e4d60567d05cd048916339ed86e324c6eeef3`
 - Rebased `origin/main`: `114e4d60567d05cd048916339ed86e324c6eeef3`
 - Implementation commit: `2032d6a5a3696e70369e95d347017d2f4a6bdab3`
-  (local; not published).
+  (published on the worker branch; not merged).
 - Coordinator dashboard commit in current branch worktree:
   `facfc0d5c833aa99d100fc0196dfc77952d6d570` (dashboard-only).
+- Published branch tip: `c973b9e0aab7614b770509de56289e719540ed7f`.
 - PR: pending; no PR number or URL assigned yet.
 - State: `BLOCKED`; the expected PR has not been created.
 
@@ -72,9 +73,10 @@
   contract-test edit was made.
 - A coordinator-owned, unstaged change to `docs/ralph-status.md` later added
   this branch's leaf paths; with that external change present, the full suite
-  passed. Worker-01 did not stage or commit the dashboard. The implementation
-  commit alone still lacks that aggregate index until the coordinator's
-  change is integrated.
+  passed. Worker-01 did not stage or commit the dashboard. The coordinator
+  later committed the dashboard-only update
+  `facfc0d5c833aa99d100fc0196dfc77952d6d570` on the worker branch; it contains
+  the aggregate index and is separate from the implementation commit.
 - The coordinator then reported a subsequent contract failure because the
   leaf status did not use the recognized Markdown table form. Worker-01 has
   changed only its own status/progress/decision records to show `BLOCKED` in
@@ -103,12 +105,14 @@ current rebased implementation commit is
 `2032d6a5a3696e70369e95d347017d2f4a6bdab3`; it and the worker-owned records
 are committed locally with the required Copilot co-author trailer. The
 post-dashboard check results are 7 focused tests passed, 11 full contract
-tests passed, and `git diff --check` passed. The feature branch has not been
-pushed, no PR has been opened, and no merge has been attempted.
+tests passed, and `git diff --check` passed. The feature branch was published with
+`git push -u origin ralph/structured-prompt-recording-worker-01-retry-20260925-0124`
+(exit 0); its remote tip is `c973b9e0aab7614b770509de56289e719540ed7f`. No
+PR has been opened and no merge has been attempted.
 
 ## Unresolved blockers
 
 - PR creation is blocked because `gh` is unavailable and the available
   GitHub MCP methods are read-only. No supported writable PR integration is
-  exposed, and browser-based GitHub operations are prohibited. No branch
-  publication or merge has been attempted.
+  exposed, and browser-based GitHub operations are prohibited. The branch is
+  published, but there is no PR or merge.
