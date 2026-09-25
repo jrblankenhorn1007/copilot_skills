@@ -204,3 +204,53 @@
   Its earlier 16-test Green result does not cover the refreshed parent;
   worker-01 must rebase onto the exact parent tip after this status sync,
   rerun the full current contract suite, and refresh its sign-off.
+
+## Agent-sync onboarding and latest parent verification
+
+- The shared agent-sync protocol was added after this run began. The
+  coordinator registered the existing run before further status edits,
+  explicitly noting that earlier implementation work predates the ledger.
+  Revision 1 is `IN_PROGRESS`, with its exact user prompt and runtime ID
+  recorded in the live ledger. The status commit
+  `0ef4cb615a5586f383a3fbcffba296ab687251a0` and main reservation
+  sign-in/release commits `1fc1ecae1f798824e4186676a476c346c4081b04` and
+  `65ed98d9c3169953f05477d4d248236e1f514542` were fetched and verified.
+- The coordinator's first Resource Manager heartbeat found no live registry
+  entry because its lease had expired. After refreshing the complete session
+  and subagent inventory, the same already-running coordinator registered
+  successfully. The fresh inventory showed 16 active agents, zero available
+  slots, and load above the host's six logical cores; no additional agent was
+  launched.
+- During the refresh, `origin/main` advanced from `13abaa65308345f7d34af0f99e745be6ce5fcd9d`
+  to `435fd371c0121c8318c3c8459e3f8e0dfca635e6`. The parent rebase preserved
+  the current dashboard, retained this run, and dropped the completed
+  Resource Manager run from `current_run_ids`. Two dashboard conflicts were
+  resolved by preserving upstream run states and the local status-first run
+  entry. Subsequent status-only main advances were incorporated by rebasing
+  through `be82c0c262c29834c9b4f50937cef1cc4024958a`,
+  `e3763b0970df937bcf24acffbaafa2c36ee8516b`,
+  `65ed98d9c3169953f05477d4d248236e1f514542`, and finally
+  `d78b3e2dbb5151016df3fdd7fa7be05b3a26144d`.
+- The focused contract suite was run from the explicit parent worktree after
+  the latest rebase:
+  `python3 -m unittest discover -s .github/skills/ralph-loop/tests` —
+  **PASS** (`Ran 60 tests in 39.148s, OK`). The corresponding
+  `git diff --check origin/main...HEAD` also passed.
+- A prior test invocation from the separate
+  `update-task-status-reporting` worktree returned 11 passing tests; it was
+  not accepted as evidence. The explicit parent-worktree suite above is the
+  verified result.
+- The worker-01 sign-off remains bound to implementation commit
+  `eeb087c1914929b5c93a400af0a9c161ea73d7dc` and child tip
+  `68519b1eef33abbe65794fed3d941315e15bc204`. The rebased parent contains
+  the reporting-guidance implementation at
+  `96476afc3e5014c14ca5ad829eb1f39cf6abfbea`; the worker remains
+  `AWAITING_MERGE` until remote integration and the required memory review
+  are verified.
+- **Current status:** `IN_PROGRESS`; there are no active workers or
+  unresolved blockers. Worker-02 is `COMPLETE`, worker-01 is
+  `AWAITING_MERGE`, the parent-to-main merge is pending, and memory review is
+  pending.
+- **Next action:** Acquire `MERGE` ownership, reconcile its sign-in commit
+  into the parent, perform the documented no-PR fast-forward, verify the
+  fetched `origin/main`, then complete the post-merge memory review.

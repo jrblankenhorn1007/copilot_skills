@@ -1,10 +1,12 @@
 # Coordinator Integration Record — No PR Opened
 
 - **Agent:** `coordinator`
-- **Runtime agent ID:** unavailable
+- **Runtime agent ID:** `copilotcli:/c5d38c95-4501-4780-afca-ae20c479fa27`
 - **Branch:** `ralph/agent-status-reporting-20260924-2313`
 - **Base `origin/main`:** `9558f99cc34cbed8dd1d24f4f15fc03f5d78b6ea`
-- **Implementation commit SHA:** pending
+- **Latest rebase onto `origin/main`:** `d78b3e2dbb5151016df3fdd7fa7be05b3a26144d`
+- **Latest fetched `origin/main`:** `d78b3e2dbb5151016df3fdd7fa7be05b3a26144d`
+- **Implementation commit SHA:** `96476afc3e5014c14ca5ad829eb1f39cf6abfbea`
 - **PR:** `NOT_OPENED`
 - **Integration path:** The repository's current documented workflow uses a
   coordinator-serialized fast-forward to `origin/main`; follow any active
@@ -147,3 +149,38 @@
   regression coverage. No upstream history or task assertions were discarded.
 - **Next:** Commit the parent status synchronization, then have worker-01
   rebase and rerun the suite against the resulting exact parent tip.
+
+## Agent-sync onboarding and latest parent rebase
+
+- The live agent-sync ledger was introduced after this run started. The
+  coordinator registered the existing run before its remaining status edits,
+  marking the late registration honestly rather than backdating it. Revision 1
+  was published as `0ef4cb615a5586f383a3fbcffba296ab687251a0`; its main
+  reservation sign-in `1fc1ecae1f798824e4186676a476c346c4081b04` and release
+  `65ed98d9c3169953f05477d4d248236e1f514542` were verified on `origin/main`.
+- A Resource Manager heartbeat initially found no live registration because
+  the coordinator lease had expired. The coordinator refreshed the complete
+  host inventory and re-registered its existing session. Capacity was zero,
+  so no new worker was launched.
+- The parent was rebased onto fetched `origin/main`
+  `d78b3e2dbb5151016df3fdd7fa7be05b3a26144d`. During the first refresh,
+  dashboard conflicts were resolved by retaining upstream run records and
+  the active status-first run; a stale completed Resource Manager ID was not
+  re-added to `current_run_ids`. Later agent-sync-only main commits were
+  incorporated without source conflicts.
+- The post-rebase parent contract suite passed:
+  `python3 -m unittest discover -s .github/skills/ralph-loop/tests`
+  (`Ran 60 tests in 39.148s, OK`). `git diff --check origin/main...HEAD`
+  also passed.
+- A test run from the separate session worktree returned 11 tests but did
+  not validate this parent and was discarded; the explicit parent-worktree
+  run above is the accepted evidence.
+- The worker-01 implementation remains `AWAITING_MERGE`; its sign-off is
+  `eeb087c1914929b5c93a400af0a9c161ea73d7dc`, with child tip
+  `68519b1eef33abbe65794fed3d941315e15bc204`. The current parent implementation
+  commit is `96476afc3e5014c14ca5ad829eb1f39cf6abfbea`. The run remains
+  `IN_PROGRESS` pending the authorized parent-to-main fast-forward and
+  post-merge memory review.
+- **Next action:** Acquire `MERGE` ownership, reconcile its sign-in commit,
+  push only through the documented no-PR fast-forward process, verify
+  `origin/main`, and complete the memory review.

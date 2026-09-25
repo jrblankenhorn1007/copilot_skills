@@ -3,9 +3,9 @@
 - **Branch:** `ralph/agent-status-reporting-20260924-2313`
 - **Branch slug:** `ralph-agent-status-reporting-20260924-2313`
 - **Base `origin/main` SHA:** `9558f99cc34cbed8dd1d24f4f15fc03f5d78b6ea`
-- **Latest rebase onto `origin/main`:** `7ee1307cb47f5a88cd6b46ee135444777ddeb665`
-- **Latest fetched `origin/main`:** `7ee1307cb47f5a88cd6b46ee135444777ddeb665`
-- **Implementation commit SHA:** pending
+- **Latest rebase onto `origin/main`:** `d78b3e2dbb5151016df3fdd7fa7be05b3a26144d`
+- **Latest fetched `origin/main`:** `d78b3e2dbb5151016df3fdd7fa7be05b3a26144d`
+- **Implementation commit SHA:** `96476afc3e5014c14ca5ad829eb1f39cf6abfbea`
 - **Run:** `copilot_skills-agent-status-reporting-20260924`
 - **Agents:** coordinator, worker-01, worker-02
 - **PR:** `NOT_OPENED` under the repository's existing verified fast-forward
@@ -14,8 +14,8 @@
 ## Agent records
 
 - [Coordinator integration record](agents/coordinator/pr-not-opened.md)
-- Worker-02 and worker-01 records will be linked here when their child
-  branches are integrated into the parent.
+- [Worker-02 child record](../ralph-agent-status-contract-worker-02-20260924-2324/agents/worker-02/pr-not-opened.md)
+- [Worker-01 child record](../ralph-agent-status-reporting-worker-01-20260925-0602/agents/worker-01/pr-not-opened.md)
 
 ## Decisions
 
