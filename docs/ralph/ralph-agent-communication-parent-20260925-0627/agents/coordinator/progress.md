@@ -808,3 +808,41 @@
   exact-SHA status/sign-off/handoff against the new parent if main is still
   unchanged; integrate worker metadata and synchronize the dashboard before
   resuming worker-02.
+
+## 2026-09-25T13:59:57Z — parent refreshed after pre-creation main movement
+
+- **Upstream movement:** `origin/main` advanced from
+  `e3763b0970df937bcf24acffbaafa2c36ee8516b` to
+  `65ed98d9c3169953f05477d4d248236e1f514542` through three status-only
+  commits for the status-reporting coordinator. Main ownership is `FREE` at
+  revision 98.
+- **Rebase:** Rebased parent
+  `d11c9c4d600b1d37ef10b43b62dd14566db564f9` onto `65ed98d9c3169953f05477d4d248236e1f514542`
+  without conflicts. New parent HEAD is
+  `cf4c5811b4c954e15f9f28436909572b47b479bc`.
+- **Worker SHA mapping:** Worker-01 implementation/series
+  `fc0dd7338134f5c1009e45fe8d64b02d03134c1a` /
+  `b7cb0fb2230be6c960f5c2b0226865435755e04d` map to
+  `00f775d0c4cda85bfd047f529adbd15d75564b00` /
+  `719f457611d028fbba27bc3c4a7b75da8cdc1f19`. Worker-02 implementation/
+  series `e70b9b0ecbdfc6aa9f83980f1c29e8b421d8f464` /
+  `227e0c88ac51af3581c3a6e643299de08739f39e` map to
+  `65b4cd304765e8cc19e22c93ae818c7720f648af` /
+  `1069bc69efd2c8836714814533118ff5cb7a5e43`. Range-diff confirms the
+  mappings; all four current commits are ancestors of the parent.
+- **Green:** Full contract suite passed 24/24; parent diff check, both
+  implementation `git show --check` checks, and four ancestry checks passed.
+- **Worker metadata:** Worker-01 stopped before creating a branch when
+  `origin/main` moved beyond the supplied base. Existing commit
+  `c2b643ad…` and earlier metadata branches remain preserved and
+  unintegrated. Worker-02 remains paused.
+- **Coordination adjustment:** The next worker update will use the exact
+  current parent even if `origin/main` advances afterward, provided the
+  parent itself remains unchanged and clean. The worker must report
+  `parent_rebased_onto_origin_main_sha` and the latest
+  `current_origin_main_sha` separately; this preserves exact state without
+  canceling a valid parent-based metadata update over status-only main
+  movement.
+- **Next:** Commit this evidence and send worker-01 the exact new parent and
+  current rebase base; integrate its status commit, then synchronize the
+  dashboard before resuming worker-02.
