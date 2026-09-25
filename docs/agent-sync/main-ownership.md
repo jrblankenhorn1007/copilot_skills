@@ -86,6 +86,33 @@ merge queue accepts work but applies it later, release any local checkout
 after submission; the queue owns remote ordering. This reservation does
 not transfer merge permission or allow an unauthorized direct main push.
 
+For an authorized no-PR fast-forward, acquiring `MERGE` advances
+`origin/main` with the status-only sign-in commit. Do not push a parent
+based on the pre-reservation main tip: it no longer descends from remote
+main. Record the returned sign-in SHA, verify the reservation is still
+yours, and integrate that sign-in commit into the parent in its isolated
+worktree without checking out `main`. Where merge commits are permitted,
+`git merge --no-ff <sign-in-sha>` preserves already verified child commit
+IDs; follow the repository's commit-message requirements. If policy
+requires linear history, rebase onto the signed-in tip instead and renew
+any rewritten child attestations and acceptance checks. If reconciliation
+cannot be completed promptly, release the reservation after verifying
+whether a remote merge occurred; do not hold main for unrelated work.
+
+Before a non-force fast-forward push, fetch and recheck the current owner,
+then verify both the sign-in and latest remote tip are parent ancestors:
+
+```sh
+git merge-base --is-ancestor <sign-in-sha> <parent-branch>
+git merge-base --is-ancestor origin/main <parent-branch>
+```
+
+Push only through the repository's authorized process. Fetch and verify
+the exact result on `origin/main`, then release the `MERGE` reservation
+promptly. A failed or ambiguous push still requires the owner to reconcile
+the remote result and explicitly release or escalate; do not infer that
+failure freed main.
+
 On interruption or an ambiguous push result, fetch and reconcile the
 authoritative remote record and target commit before retrying. If the owner
 cannot release cleanly, keep the record occupied, identify the owner and

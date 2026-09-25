@@ -82,3 +82,11 @@ The final tip remains a parent ancestor with identical original owned
 content; its current sign-off is a coordinator `SELF_ATTESTATION`.
 The separate role coordinator has resumed in a narrower, disjoint scope,
 but its code branch is still unmerged.
+
+The authorized no-PR parent fast-forward
+`0b7db073e365e6c1c6e29d410c424d7c7637c9bf` and latest child
+tip are ancestors of fetched `origin/main` at
+`86fde358a421f64f4c979b24d0127e6797470bf9`. Main signed out
+after that merge. The coordinator's post-merge memory/protocol
+follow-up remains pending; retain this leaf as `AWAITING_MERGE`
+until its final synchronization.

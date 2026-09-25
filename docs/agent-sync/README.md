@@ -176,6 +176,18 @@ Save the returned `token` for this transaction. If a local main checkout is
 needed, pass `--main-worktree /path/to/main-checkout`; the tool rejects a
 dirty, detached, or unrelated checkout. Wait for the existing main owner
 to sign out rather than changing its checkout or forcing its remote ref.
+For an authorized no-PR fast-forward, acquiring `MERGE` advances
+`origin/main` with a sign-in commit. Do not push a parent based on the
+pre-reservation main tip. Integrate that sign-in commit into the parent
+on its isolated branch, without checking out `main` (for example, merge
+the returned sign-in SHA with a normal commit message when policy permits).
+Before the non-force push, confirm ownership again and check ancestry
+with `git merge-base --is-ancestor <sign-in-sha> <parent-branch>`.
+If policy requires a rebase instead, rerun checks and renew rewritten
+child sign-offs. Follow the
+[merge transaction protocol](./main-ownership.md#merge-transaction-and-recovery)
+for remote verification and failure handling; release the reservation
+promptly after a verified merge or a reconciled failure.
 After the authorized merge is verified on fetched `origin/main`, release
 main promptly with the actual resulting merge SHA:
 

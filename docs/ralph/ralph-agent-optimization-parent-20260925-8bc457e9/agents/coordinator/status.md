@@ -11,19 +11,19 @@
 | Branch / slug | `ralph/agent-optimization-parent-20260925-8bc457e9` / `ralph-agent-optimization-parent-20260925-8bc457e9` |
 | Worktree | `/Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-optimization-parent-20260925-8bc457e9` |
 | Started at UTC | `2026-09-25T04:32:37Z` |
-| Updated at UTC | `2026-09-25T11:08:40Z` |
-| Time spent / token spend | `23,763 s (wall-clock)` / `NOT_REPORTED` |
+| Updated at UTC | `2026-09-25T11:21:44Z` |
+| Time spent / token spend | `24,547 s (wall-clock)` / `NOT_REPORTED` |
 | Base `origin/main` SHA | `8da9310fda1b2e3042a379081dfb0675f1b22d6b` |
 | Latest parent rebase target | `70b98bbf0ab35620f7c33b5d9789187560c699df` (fetched `origin/main`). |
 | Parent implementation commit | `d0b35a12d425f016a5a9d918bc0bece0ba16896f` (deployed routing after final rebase). |
-| Pull request | `NOT_OPENED`; repository history documents a verified no-PR fast-forward when policy permits. |
+| Pull request | `NOT_OPENED`; authorized no-PR fast-forward verified on fetched remote main. |
 | Decision record | `docs/decisions/ralph-agent-optimization-parent-20260925-8bc457e9/agents/coordinator/pr-not-opened.md` |
 | Child integrations | Rebased local merges verified: specialists `491772f476bdade69bb332600fd27e86d6f997bf`; routing `691d5b4dbb18a87768294326fc924f28b1490249`. Both latest child tips are parent ancestors and preserve their original owned-file contents. |
-| Parent-to-main merge | `PENDING` |
-| Memory review | `PENDING` |
-| Checks | Baseline Ralph contract: `PASS` (13 tests); earlier rebased contract: `PASS` (14 tests); both child contracts: `PASS` (8 tests); dashboard/specialist/routing contracts: `PASS` (13 tests); deployed coordinator Red (15 expected failures), Green (15 tests); post-final-rebase full Ralph suite: `PASS` (55 tests); Resource Manager: `PASS` (15 tests). |
+| Parent-to-main merge | `VERIFIED` at `0b7db073e365e6c1c6e29d410c424d7c7637c9bf`; main `MERGE` reservation released at `5b7f729d8f48c90c5f2e1f5a7ef6ab29217db76c`. |
+| Memory review | `IN_PROGRESS`; a reusable reservation-ancestry lesson and protocol correction are pending follow-up integration. |
+| Checks | Deployed coordinator Red (15 expected failures), Green (15 tests); post-rebase full Ralph suite: `PASS` (55 tests); Resource Manager: `PASS` (15 tests); post-merge protocol-guide Red (13 expected assertions), Green (8 targeted tests). |
 | Blockers | None for this run. The separate role-hierarchy branch resumed work but has not merged; its current scope explicitly excludes this run's claimed shared paths. |
-| Next action | Retest the rebased parent and status records, then perform an authorized main merge with a short `MERGE` reservation and review project memory. |
+| Next action | Integrate and verify the post-merge protocol/memory follow-up from its isolated branch, then synchronize final status and sign out. |
 
 ```yaml
 run_id: "copilot-skills-agent-routing-20260925-8bc457e9"
@@ -37,11 +37,11 @@ parent_branch: "ralph/agent-optimization-parent-20260925-8bc457e9"
 parent_worktree: "/Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-optimization-parent-20260925-8bc457e9"
 base_origin_main_sha: "8da9310fda1b2e3042a379081dfb0675f1b22d6b"
 parent_base_origin_main_sha: "8da9310fda1b2e3042a379081dfb0675f1b22d6b"
-current_origin_main_sha: "70b98bbf0ab35620f7c33b5d9789187560c699df"
+current_origin_main_sha: "86fde358a421f64f4c979b24d0127e6797470bf9"
 parent_rebased_onto_origin_main_sha: "70b98bbf0ab35620f7c33b5d9789187560c699df"
 parent_implementation_commit_sha: "d0b35a12d425f016a5a9d918bc0bece0ba16896f"
 resource_usage:
-  time_spent_seconds: 23763
+  time_spent_seconds: 24547
   time_basis: WALL_CLOCK_ELAPSED
   token_spend:
     status: NOT_REPORTED
@@ -71,17 +71,22 @@ review:
   status: NOT_APPLICABLE
   reviewer_agents: []
 parent_to_main_merge:
-  status: PENDING
-  sha: null
+  status: VERIFIED
+  sha: "0b7db073e365e6c1c6e29d410c424d7c7637c9bf"
   verified_remote_ref: "refs/heads/main"
-  verified_origin_main_sha: null
-  verification_method: null
-  verified_at_utc: null
+  verified_origin_main_sha: "86fde358a421f64f4c979b24d0127e6797470bf9"
+  verification_method: "git merge-base --is-ancestor 0b7db073e365e6c1c6e29d410c424d7c7637c9bf origin/main; merged pipeline paths match fetched main"
+  verified_at_utc: "2026-09-25T11:21:44Z"
+main_reservation:
+  sign_in_commit_sha: "7a8f0253393b4e81053009b68afda1a42c38bcbb"
+  sign_out_commit_sha: "5b7f729d8f48c90c5f2e1f5a7ef6ab29217db76c"
+  state: FREE
 parent_cleanup:
   worktree: PENDING
   local_branch: PENDING
   remote_ref: NOT_PUBLISHED
-memory_review_status: PENDING
+memory_review_status: IN_PROGRESS
+memory_review_outcome: "Verified reservation-sign-in ancestry lesson; isolated protocol, contract, and workflow-memory follow-up awaits remote integration."
 decision_record_path: "docs/decisions/ralph-agent-optimization-parent-20260925-8bc457e9/agents/coordinator/pr-not-opened.md"
 checks:
   - command: "PYTHONDONTWRITEBYTECODE=1 python3 .github/skills/ralph-loop/tests/test_multi_agent_contract.py"
@@ -104,7 +109,9 @@ checks:
     result: "PASS: 55 Ralph tests after rebase onto 70b98bbf0ab35620f7c33b5d9789187560c699df"
   - command: "PYTHONDONTWRITEBYTECODE=1 python3 .github/skills/resource-manager/tests/test_resource_manager.py"
     result: "PASS: 15 Resource Manager tests after final rebase"
+  - command: "PYTHONDONTWRITEBYTECODE=1 python3 -m unittest test_main_ownership_contract test_multi_agent_contract.MultiAgentContractTests.test_orchestration_reference_defines_worker_split_and_git_sync -q"
+    result: "RED: 13 expected assertions for missing reservation sign-in ancestry; GREEN: 8 targeted tests after documenting and testing the no-PR integration step"
 blockers: []
 related_work: "The separate Orchestrator/Worker branch resumed work and remains unmerged; its renewed scope excludes this run's shared edit paths."
-next_action: "Retest the rebased parent, reserve main for an authorized merge, verify the remote result, then review memory."
+next_action: "Integrate the protocol and memory follow-up, verify its remote merge, then synchronize COMPLETE status and sign out."
 ```

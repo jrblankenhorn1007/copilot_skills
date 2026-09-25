@@ -240,3 +240,39 @@
   the parent, and both rewritten child tips remain ancestors with
   identical owned-file trees. No live dispatch was attempted under
   host capacity constraints.
+
+### Verified remote integration and post-merge memory follow-up - 2026-09-25T11:21:44Z
+
+- The authorized `MERGE` reservation signed in on remote main at
+  `7a8f0253393b4e81053009b68afda1a42c38bcbb`. Joining that
+  sign-in commit to the ready parent preserved both verified child
+  merge SHAs. A non-force fast-forward pushed
+  `0b7db073e365e6c1c6e29d410c424d7c7637c9bf` to main; fetch
+  confirmed the exact result and the publisher released `MERGE` at
+  `5b7f729d8f48c90c5f2e1f5a7ef6ab29217db76c`. Fetched main
+  `86fde358a421f64f4c979b24d0127e6797470bf9` contains the
+  implementation and both child tips with no changed routing/profile
+  files since that merge. The main record is `FREE`. No shared main
+  checkout was used for ordinary work or status publication.
+- Project Memory review found a durable, source-backed merge gotcha:
+  acquiring `MERGE` itself creates a status-only commit on remote main.
+  The parent must include that sign-in commit before a permitted no-PR
+  fast-forward; merging it on the isolated parent preserves child
+  attestations, whereas rebasing rewrites them. The publisher's
+  implementation and the fetched result confirm this Git invariant.
+  A fresh follow-up branch from released main
+  `5b7f729d8f48c90c5f2e1f5a7ef6ab29217db76c` updates the
+  main-ownership protocol, publisher guide, orchestration guidance,
+  and workflow memory. Task scope revision 3 was published with
+  immediate `STATUS` main release at
+  `bc874b341cfc76bd40eba752e53b129f607d1b51`.
+- **Post-merge Red:** `PYTHONDONTWRITEBYTECODE=1 python3 -m unittest
+  test_main_ownership_contract.MainOwnershipContractTests.test_no_pr_parent_fast_forward_includes_the_reservation_sign_in
+  -q` initially failed for missing guidance; after including
+  orchestration, it failed with **13 expected assertions**.
+  **Green:** `PYTHONDONTWRITEBYTECODE=1 python3 -m unittest
+  test_main_ownership_contract
+  test_multi_agent_contract.MultiAgentContractTests.test_orchestration_reference_defines_worker_split_and_git_sync
+  -q` passed **8** tests, and `git diff --check` passed. Follow-up
+  remote integration, post-refactor checks, and final dashboard/task
+  sign-out are still pending.

@@ -92,6 +92,30 @@ class MainOwnershipContractTests(unittest.TestCase):
                     f"agent-sync guide must cover main ownership: {requirement}",
                 )
 
+    def test_no_pr_parent_fast_forward_includes_the_reservation_sign_in(self):
+        protocol = instructions("docs/agent-sync/main-ownership.md")
+        guide = instructions("docs/agent-sync/README.md")
+        for path, content in (
+            ("main ownership protocol", protocol),
+            ("publisher guide", guide),
+            (
+                "Ralph orchestration",
+                instructions(
+                    ".github/skills/ralph-loop/references/multi-agent-orchestration.md"
+                ),
+            ),
+        ):
+            for requirement in (
+                "acquiring `merge` advances `origin/main`",
+                "integrate that sign-in commit into the parent",
+                "git merge-base --is-ancestor <sign-in-sha> <parent-branch>",
+                "do not push a parent based on the pre-reservation main tip",
+            ):
+                with self.subTest(path=path, requirement=requirement):
+                    self.assertTrue(requirement in content, f"{path} must {requirement}")
+        self.assertTrue("without checking out `main`" in protocol)
+        self.assertTrue("release the reservation promptly" in guide)
+
     def test_status_guide_keeps_main_signout_separate_from_task_state(self):
         guide = instructions(
             ".github/skills/ralph-loop/references/multi-agent-status.md"

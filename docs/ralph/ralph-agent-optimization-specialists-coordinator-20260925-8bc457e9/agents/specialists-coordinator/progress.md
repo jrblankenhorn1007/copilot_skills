@@ -79,3 +79,16 @@
   `SELF_ATTESTATION`, not a cryptographic Git signature or a launched
   worker attestation. Parent-to-main verification and post-rebase tests
   are still pending.
+
+### Parent reached remote main - 2026-09-25T11:21:44Z
+
+- The coordinator's authorized no-PR parent fast-forward
+  `0b7db073e365e6c1c6e29d410c424d7c7637c9bf` is an ancestor
+  of fetched `origin/main` at
+  `86fde358a421f64f4c979b24d0127e6797470bf9`. The current child
+  tip also passes `git merge-base --is-ancestor` against that fetched
+  main. The `MERGE` reservation signed out and main is `FREE`.
+  All 55 Ralph and 15 Resource Manager tests passed on the rebased
+  parent before integration. Remain `AWAITING_MERGE` in the leaf until
+  the coordinator verifies the separate post-merge memory follow-up
+  and synchronizes final completion.

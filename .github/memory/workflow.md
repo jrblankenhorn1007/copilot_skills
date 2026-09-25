@@ -21,6 +21,20 @@
 - **Gotcha:** Do not rebase and force-push a published iteration branch when
   `main` advances.
 
+## Reconcile main reservation sign-in before a direct fast-forward
+
+- **Rule:** When a cooperative `MERGE` reservation writes a sign-in commit
+  to remote main, incorporate that commit into an authorized, isolated
+  parent branch and verify ancestry before a non-force fast-forward push.
+- **Why:** The [main ownership publisher](../../docs/agent-sync/main-ownership.md)
+  advances `origin/main` at acquisition; a parent prepared against the
+  preceding tip is otherwise stale even if no other task changed code.
+- **Scope:** No-PR direct integration using the main ownership protocol;
+  follow PR or merge-queue policy when those are required instead.
+- **Gotcha:** A permitted merge commit can retain verified child SHAs;
+  rebasing after reservation rewrites them and requires new checks and
+  sign-offs. Release the reservation promptly after remote verification.
+
 ## Verify Git access in stages
 
 - **Rule:** Check configured commit identity and remote read, branch-push, and

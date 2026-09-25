@@ -10,8 +10,8 @@ skill-aware agent routing run remain in progress.
 ```yaml
 schema_version: 2
 snapshot_path: "docs/ralph-status.md"
-snapshot_revision: 47
-updated_at_utc: "2026-09-25T11:08:40Z"
+snapshot_revision: 48
+updated_at_utc: "2026-09-25T11:21:44Z"
 overall_status: IN_PROGRESS
 current_run_ids:
   - "copilot-skills-docs-status-organization-20260924"
@@ -335,19 +335,20 @@ runs:
     effective_worker_count: 0
     active_worker_count: 0
     base_origin_main_sha: "8da9310fda1b2e3042a379081dfb0675f1b22d6b"
-    current_origin_main_sha: "70b98bbf0ab35620f7c33b5d9789187560c699df"
+    current_origin_main_sha: "86fde358a421f64f4c979b24d0127e6797470bf9"
     parent_rebased_onto_origin_main_sha: "70b98bbf0ab35620f7c33b5d9789187560c699df"
     created_at_utc: "2026-09-25T04:32:37Z"
-    updated_at_utc: "2026-09-25T11:08:40Z"
+    updated_at_utc: "2026-09-25T11:21:44Z"
     coordinator_branch: "ralph/agent-optimization-parent-20260925-8bc457e9"
     coordinator_status_path: "docs/ralph/ralph-agent-optimization-parent-20260925-8bc457e9/agents/coordinator/status.md"
     coordinator_progress_path: "docs/ralph/ralph-agent-optimization-parent-20260925-8bc457e9/agents/coordinator/progress.md"
     parent_to_main_merge:
-      status: PENDING
-      sha: null
-    memory_review: PENDING
+      status: VERIFIED
+      sha: "0b7db073e365e6c1c6e29d410c424d7c7637c9bf"
+      verified_origin_main_sha: "86fde358a421f64f4c979b24d0127e6797470bf9"
+    memory_review: IN_PROGRESS
     worker_count_note: "Host worker launches failed; the coordinator implemented the two disjoint children without claiming worker execution."
-    next_action: "Retest the rebased parent, reserve main for merge, and verify the remote result."
+    next_action: "Integrate and verify the post-merge protocol/memory follow-up; then synchronize completion and task sign-out."
     split_plan:
       - task_id: "specialist-agent-catalog"
         worker_id: "coordinator"
@@ -1062,7 +1063,7 @@ branch_agent_index:
     status: IN_PROGRESS
     iteration: 1
     resource_usage:
-      time_spent_seconds: 23763
+      time_spent_seconds: 24547
       time_basis: WALL_CLOCK_ELAPSED
       token_spend:
         status: NOT_REPORTED
@@ -1078,10 +1079,11 @@ branch_agent_index:
     base_origin_main_sha: "8da9310fda1b2e3042a379081dfb0675f1b22d6b"
     parent_rebased_onto_origin_main_sha: "70b98bbf0ab35620f7c33b5d9789187560c699df"
     parent_to_main_merge:
-      status: PENDING
-      sha: null
-    memory_review: PENDING
-    next_action: "Retest the rebased parent, reserve main for merge, and verify the remote result."
+      status: VERIFIED
+      sha: "0b7db073e365e6c1c6e29d410c424d7c7637c9bf"
+      verified_origin_main_sha: "86fde358a421f64f4c979b24d0127e6797470bf9"
+    memory_review: IN_PROGRESS
+    next_action: "Integrate and verify the protocol/memory follow-up; then synchronize final status."
   - run_id: "copilot-skills-agent-routing-20260925-8bc457e9"
     task_ids: ["specialist-agent-catalog"]
     worker_id: "coordinator"
@@ -1091,7 +1093,7 @@ branch_agent_index:
     status: AWAITING_MERGE
     iteration: 1
     resource_usage:
-      time_spent_seconds: 12609
+      time_spent_seconds: 13549
       time_basis: WALL_CLOCK_ELAPSED
       token_spend:
         status: NOT_REPORTED
@@ -1110,10 +1112,10 @@ branch_agent_index:
       status: VERIFIED
       sha: "491772f476bdade69bb332600fd27e86d6f997bf"
     parent_to_main_merge:
-      status: PENDING
-      sha: null
-    memory_review: PENDING
-    next_action: "Await parent-to-main verification and memory review."
+      status: VERIFIED
+      sha: "0b7db073e365e6c1c6e29d410c424d7c7637c9bf"
+    memory_review: IN_PROGRESS
+    next_action: "Await verified memory follow-up and completion synchronization."
   - run_id: "copilot-skills-agent-routing-20260925-8bc457e9"
     task_ids: ["skill-aware-ralph-routing"]
     worker_id: "coordinator"
@@ -1123,7 +1125,7 @@ branch_agent_index:
     status: AWAITING_MERGE
     iteration: 1
     resource_usage:
-      time_spent_seconds: 11533
+      time_spent_seconds: 12473
       time_basis: WALL_CLOCK_ELAPSED
       token_spend:
         status: NOT_REPORTED
@@ -1142,10 +1144,10 @@ branch_agent_index:
       status: VERIFIED
       sha: "691d5b4dbb18a87768294326fc924f28b1490249"
     parent_to_main_merge:
-      status: PENDING
-      sha: null
-    memory_review: PENDING
-    next_action: "Await parent-to-main verification and memory review."
+      status: VERIFIED
+      sha: "0b7db073e365e6c1c6e29d410c424d7c7637c9bf"
+    memory_review: IN_PROGRESS
+    next_action: "Await verified memory follow-up and completion synchronization."
 ```
 
 ## Branch/agent index
@@ -1171,9 +1173,9 @@ branch_agent_index:
 | `copilot-skills-premerge-code-review-20260924` | `ralph/code-review-process-worker-02-20260924-2131` | `worker-02` | `COMPLETE` | `20,270 s (wall-clock)` | `NOT_REPORTED` | [status](./ralph/ralph-code-review-process-worker-02-20260924-2131/agents/worker-02/status.md) | [progress](./ralph/ralph-code-review-process-worker-02-20260924-2131/agents/worker-02/progress.md) | `6b1903ec7bfa5c798eb5e48c085bfc3845176bab` | `COMPLETE` |
 | `copilot-skills-agent-resource-manager-20260925` | `ralph/resource-manager-shared-registry-20260925-8abd5d4e` | `coordinator` | `COMPLETE` | `10,916 s (wall-clock)` | `NOT_REPORTED` | [status](./ralph/ralph-resource-manager-shared-registry-20260925-8abd5d4e/agents/coordinator/status.md) | [progress](./ralph/ralph-resource-manager-shared-registry-20260925-8abd5d4e/agents/coordinator/progress.md) | `ec50b548debb7a5f32dcb82f4b68f62806255894` | `COMPLETE` |
 | `copilot-skills-main-checkout-ownership-20260925-e464eb0a` | `ralph/main-checkout-ownership-20260925-e464eb0a` | `coordinator` | `COMPLETE` | `14,629 s (wall-clock)` | `NOT_REPORTED` | [status](./ralph/ralph-main-checkout-ownership-20260925-e464eb0a/agents/coordinator/status.md) | [progress](./ralph/ralph-main-checkout-ownership-20260925-e464eb0a/agents/coordinator/progress.md) | `f9cab16e19f22586192c93da76f7aedceced63ce` | `COMPLETE` |
-| `copilot-skills-agent-routing-20260925-8bc457e9` | `ralph/agent-optimization-parent-20260925-8bc457e9` | `coordinator` | `IN_PROGRESS` | `23,763 s (wall-clock)` | `NOT_REPORTED` | [status](./ralph/ralph-agent-optimization-parent-20260925-8bc457e9/agents/coordinator/status.md) | [progress](./ralph/ralph-agent-optimization-parent-20260925-8bc457e9/agents/coordinator/progress.md) | Pending | `PENDING` |
-| `copilot-skills-agent-routing-20260925-8bc457e9` | `ralph/agent-optimization-specialists-coordinator-20260925-8bc457e9` | `specialists-coordinator` | `AWAITING_MERGE` | `12,609 s (wall-clock)` | `NOT_REPORTED` | [status](./ralph/ralph-agent-optimization-specialists-coordinator-20260925-8bc457e9/agents/specialists-coordinator/status.md) | [progress](./ralph/ralph-agent-optimization-specialists-coordinator-20260925-8bc457e9/agents/specialists-coordinator/progress.md) | `491772f476bdade69bb332600fd27e86d6f997bf` (parent; main pending) | `PENDING` |
-| `copilot-skills-agent-routing-20260925-8bc457e9` | `ralph/agent-optimization-routing-coordinator-20260925-8bc457e9` | `routing-coordinator` | `AWAITING_MERGE` | `11,533 s (wall-clock)` | `NOT_REPORTED` | [status](./ralph/ralph-agent-optimization-routing-coordinator-20260925-8bc457e9/agents/routing-coordinator/status.md) | [progress](./ralph/ralph-agent-optimization-routing-coordinator-20260925-8bc457e9/agents/routing-coordinator/progress.md) | `691d5b4dbb18a87768294326fc924f28b1490249` (parent; main pending) | `PENDING` |
+| `copilot-skills-agent-routing-20260925-8bc457e9` | `ralph/agent-optimization-parent-20260925-8bc457e9` | `coordinator` | `IN_PROGRESS` | `24,547 s (wall-clock)` | `NOT_REPORTED` | [status](./ralph/ralph-agent-optimization-parent-20260925-8bc457e9/agents/coordinator/status.md) | [progress](./ralph/ralph-agent-optimization-parent-20260925-8bc457e9/agents/coordinator/progress.md) | `0b7db073e365e6c1c6e29d410c424d7c7637c9bf` | `IN_PROGRESS` |
+| `copilot-skills-agent-routing-20260925-8bc457e9` | `ralph/agent-optimization-specialists-coordinator-20260925-8bc457e9` | `specialists-coordinator` | `AWAITING_MERGE` | `13,549 s (wall-clock)` | `NOT_REPORTED` | [status](./ralph/ralph-agent-optimization-specialists-coordinator-20260925-8bc457e9/agents/specialists-coordinator/status.md) | [progress](./ralph/ralph-agent-optimization-specialists-coordinator-20260925-8bc457e9/agents/specialists-coordinator/progress.md) | `491772f476bdade69bb332600fd27e86d6f997bf` -> `0b7db073e365e6c1c6e29d410c424d7c7637c9bf` | `IN_PROGRESS` |
+| `copilot-skills-agent-routing-20260925-8bc457e9` | `ralph/agent-optimization-routing-coordinator-20260925-8bc457e9` | `routing-coordinator` | `AWAITING_MERGE` | `12,473 s (wall-clock)` | `NOT_REPORTED` | [status](./ralph/ralph-agent-optimization-routing-coordinator-20260925-8bc457e9/agents/routing-coordinator/status.md) | [progress](./ralph/ralph-agent-optimization-routing-coordinator-20260925-8bc457e9/agents/routing-coordinator/progress.md) | `691d5b4dbb18a87768294326fc924f28b1490249` -> `0b7db073e365e6c1c6e29d410c424d7c7637c9bf` | `IN_PROGRESS` |
 
 The earlier parent-child pipeline run is `COMPLETE`: both workers integrated into the
 parent, the parent merge is verified on `origin/main`, the contract suite and
@@ -1203,6 +1205,9 @@ passed after the final rebase, its implementation was verified on fetched
 Post-merge memory review found no additional lesson beyond the protocol
 and tests, so no memory entry was added.
 
-The skill-aware agent routing run remains `IN_PROGRESS`. Its specialist
-children were integrated locally, but the parent and conditional dispatch
-still need final remote-main verification.
+The skill-aware agent routing implementation is verified on fetched
+`origin/main` at `0b7db073e365e6c1c6e29d410c424d7c7637c9bf`; its
+exclusive `MERGE` reservation was released at
+`5b7f729d8f48c90c5f2e1f5a7ef6ab29217db76c`. The run remains
+`IN_PROGRESS` only for a post-merge protocol/memory follow-up and final
+status synchronization.

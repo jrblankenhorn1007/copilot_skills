@@ -121,3 +121,25 @@ tests, with clean whitespace and exact owned-file/ancestry proofs for both
 children. This parent uses the repository's established no-PR fast-forward
 path, so independent PR review is `NOT_APPLICABLE`, not silently skipped.
 Remote-main verification and post-merge memory review remain pending.
+
+### Verified reserved main merge and post-merge lesson
+
+The branch owner reserved `MERGE` on remote main at
+`7a8f0253393b4e81053009b68afda1a42c38bcbb`, joined the sign-in
+commit into the isolated parent, and used an authorized non-force
+fast-forward. The result `0b7db073e365e6c1c6e29d410c424d7c7637c9bf`
+was fetched and verified on remote main; reservation release
+`5b7f729d8f48c90c5f2e1f5a7ef6ab29217db76c` was verified with
+main `FREE`. The child tips and the complete deployed pipeline tree
+remain reachable and unchanged on later fetched main
+`86fde358a421f64f4c979b24d0127e6797470bf9`.
+
+The post-merge Project Memory review found a transferable ancestry
+invariant missing from the main-ownership protocol: the reservation
+sign-in advances remote main even when nobody checks out `main`. A
+parent prepared beforehand cannot fast-forward without incorporating
+that sign-in commit. A test-first fresh-branch follow-up records the
+invariant in the protocol, publisher guide, orchestration reference,
+and workflow memory; its 8 targeted checks pass. Preserve task
+`IN_PROGRESS` until that follow-up and final status synchronization
+are independently verified on fetched main.

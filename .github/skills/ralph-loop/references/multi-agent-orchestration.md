@@ -450,7 +450,14 @@ identity and authentication rules.
    Follow the [exclusive main ownership protocol](../../../../docs/agent-sync/main-ownership.md):
    acquire `MERGE` at `docs/agent-sync/main/ownership.json`, wait for any
    existing owner to sign out, and use main only for this authorized merge.
-   If acquiring the reservation invalidates strict branch checks, release
+   For a permitted no-PR fast-forward, acquiring `MERGE` advances
+   `origin/main` with a sign-in commit. Do not push a parent based on the
+   pre-reservation main tip. Integrate that sign-in commit into the parent
+   in its isolated worktree, preserving verified child commits when policy
+   permits a merge commit; if rebasing is required, renew rewritten child
+   sign-offs and checks. Recheck ownership and use
+   `git merge-base --is-ancestor <sign-in-sha> <parent-branch>` before
+   pushing. If strict branch policy disallows safe reconciliation, release
    and report a blocker rather than bypassing policy. Use the repository's
    required remote merge process, fetch `origin` again, and
    verify the resulting parent-to-main merge SHA on fetched `origin/main`, for
