@@ -1,10 +1,10 @@
 # Worker progress
 
-**Current summary:** Iteration 1 is `AWAITING_MERGE` after implementation
-commit `5c1db129cfd1c20f88c63754657d1304e4a0b346`; the coordinator owns
-integration and the required post-merge memory review.
+**Current summary:** Iteration 1 is `BLOCKED` after implementation commit
+`5c1db129cfd1c20f88c63754657d1304e4a0b346`. The final Ralph regression run
+fails until the coordinator indexes this leaf in `docs/ralph-status.md`.
 
-**Updated at UTC:** `2026-09-25T03:03:01Z`
+**Updated at UTC:** `2026-09-25T03:08:22Z`
 
 ## Iteration history
 
@@ -22,9 +22,10 @@ integration and the required post-merge memory review.
   reported `114e4d60567d05cd048916339ed86e324c6eeef3`.
 - **Implementation commit:**
   `5c1db129cfd1c20f88c63754657d1304e4a0b346`
-- **State:** `AWAITING_MERGE`; PR not opened because the active repository's
+- **State:** `BLOCKED`; PR not opened because the active repository's
   normal integration path is coordinator-reviewed fast-forward integration
-  without a PR. Remote merge and post-merge memory review are pending.
+  without a PR. The coordinator-owned dashboard does not yet index this leaf,
+  so remote merge and post-merge memory review remain pending.
 
 #### Outcome
 
@@ -54,9 +55,15 @@ structured outcome. Added the focused runnable contract test at
 - **Green result:** `Ran 1 test, OK.`
 - **Refactor verification:** After the test normalization and contract wording
   refinements, reran the Green command above; it passed (`Ran 1 test, OK`).
-  The Ralph regression suite also passed:
+  The Ralph regression suite initially passed:
   `cd /Users/jrblankenhorn/copilot_skills.worktrees/ralph-project-memory-update-agent-worker-01-20260925-0223 && python3 .github/skills/ralph-loop/tests/test_multi_agent_contract.py`
-  (`Ran 11 tests, OK`).
+  (`Ran 11 tests, OK`) before this worker's leaf was added.
+- **Final dashboard synchronization check:** Re-running that exact Ralph
+  suite after adding the required leaf records failed one assertion:
+  `test_docs_status_dashboard_indexes_every_branch_agent_folder`, because
+  the coordinator-owned `docs/ralph-status.md` has not yet indexed this
+  worker's folder. This worker must not edit the aggregate dashboard; the
+  coordinator must index it and rerun the suite before integration proceeds.
 - **Diff checks:** `git -C /Users/jrblankenhorn/copilot_skills.worktrees/ralph-project-memory-update-agent-worker-01-20260925-0223 diff --cached --check`,
   `git -C /Users/jrblankenhorn/copilot_skills.worktrees/ralph-project-memory-update-agent-worker-01-20260925-0223 diff --check origin/main...HEAD`, and
   `git -C /Users/jrblankenhorn/copilot_skills.worktrees/ralph-project-memory-update-agent-worker-01-20260925-0223 show --check --oneline --no-patch HEAD`
@@ -88,13 +95,15 @@ memory_handoff:
   "pull_request": {
     "status": "NOT_OPENED",
     "number": null,
-    "url": null
+    "url": null,
+    "reason": "The active repository's normal integration path is coordinator-reviewed fast-forward integration without a PR."
   },
   "decision_record_path": "docs/decisions/ralph-project-memory-update-agent-worker-01-20260925-0223/agents/worker-01/pr-not-opened.md",
   "starting_origin_main_sha": "114e4d60567d05cd048916339ed86e324c6eeef3",
   "base_origin_main_sha": "114e4d60567d05cd048916339ed86e324c6eeef3",
   "rebased_onto_origin_main_sha": null,
   "implementation_commit_sha": "5c1db129cfd1c20f88c63754657d1304e4a0b346",
+  "status": "BLOCKED",
   "checks": [
     {
       "command": "cd /Users/jrblankenhorn/copilot_skills.worktrees/ralph-project-memory-update-agent-worker-01-20260925-0223 && python3 .github/skills/project-memory/tests/test_memory_update_agent_contract.py",
@@ -102,7 +111,7 @@ memory_handoff:
     },
     {
       "command": "cd /Users/jrblankenhorn/copilot_skills.worktrees/ralph-project-memory-update-agent-worker-01-20260925-0223 && python3 .github/skills/ralph-loop/tests/test_multi_agent_contract.py",
-      "result": "PASS"
+      "result": "FAIL"
     },
     {
       "command": "git -C /Users/jrblankenhorn/copilot_skills.worktrees/ralph-project-memory-update-agent-worker-01-20260925-0223 diff --check origin/main...HEAD",
@@ -113,11 +122,13 @@ memory_handoff:
       "result": "PASS"
     }
   ],
-  "blockers": [],
-  "attested_at_utc": "2026-09-25T03:00:43Z",
+  "blockers": [
+    "Coordinator must index this worker leaf in docs/ralph-status.md and rerun the Ralph contract suite; worker-01 cannot edit the coordinator-owned dashboard."
+  ],
+  "attested_at_utc": "2026-09-25T03:08:22Z",
   "attestation_kind": "SELF_ATTESTATION",
   "cryptographic_signature_status": "NOT_CRYPTOGRAPHICALLY_SIGNED",
-  "statement": "I, worker-01, sign off iteration 1 for memory-update-agent-definition at implementation commit 5c1db129cfd1c20f88c63754657d1304e4a0b346.",
+  "statement": "I, worker-01, sign off implementation commit 5c1db129cfd1c20f88c63754657d1304e4a0b346; the full Ralph contract suite is blocked pending coordinator dashboard indexing.",
   "memory_handoff": {
     "implementation_summary": "Added a dedicated Project Memory Update agent with verified-merge gating, complete worker handoff review, active-project memory isolation, durable-lesson curation, authorized integration, and structured outcomes; added a runnable contract test.",
     "lesson_candidates": [],

@@ -12,7 +12,7 @@
   recorded in the completed no-browser Git workflow's agent decision record.
 - **Base `origin/main`:** `114e4d60567d05cd048916339ed86e324c6eeef3`
 - **Implementation commit SHA:** `5c1db129cfd1c20f88c63754657d1304e4a0b346`
-- **Current worker status:** `AWAITING_MERGE`
+- **Current worker status:** `BLOCKED`
 
 ## Decisions
 
@@ -106,6 +106,12 @@
 
 ## Unresolved blockers
 
-- None. Coordinator review, normal integration, remote merge verification,
-  and the required post-merge memory review remain pending; this worker is
-  `AWAITING_MERGE`.
+- The final run of
+  `python3 .github/skills/ralph-loop/tests/test_multi_agent_contract.py`
+  failed `test_docs_status_dashboard_indexes_every_branch_agent_folder`
+  because the new worker leaf is not yet indexed in
+  `docs/ralph-status.md`. The coordinator exclusively owns that dashboard;
+  worker-01 must not edit it. Coordinator indexing and a passing rerun are
+  required before integration proceeds.
+- Normal integration, remote merge verification, and the required post-merge
+  memory review remain pending.
