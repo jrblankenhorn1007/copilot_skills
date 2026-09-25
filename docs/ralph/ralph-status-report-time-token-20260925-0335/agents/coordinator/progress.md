@@ -127,3 +127,43 @@
   preserve both upstream and run records, rerun the contract suite and diff
   checks, then use the repository's normal parent integration path and
   complete the post-merge memory review.
+
+## parent_rebase_history — 2026-09-25
+
+- Fetched `origin/main` at
+  `e9fe3d175d1ca76b03fccdbe53431205b80e5c23`; the parent tip before rebase
+  was `0f10bd84322e4810f85cfc2507b89fc70f13ccf9`, previously based on
+  `d56db4de163fb261d323be7a74fba18a373cd30a`.
+- `git rebase origin/main` — PASS with no conflicts. The parent now points
+  to `5634ff3377e54cce5281a1256ba2f0c169ebf31f`, and
+  `parent_rebased_onto_origin_main_sha` is the fetched
+  `e9fe3d175d1ca76b03fccdbe53431205b80e5c23`.
+- The rebased parent replays the worker implementation at
+  `22d122c00826712096eeed0777a7b6bce25a4fc9`; the original worker branch
+  remains unchanged at implementation SHA
+  `5f0c7af5bd237fa06dde3b4a4edd9e95db7470b7`. Their stable patch IDs match:
+  `6f397f562089e0cf6f891e702761f9ddbd5ba94a`.
+- The prior worker-to-parent proof
+  `14ea97483e70f97bdf1203ec388bb6d6a7d90f9c` is no longer an ancestor after
+  the rebase (expected). The worker leaf preserves that proof as superseded.
+  The rebased worker integration point
+  `019ab357f25e1b04133bacb242460e063d94be9d` is verified as an ancestor of
+  current parent tip `5634ff3377e54cce5281a1256ba2f0c169ebf31f` with
+  `git merge-base --is-ancestor` — PASS.
+- Final contract suite after rebase:
+  `PYTHONDONTWRITEBYTECODE=1 python3 /Users/jrblankenhorn/copilot_skills.worktrees/ralph-status-report-time-token-coordinator-20260925-0335/.github/skills/ralph-loop/tests/test_multi_agent_contract.py`
+  — PASS, 15 tests. `git diff origin/main...HEAD --check` and
+  `git show --check --oneline --no-patch HEAD` — PASS.
+- **Resource usage as of `2026-09-25T06:04:57Z`:** coordinator elapsed
+  wall-clock time is 8,976 seconds; worker-01 elapsed time is 7,010 seconds.
+  Token telemetry remains `NOT_REPORTED` with null counters for both.
+- **Next action:** Complete the repository's normal parent-to-main
+  integration, fetch and verify its resulting remote SHA, then perform the
+  post-merge memory review.
+- **Dashboard synchronization at `2026-09-25T06:08:20Z`:** Both coordinator
+  and worker leaf snapshots, the YAML branch index, and the Markdown branch
+  table now record coordinator elapsed time of 9,179 seconds and worker-01
+  elapsed time of 7,213 seconds. Token usage remains `NOT_REPORTED` for both.
+- At `2026-09-25T06:09:57Z`, the next synchronized snapshot records
+  coordinator elapsed time of 9,276 seconds and worker-01 elapsed time of
+  7,310 seconds. Token usage remains `NOT_REPORTED` for both.

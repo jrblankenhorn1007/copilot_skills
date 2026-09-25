@@ -153,3 +153,30 @@
   complete remote integration and the memory review.
 - Elapsed wall-clock time at `2026-09-25T05:59:27Z` is 6,680 seconds from
   `2026-09-25T04:08:07Z`. Provider token counters remain `NOT_REPORTED`.
+
+## Parent rebase and child merge re-verification — 2026-09-25
+
+- The coordinator rebased the parent from
+  `d56db4de163fb261d323be7a74fba18a373cd30a` onto fetched
+  `origin/main` `e9fe3d175d1ca76b03fccdbe53431205b80e5c23`. The worker
+  branch itself was not rewritten; its implementation commit and sign-off
+  remain bound to `5f0c7af5bd237fa06dde3b4a4edd9e95db7470b7`.
+- The equivalent implementation patch replayed on the parent as
+  `22d122c00826712096eeed0777a7b6bce25a4fc9`; `git patch-id --stable`
+  returned the same patch ID for the original and replayed commits.
+- The prior parent-side worker merge proof
+  `14ea97483e70f97bdf1203ec388bb6d6a7d90f9c` is retained in
+  `worker_to_parent_merge_history` as superseded by the parent rebase. The
+  current integration point
+  `019ab357f25e1b04133bacb242460e063d94be9d` is verified as an ancestor of
+  parent tip `5634ff3377e54cce5281a1256ba2f0c169ebf31f` with
+  `git merge-base --is-ancestor` — PASS.
+- The post-rebase parent contract suite passed 15 tests. The worker remains
+  `AWAITING_MERGE` until the parent-to-main integration and memory review are
+  complete.
+- Elapsed wall-clock time at `2026-09-25T06:04:57Z` is 7,010 seconds from
+  `2026-09-25T04:08:07Z`. Provider token counters remain `NOT_REPORTED`.
+- The latest synchronized snapshot at `2026-09-25T06:08:20Z` records
+  7,213 seconds elapsed and provider token status `NOT_REPORTED`.
+- The next synchronized snapshot at `2026-09-25T06:09:57Z` records 7,310
+  seconds elapsed; provider token status remains `NOT_REPORTED`.

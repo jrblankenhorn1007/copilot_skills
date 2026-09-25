@@ -7,8 +7,9 @@
 - **Branch:** `ralph/status-report-time-token-20260925-0335`
 - **Worktree:** `/Users/jrblankenhorn/copilot_skills.worktrees/ralph-status-report-time-token-coordinator-20260925-0335`
 - **Base `origin/main`:** `8da9310fda1b2e3042a379081dfb0675f1b22d6b`
-- **Implementation commit SHA:** `5f0c7af5bd237fa06dde3b4a4edd9e95db7470b7`
-- **Parent rebase SHA:** `d56db4de163fb261d323be7a74fba18a373cd30a`
+- **Implementation commit SHA:** `22d122c00826712096eeed0777a7b6bce25a4fc9`
+- **Original worker implementation SHA:** `5f0c7af5bd237fa06dde3b4a4edd9e95db7470b7`
+- **Parent rebase SHA:** `e9fe3d175d1ca76b03fccdbe53431205b80e5c23`
 - **PR:** Not opened. The repository's documented integration path is a
   coordinator-reviewed, verified fast-forward without a PR.
 
@@ -80,7 +81,7 @@
   implementation commit is
   `5f0c7af5bd237fa06dde3b4a4edd9e95db7470b7`; the refreshed child suite
   passed 15 tests.
-- Worker-to-parent integration:
+- Original worker-to-parent integration:
   `git merge --ff-only ralph/status-report-time-token-worker-01-20260925-0335`
   — PASS; parent fast-forwarded to
   `14ea97483e70f97bdf1203ec388bb6d6a7d90f9c`. Verified that exact SHA is
@@ -98,6 +99,24 @@
   tracks `origin/main`; `git pull --ff-only` passed and the latest fetched
   remote tip is `e9fe3d175d1ca76b03fccdbe53431205b80e5c23`. The parent rebase
   and final remote integration can now proceed.
+- Parent rebase:
+  `git rebase origin/main` — PASS without conflicts, replaying the previous
+  parent tip `0f10bd84322e4810f85cfc2507b89fc70f13ccf9` onto
+  `e9fe3d175d1ca76b03fccdbe53431205b80e5c23`; new parent tip is
+  `5634ff3377e54cce5281a1256ba2f0c169ebf31f`.
+- The original worker implementation SHA
+  `5f0c7af5bd237fa06dde3b4a4edd9e95db7470b7` remains on the unchanged child
+  branch. Its equivalent replay in the rebased parent is
+  `22d122c00826712096eeed0777a7b6bce25a4fc9`; stable patch IDs match at
+  `6f397f562089e0cf6f891e702761f9ddbd5ba94a`.
+- The previous child integration proof
+  `14ea97483e70f97bdf1203ec388bb6d6a7d90f9c` is retained in the worker leaf
+  history as superseded by the parent rebase. New worker integration SHA
+  `019ab357f25e1b04133bacb242460e063d94be9d` was re-verified as an ancestor
+  of current parent tip `5634ff3377e54cce5281a1256ba2f0c169ebf31f`.
+- Final post-rebase contract suite passed all 15 tests; both
+  `git diff origin/main...HEAD --check` and
+  `git show --check --oneline --no-patch HEAD` passed.
 
 ## Unresolved blockers
 
