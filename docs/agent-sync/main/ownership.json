@@ -1,22 +1,22 @@
 {
   "owner": {
-    "agent_id": "coordinator",
+    "agent_id": "integration-coordinator",
     "operation": "STATUS",
-    "run_id": "copilot-skills-agent-role-hierarchy-20260924-2215",
-    "runtime_agent_id": "copilotcli:/c45bb4ea-44ab-4ad8-8ec3-63a2398a4603",
-    "signed_in_at_utc": "2026-09-25T11:15:52Z",
-    "start_main_sha": "5b7f729d8f48c90c5f2e1f5a7ef6ab29217db76c",
-    "token": "3bc4c874330bb0aebb0e212cb73ba24a",
+    "run_id": "copilot-skills-agent-routing-20260925-8bc457e9",
+    "runtime_agent_id": "8bc457e9-1724-42bb-b3c8-cdf453f54a32",
+    "signed_in_at_utc": "2026-09-25T11:15:59Z",
+    "start_main_sha": "53f4ba06d17a12ae20d39488c8eda127f728a8f9",
+    "token": "e00f56f5aa7414e30c315a2a6809fa13",
     "worktree_path": null
   },
   "ref": "refs/heads/main",
   "repository": "jrblankenhorn1007/copilot_skills",
-  "revision": 38,
+  "revision": 39,
   "schema_version": 1,
   "sign_out": {
-    "at_utc": "2026-09-25T11:15:57Z",
-    "outcome": "PUBLISHED",
-    "result_commit_sha": "090f8fe7447e1b6dd9fb161ab8c52d8d43565154"
+    "at_utc": null,
+    "outcome": null,
+    "result_commit_sha": null
   },
-  "state": "FREE"
+  "state": "OWNED"
 }
