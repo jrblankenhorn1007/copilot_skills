@@ -15,11 +15,22 @@
     "base_ref": "refs/remotes/origin/main",
     "base_sha": "8da9310fda1b2e3042a379081dfb0675f1b22d6b",
     "edit_scope": [
-      "README.md",
+      ".github/agents/ralph-loop.agent.md",
+      ".github/skills/ralph-loop/SKILL.md",
+      ".github/skills/ralph-loop/references/iteration-stall-detection.md",
+      ".github/skills/ralph-loop/references/multi-agent-orchestration.md",
+      ".github/skills/ralph-loop/references/multi-agent-status.md",
       ".github/skills/ralph-loop/tests/test_multi_agent_contract.py",
-      "docs/ralph-status.md",
+      ".github/skills/ralph-loop/tests/test_stagnation_agent_contract.py",
+      ".github/skills/ralph-loop/tests/test_stagnation_status_contract.py",
+      "README.md",
+      "docs/decisions/ralph-max-iterations-agent-policy-worker-01-20260925-0335/**",
+      "docs/decisions/ralph-max-iterations-stagnation-escalation-20260925-0335/**",
+      "docs/decisions/ralph-max-iterations-status-contract-worker-02-20260925-0335/**",
+      "docs/ralph/ralph-max-iterations-agent-policy-worker-01-20260925-0335/agents/worker-01/**",
+      "docs/ralph/ralph-max-iterations-status-contract-worker-02-20260925-0335/agents/worker-02/**",
       "docs/ralph/ralph-max-iterations-stagnation-escalation-20260925-0335/agents/coordinator/**",
-      "docs/decisions/ralph-max-iterations-stagnation-escalation-20260925-0335/**"
+      "docs/ralph-status.md"
     ],
     "implementation_branch": "refs/heads/ralph/max-iterations-stagnation-escalation-20260925-0335",
     "remote_name": "origin",
@@ -27,24 +38,65 @@
     "worktree_head_sha_at_sign_in": "aa48339dcd45b53971411211f0c39b012146d7a2",
     "worktree_path": "/Users/jrblankenhorn/copilot_skills.worktrees/ralph-max-iterations-stagnation-escalation-20260925-0335"
   },
+  "edit_scope_status": "RELEASED",
+  "edit_scope_released_at_utc": "2026-09-25T08:58:55Z",
   "prompt_path": "docs/agent-sync/runs/copilot_skills-iteration-stall-control-20260925/agents/coordinator/prompt.md",
   "prompt_sha256": "5127474d9c0f1fa8bb33e7059b01760d740b73640f958da4e048de0f55a82306",
-  "revision": 1,
+  "revision": 2,
   "run_id": "copilot_skills-iteration-stall-control-20260925",
   "schema_version": 1,
   "sign_in_at_utc": "2026-09-25T05:48:57Z",
   "sign_out": {
-    "at_utc": null,
-    "checks": [],
-    "implementation_commit_sha": null,
-    "next_action": null,
-    "summary": null
+    "at_utc": "2026-09-25T08:58:55Z",
+    "checks": [
+      {
+        "command": "PYTHONDONTWRITEBYTECODE=1 python3 /Users/jrblankenhorn/copilot_skills.worktrees/ralph-max-iterations-stagnation-escalation-20260925-0335/.github/skills/ralph-loop/tests/test_stagnation_agent_contract.py",
+        "result": "PASS: 5 tests"
+      },
+      {
+        "command": "PYTHONDONTWRITEBYTECODE=1 python3 /Users/jrblankenhorn/copilot_skills.worktrees/ralph-max-iterations-stagnation-escalation-20260925-0335/.github/skills/ralph-loop/tests/test_stagnation_status_contract.py",
+        "result": "PASS: 4 tests"
+      },
+      {
+        "command": "PYTHONDONTWRITEBYTECODE=1 python3 /Users/jrblankenhorn/copilot_skills.worktrees/ralph-max-iterations-stagnation-escalation-20260925-0335/.github/skills/ralph-loop/tests/test_multi_agent_contract.py",
+        "result": "PASS: 20 tests"
+      },
+      {
+        "command": "git -C /Users/jrblankenhorn/copilot_skills.worktrees/ralph-max-iterations-stagnation-escalation-20260925-0335 diff --check 8da9310fda1b2e3042a379081dfb0675f1b22d6b..HEAD",
+        "result": "PASS"
+      }
+    ],
+    "implementation_commit_sha": "24acfe17eed417b9081d79c9acdf963b6696fa4e",
+    "next_action": "After the main-owner reservation work is complete, fetch origin, rebase and retest this parent branch, then follow the authorized remote integration and fetched-main verification process and complete the post-merge memory review.",
+    "summary": "The bounded-iteration and stagnation-escalation implementation is integrated locally and its 5-, 4-, and 20-test contract suites pass. The overlapping edit scope is released. The parent branch has not been published or merged to origin/main; remote integration and post-merge memory review remain outstanding."
+  },
+  "scope_release": {
+    "released_at_utc": "2026-09-25T08:58:55Z",
+    "released_paths": [
+      ".github/agents/ralph-loop.agent.md",
+      ".github/skills/ralph-loop/SKILL.md",
+      ".github/skills/ralph-loop/references/iteration-stall-detection.md",
+      ".github/skills/ralph-loop/references/multi-agent-orchestration.md",
+      ".github/skills/ralph-loop/references/multi-agent-status.md",
+      ".github/skills/ralph-loop/tests/test_multi_agent_contract.py",
+      ".github/skills/ralph-loop/tests/test_stagnation_agent_contract.py",
+      ".github/skills/ralph-loop/tests/test_stagnation_status_contract.py",
+      "README.md",
+      "docs/decisions/ralph-max-iterations-agent-policy-worker-01-20260925-0335/**",
+      "docs/decisions/ralph-max-iterations-stagnation-escalation-20260925-0335/**",
+      "docs/decisions/ralph-max-iterations-status-contract-worker-02-20260925-0335/**",
+      "docs/ralph/ralph-max-iterations-agent-policy-worker-01-20260925-0335/agents/worker-01/**",
+      "docs/ralph/ralph-max-iterations-status-contract-worker-02-20260925-0335/agents/worker-02/**",
+      "docs/ralph/ralph-max-iterations-stagnation-escalation-20260925-0335/agents/coordinator/**",
+      "docs/ralph-status.md"
+    ],
+    "status": "RELEASED"
   },
   "started_at_utc": "2026-09-25T03:52:14Z",
-  "status": "IN_PROGRESS",
-  "status_reason": "Resuming the integration step after Ralph agent-sync guidance was added during this run. Worker implementation changes are complete but still on child branches; refreshing against the current main before continuing. The run's first sign-in record is being published late because the protocol landed while work was already underway.",
+  "status": "BLOCKED",
+  "status_reason": "The local implementation and checks are complete, and all edit paths are released. The parent branch at 24acfe17 was 17 commits ahead and 5 behind the locally recorded origin/main ref ec50b548 at sign-out. Remote publication, merge verification, and post-merge memory review have not been performed and remain outstanding.",
   "task_id": "bounded-loop-validation",
-  "updated_at_utc": "2026-09-25T05:48:57Z",
+  "updated_at_utc": "2026-09-25T08:58:55Z",
   "worker_id": "coordinator",
   "worker_name": "coordinator - Ralph Loop iteration stall control"
 }
