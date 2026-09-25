@@ -771,3 +771,40 @@
 - **Next:** Fetch after committing this entry; if main remains stable, issue
   a fresh worker-01 exact-parent/sign-off/status request and integrate its
   metadata before synchronizing the dashboard and resuming worker-02.
+
+## 2026-09-25T13:55:48Z — parent rebased through another ownership transaction
+
+- **Upstream movement:** `origin/main` advanced from
+  `be82c0c262c29834c9b4f50937cef1cc4024958a` to
+  `e3763b0970df937bcf24acffbaafa2c36ee8516b` through three status-only
+  commits for the agent-role-hierarchy coordinator. Ownership is `FREE` at
+  revision 96.
+- **Fetch race:** One read-only `git fetch origin` reported an expected-old
+  remote-tracking-ref mismatch because another local fetch had already moved
+  `origin/main` to `e3763b0…`. Re-reading the tracking ref and retrying the
+  fetch succeeded; no worktree or remote data was changed by the failed
+  fetch.
+- **Rebase:** Rebased the clean parent from
+  `450ee301398065910297a069f394f50e05454f00` onto
+  `e3763b0970df937bcf24acffbaafa2c36ee8516b` without conflicts. New parent
+  HEAD is `9bdc11f511a5a77dbf6ecca68fd079a350a75ab6`.
+- **Worker SHA mapping:** Worker-01 implementation/series
+  `790bbe429bad19c96054029354f8cda42dcdbc9a` /
+  `1fa43e70e60a19ed98cdb8efb32d126c0ddff8f2` map to
+  `fc0dd7338134f5c1009e45fe8d64b02d03134c1a` /
+  `b7cb0fb2230be6c960f5c2b0226865435755e04d`. Worker-02 implementation/
+  series `bd18212e5aeeefe0d570452d9e9a33f3cf561b7a` /
+  `584403ebbfc6752371d86ee845bc0da5af6cb0fd` map to
+  `e70b9b0ecbdfc6aa9f83980f1c29e8b421d8f464` /
+  `227e0c88ac51af3581c3a6e643299de08739f39e`. Range-diff confirms the
+  mappings; all four current commits are ancestors of the parent.
+- **Green:** Full contract suite passed 24/24 after rebase. Parent diff check,
+  both implementation `git show --check` checks, and all four ancestry
+  checks passed.
+- **Worker metadata:** Worker-01 metadata `c2b643ad…` remains preserved and
+  unintegrated on parent `856288d…`; all earlier metadata branches also
+  remain unchanged. Worker-02 is still paused.
+- **Next:** Fetch after this log commit, then request worker-01's fresh
+  exact-SHA status/sign-off/handoff against the new parent if main is still
+  unchanged; integrate worker metadata and synchronize the dashboard before
+  resuming worker-02.
