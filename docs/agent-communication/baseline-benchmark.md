@@ -62,8 +62,9 @@ costs.
 ## Metric contract for future runs
 
 Record each message's `sent_at`, transport result (`accepted`, `queued`, or
-`failed`), delivery latency, recipient `received_at`, recipient
-acknowledgment time, and task completion time separately. Also record
+`failed`), delivery latency, and recipient `received_at`,
+recipient acknowledgement (acknowledgment) time, and task completion time
+separately. Also record
 correctness against the known result and whether
 the recipient was idle, at a checkpoint, or in an active turn. Do not call a
 transport acceptance an acknowledgment or a queued prompt an interruption.
