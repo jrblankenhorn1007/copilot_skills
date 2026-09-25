@@ -563,3 +563,38 @@
   `memory_handoff` records against this parent, integrate worker metadata
   serially, synchronize the coordinator/dashboard, then rerun checks before
   parent publication.
+
+## 2026-09-25T13:11:18Z — parent rebased and verified on latest main
+
+- **Upstream movement:** `origin/main` advanced from
+  `d701bc0edfbf5cb910035335f56beb8d4debd612` to
+  `f59ecc1deb73ba7bdb60efb0d8998bf8d7b68fd2` through the STATUS reservation,
+  worker-02 completion, and release for run
+  `skills-improvement-20260925-0554-luna`. The fetched ownership record is
+  `FREE` at revision 78 (reservation result `e614b825ba47016f6b02bc8f8de3a05886950e03`).
+  The guidance files were unchanged by these three commits; the current main
+  diff is limited to the agent-sync ownership/status ledger.
+- **Rebase:** Rebased the clean parent from
+  `c6a7ff98f43721489b1f681e7bd4225e5c38197f` onto `origin/main`
+  `f59ecc1deb73ba7bdb60efb0d8998bf8d7b68fd2` without conflicts. New parent
+  HEAD is `381a04dddcc566d3142880d6a249b7989240e1ff`. `git range-diff`
+  mapped all 35 commits.
+- **Current worker commits:** Worker-01 implementation/series are
+  `602aa59b2c1aaf258a3882256d9f38f94a4fce42` /
+  `57ccfe47591d26824519338dab34999e2a7649f6`; worker-02 implementation/series
+  are `a13e65c38f57f9d4a8c530068f93c1f41024d09f` /
+  `cba1145f4a59fd5ea1ff10f85fd50adf21f143e1`. All four are verified
+  ancestors of the parent; the mappings were confirmed with range-diff.
+- **Green:** The contract suite passed 24/24. `git diff --check
+  origin/main...HEAD`, all four ancestry checks, and `git show --check` for
+  both implementation commits passed after the rebase.
+- **Worker metadata:** Worker-01 commit
+  `c3b9eb1a579b5945cc703d221299b47f5f9b7b93` contains a structured handoff
+  but is based on superseded parent `c6a7ff9…`; it remains preserved and
+  unintegrated. Worker-02 remains paused; its empty status branch is
+  preserved. No prior worker branch was rewritten or deleted.
+- **Next:** Obtain worker-01's fresh exact-SHA sign-off and worker-owned
+  status/progress/decision update with its `memory_handoff` from this exact
+  parent. Integrate that metadata serially, then request worker-02's fresh
+  sign-off/status update from the resulting parent. Reconcile coordinator
+  status/dashboard and re-run final checks before publication.
