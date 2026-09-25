@@ -328,6 +328,21 @@ this entry supplements rather than replaces that history.
   SHA `7fa094bcfe9d0f6cdfd4b793f98b8f02e8e32f92`. Parent-to-main integration,
   memory review, and parent cleanup remain pending.
 
+## 2026-09-25T03:13:26Z — Parent merge and cleanup verified
+
+- Parent-to-main merge SHA
+  `9558f99cc34cbed8dd1d24f4f15fc03f5d78b6ea` was verified on fetched
+  `origin/main` with
+  `git merge-base --is-ancestor 9558f99cc34cbed8dd1d24f4f15fc03f5d78b6ea origin/main`.
+- The coordinator's post-merge memory review found no separate durable lesson
+  beyond the parent/child lifecycle and merge-proof revalidation now present
+  in the Ralph guide and contract test.
+- The parent worktree and local branch were removed after verification; no
+  parent remote ref was published. Worker-02's child worktree/branch cleanup
+  was already complete after its verified worker-to-parent merge.
+- Worker state remains `COMPLETE`; no blockers or follow-up worker action
+  remain.
+
 ## 2026-09-25T01:53:52Z — Rebase onto the refreshed parent
 
 ### Rebase and conflict resolution

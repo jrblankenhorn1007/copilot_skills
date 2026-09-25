@@ -10,7 +10,7 @@
 - **Latest parent rebase target:** `114e4d60567d05cd048916339ed86e324c6eeef3`
 - **Implementation commit SHA:** `e0e5c6ec614a9d903d94222fc87d55f96833b6f3`
 - **PR:** `NOT_OPENED`. The repository's documented parent integration process is a verified fast-forward to `origin/main`.
-- **Current status:** `IN_PROGRESS`; worker-to-parent integrations are verified, parent-to-main integration is pending.
+- **Current status:** `COMPLETE`; both worker-to-parent integrations and the parent-to-main merge are verified.
 
 ## Decisions
 
@@ -108,8 +108,15 @@
   `fda10605f50b49eeb4bc007a181cf51a5578ae18`.
 - Worker-02 child merge is verified at parent SHA
   `1285978056851f2cdfb0ba93753386dab7dcc009`.
-- Latest fetched `origin/main` is
-  `114e4d60567d05cd048916339ed86e324c6eeef3`; the parent contains it and the
-  full contract suite passes.
-- Parent-to-main merge: `PENDING`.
-- Memory review and parent cleanup: `PENDING`.
+- Parent-to-main merge SHA
+  `9558f99cc34cbed8dd1d24f4f15fc03f5d78b6ea` was verified on fetched
+  `origin/main` at `2026-09-25T03:13:26Z` with
+  `git merge-base --is-ancestor 9558f99cc34cbed8dd1d24f4f15fc03f5d78b6ea origin/main`.
+- Post-merge review of `.github/memory/README.md` and `workflow.md` found no
+  separate durable lesson to add; the parent/child lifecycle and revalidated
+  merge-proof rule are already captured in the Ralph documentation and
+  contract test.
+- Parent worktree and local branch were removed after verification; the
+  parent branch remote ref was never published.
+- The synchronized dashboard/leaf state is carried in a separate status-only
+  follow-up based on the verified `origin/main` tip.

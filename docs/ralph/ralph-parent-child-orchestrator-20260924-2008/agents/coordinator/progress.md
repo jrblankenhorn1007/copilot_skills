@@ -104,12 +104,15 @@
 
 ## Current handoff
 
-- Worker-01 and worker-02 child integrations are verified and their current
-  worker states are `COMPLETE`.
-- The parent remains `IN_PROGRESS`; its full contract suite passes, while the
-  remote-main merge, post-merge memory review, and cleanup are outstanding.
-- **Next action:** refresh `origin/main` and follow the documented no-PR
-  verified fast-forward process.
+- Worker-01 and worker-02 child integrations are verified; both worker states
+  are `COMPLETE`.
+- The parent implementation is verified on remote `main`; the project-memory
+  review found no additional durable lesson, and the parent worktree/branch
+  are removed.
+- **Next action:** finish committing the final synchronized `COMPLETE`
+  dashboard and leaf state on this fresh follow-up branch, merge it through
+  the documented fast-forward process, verify it, then remove this
+  status-sync worktree/branch.
 
 ## 2026-09-25T02:50:36Z — Full contract validation is Green
 
@@ -185,6 +188,23 @@
 - `origin/main` remains `114e4d60567d05cd048916339ed86e324c6eeef3`; the parent
   contains that tip. The remote-main integration, memory review, and parent
   cleanup are not yet claimed.
+
+## 2026-09-25T03:13:26Z — Parent merge, memory review, and cleanup verified
+
+- The completed parent fast-forward is `9558f99cc34cbed8dd1d24f4f15fc03f5d78b6ea`.
+  A fresh fetch shows that exact SHA at `origin/main`; the verification
+  command `git -C /Users/jrblankenhorn/copilot_skills.worktrees/ralph-parent-child-final-status-20260925-0305 merge-base --is-ancestor 9558f99cc34cbed8dd1d24f4f15fc03f5d78b6ea origin/main`
+  passed.
+- Reviewed `.github/memory/README.md` and `workflow.md` after integration.
+  No separate memory change is warranted: the parent/child branch lifecycle
+  and revalidation of child merge proofs after parent rebases are already
+  captured in the Ralph guide and two-worker pipeline test.
+- After remote verification, removed the clean parent worktree and local
+  branch. The parent branch itself was not published; no remote cleanup was
+  required.
+- This status-only follow-up branch is based on the verified `origin/main`
+  tip and completes the aggregate dashboard/leaf transition. It is part of
+  the same iteration; no second memory review will be performed.
 
 ## 2026-09-25T03:00:56Z — Final pipeline and remote-base verification
 

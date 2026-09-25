@@ -4,16 +4,15 @@ This is the active repository's aggregate Ralph status dashboard. It indexes
 every branch/agent status and progress folder under `docs/ralph/`. The
 coordinator updates this file in the same loop as affected leaf records.
 
-**Overall status:** `IN_PROGRESS`. The parent-child Ralph workflow is being
-validated and integrated; the completed no-browser Git workflow run remains
-indexed below.
+**Overall status:** `COMPLETE`. The parent-child Ralph pipeline, remote-main
+integration, post-merge memory review, and branch cleanup are verified.
 
 ```yaml
 schema_version: 1
 snapshot_path: "docs/ralph-status.md"
-snapshot_revision: 13
-updated_at_utc: "2026-09-25T03:05:40Z"
-overall_status: IN_PROGRESS
+snapshot_revision: 15
+updated_at_utc: "2026-09-25T03:28:00Z"
+overall_status: COMPLETE
 current_run_ids:
   - "copilot-skills-docs-status-organization-20260924"
   - "copilot-skills-no-browser-git-20260924"
@@ -91,35 +90,37 @@ runs:
       - "parent-child-worker-agent-skill"
       - "parent-child-reference-docs"
       - "parent-child-pipeline-verification"
-    aggregate_status: IN_PROGRESS
+    aggregate_status: COMPLETE
     requested_worker_count: 2
     effective_worker_count: 2
     active_worker_count: 0
     base_origin_main_sha: "12c5a8ae22eac19023befaaf5883ab63512bee27"
-    current_origin_main_sha: "114e4d60567d05cd048916339ed86e324c6eeef3"
+    current_origin_main_sha: "9558f99cc34cbed8dd1d24f4f15fc03f5d78b6ea"
+    verified_origin_main_sha: "9558f99cc34cbed8dd1d24f4f15fc03f5d78b6ea"
     parent_rebased_onto_origin_main_sha: "114e4d60567d05cd048916339ed86e324c6eeef3"
     created_at_utc: "2026-09-25T00:06:22Z"
-    updated_at_utc: "2026-09-25T03:05:40Z"
+    updated_at_utc: "2026-09-25T03:28:00Z"
     coordinator_scope: "Document and verify the Ralph parent-child worktree pipeline, branch cleanup gates, and --orchestrator launcher configuration."
     coordinator_branch: "ralph/parent-child-orchestrator-20260924-2008"
     coordinator_status_path: "docs/ralph/ralph-parent-child-orchestrator-20260924-2008/agents/coordinator/status.md"
     coordinator_progress_path: "docs/ralph/ralph-parent-child-orchestrator-20260924-2008/agents/coordinator/progress.md"
     parent_implementation_commit_sha: "e0e5c6ec614a9d903d94222fc87d55f96833b6f3"
     parent_to_main_merge:
-      status: PENDING
-      sha: null
+      status: VERIFIED
+      sha: "9558f99cc34cbed8dd1d24f4f15fc03f5d78b6ea"
       verified_remote_ref: "refs/heads/main"
-      verified_origin_main_sha: null
-      verification_method: null
-      verified_at_utc: null
-    memory_review: PENDING
+      verified_origin_main_sha: "9558f99cc34cbed8dd1d24f4f15fc03f5d78b6ea"
+      verification_method: "git merge-base --is-ancestor 9558f99cc34cbed8dd1d24f4f15fc03f5d78b6ea origin/main"
+      verified_at_utc: "2026-09-25T03:13:26Z"
+    memory_review: COMPLETE
+    memory_review_outcome: "No separate durable lesson warranted; the parent/child lifecycle and merge-proof revalidation are documented and tested."
     parent_cleanup:
-      worktree: PENDING
-      local_branch: PENDING
+      worktree: REMOVED
+      local_branch: REMOVED
       remote_ref: NOT_PUBLISHED
     contract_suite_status: PASS
     contract_suite_result: "python3 .github/skills/ralph-loop/tests/test_multi_agent_contract.py — Ran 13 tests in 4.414s, OK."
-    next_action: "Coordinator: refresh origin/main, complete the documented verified fast-forward integration, and verify the result."
+    next_action: null
     split_plan:
       - task_id: "parent-child-worker-agent-skill"
         worker_id: "worker-01"
@@ -328,7 +329,7 @@ branch_agent_index:
     runtime_agent_id: "copilotcli:/2f06d4f9-e0c1-4b03-bbbe-edfc40054447"
     branch: "ralph/parent-child-orchestrator-20260924-2008"
     branch_slug: "ralph-parent-child-orchestrator-20260924-2008"
-    status: IN_PROGRESS
+    status: COMPLETE
     iteration: 1
     status_path: "docs/ralph/ralph-parent-child-orchestrator-20260924-2008/agents/coordinator/status.md"
     progress_path: "docs/ralph/ralph-parent-child-orchestrator-20260924-2008/agents/coordinator/progress.md"
@@ -342,19 +343,20 @@ branch_agent_index:
       number: null
       url: null
     parent_to_main_merge:
-      status: PENDING
-      sha: null
+      status: VERIFIED
+      sha: "9558f99cc34cbed8dd1d24f4f15fc03f5d78b6ea"
       verified_remote_ref: "refs/heads/main"
-      verified_origin_main_sha: null
-      verification_method: null
-      verified_at_utc: null
+      verified_origin_main_sha: "9558f99cc34cbed8dd1d24f4f15fc03f5d78b6ea"
+      verification_method: "git merge-base --is-ancestor 9558f99cc34cbed8dd1d24f4f15fc03f5d78b6ea origin/main"
+      verified_at_utc: "2026-09-25T03:13:26Z"
     parent_cleanup:
-      worktree: PENDING
-      local_branch: PENDING
+      worktree: REMOVED
+      local_branch: REMOVED
       remote_ref: NOT_PUBLISHED
-    memory_review: PENDING
+    memory_review: COMPLETE
+    memory_review_outcome: "No separate durable lesson warranted; the parent/child lifecycle and merge-proof revalidation are documented and tested."
     cryptographic_signature_status: NOT_CRYPTOGRAPHICALLY_SIGNED
-    next_action: "Refresh origin/main and merge the parent through the documented verified fast-forward process."
+    next_action: null
 
   - run_id: "copilot_skills-parent-child-pipeline-20260924"
     task_ids: ["parent-child-worker-agent-skill"]
@@ -392,11 +394,20 @@ branch_agent_index:
       local_branch: REMOVED
       remote_ref: NOT_PUBLISHED
     parent_to_main_merge:
-      status: PENDING
-      sha: null
-    memory_review: PENDING
+      status: VERIFIED
+      sha: "9558f99cc34cbed8dd1d24f4f15fc03f5d78b6ea"
+      verified_remote_ref: "refs/heads/main"
+      verified_origin_main_sha: "9558f99cc34cbed8dd1d24f4f15fc03f5d78b6ea"
+      verification_method: "git merge-base --is-ancestor 9558f99cc34cbed8dd1d24f4f15fc03f5d78b6ea origin/main"
+      verified_at_utc: "2026-09-25T03:13:26Z"
+    memory_review: COMPLETE
+    memory_review_outcome: "No separate durable lesson warranted; the parent/child lifecycle and merge-proof revalidation are documented and tested."
+    parent_cleanup:
+      worktree: REMOVED
+      local_branch: REMOVED
+      remote_ref: NOT_PUBLISHED
     cryptographic_signature_status: NOT_CRYPTOGRAPHICALLY_SIGNED
-    next_action: "Coordinator: refresh origin/main and complete parent remote integration."
+    next_action: null
 
   - run_id: "copilot_skills-parent-child-pipeline-20260924"
     task_ids: ["parent-child-reference-docs"]
@@ -434,11 +445,20 @@ branch_agent_index:
       local_branch: REMOVED
       remote_ref: NOT_PUBLISHED
     parent_to_main_merge:
-      status: PENDING
-      sha: null
-    memory_review: PENDING
+      status: VERIFIED
+      sha: "9558f99cc34cbed8dd1d24f4f15fc03f5d78b6ea"
+      verified_remote_ref: "refs/heads/main"
+      verified_origin_main_sha: "9558f99cc34cbed8dd1d24f4f15fc03f5d78b6ea"
+      verification_method: "git merge-base --is-ancestor 9558f99cc34cbed8dd1d24f4f15fc03f5d78b6ea origin/main"
+      verified_at_utc: "2026-09-25T03:13:26Z"
+    memory_review: COMPLETE
+    memory_review_outcome: "No separate durable lesson warranted; the parent/child lifecycle and merge-proof revalidation are documented and tested."
+    parent_cleanup:
+      worktree: REMOVED
+      local_branch: REMOVED
+      remote_ref: NOT_PUBLISHED
     cryptographic_signature_status: NOT_CRYPTOGRAPHICALLY_SIGNED
-    next_action: "Coordinator: complete parent validation and remote-main integration."
+    next_action: null
 ```
 
 ## Branch/agent index
@@ -453,10 +473,12 @@ branch_agent_index:
 | `copilot-skills-docs-status-organization-20260924` | `ralph/status-dashboard-schema-worker-02-20260924-203039` | `worker-02` | `COMPLETE` | [status](./ralph/ralph-status-dashboard-schema-worker-02-20260924-203039/agents/worker-02/status.md) | [progress](./ralph/ralph-status-dashboard-schema-worker-02-20260924-203039/agents/worker-02/progress.md) | `b4dac949e976d48f7bd976fc1c93ddc703bc7319` | `COMPLETE` |
 | `copilot-skills-docs-status-organization-20260924` | `ralph/docs-status-dashboard-coordinator-c437fcd1` | `coordinator` | `COMPLETE` | [status](./ralph/ralph-docs-status-dashboard-coordinator-c437fcd1/agents/coordinator/status.md) | [progress](./ralph/ralph-docs-status-dashboard-coordinator-c437fcd1/agents/coordinator/progress.md) | `a724f4666a1e6638b82dc3d8528805ae4c6cb1a8` | `COMPLETE` |
 | `copilot-skills-no-browser-git-20260924` | `ralph/no-browser-git-workflows-worker-01-20260924-2131` | `worker-01` | `COMPLETE` | [status](./ralph/ralph-no-browser-git-workflows-worker-01-20260924-2131/agents/worker-01/status.md) | [progress](./ralph/ralph-no-browser-git-workflows-worker-01-20260924-2131/agents/worker-01/progress.md) | `3ea889103bb7db6fb1f5eadf647045a511ea9a03` | `COMPLETE` |
-| `copilot_skills-parent-child-pipeline-20260924` | `ralph/parent-child-orchestrator-20260924-2008` | `coordinator` | `IN_PROGRESS` | [status](./ralph/ralph-parent-child-orchestrator-20260924-2008/agents/coordinator/status.md) | [progress](./ralph/ralph-parent-child-orchestrator-20260924-2008/agents/coordinator/progress.md) | Pending | `PENDING` |
-| `copilot_skills-parent-child-pipeline-20260924` | `ralph/parent-child-worker-agent-skill-20260924-2008` | `worker-01` | `COMPLETE` | [status](./ralph/ralph-parent-child-worker-agent-skill-20260924-2008/agents/worker-01/status.md) | [progress](./ralph/ralph-parent-child-worker-agent-skill-20260924-2008/agents/worker-01/progress.md) | `fda10605f50b49eeb4bc007a181cf51a5578ae18` | `PENDING` |
-| `copilot_skills-parent-child-pipeline-20260924` | `ralph/parent-child-worker-reference-docs-20260924-2008` | `worker-02` | `COMPLETE` | [status](./ralph/ralph-parent-child-worker-reference-docs-20260924-2008/agents/worker-02/status.md) | [progress](./ralph/ralph-parent-child-worker-reference-docs-20260924-2008/agents/worker-02/progress.md) | `1285978056851f2cdfb0ba93753386dab7dcc009` | `PENDING` |
+| `copilot_skills-parent-child-pipeline-20260924` | `ralph/parent-child-orchestrator-20260924-2008` | `coordinator` | `COMPLETE` | [status](./ralph/ralph-parent-child-orchestrator-20260924-2008/agents/coordinator/status.md) | [progress](./ralph/ralph-parent-child-orchestrator-20260924-2008/agents/coordinator/progress.md) | `9558f99cc34cbed8dd1d24f4f15fc03f5d78b6ea` | `COMPLETE` |
+| `copilot_skills-parent-child-pipeline-20260924` | `ralph/parent-child-worker-agent-skill-20260924-2008` | `worker-01` | `COMPLETE` | [status](./ralph/ralph-parent-child-worker-agent-skill-20260924-2008/agents/worker-01/status.md) | [progress](./ralph/ralph-parent-child-worker-agent-skill-20260924-2008/agents/worker-01/progress.md) | `fda10605f50b49eeb4bc007a181cf51a5578ae18` → `9558f99cc34cbed8dd1d24f4f15fc03f5d78b6ea` | `COMPLETE` |
+| `copilot_skills-parent-child-pipeline-20260924` | `ralph/parent-child-worker-reference-docs-20260924-2008` | `worker-02` | `COMPLETE` | [status](./ralph/ralph-parent-child-worker-reference-docs-20260924-2008/agents/worker-02/status.md) | [progress](./ralph/ralph-parent-child-worker-reference-docs-20260924-2008/agents/worker-02/progress.md) | `1285978056851f2cdfb0ba93753386dab7dcc009` → `9558f99cc34cbed8dd1d24f4f15fc03f5d78b6ea` | `COMPLETE` |
 
-The parent-child pipeline run remains `IN_PROGRESS` until its remote-main
-merge, full contract validation, post-merge memory review, and cleanup are
-verified. The prior no-browser Git workflow run is `COMPLETE`.
+The parent-child pipeline run is `COMPLETE`: both workers integrated into the
+parent, the parent merge is verified on `origin/main`, the contract suite and
+post-merge memory review passed, and all child and parent worktrees/branches
+were removed after their respective merge proofs. The prior no-browser Git
+workflow run is also `COMPLETE`.

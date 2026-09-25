@@ -9,7 +9,8 @@
 - **Coordinator:** `coordinator` — parent-child Ralph orchestrator.
 - **Worker branches:** `ralph/parent-child-worker-agent-skill-20260924-2008` and `ralph/parent-child-worker-reference-docs-20260924-2008`.
 - **Parent PR:** `NOT_OPENED`; the repository's documented integration path is a verified fast-forward to remote `main`.
-- **Parent merge:** `PENDING`.
+- **Parent merge:** `VERIFIED` at
+  `9558f99cc34cbed8dd1d24f4f15fc03f5d78b6ea` on fetched `origin/main`.
 
 ## Agent records
 
@@ -38,5 +39,7 @@
 
 - Worker-01 child-to-parent integration: `VERIFIED`.
 - Worker-02 child-to-parent integration: `VERIFIED`.
-- Parent-to-main integration: `PENDING`.
-- Post-merge memory review and parent cleanup: `PENDING`.
+- Parent-to-main integration: `VERIFIED`.
+- Post-merge memory review: `COMPLETE`; no separate durable lesson was
+  warranted.
+- Parent worktree and local branch: `REMOVED` after verified integration.
