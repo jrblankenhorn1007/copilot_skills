@@ -11,12 +11,16 @@ branch: "ralph/skill-stack-worker-02-20260925-0215-c9d1"
 branch_slug: "ralph-skill-stack-worker-02-20260925-0215-c9d1"
 worktree: "/Users/jrblankenhorn/copilot_skills.worktrees/ralph-skill-stack-worker-02-20260925-0215-c9d1"
 iteration: 1
-status: IN_PROGRESS
+status: AWAITING_MERGE
 started_at_utc: "2026-09-25T02:29:37Z"
-updated_at_utc: "2026-09-25T02:37:42Z"
+updated_at_utc: "2026-09-25T02:41:57Z"
 base_origin_main_sha: "114e4d60567d05cd048916339ed86e324c6eeef3"
 rebased_onto_origin_main_sha: null
-implementation_commit_sha: null
+implementation_commit_sha: "eaec4ac35c8f4690f8ce6a9b35da07882dbdedd5"
+publication:
+  status: PUSHED
+  remote_branch: "refs/heads/ralph/skill-stack-worker-02-20260925-0215-c9d1"
+  published_implementation_commit_sha: "eaec4ac35c8f4690f8ce6a9b35da07882dbdedd5"
 pull_request:
   status: NOT_OPENED
   number: null
@@ -40,17 +44,25 @@ checks:
     result: PASS
   - command: "git --no-pager diff --check"
     result: PASS
+  - command: "git --no-pager diff --cached --check"
+    result: PASS
+  - command: "git -C /Users/jrblankenhorn/copilot_skills.worktrees/ralph-skill-stack-worker-02-20260925-0215-c9d1 fetch origin"
+    result: PASS
+    note: "origin/main stayed at the base SHA before publication; no rebase."
+  - command: "git -C /Users/jrblankenhorn/copilot_skills.worktrees/ralph-skill-stack-worker-02-20260925-0215-c9d1 push -u origin ralph/skill-stack-worker-02-20260925-0215-c9d1"
+    result: PASS
+    note: "Published only this worker's branch; no PR opened and main not pushed."
   - procedure: "Actual host selection-only baseline/after routing trial."
     result: NOT_RUN
     note: "No Skill installation/profile update or host selection-only harness exercised; no recall result claimed."
 blockers: []
-next_action: "Commit the documentation and records, refresh origin/main, then publish only this worker's branch."
+next_action: "Coordinator: review sign-off, reconcile dashboard, then authorize/verify the normal no-PR merge and perform post-merge memory review."
 worker_sign_off:
-  status: PENDING
+  status: ISSUED
   attestation_kind: SELF_ATTESTATION
   cryptographic_signature_status: NOT_CRYPTOGRAPHICALLY_SIGNED
-  attested_at_utc: null
-  statement: null
+  attested_at_utc: "2026-09-25T02:40:21Z"
+  statement: "I, worker-02, sign off iteration 1 for skill-stack-recall at commit eaec4ac35c8f4690f8ce6a9b35da07882dbdedd5."
 commit_signature_verification:
   status: NOT_CRYPTOGRAPHICALLY_SIGNED
   verifier: null

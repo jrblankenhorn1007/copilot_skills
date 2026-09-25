@@ -58,3 +58,67 @@
 - **Current state:** `IN_PROGRESS`; next fetch, commit, and publish this
   worker branch if write access permits; PR `NOT_OPENED`, merge/memory review
   pending coordinator action.
+
+### Publication and sign-off — 2026-09-25T02:40:21Z
+
+- **Implementation commit:** `eaec4ac35c8f4690f8ce6a9b35da07882dbdedd5`
+  (`docs(agent-skill-stack): gate updates on four routing probes`); co-author
+  trailer included. This commit contains only the four Agent Skill Stack
+  documentation files and this worker's initial leaf/decision files.
+- `git -C /Users/jrblankenhorn/copilot_skills.worktrees/ralph-skill-stack-worker-02-20260925-0215-c9d1 --no-pager diff --cached --check`
+  — PASS before implementation commit; eight worker-owned staged paths only.
+- `git -C /Users/jrblankenhorn/copilot_skills.worktrees/ralph-skill-stack-worker-02-20260925-0215-c9d1 fetch origin`
+  — PASS before publication. `origin/main` was still
+  `114e4d60567d05cd048916339ed86e324c6eeef3`; no rebase was needed and
+  `rebased_onto_origin_main_sha` remains `null`.
+- `git -C /Users/jrblankenhorn/copilot_skills.worktrees/ralph-skill-stack-worker-02-20260925-0215-c9d1 push -u origin ralph/skill-stack-worker-02-20260925-0215-c9d1`
+  — PASS; only the worker branch was published. A subsequent
+  `git -C /Users/jrblankenhorn/copilot_skills.worktrees/ralph-skill-stack-worker-02-20260925-0215-c9d1 fetch origin`
+  was PASS and confirmed the remote worker branch contained exactly
+  `eaec4ac35c8f4690f8ce6a9b35da07882dbdedd5` while `origin/main`
+  remained at the base SHA.
+- **Current state:** `AWAITING_MERGE`; PR `NOT_OPENED` under the previously
+  documented coordinator-reviewed no-PR integration path. No push to main,
+  remote merge, post-merge memory review, or host routing/performance trial
+  has occurred.
+- **Final record checks (2026-09-25T02:41:57Z):** Repeated the exact read-only
+  Markdown link/whitespace check above after updating the leaf and decisions:
+  PASS (10 files, no broken links or trailing whitespace).
+  `git -C /Users/jrblankenhorn/copilot_skills.worktrees/ralph-skill-stack-worker-02-20260925-0215-c9d1 --no-pager diff --check`
+  — PASS (no output); only four worker-owned status/decision files changed
+  after the implementation commit.
+
+#### Worker-02 sign-off payload
+
+```yaml
+run_id: "copilot-skills-skill-improvement-20260925"
+task_ids: ["skill-stack-recall"]
+worker_id: "worker-02"
+worker_name: "worker-02 / Agent Skill Stack recall"
+runtime_agent_id: "f748e902-b9d6-4d9e-9e69-6da1f2bc1211"
+iteration: 1
+branch: "ralph/skill-stack-worker-02-20260925-0215-c9d1"
+worktree: "/Users/jrblankenhorn/copilot_skills.worktrees/ralph-skill-stack-worker-02-20260925-0215-c9d1"
+base_origin_main_sha: "114e4d60567d05cd048916339ed86e324c6eeef3"
+rebased_onto_origin_main_sha: null
+implementation_commit_sha: "eaec4ac35c8f4690f8ce6a9b35da07882dbdedd5"
+pull_request: {status: NOT_OPENED, number: null, url: null}
+decision_record_path: "docs/decisions/ralph-skill-stack-worker-02-20260925-0215-c9d1/agents/worker-02/pr-not-opened.md"
+checks:
+  - {procedure: "Scoped docs-drift validation; 6 docs, only the same pre-existing manifest-output heuristic finding", result: PASS}
+  - {procedure: "Read-only Markdown links/trailing-whitespace check; 10 files, no errors", result: PASS}
+  - {command: "git --no-pager diff --cached --check", result: PASS}
+  - {command: "git fetch origin before publication", result: PASS}
+  - {command: "git push -u origin ralph/skill-stack-worker-02-20260925-0215-c9d1", result: PASS}
+  - {procedure: "Actual host selection-only before/after routing trial", result: NOT_RUN}
+blockers: []
+attested_at_utc: "2026-09-25T02:40:21Z"
+attestation_kind: SELF_ATTESTATION
+cryptographic_signature_status: NOT_CRYPTOGRAPHICALLY_SIGNED
+statement: "I, worker-02, sign off iteration 1 for skill-stack-recall at commit eaec4ac35c8f4690f8ce6a9b35da07882dbdedd5."
+```
+
+**Next action:** Coordinator reviews this exact commit and reconciles
+`docs/ralph-status.md`, serializes and verifies the normal integration, then
+performs the required post-merge Project Memory review. This worker does not
+claim completion before those actions.

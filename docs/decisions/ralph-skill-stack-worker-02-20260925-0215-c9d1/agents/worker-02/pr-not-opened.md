@@ -6,11 +6,13 @@
   runtime agent ID `f748e902-b9d6-4d9e-9e69-6da1f2bc1211`.
 - **Branch:** `ralph/skill-stack-worker-02-20260925-0215-c9d1`
 - **Base `origin/main`:** `114e4d60567d05cd048916339ed86e324c6eeef3`
-- **Implementation commit SHA:** Pending implementation commit; will be
-  recorded before final worker sign-off.
+- **Implementation commit SHA:** `eaec4ac35c8f4690f8ce6a9b35da07882dbdedd5`.
 - **PR:** `NOT_OPENED` (no number or URL). Previous runs document a
   coordinator-reviewed fast-forward integration path without a PR; this
   worker has no authorization to merge or push `main`.
+- **Publication:** Published this worker branch with existing authentication;
+  fetched `origin` to verify the branch ref pointed to the implementation
+  commit. No merge actor or remote-main merge SHA exists yet.
 
 ## Decisions
 
@@ -61,5 +63,6 @@
 
 ## Unresolved blockers
 
-- None at this drafting stage. Remote integration and coordinator memory
-  review are pending, not claimed complete.
+- None for this worker's published documentation iteration. Coordinator
+  review, remote integration, and post-merge memory review remain pending;
+  no completion is claimed.
