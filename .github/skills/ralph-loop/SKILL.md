@@ -160,6 +160,56 @@ writing directly to `main`.
    completion before the implementation merge and any required memory merge
    are verified on fetched remote `main`.
 
+## Completion reporting and branch decision records
+
+Start the final user-facing response with exactly one of these status lines:
+
+```text
+Task completed: YES
+```
+
+or
+
+```text
+Task completed: NO
+```
+
+Use `YES` only after the requested outcome, required checks, integration, and
+remote verification are complete. Follow it with a concise outcome, relevant
+test results, and verified merge SHA. Use `NO` when work remains blocked or
+incomplete, then state the unresolved blocker and the next actionable step.
+Do not imply success if required checks or remote-main verification are
+missing.
+
+Report only unresolved blockers as failures. If a command, test, authentication
+step, rebase, or merge attempt fails but the issue is resolved within the
+iteration, record its sanitized symptoms, resolution, and successful
+verification in the branch decision record instead of presenting it as an
+unresolved failure in the final response. Do not omit or soften a blocker that
+still prevents completion.
+
+Create a version-controlled decision record for every iteration branch under
+`docs/decisions/<branch-slug>/`. Normalize the exact branch name to lowercase
+and replace `/` with `-` for `<branch-slug>`; record the exact branch ref in
+the folder's `README.md`. Under that folder, keep a separate log for each
+agent and pull request at
+`agents/<agent-id>/pr-<number>.md`. If the repository's normal integration
+expects a PR but its number is not assigned yet, use
+`agents/<agent-id>/pr-pending.md`. If the normal integration does not open a
+PR, use `agents/<agent-id>/pr-not-opened.md` and record why. When a PR number
+is assigned, move a pending record to the numbered PR file and update the
+branch index before merging.
+
+For each agent/PR record, capture the branch, base and implementation commit
+SHAs, agent and runtime ID when available, PR number/URL or why none was
+opened, and decisions with context, alternatives, rationale, and consequences.
+Log recovered failures with a sanitized diagnostic, resolution, and passing
+verification; keep unresolved blockers clearly separate. Never record
+credentials, tokens, or raw secret-bearing command output. Update the branch
+index with links to every agent/PR record. The agent responsible for a branch
+maintains its records and commits them with that branch before integration;
+the coordinator checks the records alongside the branch's tests and diff.
+
 ## Worker status and sign-off
 
 When the first top-level run delegates work, the coordinator owns the overall

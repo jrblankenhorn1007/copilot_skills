@@ -104,16 +104,21 @@ shared checkout. The worker must:
 2. Create a fresh worktree and unique branch from the latest `origin/main`.
    For behavior changes, follow Red-Green-Refactor; for documentation-only
    changes, run the relevant documentation checks. Update progress, status,
-   and decision records only as required by the project's protocol.
+   and decision records only as required by the project's protocol. Maintain
+   this branch's `docs/decisions/<branch-slug>/` index and a separate
+   per-agent, per-PR record; use `pr-not-opened.md` when the normal integration
+   path does not open a PR. Record recovered issues and successful verification
+   there, not as unresolved blockers.
 3. Run the scoped checks, commit the change, and report its base SHA, branch,
    commit SHA, changed paths, verification commands/results, and any blocker.
    The iteration is not complete until its remote merge is verified on
    `origin/main`.
 
 The coordinator maintains a ledger with each assignment's worker, owned
-paths, dependencies, acceptance criteria, base SHA, branch/commit, check
-results, implementation merge SHA, memory-review outcome and any memory
-follow-up merge SHA, and state (for example: queued, ready, running, awaiting
+paths, dependencies, acceptance criteria, base SHA, branch/commit, PR number
+or explicit no-PR state, branch decision-record path, check results,
+implementation merge SHA, memory-review outcome and any memory follow-up
+merge SHA, and state (for example: queued, ready, running, awaiting
 integration, merged-and-verified, or blocked). Record evidence from the
 worker; do not mark an assignment complete or release dependent work merely
 because a branch was pushed or a pull request was opened.
@@ -137,6 +142,11 @@ starts from a new worktree and branch based on the latest `origin/main`; do
 not continue on the old iteration branch. Use only project-required
 completion markers, and only after all required remote-main merges are
 verified.
+
+In the final user-facing report, begin with `Task completed: YES` or
+`Task completed: NO`. Only unresolved blockers belong in the failure summary;
+the branch's per-agent/per-PR decision record retains recovered issues and
+their successful verification.
 
 ## Git synchronization and integration
 

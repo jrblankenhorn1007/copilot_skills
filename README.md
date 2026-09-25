@@ -65,6 +65,12 @@ See [implementation_status.md](implementation_status.md) for the overall
 status, worker iterations, sign-offs, and remote-merge evidence for this
 multi-agent run.
 
+## Ralph decision records
+
+See [docs/decisions/README.md](docs/decisions/README.md) for the
+branch-scoped, per-agent/per-PR decision-log format, including recovered
+issues and unresolved blockers.
+
 ## Validation
 
 Run the Ralph multi-agent instruction contract checks from the repository

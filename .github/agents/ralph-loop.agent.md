@@ -92,6 +92,12 @@ report your verification evidence back to it.
   remaining platform or environment gaps, in the project's progress log.
   Update current-state status and append decision history only as required by
   that project's protocol.
+- Maintain this branch's `docs/decisions/<branch-slug>/README.md` and a
+  separate `agents/<agent-id>/pr-<number>.md` record for each PR. If no PR is
+  opened, use `pr-not-opened.md` and explain the integration path. Record
+  meaningful decisions and sanitized details of any recovered operational
+  failures there; keep unresolved blockers distinct. Commit these records on
+  the branch before integration.
 - If orchestrated, do not concurrently edit the coordinator-owned aggregate
   status snapshot. Return the exact progress, status, and verification
   evidence to the coordinator, or write only to a distinct worker-owned status
@@ -134,6 +140,16 @@ report your verification evidence back to it.
   conditions are met. An iteration is not complete until its implementation
   merge and any required memory merge are verified on remote `main`; do not
   emit `RALPH_CONTINUE` or `RALPH_COMPLETE` before then.
+
+## Final user-facing response
+
+Start with exactly `Task completed: YES` or `Task completed: NO`. Use `YES`
+only after the requested work, checks, and verified remote-main integration
+are complete; include a concise outcome, passing checks, and merge SHA. Use
+`NO` when work is incomplete or blocked, and state the unresolved blocker and
+next action. Report only unresolved blockers as failures. Record resolved
+command, test, authentication, rebase, or merge problems in the branch's
+decision records instead of reporting them as outstanding failures.
 
 ## Worker sign-off
 

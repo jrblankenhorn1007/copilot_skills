@@ -163,6 +163,98 @@ class MultiAgentContractTests(unittest.TestCase):
             "README must surface the Git preflight",
         )
 
+    def test_final_response_reports_completion_and_logs_recovered_issues(self):
+        ralph_skill = read_document(".github/skills/ralph-loop/SKILL.md")
+        for requirement in (
+            "task completed: yes",
+            "task completed: no",
+            "only unresolved blockers",
+            "fails but the issue is resolved",
+            "docs/decisions/<branch-slug>/",
+        ):
+            with self.subTest(requirement=requirement):
+                assert_contains(
+                    self,
+                    ralph_skill,
+                    requirement,
+                    f"Ralph skill must include {requirement!r}",
+                )
+
+        agent = read_document(".github/agents/ralph-loop.agent.md")
+        for requirement in ("task completed: yes", "task completed: no"):
+            with self.subTest(requirement=requirement):
+                assert_contains(
+                    self,
+                    agent,
+                    requirement,
+                    f"Ralph agent must include {requirement!r}",
+                )
+
+        orchestration = read_document(
+            ".github/skills/ralph-loop/references/multi-agent-orchestration.md"
+        )
+        for requirement in (
+            "per-agent, per-pr",
+            "recovered issues",
+            "unresolved blockers",
+        ):
+            with self.subTest(requirement=requirement):
+                assert_contains(
+                    self,
+                    orchestration,
+                    requirement,
+                    f"multi-agent guidance must include {requirement!r}",
+                )
+
+        status_guide = read_document(
+            ".github/skills/ralph-loop/references/multi-agent-status.md"
+        )
+        for field in ("decision_record_path", "pull_request"):
+            with self.subTest(field=field):
+                assert_contains(
+                    self,
+                    status_guide,
+                    field,
+                    f"status snapshot must reference {field!r}",
+                )
+
+        decisions = read_document("docs/decisions/README.md")
+        for requirement in (
+            "docs/decisions/<branch-slug>/",
+            "agents/<agent-id>/pr-<number>.md",
+            "pr-pending.md",
+            "pr-not-opened.md",
+            "recovered",
+            "unresolved",
+        ):
+            with self.subTest(requirement=requirement):
+                assert_contains(
+                    self,
+                    decisions,
+                    requirement,
+                    f"decision-log guide must include {requirement!r}",
+                )
+
+        readme = read_document("README.md")
+        assert_contains(
+            self,
+            readme,
+            "docs/decisions/readme.md",
+            "README must link to the branch decision-log convention",
+        )
+
+        decisions_root = ROOT / "docs" / "decisions"
+        self.assertTrue(
+            decisions_root.is_dir()
+            and any(
+                (branch / "README.md").is_file()
+                and bool(list(branch.glob("agents/*/pr-*.md")))
+                for branch in decisions_root.iterdir()
+                if branch.is_dir()
+            ),
+            "each Ralph branch must have branch details and a per-agent, per-PR decision record",
+        )
+
     def test_status_protocol_records_overall_worker_iteration_and_attestation(self):
         status_guide = read_document(
             ".github/skills/ralph-loop/references/multi-agent-status.md"

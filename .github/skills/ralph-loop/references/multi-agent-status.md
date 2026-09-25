@@ -53,6 +53,14 @@ abbreviations.
   `PASS`, `FAIL`, `NOT_RUN`, or `BLOCKED`. List blockers explicitly; use an
   empty list only when there are none. Keep run-level and worker-level
   `next_action` specific and current.
+- Each iteration records its `pull_request` number/URL and state, or
+  `NOT_OPENED` when the normal integration path has no PR, plus a
+  `decision_record_path` under `docs/decisions/<branch-slug>/`. Keep a separate
+  record for each agent/PR pair; while an expected PR number is pending, use
+  `agents/<agent-id>/pr-pending.md`; when no PR is part of the integration
+  path, use `agents/<agent-id>/pr-not-opened.md`. The record captures decisions
+  and recovered issues; only current unresolved issues belong in the status
+  snapshot's `blockers`.
 
 ## Worker sign-off and signatures
 
@@ -90,6 +98,12 @@ snapshot):
   "iteration": 1,
   "branch": "<iteration branch>",
   "worktree": "<iteration worktree path>",
+  "pull_request": {
+    "status": "NOT_OPENED",
+    "number": null,
+    "url": null
+  },
+  "decision_record_path": "docs/decisions/<branch-slug>/agents/worker-02/pr-not-opened.md",
   "base_origin_main_sha": "<full origin/main SHA>",
   "implementation_commit_sha": "<exact full final commit SHA>",
   "checks": [
@@ -145,6 +159,11 @@ workers:
       - iteration: 1
         branch: "ralph/orchestration-worker-01-<unique-id>"
         worktree: "<path to worker-01 worktree>"
+        pull_request:
+          status: NOT_OPENED
+          number: null
+          url: null
+        decision_record_path: "docs/decisions/ralph-orchestration-worker-01-<unique-id>/agents/worker-01/pr-not-opened.md"
         base_origin_main_sha: "<full SHA>"
         rebased_onto_origin_main_sha: null
         implementation_commit_sha: "<exact full worker-01 implementation commit SHA>"
