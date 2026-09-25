@@ -5,11 +5,11 @@ task_ids: ["agent-skill-stack-recall-routing"]
 worker_id: "worker-02"
 branch: "ralph/skill-stack-worker-02-replay-20260925-1254-luna"
 iteration: 2
-status: AWAITING_MERGE
+status: COMPLETE
 started_at_utc: "2026-09-25T12:55:00Z"
-updated_at_utc: "2026-09-25T12:58:12Z"
+updated_at_utc: "2026-09-25T13:00:56Z"
 resource_usage:
-  time_spent_seconds: 192
+  time_spent_seconds: 356
   time_basis: WALL_CLOCK_ELAPSED
   token_spend:
     status: NOT_REPORTED
@@ -19,7 +19,7 @@ resource_usage:
     cached_input_tokens: null
     source: null
 memory_review: PENDING
-next_action: "Coordinator: verify this exact-commit sign-off and fast-forward the child into the parent, then synchronize this leaf with the dashboard; the final parent PR still needs independent review."
+next_action: "Coordinator: fast-forward this completion-record commit into the parent, synchronize the dashboard, and prepare the parent PR for independent review."
 ---
 
 # Agent Skill Stack worker-02 serial replay
@@ -91,3 +91,21 @@ next_action: "Coordinator: verify this exact-commit sign-off and fast-forward th
 - **Next action:** Coordinator verifies the self-attestation and child
   ancestry, fast-forwards this child into the parent, and synchronizes the
   dashboard. The parent PR's independent review remains a separate gate.
+
+## 2026-09-25T13:00:56Z - Verified child integration
+
+- The coordinator ran `git merge --ff-only
+  ralph/skill-stack-worker-02-replay-20260925-1254-luna` in its clean parent.
+  Parent tip became `45fbd82b1bdd2112d3e720221567aac118892775`.
+  `git merge-base --is-ancestor` confirmed both implementation commit
+  `a9d48f751e5f4932b4e1e3a554f29a996ad71980` and signed-off child tip
+  `45fbd82b1bdd2112d3e720221567aac118892775` are ancestors - **PASS**.
+- Worker leaf changes to `COMPLETE` for the verified no-PR child-to-parent
+  integration. The overall run, parent remote-main merge, independent
+  parent PR review, and Project Memory review remain pending. The signed
+  memory handoff is unchanged. Provider token usage is `NOT_REPORTED`;
+  elapsed wall time at this status is `356` seconds.
+- Publish the task ledger's final `COMPLETE` sign-out only after the
+  coordinator fast-forwards this worker completion-record commit and
+  synchronizes the aggregate dashboard. No premature `AWAITING_MERGE`
+  terminal-ledger publication is attempted.
