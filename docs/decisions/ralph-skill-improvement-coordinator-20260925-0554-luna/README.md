@@ -54,6 +54,14 @@
 - [Coordinator PR-pending record](agents/coordinator/pr-pending.md)
 - [Coordinator status](../../ralph/ralph-skill-improvement-coordinator-20260925-0554-luna/agents/coordinator/status.md)
 - [Coordinator progress](../../ralph/ralph-skill-improvement-coordinator-20260925-0554-luna/agents/coordinator/progress.md)
+- [Verified worker-01 replay](../ralph-skill-eval-worker-01-replay-20260925-1234-luna/README.md)
+
+Worker-01's Agentic Eval implementation is byte-identical to its separately
+signed-off Luna source commit. Its fresh child implementation is
+`110028610887e4d879a0129fcb81f417faf51eef`, and the no-PR child merge
+`478f97845fba19f3f3b3ac87d7a01d294ae331db` is verified on the parent.
+The replay was carried out serially by the existing runtime; that runtime's
+current model profile is not reported.
 
 ## Recovered issues
 

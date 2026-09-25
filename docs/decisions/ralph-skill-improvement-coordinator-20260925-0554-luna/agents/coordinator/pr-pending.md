@@ -98,10 +98,20 @@
   Manager then allowed two total agents, but both slots remained occupied;
   no worker or reviewer was launched.
 
+## Recovered dashboard correction
+
+- During dashboard synchronization a broad `aggregate_status` patch matched
+  the unrelated translated-prompt run before this run. Targeted YAML
+  run/index/leaf validation caught this mismatch before commit; diff
+  inspection restored the unrelated run to `BLOCKED`, set this run to
+  `IN_PROGRESS`, and the rerun passed with 11 runs and 24 indexed agents.
+
 ## Unresolved blockers
 
-- The signed-off child implementations require replay and new sign-offs
-  against the updated parent. The host Resource Manager currently has no free
-  slot: the limit is two agents and two are active, including this
-  coordinator. The independent reviewer required for the parent pull request
-  is also pending.
+- Worker-01 has been replayed byte-for-byte and verified on the parent at
+  `478f97845fba19f3f3b3ac87d7a01d294ae331db`; its completed leaf is
+  present at `2584bfbd0578cfb87ade7c3d3f6d6aedcabf0cd9`. Worker-02 still
+  needs a separate serial replay and sign-off.
+- The parent PR cannot merge without an independent Ralph reviewer. The
+  Resource Manager has no free slot for that reviewer; neither a self-review
+  nor a direct implementation push to `main` is permitted.

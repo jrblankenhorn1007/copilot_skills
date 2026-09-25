@@ -520,3 +520,41 @@
   **PASS**; the dashboard conflict is resolved without losing upstream runs.
   At `2026-09-25T12:03:13Z`, elapsed wall time is `22,146` seconds; token
   counters remain `NOT_REPORTED`.
+
+## 2026-09-25T12:35Z–12:44Z — Worker-01 serial recovery and integration
+
+- The separate signed-off Luna worker implementation
+  `3473972fa9babc05bdc48e7a8a0d8deae0f65bcc` was replayed on a fresh
+  child branch from exact parent tip
+  `99631f7349917271f7a6455575539b34064fe3b8`.
+  New implementation `110028610887e4d879a0129fcb81f417faf51eef` is
+  byte-identical in `.github/skills/agentic-eval/SKILL.md`; source attribution,
+  protected gates, and the original worker branch are preserved. This serial
+  replay used the already-running session, not a newly launched agent; its
+  live model profile is not exposed, so no new Luna profile is asserted.
+- Worker-01 signed off the exact new implementation commit after frontmatter,
+  link, whitespace, YAML, and 20 Ralph contract checks passed. The child
+  uses no PR; its independent review status is `NOT_APPLICABLE`.
+- `git merge --ff-only
+  ralph/skill-eval-worker-01-replay-20260925-1234-luna` in the parent and
+  `git merge-base --is-ancestor 478f97845fba19f3f3b3ac87d7a01d294ae331db
+  HEAD` — **PASS**. The parent contains both the signed-off implementation
+  and the later `COMPLETE` worker leaf at
+  `2584bfbd0578cfb87ade7c3d3f6d6aedcabf0cd9`.
+- Worker-01's `memory_handoff` is preserved verbatim in this run's aggregate
+  dashboard. Overall parent-to-main integration and post-merge memory review
+  remain pending. At `2026-09-25T12:44:27Z`, coordinator elapsed wall time is
+  `24,620` seconds, provider token usage `NOT_REPORTED`.
+- **Next action:** Commit synchronized dashboard/leaf metadata, then serially
+  replay the separate Agent Skill Stack implementation from this exact
+  updated parent tip.
+- `PYTHONDONTWRITEBYTECODE=1 python3
+  .github/skills/ralph-loop/tests/test_multi_agent_contract.py` — **PASS**,
+  20 tests with the completed worker leaf indexed.
+- `ruby -ryaml -rtime -e 'validate dashboard, run, indexes, leaves, resource
+  clocks, and handoff'` — **PASS**, 11 runs, 24 indexed agents, all leaf
+  folders indexed, both run rows consistent with their leaves, verified
+  child merge, correct wall-clock arithmetic, and worker-01 handoff preserved.
+- `git diff --check` and an inline Python local-link validator over README,
+  dashboard and the coordinator decision index — **PASS**, 88 links and none
+  broken. At `2026-09-25T12:47:41Z`, elapsed wall time is `24,814` seconds.
