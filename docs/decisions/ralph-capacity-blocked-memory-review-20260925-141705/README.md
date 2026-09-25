@@ -4,9 +4,9 @@
   `capacity-blocked-review-resume-guidance`
 - **Branch:** `ralph/capacity-blocked-memory-review-20260925-141705`
 - **Base `origin/main`:**
-  `cef85f23ae91ea9994b01317a983ae89c4a1f51d`
+  `88051ce785a38965e26b5744b6c8fc53e37fcc41`
 - **Implementation commit:**
-  `8d97333bfb3e8947a647e04952c1fef40b30b9f0`
+  `045ea5295d976fadde833f129daba74488a2bfa9`
 - **PR:** `NOT_OPENED`; integration uses the repository's authorized
   coordinator-managed no-PR fast-forward path.
 

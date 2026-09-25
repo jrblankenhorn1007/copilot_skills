@@ -9,8 +9,8 @@
 - **Branch/worktree:** `ralph/capacity-blocked-memory-review-20260925-141705` /
   `/Users/jrblankenhorn/copilot_skills.worktrees/ralph-capacity-blocked-memory-review-20260925-141705`.
 - **Base:** rebased onto fetched `origin/main` at
-  `cef85f23ae91ea9994b01317a983ae89c4a1f51d`.
-- **Implementation commit:** `8d97333bfb3e8947a647e04952c1fef40b30b9f0`;
+  `88051ce785a38965e26b5744b6c8fc53e37fcc41`.
+- **Implementation commit:** `045ea5295d976fadde833f129daba74488a2bfa9`;
   the test/docs patch was rebased over the upstream status-first reporting
   change without dropping either contract.
 - **Test-first Red:**
@@ -42,6 +42,11 @@
   `2026-09-25T14:30:28Z`; main status ownership was released at
   `2026-09-25T14:30:32Z`. The sign-in was delayed because another main owner
   was active while the isolated documentation/test change was being prepared.
+- **Latest-main refresh:** Rebased both commits onto fetched `origin/main`
+  `88051ce785a38965e26b5744b6c8fc53e37fcc41`; the source implementation is
+  now `045ea5295d976fadde833f129daba74488a2bfa9`. The main-ownership
+  transaction was `FREE` at the preceding inventory; recheck immediately
+  before acquiring `MERGE`.
 - **Memory-review blocker:** The latest previously recorded Resource Manager
   inventory had zero available slots. Refresh the complete live inventory
   before any updater dispatch; do not self-review or dispatch without an
