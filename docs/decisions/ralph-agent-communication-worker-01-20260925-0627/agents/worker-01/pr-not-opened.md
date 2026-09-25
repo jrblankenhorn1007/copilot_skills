@@ -9,7 +9,7 @@
   `/Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-communication-parent-20260925-0627`
 - **Run `origin/main` base:** `20293c720b18a1a21ff150f566823493b7a2717d`
 - **Base parent SHA:** `0294550c92a5d79e1cca682a0c509b5bb6eca3fd`
-- **Implementation commit:** `0463c8c6309c03c66b1c0db8e006acf9f810329a`
+- **Implementation commit:** `fc3a416cf1543f771c84d066080f8d603b8030be`
 - **Pull request:** `NOT_OPENED`; this child is handed to the coordinator for
   serial parent integration under the assigned no-PR path.
 
@@ -57,6 +57,23 @@
 - **Consequence:** The worker remains `AWAITING_MERGE` until the coordinator
   verifies integration.
 
+### Reject expired instructions regardless of priority
+
+- **Context:** A live experiment observed an urgent cooperative interrupt
+  arrive after `expires_at`; the test agent still acted on the stale message.
+- **Alternatives:** Treat urgency as permission to act after expiry; leave
+  expiry advisory; reject stale work but omit an acknowledgment.
+- **Choice:** At receipt, dequeue, and immediately before acting, reject any
+  message whose `expires_at` is reached; send a correlated `expired`
+  acknowledgment even when `ack_required` is false; perform no requested
+  action or side effect; and escalate safety-critical content through a
+  current, verified coordinator/operator channel.
+- **Rationale:** Queueing can deliver a message after its validity window, and
+  priority does not provide cancellation or preemption.
+- **Consequence:** The receiver rejects stale urgent interrupts as well as
+  ordinary requests. The escalation reports risk without authorizing the
+  expired instruction.
+
 ## Integration note
 
 At worker sign-off, the parent branch tip observed was
@@ -69,10 +86,16 @@ rerunning their scoped checks. No child-to-parent merge is claimed here.
 ## Verification and signature
 
 - Documentation-only change; TDD Red/Green/Refactor was not applicable.
+- Expiry-handling audit: `PASS` (15 requirements; exact command is recorded
+  in the worker progress file).
+- `git diff --check` against the supplied child base: `PASS`.
 - `git diff --cached --check`: `PASS`.
 - Required communication-contract vocabulary audit: `PASS` (25 terms; exact
   command is recorded in the worker progress file).
-- `git diff --check`: `PASS`.
 - Worker sign-off is `SELF_ATTESTATION`; it is
   `NOT_CRYPTOGRAPHICALLY_SIGNED`. No commit signature was verified.
-- No recovered implementation failures or unresolved blockers.
+- Recovered audit issue: the first literal-substring check failed on two
+  newline/wording mismatches; the rule was clarified and the whitespace-
+  normalized 15-statement audit passed. Details and exact commands are in
+  `docs/ralph/ralph-agent-communication-worker-01-20260925-0627/agents/worker-01/progress.md`.
+- No unresolved implementation blockers.

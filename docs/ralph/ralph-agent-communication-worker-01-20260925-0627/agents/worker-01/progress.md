@@ -4,16 +4,16 @@
 
 - **Run:** `copilot-skills-agent-communication-20260925-0627`
 - **Worker:** `worker-01 / agent communication skill`
-- **Status:** `IN_PROGRESS`
+- **Status:** `AWAITING_MERGE`
 - **Started:** `2026-09-25T07:49:20Z`
-- **Updated:** `2026-09-25T08:16:50Z`
+- **Updated:** `2026-09-25T08:31:34Z`
 - **Branch/worktree:** `ralph/agent-communication-worker-01-20260925-0627` /
   `/Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-communication-worker-01-20260925-0627`
 - **Parent:** `ralph/agent-communication-parent-20260925-0627` /
   `/Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-communication-parent-20260925-0627`
 - **Base:** parent base `0294550c92a5d79e1cca682a0c509b5bb6eca3fd`;
   run `origin/main` base `20293c720b18a1a21ff150f566823493b7a2717d`.
-- **Implementation commit:** `0463c8c6309c03c66b1c0db8e006acf9f810329a`.
+- **Implementation commit:** `fc3a416cf1543f771c84d066080f8d603b8030be`.
 
 ### Refresh and Git state
 
@@ -148,6 +148,119 @@
   `0294550c92a5d79e1cca682a0c509b5bb6eca3fd`; the parent tip observed at
   follow-up start is `d8b3992af53a292a83ff094c5cd9837670ea968d`. No rebase,
   publish, merge, or cleanup was performed.
+- **Refresh:** The canonical and active project repository remote is
+  `https://github.com/jrblankenhorn1007/copilot_skills.git`. Its clean,
+  attached `/Users/jrblankenhorn/copilot_skills` `main` worktree tracked
+  `origin/main` at `7ee1307cb47f5a88cd6b46ee135444777ddeb665`;
+  `git -C /Users/jrblankenhorn/copilot_skills pull --ff-only` returned
+  `Already up to date.` The assigned child was clean at `680c6288...` before
+  follow-up work. Current refreshed guidance and the parent status/decision
+  records were reopened before editing.
 - **TDD:** Documentation-only clarification; Red/Green/Refactor is not
   applicable. Targeted wording and whitespace checks will be recorded after
   the change.
+
+### Follow-up implementation and verification
+
+- Added a normative receiver rule in
+  `.github/skills/agent-communication/SKILL.md`: check expiry at receipt,
+  dequeue, and immediately before acting; at or after `expires_at`, reject the
+  whole instruction, send an `expired` acknowledgment correlated to the
+  original message even if `ack_required` is false, and take no requested
+  action or side effect. Escalate safety-critical expired content through a
+  current, verified operator/coordinator channel. Neither `priority: "urgent"`
+  nor an expired cooperative `interrupt` is preemption.
+- **Updated implementation commit:**
+  `fc3a416cf1543f771c84d066080f8d603b8030be`. This supersedes the earlier
+  sign-off for `0463c8c6309c03c66b1c0db8e006acf9f810329a`; the earlier
+  payload is retained above for history.
+- `git -C /Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-communication-worker-01-20260925-0627 diff --check`
+  — **PASS**.
+- `git -C /Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-communication-worker-01-20260925-0627 diff --cached --check`
+  — **PASS** for the staged skill update.
+- `git -C /Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-communication-worker-01-20260925-0627 diff --check 0294550c92a5d79e1cca682a0c509b5bb6eca3fd...HEAD`
+  — **PASS** across the completed worker branch.
+- The coordinator-owned composite inter-session contract test remains
+  `NOT_RUN` by this worker because it covers worker-02's pipeline/README work;
+  the coordinator should run it after integrating both child branches.
+- The first literal-substring audit returned
+  `AssertionError: ['no action was taken', 'not preemption or an exception to expiry']`.
+  It was a check mismatch: Markdown wrapped the first phrase across a newline,
+  and the second assertion expected a different grammatical form. The rule
+  was made more explicit (`MUST NOT` and direct "Do not treat..." wording);
+  the corrected audit normalizes whitespace and checks the intended normative
+  statements.
+- Exact initial audit command:
+
+  ```sh
+  python3 -c 'from pathlib import Path; t=Path("/Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-communication-worker-01-20260925-0627/.github/skills/agent-communication/SKILL.md").read_text(); r=["at or after that timestamp", "MUST** reject the whole instruction", "send an `expired` acknowledgment", "ack_required` is `false", "correlation_id` set to", "no action was taken", "safety-critical", "authorized coordinator or operator", "priority: \"urgent\"", "expired cooperative `interrupt`", "not preemption or an exception to expiry"]; missing=[x for x in r if x not in t]; assert not missing, missing; print(f"PASS: all {len(r)} expiry-handling requirements are present")'
+  ```
+
+  Result: `AssertionError` for the two phrases above; this was not a
+  behavior-test Red.
+- Corrected expiry-contract audit — **PASS**, all 15 required safety
+  statements present. Exact command:
+
+  ```sh
+  python3 -c 'from pathlib import Path; p=Path("/Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-communication-worker-01-20260925-0627/.github/skills/agent-communication/SKILL.md"); t=" ".join(p.read_text().split()); r=["at or after the message", "the current time is at or after that timestamp", "the receiver **MUST** reject the whole instruction", "**MUST NOT** perform or continue", "send an `expired` acknowledgment", "`ack_required` is `false`", "`kind: \"ack\"`", "`correlation_id` set to", "`state=expired`", "no action was taken", "safety-critical", "authorized coordinator or operator", "Do not treat `priority: \"urgent\"` as preemption", "Do not treat an expired cooperative `interrupt` as preemption", "must be rejected and acknowledged as expired"]; missing=[x for x in r if x not in t]; assert not missing, missing; print(f"PASS: all {len(r)} expiry-handling requirements are present")'
+  ```
+
+- No behavior tests or TDD Red/Green were fabricated. The coordinator-owned
+  composite contract test remains for the coordinator to run after integrating
+  both worker branches.
+
+### Updated worker sign-off
+
+- **Final state:** `AWAITING_MERGE` at `2026-09-25T08:31:34Z`. The child
+  remains unre-based at `base_parent_sha`; the coordinator's next step is to
+  rebase onto the current parent tip, rerun scoped checks, and integrate.
+- **Implementation commit:** `fc3a416cf1543f771c84d066080f8d603b8030be`.
+
+```json
+{
+  "run_id": "copilot-skills-agent-communication-20260925-0627",
+  "task_ids": ["agent-communication-skill"],
+  "worker_id": "worker-01",
+  "worker_name": "worker-01 / agent communication skill",
+  "runtime_agent_id": "4b590f58-600f-4d99-92b7-29db9c14b7a4",
+  "iteration": 1,
+  "branch": "ralph/agent-communication-worker-01-20260925-0627",
+  "worktree": "/Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-communication-worker-01-20260925-0627",
+  "pull_request": {
+    "status": "NOT_OPENED",
+    "number": null,
+    "url": null
+  },
+  "decision_record_path": "docs/decisions/ralph-agent-communication-worker-01-20260925-0627/agents/worker-01/pr-not-opened.md",
+  "base_origin_main_sha": "20293c720b18a1a21ff150f566823493b7a2717d",
+  "parent_branch": "ralph/agent-communication-parent-20260925-0627",
+  "parent_worktree": "/Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-communication-parent-20260925-0627",
+  "parent_base_origin_main_sha": "20293c720b18a1a21ff150f566823493b7a2717d",
+  "base_parent_sha": "0294550c92a5d79e1cca682a0c509b5bb6eca3fd",
+  "rebased_onto_parent_sha": null,
+  "implementation_commit_sha": "fc3a416cf1543f771c84d066080f8d603b8030be",
+  "checks": [
+    {
+      "command": "git -C /Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-communication-worker-01-20260925-0627 diff --check 0294550c92a5d79e1cca682a0c509b5bb6eca3fd...HEAD",
+      "result": "PASS"
+    },
+    {
+      "command": "Run the corrected 15-statement expiry-contract Python audit using the exact command recorded above in this progress.md",
+      "result": "PASS"
+    },
+    {
+      "command": "git -C /Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-communication-worker-01-20260925-0627 diff --cached --check",
+      "result": "PASS"
+    },
+    {
+      "command": "python3 .github/skills/ralph-loop/tests/test_multi_agent_contract.py MultiAgentContractTests.test_inter_session_communication_contract_is_actionable_and_bounded",
+      "result": "NOT_RUN"
+    }
+  ],
+  "blockers": [],
+  "attested_at_utc": "2026-09-25T08:31:34Z",
+  "attestation_kind": "SELF_ATTESTATION",
+  "cryptographic_signature_status": "NOT_CRYPTOGRAPHICALLY_SIGNED",
+  "statement": "I, worker-01, sign off iteration 1 for agent-communication-skill at commit fc3a416cf1543f771c84d066080f8d603b8030be."
+}
+```

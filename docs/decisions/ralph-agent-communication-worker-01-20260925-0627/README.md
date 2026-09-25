@@ -6,7 +6,7 @@
 - **Exact branch:** `ralph/agent-communication-worker-01-20260925-0627`
 - **Parent branch:** `ralph/agent-communication-parent-20260925-0627`
 - **Base parent SHA:** `0294550c92a5d79e1cca682a0c509b5bb6eca3fd`
-- **Implementation commit:** `0463c8c6309c03c66b1c0db8e006acf9f810329a`
+- **Implementation commit:** `fc3a416cf1543f771c84d066080f8d603b8030be`
 - **Integration:** Awaiting coordinator-managed child-to-parent integration;
   no worker PR is opened.
 

@@ -11,11 +11,11 @@ branch: "ralph/agent-communication-worker-01-20260925-0627"
 branch_slug: "ralph-agent-communication-worker-01-20260925-0627"
 worktree: "/Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-communication-worker-01-20260925-0627"
 iteration: 1
-status: IN_PROGRESS
+status: AWAITING_MERGE
 started_at_utc: "2026-09-25T07:49:20Z"
-updated_at_utc: "2026-09-25T08:16:50Z"
+updated_at_utc: "2026-09-25T08:31:34Z"
 resource_usage:
-  time_spent_seconds: 1650
+  time_spent_seconds: 2534
   time_basis: WALL_CLOCK_ELAPSED
   token_spend:
     status: NOT_REPORTED
@@ -26,7 +26,7 @@ resource_usage:
     source: null
 base_origin_main_sha: "20293c720b18a1a21ff150f566823493b7a2717d"
 rebased_onto_origin_main_sha: null
-implementation_commit_sha: "0463c8c6309c03c66b1c0db8e006acf9f810329a"
+implementation_commit_sha: "fc3a416cf1543f771c84d066080f8d603b8030be"
 pull_request:
   status: NOT_OPENED
   number: null
@@ -48,10 +48,16 @@ merge_actor_worker_id: null
 decision_record_path: "docs/decisions/ralph-agent-communication-worker-01-20260925-0627/agents/worker-01/pr-not-opened.md"
 decision_index_path: "docs/decisions/ralph-agent-communication-worker-01-20260925-0627/README.md"
 checks:
-  - command: "Expired-message documentation check"
+  - command: "Expiry-handling audit; exact command in progress.md"
+    result: PASS
+  - command: "git -C /Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-communication-worker-01-20260925-0627 diff --check 0294550c92a5d79e1cca682a0c509b5bb6eca3fd...HEAD"
+    result: PASS
+  - command: "git -C /Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-communication-worker-01-20260925-0627 diff --cached --check"
+    result: PASS
+  - command: "python3 .github/skills/ralph-loop/tests/test_multi_agent_contract.py MultiAgentContractTests.test_inter_session_communication_contract_is_actionable_and_bounded"
     result: NOT_RUN
 blockers: []
-next_action: "Worker-01: add and verify the normative expired-message rejection rule; then refresh sign-off."
+next_action: "Coordinator: rebase this child onto the current parent tip, rerun scoped checks, and integrate it into the parent."
 parent_branch: "ralph/agent-communication-parent-20260925-0627"
 parent_worktree: "/Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-communication-parent-20260925-0627"
 parent_base_origin_main_sha: "20293c720b18a1a21ff150f566823493b7a2717d"
@@ -69,11 +75,11 @@ cleanup:
   local_branch: PENDING
   remote_ref: NOT_PUBLISHED
 worker_sign_off:
-  status: PENDING
-  attestation_kind: null
+  status: RECEIVED
+  attestation_kind: SELF_ATTESTATION
   cryptographic_signature_status: NOT_CRYPTOGRAPHICALLY_SIGNED
-  attested_at_utc: null
-  statement: null
+  attested_at_utc: "2026-09-25T08:31:34Z"
+  statement: "I, worker-01, sign off iteration 1 for agent-communication-skill at commit fc3a416cf1543f771c84d066080f8d603b8030be."
 commit_signature_verification:
   status: NOT_CRYPTOGRAPHICALLY_SIGNED
   verifier: null
