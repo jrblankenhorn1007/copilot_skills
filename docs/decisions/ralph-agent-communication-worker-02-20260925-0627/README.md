@@ -46,3 +46,18 @@
   aggregate dashboard.
 - **Consequence:** Measurement remains auditable without duplicating or
   exposing private message content.
+
+### Reject expired instructions even when marked urgent
+
+- **Context:** A live experiment delivered an urgent interrupt after its
+  `expires_at`, and the test agent still acted on it.
+- **Alternatives:** Treat urgent priority as an expiry override; rely on the
+  host to retract queued messages; or permit stale actions while merely
+  reporting that they were late.
+- **Choice:** Require recipients to check expiry before acting, acknowledge an
+  expired request in a correlated `kind: "ack"` stating `expired`, perform no
+  requested action or side effect, and escalate safety-critical requests to
+  the coordinator/authorized owner for fresh instructions. State that urgent
+  priority does not imply preemption or override expiry.
+- **Consequence:** A late queued instruction cannot be revived by priority;
+  critical work must be revalidated through a current, unexpired request.

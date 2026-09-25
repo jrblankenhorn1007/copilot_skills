@@ -209,12 +209,13 @@ artifact:
 `message_id` is unique per send; never reuse it for a retry. Replies set
 `correlation_id` to the original message ID. `kind` is one of `task`,
 `status`, `question`, `answer`, `result`, `blocker`, `interrupt`, or `ack`;
-`priority` is `low`, `normal`, `high`, or `urgent` and is advisory, not a
-preemption guarantee. `sent_at`, `expires_at`, and non-null `reply_deadline`
-are UTC timestamps. `expires_at` makes an instruction stale; it is not a
-host-side retraction timer. Keep `body` brief and put durable repository-
-relative `path` plus full commit-SHA pairs in `artifact_refs` instead of
-copying large diffs, logs, or transcripts.
+`priority` is `low`, `normal`, `high`, or `urgent` and is advisory only:
+`priority: "urgent"` does not guarantee faster scheduling, preemption, or a
+hard cancel, and it does not override `expires_at`. `sent_at`, `expires_at`,
+and non-null `reply_deadline` are UTC timestamps. `expires_at` makes an
+instruction stale; it is not a host-side retraction timer. Keep `body` brief
+and put durable repository-relative `path` plus full commit-SHA pairs in
+`artifact_refs` instead of copying large diffs, logs, or transcripts.
 
 ### Acceptance, receipt, and completion are different
 
@@ -226,7 +227,17 @@ Track transport state separately from recipient progress:
 | `queued` | The host reports delivery is waiting for a busy recipient's next turn; it has not preempted that turn. |
 | `received` | The recipient confirms the specific message ID in a correlated `kind: "ack"`; this does not prove the requested work started or finished. |
 | `completed` | A correlated `kind: "result"` reports the task result and evidence that its acceptance criteria are met. |
-| `expired` / `failed` | The recipient or host reports expiry or route failure; do not act on a stale request or claim delivery. Use the coordinator relay when needed. |
+| `expired` | `expires_at` passed before processing. The recipient must acknowledge `expired` and perform none of the requested action or side effects. Escalate a safety-critical request to the coordinator or authorized owner for a fresh instruction. |
+| `failed` | The host explicitly rejected or failed the route. Do not claim delivery; use the coordinator relay or ask the coordinator to resolve the route. |
+
+Before acting, the recipient must check `expires_at`, including when a
+previously queued message is finally delivered. For an expired message, send
+a correlated `kind: "ack"` naming its `message_id` and stating `expired`;
+perform no requested action even if its priority was `urgent`. If the request
+is safety-critical, promptly notify the coordinator or authorized owner and
+request a fresh, valid instruction—do not execute the stale request as an
+emergency workaround. A high priority never extends a deadline or guarantees
+preemption.
 
 Do not upgrade `accepted` or `queued` to `received`, and do not treat a
 receipt or processing acknowledgment as `completed`. Do not resend an

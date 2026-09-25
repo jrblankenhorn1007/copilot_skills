@@ -139,3 +139,23 @@
     "statement": "I, worker-02, sign off iteration 1 for agent-session-pipeline-contract at implementation commit 295caa4f91a102c9d590d09ebe3b2ae95efc1918."
   }
   ```
+
+## 2026-09-25T08:18:53Z — expiry enforcement clarified from live evidence
+
+- **Evidence:** The coordinator reported that a live experiment delivered an
+  urgent interrupt after its `expires_at`, and the test agent still acted on
+  it. The existing pipeline wording did not require an explicit receiver-side
+  expiry check, correlated `expired` acknowledgment, and no-action rule.
+- **Change:** The pipeline contract now requires checking expiry before
+  acting, acknowledging an expired message with a correlated `kind: "ack"`
+  stating `expired`, and performing none of its requested work or side
+  effects. Safety-critical expired requests must be escalated to the
+  coordinator/authorized owner for a fresh valid instruction. It also states
+  that `priority: "urgent"` neither preempts nor overrides the expiry.
+- **TDD:** Documentation-only contract clarification; Red/Green/Refactor was
+  not applicable. No contract test or benchmark was edited or run.
+- **Check so far:** `git diff --check` — PASS. Full staged and branch-wide
+  whitespace checks will be rerun before sign-off.
+- **Next:** Complete the branch-specific decision/status update, commit the
+  change, and issue a new self-attestation for the revised implementation
+  commit. The parent-base divergence remains unresolved.

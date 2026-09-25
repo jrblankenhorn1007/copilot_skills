@@ -28,6 +28,10 @@
 - Treat `accepted`/`queued` as transport states, `received` as recipient
   acknowledgment, and `completed` as a correlated result meeting acceptance
   criteria.
+- Require recipients to reject expired instructions, acknowledge `expired`,
+  do none of the requested work, and escalate safety-critical requests for a
+  fresh valid instruction; `priority: "urgent"` does not preempt or extend
+  expiry.
 - Keep compact benchmark/communication measurements in the worker's
   `progress.md`; do not add an aggregate dashboard or put full message
   transcripts in status records.
