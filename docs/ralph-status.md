@@ -4,16 +4,18 @@ This is the active repository's aggregate Ralph status dashboard. It indexes
 every branch/agent status and progress folder under `docs/ralph/`. The
 coordinator updates this file in the same loop as affected leaf records.
 
-**Overall status:** `IN_PROGRESS`. The prompt-generation memory follow-up and
-status-first reporting work are in progress; the Project Memory Update run is
-blocked pending a memory-review agent slot. Skill-aware agent routing and
+**Overall status:** `IN_PROGRESS`. The prompt-generation memory follow-up
+remains active. The status-first reporting implementation is integrated on
+`origin/main`, but its run is `BLOCKED`: required worker memory handoffs are
+missing, and Resource Manager reports zero dispatch slots. The Project Memory
+Update run is also blocked pending capacity. Skill-aware agent routing and
 resource-manager integration are complete.
 
 ```yaml
 schema_version: 2
 snapshot_path: "docs/ralph-status.md"
-snapshot_revision: 73
-updated_at_utc: "2026-09-25T14:15:52Z"
+snapshot_revision: 74
+updated_at_utc: "2026-09-25T14:40:37Z"
 overall_status: IN_PROGRESS
 current_run_ids:
   - "copilot-skills-docs-status-organization-20260924"
@@ -401,15 +403,15 @@ runs:
       outcome: null
   - run_id: "copilot_skills-agent-status-reporting-20260924"
     task_ids: ["agent-status-report-test", "status-first-agent-reporting-guidance"]
-    aggregate_status: IN_PROGRESS
+    aggregate_status: BLOCKED
     requested_worker_count: 2
     effective_worker_count: 2
     active_worker_count: 0
     base_origin_main_sha: "9558f99cc34cbed8dd1d24f4f15fc03f5d78b6ea"
-    current_origin_main_sha: "1d74599aab767c4ee9ad331874b7b6dacd3c4ba8"
+    current_origin_main_sha: "1e9a6dab03c07ea9990fe4f65039ffdc4e784f45"
     parent_rebased_onto_origin_main_sha: "5e673fa5235b99bd36c1cd56ea7d2dab6e7562c0"
     created_at_utc: "2026-09-25T03:13:20Z"
-    updated_at_utc: "2026-09-25T14:15:52Z"
+    updated_at_utc: "2026-09-25T14:40:37Z"
     agent_sync_status_commit_sha: "0ef4cb615a5586f383a3fbcffba296ab687251a0"
     agent_sync_main_sign_in_commit_sha: "1fc1ecae1f798824e4186676a476c346c4081b04"
     agent_sync_main_sign_out_commit_sha: "65ed98d9c3169953f05477d4d248236e1f514542"
@@ -419,16 +421,20 @@ runs:
     coordinator_branch: "ralph/agent-status-reporting-20260924-2313"
     coordinator_status_path: "docs/ralph/ralph-agent-status-reporting-20260924-2313/agents/coordinator/status.md"
     coordinator_progress_path: "docs/ralph/ralph-agent-status-reporting-20260924-2313/agents/coordinator/progress.md"
-    worker_count_note: "Worker-02 is COMPLETE. Worker-01 is AWAITING_MERGE with signed-off implementation eeb087c and child tip 68519b1. No workers are active; the rebased parent contract suite passes 60 tests. Parent-to-main integration and post-merge memory review remain, so the run is IN_PROGRESS."
+    worker_count_note: "Worker-02 is COMPLETE. Worker-01 remains AWAITING_MERGE because signed-off child tip 68519b1 has no verified parent-merge record; coordinator implementation 4097b48 is on origin/main and the contract suite passed 60 tests. No workers are active. The implementation merge is verified, but the post-merge updater is blocked because worker memory handoffs are absent and Resource Manager has zero slots."
     parent_to_main_merge:
-      status: PENDING
-      sha: null
+      status: VERIFIED
+      sha: "ca074bea36eda724afd0293f419648e79c0dc9d2"
       verified_remote_ref: "refs/heads/main"
-      verified_origin_main_sha: null
-      verification_method: null
-      verified_at_utc: null
+      verified_origin_main_sha: "1e9a6dab03c07ea9990fe4f65039ffdc4e784f45"
+      verification_method: "git merge-base --is-ancestor ca074bea36eda724afd0293f419648e79c0dc9d2 origin/main"
+      verified_at_utc: "2026-09-25T14:40:37Z"
     memory_review: PENDING
-    next_action: "Coordinator: recheck ownership and fast-forward parent 24f9f81 to origin/main; verify and release the reservation, then complete the post-merge memory review."
+    blockers:
+      - "The required Project Memory Update handoffs from worker-01 and worker-02 are absent from their status and sign-off records; do not infer or fabricate them."
+      - "Resource Manager reports max_agents=0, available_slots=0, and can_spawn=false because one-minute load 7.61 meets/exceeds the six-core limit."
+      - "Worker-01's signed-off child tip 68519b1 is not an ancestor of the parent; reconcile its worker-to-parent merge record before final completion."
+    next_action: "When capacity permits, obtain the original worker-01 and worker-02 memory_handoffs, invoke Project Memory Update exactly once, and reconcile worker-01's parent integration record. Verify any warranted memory follow-up before completing the run."
     split_plan:
       - task_id: "agent-status-report-test"
         worker_id: "worker-02"
@@ -454,7 +460,7 @@ runs:
         progress_path: "docs/ralph/ralph-agent-status-reporting-worker-01-20260925-0602/agents/worker-01/progress.md"
         implementation_commit_sha: "eeb087c1914929b5c93a400af0a9c161ea73d7dc"
         child_tip_sha: "68519b1eef33abbe65794fed3d941315e15bc204"
-        next_action: "Coordinator: verify the status-first implementation in the rebased parent, then complete remote-main integration and the memory review."
+        next_action: "Coordinator: reconcile the signed-off child tip with the parent implementation and verify the worker-to-parent integration record; the post-merge memory handoff remains blocked."
 
 branch_agent_index:
   - run_id: "copilot-skills-status-report-time-token-20260925"
@@ -1362,10 +1368,10 @@ branch_agent_index:
     runtime_agent_id: "copilotcli:/c5d38c95-4501-4780-afca-ae20c479fa27"
     branch: "ralph/agent-status-reporting-20260924-2313"
     branch_slug: "ralph-agent-status-reporting-20260924-2313"
-    status: IN_PROGRESS
+    status: BLOCKED
     iteration: 1
     resource_usage:
-      time_spent_seconds: 39752
+      time_spent_seconds: 41237
       time_basis: WALL_CLOCK_ELAPSED
       token_spend:
         status: NOT_REPORTED
@@ -1384,10 +1390,13 @@ branch_agent_index:
     main_merge_reservation_sign_in_commit_sha: "1d74599aab767c4ee9ad331874b7b6dacd3c4ba8"
     reconciled_parent_merge_commit_sha: "24f9f81a354545dcd03e4bb34df07423a49a40ac"
     parent_to_main_merge:
-      status: PENDING
-      sha: null
+      status: VERIFIED
+      sha: "ca074bea36eda724afd0293f419648e79c0dc9d2"
+      verified_origin_main_sha: "1e9a6dab03c07ea9990fe4f65039ffdc4e784f45"
+      verification_method: "git merge-base --is-ancestor ca074bea36eda724afd0293f419648e79c0dc9d2 origin/main"
+      verified_at_utc: "2026-09-25T14:40:37Z"
     memory_review: PENDING
-    next_action: "Coordinator: recheck ownership and fast-forward parent 24f9f81 to origin/main; verify and release the reservation, then complete the post-merge memory review."
+    next_action: "When capacity permits, obtain the original worker-01 and worker-02 memory_handoffs, invoke Project Memory Update exactly once, and reconcile worker-01's parent integration record. Verify any warranted memory follow-up before completing the run."
 
   - run_id: "copilot_skills-agent-status-reporting-20260924"
     task_ids: ["agent-status-report-test"]
@@ -1422,7 +1431,7 @@ branch_agent_index:
       verified_parent_sha: "8bb3e1f92c802e516d216241214f5d34bc8dae5a"
       verification_method: "git merge-base --is-ancestor 8bb3e1f92c802e516d216241214f5d34bc8dae5a HEAD"
       verified_at_utc: "2026-09-25T04:32:40Z"
-    next_action: "Worker-02: complete. Coordinator: dispatch worker-01 for the dependent documentation implementation."
+    next_action: "No worker action; its required memory_handoff is absent and must be obtained before Project Memory Update can run."
 
   - run_id: "copilot_skills-agent-status-reporting-20260924"
     task_ids: ["status-first-agent-reporting-guidance"]
@@ -1465,7 +1474,7 @@ branch_agent_index:
       verified_parent_sha: null
       verification_method: null
       verified_at_utc: null
-    next_action: "Coordinator: verify the status-first implementation in the rebased parent, then complete remote-main integration and the memory review."
+    next_action: "Coordinator: reconcile the signed-off child tip with the parent implementation and verify the worker-to-parent integration record; the post-merge memory handoff remains blocked."
 ```
 
 ## Branch/agent index
@@ -1474,7 +1483,7 @@ branch_agent_index:
 |---|---|---|---|---|---|---|---|---|---|
 | `copilot-skills-status-report-time-token-20260925` | `ralph/status-report-time-token-20260925-0335` | `coordinator` | `COMPLETE` | `10,023 s (wall-clock)` | `NOT_REPORTED` | [status](./ralph/ralph-status-report-time-token-20260925-0335/agents/coordinator/status.md) | [progress](./ralph/ralph-status-report-time-token-20260925-0335/agents/coordinator/progress.md) | `05b1b23da974ed7b171c3a29ee266e43721d4e7` | `COMPLETE` |
 | `copilot-skills-status-report-time-token-20260925` | `ralph/status-report-time-token-worker-01-20260925-0335` | `worker-01` | `COMPLETE` | `8,057 s (wall-clock)` | `NOT_REPORTED` | [status](./ralph/ralph-status-report-time-token-worker-01-20260925-0335/agents/worker-01/status.md) | [progress](./ralph/ralph-status-report-time-token-worker-01-20260925-0335/agents/worker-01/progress.md) | `019ab357f25e1b04133bacb242460e063d94be9d` | `COMPLETE` |
-| `copilot_skills-agent-status-reporting-20260924` | `ralph/agent-status-reporting-20260924-2313` | `coordinator` | `IN_PROGRESS` | `39,752 s (wall-clock)` | `NOT_REPORTED` | [status](./ralph/ralph-agent-status-reporting-20260924-2313/agents/coordinator/status.md) | [progress](./ralph/ralph-agent-status-reporting-20260924-2313/agents/coordinator/progress.md) | `PENDING` | `PENDING` |
+| `copilot_skills-agent-status-reporting-20260924` | `ralph/agent-status-reporting-20260924-2313` | `coordinator` | `BLOCKED` | `40,768 s (wall-clock)` | `NOT_REPORTED` | [status](./ralph/ralph-agent-status-reporting-20260924-2313/agents/coordinator/status.md) | [progress](./ralph/ralph-agent-status-reporting-20260924-2313/agents/coordinator/progress.md) | `ca074bea36eda724afd0293f419648e79c0dc9d2` | `PENDING` |
 | `copilot_skills-agent-status-reporting-20260924` | `ralph/agent-status-contract-worker-02-20260924-2324` | `worker-02` | `COMPLETE` | Not captured (legacy) | Not captured (legacy) | [status](./ralph/ralph-agent-status-contract-worker-02-20260924-2324/agents/worker-02/status.md) | [progress](./ralph/ralph-agent-status-contract-worker-02-20260924-2324/agents/worker-02/progress.md) | `a17b1a1` | `PENDING` |
 | `copilot_skills-agent-status-reporting-20260924` | `ralph/agent-status-reporting-worker-01-20260925-0602` | `worker-01` | `AWAITING_MERGE` | `5,229 s (wall-clock)` | `NOT_REPORTED` | [status](./ralph/ralph-agent-status-reporting-worker-01-20260925-0602/agents/worker-01/status.md) | [progress](./ralph/ralph-agent-status-reporting-worker-01-20260925-0602/agents/worker-01/progress.md) | `PENDING` | `PENDING` |
 | `copilot_skills-two-agent-ralph-test-batch-20260924` | `ralph/multi-agent-orchestration-20260924-1918` | `coordinator` | `COMPLETE` | Not captured (legacy) | Not captured (legacy) | [status](./ralph/ralph-multi-agent-orchestration-20260924-1918/agents/coordinator/status.md) | [progress](./ralph/ralph-multi-agent-orchestration-20260924-1918/agents/coordinator/progress.md) | `61dd22e5bcdf1a8557fc2fd221bba38810e8905f` | `COMPLETE` |

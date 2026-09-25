@@ -7,24 +7,24 @@
 | Worker ID / name | `coordinator` / `coordinator - status-first agent reporting` |
 | Runtime Agent ID | `copilotcli:/c5d38c95-4501-4780-afca-ae20c479fa27` |
 | Iteration | `1` |
-| Overall status | `IN_PROGRESS` |
+| Overall status | `BLOCKED` |
 | Branch / slug | `ralph/agent-status-reporting-20260924-2313` / `ralph-agent-status-reporting-20260924-2313` |
 | Worktree | `/Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-status-reporting-20260924-2313` |
 | Base `origin/main` SHA | `9558f99cc34cbed8dd1d24f4f15fc03f5d78b6ea` |
 | Latest rebase onto `origin/main` | `5e673fa5235b99bd36c1cd56ea7d2dab6e7562c0` |
-| Latest fetched `origin/main` | `1d74599aab767c4ee9ad331874b7b6dacd3c4ba8` |
+| Latest fetched `origin/main` | `1e9a6dab03c07ea9990fe4f65039ffdc4e784f45` |
 | Implementation commit SHA | `4097b48af54c3e1c31740ffcffcf2bb0dbca9ffb` |
 | Worker-02 | `COMPLETE` — test integrated into the parent at `a17b1a1`; status sync at `8bb3e1f` |
-| Worker-01 | `AWAITING_MERGE` — signed-off implementation `eeb087c`; child tip `68519b1`; current parent implementation is in `4097b48` and the 60-test suite passes |
-| Parent-to-main merge | `PENDING` |
-| Memory review | `PENDING` |
+| Worker-01 | `AWAITING_MERGE` — signed-off child tip `68519b1` is not an ancestor; parent implementation `4097b48` is on `origin/main`, but the worker-to-parent merge record is unresolved |
+| Parent-to-main merge | `VERIFIED` at `ca074bea`; present on fetched `origin/main` `cef85f23` |
+| Memory review | `BLOCKED` — worker handoffs are missing and Resource Manager has zero dispatch slots |
 | Pull request | `NOT_OPENED` — use the repository's verified fast-forward process unless current branch policy requires a PR. |
 | Decision record | `docs/decisions/ralph-agent-status-reporting-20260924-2313/agents/coordinator/pr-not-opened.md` |
 | Baseline check | `python3 .github/skills/ralph-loop/tests/test_multi_agent_contract.py` — `PASS` (13 tests, OK) |
 | Latest parent contract check | `python3 -m unittest discover -s .github/skills/ralph-loop/tests` — `PASS` (60 tests, OK after rebase onto `5e673fa`) |
 | Worker-01 child contract check | `python3 .github/skills/ralph-loop/tests/test_multi_agent_contract.py` — `PASS` (21 tests on signed-off child tip `68519b1`) |
-| Blockers | None |
-| Next action | Coordinator: recheck ownership and fast-forward parent `24f9f81` to `origin/main`; verify and release the reservation, then complete the post-merge memory review. |
+| Blockers | Worker memory handoffs are absent; Resource Manager reports `max_agents=0`, `available_slots=0`, `can_spawn=false`; worker-01's exact child-to-parent integration is unverified |
+| Next action | When capacity permits, obtain the original worker-01 and worker-02 memory handoffs, invoke Project Memory Update exactly once, and reconcile worker-01's parent integration record. Verify any warranted memory follow-up before completing the run. |
 
 ```yaml
 schema_version: 2
@@ -39,14 +39,14 @@ branch: "ralph/agent-status-reporting-20260924-2313"
 branch_slug: "ralph-agent-status-reporting-20260924-2313"
 worktree: "/Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-status-reporting-20260924-2313"
 iteration: 1
-status: IN_PROGRESS
+status: BLOCKED
 started_at_utc: "2026-09-25T03:13:20Z"
-updated_at_utc: "2026-09-25T14:15:52Z"
+updated_at_utc: "2026-09-25T14:40:37Z"
 base_origin_main_sha: "9558f99cc34cbed8dd1d24f4f15fc03f5d78b6ea"
-current_origin_main_sha: "1d74599aab767c4ee9ad331874b7b6dacd3c4ba8"
+current_origin_main_sha: "1e9a6dab03c07ea9990fe4f65039ffdc4e784f45"
 parent_rebased_onto_origin_main_sha: "5e673fa5235b99bd36c1cd56ea7d2dab6e7562c0"
 resource_usage:
-  time_spent_seconds: 39752
+  time_spent_seconds: 41237
   time_basis: WALL_CLOCK_ELAPSED
   token_spend:
     status: NOT_REPORTED
@@ -64,21 +64,26 @@ pull_request:
   number: null
   url: null
 parent_to_main_merge:
-  status: PENDING
-  sha: null
+  status: VERIFIED
+  sha: "ca074bea36eda724afd0293f419648e79c0dc9d2"
   verified_remote_ref: "refs/heads/main"
-  verified_origin_main_sha: null
-  verification_method: null
-  verified_at_utc: null
+  verified_origin_main_sha: "1e9a6dab03c07ea9990fe4f65039ffdc4e784f45"
+  verification_method: "git merge-base --is-ancestor ca074bea36eda724afd0293f419648e79c0dc9d2 origin/main"
+  verified_at_utc: "2026-09-25T14:40:37Z"
 merge_reservation:
   main_sign_in_commit_sha: "1d74599aab767c4ee9ad331874b7b6dacd3c4ba8"
-  owner_revision: 103
+  owner_revision: 104
   reconciled_parent_merge_commit_sha: "24f9f81a354545dcd03e4bb34df07423a49a40ac"
-  state: OWNED
+  state: RELEASED
+  release_commit_sha: "20154c78953d0280596f3c01eeaaceb5bf767278"
+  outcome: MERGED
 memory_review: PENDING
 decision_record_path: "docs/decisions/ralph-agent-status-reporting-20260924-2313/agents/coordinator/pr-not-opened.md"
 decision_index_path: "docs/decisions/ralph-agent-status-reporting-20260924-2313/README.md"
-blockers: []
+blockers:
+  - "The required Project Memory Update handoffs from worker-01 and worker-02 are absent from their status and sign-off records; do not infer or fabricate them."
+  - "Resource Manager reports max_agents=0, available_slots=0, and can_spawn=false because one-minute load 7.61 meets/exceeds the six-core limit."
+  - "Worker-01's signed-off child tip 68519b1 is not an ancestor of the parent; its worker-to-parent merge record remains pending."
 workers:
   - worker_id: "worker-02"
     task_id: "agent-status-report-test"
@@ -98,7 +103,7 @@ workers:
     status_sync_commit_sha: "23f58d69ab28c5fbe6eff67a23105588ffb346b1"
     child_tip_sha: "68519b1eef33abbe65794fed3d941315e15bc204"
     worker_to_parent_merge_sha: null
-    next_action: "Coordinator: verify the status-first implementation in the rebased parent, then complete remote-main integration and the memory review."
+    next_action: "Coordinator: reconcile the signed-off child tip with the parent implementation and verify the worker-to-parent integration record; the post-merge memory handoff remains blocked."
 checks:
   - command: "python3 .github/skills/ralph-loop/tests/test_multi_agent_contract.py"
     result: "PASS (Ran 13 tests in 2.788s, OK) before the new contract was added."
@@ -124,9 +129,26 @@ checks:
     result: "PASS (the current remote main and the owned MERGE sign-in commit are ancestors of parent merge commit 24f9f81a354545dcd03e4bb34df07423a49a40ac)."
   - command: "cd /Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-status-reporting-20260924-2313 && python3 -m unittest discover -s .github/skills/ralph-loop/tests"
     result: "PASS (Ran 60 tests in 30.625s, OK with the MERGE reservation reconciled.)"
-next_action: "Coordinator: recheck ownership and fast-forward parent 24f9f81 to origin/main; verify and release the reservation, then complete the post-merge memory review."
+  - command: "git -C /Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-status-reporting-status-sync-20260925-142531 merge-base --is-ancestor ca074bea36eda724afd0293f419648e79c0dc9d2 HEAD"
+    result: "PASS (the verified implementation merge remains in fetched origin/main 1e9a6dab03c07ea9990fe4f65039ffdc4e784f45)."
+  - command: "python3 .github/skills/resource-manager/scripts/resource_manager.py status --observed-session 'copilotcli:/c5d38c95-4501-4780-afca-ae20c479fa27' --observed-session '74a7444f-00b3-439f-bc3f-ff24d4a73186' --observed-session '506cf603-d6c4-47f3-b459-25fdf666e021' --observed-session '1f233ea5-1776-48b6-bba9-0ea860abc778' --observed-session '98de0b8f-a65e-4354-90e2-5e94ebf68c98'"
+    result: "BLOCKED (12 active agents, max_agents=0, available_slots=0, can_spawn=false; one-minute load 14.32 on 6 cores, 2.72 GiB RAM available)."
+next_action: "When capacity permits, obtain the original worker-01 and worker-02 memory_handoffs, invoke Project Memory Update exactly once, and reconcile worker-01's parent integration record. Verify any warranted memory follow-up before completing the run."
 worker_sign_off:
   status: NOT_APPLICABLE
   attestation_kind: SELF_ATTESTATION
   cryptographic_signature_status: NOT_CRYPTOGRAPHICALLY_SIGNED
+memory_handoff:
+  implementation_summary: "Changed Ralph reporting guidance and the contract test to report overall run state and each assigned agent's status and next action instead of binary completion wording."
+  lesson_candidates:
+    - rule: "For nonterminal Ralph work, report the overall run state and every assigned agent's exact status and next action; do not infer that a run stopped from a zero active-worker count."
+      why: "Binary completion wording can make active asynchronous or integration work appear failed or stopped."
+      scope: "Interim and final user-facing status reports for multi-agent Ralph runs."
+      evidence:
+        - ".github/agents/ralph-loop.agent.md"
+        - ".github/skills/ralph-loop/SKILL.md"
+        - ".github/skills/ralph-loop/references/multi-agent-status.md"
+        - ".github/skills/ralph-loop/tests/test_multi_agent_contract.py (60 tests passed)"
+        - "Implementation merge ca074bea36eda724afd0293f419648e79c0dc9d2 verified on fetched origin/main."
+  no_durable_lessons_reason: null
 ```

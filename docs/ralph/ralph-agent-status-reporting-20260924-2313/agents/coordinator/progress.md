@@ -302,3 +302,56 @@
   No remote push has been attempted yet.
 - **Next action:** Recheck the owner and remote tip, push the parent
   fast-forward, verify the result, and release the reservation.
+
+## Parent merge verified; post-merge review blocked
+
+- **Implementation merge:** The authorized fast-forward
+  `git push origin HEAD:refs/heads/main` advanced `origin/main` from
+  `1d74599aab767c4ee9ad331874b7b6dacd3c4ba8` to
+  `ca074bea36eda724afd0293f419648e79c0dc9d2`.
+- **Remote verification:** After fetching `origin`,
+  `git merge-base --is-ancestor ca074bea36eda724afd0293f419648e79c0dc9d2 origin/main`
+  passed at `20154c78953d0280596f3c01eeaaceb5bf767278`. The `MERGE`
+  reservation was promptly released as `MERGED`, producing that release
+  commit and owner revision 104. A later refresh advanced main to
+  `cef85f23ae91ea9994b01317a983ae89c4a1f51d`; the implementation merge
+  remains an ancestor.
+- **Contract verification:** The rebased parent ran
+  `python3 -m unittest discover -s .github/skills/ralph-loop/tests` and
+  passed all 60 tests before integration. This includes the regression test
+  for status-first run and per-agent reporting.
+- **Worker-01 merge record:** The signed-off worker implementation is
+  `eeb087c1914929b5c93a400af0a9c161ea73d7dc`, with child tip
+  `68519b1eef33abbe65794fed3d941315e15bc204`. That child tip is not an
+  ancestor of the parent. Parent implementation commit
+  `4097b48af54c3e1c31740ffcffcf2bb0dbca9ffb` changes the same seven
+  assigned documentation paths and is present in the verified remote merge,
+  but the worker-to-parent merge record remains pending; the leaf stays
+  `AWAITING_MERGE`.
+- **Memory handoff:** The current Project Memory Update contract requires a
+  structured handoff from the coordinator and every worker. The prior
+  worker-01 and worker-02 status/sign-off records contain no
+  `memory_handoff`. The coordinator handoff is now recorded in its leaf, but
+  missing worker handoffs must not be inferred or fabricated. No memory file
+  was changed and the updater was not invoked.
+- **Capacity:** At `2026-09-25T14:32:48Z`, Resource Manager reported 13
+  active agents, `max_agents=0`, `available_slots=0`, and `can_spawn=false`
+  because the one-minute load average was 7.61 on six logical cores. The
+  required updater cannot be dispatched under this snapshot.
+- **Current state:** The implementation is verified on `origin/main`, but
+  the run is `BLOCKED` at the post-merge memory gate; worker-02 is
+  `COMPLETE`, worker-01 remains `AWAITING_MERGE`, and no workers are active.
+- **Next action:** When capacity permits, obtain the original worker-01 and
+  worker-02 memory handoffs, invoke Project Memory Update exactly once, and
+  reconcile worker-01's parent integration record. Verify any warranted
+  memory follow-up before completing the run.
+
+## Latest capacity and main refresh
+
+- At `2026-09-25T14:40:37Z`, fetched `origin/main` at
+  `1e9a6dab03c07ea9990fe4f65039ffdc4e784f45` and verified
+  `ca074bea36eda724afd0293f419648e79c0dc9d2` remains its ancestor.
+- Resource Manager status at the same time reported 12 active agents,
+  `max_agents=0`, `available_slots=0`, `can_spawn=false`, one-minute load
+  14.32 on six logical cores, and 2.72 GiB available RAM. The updater was not
+  dispatched; the run remains `BLOCKED`.
