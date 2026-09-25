@@ -38,6 +38,8 @@
 - **Previous implementation SHA:** `5f3f86287dc04848a0edcd2115273b75594afc63`.
 - **Rewritten implementation SHA:**
   `b75a67b699a5e063691a36746d8795656a84ca90`.
+- **Metadata/status/decision-record commit SHA:**
+  `aaebd7ab1e8fece486cf1a2c30b9fbc2b74b1dd5`.
 - **Current state:** `AWAITING_MERGE`; PR remains `NOT_OPENED`. Parent
   integration, post-merge memory review, and cleanup are pending. This
   follow-up does not push, merge, or remove the child branch/worktree.

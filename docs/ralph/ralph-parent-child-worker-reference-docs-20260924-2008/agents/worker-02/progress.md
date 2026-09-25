@@ -105,3 +105,29 @@ this entry supplements rather than replaces that history.
   — `Ran 1 test in 0.003s`, `OK`.
 - `git diff --check` and `git diff --cached --check` — `PASS` (exit code 0).
 - Re-ran the exact 10-link check recorded above — `PASS`.
+
+### Separate metadata commit — 2026-09-25T01:01:15Z
+
+- Created metadata/status/decision-record commit
+  `aaebd7ab1e8fece486cf1a2c30b9fbc2b74b1dd5` with trailer
+  `Co-authored-by: Copilot <223556219+Copilot@users.noreply.github.com>`.
+- That commit contains only the branch decision index, worker-02 no-PR record,
+  and worker-02 status/progress leaves; the four reference documents remain
+  isolated in implementation commit
+  `b75a67b699a5e063691a36746d8795656a84ca90`.
+- The status and decision records now cross-reference metadata commit
+  `aaebd7ab1e8fece486cf1a2c30b9fbc2b74b1dd5` in a separate, non-amending
+  metadata-only follow-up; a commit cannot contain its own object ID. The
+  worker attestation remains bound exclusively to the rewritten implementation
+  commit.
+
+### Post-metadata-hash verification — 2026-09-25T01:02:41Z
+
+- `python3 .github/skills/ralph-loop/tests/test_multi_agent_contract.py MultiAgentContractTests.test_status_protocol_records_overall_worker_iteration_and_attestation`
+  — `Ran 1 test in 0.001s`, `OK`.
+- `python3 .github/skills/ralph-loop/tests/test_multi_agent_contract.py MultiAgentContractTests.test_final_response_reports_completion_and_logs_recovered_issues`
+  — `Ran 1 test in 0.003s`, `OK`.
+- `git diff --check` and the recorded 10-link check passed after the metadata
+  SHA cross-reference was added.
+- The combined parent-child contract suite remains unrun by instruction;
+  worker-01 and coordinator-owned documentation are still pending integration.

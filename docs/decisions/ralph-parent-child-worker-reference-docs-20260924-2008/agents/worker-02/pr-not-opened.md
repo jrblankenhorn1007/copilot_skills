@@ -202,6 +202,9 @@ attestation above.
   `b75a67b699a5e063691a36746d8795656a84ca90`.
 - **Prior metadata commit replayed by this rebase:**
   `e80765120d776518d8208bb7610d597c5956248e`.
+- **Metadata/status/decision-record commit SHA:**
+  `aaebd7ab1e8fece486cf1a2c30b9fbc2b74b1dd5`; the current hash cross-reference
+  is committed separately because a commit cannot contain its own object ID.
 - **PR:** `NOT_OPENED`. Child-to-parent integration remains
   coordinator-serialized; no push, merge, or cleanup was performed.
 - **Current status:** `AWAITING_MERGE`; parent integration, post-merge memory
@@ -231,9 +234,9 @@ attestation above.
 
 - `git diff --check` — `PASS` (exit code 0).
 - `python3 .github/skills/ralph-loop/tests/test_multi_agent_contract.py MultiAgentContractTests.test_status_protocol_records_overall_worker_iteration_and_attestation`
-  — `PASS`; final precommit run `Ran 1 test in 0.001s`, `OK`.
+  — `PASS`; post-metadata-hash run `Ran 1 test in 0.001s`, `OK`.
 - `python3 .github/skills/ralph-loop/tests/test_multi_agent_contract.py MultiAgentContractTests.test_final_response_reports_completion_and_logs_recovered_issues`
-  — `PASS`; final precommit run `Ran 1 test in 0.003s`, `OK`.
+  — `PASS`; post-metadata-hash run `Ran 1 test in 0.003s`, `OK`.
 - Worker status/progress and decision-record relative links — `PASS`; 10 links
   resolve.
 - Combined parent-child contract suite: `NOT_RUN`; worker-01 and
@@ -262,19 +265,20 @@ commit—not to this record or the metadata commit:
   "base_parent_sha": "d54cc120fe25da04d6be887b1a6a7e321512b6e4",
   "rebased_onto_parent_sha": "0688b70d8995a6900f29d9d3eeac6ffe8a9cfc42",
   "implementation_commit_sha": "b75a67b699a5e063691a36746d8795656a84ca90",
+  "metadata_commit_sha": "aaebd7ab1e8fece486cf1a2c30b9fbc2b74b1dd5",
   "pull_request": "NOT_OPENED",
   "status": "AWAITING_MERGE",
   "checks": [
     {"command": "git diff --check", "result": "PASS"},
-    {"command": "python3 .github/skills/ralph-loop/tests/test_multi_agent_contract.py MultiAgentContractTests.test_status_protocol_records_overall_worker_iteration_and_attestation", "result": "PASS: final precommit run Ran 1 test in 0.001s, OK"},
-    {"command": "python3 .github/skills/ralph-loop/tests/test_multi_agent_contract.py MultiAgentContractTests.test_final_response_reports_completion_and_logs_recovered_issues", "result": "PASS: final precommit run Ran 1 test in 0.003s, OK"},
+    {"command": "python3 .github/skills/ralph-loop/tests/test_multi_agent_contract.py MultiAgentContractTests.test_status_protocol_records_overall_worker_iteration_and_attestation", "result": "PASS: post-metadata-hash run Ran 1 test in 0.001s, OK"},
+    {"command": "python3 .github/skills/ralph-loop/tests/test_multi_agent_contract.py MultiAgentContractTests.test_final_response_reports_completion_and_logs_recovered_issues", "result": "PASS: post-metadata-hash run Ran 1 test in 0.003s, OK"},
     {"check": "Relative links among worker status/progress and branch decision records", "result": "PASS: 10 links resolve"}
   ],
   "blockers": [],
   "parent_merge_status": "PENDING",
   "memory_review_status": "PENDING",
   "cleanup_status": "PENDING",
-  "attested_at_utc": "2026-09-25T01:00:37Z",
+  "attested_at_utc": "2026-09-25T01:02:41Z",
   "attestation_kind": "SELF_ATTESTATION",
   "cryptographic_signature_status": "NOT_CRYPTOGRAPHICALLY_SIGNED",
   "statement": "I, worker-02, attest to iteration 1 for parent-child-reference-docs at exact implementation commit b75a67b699a5e063691a36746d8795656a84ca90, rebased onto parent 0688b70d8995a6900f29d9d3eeac6ffe8a9cfc42. This sign-off does not claim parent integration, remote-main integration, or completion of the coordinator's post-merge memory review."
