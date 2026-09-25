@@ -125,3 +125,23 @@ These are implementation-time reports, not accepted memory entries. The Project 
 - From the coordinator parent worktree, `python3 .github/skills/ralph-loop/tests/test_multi_agent_contract.py` passed (`Ran 20 tests`, `OK`). Both `git diff --check` and `git diff --check origin/main...HEAD` passed.
 - The current parent is `e16557ef7193097b9793a38700ccc9e4ca456709`, based on `origin/main` `7ee1307cb47f5a88cd6b46ee135444777ddeb665`; it is five commits ahead. The updated dashboard now indexes the coordinator and both workers and lists the current run ID.
 - No child-to-parent or parent-to-main merge is claimed. **Next action:** commit the synchronized parent status, then rebase and retest worker-01 against that exact resulting tip.
+
+## 2026-09-25T09:02:49Z - Worker-01 integration and upstream refresh
+
+- The worker-01 branch signed off at `90f9dd1ca4fc60dc4753ac693ccb58e60cdd01f8`, based on exact parent tip `2237eecc5522d17f3e8feda063bc43e509798eab`. After fetching origin, the coordinator fast-forwarded the parent to the child tip and verified it with `git merge-base --is-ancestor`; the worker's leaf now records `worker_to_parent_merge.status: VERIFIED`.
+- The primary worktree remained clean with `main` and `origin/main` at `ec50b548debb7a5f32dcb82f4b68f62806255894`; the parent was still based on `7ee1307cb47f5a88cd6b46ee135444777ddeb665`. The parent must now be rebased onto the new origin base; preserve the old worker merge proof in history and verify its replay on the rebased parent.
+- The refreshed dashboard entry reflects the child integration, latest fetched origin, worker implementation commit, and current resource usage. The Ralph contract suite and diff checks after that reconciliation are pending.
+- The worker refresh agent again ran `git pull --ff-only` in the primary checkout despite its child-only assignment; it returned `Already up to date`. The coordinator verified the checkout clean and recorded the deviation. No worker push or merge occurred.
+- **Next action:** verify the refreshed worker/dashboard records, commit them, rebase the integrated parent onto current `origin/main`, rerun checks, and re-verify the rewritten child integration.
+
+## 2026-09-25T09:12:21Z - Origin advanced before parent rebase
+
+- A fresh coordinator `git fetch origin` observed `origin/main` advance from `ec50b548debb7a5f32dcb82f4b68f62806255894` to `43815c8e4621fe0495b8832136cd5ce3bd6c0267`. The shared primary worktree remained clean with local `main` equal to the fetched remote ref.
+- The parent remains at the verified worker-01 fast-forward point `90f9dd1ca4fc60dc4753ac693ccb58e60cdd01f8`, based on `7ee1307cb47f5a88cd6b46ee135444777ddeb665`. Its worker integration proof is recorded in the worker leaf and dashboard and must be carried through a parent rebase onto `43815c8e4621fe0495b8832136cd5ce3bd6c0267`.
+- The 20-test Ralph contract suite, focused one-test memory-agent contract, and both diff checks passed after worker integration/status synchronization and the latest origin refresh.
+- **Next action:** commit the verified integration records, rebase the parent onto `43815c8e4621fe0495b8832136cd5ce3bd6c0267`, rerun final checks, and re-verify the rewritten child integration.
+
+## 2026-09-25T09:21:00Z - Final pre-rebase verification
+
+- The refreshed dashboard and worker integration records passed the Ralph multi-agent contract suite (`Ran 20 tests`, `OK`) and the focused Project Memory agent contract (`Ran 1 test`, `OK`). Both `git diff --check` and `git diff --check origin/main...HEAD` passed.
+- The fetched remote target remains `43815c8e4621fe0495b8832136cd5ce3bd6c0267`; the parent still needs rebasing from its earlier base and the worker integration must be re-verified afterward.

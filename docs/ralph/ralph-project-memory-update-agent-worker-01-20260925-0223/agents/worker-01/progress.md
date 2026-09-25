@@ -646,6 +646,13 @@ above.
 }
 ```
 
+## Coordinator child-to-parent integration — 2026-09-25T09:02:49Z
+
+- After the worker signed off at implementation commit `3ececee894c930f87efa554dc5a9c1362cb0365e`, the coordinator fast-forwarded parent branch `ralph/project-memory-update-coordinator-20260925-0223` from `2237eecc5522d17f3e8feda063bc43e509798eab` to child tip `90f9dd1ca4fc60dc4753ac693ccb58e60cdd01f8`. The coordinator verified the exact child tip as an ancestor of the parent.
+- The coordinator updated this leaf with the verified child-to-parent proof. The parent was still based on `origin/main` `7ee1307cb47f5a88cd6b46ee135444777ddeb665`; `origin/main` had advanced to `ec50b548debb7a5f32dcb82f4b68f62806255894`. Per the Ralph rebase contract, preserve the old proof in `worker_to_parent_merge_history` and verify the replay on the rebased parent.
+- The bounded worker refresh unexpectedly ran `git pull --ff-only` in the primary checkout and reported `Already up to date`. The coordinator verified the primary checkout clean with `main` and `origin/main` at `ec50b548debb7a5f32dcb82f4b68f62806255894`; no worker push or merge occurred.
+- The worker remains `AWAITING_MERGE` until the parent is verified on `origin/main` and the Project Memory review completes. The `memory_handoff` remains unchanged: no durable lesson candidate was proposed.
+
 #### Fresh worker sign-off after exact parent rebase
 
 ```json

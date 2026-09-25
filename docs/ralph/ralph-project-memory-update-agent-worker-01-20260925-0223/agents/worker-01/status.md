@@ -10,9 +10,9 @@ runtime_agent_id: null
 iteration: 1
 status: AWAITING_MERGE
 started_at_utc: "2026-09-25T02:48:23Z"
-updated_at_utc: "2026-09-25T08:52:26Z"
+updated_at_utc: "2026-09-25T09:02:49Z"
 resource_usage:
-  time_spent_seconds: 21843
+  time_spent_seconds: 22466
   time_basis: WALL_CLOCK_ELAPSED
   token_spend:
     status: NOT_REPORTED
@@ -30,9 +30,9 @@ parent_branch: "ralph/project-memory-update-coordinator-20260925-0223"
 parent_worktree: "/Users/jrblankenhorn/copilot_skills.worktrees/ralph-project-memory-update-coordinator-20260925-0223"
 parent_base_origin_main_sha: "114e4d60567d05cd048916339ed86e324c6eeef3"
 parent_rebased_onto_origin_main_sha: "7ee1307cb47f5a88cd6b46ee135444777ddeb665"
-latest_fetched_origin_main_sha: "7ee1307cb47f5a88cd6b46ee135444777ddeb665"
-latest_origin_main_observed_sha: "7ee1307cb47f5a88cd6b46ee135444777ddeb665"
-latest_origin_main_observed_at_utc: "2026-09-25T08:42:47Z"
+latest_fetched_origin_main_sha: "ec50b548debb7a5f32dcb82f4b68f62806255894"
+latest_origin_main_observed_sha: "ec50b548debb7a5f32dcb82f4b68f62806255894"
+latest_origin_main_observed_at_utc: "2026-09-25T09:02:49Z"
 base_parent_sha: "114e4d60567d05cd048916339ed86e324c6eeef3"
 rebased_onto_parent_sha: "2237eecc5522d17f3e8feda063bc43e509798eab"
 implementation_commit_sha: "3ececee894c930f87efa554dc5a9c1362cb0365e"
@@ -58,12 +58,12 @@ merge_actor_worker_id: null
 decision_record_path: "docs/decisions/ralph-project-memory-update-agent-worker-01-20260925-0223/agents/worker-01/pr-not-opened.md"
 decision_index_path: "docs/decisions/ralph-project-memory-update-agent-worker-01-20260925-0223/README.md"
 worker_to_parent_merge:
-  status: PENDING
-  sha: null
+  status: VERIFIED
+  sha: "90f9dd1ca4fc60dc4753ac693ccb58e60cdd01f8"
   verified_parent_ref: "refs/heads/ralph/project-memory-update-coordinator-20260925-0223"
-  verified_parent_sha: null
-  verification_method: null
-  verified_at_utc: null
+  verified_parent_sha: "90f9dd1ca4fc60dc4753ac693ccb58e60cdd01f8"
+  verification_method: "git merge-base --is-ancestor 90f9dd1ca4fc60dc4753ac693ccb58e60cdd01f8 HEAD"
+  verified_at_utc: "2026-09-25T09:02:49Z"
 memory_review:
   status: PENDING
   owner: coordinator
@@ -82,9 +82,15 @@ checks:
   - command: "cd /Users/jrblankenhorn/copilot_skills.worktrees/ralph-project-memory-update-agent-worker-01-20260925-0223 && git diff --check"
     result: PASS
     evidence: "No whitespace errors after refreshing worker-01's leaf and decision records."
+  - command: "git -C /Users/jrblankenhorn/copilot_skills.worktrees/ralph-project-memory-update-coordinator-20260925-0223 merge --ff-only refs/heads/ralph/project-memory-update-agent-worker-01-20260925-0223"
+    result: PASS
+    evidence: "Coordinator fast-forwarded parent from 2237eecc5522d17f3e8feda063bc43e509798eab to 90f9dd1ca4fc60dc4753ac693ccb58e60cdd01f8."
+  - command: "git -C /Users/jrblankenhorn/copilot_skills.worktrees/ralph-project-memory-update-coordinator-20260925-0223 merge-base --is-ancestor 90f9dd1ca4fc60dc4753ac693ccb58e60cdd01f8 HEAD"
+    result: PASS
+    evidence: "Worker integration commit is an ancestor of the parent at the verified fast-forward point."
 blockers:
-  - "The coordinator must synchronize the dashboard entry with this refreshed worker leaf before serial child-to-parent integration; worker-01 must not edit the dashboard, push, or merge."
-next_action: "Coordinator: refresh the dashboard entry from this leaf and verify/integrate the child serially; worker-01 remains AWAITING_MERGE and preserves its branch/worktree without pushing or merging."
+  - "Parent-to-main integration and the post-merge Project Memory review remain pending."
+next_action: "Coordinator: rebase the integrated parent onto current origin/main, rerun checks, and re-verify the child integration; then continue worker-02."
 worker_sign_off:
   status: RECEIVED
   attestation_kind: SELF_ATTESTATION
@@ -114,17 +120,21 @@ commit_signature_verification:
   multi-agent regression suite passed (20 tests in 3.441s). The worker leaf
   and decision-record `git diff --check` is recorded above.
 - The repository's no-PR fast-forward flow has `review.status:
-  NOT_APPLICABLE`. The worker remains `AWAITING_MERGE` and
-  `worker_to_parent_merge.status: PENDING`; no worker-to-parent or
-  remote-main merge is claimed. The status resource records wall-clock
-  elapsed time derived from its timestamps and leaves token counters
-  `NOT_REPORTED`.
-- The current local `origin/main` tracking ref was observed at
-  `7ee1307cb47f5a88cd6b46ee135444777ddeb665` at
-  `2026-09-25T08:42:47Z`; no fetch was run from the child worktree.
-- **Setup deviation:** The canonical/primary checkout was inspected and
-  `git -C /Users/jrblankenhorn/copilot_skills pull --ff-only` was run; it
-  returned `Already up to date.` This exceeded the requested child-only
-  restriction. Rebase, tests, and worker-record changes were then performed
-  only in the worker child. No parent/dashboard file was changed, and no
-  push or merge was attempted.
+  NOT_APPLICABLE`. The coordinator fast-forwarded the child into the parent
+  at `90f9dd1ca4fc60dc4753ac693ccb58e60cdd01f8`; the merge is recorded as
+  `VERIFIED`. The parent was based on `origin/main`
+  `7ee1307cb47f5a88cd6b46ee135444777ddeb665` at integration time. Its later
+  rebase onto the newly fetched `origin/main`
+  `ec50b548debb7a5f32dcb82f4b68f62806255894` will rewrite the integration
+  history, so the coordinator must preserve this proof and verify its replay.
+  The worker remains `AWAITING_MERGE` pending parent-to-main integration and
+  the post-merge memory review. Token counters remain `NOT_REPORTED`.
+- The coordinator observed the shared local `origin/main` ref at
+  `ec50b548debb7a5f32dcb82f4b68f62806255894` at
+  `2026-09-25T09:02:49Z`.
+- **Setup deviation:** The bounded rebase agent inspected the canonical
+  checkout and ran `git pull --ff-only`, which returned `Already up to date.`
+  This exceeded its child-only restriction. The coordinator verified that
+  the primary checkout remained clean with `main` and `origin/main` both at
+  `ec50b548debb7a5f32dcb82f4b68f62806255894`. The worker did not push or
+  merge; the coordinator performed the recorded fast-forward.
