@@ -8,16 +8,17 @@ coordinator updates this file in the same loop as affected leaf records.
 on `origin/main`; the post-merge memory follow-up is in progress.
 
 ```yaml
-schema_version: 1
+schema_version: 2
 snapshot_path: "docs/ralph-status.md"
-snapshot_revision: 21
-updated_at_utc: "2026-09-25T04:45:24Z"
+snapshot_revision: 22
+updated_at_utc: "2026-09-25T05:38:08Z"
 overall_status: IN_PROGRESS
 current_run_ids:
   - "copilot-skills-docs-status-organization-20260924"
   - "copilot-skills-no-browser-git-20260924"
   - "copilot_skills-parent-child-pipeline-20260924"
   - "translated-ralph-prompt-skills-recovery-20260925-0318"
+  - "copilot-skills-status-report-time-token-20260925"
 
 runs:
   - run_id: "copilot_skills-two-agent-ralph-test-batch-20260924"
@@ -170,7 +171,62 @@ runs:
       local_main_integration_sha: "445fa15f05de3e17a0a7634a1a902a4aa9db8bf6"
       disposition: "Preserved locally; not integrated on origin/main. Its prompt-generation changes were re-tested and re-applied on this fresh branch from updated origin/main."
 
+  - run_id: "copilot-skills-status-report-time-token-20260925"
+    task_ids: ["branch-status-resource-usage"]
+    aggregate_status: IN_PROGRESS
+    requested_worker_count: 2
+    effective_worker_count: 1
+    active_worker_count: 0
+    base_origin_main_sha: "8da9310fda1b2e3042a379081dfb0675f1b22d6b"
+    current_origin_main_sha: "d56db4de163fb261d323be7a74fba18a373cd30a"
+    parent_rebased_onto_origin_main_sha: "d56db4de163fb261d323be7a74fba18a373cd30a"
+    created_at_utc: "2026-09-25T03:35:21Z"
+    updated_at_utc: "2026-09-25T05:38:08Z"
+    coordinator_scope: "Integrate per-branch time/token reporting, maintain the aggregate dashboard, and verify the documentation contract."
+    coordinator_branch: "ralph/status-report-time-token-20260925-0335"
+    coordinator_status_path: "docs/ralph/ralph-status-report-time-token-20260925-0335/agents/coordinator/status.md"
+    coordinator_progress_path: "docs/ralph/ralph-status-report-time-token-20260925-0335/agents/coordinator/progress.md"
+    next_action: "Coordinator: resolve the parent rebase, rebase and retest worker-01 on the refreshed parent, and obtain a fresh sign-off."
+    worker_count_note: "Only one independent workstream is useful: the schema, guidance, examples, and contract test are a single coupled documentation contract."
+    split_plan:
+      - task_id: "branch-status-resource-usage"
+        worker_id: "worker-01"
+        scope: "Add per-branch wall-clock elapsed time and provider-reported token usage to Ralph status guidance, schemas, examples, and contract checks."
+        depends_on: []
+
 branch_agent_index:
+  - run_id: "copilot-skills-status-report-time-token-20260925"
+    task_ids: ["branch-status-resource-usage"]
+    worker_id: "coordinator"
+    worker_name: "coordinator / branch time and token reporting"
+    runtime_agent_id: "copilotcli:/b3f44ce6-c093-476d-ab74-b633b1be1939"
+    branch: "ralph/status-report-time-token-20260925-0335"
+    branch_slug: "ralph-status-report-time-token-20260925-0335"
+    status: IN_PROGRESS
+    iteration: 1
+    resource_usage:
+      time_spent_seconds: 7367
+      time_basis: WALL_CLOCK_ELAPSED
+      token_spend:
+        status: NOT_REPORTED
+        input_tokens: null
+        output_tokens: null
+        total_tokens: null
+        cached_input_tokens: null
+        source: null
+    status_path: "docs/ralph/ralph-status-report-time-token-20260925-0335/agents/coordinator/status.md"
+    progress_path: "docs/ralph/ralph-status-report-time-token-20260925-0335/agents/coordinator/progress.md"
+    decision_record_path: "docs/decisions/ralph-status-report-time-token-20260925-0335/agents/coordinator/pr-not-opened.md"
+    decision_index_path: "docs/decisions/ralph-status-report-time-token-20260925-0335/README.md"
+    base_origin_main_sha: "8da9310fda1b2e3042a379081dfb0675f1b22d6b"
+    parent_rebased_onto_origin_main_sha: "d56db4de163fb261d323be7a74fba18a373cd30a"
+    implementation_commit_sha: null
+    parent_to_main_merge:
+      status: PENDING
+      sha: null
+      verified_origin_main_sha: null
+    next_action: "Coordinator: rebase worker-01 onto the refreshed parent tip, rerun checks, and obtain a fresh sign-off."
+
   - run_id: "copilot_skills-two-agent-ralph-test-batch-20260924"
     task_ids: ["multi-agent-orchestration", "multi-agent-status-snapshot"]
     worker_id: "coordinator"
@@ -529,6 +585,7 @@ branch_agent_index:
 
 | Run | Branch | Agent | Status | Status file | Progress file | Merge | Memory review |
 |---|---|---|---|---|---|---|---|
+| `copilot-skills-status-report-time-token-20260925` | `ralph/status-report-time-token-20260925-0335` | `coordinator` | `IN_PROGRESS` | [status](./ralph/ralph-status-report-time-token-20260925-0335/agents/coordinator/status.md) | [progress](./ralph/ralph-status-report-time-token-20260925-0335/agents/coordinator/progress.md) | Pending | Pending |
 | `copilot_skills-two-agent-ralph-test-batch-20260924` | `ralph/multi-agent-orchestration-20260924-1918` | `coordinator` | `COMPLETE` | [status](./ralph/ralph-multi-agent-orchestration-20260924-1918/agents/coordinator/status.md) | [progress](./ralph/ralph-multi-agent-orchestration-20260924-1918/agents/coordinator/progress.md) | `61dd22e5bcdf1a8557fc2fd221bba38810e8905f` | `COMPLETE` |
 | `copilot_skills-two-agent-ralph-test-batch-20260924` | `ralph/multi-agent-orchestration-worker-01-20260924-1924` | `worker-01` | `CANCELLED` | [status](./ralph/ralph-multi-agent-orchestration-worker-01-20260924-1924/agents/worker-01/status.md) | [progress](./ralph/ralph-multi-agent-orchestration-worker-01-20260924-1924/agents/worker-01/progress.md) | Not merged | N/A |
 | `copilot_skills-two-agent-ralph-test-batch-20260924` | `ralph/multi-agent-orchestration-worker-01-integrate-20260924-1935` | `worker-01` | `COMPLETE` | [status](./ralph/ralph-multi-agent-orchestration-worker-01-integrate-20260924-1935/agents/worker-01/status.md) | [progress](./ralph/ralph-multi-agent-orchestration-worker-01-integrate-20260924-1935/agents/worker-01/progress.md) | `2b511a323c375cf713c7027261cb35f8856dabdd` | `COMPLETE` |
