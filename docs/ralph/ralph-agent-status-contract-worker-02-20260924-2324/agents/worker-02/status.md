@@ -8,19 +8,19 @@
 | Runtime agent ID | `null` |
 | Iteration | `1` |
 | Run status | `IN_PROGRESS` |
-| Worker status | `IN_PROGRESS` |
+| Worker status | `AWAITING_MERGE` |
 | Branch / slug | `ralph/agent-status-contract-worker-02-20260924-2324` / `ralph-agent-status-contract-worker-02-20260924-2324` |
 | Worktree | `/Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-status-contract-worker-02-20260924-2324` |
 | Base `origin/main` SHA | `9558f99cc34cbed8dd1d24f4f15fc03f5d78b6ea` |
 | Parent branch / worktree | `ralph/agent-status-reporting-20260924-2313` / `/Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-status-reporting-20260924-2313` |
 | Parent base SHA | `82cfc26146b75da69c450df75447575faf51e710` |
-| Implementation commit SHA | Pending initial commit |
+| Implementation commit SHA | `19a1b90b73066eb24794f201710dfa6dc8f66898` |
 | Pull request | `NOT_OPENED` |
 | Worker-to-parent merge | `PENDING` |
 | Memory review | `PENDING` — coordinator-owned after parent integration |
 | Decision record | `docs/decisions/ralph-agent-status-contract-worker-02-20260924-2324/agents/worker-02/pr-not-opened.md` |
 | Blockers | None |
-| Next action | Commit the test and records, then sign off; coordinator to verify child-to-parent integration before starting worker-01. |
+| Next action | Coordinator: verify child-to-parent integration and refresh the dashboard before starting worker-01. |
 
 ```yaml
 schema_version: 1
@@ -33,9 +33,9 @@ branch: "ralph/agent-status-contract-worker-02-20260924-2324"
 branch_slug: "ralph-agent-status-contract-worker-02-20260924-2324"
 worktree: "/Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-status-contract-worker-02-20260924-2324"
 iteration: 1
-status: IN_PROGRESS
+status: AWAITING_MERGE
 started_at_utc: "2026-09-25T03:29:01Z"
-updated_at_utc: "2026-09-25T03:46:04Z"
+updated_at_utc: "2026-09-25T03:48:38Z"
 base_origin_main_sha: "9558f99cc34cbed8dd1d24f4f15fc03f5d78b6ea"
 rebased_onto_origin_main_sha: null
 parent_branch: "ralph/agent-status-reporting-20260924-2313"
@@ -43,7 +43,7 @@ parent_worktree: "/Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-stat
 parent_base_origin_main_sha: "9558f99cc34cbed8dd1d24f4f15fc03f5d78b6ea"
 base_parent_sha: "82cfc26146b75da69c450df75447575faf51e710"
 rebased_onto_parent_sha: null
-implementation_commit_sha: null
+implementation_commit_sha: "19a1b90b73066eb24794f201710dfa6dc8f66898"
 pull_request:
   status: NOT_OPENED
   number: null
@@ -71,11 +71,13 @@ checks:
   - command: "git diff --cached --check"
     result: PASS
 blockers: []
-next_action: "Commit the test and records, then sign off; coordinator to verify child-to-parent integration before starting worker-01."
+next_action: "Coordinator: verify child-to-parent integration and refresh the dashboard before starting worker-01."
 worker_sign_off:
-  status: PENDING
-  attestation_kind: null
+  status: RECEIVED
+  attestation_kind: SELF_ATTESTATION
   cryptographic_signature_status: NOT_CRYPTOGRAPHICALLY_SIGNED
+  attested_at_utc: "2026-09-25T03:47:22Z"
+  statement: "I, worker-02, sign off iteration 1 for agent-status-report-test at commit 19a1b90b73066eb24794f201710dfa6dc8f66898."
 commit_signature_verification:
   status: NOT_CRYPTOGRAPHICALLY_SIGNED
   verifier: null

@@ -10,7 +10,7 @@
 - **Parent worktree:** `/Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-status-reporting-20260924-2313`
 - **Base parent SHA:** `82cfc26146b75da69c450df75447575faf51e710`
 - **Parent base `origin/main` SHA:** `9558f99cc34cbed8dd1d24f4f15fc03f5d78b6ea`
-- **Current state:** `IN_PROGRESS`; expected Red recorded, sign-off pending.
+- **Current state:** `AWAITING_MERGE`; worker sign-off received.
 
 ## Iteration 1 — 2026-09-25
 
@@ -51,5 +51,58 @@
   on the exact assigned parent tip; coordinator-owned parent synchronization
   and final integration remain pending.
 - **Blockers:** None. The expected Red is not a blocker.
-- **Next action:** Complete the commit and self-attestation; coordinator to
-  verify fast-forward integration into the parent before worker-01 starts.
+- **Next action:** Coordinator to verify fast-forward integration into the
+  parent and refresh the dashboard before worker-01 starts.
+
+## Sign-off — 2026-09-25T03:47:22Z
+
+- **Current worker state:** `AWAITING_MERGE`.
+- **Implementation commit SHA:** `19a1b90b73066eb24794f201710dfa6dc8f66898`.
+- **Pull request:** `NOT_OPENED`; child-to-parent integration is pending.
+- **Worker-to-parent merge:** `PENDING`; the coordinator owns verification.
+- **Blockers:** None. The expected Red is not a blocker.
+
+```json
+{
+  "run_id": "copilot_skills-agent-status-reporting-20260924",
+  "task_ids": ["agent-status-report-test"],
+  "worker_id": "worker-02",
+  "worker_name": "worker-02 - status-report contract test",
+  "runtime_agent_id": null,
+  "iteration": 1,
+  "branch": "ralph/agent-status-contract-worker-02-20260924-2324",
+  "worktree": "/Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-status-contract-worker-02-20260924-2324",
+  "pull_request": {
+    "status": "NOT_OPENED",
+    "number": null,
+    "url": null
+  },
+  "decision_record_path": "docs/decisions/ralph-agent-status-contract-worker-02-20260924-2324/agents/worker-02/pr-not-opened.md",
+  "base_origin_main_sha": "9558f99cc34cbed8dd1d24f4f15fc03f5d78b6ea",
+  "parent_branch": "ralph/agent-status-reporting-20260924-2313",
+  "parent_worktree": "/Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-status-reporting-20260924-2313",
+  "parent_base_origin_main_sha": "9558f99cc34cbed8dd1d24f4f15fc03f5d78b6ea",
+  "base_parent_sha": "82cfc26146b75da69c450df75447575faf51e710",
+  "rebased_onto_parent_sha": null,
+  "implementation_commit_sha": "19a1b90b73066eb24794f201710dfa6dc8f66898",
+  "checks": [
+    {
+      "command": "python3 .github/skills/ralph-loop/tests/test_multi_agent_contract.py",
+      "result": "PASS (13 tests in 3.626s, OK)"
+    },
+    {
+      "command": "python3 .github/skills/ralph-loop/tests/test_multi_agent_contract.py MultiAgentContractTests.test_status_first_reports_cover_run_and_agent_state_without_stopping_early",
+      "result": "FAIL (expected Red; 1 test, 17 subtest failures due to missing report/status contract)"
+    },
+    {
+      "command": "git diff --cached --check",
+      "result": "PASS"
+    }
+  ],
+  "blockers": [],
+  "attested_at_utc": "2026-09-25T03:47:22Z",
+  "attestation_kind": "SELF_ATTESTATION",
+  "cryptographic_signature_status": "NOT_CRYPTOGRAPHICALLY_SIGNED",
+  "statement": "I, worker-02, sign off iteration 1 for agent-status-report-test at commit 19a1b90b73066eb24794f201710dfa6dc8f66898."
+}
+```
