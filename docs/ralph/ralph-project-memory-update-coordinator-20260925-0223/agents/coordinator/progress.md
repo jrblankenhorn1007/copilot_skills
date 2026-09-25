@@ -145,3 +145,18 @@ These are implementation-time reports, not accepted memory entries. The Project 
 
 - The refreshed dashboard and worker integration records passed the Ralph multi-agent contract suite (`Ran 20 tests`, `OK`) and the focused Project Memory agent contract (`Ran 1 test`, `OK`). Both `git diff --check` and `git diff --check origin/main...HEAD` passed.
 - The fetched remote target remains `43815c8e4621fe0495b8832136cd5ce3bd6c0267`; the parent still needs rebasing from its earlier base and the worker integration must be re-verified afterward.
+
+## 2026-09-25T09:31:29Z - Rebase and worker proof, before another main advance
+
+- Rebased parent `98cb55bd6ad59c82c030d43251f968ddc5d68e79` from prior main base `7ee1307cb47f5a88cd6b46ee135444777ddeb665` onto fetched `origin/main` `43815c8e4621fe0495b8832136cd5ce3bd6c0267`, replaying 17 commits to `225914b9d6bbef0c50353f26174018a32ab41bad`.
+- The old worker-01 integration `90f9dd1ca4fc60dc4753ac693ccb58e60cdd01f8` replayed as `2bab86cac7beda4ece4d0808af411e4b64c1d6ea`; the new integration SHA is an ancestor of the rebased parent. Stable patch IDs matched for the integration (`457e943bdfd9be5cb94a63cf3ff32d72e34ce887`) and implementation (`1571aec2fe973545242da3e2d925c6027d49d9ef`).
+- A subsequent fetch advanced `origin/main` to `91a6f78fa00cde80a80bea630a763d74041a56ad` before parent acceptance tests. The parent needs one more rebase and the dashboard records were restored from upstream only after that rebase.
+- The canonical primary checkout remains clean with local `main` (`b19dbb6c5cd468e306cbd6a34848014b6a542662`) two commits ahead of `origin/main` (`91a6f78fa00cde80a80bea630a763d74041a56ad`). Leave its local-only commits untouched; use the repository's required remote integration process.
+- **Next action:** commit this parent/worker merge history, rebase onto `91a6f78fa00cde80a80bea630a763d74041a56ad`, rerun acceptance checks, and re-verify the child integration.
+
+## 2026-09-25T09:41:08Z - Remote main advanced before the next parent rebase
+
+- A coordinator fetch observed `origin/main` advance from `91a6f78fa00cde80a80bea630a763d74041a56ad` to `5accb6c96ff8049f63c0a9d61265153b3008e1dc`, adding four commits before the parent was rebased or its acceptance suite rerun.
+- The parent remains at `225914b9d6bbef0c50353f26174018a32ab41bad`, based on `43815c8e4621fe0495b8832136cd5ce3bd6c0267` and 17 commits ahead/7 behind the newly fetched remote; next rebase target is exactly `5accb6c96ff8049f63c0a9d61265153b3008e1dc`.
+- The canonical primary checkout remains clean, but local `main` (`b19dbb6c5cd468e306cbd6a34848014b6a542662`) is two commits ahead and four behind `origin/main`. Leave that branch untouched; use the documented remote integration process.
+- **Next action:** commit the current records, rebase the parent onto `5accb6c96ff8049f63c0a9d61265153b3008e1dc`, rerun checks, and re-verify the worker-01 integration.

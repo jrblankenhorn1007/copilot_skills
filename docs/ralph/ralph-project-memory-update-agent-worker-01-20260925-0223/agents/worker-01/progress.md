@@ -653,6 +653,18 @@ above.
 - The bounded worker refresh unexpectedly ran `git pull --ff-only` in the primary checkout and reported `Already up to date`. The coordinator verified the primary checkout clean with `main` and `origin/main` at `ec50b548debb7a5f32dcb82f4b68f62806255894`; no worker push or merge occurred.
 - The worker remains `AWAITING_MERGE` until the parent is verified on `origin/main` and the Project Memory review completes. The `memory_handoff` remains unchanged: no durable lesson candidate was proposed.
 
+## Parent rebase and worker-integration re-verification — 2026-09-25T09:27:08Z
+
+- The parent was rebased from prior tip `98cb55bd6ad59c82c030d43251f968ddc5d68e79` and main base `7ee1307cb47f5a88cd6b46ee135444777ddeb665` onto `origin/main` `43815c8e4621fe0495b8832136cd5ce3bd6c0267`, producing parent tip `225914b9d6bbef0c50353f26174018a32ab41bad`.
+- The original worker integration proof `90f9dd1ca4fc60dc4753ac693ccb58e60cdd01f8` was superseded by replayed parent integration commit `2bab86cac7beda4ece4d0808af411e4b64c1d6ea`; `git merge-base --is-ancestor 2bab86cac7beda4ece4d0808af411e4b64c1d6ea HEAD` passed.
+- `git patch-id --stable` matched the original/replayed child-integration commit IDs (`457e943bdfd9be5cb94a63cf3ff32d72e34ce887`) and the implementation commit IDs (`1571aec2fe973545242da3e2d925c6027d49d9ef`), confirming the worker patch and Project Memory Update implementation were preserved.
+- Parent acceptance tests remain pending after this rebase; `origin/main` advanced again to `91a6f78fa00cde80a80bea630a763d74041a56ad` before the final parent verification, so rebase and re-verify once more before dispatching worker-02.
+
+### Remote advance observed before the next parent rebase — 2026-09-25T09:41:08Z
+
+- The coordinator fetched `origin/main` at `5accb6c96ff8049f63c0a9d61265153b3008e1dc`, four commits past the previous observation `91a6f78fa00cde80a80bea630a763d74041a56ad`.
+- The parent remains based on `43815c8e4621fe0495b8832136cd5ce3bd6c0267` at tip `225914b9d6bbef0c50353f26174018a32ab41bad`; acceptance tests and the next worker-01 integration proof remain pending after rebasing to the new remote tip.
+
 #### Fresh worker sign-off after exact parent rebase
 
 ```json
