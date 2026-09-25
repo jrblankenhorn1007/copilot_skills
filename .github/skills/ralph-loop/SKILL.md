@@ -403,26 +403,24 @@ follow the existing Git identity and authentication rules.
    completion before the parent merge and any required memory merge are
    verified on fetched remote `main`.
 
-## Completion reporting and branch decision records
+## Status-first run reporting and branch decision records
 
-Start the final user-facing response with exactly one of these status lines:
+Lead every interim and final Ralph run report with the explicit overall run
+state. List every assigned agent with its exact current status and next
+action; include queued workers and agents awaiting integration, not only
+currently active workers.
 
-```text
-Task completed: YES
-```
-
-or
-
-```text
-Task completed: NO
-```
-
-Use `YES` only after the requested outcome, required checks, integration, and
-remote verification are complete. Follow it with a concise outcome, relevant
-test results, and verified merge SHA. Use `NO` when work remains blocked or
-incomplete, then state the unresolved blocker and the next actionable step.
-Do not imply success if required checks or remote-main verification are
-missing.
+Use `IN_PROGRESS` while authorized work, review, checks, coordinator tasks, or
+integration can still proceed. Use `BLOCKED` only when the run cannot advance
+without external intervention; an individually blocked agent does not block
+the run when other work can continue. Use `COMPLETE` only after all assigned
+acceptance criteria and checks pass, all required worker-to-parent and
+parent-to-main merges are verified, and the post-merge memory review and any
+warranted follow-up merge are complete. A child merge or published branch
+alone does not make the run complete. Do not substitute a binary
+task-completion verdict for the run state and agent roster. Follow the
+[status-first multi-agent reporting contract](./references/multi-agent-status.md)
+for report structure and state meanings.
 
 Report only unresolved blockers as failures. If a command, test, authentication
 step, rebase, or merge attempt fails but the issue is resolved within the

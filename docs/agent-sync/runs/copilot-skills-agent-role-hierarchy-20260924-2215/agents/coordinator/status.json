@@ -1,7 +1,7 @@
 {
   "agent_id": "coordinator",
   "agent_profile": {
-    "agent_definition": ".github/agents/ralph-orchestrator.agent.md",
+    "agent_definition": ".github/agents/ralph-loop.agent.md",
     "context_tier": null,
     "context_usage_tokens": null,
     "context_window_tokens": null,
@@ -10,6 +10,8 @@
     "reasoning_effort": null,
     "runtime_agent_id": "copilotcli:/c45bb4ea-44ab-4ad8-8ec3-63a2398a4603"
   },
+  "edit_scope_released_at_utc": "2026-09-25T14:54:31Z",
+  "edit_scope_status": "RELEASED",
   "git": {
     "base_ref": "refs/remotes/origin/main",
     "base_sha": "55c30b3eb3c8e1cdf735ff4b987c9235bf5456e6",
@@ -32,22 +34,52 @@
   },
   "prompt_path": "docs/agent-sync/runs/copilot-skills-agent-role-hierarchy-20260924-2215/agents/coordinator/prompt.md",
   "prompt_sha256": "5274d54946abb1b8dbf1f1d50ba4fb806994cacd7d5076ef468e58619c551580",
-  "revision": 8,
+  "revision": 17,
   "run_id": "copilot-skills-agent-role-hierarchy-20260924-2215",
   "schema_version": 1,
-  "sign_in_at_utc": "2026-09-25T11:03:27Z",
+  "scope_release": {
+    "released_at_utc": "2026-09-25T14:54:31Z",
+    "released_paths": [
+      ".github/agents/ralph-loop.agent.md",
+      ".github/agents/ralph-orchestrator.agent.md",
+      ".github/agents/ralph-worker.agent.md",
+      ".github/copilot/settings.json",
+      ".vscode/settings.json",
+      ".github/skills/ralph-loop/SKILL.md",
+      ".github/skills/ralph-loop/references/copilot-cli-usage.md",
+      ".github/skills/ralph-loop/references/multi-agent-orchestration.md",
+      ".github/skills/ralph-loop/tests/test_multi_agent_contract.py",
+      ".github/skills/ralph-loop/tests/test_orchestrator_specialist_routing.py",
+      "README.md",
+      "docs/ralph-status.md",
+      "docs/ralph/ralph-agent-role-hierarchy-20260925-042745-coordinator/agents/coordinator/status.md",
+      "docs/ralph/ralph-agent-role-hierarchy-20260925-042745-coordinator/agents/coordinator/progress.md",
+      "docs/decisions/ralph-agent-role-hierarchy-20260925-042745-coordinator/README.md",
+      "docs/decisions/ralph-agent-role-hierarchy-20260925-042745-coordinator/agents/coordinator/pr-not-opened.md"
+    ],
+    "status": "RELEASED"
+  },
+  "sign_in_at_utc": "2026-09-25T10:00:46Z",
   "sign_out": {
-    "at_utc": null,
-    "checks": [],
-    "implementation_commit_sha": null,
-    "next_action": null,
-    "summary": null
+    "at_utc": "2026-09-25T14:22:33Z",
+    "checks": [
+      "PASS: PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s .github/skills/ralph-loop/tests -p 'test_*.py' -v (66 tests passed on the preserved role-hierarchy branch).",
+      "PASS: git diff --check.",
+      "BLOCKED: fresh Resource Manager registration at 2026-09-25T14:20:51Z reported active_agent_count=15, max_agents=0, available_slots=0, can_spawn=false; worker-01 sign-off renewal was not attempted.",
+      "BLOCKED: agent-communication revision 1 remains IN_PROGRESS without sign-out; skills-improvement revision 8 remains BLOCKED without sign-out, and PR #2 remains open without reviews or checks. No shared implementation path was merged.",
+      "PASS: inspected status.json history at origin/main 70b8e20 and current revisions; revision 1-2 listed shared paths and revision 3 onward narrowed git.edit_scope.",
+      "PASS: revision 17 scope_release enumerates the union of historical and final edit scopes; implementation branch and source files were not changed.",
+      "BLOCKED: agent-communication revision 1 remains IN_PROGRESS and skills-improvement revision 8 remains BLOCKED with no sign-out; those records still claim some shared paths, which are not released by this run."
+    ],
+    "implementation_commit_sha": "d55aefe17043d7d7af2e593f4286331b1f85f40e",
+    "next_action": "The optimization coordinator may treat this run’s historical claims as released, but must still check all other active task records before claiming overlapping paths. Agent-communication revision 1 and skills-improvement revision 8 still own shared paths until their own recorded releases. If the role implementation resumes, use a new task sign-in, preserve the branch, renew worker-01 sign-off through its authorized owner, rebase/retest, complete review and authorized integration, verify fetched origin/main, and perform the post-merge memory review.",
+    "summary": "Corrected the signed-out scope release to enumerate every path claimed in revisions 1-2 plus the final role-specific scope. No implementation files or branches were changed. The branch remains preserved at d55aefe17043d7d7af2e593f4286331b1f85f40e; this is a metadata correction, not task completion."
   },
   "started_at_utc": "2026-09-25T10:00:46Z",
-  "status": "IN_PROGRESS",
-  "status_reason": "The Orchestrator specialist-routing implementation is committed as f519cde53dbf712674d73c6bc22225073b2ce09e and its focused tests pass 2/2. The routing integration coordinator has released its scope at revision 4, but the separate agent-communication coordinator remains IN_PROGRESS at revision 1 with no sign-out and owns overlapping public-entrypoint, shared Ralph skill/reference/test, README, and dashboard paths. Do not rebase or edit those paths until that task releases. The full 24-test hierarchy contract still has three old allowlist assertions in its active scope. The last fresh Resource Manager snapshot at 11:39Z had no available slots; no worker was dispatched.",
+  "status": "BLOCKED",
+  "status_reason": "Scope-release correction: revisions 1-2 of this run declared shared Ralph entrypoint/skill/README/dashboard/contract paths, while revision 3 narrowed git.edit_scope without an explicit release. This revision explicitly releases the union of that historical scope and the final role-specific scope. It clears only this coordinator record; agent-communication and skills-improvement retain their own active claims. The implementation remains unmerged and preserved.",
   "task_id": "entrypoint-and-nested-agent-wiring",
-  "updated_at_utc": "2026-09-25T11:48:12Z",
+  "updated_at_utc": "2026-09-25T14:54:31Z",
   "worker_id": "coordinator",
   "worker_name": "coordinator - Ralph agent role hierarchy"
 }

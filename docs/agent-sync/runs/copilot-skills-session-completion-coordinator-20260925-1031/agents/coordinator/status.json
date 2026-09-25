@@ -1,0 +1,52 @@
+{
+  "agent_id": "coordinator",
+  "agent_profile": {
+    "agent_definition": ".github/agents/ralph-loop.agent.md",
+    "context_tier": null,
+    "context_usage_tokens": null,
+    "context_window_tokens": null,
+    "harness": "VS Code Copilot",
+    "model_id": null,
+    "reasoning_effort": null,
+    "runtime_agent_id": "copilotcli:/549e3611-884b-47c4-89a7-94d4416060ac"
+  },
+  "git": {
+    "base_ref": "refs/heads/main",
+    "base_sha": "1e9a6dab03c07ea9990fe4f65039ffdc4e784f45",
+    "edit_scope": [
+      ".github/agents/ralph-session-completion-coordinator.agent.md",
+      ".github/skills/ralph-loop/references/skill-aware-routing.md",
+      ".github/skills/ralph-loop/tests/test_skill_aware_routing.py",
+      ".github/skills/ralph-loop/tests/test_session_completion_coordinator.py",
+      "docs/ralph/agents-ralph-session-completion-coordinator-20260925-1031-549e3611/agents/coordinator/status.md",
+      "docs/ralph/agents-ralph-session-completion-coordinator-20260925-1031-549e3611/agents/coordinator/progress.md",
+      "docs/decisions/agents-ralph-session-completion-coordinator-20260925-1031-549e3611/README.md",
+      "docs/decisions/agents-ralph-session-completion-coordinator-20260925-1031-549e3611/agents/coordinator/pr-not-opened.md"
+    ],
+    "implementation_branch": "refs/heads/agents/ralph-session-completion-coordinator-20260925-1031-549e3611",
+    "remote_name": "origin",
+    "repository": "jrblankenhorn1007/copilot_skills",
+    "worktree_head_sha_at_sign_in": "1e9a6dab03c07ea9990fe4f65039ffdc4e784f45",
+    "worktree_path": "/Users/jrblankenhorn/copilot_skills.worktrees/ralph-session-completion-coordinator-20260925-1031-549e3611"
+  },
+  "prompt_path": "docs/agent-sync/runs/copilot-skills-session-completion-coordinator-20260925-1031/agents/coordinator/prompt.md",
+  "prompt_sha256": "6ac250a4f2345c0cbb48c210073d3dd8d762d8fde82ef464d3ba57edfa849de3",
+  "revision": 5,
+  "run_id": "copilot-skills-session-completion-coordinator-20260925-1031",
+  "schema_version": 1,
+  "sign_in_at_utc": "2026-09-25T14:44:22Z",
+  "sign_out": {
+    "at_utc": null,
+    "checks": [],
+    "implementation_commit_sha": null,
+    "next_action": null,
+    "summary": null
+  },
+  "started_at_utc": "2026-09-25T14:44:22Z",
+  "status": "IN_PROGRESS",
+  "status_reason": "Added the direct user-invocation route and its failing-then-passing contract test after the prior routing owner released those paths. The active agent-communication run still owns the Ralph Loop allowlist and aggregate dashboard; those paths remain untouched.",
+  "task_id": "session-completion-coordinator-role",
+  "updated_at_utc": "2026-09-25T15:03:08Z",
+  "worker_id": "coordinator",
+  "worker_name": "coordinator / Ralph Session Completion Coordinator"
+}

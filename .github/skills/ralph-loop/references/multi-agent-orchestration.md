@@ -303,10 +303,19 @@ parent worktree and branch based on the latest `origin/main`. Use only
 project-required completion markers, and only after all required remote-main
 merges and memory follow-ups are verified.
 
-In the final user-facing report, begin with `Task completed: YES` or
-`Task completed: NO`. Only unresolved blockers belong in the failure summary;
-the branch's per-agent/per-PR decision record retains recovered issues and
-their successful verification.
+Lead every interim and final Ralph run report with the explicit overall run
+state, then list every assigned agent with its exact current status and next
+action. Use `IN_PROGRESS` while authorized work, review, checks, coordinator
+tasks, or integration can still proceed; use `BLOCKED` only when the run
+cannot advance without external intervention; and use `COMPLETE` only after
+the assigned work, verification, integration, and required memory-review
+gates pass. An individually blocked agent does not block the run if other
+authorized work can continue. Follow the
+[multi-agent status reporting contract](multi-agent-status.md) for the
+reusable report format. Do not substitute a binary task-completion verdict
+for the run state and agent roster. Only unresolved blockers belong in the
+failure summary; the branch's per-agent/per-PR decision record retains
+recovered issues and their successful verification.
 
 ## Branch-scoped documentation and synchronized status
 

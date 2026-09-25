@@ -89,3 +89,22 @@
 
 - None known at record creation. Update this section if checks, publishing,
   integration, or remote verification leave an unresolved blocker.
+
+## Superseding decision — status-first Ralph run reporting (2026-09-25)
+
+- **Context:** Later multi-agent workflows need to report progress while
+  assigned work, integration, or coordinator actions remain active. The
+  binary completion-first rule above does not distinguish a nonterminal run
+  from a failed task.
+- **Alternatives:** Keep the older first-line verdict for every report, or
+  report the run's state and every assigned agent's current state directly.
+- **Decision:** The older rule is historical and is superseded for Ralph run
+  reports. Lead interim and final Ralph run reports with the overall state
+  `IN_PROGRESS`, `BLOCKED`, or `COMPLETE`, then list every assigned agent's
+  exact current status and next action.
+- **Rationale:** These labels preserve the established run meanings and make
+  queued, awaiting-merge, and coordinator work visible even when no worker is
+  currently counted as active.
+- **Consequences:** Follow the current
+  [multi-agent status reporting contract](../../../../../.github/skills/ralph-loop/references/multi-agent-status.md);
+  do not treat a zero `active_worker_count` as proof that the run stopped.
