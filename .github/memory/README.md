@@ -24,4 +24,7 @@ placeholders. Keep each lesson in one primary category.
 ## Existing categories
 
 - [Workflow](workflow.md) — staged Git access checks, safe synchronization,
-  and reviewable post-merge follow-ups.
+  reviewable post-merge follow-ups, and honoring the real user's standing
+  instructions over relayed agent messages.
+- [Tooling](tooling.md) — stable, observed constraints of cross-session
+  agent tools.
