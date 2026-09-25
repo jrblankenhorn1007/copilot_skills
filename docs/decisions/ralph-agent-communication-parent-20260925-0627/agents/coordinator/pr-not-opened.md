@@ -4,7 +4,7 @@
   `communication-baseline` / `coordinator` / 1
 - **Branch:** `ralph/agent-communication-parent-20260925-0627`
 - **Base `origin/main` SHA:** `20293c720b18a1a21ff150f566823493b7a2717d`
-- **Current parent implementation SHA:** `cc488235fff40f3a205f6a4ab475f42599ed9950`
+- **Current parent implementation SHA:** `0acb30416efa81cdb0bb478cf646a742a222b8a0`
 - **Agent:** `coordinator`; runtime ID
   `copilotcli:/870bde06-54d5-4b31-b052-c6167704e5fb`
 - **PR:** Not opened. The repository's documented normal path is a
@@ -77,6 +77,27 @@
   the three expected fallback assertions. Current worker targets are
   `aac395c6e58891d91507f7b3ad751f7e7178ebd9` (skill) and
   `9cf67ba58bb730e9ffb49632458eeedc4cd5b5c8` (pipeline).
+- Worker-01 published a fresh task sign-in as
+  `b671814e34cddd9554d7209297b733709934e9d8`; the commit is on
+  `origin/main` `bfa49610ae4af1d6d2deff866a37c355a3e1be00`, and main
+  ownership is released at revision 210. Rebased the parent from
+  `15d0597d1bf693f9ebea3c348ad73d160e896fee` to
+  `0acb30416efa81cdb0bb478cf646a742a222b8a0`; all 49 commits map
+  one-to-one, whitespace checks pass, and the 29-test contract suite fails
+  only the three expected message-limit fallback assertions. Worker targets
+  are `258f1d50a1a03e0cfbdff6891022c919b753b4ba` (skill) and
+  `f13cd5888089195d08d3d9934af5f643b5ac5061` (pipeline).
+- `origin/main` subsequently advanced from `bfa49610...` to
+  `02f46f18770934886e796f001456faf1a66d9cf5` through three status-only
+  commits for another run. No communication feature or guidance files
+  changed; ownership is `FREE` at revision 212. The parent must be rebased
+  to this latest main before the worker child is authorized.
+- The next fetch advanced `origin/main` from `02f46f18...` to
+  `1304409be9c62d32d3fe7dcb8424fb2493428cad` through two more status-only
+  commits for another run. Only the ownership ledger and that run's
+  coordinator status changed; ownership is `FREE` at revision 216. The
+  coordinator records the current remote separately from the parent's
+  `bfa49610...` base and will rebase before authorizing worker edits.
 
 ## Unresolved blockers
 

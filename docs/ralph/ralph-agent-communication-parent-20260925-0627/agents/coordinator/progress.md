@@ -1034,3 +1034,64 @@
 - **Next:** Commit this status update, refresh main/ownership once more, and
   send worker-01 the exact new parent and TDD refinement. Keep worker-02
   paused.
+
+## 2026-09-25T17:22:00Z — reconciled worker-01 sign-in
+
+- **Sign-in:** Worker-01's task sign-in commit
+  `b671814e34cddd9554d7209297b733709934e9d8` is verified on `origin/main`
+  `bfa49610ae4af1d6d2deff866a37c355a3e1be00`; the main ownership record is
+  `FREE` at revision 210.
+- **Rebase:** Rebased the parent from
+  `15d0597d1bf693f9ebea3c348ad73d160e896fee` onto the updated main, producing
+  `0acb30416efa81cdb0bb478cf646a742a222b8a0`. `git range-diff` maps all
+  49 parent commits one-to-one, including the worker sign-in ledger update;
+  `git diff --check origin/main...HEAD` passes.
+- **Workers:** Current implementation candidates are worker-01
+  `258f1d50a1a03e0cfbdff6891022c919b753b4ba` and worker-02
+  `f13cd5888089195d08d3d9934af5f643b5ac5061`. The clean worker-01 child
+  remains at the old parent and must be rebased before authorization.
+- **Red:** The full contract suite ran 29 tests; only the three intended
+  message-limit fallback assertions fail. All other contract tests pass.
+- **Next:** Synchronize status/dashboard to the sign-in base, refresh origin
+  once more, then rebase the worker child and authorize the bounded fix.
+
+## 2026-09-25T17:25:31Z — refreshed after worker-01 sign-in
+
+- **Canonical refresh:** Fast-forwarded the clean canonical/primary checkout
+  from `53b28092ae59a8ef9daca990cd2bb560c098e9d9` to
+  `bfa49610ae4af1d6d2deff866a37c355a3e1be00`, then fetched the same
+  repository from the parent worktree. Git author and committer identities
+  are configured.
+- **Remote movement:** `origin/main` advanced from `bfa49610...` to
+  `02f46f18770934886e796f001456faf1a66d9cf5` through three agent-sync
+  ownership/coordinator-status commits. No implementation, guidance, or test
+  paths changed. Main ownership is `FREE` at revision 212.
+- **Worker state:** The worker-01 sign-in is present on refreshed main; its
+  child remains clean and paused at old parent `15d0597d...`. Worker-02
+  remains paused. Do not authorize either worker until the parent is rebased
+  and the exact base is recorded.
+- **Coordinator state:** Status, dashboard, and this progress record now
+  distinguish current `origin/main` `02f46f18...` from the parent rebase base
+  `bfa49610...`; the parent implementation HEAD is still `0acb3041...`.
+- **Verification:** The current tool inventory identifies this coordinator
+  session and both existing workers; no new session or relay was spawned.
+  The contract suite remains intentionally Red on the three message-limit
+  fallback assertions, last run against the prior bfa-based parent.
+- **Next:** Commit these synchronization records, rebase and retest the parent
+  on `02f46f18...`, refresh exact worker commit IDs, then rebase worker-01's
+  clean child and send the authorized `READY_TO_EDIT` handoff.
+
+## 2026-09-25T17:31:07Z — origin advanced with status-only updates
+
+- **Refresh:** A new fetch advanced `origin/main` from
+  `02f46f18770934886e796f001456faf1a66d9cf5` to
+  `1304409be9c62d32d3fe7dcb8424fb2493428cad`. The two intervening commits
+  change only the main-ownership ledger and an unrelated run's coordinator
+  status. Ownership is `FREE` at revision 216.
+- **Parent:** It remains based on `bfa49610...` at
+  `0acb30416efa81cdb0bb478cf646a742a222b8a0`; the coordinator-owned status,
+  progress, decision, and dashboard records now distinguish that base from
+  the latest fetched main.
+- **Next:** Commit the synchronized records, rebase the clean parent onto
+  `1304409b...`, inspect the exact rebase mapping, and rerun the target
+  contract before refreshing worker-01's child.
