@@ -32,7 +32,7 @@
   },
   "prompt_path": "docs/agent-sync/runs/copilot-skills-agent-role-hierarchy-20260924-2215/agents/coordinator/prompt.md",
   "prompt_sha256": "5274d54946abb1b8dbf1f1d50ba4fb806994cacd7d5076ef468e58619c551580",
-  "revision": 6,
+  "revision": 7,
   "run_id": "copilot-skills-agent-role-hierarchy-20260924-2215",
   "schema_version": 1,
   "sign_in_at_utc": "2026-09-25T11:03:27Z",
@@ -45,9 +45,9 @@
   },
   "started_at_utc": "2026-09-25T10:00:46Z",
   "status": "IN_PROGRESS",
-  "status_reason": "The hierarchy parent is rebased onto 70b98bbf0ab35620f7c33b5d9789187560c699df and its 24 contract tests pass. This resumed scope adds only the Orchestrator profile and a distinct new test file to move conditional specialist routing under the user-requested Ralph Loop-to-Orchestrator-to-Worker chain. The active routing memory-follow-up still owns the public entrypoint, shared Ralph skill/references/tests, README, dashboard, and related files; they remain untouched. Resource Manager has no worker slots, so this work is serial and dispatches no agent.",
+  "status_reason": "The 2-test Orchestrator specialist-routing contract is green after extending only the Orchestrator profile. The 24-test hierarchy suite now has three failures because its shared assertions still require the old three-agent allowlist. The separate routing integration coordinator's revision-3 scope still owns that test and remains IN_PROGRESS with no sign-out; do not edit its owned files or rebase until released. The distinct test path is in this coordinator's scope. No workers are dispatched because Resource Manager capacity remains unverified/full.",
   "task_id": "entrypoint-and-nested-agent-wiring",
-  "updated_at_utc": "2026-09-25T11:22:21Z",
+  "updated_at_utc": "2026-09-25T11:32:55Z",
   "worker_id": "coordinator",
   "worker_name": "coordinator - Ralph agent role hierarchy"
 }
