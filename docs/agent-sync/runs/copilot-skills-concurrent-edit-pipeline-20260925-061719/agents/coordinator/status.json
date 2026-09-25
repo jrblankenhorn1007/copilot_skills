@@ -41,7 +41,7 @@
   },
   "prompt_path": "docs/agent-sync/runs/copilot-skills-concurrent-edit-pipeline-20260925-061719/agents/coordinator/prompt.md",
   "prompt_sha256": "4a5e53d267c1418aa529d62e0b7b59df30906a138beb8bf5f7dd958a9570ce0c",
-  "revision": 3,
+  "revision": 4,
   "run_id": "copilot-skills-concurrent-edit-pipeline-20260925-061719",
   "schema_version": 1,
   "sign_in_at_utc": "2026-09-25T15:20:08Z",
@@ -49,14 +49,14 @@
     "at_utc": null,
     "checks": [],
     "implementation_commit_sha": null,
-    "next_action": "Align conditional specialist routing with the overlap-friendly assignment contract, run its focused Red-Green checks and the full suite, then synchronize this parent with the latest fetched origin/main. Worker-owned rebase, sign-off, and memory handoffs remain pending capacity.",
+    "next_action": "When capacity admits a worker slot, refresh and retest the parent on latest origin/main, obtain worker-01 memory handoff and current integration confirmation, then have worker-02 rebase, retest, and re-attest with its handoff. Integrate serially, then verify remote-main integration and the required post-merge memory review.",
     "summary": null
   },
   "started_at_utc": "2026-09-25T15:20:08Z",
-  "status": "IN_PROGRESS",
-  "status_reason": "Extending the active task scope to remove path-exclusivity and wait-on-overlap rules from conditional specialist routing, and to add contract tests for same-file edits on isolated branches.",
+  "status": "BLOCKED",
+  "status_reason": "Blocked: worker-owned evidence and memory handoffs are stale, and Resource Manager reports no available slot. Rebase the parent onto latest origin/main and rerun acceptance before integration.",
   "task_id": "allow-overlapping-worker-files",
-  "updated_at_utc": "2026-09-25T16:41:22Z",
+  "updated_at_utc": "2026-09-25T17:38:58Z",
   "worker_id": "coordinator",
   "worker_name": "coordinator / concurrent Ralph file edits"
 }
