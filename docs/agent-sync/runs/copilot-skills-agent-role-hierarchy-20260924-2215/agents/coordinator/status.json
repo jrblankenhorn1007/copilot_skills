@@ -31,7 +31,7 @@
   },
   "prompt_path": "docs/agent-sync/runs/copilot-skills-agent-role-hierarchy-20260924-2215/agents/coordinator/prompt.md",
   "prompt_sha256": "5274d54946abb1b8dbf1f1d50ba4fb806994cacd7d5076ef468e58619c551580",
-  "revision": 3,
+  "revision": 4,
   "run_id": "copilot-skills-agent-role-hierarchy-20260924-2215",
   "schema_version": 1,
   "sign_in_at_utc": "2026-09-25T11:03:27Z",
@@ -44,9 +44,9 @@
   },
   "started_at_utc": "2026-09-25T10:00:46Z",
   "status": "IN_PROGRESS",
-  "status_reason": "Resuming at user request. Parent 6567658 is clean; fetched origin/main=55c30b3. Rebase and targeted verification remain. Resource Manager max_agents=0, so no worker re-dispatch. The active routing run owns shared entrypoint, Ralph skill/references/tests, README, decisions index, and dashboard; scope is narrowed to Orchestrator/Worker profiles, nested-agent settings, and this coordinator's status, progress, and decision files.",
+  "status_reason": "The role hierarchy parent is rebased onto 70b98bbf0ab35620f7c33b5d9789187560c699df and its 24 contract tests pass. Latest fetched origin/main 5b7f729d8f48c90c5f2e1f5a7ef6ab29217db76c now contains specialist routing merge 0b7db073e365e6c1c6e29d410c424d7c7637c9bf, but that routing coordinator remains IN_PROGRESS with active edit scope. Do not rebase or resolve overlapping paths until verified task sign-out. Resource Manager reports no worker slot, so no child re-dispatch.",
   "task_id": "entrypoint-and-nested-agent-wiring",
-  "updated_at_utc": "2026-09-25T11:03:27Z",
+  "updated_at_utc": "2026-09-25T11:15:19Z",
   "worker_id": "coordinator",
   "worker_name": "coordinator - Ralph agent role hierarchy"
 }
