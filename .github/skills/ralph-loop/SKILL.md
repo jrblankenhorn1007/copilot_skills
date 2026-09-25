@@ -1,6 +1,6 @@
 ---
 name: ralph-loop
-description: Use for Ralph-style development runs; coordinate configurable workers, capture categorized lessons, and verify remote-main integration.
+description: Use for Ralph-style development runs and project-specific Ralph prompt generation or translation; coordinate configurable workers, capture categorized lessons, and verify remote-main integration.
 ---
 
 # Ralph Loop
@@ -73,6 +73,35 @@ active project before planning, dispatching work, or editing:
 4. Check that any project runner supports the fresh-worktree and verified
    remote-merge lifecycle below. Do not invoke a runner that assumes an
    in-place branch, pushes before integration, or skips remote verification.
+
+## Generating or translating a project-specific Ralph prompt
+
+When asked to create or translate a project-specific Ralph prompt, inspect
+the user's task, the active project's current project plan and current Ralph
+prompt or runner, applicable project instructions, the canonical skill catalog
+(`copilot_skills/.github/skills/`), and the project-local
+`.github/skills` catalog when it exists. Read candidate skill descriptions
+and triggers; select a skill only when those descriptions or triggers match
+the task or a required Ralph workflow step. Base the selection on current
+evidence, not a skill's name alone. Do not guess a stack. Do not reuse a
+static list for every project, and do not list every available skill. Do not
+invent project criteria when a plan or current prompt is absent.
+
+Verify that a project-local skill path exists before linking it. When the same
+skill appears in both catalogs, list each skill only once: link the active
+project's copy when it is the controlling version; otherwise link the
+canonical source. If both links are needed to explain distinct guidance, put
+them in the same entry rather than duplicating the skill.
+
+The generated prompt itself must contain an explicit `## Relevant skills`
+section as prompt content, not only as generator metadata. List each selected
+skill's name, canonical or project-local path or link, and the condition or
+reason it applies; replace any template placeholders with verified values.
+Always include Ralph Loop for the development workflow, include TDD for
+behavior changes, and include Project Memory for the required post-merge
+review. Domain-specific skills may be included only when their descriptions
+or triggers match the actual task. Do not duplicate a skill. Do not list an
+unavailable local skill.
 
 ## Active-project Ralph documentation and status
 
