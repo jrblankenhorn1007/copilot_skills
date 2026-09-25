@@ -10,7 +10,8 @@
 - **Parent `origin/main` base:** `20293c720b18a1a21ff150f566823493b7a2717d`
 - **Assigned `base_parent_sha`:**
   `0294550c92a5d79e1cca682a0c509b5bb6eca3fd`
-- **Implementation commit:** Pending
+- **Implementation commit:**
+  `295caa4f91a102c9d590d09ebe3b2ae95efc1918`
 - **PR:** `NOT_OPENED`. This is a worker-owned child-to-parent iteration;
   integration is coordinated serially into the parent branch. The worker was
   instructed not to publish or merge.
