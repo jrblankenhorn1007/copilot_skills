@@ -705,3 +705,30 @@
   and no merge is authorized. Keep both worker branches and the parent
   worktree intact. Coordinator wall-clock elapsed `26,827` seconds,
   token usage `NOT_REPORTED`.
+
+## 2026-09-25T13:23Z–13:25Z — Publish blocked task ledger
+
+- Committed and pushed the numbered PR decision/dashboard snapshot
+  `9e0664bf3f3b78101dc13862d76e58ac21b1d5b9`; `git ls-remote`
+  and `gh pr view 2` - **PASS** after GitHub's head propagation.
+  PR #2 remained open and unreviewed.
+- Prepared coordinator agent-sync revision 7 `BLOCKED` with the existing
+  null model profile and null task sign-out, preserving the exclusive
+  edit scope while reviewers cannot be admitted. The first
+  status-only publisher attempt hit a concurrent `origin/main`
+  ref-update race before the coordinator acquired main. Confirmed
+  latest remote main, ledger revision 6, and `FREE` owner, then retried
+  once: `publish_agent_sync.py` - **PASS**. Remote main contains
+  revision-7 status commit
+  `213673c66550b54f041d35da5ea60d0f9c026895` and automatic
+  main release
+  `ba72ca6eb438ed4a5e942a8f8bd008eeaa531509`; a readback
+  confirmed ledger `BLOCKED` and main `FREE`. No implementation
+  changes were pushed directly to main.
+- Fetched main at `ba72ca6eb438ed4a5e942a8f8bd008eeaa531509`;
+  since the prior snapshot only agent-sync status and ownership
+  changed. This recovered publisher race is logged in PR #2's
+  decision record; it is not an outstanding blocker. Current blocker
+  remains zero reviewer slots, no independent reviews, no configured
+  CI checks, and no parent merge/memory review. Wall-clock
+  elapsed at `2026-09-25T13:25:23Z` is `27,076` seconds.

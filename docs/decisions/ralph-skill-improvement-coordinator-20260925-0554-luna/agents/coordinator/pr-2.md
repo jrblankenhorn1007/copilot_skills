@@ -191,6 +191,18 @@
   omitted its `time` import. Re-running with the correct assertion and
   import passed all 12 runs, 27 indexed agents, unchanged upstream
   entries, coordinator leaf equivalence, and elapsed-clock checks.
+- **Recovered STATUS-publication race:** The first agent-sync revision-7
+  publication encountered a concurrent local `origin/main` ref advance
+  during `git fetch`, before any coordinator status or main ownership
+  commit. After reading the exact remote main and confirming the
+  coordinator ledger was still revision 6 and main was `FREE`, one
+  bounded retry succeeded without changing refs manually or using a
+  force push. Status commit
+  `213673c66550b54f041d35da5ea60d0f9c026895` records revision 7
+  `BLOCKED`; the transaction signed out with
+  `ba72ca6eb438ed4a5e942a8f8bd008eeaa531509` on remote main.
+  Remote verification confirmed revision 7 and `FREE` ownership.
+  These were status-only commits, not parent implementation integration.
 
 ## Unresolved blockers
 
