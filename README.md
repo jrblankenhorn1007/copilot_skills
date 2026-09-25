@@ -40,7 +40,10 @@ license notices are preserved in each skill directory.
   [multi-agent status guide](.github/skills/ralph-loop/references/multi-agent-status.md)
   defines overall and per-worker iteration reporting. Its Git preflight checks
   configured Git identity and remote read access before work, and distinguishes
-  those from branch-push and merge permissions.
+  those from branch-push and merge permissions. The
+  [worker-owned PR merge guide](.github/skills/ralph-loop/references/worker-pr-merging.md)
+  requires an authorized worker to merge its own PR with its existing GitHub
+  CLI access.
 - [Test-Driven Development](.github/skills/tdd/SKILL.md):
   applies test-first Red-Green-Refactor to behavior changes and bug fixes.
 

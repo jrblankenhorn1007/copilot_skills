@@ -117,15 +117,29 @@ shared checkout. The worker must:
    its remote merge is verified on `origin/main` and the coordinator's required
    post-merge memory review is complete.
 
+### Worker-owned PR merge
+
+The coordinator authorizes one worker PR at a time after reviewing its
+sign-off, checks, and integration readiness. The worker who owns the branch
+executes its own PR merge, using its own already-authenticated GitHub CLI
+session and the repository's normal merge or merge-queue process. The
+coordinator does not use its own credentials to merge a worker PR; it verifies
+the resulting remote merge and owns the post-merge memory review. See the
+[worker-owned PR merge guide](worker-pr-merging.md) for the exact protocol.
+
+Never use `--admin` or override managed policy. If the worker's merge
+permission is denied, preserve the branch and PR and report a sanitized
+blocker. Do not hand off credentials or push directly to `main`.
+
 The coordinator maintains the aggregate ledger at `docs/ralph-status.md` with
 each assignment's worker, owned paths, dependencies, acceptance criteria,
 base SHA, branch/commit, PR number or explicit no-PR state, branch
-decision-record path, check results, implementation merge SHA, memory-review
-outcome and any memory follow-up merge SHA, and state (for example: queued,
-ready, running, awaiting integration, merged-and-verified, or blocked). Record
-evidence from the worker; do not mark an assignment complete or release
-dependent work merely because a branch was pushed or a pull request was
-opened.
+decision-record path, check results, implementation merge SHA,
+`merge_actor_worker_id`, memory-review outcome and any memory follow-up merge
+SHA, and state (for example: queued, ready, running, awaiting integration,
+merged-and-verified, or blocked). Record evidence from the worker; do not mark
+an assignment complete or release dependent work merely because a branch was
+pushed or a pull request was opened.
 
 After each worker's implementation merge is verified, the coordinator performs
 the post-merge memory review using the
@@ -221,19 +235,23 @@ Only after that confirmation may the worker's leaf and dashboard status become
    leave it intact and coordinate a fresh branch from current `origin/main`
    with only the unmerged changes replayed, then rerun checks and use the
    repository's normal publish process.
-4. **Serialize integration.** The coordinator should integrate one worker
-   branch at a time. A repository merge queue may provide equivalent
-   serialization, but after every update to `main`, run `git fetch origin`
-   again and re-sync any remaining stale branches; rerun their checks after
-   rebasing and before their integration. Do not rely on a branch's earlier
+4. **Serialize authorization and worker-owned integration.** The coordinator
+   authorizes one worker PR at a time; the branch-owning worker performs that
+   PR's merge. A repository merge queue may serialize the actual merge, but
+   it does not replace coordinator authorization or change the worker merge
+   actor. After every update to `main`, run `git fetch origin` again and
+   re-sync any remaining stale branches; rerun their checks after rebasing and
+   before authorizing their merge. Do not rely on a branch's earlier
    up-to-date check after another worker has changed `main`.
-5. **Verify every merge:** record the SHA produced by the repository's remote
-   merge process, fetch `origin`, and confirm that exact merge SHA is
-   reachable from `origin/main` (for example, with
-   `git merge-base --is-ancestor <merge-sha> origin/main`) before marking the
-   worker iteration complete or dispatching dependent work. With squash or
-   merge-queue integration, verify the resulting merge SHA, not just the
-   worker's original commit.
+5. **Verify every merge:** the worker merge actor records the SHA produced by
+   the repository's remote merge process, fetches `origin`, and confirms that
+   exact merge SHA is reachable from `origin/main` (for example, with
+   `git merge-base --is-ancestor <merge-sha> origin/main`). Record the actor
+   as `merge_actor_worker_id` in the worker status. The coordinator
+   independently verifies the remote result before marking the worker
+   complete or dispatching dependent work. With squash or merge-queue
+   integration, verify the resulting merge SHA, not just the worker's
+   original commit.
 
 ## Example split
 

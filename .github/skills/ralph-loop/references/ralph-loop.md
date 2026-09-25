@@ -13,6 +13,12 @@ does not implement this workflow. Do not invoke that runner until it has been
 updated to do so. The Ralph Loop custom agent can perform one iteration
 directly when the project's status protocol and remote merge permissions allow.
 
+For multi-agent runs, the branch-owning worker executes its own PR merge after
+the coordinator authorizes one worker PR at a time, using its own existing
+GitHub CLI authentication. The coordinator verifies the merge and reviews
+memory but does not merge a worker's PR on its behalf. Follow the shared
+[worker-owned PR merge guide](worker-pr-merging.md).
+
 ```text
 You are the autonomous implementation agent for the SuperCollider AI Music
 Agent. Implement the product described in IMPLEMENTATION_PLAN.md, including

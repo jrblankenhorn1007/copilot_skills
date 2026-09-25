@@ -108,6 +108,12 @@ has one canonical home.
   `COMPLETE` only after its assigned work is merged, the remote merge is
   verified, and the coordinator's post-merge memory review is complete. Any
   memory follow-up merge must also be verified.
+- `merge_actor_worker_id` records the stable worker ID that performed the
+  remote PR merge action: the worker who submitted or queued the merge action.
+  For a worker-owned PR, it must match the branch owner's `worker_id`; use
+  `null` until the merge is verified. Coordinator authorization and
+  verification do not make the coordinator the merge actor, and a GitHub
+  merge-queue identity does not replace the worker ID.
 - Keep the agent's `status.md` current; keep `iteration_history` in its
   `progress.md`. Add one entry for each worker iteration and retain prior
   entries. Do not replace earlier evidence on a retry. Every fresh-branch
@@ -144,13 +150,15 @@ branch/agent assignment. It must identify at least the run and task IDs,
 stable `worker_id` and `worker_name`, `runtime_agent_id` (or `null`), branch
 and slug, current iteration and `status`, base/rebased `origin/main` SHAs,
 current implementation commit, checks, blockers, next action, PR state,
-decision-record path, merge verification state, and sign-off/signature state.
+decision-record path, `merge_actor_worker_id`, merge verification state, and
+sign-off/signature state.
 It may be written as Markdown with a YAML block or a table, but keep the
 field names and enum values unambiguous.
 
 Append iteration evidence to `progress.md`, including the exact commands and
-results, important decisions, rebase/retest details, sign-off payload, merge
-evidence when available, and recovered failures with their resolution.
+results, important decisions, rebase/retest details, sign-off payload, the
+merge command and `merge_actor_worker_id` when available, and recovered
+failures with their resolution.
 For behavior changes, retain exact Red, Green, and refactor commands/results.
 For documentation-only changes, record that TDD Red/Green/Refactor was not
 applicable and list the documentation checks actually run; do not fabricate
@@ -183,7 +191,7 @@ runs:
     base_origin_main_sha: "<full SHA>"
     created_at_utc: "2026-09-25T00:00:00Z"
     updated_at_utc: "2026-09-25T00:00:00Z"
-    next_action: "Coordinator: verify the next worker's leaf update and refresh this dashboard."
+    next_action: "Coordinator: authorize worker-02's PR; worker-02 then merges and verifies it."
     split_plan:
       - task_id: "<worker-01-task>"
         worker_id: "worker-01"
@@ -203,6 +211,7 @@ branch_agent_index:
     branch_slug: "ralph-orchestration-worker-01-<unique-id>"
     status: IN_PROGRESS
     iteration: 1
+    merge_actor_worker_id: null
     status_path: "docs/ralph/ralph-orchestration-worker-01-<unique-id>/agents/worker-01/status.md"
     progress_path: "docs/ralph/ralph-orchestration-worker-01-<unique-id>/agents/worker-01/progress.md"
     decision_record_path: "docs/decisions/ralph-orchestration-worker-01-<unique-id>/agents/worker-01/pr-pending.md"
@@ -216,11 +225,12 @@ branch_agent_index:
     branch_slug: "ralph-status-schema-worker-02-<unique-id>"
     status: AWAITING_MERGE
     iteration: 1
+    merge_actor_worker_id: null
     status_path: "docs/ralph/ralph-status-schema-worker-02-<unique-id>/agents/worker-02/status.md"
     progress_path: "docs/ralph/ralph-status-schema-worker-02-<unique-id>/agents/worker-02/progress.md"
-    decision_record_path: "docs/decisions/ralph-status-schema-worker-02-<unique-id>/agents/worker-02/pr-not-opened.md"
+    decision_record_path: "docs/decisions/ralph-status-schema-worker-02-<unique-id>/agents/worker-02/pr-<number>.md"
     decision_index_path: "docs/decisions/ralph-status-schema-worker-02-<unique-id>/README.md"
-    next_action: "Coordinator: serialize integration, then record verified merge and memory review."
+    next_action: "Coordinator: authorize worker-02; worker-02: merge and verify its PR."
 ```
 
 The branch/agent index is deliberately explicit rather than a glob-only list:
@@ -249,10 +259,11 @@ base_origin_main_sha: "<full SHA>"
 rebased_onto_origin_main_sha: null
 implementation_commit_sha: "<exact full implementation commit SHA>"
 pull_request:
-  status: NOT_OPENED
-  number: null
-  url: null
-decision_record_path: "docs/decisions/<branch-slug>/agents/<agent-id>/pr-not-opened.md"
+  status: OPEN
+  number: "<PR number>"
+  url: "<PR URL>"
+merge_actor_worker_id: null
+decision_record_path: "docs/decisions/<branch-slug>/agents/<agent-id>/pr-<number>.md"
 decision_index_path: "docs/decisions/<branch-slug>/README.md"
 merge:
   status: PENDING
@@ -265,7 +276,7 @@ checks:
   - command: "<exact command>"
     result: PASS
 blockers: []
-next_action: "Coordinator: integrate and verify this branch."
+next_action: "Worker-02: after coordinator authorization, merge the PR and verify its remote SHA."
 worker_sign_off:
   status: RECEIVED
   attestation_kind: SELF_ATTESTATION

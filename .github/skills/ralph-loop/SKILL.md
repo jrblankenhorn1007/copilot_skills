@@ -110,6 +110,15 @@ blockers, next action, and merge/memory-review state; retain dashboard entries
 for unaffected branch/agent folders. Workers never edit the aggregate
 dashboard.
 
+For every PR-backed iteration, the branch owner is the merge actor. In a
+multi-agent run, the coordinator authorizes one worker PR at a time after
+reviewing its sign-off and checks; the worker performs the remote merge of its
+own PR after coordinator authorization, using its own already-authenticated
+GitHub CLI session. Do not rely on coordinator credentials. The coordinator
+verifies the remote merge and performs the post-merge memory review, but does
+not merge a worker's PR on its behalf. Follow the
+[worker-owned PR merge guide](references/worker-pr-merging.md).
+
 A worker remains `AWAITING_MERGE` until the coordinator verifies integration
 and completes the required post-merge memory review (including any warranted
 memory follow-up). Only then may its leaf and dashboard status become
@@ -178,12 +187,15 @@ writing directly to `main`.
 5. Complete the implementation commit and any required runner-managed status
    commit on the iteration branch before integration. Do not amend commits or
    use destructive Git operations.
-6. Publish the iteration branch as needed and use the repository's remote
-   merge process to integrate it into `origin/main`. An open pull request,
-   pushed branch, or local merge is not completion. Fetch `origin` again and
-   verify the resulting merge SHA is reachable from remote `main`. For squash
-   or merge-queue flows, verify the merge result rather than requiring the
-   iteration commit itself to remain an ancestor.
+6. Publish the iteration branch and use the repository's normal PR process.
+   For a worker-owned PR, the branch-owning worker performs the remote merge
+   with its own existing authentication after the coordinator authorizes that
+   PR; the coordinator serializes authorization and does not merge on the
+   worker's behalf. An open pull request, pushed branch, or local merge is not
+   completion. Fetch `origin` again and verify the resulting merge SHA is
+   reachable from remote `main`. For squash or merge-queue flows, verify the
+   merge result rather than requiring the iteration commit itself to remain
+   an ancestor.
 7. After the implementation content is merged and verified on fetched
    `origin/main`, perform a memory review using the
    [Project Memory skill](../project-memory/SKILL.md). Keep reusable lessons
