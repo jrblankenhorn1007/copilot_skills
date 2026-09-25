@@ -10,6 +10,8 @@
   `20293c720b18a1a21ff150f566823493b7a2717d`
 - **Implementation commit:** `64d0359ca8c60e61083c23f26f90d68d9216f47e`
 - **Pull request:** `NOT_OPENED`
+- **Verified `origin/main` integration SHA:**
+  `6b1903ec7bfa5c798eb5e48c085bfc3845176bab`
 - **Decision index:** `docs/decisions/ralph-code-review-gate-20260924-2131/README.md`
 
 ## Decision
@@ -32,12 +34,15 @@ checks pass and the shared primary integration worktree is safe.
 ## Current state
 
 Worker-02's signed-off changes and the coordinator-owned review skill and
-agents are present on this branch. It has been rebased onto
+agents are present on this branch. It was rebased onto
 `20293c720b18a1a21ff150f566823493b7a2717d`; the full 20-test contract suite
-and `git diff --check` pass. The clean primary integration worktree is at the
-same fetched `origin/main` SHA. No PR is part of this repository's documented
-fast-forward path, so review is `NOT_APPLICABLE`. Remote integration
-verification and the post-merge memory review remain pending.
+and `git diff --check` passed. The coordinator fast-forward advanced
+`origin/main` to `6b1903ec7bfa5c798eb5e48c085bfc3845176bab`, and a fresh
+fetch verified that exact integration commit. No PR is part of this
+repository's documented fast-forward path, so review is `NOT_APPLICABLE`.
+The post-merge memory review found no separate durable lesson; the canonical
+reviewer skill, agent profiles, merge guide, and contract tests already
+capture the reusable rules. Memory remains unchanged.
 
 ## Additional decisions
 
@@ -70,6 +75,10 @@ verification and the post-merge memory review remain pending.
   default worktree and returned 10 unrelated tests. That result was
   discarded; rerunning with the feature worktree's absolute test path passed
   all 20 tests.
+- A bare `git pull --ff-only` in the primary checkout failed because multiple
+  merge refs are configured. The documented explicit command
+  `git pull --ff-only origin main` succeeded and reported that the checkout
+  was already up to date; no local changes were lost or overwritten.
 - The first full contract suite found a stale worker-02 dashboard state and
   an assertion that expected the old Ralph-only agent allowlist. The
   coordinator synchronized the worker to `AWAITING_MERGE` and updated the

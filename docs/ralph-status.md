@@ -4,21 +4,20 @@ This is the active repository's aggregate Ralph status dashboard. It indexes
 every branch/agent status and progress folder under `docs/ralph/`. The
 coordinator updates this file in the same loop as affected leaf records.
 
-**Overall status:** `IN_PROGRESS`. The prompt-generation memory follow-up and
-pre-merge code-review run are in progress.
+**Overall status:** `IN_PROGRESS`. The prompt-generation memory follow-up is
+in progress.
 
 ```yaml
 schema_version: 2
 snapshot_path: "docs/ralph-status.md"
-snapshot_revision: 32
-updated_at_utc: "2026-09-25T07:02:10Z"
+snapshot_revision: 36
+updated_at_utc: "2026-09-25T07:42:37Z"
 overall_status: IN_PROGRESS
 current_run_ids:
   - "copilot-skills-docs-status-organization-20260924"
   - "copilot-skills-no-browser-git-20260924"
   - "copilot_skills-parent-child-pipeline-20260924"
   - "translated-ralph-prompt-skills-recovery-20260925-0318"
-  - "copilot-skills-premerge-code-review-20260924"
 
 runs:
   - run_id: "copilot_skills-two-agent-ralph-test-batch-20260924"
@@ -91,21 +90,26 @@ runs:
       - "code-review-skill-agents"
       - "ralph-review-gate-status"
       - "code-review-gate-coordination"
-    aggregate_status: IN_PROGRESS
+    aggregate_status: COMPLETE
     requested_worker_count: 2
     effective_worker_count: 2
     active_worker_count: 0
     base_origin_main_sha: "485b4a64c871f581f9295e46c867b188b0e3ccee"
-    current_origin_main_sha: "20293c720b18a1a21ff150f566823493b7a2717d"
+    current_origin_main_sha: "d868d684564658bdc9488e27f5bfeaa592b04338"
+    verified_origin_main_sha: "6b1903ec7bfa5c798eb5e48c085bfc3845176bab"
     rebased_onto_origin_main_sha: "20293c720b18a1a21ff150f566823493b7a2717d"
+    implementation_commit_sha: "64d0359ca8c60e61083c23f26f90d68d9216f47e"
+    merge_sha: "6b1903ec7bfa5c798eb5e48c085bfc3845176bab"
     created_at_utc: "2026-09-25T01:40:57Z"
-    updated_at_utc: "2026-09-25T07:02:10Z"
+    updated_at_utc: "2026-09-25T07:42:37Z"
     coordinator_scope: "Add independent pre-merge code-review agents for PR-backed Ralph iterations, with one initial review, one follow-up review when needed, and a final author-agent action."
     coordinator_branch: "ralph/code-review-gate-20260924-2131"
     coordinator_status_path: "docs/ralph/ralph-code-review-gate-20260924-2131/agents/coordinator/status.md"
     coordinator_progress_path: "docs/ralph/ralph-code-review-gate-20260924-2131/agents/coordinator/progress.md"
     blockers: []
-    next_action: "Coordinator: refresh origin, integrate through the repository's no-PR fast-forward path, verify origin/main, then complete the post-merge memory review."
+    memory_review: COMPLETE
+    memory_review_outcome: "No separate durable lesson warranted; the canonical Ralph reviewer skill, agent profiles, merge guide, and contract tests already capture the reusable guidance. Memory remains unchanged."
+    next_action: null
     split_plan:
       - task_id: "code-review-skill-agents"
         worker_id: "worker-01"
@@ -732,7 +736,7 @@ branch_agent_index:
     runtime_agent_id: "copilotcli:/ac00179e-f9e2-4693-8f9f-710a82b06af9"
     branch: "ralph/code-review-gate-20260924-2131"
     branch_slug: "ralph-code-review-gate-20260924-2131"
-    status: AWAITING_MERGE
+    status: COMPLETE
     iteration: 1
     status_path: "docs/ralph/ralph-code-review-gate-20260924-2131/agents/coordinator/status.md"
     progress_path: "docs/ralph/ralph-code-review-gate-20260924-2131/agents/coordinator/progress.md"
@@ -760,7 +764,7 @@ branch_agent_index:
         rationale: null
         recorded_at_utc: null
     resource_usage:
-      time_spent_seconds: 19273
+      time_spent_seconds: 21245
       time_basis: WALL_CLOCK_ELAPSED
       token_spend:
         status: NOT_REPORTED
@@ -770,14 +774,14 @@ branch_agent_index:
         cached_input_tokens: null
         source: null
     merge:
-      status: PENDING
-      sha: null
+      status: VERIFIED
+      sha: "6b1903ec7bfa5c798eb5e48c085bfc3845176bab"
       verified_remote_ref: "refs/heads/main"
-      verified_origin_main_sha: null
-      verification_method: null
-      verified_at_utc: null
-    memory_review: PENDING
-    next_action: "Coordinator: integrate this no-PR fast-forward branch, verify origin/main, then complete the post-merge memory review."
+      verified_origin_main_sha: "6b1903ec7bfa5c798eb5e48c085bfc3845176bab"
+      verification_method: "git merge-base --is-ancestor 6b1903ec7bfa5c798eb5e48c085bfc3845176bab origin/main"
+      verified_at_utc: "2026-09-25T07:25:50Z"
+    memory_review: COMPLETE
+    next_action: null
 
   - run_id: "copilot-skills-premerge-code-review-20260924"
     task_ids: ["code-review-skill-agents"]
@@ -822,7 +826,7 @@ branch_agent_index:
     runtime_agent_id: "3a2fe7eb-9c9e-42e2-a3f0-ff42b8d412f3"
     branch: "ralph/code-review-process-worker-02-20260924-2131"
     branch_slug: "ralph-code-review-process-worker-02-20260924-2131"
-    status: AWAITING_MERGE
+    status: COMPLETE
     iteration: 1
     status_path: "docs/ralph/ralph-code-review-process-worker-02-20260924-2131/agents/worker-02/status.md"
     progress_path: "docs/ralph/ralph-code-review-process-worker-02-20260924-2131/agents/worker-02/progress.md"
@@ -833,22 +837,42 @@ branch_agent_index:
     implementation_commit_sha: "e45aaeed57cafdff6c502ee222ec62aa30af8519"
     pull_request:
       status: NOT_OPENED
-      reason: "The active project records coordinator-managed verified fast-forward integration without a PR."
-    code_review:
+      number: null
+      url: null
+      reason: "Normal integration is coordinator-reviewed and verified fast-forward without a PR."
+    review:
       status: NOT_APPLICABLE
       reviewer_agents: []
       reviewed_base_sha: null
       reviewed_head_sha: null
       rounds_completed: 0
       max_rounds: 2
-      finding_count: 0
-      author_decision: null
+      unresolved_finding_count: 0
+      author_decision:
+        status: NOT_APPLICABLE
+        choice: null
+        rationale: null
+        recorded_at_utc: null
+    resource_usage:
+      time_spent_seconds: 20270
+      time_basis: WALL_CLOCK_ELAPSED
+      token_spend:
+        status: NOT_REPORTED
+        input_tokens: null
+        output_tokens: null
+        total_tokens: null
+        cached_input_tokens: null
+        source: null
     merge:
-      status: PENDING
-      sha: null
-      verified_origin_main_sha: null
-    memory_review: PENDING
-    next_action: "Coordinator: rerun the full contract suite after dashboard synchronization and verify a safe integration path."
+      status: VERIFIED
+      sha: "6b1903ec7bfa5c798eb5e48c085bfc3845176bab"
+      verified_remote_ref: "refs/heads/main"
+      verified_origin_main_sha: "6b1903ec7bfa5c798eb5e48c085bfc3845176bab"
+      verification_method: "git merge-base --is-ancestor 6b1903ec7bfa5c798eb5e48c085bfc3845176bab origin/main"
+      verified_at_utc: "2026-09-25T07:25:50Z"
+    memory_review: COMPLETE
+    blockers: []
+    next_action: null
 ```
 
 ## Branch/agent index
@@ -869,19 +893,21 @@ branch_agent_index:
 | `copilot_skills-parent-child-pipeline-20260924` | `ralph/parent-child-worker-agent-skill-20260924-2008` | `worker-01` | `COMPLETE` | Not captured (legacy) | Not captured (legacy) | [status](./ralph/ralph-parent-child-worker-agent-skill-20260924-2008/agents/worker-01/status.md) | [progress](./ralph/ralph-parent-child-worker-agent-skill-20260924-2008/agents/worker-01/progress.md) | `fda10605f50b49eeb4bc007a181cf51a5578ae18` → `9558f99cc34cbed8dd1d24f4f15fc03f5d78b6ea` | `COMPLETE` |
 | `copilot_skills-parent-child-pipeline-20260924` | `ralph/parent-child-worker-reference-docs-20260924-2008` | `worker-02` | `COMPLETE` | Not captured (legacy) | Not captured (legacy) | [status](./ralph/ralph-parent-child-worker-reference-docs-20260924-2008/agents/worker-02/status.md) | [progress](./ralph/ralph-parent-child-worker-reference-docs-20260924-2008/agents/worker-02/progress.md) | `1285978056851f2cdfb0ba93753386dab7dcc009` → `9558f99cc34cbed8dd1d24f4f15fc03f5d78b6ea` | `COMPLETE` |
 | `translated-ralph-prompt-skills-recovery-20260925-0318` | `ralph/translated-ralph-skills-worker-02-refresh-9558f99-20260925-0318` | `coordinator` | `IN_PROGRESS` | Not captured (legacy) | Not captured (legacy) | [status](./ralph/ralph-translated-ralph-skills-worker-02-refresh-9558f99-20260925-0318/agents/coordinator/status.md) | [progress](./ralph/ralph-translated-ralph-skills-worker-02-refresh-9558f99-20260925-0318/agents/coordinator/progress.md) | `9dc821917a5ffe32517c44131c1211291d9b1014` | `PENDING` |
-| `copilot-skills-premerge-code-review-20260924` | `ralph/code-review-gate-20260924-2131` | `coordinator` | `AWAITING_MERGE` | `19,273 s (wall-clock)` | `NOT_REPORTED` | [status](./ralph/ralph-code-review-gate-20260924-2131/agents/coordinator/status.md) | [progress](./ralph/ralph-code-review-gate-20260924-2131/agents/coordinator/progress.md) | Pending | Pending |
+| `copilot-skills-premerge-code-review-20260924` | `ralph/code-review-gate-20260924-2131` | `coordinator` | `COMPLETE` | `21,245 s (wall-clock)` | `NOT_REPORTED` | [status](./ralph/ralph-code-review-gate-20260924-2131/agents/coordinator/status.md) | [progress](./ralph/ralph-code-review-gate-20260924-2131/agents/coordinator/progress.md) | `6b1903ec7bfa5c798eb5e48c085bfc3845176bab` | `COMPLETE` |
 | `copilot-skills-premerge-code-review-20260924` | `ralph/code-review-skill-worker-01-20260924-2131` | `worker-01` | `CANCELLED` | Not captured (legacy) | `NOT_REPORTED` | [status](./ralph/ralph-code-review-skill-worker-01-20260924-2131/agents/worker-01/status.md) | [progress](./ralph/ralph-code-review-skill-worker-01-20260924-2131/agents/worker-01/progress.md) | Not merged | N/A |
-| `copilot-skills-premerge-code-review-20260924` | `ralph/code-review-process-worker-02-20260924-2131` | `worker-02` | `AWAITING_MERGE` | Not captured (legacy) | `NOT_REPORTED` | [status](./ralph/ralph-code-review-process-worker-02-20260924-2131/agents/worker-02/status.md) | [progress](./ralph/ralph-code-review-process-worker-02-20260924-2131/agents/worker-02/progress.md) | Pending | Pending |
+| `copilot-skills-premerge-code-review-20260924` | `ralph/code-review-process-worker-02-20260924-2131` | `worker-02` | `COMPLETE` | `20,270 s (wall-clock)` | `NOT_REPORTED` | [status](./ralph/ralph-code-review-process-worker-02-20260924-2131/agents/worker-02/status.md) | [progress](./ralph/ralph-code-review-process-worker-02-20260924-2131/agents/worker-02/progress.md) | `6b1903ec7bfa5c798eb5e48c085bfc3845176bab` | `COMPLETE` |
 
 The parent-child pipeline run is `COMPLETE`: both workers integrated into the
 parent, the parent merge is verified on `origin/main`, the contract suite and
 post-merge memory review passed, and all child and parent worktrees/branches
 were removed after their respective merge proofs. The prior no-browser Git
-workflow run is also `COMPLETE`. The pre-merge code-review run remains
-`IN_PROGRESS` until integration, remote-main verification, and post-merge
-memory review are complete. Historical branches without schema-version-2
-resource telemetry are marked `Not captured (legacy)` rather than assigned
-invented durations or token counts.
+workflow run is also `COMPLETE`. The pre-merge code-review documentation run
+is `COMPLETE`: the coordinator-managed no-PR fast-forward is verified on
+`origin/main` at `6b1903ec7bfa5c798eb5e48c085bfc3845176bab`, the 20-test
+contract suite passes, and post-merge memory review found no separate
+durable lesson. Historical branches without schema-version-2 resource
+telemetry are marked `Not captured (legacy)` rather than assigned invented
+durations or token counts.
 
 The branch status resource-usage run is `COMPLETE`: coordinator and worker
 branches report elapsed wall-clock time and provider token status, and the

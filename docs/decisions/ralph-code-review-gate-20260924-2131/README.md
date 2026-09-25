@@ -4,7 +4,8 @@
 - **Exact branch:** `ralph/code-review-gate-20260924-2131`
 - **Base `origin/main` SHA:** `485b4a64c871f581f9295e46c867b188b0e3ccee`
 - **Implementation commit:** `64d0359ca8c60e61083c23f26f90d68d9216f47e`
-- **Integration:** `NOT_OPENED` — current project documentation runs use coordinator-managed verified fast-forward integration.
+- **Integration:** `NOT_OPENED` — coordinator-managed fast-forward verified on
+  `origin/main` at `6b1903ec7bfa5c798eb5e48c085bfc3845176bab`.
 - **Agents:** coordinator, worker-01, worker-02
 
 ## Agent records

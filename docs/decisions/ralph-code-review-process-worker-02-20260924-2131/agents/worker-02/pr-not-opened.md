@@ -36,13 +36,13 @@
   branch-protection, coordinator-authorization, branch-owner merge, and
   required human-approval gates remain in force.
 
-### Bound reviews and author decisions
+### Superseded proposal: ten-round review cap
 
 - **Context:** Repeated review/fix loops need a deterministic stop and
   accountable disposition, especially when findings persist.
 - **Alternatives:** Allow unbounded retries, silently reset counts when the
   head changes, or set a hard cap and record an explicit author decision.
-- **Decision:** Limit each branch/PR to 10 completed review rounds, count the
+- **Historical decision:** Limit each branch/PR to 10 completed review rounds, count the
   first complete pass as round 1, invalidate a report when base/head changes,
   and require the author to choose a documented disposition with rationale
   after the cap.
@@ -50,10 +50,26 @@
   evaluator/author roles, bounded iterations, and convergence checks follow
   the local Agentic Eval guidance without adopting unverified numeric scores
   or broad autonomous fixes.
-- **Consequences:** No 11th agent review is launched on the same branch/PR.
+- **Historical consequences:** No 11th agent review is launched on the same branch/PR.
   A stale report blocks merge; a human review or new branch/PR is required
   after the cap if further review is needed. Author choice does not override
   CI, branch protection, or human approvals.
+- **Superseded by:** The later explicit two-round policy recorded in the
+  coordinator's
+  [branch decision index](../../../ralph-code-review-gate-20260924-2131/README.md#decisions).
+
+### Current policy: two review rounds
+
+- **Decision:** Allow at most two completed rounds: one initial review and,
+  when needed, one follow-up after the author agent acts on round 1. After
+  round 2, the author agent acts on the follow-up report alone; no third
+  reviewer pass is launched. A clean initial report does not require a
+  redundant follow-up.
+- **Rationale:** The cap makes the author's final disposition explicit while
+  retaining SHA binding, independent review, and all normal merge gates.
+- **Consequences:** A stale report cannot authorize merge. The author's
+  final decision never overrides CI, branch protection, or required human
+  approvals.
 
 ### Preserve the no-PR fast-forward path
 
@@ -117,10 +133,10 @@
 ## Verification and sign-off
 
 - The three focused review-contract tests passed.
-- The full contract command ran 14 tests: 13 passed; the dashboard-index
-  assertion for this leaf failed because the coordinator-owned dashboard has
-  not yet indexed it. The coordinator must rerun the full suite after
-  synchronization.
+- The initial full contract command ran 14 tests: 13 passed; the
+  dashboard-index assertion failed until the coordinator added the leaf.
+  After the full run was rebased and synchronized, the coordinator's
+  post-integration contract suite passed all 20 tests.
 - `git diff --check` and `git show --check --oneline --no-patch
   e45aaeed57cafdff6c502ee222ec62aa30af8519` passed.
 - `git diff --cached --check` passed for the worker-owned status and decision
@@ -133,10 +149,14 @@
   `3a2fe7eb-9c9e-42e2-a3f0-ff42b8d412f3` was added in a follow-up
   self-attestation at `2026-09-25T02:44:06Z`, still bound to the same
   implementation commit.
-- Post-merge memory review remains pending for the coordinator.
+- Coordinator-confirmed integration: the signed-off worker changes were
+  carried into the rebased coordinator branch and verified on `origin/main`
+  at `6b1903ec7bfa5c798eb5e48c085bfc3845176bab`. The original implementation
+  commit is not required to remain an ancestor after the coordinator rebase.
+- Post-merge memory review: `COMPLETE`; no separate durable lesson warranted,
+  and `.github/memory/` remains unchanged.
 
 ## Unresolved blockers
 
-- The coordinator-owned `docs/ralph-status.md` must index this worker's leaf
-  before the full dashboard-indexing contract can pass with the new records.
-  Worker-02 is not authorized to edit that dashboard.
+None. The coordinator indexed this leaf, verified the remote-main
+integration, and completed the required post-merge memory review.
