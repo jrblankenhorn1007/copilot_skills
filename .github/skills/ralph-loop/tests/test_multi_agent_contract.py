@@ -1,6 +1,8 @@
 import re
-import unittest
 from pathlib import Path
+import subprocess
+import tempfile
+import unittest
 
 
 ROOT = Path(__file__).resolve().parents[4]
@@ -558,6 +560,262 @@ class MultiAgentContractTests(unittest.TestCase):
             "docs/ralph-status.md",
             "README must link the current Ralph status dashboard",
         )
+
+    def test_parent_child_orchestration_and_branch_cleanup_are_documented(self):
+        agent = read_document(".github/agents/ralph-loop.agent.md")
+        skill = read_document(".github/skills/ralph-loop/SKILL.md")
+        orchestration = read_document(
+            ".github/skills/ralph-loop/references/multi-agent-orchestration.md"
+        )
+        status = read_document(
+            ".github/skills/ralph-loop/references/multi-agent-status.md"
+        )
+        cli_usage = read_document(
+            ".github/skills/ralph-loop/references/copilot-cli-usage.md"
+        )
+        readme = read_document("README.md")
+
+        for requirement in (
+            "--orchestrator",
+            "parent worktree",
+            "child worktree",
+            "workers merge their child branches into the parent branch",
+        ):
+            with self.subTest(document="agent", requirement=requirement):
+                assert_contains(
+                    self,
+                    agent,
+                    requirement,
+                    f"Ralph agent must define {requirement!r}",
+                )
+
+        for requirement in (
+            "child branch",
+            "git worktree remove",
+            "git branch -d",
+            "origin/main",
+        ):
+            with self.subTest(document="skill", requirement=requirement):
+                assert_contains(
+                    self,
+                    skill,
+                    requirement,
+                    f"Ralph Loop skill must define {requirement!r}",
+                )
+
+        for requirement in (
+            "parent branch",
+            "child branch",
+            "merge-base --is-ancestor",
+            "git worktree remove <worker-worktree>",
+            "git branch -d <worker-branch>",
+            "git push origin --delete <worker-branch>",
+            "parent merge",
+            "origin/main",
+        ):
+            with self.subTest(document="orchestration", requirement=requirement):
+                assert_contains(
+                    self,
+                    orchestration,
+                    requirement,
+                    f"orchestration reference must define {requirement!r}",
+                )
+
+        for requirement in (
+            "parent_branch",
+            "worker_to_parent_merge",
+            "parent_to_main_merge",
+            "verified_parent_sha",
+            "verified_origin_main_sha",
+        ):
+            with self.subTest(document="status", requirement=requirement):
+                assert_contains(
+                    self,
+                    status,
+                    requirement,
+                    f"status reference must define {requirement!r}",
+                )
+
+        for requirement in (
+            "--orchestrator",
+            "launcher-level",
+            "not a native copilot cli flag",
+        ):
+            with self.subTest(document="cli usage", requirement=requirement):
+                assert_contains(
+                    self,
+                    cli_usage,
+                    requirement,
+                    f"CLI guide must accurately describe {requirement!r}",
+                )
+
+        for requirement in ("--orchestrator", "parent branch", "child worktrees"):
+            with self.subTest(document="README", requirement=requirement):
+                assert_contains(
+                    self,
+                    readme,
+                    requirement,
+                    f"README must summarize {requirement!r}",
+                )
+
+
+class GitPipelineTests(unittest.TestCase):
+    def test_worker_merges_into_parent_then_both_branches_close_after_main_merge(self):
+        with tempfile.TemporaryDirectory() as temporary_directory:
+            root = Path(temporary_directory)
+            remote = root / "origin.git"
+            seed = root / "seed"
+            repository = root / "repository"
+            parent_worktree = root / "parent"
+            worker_worktree = root / "worker"
+            parent_branch = "ralph/test-parent"
+            worker_branch = "ralph/test-worker"
+
+            def git(
+                cwd: Path, *args: str, expected_returncode: int = 0
+            ) -> str:
+                result = subprocess.run(
+                    ["git", *args],
+                    cwd=cwd,
+                    check=False,
+                    capture_output=True,
+                    text=True,
+                )
+                self.assertEqual(
+                    result.returncode,
+                    expected_returncode,
+                    f"git {' '.join(args)} failed: {result.stderr}",
+                )
+                return result.stdout.strip()
+
+            git(root, "init", "--bare", "--initial-branch=main", str(remote))
+            git(root, "init", str(seed))
+            git(seed, "checkout", "-b", "main")
+            git(seed, "config", "user.name", "Ralph Pipeline Test")
+            git(seed, "config", "user.email", "ralph-test@example.invalid")
+            (seed / "README.md").write_text("seed\n", encoding="utf-8")
+            git(seed, "add", "README.md")
+            git(seed, "commit", "-m", "seed main")
+            git(seed, "remote", "add", "origin", str(remote))
+            git(seed, "push", "origin", "main")
+            git(
+                root,
+                "clone",
+                "--branch",
+                "main",
+                str(remote),
+                str(repository),
+            )
+            git(repository, "config", "user.name", "Ralph Pipeline Test")
+            git(repository, "config", "user.email", "ralph-test@example.invalid")
+            git(repository, "fetch", "origin")
+
+            git(
+                repository,
+                "worktree",
+                "add",
+                "-b",
+                parent_branch,
+                str(parent_worktree),
+                "origin/main",
+            )
+            git(
+                repository,
+                "worktree",
+                "add",
+                "-b",
+                worker_branch,
+                str(worker_worktree),
+                parent_branch,
+            )
+            (worker_worktree / "worker.txt").write_text(
+                "worker result\n", encoding="utf-8"
+            )
+            git(worker_worktree, "add", "worker.txt")
+            git(worker_worktree, "commit", "-m", "complete worker assignment")
+            worker_commit = git(worker_worktree, "rev-parse", "HEAD")
+            git(
+                worker_worktree,
+                "push",
+                "--set-upstream",
+                "origin",
+                worker_branch,
+            )
+
+            git(parent_worktree, "merge", "--ff-only", worker_branch)
+            git(
+                parent_worktree,
+                "merge-base",
+                "--is-ancestor",
+                worker_commit,
+                parent_branch,
+            )
+            git(repository, "worktree", "remove", str(worker_worktree))
+            git(parent_worktree, "branch", "-d", worker_branch)
+            git(repository, "push", "origin", "--delete", worker_branch)
+            self.assertFalse(worker_worktree.exists())
+            self.assertNotIn(
+                worker_branch,
+                git(repository, "branch", "--list", worker_branch),
+            )
+            self.assertEqual(
+                "",
+                git(
+                    repository,
+                    "ls-remote",
+                    "--heads",
+                    "origin",
+                    f"refs/heads/{worker_branch}",
+                ),
+            )
+
+            parent_commit = git(parent_worktree, "rev-parse", "HEAD")
+            git(
+                parent_worktree,
+                "push",
+                "--set-upstream",
+                "origin",
+                parent_branch,
+            )
+            git(
+                parent_worktree,
+                "push",
+                "origin",
+                f"{parent_branch}:main",
+            )
+            git(repository, "fetch", "origin")
+            git(
+                repository,
+                "merge-base",
+                "--is-ancestor",
+                parent_commit,
+                "origin/main",
+            )
+            self.assertEqual(parent_commit, git(repository, "rev-parse", "origin/main"))
+
+            git(repository, "push", "origin", "--delete", parent_branch)
+            git(repository, "worktree", "remove", str(parent_worktree))
+            git(repository, "merge", "--ff-only", "origin/main")
+            git(repository, "branch", "-d", parent_branch)
+            self.assertFalse(parent_worktree.exists())
+            self.assertNotIn(
+                parent_branch,
+                git(repository, "branch", "--list", parent_branch),
+            )
+            self.assertEqual(
+                "",
+                git(
+                    repository,
+                    "ls-remote",
+                    "--heads",
+                    "origin",
+                    f"refs/heads/{parent_branch}",
+                ),
+            )
+            self.assertEqual(
+                "worker result",
+                git(repository, "show", "origin/main:worker.txt"),
+            )
 
 
 if __name__ == "__main__":
