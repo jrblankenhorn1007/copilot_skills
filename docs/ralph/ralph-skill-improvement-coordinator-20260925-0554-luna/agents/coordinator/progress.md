@@ -558,3 +558,52 @@
 - `git diff --check` and an inline Python local-link validator over README,
   dashboard and the coordinator decision index — **PASS**, 88 links and none
   broken. At `2026-09-25T12:47:41Z`, elapsed wall time is `24,814` seconds.
+
+## 2026-09-25T12:54Z–13:02Z — Worker-02 replay and verified integration
+
+- Published worker-02's exclusive task sign-in on remote main (status
+  `1004895dddaad320f92d77706aad9e128bc22718`, release
+  `d701bc0edfbf5cb910035335f56beb8d4debd612`) before editing. A fresh
+  child branch began at exact parent
+  `6169687971518094a91f9445f00c6e2e356b2844`; no previously signed-off
+  child branch was rewritten or deleted.
+- `git cherry-pick --no-commit
+  1b9cfde1a44b6176fce261b35d69a790612f3d69` applied only four Agent
+  Skill Stack documentation files. New implementation commit:
+  `a9d48f751e5f4932b4e1e3a554f29a996ad71980`. All four files are
+  byte-for-byte identical to the previously Luna/max/default worker's
+  signed-off content. The existing serial runtime's model is not
+  provider-reported; no new Luna execution is claimed.
+- Five bundled-script path and read-only `--help` checks, eight local
+  Skill links, frontmatter/upstream attribution, four synthetic recall and
+  consent/safety fixtures, license-unchanged check, staged whitespace
+  check, and 20 existing Ralph contract tests — **PASS** before adding the
+  unindexed child leaf. Runtime before/after routing remains `NOT_MEASURED`;
+  documentation coverage does not imply a measured gain.
+- The worker self-attested to the exact new implementation commit, with
+  `SELF_ATTESTATION` and no cryptographic Git signature. It handed off one
+  evidence-backed bundled-script path lesson for the mandatory later
+  post-parent-merge Project Memory review.
+- `git merge --ff-only
+  ralph/skill-stack-worker-02-replay-20260925-1254-luna` and
+  `git merge-base --is-ancestor
+  45fbd82b1bdd2112d3e720221567aac118892775 HEAD` in the clean parent
+  — **PASS**. Parent includes the worker's signed-off implementation and its
+  completed leaf at `25957d219f83f11cbf8c776a92fdb6c5f0bf3dba`.
+- Both worker integrations are verified; the overall run remains
+  `IN_PROGRESS`. The parent still requires current-main reconciliation,
+  normal PR publication, an independent exact-SHA Ralph Code Reviewer, a
+  verified remote-main merge, and a post-merge Project Memory update or
+  `NO_UPDATE` disposition. At `2026-09-25T13:02:22Z`, coordinator elapsed
+  wall time is `25,695` seconds and provider tokens are `NOT_REPORTED`.
+- `PYTHONDONTWRITEBYTECODE=1 python3
+  .github/skills/ralph-loop/tests/test_multi_agent_contract.py` - **PASS**,
+  20 tests with both completed worker leaves indexed.
+- `ruby -ryaml -rtime` with the inline YAML run/index/leaf verifier -
+  **PASS**, 11 preserved runs, 25 indexed agents, no orphan leaves, both
+  worker child merges verified, all three run rows matching their status,
+  resource clocks and memory handoffs.
+- Inline Python link check over README, dashboard, and both coordinator and
+  worker-02 decision indexes - **PASS**, 94 local links, zero broken.
+  `git diff --check` - **PASS**. At `2026-09-25T13:04:38Z`, coordinator
+  elapsed wall time is `25,831` seconds; token counters `NOT_REPORTED`.

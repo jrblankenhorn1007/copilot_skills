@@ -105,13 +105,25 @@
   run/index/leaf validation caught this mismatch before commit; diff
   inspection restored the unrelated run to `BLOCKED`, set this run to
   `IN_PROGRESS`, and the rerun passed with 11 runs and 24 indexed agents.
+- The first inline Ruby verification command for the worker-02 dashboard
+  had a syntax error; it changed no repository data. Replaced it with a
+  readable heredoc validator, which passed with 11 runs, 25 indexed
+  agents, all leaf clocks and handoffs matching, and both child merges
+  verified.
 
-## Unresolved blockers
+## Verified child integrations
 
 - Worker-01 has been replayed byte-for-byte and verified on the parent at
   `478f97845fba19f3f3b3ac87d7a01d294ae331db`; its completed leaf is
-  present at `2584bfbd0578cfb87ade7c3d3f6d6aedcabf0cd9`. Worker-02 still
-  needs a separate serial replay and sign-off.
+  present at `2584bfbd0578cfb87ade7c3d3f6d6aedcabf0cd9`.
+- Worker-02's four skill files are byte-identical to Luna-authored
+  `1b9cfde1a44b6176fce261b35d69a790612f3d69`. Its signed-off replay
+  `a9d48f751e5f4932b4e1e3a554f29a996ad71980` and completed child
+  `45fbd82b1bdd2112d3e720221567aac118892775` are both verified on
+  the parent. The coordinator preserved the worker's learning handoff.
+
+## Unresolved blockers
+
 - The parent PR cannot merge without an independent Ralph reviewer. The
   Resource Manager has no free slot for that reviewer; neither a self-review
   nor a direct implementation push to `main` is permitted.

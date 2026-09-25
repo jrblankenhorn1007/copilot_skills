@@ -6,13 +6,13 @@ coordinator updates this file in the same loop as affected leaf records.
 
 **Overall status:** `IN_PROGRESS`. The prompt-generation memory follow-up
 remains in progress; skill-aware agent routing is complete, and the
-skills-improvement run is integrating its worker changes serially.
+skills-improvement run has integrated its workers and awaits parent PR review.
 
 ```yaml
 schema_version: 2
 snapshot_path: "docs/ralph-status.md"
-snapshot_revision: 51
-updated_at_utc: "2026-09-25T12:47:41Z"
+snapshot_revision: 52
+updated_at_utc: "2026-09-25T13:04:38Z"
 overall_status: IN_PROGRESS
 current_run_ids:
   - "copilot-skills-docs-status-organization-20260924"
@@ -378,10 +378,10 @@ runs:
     effective_worker_count: 2
     active_worker_count: 0
     base_origin_main_sha: "e9fe3d175d1ca76b03fccdbe53431205b80e5c23"
-    current_origin_main_sha: "4f5fee342c7e08ce556ae10c8a693f9e30a2ee2b"
+    current_origin_main_sha: "d701bc0edfbf5cb910035335f56beb8d4debd612"
     parent_rebased_onto_origin_main_sha: "4f5fee342c7e08ce556ae10c8a693f9e30a2ee2b"
     created_at_utc: "2026-09-25T05:54:07Z"
-    updated_at_utc: "2026-09-25T12:47:41Z"
+    updated_at_utc: "2026-09-25T13:04:38Z"
     coordinator_scope: "Add a concise README workflow for using the repository's existing skills to evaluate and improve other skills; preserve all unrelated dashboard runs."
     coordinator_branch: "ralph/skill-improvement-coordinator-20260925-0554-luna"
     coordinator_status_path: "docs/ralph/ralph-skill-improvement-coordinator-20260925-0554-luna/agents/coordinator/status.md"
@@ -405,17 +405,26 @@ runs:
       local_branch: PENDING
       remote_ref: NOT_PUBLISHED
     blockers:
-      - "The parent PR requires an independently launched Ralph reviewer; the Resource Manager has no admissible agent slot. Worker-02 can be replayed serially meanwhile."
-    next_action: "Serially replay and verify worker-02 on this parent, then prepare the completed parent PR for independent review."
+      - "The completed parent PR requires an independent Ralph Code Reviewer. The Resource Manager has no admissible agent slot; do not merge without review."
+    next_action: "Publish the integrated parent by its normal PR path and obtain an independent review of exact base/head SHAs before any merge."
     memory_handoffs:
       coordinator:
-        implementation_summary: "Documented the existing-skill improvement handoff in README and verified the first child integration."
+        implementation_summary: "Documented the existing-skill improvement handoff in README and verified both child integrations."
         lesson_candidates: []
         no_durable_lessons_reason: "No separate coordinator lesson is established before remote-main integration and post-merge review."
       worker-01:
         implementation_summary: "Replayed the existing Luna-authored Agentic Eval documentation change byte-for-byte onto the current parent."
         lesson_candidates: []
         no_durable_lessons_reason: "Mechanical replay yielded no distinct transferable lesson; the coordinator will review learning after the parent merge."
+      worker-02:
+        implementation_summary: "Replayed four existing Luna-authored Agent Skill Stack documentation files byte-for-byte: fixed recall fixtures, bounded safety gates, and correct bundled script paths."
+        lesson_candidates:
+          - rule: "When a Skill shows bundled-script commands, use their actual installed paths and state the target-project working directory for relative inputs and outputs."
+            why: "The previous examples pointed to repository-root scripts while the five files are bundled under the Skill directory; relative arguments resolve in the user's current project."
+            evidence:
+              - "Five bundled Python script paths exist under .github/skills/agent-skill-stack/scripts/, and their repository-root counterparts do not."
+              - "All five read-only --help checks and eight local Markdown link checks passed with the corrected documentation."
+        no_durable_lessons_reason: null
     split_plan:
       - task_id: "agentic-eval-bounded-skill-improvement"
         worker_id: "worker-01"
@@ -453,7 +462,7 @@ branch_agent_index:
       number: null
       url: null
     resource_usage:
-      time_spent_seconds: 24814
+      time_spent_seconds: 25831
       time_basis: WALL_CLOCK_ELAPSED
       token_spend:
         status: NOT_REPORTED
@@ -471,8 +480,8 @@ branch_agent_index:
       verified_at_utc: null
     memory_review: PENDING
     blockers:
-      - "The parent PR requires an independently launched Ralph reviewer; the Resource Manager has no admissible agent slot. Worker-02 can be replayed serially meanwhile."
-    next_action: "Serially replay and verify worker-02 on this parent, then prepare the completed parent PR for independent review."
+      - "The completed parent PR requires an independent Ralph Code Reviewer. The Resource Manager has no admissible agent slot; do not merge without review."
+    next_action: "Publish the integrated parent by its normal PR path and obtain an independent review of exact base/head SHAs before any merge."
 
   - run_id: "skills-improvement-20260925-0554-luna"
     task_ids: ["agentic-eval-bounded-skill-improvement"]
@@ -523,6 +532,61 @@ branch_agent_index:
       lesson_candidates: []
       no_durable_lessons_reason: "Mechanical replay yielded no distinct transferable lesson; the coordinator will review learning after the parent merge."
     next_action: "Coordinator: fast-forward this completion-record commit into the parent, synchronize the dashboard, then integrate the separate Agent Skill Stack worker."
+
+  - run_id: "skills-improvement-20260925-0554-luna"
+    task_ids: ["agent-skill-stack-recall-routing"]
+    worker_id: "worker-02"
+    worker_name: "worker-02 - Agent Skill Stack serial replay"
+    runtime_agent_id: "copilotcli:/acba9a3e-cc87-416e-b06b-f84406e5e9be"
+    branch: "ralph/skill-stack-worker-02-replay-20260925-1254-luna"
+    branch_slug: "ralph-skill-stack-worker-02-replay-20260925-1254-luna"
+    status: COMPLETE
+    iteration: 2
+    resource_usage:
+      time_spent_seconds: 356
+      time_basis: WALL_CLOCK_ELAPSED
+      token_spend:
+        status: NOT_REPORTED
+        input_tokens: null
+        output_tokens: null
+        total_tokens: null
+        cached_input_tokens: null
+        source: null
+    status_path: "docs/ralph/ralph-skill-stack-worker-02-replay-20260925-1254-luna/agents/worker-02/status.md"
+    progress_path: "docs/ralph/ralph-skill-stack-worker-02-replay-20260925-1254-luna/agents/worker-02/progress.md"
+    decision_record_path: "docs/decisions/ralph-skill-stack-worker-02-replay-20260925-1254-luna/agents/worker-02/pr-not-opened.md"
+    decision_index_path: "docs/decisions/ralph-skill-stack-worker-02-replay-20260925-1254-luna/README.md"
+    base_origin_main_sha: "f484e4762cbf04c98550ee6d13ad623e8985d01c"
+    parent_base_origin_main_sha: "e9fe3d175d1ca76b03fccdbe53431205b80e5c23"
+    parent_rebased_onto_origin_main_sha: "4f5fee342c7e08ce556ae10c8a693f9e30a2ee2b"
+    base_parent_sha: "6169687971518094a91f9445f00c6e2e356b2844"
+    rebased_onto_parent_sha: null
+    source_implementation_commit_sha: "1b9cfde1a44b6176fce261b35d69a790612f3d69"
+    implementation_commit_sha: "a9d48f751e5f4932b4e1e3a554f29a996ad71980"
+    pull_request:
+      status: NOT_OPENED
+      number: null
+      url: null
+    review:
+      status: NOT_APPLICABLE
+    worker_to_parent_merge:
+      status: VERIFIED
+      sha: "45fbd82b1bdd2112d3e720221567aac118892775"
+      verified_parent_ref: "refs/heads/ralph/skill-improvement-coordinator-20260925-0554-luna"
+      verified_parent_sha: "45fbd82b1bdd2112d3e720221567aac118892775"
+      verification_method: "git merge-base --is-ancestor 45fbd82b1bdd2112d3e720221567aac118892775 HEAD"
+      verified_at_utc: "2026-09-25T13:00:56Z"
+    memory_review_status: PENDING
+    memory_handoff:
+      implementation_summary: "Replayed four existing Luna-authored Agent Skill Stack documentation files byte-for-byte: fixed recall fixtures, bounded safety gates, and correct bundled script paths."
+      lesson_candidates:
+        - rule: "When a Skill shows bundled-script commands, use their actual installed paths and state the target-project working directory for relative inputs and outputs."
+          why: "The previous examples pointed to repository-root scripts while the five files are bundled under the Skill directory; relative arguments resolve in the user's current project."
+          evidence:
+            - "Five bundled Python script paths exist under .github/skills/agent-skill-stack/scripts/, and their repository-root counterparts do not."
+            - "All five read-only --help checks and eight local Markdown link checks passed with the corrected documentation."
+      no_durable_lessons_reason: null
+    next_action: "Coordinator: fast-forward this completion-record commit into the parent, synchronize the dashboard, and prepare the parent PR for independent review."
 
   - run_id: "copilot-skills-status-report-time-token-20260925"
     task_ids: ["branch-status-resource-usage"]
@@ -1331,8 +1395,9 @@ branch_agent_index:
 | `copilot-skills-premerge-code-review-20260924` | `ralph/code-review-gate-20260924-2131` | `coordinator` | `COMPLETE` | `21,245 s (wall-clock)` | `NOT_REPORTED` | [status](./ralph/ralph-code-review-gate-20260924-2131/agents/coordinator/status.md) | [progress](./ralph/ralph-code-review-gate-20260924-2131/agents/coordinator/progress.md) | `6b1903ec7bfa5c798eb5e48c085bfc3845176bab` | `COMPLETE` |
 | `copilot-skills-premerge-code-review-20260924` | `ralph/code-review-skill-worker-01-20260924-2131` | `worker-01` | `CANCELLED` | Not captured (legacy) | `NOT_REPORTED` | [status](./ralph/ralph-code-review-skill-worker-01-20260924-2131/agents/worker-01/status.md) | [progress](./ralph/ralph-code-review-skill-worker-01-20260924-2131/agents/worker-01/progress.md) | Not merged | N/A |
 | `copilot-skills-premerge-code-review-20260924` | `ralph/code-review-process-worker-02-20260924-2131` | `worker-02` | `COMPLETE` | `20,270 s (wall-clock)` | `NOT_REPORTED` | [status](./ralph/ralph-code-review-process-worker-02-20260924-2131/agents/worker-02/status.md) | [progress](./ralph/ralph-code-review-process-worker-02-20260924-2131/agents/worker-02/progress.md) | `6b1903ec7bfa5c798eb5e48c085bfc3845176bab` | `COMPLETE` |
-| `skills-improvement-20260925-0554-luna` | `ralph/skill-improvement-coordinator-20260925-0554-luna` | `coordinator` | `IN_PROGRESS` | `24,814 s (wall-clock)` | `NOT_REPORTED` | [status](./ralph/ralph-skill-improvement-coordinator-20260925-0554-luna/agents/coordinator/status.md) | [progress](./ralph/ralph-skill-improvement-coordinator-20260925-0554-luna/agents/coordinator/progress.md) | Pending | `PENDING` |
+| `skills-improvement-20260925-0554-luna` | `ralph/skill-improvement-coordinator-20260925-0554-luna` | `coordinator` | `IN_PROGRESS` | `25,831 s (wall-clock)` | `NOT_REPORTED` | [status](./ralph/ralph-skill-improvement-coordinator-20260925-0554-luna/agents/coordinator/status.md) | [progress](./ralph/ralph-skill-improvement-coordinator-20260925-0554-luna/agents/coordinator/progress.md) | Pending | `PENDING` |
 | `skills-improvement-20260925-0554-luna` | `ralph/skill-eval-worker-01-replay-20260925-1234-luna` | `worker-01` | `COMPLETE` | `452 s (wall-clock)` | `NOT_REPORTED` | [status](./ralph/ralph-skill-eval-worker-01-replay-20260925-1234-luna/agents/worker-01/status.md) | [progress](./ralph/ralph-skill-eval-worker-01-replay-20260925-1234-luna/agents/worker-01/progress.md) | `478f97845fba19f3f3b3ac87d7a01d294ae331db` | `PENDING` |
+| `skills-improvement-20260925-0554-luna` | `ralph/skill-stack-worker-02-replay-20260925-1254-luna` | `worker-02` | `COMPLETE` | `356 s (wall-clock)` | `NOT_REPORTED` | [status](./ralph/ralph-skill-stack-worker-02-replay-20260925-1254-luna/agents/worker-02/status.md) | [progress](./ralph/ralph-skill-stack-worker-02-replay-20260925-1254-luna/agents/worker-02/progress.md) | `45fbd82b1bdd2112d3e720221567aac118892775` | `PENDING` |
 | `copilot-skills-agent-resource-manager-20260925` | `ralph/resource-manager-shared-registry-20260925-8abd5d4e` | `coordinator` | `COMPLETE` | `10,916 s (wall-clock)` | `NOT_REPORTED` | [status](./ralph/ralph-resource-manager-shared-registry-20260925-8abd5d4e/agents/coordinator/status.md) | [progress](./ralph/ralph-resource-manager-shared-registry-20260925-8abd5d4e/agents/coordinator/progress.md) | `ec50b548debb7a5f32dcb82f4b68f62806255894` | `COMPLETE` |
 | `copilot-skills-main-checkout-ownership-20260925-e464eb0a` | `ralph/main-checkout-ownership-20260925-e464eb0a` | `coordinator` | `COMPLETE` | `14,629 s (wall-clock)` | `NOT_REPORTED` | [status](./ralph/ralph-main-checkout-ownership-20260925-e464eb0a/agents/coordinator/status.md) | [progress](./ralph/ralph-main-checkout-ownership-20260925-e464eb0a/agents/coordinator/progress.md) | `f9cab16e19f22586192c93da76f7aedceced63ce` | `COMPLETE` |
 | `copilot-skills-agent-routing-20260925-8bc457e9` | `ralph/agent-optimization-parent-20260925-8bc457e9` | `coordinator` | `COMPLETE` | `25,103 s (wall-clock)` | `NOT_REPORTED` | [status](./ralph/ralph-agent-optimization-parent-20260925-8bc457e9/agents/coordinator/status.md) | [progress](./ralph/ralph-agent-optimization-parent-20260925-8bc457e9/agents/coordinator/progress.md) | `0b7db073e365e6c1c6e29d410c424d7c7637c9bf` | `COMPLETE` |
