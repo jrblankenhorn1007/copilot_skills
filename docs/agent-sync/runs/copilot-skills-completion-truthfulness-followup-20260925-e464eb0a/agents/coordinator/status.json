@@ -30,7 +30,7 @@
   },
   "prompt_path": "docs/agent-sync/runs/copilot-skills-completion-truthfulness-followup-20260925-e464eb0a/agents/coordinator/prompt.md",
   "prompt_sha256": "66f2b4bd0040fb92c7b4f1b84f4f1fe7b80e83899815acc670c6c35e380d15c7",
-  "revision": 4,
+  "revision": 5,
   "run_id": "copilot-skills-completion-truthfulness-followup-20260925-e464eb0a",
   "schema_version": 1,
   "sign_in_at_utc": "2026-09-25T16:03:12Z",
@@ -43,9 +43,9 @@
   },
   "started_at_utc": "2026-09-25T16:03:12Z",
   "status": "BLOCKED",
-  "status_reason": "On user resume, the unpublished branch was rebased without conflicts onto exact fetched origin/main 75d4e4a8e356e1980fc32ee5c6e185a97098cd04; its completion-instruction implementation commit is 05ad390dbef371a8ea09d7a761f7dba078612fdd and branch head is 8b999fc76037e01387567757f63a33a0791f21bc. Targeted instruction, status-YAML, local-link, and diff checks pass, but the 28-test Ralph contract suite has one failure: test_docs_status_dashboard_indexes_every_branch_agent_folder because this coordinator leaf is absent from docs/ralph-status.md. Five current task records still claim the dashboard without verified sign-out: agent-communication revision 2, concurrent-edit-pipeline revision 3, memory-update-agent revision 1, OpenCode setup revision 4, and skills-improvement revision 8; do not edit until all owners release scope. This task remains BLOCKED with its own edit scope ACTIVE and the branch preserved. The overall request remains PARTIAL because the Orchestrator/Worker hierarchy and measured speed/cost/accuracy evidence are still outstanding.",
+  "status_reason": "After publishing task status revision 4, the coordinator committed the revision-4 release evidence; current branch head is cfdbabc39693b78be0e850e334de47b1a25ff8d4. The unpublished branch remains last rebased onto origin/main 75d4e4a8e356e1980fc32ee5c6e185a97098cd04, with completion-instruction implementation commit 05ad390dbef371a8ea09d7a761f7dba078612fdd. Task status remains BLOCKED with edit scope ACTIVE. The 28-test Ralph contract suite has one failure because this coordinator leaf is absent from docs/ralph-status.md; five other current task scopes still claim the dashboard without verified sign-out: agent-communication revision 2, concurrent-edit-pipeline revision 3, memory-update-agent revision 1, OpenCode setup revision 4, and skills-improvement revision 8. Do not edit the dashboard before release. The overall request remains PARTIAL because the Orchestrator/Worker hierarchy and measured speed/cost/accuracy evidence are still outstanding.",
   "task_id": "integrating-completion-truthfulness-guard",
-  "updated_at_utc": "2026-09-25T16:48:29Z",
+  "updated_at_utc": "2026-09-25T16:51:05Z",
   "worker_id": "coordinator",
   "worker_name": "coordinator - completion-truthfulness follow-up"
 }
