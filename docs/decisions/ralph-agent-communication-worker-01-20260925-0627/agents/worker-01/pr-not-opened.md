@@ -9,8 +9,8 @@
   `/Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-communication-parent-20260925-0627`
 - **Run `origin/main` base:** `20293c720b18a1a21ff150f566823493b7a2717d`
 - **Base parent SHA:** `0294550c92a5d79e1cca682a0c509b5bb6eca3fd`
-- **Rebased onto parent SHA:** `3281d44d72fa4bfa188d4ca288bee9f249b1fd4f`
-- **Implementation commit:** `29d01e2545ad61f42348deef5a19f56777cacca3`
+- **Rebased onto parent SHA:** `44a262954564a058436bd4115908605e67302d5f`
+- **Implementation commit:** `d3cea422a910442d85a4a6715ea46d25c5f49cdf`
 - **Pull request:** `NOT_OPENED`; this child is handed to the coordinator for
   serial parent integration under the assigned no-PR path.
 
@@ -94,11 +94,19 @@
 At the original worker sign-off, the observed parent tip was
 `d8b3992af53a292a83ff094c5cd9837670ea968d`, later than the child's original
 `base_parent_sha`. The coordinator subsequently rebased this clean child onto
-`3281d44d72fa4bfa188d4ca288bee9f249b1fd4f`. The child verified that exact
-parent SHA is an ancestor. Keep the original `base_parent_sha`
-`0294550c92a5d79e1cca682a0c509b5bb6eca3fd`; current
-`rebased_onto_parent_sha` is `3281d44d72fa4bfa188d4ca288bee9f249b1fd4f`.
-No additional worker rebase or child-to-parent merge is claimed here.
+`3281d44d72fa4bfa188d4ca288bee9f249b1fd4f`; at that checkpoint the child
+verified that SHA was an ancestor. The original
+`base_parent_sha` remains `0294550c92a5d79e1cca682a0c509b5bb6eca3fd`.
+
+The coordinator later rebased the parent onto
+`origin/main` `91a6f78fa00cde80a80bea630a763d74041a56ad`; its current parent
+worktree `HEAD` is `44a262954564a058436bd4115908605e67302d5f`, which is an
+ancestor of this child's rebased branch. The latest prompt's longer proposed
+SHA `44a2629d72fa4bfa188d4ca288bee9f249b1fd4f` did not resolve to a Git
+object; the verified parent-worktree SHA, sharing the stated `44a2629`
+prefix, is recorded as `rebased_onto_parent_sha`. The current implementation
+commit is `d3cea422a910442d85a4a6715ea46d25c5f49cdf`. No additional worker
+rebase or child-to-parent merge is claimed here.
 
 ## Verification and signature
 
@@ -124,4 +132,18 @@ No additional worker rebase or child-to-parent merge is claimed here.
 - Final rebased-base whitespace verification:
   `git diff 3281d44d72fa4bfa188d4ca288bee9f249b1fd4f...HEAD --check` —
   `PASS`.
+- Coordinator's verbatim rerun found a recorded 37-term audit variant omitted
+  the Markdown backticks from the two explanatory literals for `deadline`
+  and `reply_deadline`. The variant was corrected and rerun against the
+  unchanged skill: **PASS, 37/37**. The exact command and current rebased-base
+  whitespace result are recorded in the latest worker progress entry.
+- Current parent-ancestry check:
+  `git merge-base --is-ancestor 44a262954564a058436bd4115908605e67302d5f HEAD`
+  — `PASS`.
+- Current rebased-base whitespace check:
+  `git diff 44a262954564a058436bd4115908605e67302d5f...HEAD --check` —
+  `PASS`.
+- Fresh worker sign-off is `SELF_ATTESTATION` for implementation commit
+  `d3cea422a910442d85a4a6715ea46d25c5f49cdf`; it is not cryptographically
+  signed.
 - No unresolved implementation blockers.

@@ -13,9 +13,9 @@ worktree: "/Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-communicati
 iteration: 1
 status: AWAITING_MERGE
 started_at_utc: "2026-09-25T07:49:20Z"
-updated_at_utc: "2026-09-25T09:23:44Z"
+updated_at_utc: "2026-09-25T09:55:33Z"
 resource_usage:
-  time_spent_seconds: 5664
+  time_spent_seconds: 7573
   time_basis: WALL_CLOCK_ELAPSED
   token_spend:
     status: NOT_REPORTED
@@ -26,7 +26,7 @@ resource_usage:
     source: null
 base_origin_main_sha: "20293c720b18a1a21ff150f566823493b7a2717d"
 rebased_onto_origin_main_sha: null
-implementation_commit_sha: "29d01e2545ad61f42348deef5a19f56777cacca3"
+implementation_commit_sha: "d3cea422a910442d85a4a6715ea46d25c5f49cdf"
 pull_request:
   status: NOT_OPENED
   number: null
@@ -48,11 +48,11 @@ merge_actor_worker_id: null
 decision_record_path: "docs/decisions/ralph-agent-communication-worker-01-20260925-0627/agents/worker-01/pr-not-opened.md"
 decision_index_path: "docs/decisions/ralph-agent-communication-worker-01-20260925-0627/README.md"
 checks:
-  - command: "git -C /Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-communication-worker-01-20260925-0627 merge-base --is-ancestor 3281d44d72fa4bfa188d4ca288bee9f249b1fd4f HEAD"
+  - command: "git -C /Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-communication-worker-01-20260925-0627 merge-base --is-ancestor 44a262954564a058436bd4115908605e67302d5f HEAD"
     result: PASS
-  - command: "37-term agent-message/v1 envelope/deadline/interrupt contract audit; exact command in progress.md"
+  - command: "37-term agent-message/v1 audit; corrected command in progress.md includes Markdown ticks around `deadline` and `reply_deadline`"
     result: PASS
-  - command: "git -C /Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-communication-worker-01-20260925-0627 diff 3281d44d72fa4bfa188d4ca288bee9f249b1fd4f...HEAD --check"
+  - command: "git -C /Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-communication-worker-01-20260925-0627 diff 44a262954564a058436bd4115908605e67302d5f...HEAD --check"
     result: PASS
   - command: "git -C /Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-communication-worker-01-20260925-0627 diff --check"
     result: PASS
@@ -65,8 +65,9 @@ next_action: "Coordinator: verify this worker's exact implementation commit and 
 parent_branch: "ralph/agent-communication-parent-20260925-0627"
 parent_worktree: "/Users/jrblankenhorn/copilot_skills.worktrees/ralph-agent-communication-parent-20260925-0627"
 parent_base_origin_main_sha: "20293c720b18a1a21ff150f566823493b7a2717d"
+parent_rebased_onto_origin_main_sha: "91a6f78fa00cde80a80bea630a763d74041a56ad"
 base_parent_sha: "0294550c92a5d79e1cca682a0c509b5bb6eca3fd"
-rebased_onto_parent_sha: "3281d44d72fa4bfa188d4ca288bee9f249b1fd4f"
+rebased_onto_parent_sha: "44a262954564a058436bd4115908605e67302d5f"
 worker_to_parent_merge:
   status: PENDING
   sha: null
@@ -82,8 +83,8 @@ worker_sign_off:
   status: RECEIVED
   attestation_kind: SELF_ATTESTATION
   cryptographic_signature_status: NOT_CRYPTOGRAPHICALLY_SIGNED
-  attested_at_utc: "2026-09-25T09:23:44Z"
-  statement: "I, worker-01, sign off iteration 1 for agent-communication-skill at implementation commit 29d01e2545ad61f42348deef5a19f56777cacca3."
+  attested_at_utc: "2026-09-25T09:55:33Z"
+  statement: "I, worker-01, sign off iteration 1 for agent-communication-skill at implementation commit d3cea422a910442d85a4a6715ea46d25c5f49cdf."
 commit_signature_verification:
   status: NOT_CRYPTOGRAPHICALLY_SIGNED
   verifier: null
