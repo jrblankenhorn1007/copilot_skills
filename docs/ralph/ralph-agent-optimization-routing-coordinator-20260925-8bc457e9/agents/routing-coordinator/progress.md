@@ -100,3 +100,14 @@
   parent before integration. Remain `AWAITING_MERGE` in the leaf until
   the coordinator verifies the separate post-merge memory follow-up
   and synchronizes final completion.
+
+### Completion after verified memory follow-up - 2026-09-25T11:31:00Z
+
+- The post-merge reservation-ancestry lesson and its protocol tests
+  reached fetched remote main at
+  `74f3efe14e4ee3bd9638969ad5b222978ae942c5`; main signed out
+  at `aebecf7ace8a778dd50017bc975d021a62c0017c`. A fresh
+  worktree at that released tip passed all **56** Ralph and **15**
+  Resource Manager tests. The coordinator now synchronizes this leaf
+  and its dashboard entry as `COMPLETE`; the separate Orchestrator/
+  Worker branch remains unfinished and must not be reported as shipped.

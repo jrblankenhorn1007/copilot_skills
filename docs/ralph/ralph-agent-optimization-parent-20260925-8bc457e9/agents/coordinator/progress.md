@@ -276,3 +276,27 @@
   -q` passed **8** tests, and `git diff --check` passed. Follow-up
   remote integration, post-refactor checks, and final dashboard/task
   sign-out are still pending.
+
+### Verified memory follow-up and completion snapshot - 2026-09-25T11:31:00Z
+
+- The follow-up was rebased from released main onto
+  `3c5bc3cd54c42968b6254371d1a578fc2c2feb21`. Its post-rebase
+  protocol, orchestration, dashboard, and status contracts passed all
+  **10** focused tests; `git diff --check` passed. An authorized `MERGE`
+  signed in at `b025262bc5e4bc4ff107e5438e73b9bc5bd9549a`,
+  integrated the sign-in commit into the isolated follow-up, and
+  fast-forwarded main to
+  `74f3efe14e4ee3bd9638969ad5b222978ae942c5`. Fetch confirmed
+  that exact memory/protocol merge; the publisher signed out at
+  `aebecf7ace8a778dd50017bc975d021a62c0017c` with main `FREE`.
+- The new workflow memory entry and the protocol/guide/orchestration
+  correction match the fetched merged tree. On a fresh worktree based
+  on fetched `aebecf7ace8a778dd50017bc975d021a62c0017c`,
+  `PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s
+  .github/skills/ralph-loop/tests -p 'test_*.py' -q` passed **56**
+  tests in 35.484 seconds, and
+  `PYTHONDONTWRITEBYTECODE=1 python3
+  .github/skills/resource-manager/tests/test_resource_manager.py`
+  passed **15** tests. The next fresh status-only branch synchronizes
+  the three leaves and dashboard to `COMPLETE`; the task ledger's
+  final sign-outs follow its fetched remote verification.

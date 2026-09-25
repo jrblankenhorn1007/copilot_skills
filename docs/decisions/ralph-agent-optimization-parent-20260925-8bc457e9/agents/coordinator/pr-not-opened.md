@@ -143,3 +143,15 @@ invariant in the protocol, publisher guide, orchestration reference,
 and workflow memory; its 8 targeted checks pass. Preserve task
 `IN_PROGRESS` until that follow-up and final status synchronization
 are independently verified on fetched main.
+
+### Completion after the verified memory follow-up
+
+The protocol and workflow-memory follow-up was rebased, passed 10
+targeted tests, and used a second authorized no-PR fast-forward.
+Commit `74f3efe14e4ee3bd9638969ad5b222978ae942c5` was verified
+on fetched remote main; the `MERGE` reservation was released at
+`aebecf7ace8a778dd50017bc975d021a62c0017c`. On that fetched
+tip the full Ralph suite passed **56** tests and Resource Manager
+passed **15**. This run can transition to `COMPLETE` after the
+coordinator's synchronized status-only follow-up is fetched and
+verified; publish task-scope sign-outs separately afterward.

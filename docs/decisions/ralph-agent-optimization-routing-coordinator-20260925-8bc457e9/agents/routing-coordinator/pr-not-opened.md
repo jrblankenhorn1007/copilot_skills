@@ -90,3 +90,11 @@ tip are ancestors of fetched `origin/main` at
 after that merge. The coordinator's post-merge memory/protocol
 follow-up remains pending; retain this leaf as `AWAITING_MERGE`
 until its final synchronization.
+
+The subsequent memory/protocol follow-up
+`74f3efe14e4ee3bd9638969ad5b222978ae942c5` and main release
+`aebecf7ace8a778dd50017bc975d021a62c0017c` are verified.
+All 56 Ralph and 15 Resource Manager tests pass on the fetched main
+content. This child has no unresolved integration or memory blocker;
+the coordinator synchronizes it to `COMPLETE` and then publishes the
+task ledger's final status.
