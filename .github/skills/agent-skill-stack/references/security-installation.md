@@ -71,7 +71,9 @@ Recommendation and installation are separate consent moments.
 7. Run a safe trial only when it cannot mutate external state.
 8. Show the appropriate preview and obtain selection.
 9. Install without overwriting an existing destination.
-10. Re-index, run the recall check, and update the internal lock record.
+10. Re-index, repeat the predeclared
+    [before/after routing check](recall-regression.md), and update the internal
+    lock record without storing user requests or per-probe outcomes.
 
 Use a project-local Skill directory when the stack belongs to one project. Use global installation only for broad capabilities.
 
@@ -90,14 +92,13 @@ Abort before writing if a destination exists or validation fails. Report any par
 
 ## Recall check
 
-Test whether the stack is selected correctly, not how fast it runs:
+Use the [before/after routing check](recall-regression.md) when a Skill in the
+stack or its project profile changes: direct wording, natural paraphrase,
+relevant helper, and an explicit out-of-scope/negative case. Define the
+expected primary, helper, or no match before testing; the negative must
+not activate this stack. A local index search or profile route alone cannot
+establish host activation. Report a novice-friendly count only for observed,
+safe selection-only trials; unknown or failed cases block an admission claim.
 
-1. **Direct wording**: explicitly names the desired task.
-2. **Natural paraphrase**: expresses the same outcome with different words and no Skill name.
-3. **Supporting wording**: asks for a quality, safety, or compliance improvement that should select a helper.
-
-Record internally which primary and supporting Skills should appear and which unrelated Skills should stay out. If routing is ambiguous, narrow descriptions, update the local index, or remove the redundant global install.
-
-Show a novice only a result such as `3/3 种说法都能正确识别` plus any failure that needs a decision.
-
-Do not create or store prompt-history, hit/miss, manual-selection, or routing-feedback logs.
+Do not create or store prompt-history, per-probe hit/miss, manual-selection,
+or routing-feedback logs.

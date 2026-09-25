@@ -165,9 +165,13 @@ python3 scripts/stage_install.py \
   --manifest ./skill-stack-lock.json
 ```
 
-Repeat with `--apply` only after approval. Never silently add credentials, accept new permissions, overwrite an installed Skill, or publish/send/delete external data.
+The preview writes the chosen manifest file but does not install a Skill;
+agree on that output location first. Repeat with `--apply` only after
+approval. Never silently add credentials, accept new permissions, overwrite
+an installed Skill, or publish/send/delete external data.
 
-After the user selects the stack, offer to create a project profile in dry-run mode:
+After the user selects the stack, offer to create or preview an update to a
+project profile in dry-run mode:
 
 ```bash
 python3 scripts/project_profile.py \
@@ -177,16 +181,42 @@ python3 scripts/project_profile.py \
   --skill skill-b
 ```
 
-Use `--apply` only after the user confirms the profile.
+Use `--apply` only after the user confirms the profile. For an existing
+profile, `--update --apply` also needs that confirmation; never silently
+replace its current routes or broaden its scope. Capture the routing baseline
+in step 10 **before** any approved installation or update; repeat the same
+check afterward.
 
-## 10. Run a recall check
+## 10. Check routing before and after a stack change
 
-After installation or profile changes, run a **recall check**, not a performance benchmark:
+Read [references/recall-regression.md](references/recall-regression.md). Before
+and after an approved installation, update to a Skill in the stack, or profile
+change, use the **same small, synthetic routing probes** in a safe selection-only
+trial. Define the expected primary and helper roles *before* changing anything:
 
-1. a direct request that names the task;
-2. a natural paraphrase that uses different words;
-3. a supporting request that should bring in a helper such as writing quality, fact checking, or compliance.
+1. **Direct wording** of the main outcome → the one primary Skill, no
+   unrelated helper.
+2. **Natural paraphrase** of that outcome without a Skill name → the same
+   primary, no unrelated helper.
+3. **Supporting outcome** needed alongside the main task → that primary plus
+   the relevant helper only at its defined handoff.
+4. **OUT-OF-SCOPE / negative wording** (including a request for one known
+   Skill, rather than a Skill Stack) → no match for this stack: neither its
+   primary nor its helpers. Another appropriate Skill may handle the request.
 
-Confirm that the correct primary and supporting Skills are selected and unrelated Skills stay out. Report a simple result such as `3/3 种说法都能正确识别`; keep raw prompts and routing details in the technical view.
+For a newly added capability, a baseline no-match may be expected; declare
+that intended change in advance. Admit an update only when the safe,
+observable after-check matches all expected roles, previously passing cases
+do not regress, the negative stays negative, and consent and source-safety
+gates still hold. An index search or written profile alone is **not** proof of
+host activation. If selection cannot be observed safely, mark recall
+not run and do not claim improvement or a pass.
 
-Do not collect or store user prompt history, hit/miss logs, or routing feedback.
+This is a recall/regression check, **not a performance benchmark** or a
+general-purpose Skill-authoring procedure. Report a plain-language count only
+for trials actually observed; otherwise state what remains unverified. Do not
+collect or store user prompt history, per-probe hit/miss logs, or routing
+feedback. For substantive Skill-output evaluation use
+[Agentic Eval](../agentic-eval/SKILL.md); for read-only checks that updated
+instructions or examples still match code/configuration use
+[Docs Sync Audit](../docs-sync-audit/SKILL.md).

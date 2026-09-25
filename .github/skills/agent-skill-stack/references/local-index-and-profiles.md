@@ -86,4 +86,10 @@ When a profile exists:
 4. Search outside the profile only when a required capability is missing or the user requests alternatives.
 5. Keep unrelated global Skills out of the proposed stack even if their descriptions are broad.
 
-Rebuild the local index and rerun the recall check after changing a profile.
+For an existing profile, preview an update and obtain approval before
+`project_profile.py --update --apply`. After changing a profile or an installed
+Skill, rebuild the local index and repeat the
+[before/after routing check](recall-regression.md) against the same synthetic
+direct, paraphrase, helper, and out-of-scope probes. Index search confirms
+candidate discoverability, not that the host actually activates a Skill; do
+not report an unobserved selection as a passing recall check.
