@@ -403,15 +403,17 @@ runs:
     aggregate_status: IN_PROGRESS
     requested_worker_count: 2
     effective_worker_count: 1
-    active_worker_count: 1
+    active_worker_count: 0
     base_origin_main_sha: "9558f99cc34cbed8dd1d24f4f15fc03f5d78b6ea"
+    current_origin_main_sha: "9dc821917a5ffe32517c44131c1211291d9b1014"
+    parent_rebased_onto_origin_main_sha: "9dc821917a5ffe32517c44131c1211291d9b1014"
     created_at_utc: "2026-09-25T03:13:20Z"
-    updated_at_utc: "2026-09-25T03:24:10Z"
+    updated_at_utc: "2026-09-25T04:57:40Z"
     coordinator_scope: "Replace misleading binary completion reports with status-first run and per-agent reporting."
     coordinator_branch: "ralph/agent-status-reporting-20260924-2313"
     coordinator_status_path: "docs/ralph/ralph-agent-status-reporting-20260924-2313/agents/coordinator/status.md"
     coordinator_progress_path: "docs/ralph/ralph-agent-status-reporting-20260924-2313/agents/coordinator/progress.md"
-    worker_count_note: "Worker-01 is queued until worker-02's test-first contract change is integrated; one worker is active."
+    worker_count_note: "Worker-02's contract test is integrated and its test task is complete. Worker-01 is queued for the dependent documentation implementation."
     parent_to_main_merge:
       status: PENDING
       sha: null
@@ -420,7 +422,7 @@ runs:
       verification_method: null
       verified_at_utc: null
     memory_review: PENDING
-    next_action: "Worker-02: add and run the reporting-contract test to the expected Red; coordinator: integrate it before dispatching worker-01."
+    next_action: "Coordinator: dispatch worker-01 to implement the reporting guidance against the integrated contract test."
     split_plan:
       - task_id: "agent-status-report-test"
         worker_id: "worker-02"
@@ -1345,6 +1347,7 @@ branch_agent_index:
     decision_record_path: "docs/decisions/ralph-agent-status-reporting-20260924-2313/agents/coordinator/pr-not-opened.md"
     decision_index_path: "docs/decisions/ralph-agent-status-reporting-20260924-2313/README.md"
     base_origin_main_sha: "9558f99cc34cbed8dd1d24f4f15fc03f5d78b6ea"
+    parent_rebased_onto_origin_main_sha: "9dc821917a5ffe32517c44131c1211291d9b1014"
     parent_to_main_merge:
       status: PENDING
       sha: null
@@ -1358,26 +1361,33 @@ branch_agent_index:
     runtime_agent_id: null
     branch: "ralph/agent-status-contract-worker-02-20260924-2324"
     branch_slug: "ralph-agent-status-contract-worker-02-20260924-2324"
-    status: IN_PROGRESS
+    status: COMPLETE
     iteration: 1
     status_path: "docs/ralph/ralph-agent-status-contract-worker-02-20260924-2324/agents/worker-02/status.md"
     progress_path: "docs/ralph/ralph-agent-status-contract-worker-02-20260924-2324/agents/worker-02/progress.md"
     decision_record_path: "docs/decisions/ralph-agent-status-contract-worker-02-20260924-2324/agents/worker-02/pr-not-opened.md"
     decision_index_path: "docs/decisions/ralph-agent-status-contract-worker-02-20260924-2324/README.md"
-    base_parent_sha: "57d3244507ef57a5b454f9557df8a739d1bd5b57"
-    implementation_commit_sha: null
+    base_parent_sha: "82cfc26146b75da69c450df75447575faf51e710"
+    implementation_commit_sha: "19a1b90b73066eb24794f201710dfa6dc8f66898"
+    status_sync_commit_sha: "8bb3e1f92c802e516d216241214f5d34bc8dae5a"
     pull_request:
       status: NOT_OPENED
       number: null
       url: null
     worker_to_parent_merge:
-      status: PENDING
-      sha: null
+      status: VERIFIED
+      sha: "a17b1a1051ab6b878735df6832ec8dcdcc2378f6"
       verified_parent_ref: "refs/heads/ralph/agent-status-reporting-20260924-2313"
-      verified_parent_sha: null
-      verification_method: null
-      verified_at_utc: null
-    next_action: "Add and run a focused failing contract test before any reporting-guidance changes."
+      verified_parent_sha: "a17b1a1051ab6b878735df6832ec8dcdcc2378f6"
+      verification_method: "git merge-base --is-ancestor a17b1a1051ab6b878735df6832ec8dcdcc2378f6 HEAD"
+      verified_at_utc: "2026-09-25T04:21:20Z"
+    status_sync_parent_merge:
+      status: VERIFIED
+      sha: "8bb3e1f92c802e516d216241214f5d34bc8dae5a"
+      verified_parent_sha: "8bb3e1f92c802e516d216241214f5d34bc8dae5a"
+      verification_method: "git merge-base --is-ancestor 8bb3e1f92c802e516d216241214f5d34bc8dae5a HEAD"
+      verified_at_utc: "2026-09-25T04:32:40Z"
+    next_action: "Worker-02: complete. Coordinator: dispatch worker-01 for the dependent documentation implementation."
 ```
 
 ## Branch/agent index
