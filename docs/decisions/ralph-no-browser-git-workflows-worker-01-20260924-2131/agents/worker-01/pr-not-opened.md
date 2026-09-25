@@ -82,6 +82,19 @@
 - **Consequences:** Record the exact contract and diff-check results in the
   worker progress record.
 
+### Accept YAML leaf status in the dashboard contract
+
+- **Context:** The status guide permits a YAML status block, but the dashboard
+  contract test only parsed table and Markdown-bullet formats. The new worker
+  leaf used the documented YAML format.
+- **Alternatives:** Change the leaf to a different documented format, or
+  update the contract parser to accept YAML as well.
+- **Decision:** Extend the status matcher for a top-level YAML `status` field.
+- **Rationale:** The test should enforce the documented output contract
+  rather than reject a valid representation.
+- **Consequences:** The full dashboard contract suite passes against YAML
+  status leaves.
+
 ## Recovered issues
 
 - Existing worker PR instructions were limited to the GitHub CLI, although
@@ -89,12 +102,11 @@
   The main skill, orchestration guidance, merge guide, project prompt, and
   contract assertions now consistently allow either tool path. Targeted
   browser-policy and worker-merge tests pass.
+- The full contract suite initially reported this leaf missing from the
+  aggregate dashboard. The coordinator indexed it, then fixed the test
+  parser's YAML-format gap; the full suite now passes with 11 tests.
 
 ## Unresolved blockers
 
-- The full Ralph contract suite currently fails only its dashboard-index
-  assertion because the new worker leaf is not yet listed in the
-  coordinator-owned `docs/ralph-status.md`. The coordinator must add the
-  entry and rerun the full suite before authorizing integration.
-- PR/publish/merge and post-merge memory review remain pending coordinator
-  review and authorization.
+- None. The full contract suite passes; coordinator-reviewed fast-forward
+  integration and post-merge memory review are the remaining workflow steps.

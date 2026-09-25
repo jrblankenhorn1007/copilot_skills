@@ -9,9 +9,9 @@
   `7b39f6a5dd2280de74e43046516aef35056bfc97`
 - **Current state:** `AWAITING_MERGE`; coordinator review and authorization
   are pending. The aggregate dashboard remains coordinator-owned.
-- **Check blocker:** The full contract suite's branch/agent dashboard index
-  assertion fails until the coordinator adds this leaf to
-  `docs/ralph-status.md` and reruns the suite.
+- **Validation:** The full Ralph contract suite passes (11 tests) after the
+  coordinator indexed this leaf and extended the test to accept the
+  documented YAML status format.
 - **Agent records:**
   - [worker-01 — no PR opened](agents/worker-01/pr-not-opened.md)
 - **Integration:** No PR was opened. The documented normal integration path
