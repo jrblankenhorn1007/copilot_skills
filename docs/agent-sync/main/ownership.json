@@ -11,12 +11,12 @@
   },
   "ref": "refs/heads/main",
   "repository": "jrblankenhorn1007/copilot_skills",
-  "revision": 27,
+  "revision": 28,
   "schema_version": 1,
   "sign_out": {
-    "at_utc": null,
-    "outcome": null,
-    "result_commit_sha": null
+    "at_utc": "2026-09-25T10:45:55Z",
+    "outcome": "PUBLISHED",
+    "result_commit_sha": "cac1aa786d0f946fc203e4d3164abb7d9557e9ae"
   },
-  "state": "OWNED"
+  "state": "FREE"
 }
