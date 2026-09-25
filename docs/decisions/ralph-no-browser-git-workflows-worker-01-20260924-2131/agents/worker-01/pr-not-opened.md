@@ -12,7 +12,7 @@
   worker was instructed to stop at `AWAITING_MERGE` pending review and
   authorization.
 - **Base `origin/main`:** `485b4a64c871f581f9295e46c867b188b0e3ccee`
-- **Implementation commit SHA:** `72c05f3f4240d90f45111daf5ce4c77591424e80`
+- **Implementation commit SHA:** `7b39f6a5dd2280de74e43046516aef35056bfc97`
 - **Current worker status:** `AWAITING_MERGE`
 
 ## Decisions
@@ -84,9 +84,17 @@
 
 ## Recovered issues
 
-- None.
+- Existing worker PR instructions were limited to the GitHub CLI, although
+  the requested policy also permits supported GitHub integration/MCP tools.
+  The main skill, orchestration guidance, merge guide, project prompt, and
+  contract assertions now consistently allow either tool path. Targeted
+  browser-policy and worker-merge tests pass.
 
 ## Unresolved blockers
 
-- None. Integration and coordinator-owned dashboard synchronization are
-  pending by workflow, not an implementation failure.
+- The full Ralph contract suite currently fails only its dashboard-index
+  assertion because the new worker leaf is not yet listed in the
+  coordinator-owned `docs/ralph-status.md`. The coordinator must add the
+  entry and rerun the full suite before authorizing integration.
+- PR/publish/merge and post-merge memory review remain pending coordinator
+  review and authorization.

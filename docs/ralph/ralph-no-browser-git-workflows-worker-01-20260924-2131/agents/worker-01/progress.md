@@ -9,7 +9,7 @@
 - **Branch:** `ralph/no-browser-git-workflows-worker-01-20260924-2131`
 - **Worktree:** `/Users/jrblankenhorn/copilot_skills.worktrees/ralph-no-browser-git-workflows-worker-01-20260924-2131`
 - **Base `origin/main` SHA:** `485b4a64c871f581f9295e46c867b188b0e3ccee`
-- **Implementation commit SHA:** `72c05f3f4240d90f45111daf5ce4c77591424e80`
+- **Implementation commit SHA:** `7b39f6a5dd2280de74e43046516aef35056bfc97`
 
 ## 2026-09-25T01:36:45Z — Iteration 1 documentation change
 
@@ -85,6 +85,33 @@ reason. The coordinator owns the aggregate dashboard.
   the new leaf to `docs/ralph-status.md`. The worker does not edit that
   coordinator-owned dashboard.
 
+### Follow-up correction and final checks — 2026-09-25T01:41:17Z
+
+- Review found that the existing worker-merge wording still required GitHub
+  CLI exclusively. That narrowed the supported-tool choice from the
+  acceptance criteria, so the main skill, orchestration reference, merge
+  guide, and project prompt were clarified to allow the configured GitHub CLI
+  **or** supported GitHub integration/MCP tools. The contract now checks that
+  worker PR guidance allows either route.
+- Final implementation commit:
+  `7b39f6a5dd2280de74e43046516aef35056bfc97`.
+- A final `git fetch origin` after that commit passed; `origin/main` remained
+  at `485b4a64c871f581f9295e46c867b188b0e3ccee`, so no rebase was needed.
+- Full suite command on the final branch:
+  `cd /Users/jrblankenhorn/copilot_skills.worktrees/ralph-no-browser-git-workflows-worker-01-20260924-2131 && python3 .github/skills/ralph-loop/tests/test_multi_agent_contract.py`
+  — FAIL, `Ran 11 tests in 0.010s`, `FAILED (failures=1)`. The sole failure
+  was `test_docs_status_dashboard_indexes_every_branch_agent_folder` because
+  this new leaf had not yet been added to the coordinator-owned
+  `docs/ralph-status.md`.
+- Targeted final contract command:
+  `cd /Users/jrblankenhorn/copilot_skills.worktrees/ralph-no-browser-git-workflows-worker-01-20260924-2131 && python3 .github/skills/ralph-loop/tests/test_multi_agent_contract.py MultiAgentContractTests.test_git_and_github_repository_operations_never_use_a_browser MultiAgentContractTests.test_workers_merge_their_own_prs_after_coordinator_authorizes`
+  — PASS, `Ran 2 tests in 0.003s`, `OK`.
+- `git diff origin/main...HEAD --check` — PASS; `git show --check --oneline --no-patch HEAD`
+  — PASS, output `7b39f6a docs(ralph): allow supported GitHub integrations`.
+- The missing dashboard index is an unresolved coordination/check blocker,
+  not a worker-owned file change. Required next step: coordinator indexes the
+  leaf and reruns the full suite before authorizing integration.
+
 ### Integration state
 
 - The repository's documented normal integration path is coordinator-review
@@ -95,8 +122,9 @@ reason. The coordinator owns the aggregate dashboard.
   entry with this leaf before integration.
 - Post-merge memory review has not been performed; it remains coordinator
   owned and pending verified integration.
-- Blockers: none. Next action: coordinator review, dashboard synchronization,
-  and authorization for the repository's normal verified integration.
+- Blocker: coordinator-owned dashboard index and full-suite rerun are pending.
+  Next action: coordinator synchronization, review, and authorization for the
+  repository's normal verified integration.
 
 ### Worker sign-off
 
@@ -115,18 +143,22 @@ pull_request:
   url: null
 decision_record_path: "docs/decisions/ralph-no-browser-git-workflows-worker-01-20260924-2131/agents/worker-01/pr-not-opened.md"
 base_origin_main_sha: "485b4a64c871f581f9295e46c867b188b0e3ccee"
-implementation_commit_sha: "72c05f3f4240d90f45111daf5ce4c77591424e80"
+implementation_commit_sha: "7b39f6a5dd2280de74e43046516aef35056bfc97"
 checks:
-  - command: "python3 .github/skills/ralph-loop/tests/test_multi_agent_contract.py"
+  -   command: "cd /Users/jrblankenhorn/copilot_skills.worktrees/ralph-no-browser-git-workflows-worker-01-20260924-2131 && python3 .github/skills/ralph-loop/tests/test_multi_agent_contract.py"
+    result: FAIL
+    evidence: "One dashboard-index assertion failed until the coordinator indexes this leaf."
+  - command: "cd /Users/jrblankenhorn/copilot_skills.worktrees/ralph-no-browser-git-workflows-worker-01-20260924-2131 && python3 .github/skills/ralph-loop/tests/test_multi_agent_contract.py MultiAgentContractTests.test_git_and_github_repository_operations_never_use_a_browser MultiAgentContractTests.test_workers_merge_their_own_prs_after_coordinator_authorizes"
     result: PASS
-    evidence: "Ran 11 tests in 0.014s, OK."
+    evidence: "Ran 2 tests in 0.003s, OK."
   - command: "git diff origin/main...HEAD --check"
     result: PASS
   - command: "git show --check --oneline --no-patch HEAD"
     result: PASS
-blockers: []
-attested_at_utc: "2026-09-25T01:38:21Z"
+blockers:
+  - "The full contract suite needs the coordinator-owned dashboard index entry for this leaf."
+attested_at_utc: "2026-09-25T01:42:19Z"
 attestation_kind: SELF_ATTESTATION
 cryptographic_signature_status: NOT_CRYPTOGRAPHICALLY_SIGNED
-statement: "I, worker-01, sign off iteration 1 for no-browser-git-workflows at implementation commit 72c05f3f4240d90f45111daf5ce4c77591424e80."
+statement: "I, worker-01, sign off iteration 1 for no-browser-git-workflows at implementation commit 7b39f6a5dd2280de74e43046516aef35056bfc97, with the dashboard-index check pending coordinator synchronization."
 ```
