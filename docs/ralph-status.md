@@ -14,8 +14,8 @@ resource-manager integration are complete.
 ```yaml
 schema_version: 2
 snapshot_path: "docs/ralph-status.md"
-snapshot_revision: 75
-updated_at_utc: "2026-09-25T14:40:37Z"
+snapshot_revision: 76
+updated_at_utc: "2026-09-25T14:49:58Z"
 overall_status: IN_PROGRESS
 current_run_ids:
   - "copilot-skills-docs-status-organization-20260924"
@@ -373,20 +373,20 @@ runs:
         depends_on: ["specialist-agent-catalog", "skill-aware-ralph-routing"]
 
   - run_id: "copilot-skills-memory-update-agent-20260925-0223"
-    task_ids: ["memory-update-agent-definition", "ralph-memory-handoff"]
-    aggregate_status: BLOCKED
+    task_ids: ["memory-update-agent-definition", "ralph-memory-handoff", "capacity-blocked-review-resume-guidance"]
+    aggregate_status: IN_PROGRESS
     requested_worker_count: 2
     effective_worker_count: 2
     active_worker_count: 0
     base_origin_main_sha: "114e4d60567d05cd048916339ed86e324c6eeef3"
-    current_origin_main_sha: "c11cd4556854ec1ab87821b00686cb8313725be5"
+    current_origin_main_sha: "cef85f23ae91ea9994b01317a983ae89c4a1f51d"
     rebased_onto_origin_main_sha: "4f5fee342c7e08ce556ae10c8a693f9e30a2ee2b"
-    updated_at_utc: "2026-09-25T12:51:34Z"
-    coordinator_scope: "Add a dedicated gated Project Memory Update agent and wire structured learning handoffs from each Ralph agent."
+    updated_at_utc: "2026-09-25T14:32:06Z"
+    coordinator_scope: "Add a dedicated gated Project Memory Update agent, wire structured learning handoffs, and keep capacity-blocked post-merge reviews resumable."
     coordinator_branch: "ralph/project-memory-update-coordinator-20260925-0223"
     coordinator_status_path: "docs/ralph/ralph-project-memory-update-coordinator-20260925-0223/agents/coordinator/status.md"
     coordinator_progress_path: "docs/ralph/ralph-project-memory-update-coordinator-20260925-0223/agents/coordinator/progress.md"
-    worker_count_note: "Worker-01 is complete after verified child integration. Worker-02's blocked handoff report is preserved; Resource Manager capacity was zero, so the coordinator completed its documentation/test scope serially without launching another child."
+    worker_count_note: "Worker-01 is complete after verified child integration. Worker-02's blocked handoff report is preserved. A follow-up coordinator branch adds the capacity-blocked resume contract; the updater remains pending until a fresh inventory permits an atomic slot reservation."
     split_plan:
       - task_id: "memory-update-agent-definition"
         worker_id: "worker-01"
@@ -396,7 +396,12 @@ runs:
         worker_id: "worker-02"
         scope: "Add structured memory_handoff reporting for coordinator and workers and wire the post-integration updater invocation into Ralph."
         depends_on: []
-    next_action: "Recheck live Resource Manager capacity; when a slot is available, invoke the Project Memory Update agent exactly once with the coordinator and both worker handoffs, then verify any warranted memory follow-up."
+      - task_id: "capacity-blocked-review-resume-guidance"
+        worker_id: "coordinator"
+        scope: "Add a test-first Ralph contract that keeps a required post-merge memory review pending when agent capacity is unavailable, and resumes only after refreshed inventory and atomic reservation."
+        owned_paths: ".github/agents/ralph-loop.agent.md; .github/skills/ralph-loop/SKILL.md; Ralph contract test; follow-up coordinator records"
+        depends_on: []
+    next_action: "Integrate the capacity-blocked resume guidance through the authorized main-ownership process. Then refresh the complete Resource Manager inventory and invoke the Project Memory Update agent exactly once if an atomic slot reservation succeeds; otherwise keep the review pending and request a capacity remedy."
     memory_review:
       status: PENDING
       owner: coordinator
@@ -1361,6 +1366,59 @@ branch_agent_index:
     memory_review_status: PENDING
     memory_review_outcome: null
     next_action: "No worker action; the coordinator owns the blocked post-merge memory review."
+  - run_id: "copilot-skills-memory-update-agent-20260925-0223"
+    task_ids: ["capacity-blocked-review-resume-guidance"]
+    worker_id: "coordinator"
+    worker_name: "coordinator - capacity-blocked memory review resume guidance"
+    runtime_agent_id: "copilotcli:/dfeb3cd8-a5e9-4dec-b4e5-e2cf00dcb998"
+    branch: "ralph/capacity-blocked-memory-review-20260925-141705"
+    branch_slug: "ralph-capacity-blocked-memory-review-20260925-141705"
+    status: AWAITING_MERGE
+    iteration: 2
+    resource_usage:
+      time_spent_seconds: 901
+      time_basis: WALL_CLOCK_ELAPSED
+      token_spend:
+        status: NOT_REPORTED
+        input_tokens: null
+        output_tokens: null
+        total_tokens: null
+        cached_input_tokens: null
+        source: null
+    status_path: "docs/ralph/ralph-capacity-blocked-memory-review-20260925-141705/agents/coordinator/status.md"
+    progress_path: "docs/ralph/ralph-capacity-blocked-memory-review-20260925-141705/agents/coordinator/progress.md"
+    decision_record_path: "docs/decisions/ralph-capacity-blocked-memory-review-20260925-141705/agents/coordinator/pr-not-opened.md"
+    decision_index_path: "docs/decisions/ralph-capacity-blocked-memory-review-20260925-141705/README.md"
+    base_origin_main_sha: "cef85f23ae91ea9994b01317a983ae89c4a1f51d"
+    implementation_commit_sha: "8d97333bfb3e8947a647e04952c1fef40b30b9f0"
+    pull_request:
+      status: NOT_OPENED
+      number: null
+      url: null
+      reason: "The repository's normal integration path is coordinator-managed and remotely verified without a PR."
+    review:
+      status: NOT_APPLICABLE
+      reviewer_agents: []
+      reviewed_base_sha: null
+      reviewed_head_sha: null
+      rounds_completed: 0
+      max_rounds: 2
+      unresolved_finding_count: 0
+      author_decision:
+        status: NOT_APPLICABLE
+        choice: null
+        rationale: null
+        recorded_at_utc: null
+    parent_to_main_merge:
+      status: PENDING
+      sha: null
+      verified_remote_ref: "refs/heads/main"
+      verified_origin_main_sha: null
+      verification_method: null
+      verified_at_utc: null
+    memory_review_status: PENDING
+    memory_review_outcome: null
+    next_action: "Acquire MERGE, integrate this branch, and verify remote main; then retry the dedicated memory updater only after refreshed capacity permits an atomic reservation."
   - run_id: "copilot_skills-agent-status-reporting-20260924"
     task_ids: ["agent-status-report-test", "status-first-agent-reporting-guidance"]
     worker_id: "coordinator"
@@ -1508,6 +1566,7 @@ branch_agent_index:
 | `copilot-skills-agent-routing-20260925-8bc457e9` | `ralph/agent-optimization-routing-coordinator-20260925-8bc457e9` | `routing-coordinator` | `COMPLETE` | `13,029 s (wall-clock)` | `NOT_REPORTED` | [status](./ralph/ralph-agent-optimization-routing-coordinator-20260925-8bc457e9/agents/routing-coordinator/status.md) | [progress](./ralph/ralph-agent-optimization-routing-coordinator-20260925-8bc457e9/agents/routing-coordinator/progress.md) | `691d5b4dbb18a87768294326fc924f28b1490249` -> `0b7db073e365e6c1c6e29d410c424d7c7637c9bf` | `COMPLETE` |
 | `copilot-skills-memory-update-agent-20260925-0223` | `ralph/project-memory-update-coordinator-20260925-0223` | `coordinator` | `BLOCKED` | `36,511 s (wall-clock)` | `NOT_REPORTED` | [status](./ralph/ralph-project-memory-update-coordinator-20260925-0223/agents/coordinator/status.md) | [progress](./ralph/ralph-project-memory-update-coordinator-20260925-0223/agents/coordinator/progress.md) | `aebd168b8d926d51b6cb25a987b2fc313ff55fa7` | `PENDING` |
 | `copilot-skills-memory-update-agent-20260925-0223` | `ralph/project-memory-update-agent-worker-01-20260925-0223` | `worker-01` | `COMPLETE` | `34,992 s (wall-clock)` | `NOT_REPORTED` | [status](./ralph/ralph-project-memory-update-agent-worker-01-20260925-0223/agents/worker-01/status.md) | [progress](./ralph/ralph-project-memory-update-agent-worker-01-20260925-0223/agents/worker-01/progress.md) | `9095c7abc3652089cdc84f9e1d1cb0f5871ec0a6` | `PENDING` |
+| `copilot-skills-memory-update-agent-20260925-0223` | `ralph/capacity-blocked-memory-review-20260925-141705` | `coordinator` | `AWAITING_MERGE` | `901 s (wall-clock)` | `NOT_REPORTED` | [status](./ralph/ralph-capacity-blocked-memory-review-20260925-141705/agents/coordinator/status.md) | [progress](./ralph/ralph-capacity-blocked-memory-review-20260925-141705/agents/coordinator/progress.md) | `PENDING` | `PENDING` |
 
 The earlier parent-child pipeline run is `COMPLETE`: both workers integrated into the
 parent, the parent merge is verified on `origin/main`, the contract suite and
@@ -1553,3 +1612,9 @@ post-merge memory review is still pending: Resource Manager reported 13 active
 agents against a limit of 2, with zero slots available. The updater was not
 dispatched and memory files remain unchanged; recheck capacity before the
 single required invocation.
+
+The capacity-blocked memory-review resume safeguard is tracked on
+`ralph/capacity-blocked-memory-review-20260925-141705`. Its post-rebase Ralph,
+Project Memory Update, and main-ownership contracts pass 25, 1, and 7 tests;
+the branch is awaiting authorized integration, and the original memory review
+remains pending.
