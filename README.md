@@ -53,9 +53,12 @@ license notices are preserved in each skill directory.
   general implementation workers and independent reviewers. The separate
   Orchestrator/Worker profiles are not yet on `origin/main`; the
   [multi-agent status guide](.github/skills/ralph-loop/references/multi-agent-status.md)
-  defines overall and per-worker iteration reporting. Its Git preflight checks
-  configured Git identity and remote read access before work, and distinguishes
-  those from branch-push and merge permissions. The
+  defines the status-first report contract: lead interim and final reports
+  with the overall run state, then list every assigned agent's exact current
+  status and next action. It also defines status meanings and explains why a
+  zero active-worker count does not necessarily stop the run. Its Git preflight
+  checks configured Git identity and remote read access before work, and
+  distinguishes those from branch-push and merge permissions. The
   [worker-owned PR merge guide](.github/skills/ralph-loop/references/worker-pr-merging.md)
   requires an authorized worker to merge its own PR with its existing GitHub
   CLI access.

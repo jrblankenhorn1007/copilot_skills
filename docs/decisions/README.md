@@ -20,8 +20,11 @@ sanitized symptoms, resolution, and verification. Keep unresolved blockers
 separate from recovered issues. Never store credentials, tokens, or
 secret-bearing command output. Append new decisions rather than rewriting
 history. Commit each branch's index and agent records on that branch before
-integration. The final user-facing response reports completion status first
-and reports only unresolved blockers as failures.
+integration. Use the canonical
+[status-first Ralph reporting contract](../../.github/skills/ralph-loop/references/multi-agent-status.md)
+for interim and final reports: lead with the overall run state and list every
+assigned agent's exact current status and next action. Report only unresolved
+blockers as failures.
 
 ## Branch records
 

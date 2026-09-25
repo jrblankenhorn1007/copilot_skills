@@ -347,15 +347,23 @@ operations.
   and any required memory merge are verified on fetched remote `main`; do not
   emit `RALPH_CONTINUE` or `RALPH_COMPLETE` before then.
 
-## Final user-facing response
+## Status-first run reporting
 
-Start with exactly `Task completed: YES` or `Task completed: NO`. Use `YES`
-only after the requested work, checks, and verified remote-main integration
-are complete; include a concise outcome, passing checks, and merge SHA. Use
-`NO` when work is incomplete or blocked, and state the unresolved blocker and
-next action. Report only unresolved blockers as failures. Record resolved
-command, test, authentication, rebase, or merge problems in the branch's
-decision records instead of reporting them as outstanding failures.
+Lead every interim and final Ralph run report with the explicit overall run
+state. List every assigned agent with its exact current status and next
+action, including queued work and agents awaiting integration. Use
+`IN_PROGRESS` while authorized work, review, checks, or integration can still
+proceed; use `BLOCKED` only when the run cannot advance without external
+intervention; and use `COMPLETE` only after the acceptance, verification,
+integration, and required memory-review gates pass. A blocked worker does not
+make the whole run `BLOCKED` while other authorized work can proceed. Do not
+substitute a binary task-completion verdict for the run state and agent
+roster. Follow the
+[multi-agent status reporting contract](../skills/ralph-loop/references/multi-agent-status.md).
+
+Report only unresolved blockers as failures. Record resolved command, test,
+authentication, rebase, or merge problems in the branch's decision records
+instead of reporting them as outstanding failures.
 
 ## Worker sign-off
 

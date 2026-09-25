@@ -115,6 +115,9 @@ has one canonical home.
   `IN_PROGRESS`; it excludes `NOT_STARTED` (queued), `AWAITING_REVIEW`,
   `AWAITING_AUTHOR_DECISION`, `AWAITING_MERGE`, `BLOCKED`, and terminal
   workers.
+  An `active_worker_count` of zero does not imply the run is stopped: queued
+  `NOT_STARTED` work, `AWAITING_MERGE` agents, and coordinator work can still
+  be active at the run level.
 - `overall_status` on the dashboard and `aggregate_status` for each run use
   the same meanings:
   - `IN_PROGRESS` while authorized work, review, checks, or integration can
@@ -345,6 +348,44 @@ the cached-input count cannot exceed it. Each branch-index object's
 `resource_usage` must exactly mirror its leaf's current object in the same
 coordinator/worker synchronization cycle; these are per-branch values, not
 run-wide sums.
+
+## Status-first run report template
+
+Lead each interim and final report with the explicit overall run state, then
+show a row for every assigned agent. Use the same run-level meanings as the
+dashboard:
+
+- `IN_PROGRESS` while authorized work, review, checks, coordinator work, or
+  integration can still proceed.
+- `BLOCKED` only when the run cannot advance without external intervention;
+  an individually blocked worker does not block the run if other work can
+  continue.
+- `COMPLETE` only after every assignment meets its acceptance criteria, the
+  required checks and sign-offs are recorded, child and parent integration
+  are verified, and post-merge memory review and any required follow-up are
+  complete.
+
+An active_worker_count of zero does not imply the run is stopped: queued
+`NOT_STARTED` work, `AWAITING_MERGE` agents, and coordinator work can continue
+at the run level. Include queued and terminal agents in the roster rather
+than reporting only workers counted as active.
+
+```markdown
+Overall status: `IN_PROGRESS`
+
+Run-level next action: `<owner: specific action, or None when complete>`
+
+| Assigned agent (`worker_id` / `task_id`) | Exact current status | Next action |
+| --- | --- | --- |
+| `<worker-id>` / `<task-id>` | `<NOT_STARTED / IN_PROGRESS / AWAITING_MERGE / BLOCKED / COMPLETE / FAILED / CANCELLED>` | `<owner: specific action, or None (terminal)>` |
+| `<worker-id>` / `<task-id>` | `<exact status>` | `<owner: specific action, or None (terminal)>` |
+```
+
+Repeat the agent row once for every assigned agent, including queued,
+awaiting-merge, blocked, and terminal agents. State each agent's exact current
+status and next action; use `None (terminal)` when no further action remains.
+Keep the run-level next action distinct from each agent's next action. Do not
+replace the run status and agent roster with a binary task-completion verdict.
 
 ### Parent/child integration, rebase, and cleanup
 
