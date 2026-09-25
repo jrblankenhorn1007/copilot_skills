@@ -531,3 +531,35 @@
 - **Next:** Obtain fresh exact-SHA sign-offs with worker-owned memory handoffs,
   synchronize leaf/dashboard records, fetch/rebase if `origin/main` moves, and
   run final checks before publishing the parent.
+
+## 2026-09-25T12:56:49Z — parent rebased through concurrent main updates
+
+- **Upstream movement:** After the memory-update merge, `origin/main` advanced
+  through status-only ledger transactions to `f484e4762cbf04c98550ee6d13ad623e8985d01c`,
+  then to `d701bc0edfbf5cb910035335f56beb8d4debd612`. The main ownership
+  records were `FREE` at revisions 74 and 76 before the corresponding
+  rebases. Current ownership is free at revision 76.
+- **Rebases:** Rebased the parent from `dfd94c61222c1dcdc7558eba6d1680ff57ce8ed6`
+  onto the verified latest main through both transitions, ending at
+  `cf2f0c4d6af697e52b8758dffc265e91987e10d6` on base `d701bc0…`. Each
+  rebase had one `docs/ralph-status.md` header conflict; resolved each by
+  preserving upstream's newest run summaries/current IDs and adding the
+  agent-communication run. `git range-diff` mapped all 34 commits.
+- **Current worker commits:** Worker-01 implementation/series are
+  `862bbbea4b08b947b65db29fb0cfebb2496a894d` /
+  `b403c879f5947ba9b4bc6dfd0dd4e29cfe7a6fa5`; worker-02 implementation/series
+  are `f9a52ca8f0a30c7e1860cfe3cc57dde5510d5325` /
+  `7606d15e7d2ab25b9cbf40efbbe611a6931a5e84`. All four are verified
+  ancestors of the parent.
+- **Green:** The contract suite passed 24/24; `git diff --check
+  origin/main...HEAD` and all four ancestry checks passed after the latest
+  rebase.
+- **Worker metadata:** Worker-01 commit
+  `104e3af1e3e5dfe54f930402e2357046b2eb79f8` contains its structured
+  `memory_handoff` and exact sign-off, but is based on the superseded parent
+  `dfd94c6…` and remains unintegrated. The empty worker-02 status branch is
+  also preserved. Neither branch was pushed or deleted.
+- **Next:** Obtain new exact-SHA worker attestations and updated
+  `memory_handoff` records against this parent, integrate worker metadata
+  serially, synchronize the coordinator/dashboard, then rerun checks before
+  parent publication.
