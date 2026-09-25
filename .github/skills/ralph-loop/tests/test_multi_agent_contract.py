@@ -503,6 +503,9 @@ class MultiAgentContractTests(unittest.TestCase):
                 ) or re.search(
                     r"(?im)^-\s+\*\*status:\*\*\s*`([^`]+)`\s*$",
                     leaf_status,
+                ) or re.search(
+                    r"(?im)^status:\s*([A-Z_]+)\s*$",
+                    leaf_status,
                 )
                 self.assertIsNotNone(leaf_match, "leaf status must expose a status field")
                 dashboard_match = re.search(
