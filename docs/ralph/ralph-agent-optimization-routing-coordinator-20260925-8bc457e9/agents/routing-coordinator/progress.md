@@ -66,3 +66,24 @@
   updating the guide and four specialists, the same command passed all
   **15** tests. The separate role-hierarchy branch is blocked and
   unmerged; no standalone Orchestrator or Worker agent is claimed as live.
+
+### Renewed child evidence after latest-main rebase - 2026-09-25T11:06:04Z
+
+- The parent was rebased with its merge topology onto fetched main
+  `70b98bbf0ab35620f7c33b5d9789187560c699df`. The previous
+  rewritten routing implementation `3cf5558464cba08807a81be2330df4ea39af2720`
+  became `4110fb7769d2ffca322cddf6e4b7731da75229a0`; child tip
+  `5c1bcdbcc3ad780c94f3284cbe77bb647f1fc442` became
+  `24323c86425cd292af8249e6520c33a0f83c1d66`; parent merge
+  `eba1d05043ed80a6c0a60eb4c2a20404f3a00959` became
+  `691d5b4dbb18a87768294326fc924f28b1490249`.
+- `git merge-base --is-ancestor 24323c86425cd292af8249e6520c33a0f83c1d66
+  HEAD` and `git diff --quiet` over this child's owned paths comparing
+  original and final tips both returned 0. The coordinator renews
+  `SELF_ATTESTATION` bound to exact implementation
+  `4110fb7769d2ffca322cddf6e4b7731da75229a0`; this is neither
+  a cryptographic signature nor a launched worker's report. The
+  unrelated role branch resumed in a narrower scope, remains unmerged,
+  and explicitly recognizes this run's ownership of the shared Ralph
+  entrypoint, Skill, dashboard, and README. Parent-to-main and post-rebase
+  checks are still pending.

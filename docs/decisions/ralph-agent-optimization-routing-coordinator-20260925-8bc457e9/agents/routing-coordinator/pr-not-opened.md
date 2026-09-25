@@ -70,3 +70,15 @@ Both dashboard entries are indexed and the deployed Ralph Loop profile
 now routes the four specialists conditionally with 15 targeted contract
 tests passing. Its role-hierarchy successor is blocked and unmerged;
 parent-to-main verification and memory review remain pending.
+
+On the final parent rebase to
+`70b98bbf0ab35620f7c33b5d9789187560c699df`, routing
+implementation `3cf5558464cba08807a81be2330df4ea39af2720` became
+`4110fb7769d2ffca322cddf6e4b7731da75229a0`, tip
+`5c1bcdbcc3ad780c94f3284cbe77bb647f1fc442` became
+`24323c86425cd292af8249e6520c33a0f83c1d66`, and local parent
+merge is now `691d5b4dbb18a87768294326fc924f28b1490249`.
+The final tip remains a parent ancestor with identical original owned
+content; its current sign-off is a coordinator `SELF_ATTESTATION`.
+The separate role coordinator has resumed in a narrower, disjoint scope,
+but its code branch is still unmerged.

@@ -60,3 +60,22 @@
   test_specialist_agent_contract test_skill_aware_routing -q` passed all
   **13** tests after the coordinator indexed them. The deployed coordinator
   now has a specialist allowlist, pending final rebase and remote verification.
+
+### Renewed child evidence after latest-main rebase - 2026-09-25T11:06:04Z
+
+- The parent was rebased with its merge topology onto fetched main
+  `70b98bbf0ab35620f7c33b5d9789187560c699df`. The previous
+  rewritten specialist implementation `3a46abd5089f096804af6c0dc38daab35ddcfdcf`
+  became `6550b22fc72f8911afb155fcdc1c6b11c09a560c`; child tip
+  `74854cd8992e9ab5563f3e95c48ba7270482004a` became
+  `2176793d3d30811ffe44baef755eff0fdce78904`; parent merge
+  `1f2f5488241f905f072f0fce94351f1b1264fd1b` became
+  `491772f476bdade69bb332600fd27e86d6f997bf`.
+- `git merge-base --is-ancestor 2176793d3d30811ffe44baef755eff0fdce78904
+  HEAD` and `git diff --quiet` over all owned paths comparing the original
+  child tip with this final tip both returned 0. The coordinator renews the
+  child's sign-off on exact implementation
+  `6550b22fc72f8911afb155fcdc1c6b11c09a560c` as
+  `SELF_ATTESTATION`, not a cryptographic Git signature or a launched
+  worker attestation. Parent-to-main verification and post-rebase tests
+  are still pending.

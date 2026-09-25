@@ -103,3 +103,21 @@ tested routing change is committed at
 `origin/main` advanced to `55c30b3eb3c8e1cdf735ff4b987c9235bf5456e6`
 with only other tasks' status transactions. This run must rebase and retest
 before a main reservation; the separate role branch remains unmerged.
+
+The parent was then rebased with merge topology retained onto fetched main
+`70b98bbf0ab35620f7c33b5d9789187560c699df`, preserving the prior
+tip at `424ad90d079fcdba82222dc530ec99926b547450`. The rewritten
+deployed-routing implementation is
+`d0b35a12d425f016a5a9d918bc0bece0ba16896f`; child merges are
+`491772f476bdade69bb332600fd27e86d6f997bf` and
+`691d5b4dbb18a87768294326fc924f28b1490249`, with ancestor and
+owned-content checks passing. The separate role coordinator resumed
+in status revision 3 and explicitly narrowed its editing scope around
+this run's shared files; it has not merged those new roles. Await the
+post-rebase contracts, normal main integration, and memory review.
+
+Post-rebase verification passed all 55 Ralph and 15 Resource Manager
+tests, with clean whitespace and exact owned-file/ancestry proofs for both
+children. This parent uses the repository's established no-PR fast-forward
+path, so independent PR review is `NOT_APPLICABLE`, not silently skipped.
+Remote-main verification and post-merge memory review remain pending.

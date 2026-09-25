@@ -202,3 +202,41 @@
   rerun the full checks before any reserved main merge. No live
   subagent invocation has been demonstrated under the exhausted host
   capacity; static allowlist and workflow contracts are verified.
+
+### Latest-main parent rebase and renewed child sign-offs - 2026-09-25T11:06:04Z
+
+- Fetched `origin/main` at `70b98bbf0ab35620f7c33b5d9789187560c699df`.
+  Its latest status-only transaction shows main `FREE`. The separate
+  role-hierarchy coordinator resumed as `IN_PROGRESS` revision 3, but its
+  status explicitly narrows its editing scope to its own new profiles,
+  settings, and records and recognizes this run's claim on the shared
+  Ralph entrypoint, Skill, tests, dashboard, and README.
+- Saved the clean pre-rebase parent tip
+  `424ad90d079fcdba82222dc530ec99926b547450` on
+  `ralph/agent-optimization-parent-before-final-rebase-20260925-8bc457e9`.
+  `GIT_EDITOR=true git rebase --rebase-merges origin/main` completed
+  without conflict; the parent tip was
+  `fe9cd9951b2c6c98da91e6affde0ff83cc764112` before these status
+  updates. Routing implementation commit
+  `2d7db54f144449d5ee938c1a8de614a50c8201e8` became
+  `d0b35a12d425f016a5a9d918bc0bece0ba16896f`.
+- Latest specialist and routing child tips
+  `2176793d3d30811ffe44baef755eff0fdce78904` and
+  `24323c86425cd292af8249e6520c33a0f83c1d66` are parent
+  ancestors via rewritten merges `491772f476bdade69bb332600fd27e86d6f997bf`
+  and `691d5b4dbb18a87768294326fc924f28b1490249`.
+  Both original-to-latest owned-file comparisons returned 0. The
+  coordinator renewed each coordinator-owned child's self-attestation
+  bound to its latest implementation commit; no parallel worker
+  sign-off or cryptographic signature is claimed. Retest on the
+  rebased status and code before integration.
+- **Post-rebase verification:** `PYTHONDONTWRITEBYTECODE=1 python3 -m
+  unittest discover -s .github/skills/ralph-loop/tests -p 'test_*.py'
+  -q` passed all **55** tests in 37.103 seconds;
+  `PYTHONDONTWRITEBYTECODE=1 python3
+  .github/skills/resource-manager/tests/test_resource_manager.py`
+  passed all **15** tests. `git diff --check` passed, fetched main
+  `70b98bbf0ab35620f7c33b5d9789187560c699df` is an ancestor of
+  the parent, and both rewritten child tips remain ancestors with
+  identical owned-file trees. No live dispatch was attempted under
+  host capacity constraints.

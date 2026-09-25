@@ -70,3 +70,13 @@ contents are identical. The latter tip is an ancestor of parent
 entries are now indexed and 13 focused tests pass. The deployed Ralph
 coordinator allowlist now includes all four specialists; final remote-main
 verification and memory review remain pending.
+
+On the final parent rebase to
+`70b98bbf0ab35620f7c33b5d9789187560c699df`, specialist
+implementation `3a46abd5089f096804af6c0dc38daab35ddcfdcf` became
+`6550b22fc72f8911afb155fcdc1c6b11c09a560c`, tip
+`74854cd8992e9ab5563f3e95c48ba7270482004a` became
+`2176793d3d30811ffe44baef755eff0fdce78904`, and local parent
+merge is now `491772f476bdade69bb332600fd27e86d6f997bf`.
+The final tip remains a parent ancestor with identical original owned
+content; its current sign-off is a coordinator `SELF_ATTESTATION`.
