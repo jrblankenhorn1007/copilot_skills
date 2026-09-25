@@ -1350,3 +1350,23 @@
 - **Next:** Wait for a Resource Manager slot. On resume, refresh the full
   inventory, reserve a slot, and dispatch the dedicated memory updater once
   with all three preserved handoffs and source paths.
+
+## 2026-09-25T20:08:24Z — capacity reconfirmed; task ledger refreshed
+
+- **Refresh:** On resume, the parent worktree and fetched `origin/main` were
+  both at `7880a2d2471a0eb6250094c2a714c23fd798d6f4`, clean before the task
+  ledger status update.
+- **Capacity:** The refreshed live inventory still shows 8 active sessions,
+  but available memory has fallen to 2.72 GiB, reducing `max_agents` to 1;
+  `available_slots` remains 0. No updater was dispatched.
+- **Task ledger:** Published coordinator status revision 4 as `BLOCKED`
+  through the status publisher. Its status commit is
+  `966f4f82d4039c737c9946e26885cd20949c7f96`; the transaction completed
+  with fetched `origin/main` at
+  `9492750ef0afc35a9cd1cee7ec6d890ecfe23fdd`. Main ownership was released
+  automatically by the publisher.
+- **Status:** Kept the Ralph run `BLOCKED`; the implementation merge remains
+  verified and the required Project Memory Update remains pending.
+- **Next:** Wait for capacity to recover. On resume, refresh the full
+  inventory, reserve a slot before dispatching the updater, and keep the run
+  blocked until its review and any warranted follow-up merge are verified.
