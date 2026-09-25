@@ -97,13 +97,20 @@
     after the external dashboard update, it exited 0 and all 10 tests passed.
     The worker commit remains dependent on that coordinator-owned update.
   - `git diff --check` exited 0.
-- Self-attestation at `2026-09-25T01:50:27Z` is bound to the implementation
+- Self-attestation at `2026-09-25T01:53:14Z` is bound to the implementation
   SHA above. The iteration status is `BLOCKED`, not `AWAITING_MERGE` or
   `COMPLETE`.
 - A fresh `git fetch origin` completed with exit code 0; `origin/main` remains
   `485b4a64c871f581f9295e46c867b188b0e3ccee`. The shared main worktree remains
   clean at that SHA, and the published iteration-1 branch remains clean at
   tip `773705ec63a8571e787e0098856cfa8b3298b097`.
+- A later `git fetch origin` completed with exit code 0 and advanced
+  `origin/main` to `3ea889103bb7db6fb1f5eadf647045a511ea9a03`. This worker
+  branch remains based at `485b4a64c871f581f9295e46c867b188b0e3ccee`,
+  two local commits ahead and seven commits behind. No rebase was attempted:
+  the worktree contains an unstaged coordinator-owned `docs/ralph-status.md`
+  update that worker-01 must preserve, and publication/integration are
+  blocked. Rebase and retest are required before any later integration.
 - PR creation is also blocked: `gh` is not installed, the browser is signed
   out, and the available GitHub MCP methods are read-only. No tool was
   installed, no credentials were inspected or requested, and no

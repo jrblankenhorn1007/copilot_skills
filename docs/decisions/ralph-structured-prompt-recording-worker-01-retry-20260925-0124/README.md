@@ -46,3 +46,9 @@ The branch/worktree is preserved. There is no PR, merge, or remote-main
 integration. If a PR is later created, the worker must remain
 `AWAITING_MERGE` until the coordinator authorizes that exact PR and must not
 merge before authorization.
+
+The latest fetched `origin/main` is
+`3ea889103bb7db6fb1f5eadf647045a511ea9a03`, seven commits beyond this
+branch's base. No rebase was performed: the worktree contains a separate
+coordinator-owned unstaged dashboard update that must be preserved, and the
+branch is not ready for publication or integration.

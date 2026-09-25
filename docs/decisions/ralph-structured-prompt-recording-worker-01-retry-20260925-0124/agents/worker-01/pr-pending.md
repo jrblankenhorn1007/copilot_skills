@@ -8,7 +8,8 @@
 - Branch: `ralph/structured-prompt-recording-worker-01-retry-20260925-0124`
 - Worktree: `/Users/jrblankenhorn/copilot_skills.worktrees/ralph-structured-prompt-recording-worker-01-retry-20260925-0124`
 - Base `origin/main`: `485b4a64c871f581f9295e46c867b188b0e3ccee`
-- Rebased `origin/main`: `null` (not rebased as of this record)
+- Latest fetched `origin/main`: `3ea889103bb7db6fb1f5eadf647045a511ea9a03`
+- Rebased `origin/main`: `null` (not rebased; branch is 7 commits behind latest main)
 - Implementation commit: `1b77c316b33672cc2f4d55a683d7a4d0acfb5655`
   (local; not published).
 - PR: pending; no PR number or URL assigned yet.
@@ -45,6 +46,12 @@
    `docs/ralph-status.md` lacks this branch's status/progress paths. The
    assignment forbids changing the dashboard and another worker owns that
    contract test; retain the failure as a blocker for coordinator resolution.
+6. **Preserve the latest main and coordinator work.** A later fetch found
+   `origin/main` at `3ea889103bb7db6fb1f5eadf647045a511ea9a03`, seven commits
+   ahead of the branch base. Do not publish this stale branch. Do not rebase
+   while the worktree contains the coordinator-owned unstaged dashboard
+   change; wait for the coordinator to reconcile it and re-scope the
+   rebase/retest path.
 
 ## Recovered issues
 
@@ -84,3 +91,8 @@ opened, and no merge has been attempted.
 - PR creation is blocked because `gh` is not installed, the browser is signed
   out, and the available GitHub MCP methods are read-only. No branch
   publication or merge has been attempted.
+- `origin/main` advanced to
+  `3ea889103bb7db6fb1f5eadf647045a511ea9a03` after this branch was based at
+  `485b4a64c871f581f9295e46c867b188b0e3ccee`. The branch is 7 commits behind
+  and has not been rebased; preserve the coordinator-owned unstaged dashboard
+  change and obtain coordinator direction before resuming.
