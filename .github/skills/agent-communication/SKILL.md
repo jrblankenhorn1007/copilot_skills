@@ -35,8 +35,9 @@ that turn.
 ## `agent-message/v1` envelope
 
 Use one compact envelope per message. All fields are present; use `null` for
-`correlation_id` on a new conversation and for `reply_deadline` when no reply
-is requested. Set `ack_required` to `false` when no reply is needed. The name
+`correlation_id` on a new conversation, `deadline` when no task-result due
+time is assigned, and `reply_deadline` when no sender checkpoint is requested.
+Set `ack_required` to `false` when no reply is needed. The name
 `agent-message/v1` identifies this envelope version; keep its field contract
 stable across the skill and host adapter.
 
@@ -47,14 +48,15 @@ stable across the skill and host adapter.
   "task_id": "assigned-task-id",
   "from_session": "agent-host-session://verified-sender",
   "to_session": "agent-host-session://verified-recipient",
-  "kind": "status",
+  "kind": "task",
   "priority": "normal",
   "sent_at": "2026-09-25T07:00:00Z",
-  "expires_at": "2026-09-25T07:10:00Z",
+  "expires_at": "2026-09-25T07:15:00Z",
+  "deadline": "2026-09-25T07:10:00Z",
   "correlation_id": null,
   "ack_required": true,
   "reply_deadline": "2026-09-25T07:02:00Z",
-  "body": "Checkpoint: implementation is committed; please confirm receipt and report the next checkpoint.",
+  "body": "Complete the assigned change; acknowledge receipt or checkpoint by reply_deadline and send the result by deadline.",
   "artifact_refs": [
     {
       "path": "docs/ralph/example/agents/worker-01/progress.md",
@@ -75,9 +77,14 @@ stable across the skill and host adapter.
   request to pause or stop at a safe checkpoint.
 - `priority` is `low`, `normal`, `high`, or `urgent`. Priority is a request to
   the host, not evidence that a busy session will be scheduled sooner.
-- `sent_at`, `expires_at`, and non-null `reply_deadline` are ISO 8601 UTC
-  timestamps. Set expiry for when the instruction becomes stale; it is not a
-  host-side cancellation timer.
+- `sent_at`, `expires_at`, `deadline`, and `reply_deadline` are ISO 8601 UTC
+  timestamps when present. `deadline` is the task-result due time.
+  `reply_deadline` is the sender-checkpoint due time for a receipt,
+  processing, or progress update; it is not the task-result deadline. Either
+  can be `null` when that due time does not apply.
+- `expires_at` is the instruction-validity limit, not either deadline; it is
+  not a host-side cancellation timer. If expiry occurs first, the expired
+  instruction rejection rule takes precedence.
 - `ack_required` says whether the sender needs a separate acknowledgment.
   `body` is a concise request, answer, checkpoint, or result—usually one
   paragraph or a few bullets, not a transcript.
@@ -125,12 +132,12 @@ A **delivery acknowledgement** is a transport result such as `accepted` or
 `queued`; a response like “Message sent” is not a recipient acknowledgment.
 A **processing acknowledgement** is a recipient `kind: "ack"` that names the
 original `message_id` and says it has started handling the request. A separate
-`kind: "result"` reports task completion and should include the result and
-any relevant `artifact_refs`. Neither delivery nor processing
-acknowledgement means the task is complete; completion requires the requested
-acceptance criteria to be met. Correlate acknowledgments to the original
-`message_id`, and deduplicate repeated IDs rather than processing the same
-request twice.
+**completion acknowledgement** is a `kind: "result"` that reports task
+completion and includes the result and any relevant `artifact_refs`. Neither
+delivery nor processing acknowledgement means the task is complete; completion
+requires the requested acceptance criteria to be met. Correlate
+acknowledgments to the original `message_id`, and deduplicate repeated IDs
+rather than processing the same request twice.
 
 Do not resend an `accepted` or `queued` message just because a reply is late.
 Keep its ID and state, continue independent work, and honor the `reply
@@ -146,6 +153,11 @@ starting target is a receipt or processing checkpoint within about one minute
 and a substantive checkpoint within two or three minutes. These are sender
 checkpoints, not host service guarantees; choose an `expires_at` appropriate
 to the request's risk and urgency.
+
+Use `deadline` for when the task result is due and `reply_deadline` for when
+the sender expects its next checkpoint. Do not use a missed checkpoint as
+proof that the task-result deadline was missed, or treat a checkpoint as task
+completion.
 
 `send_message` returns asynchronously, so do not hold the sender idle, wait
 for a long poll, or repeatedly inspect the target. Continue a safe independent
