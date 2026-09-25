@@ -6,8 +6,9 @@ coordinator updates this file in the same loop as affected leaf records.
 
 **Overall status:** `IN_PROGRESS`. The prompt-generation memory follow-up and
 status-first reporting work are in progress; the Project Memory Update run is
-blocked pending a memory-review agent slot. Skill-aware agent routing and
-resource-manager integration are complete.
+blocked pending a memory-review agent slot. Skill-aware agent routing, resource-manager integration, and the pre-merge
+code-review run are complete;
+the OpenCode Ralph Loop migration remains in progress.
 
 ```yaml
 schema_version: 2
@@ -22,6 +23,9 @@ current_run_ids:
   - "translated-ralph-prompt-skills-recovery-20260925-0318"
   - "copilot-skills-memory-update-agent-20260925-0223"
   - "copilot_skills-agent-status-reporting-20260924"
+  - "copilot-skills-agent-resource-manager-20260925"
+  - "copilot-skills-premerge-code-review-20260924"
+  - "copilot-skills-opencode-setup-20260924-2325"
 
 runs:
   - run_id: "copilot_skills-two-agent-ralph-test-batch-20260924"
@@ -455,6 +459,51 @@ runs:
         implementation_commit_sha: "eeb087c1914929b5c93a400af0a9c161ea73d7dc"
         child_tip_sha: "68519b1eef33abbe65794fed3d941315e15bc204"
         next_action: "Coordinator: verify the status-first implementation in the rebased parent, then complete remote-main integration and the memory review."
+
+  - run_id: "copilot-skills-opencode-setup-20260924-2325"
+    task_ids: ["opencode-setup-docs", "opencode-ralph-runtime"]
+    aggregate_status: IN_PROGRESS
+    requested_worker_count: 2
+    effective_worker_count: 1
+    active_worker_count: 0
+    base_origin_main_sha: "9558f99cc34cbed8dd1d24f4f15fc03f5d78b6ea"
+    current_origin_main_sha: "05b1b23da974ed7b171c3a29ee266e43721d4e7b"
+    parent_rebased_onto_origin_main_sha: "05b1b23da974ed7b171c3a29ee266e43721d4e7b"
+    created_at_utc: "2026-09-25T03:24:36Z"
+    updated_at_utc: "2026-09-25T06:24:45Z"
+    coordinator_scope: "Document OpenCode installation/provider setup and, after separate runtime validation, migrate Ralph Loop usage away from Copilot CLI."
+    coordinator_branch: "agents/update-dependencies-docs-opencode-setup"
+    coordinator_status_path: "docs/ralph/agents-update-dependencies-docs-opencode-setup/agents/coordinator/status.md"
+    coordinator_progress_path: "docs/ralph/agents-update-dependencies-docs-opencode-setup/agents/coordinator/progress.md"
+    parent_implementation_commit_sha: "0d548f13d0d050f544d2f75c072cbc267dbbb0cf"
+    parent_to_main_merge:
+      status: PENDING
+      sha: null
+      verified_remote_ref: "refs/heads/main"
+      verified_origin_main_sha: null
+      verification_method: null
+      verified_at_utc: null
+    memory_review: PENDING
+    parent_cleanup:
+      worktree: PENDING
+      local_branch: PENDING
+      remote_ref: NOT_PUBLISHED
+    contract_suite_status: PASS
+    contract_suite_result: "python3 .github/skills/ralph-loop/tests/test_multi_agent_contract.py — Ran 13 tests in 6.585s, OK."
+    worker_count_note: "Only the independent setup-documentation task was ready; Ralph runtime migration remains gated on separate OpenCode working validation."
+    blockers:
+      - "OpenCode 1.18.32 is installed, but `opencode auth list` reports no configured credentials; the user must complete provider sign-in in a visible OpenCode session before a model-backed Ralph run."
+    next_action: "Coordinator: finish the OpenCode agent and documentation migration, run all local checks, then complete visible provider sign-in and a bounded authenticated run before remote integration."
+    split_plan:
+      - task_id: "opencode-setup-docs"
+        worker_id: "worker-01"
+        scope: "Add provider-neutral OpenCode installation/authentication setup documentation and link it from the README without changing Ralph runtime behavior."
+        depends_on: []
+      - task_id: "opencode-ralph-runtime"
+        worker_id: "coordinator"
+        scope: "After separate OpenCode working validation, migrate Ralph Loop agent/setup instructions from Copilot CLI to the supported OpenCode invocation."
+        depends_on:
+          - "opencode-setup-docs"
 
 branch_agent_index:
   - run_id: "copilot-skills-status-report-time-token-20260925"
@@ -1499,6 +1548,9 @@ branch_agent_index:
 | `copilot-skills-agent-routing-20260925-8bc457e9` | `ralph/agent-optimization-routing-coordinator-20260925-8bc457e9` | `routing-coordinator` | `COMPLETE` | `13,029 s (wall-clock)` | `NOT_REPORTED` | [status](./ralph/ralph-agent-optimization-routing-coordinator-20260925-8bc457e9/agents/routing-coordinator/status.md) | [progress](./ralph/ralph-agent-optimization-routing-coordinator-20260925-8bc457e9/agents/routing-coordinator/progress.md) | `691d5b4dbb18a87768294326fc924f28b1490249` -> `0b7db073e365e6c1c6e29d410c424d7c7637c9bf` | `COMPLETE` |
 | `copilot-skills-memory-update-agent-20260925-0223` | `ralph/project-memory-update-coordinator-20260925-0223` | `coordinator` | `BLOCKED` | `36,511 s (wall-clock)` | `NOT_REPORTED` | [status](./ralph/ralph-project-memory-update-coordinator-20260925-0223/agents/coordinator/status.md) | [progress](./ralph/ralph-project-memory-update-coordinator-20260925-0223/agents/coordinator/progress.md) | `aebd168b8d926d51b6cb25a987b2fc313ff55fa7` | `PENDING` |
 | `copilot-skills-memory-update-agent-20260925-0223` | `ralph/project-memory-update-agent-worker-01-20260925-0223` | `worker-01` | `COMPLETE` | `34,992 s (wall-clock)` | `NOT_REPORTED` | [status](./ralph/ralph-project-memory-update-agent-worker-01-20260925-0223/agents/worker-01/status.md) | [progress](./ralph/ralph-project-memory-update-agent-worker-01-20260925-0223/agents/worker-01/progress.md) | `9095c7abc3652089cdc84f9e1d1cb0f5871ec0a6` | `PENDING` |
+
+| `copilot-skills-opencode-setup-20260924-2325` | `agents/update-dependencies-docs-opencode-setup` | `coordinator` | `IN_PROGRESS` | Not captured (legacy) | Not captured (legacy) | [status](./ralph/agents-update-dependencies-docs-opencode-setup/agents/coordinator/status.md) | [progress](./ralph/agents-update-dependencies-docs-opencode-setup/agents/coordinator/progress.md) | Parent pending | Pending |
+| `copilot-skills-opencode-setup-20260924-2325` | `ralph/opencode-setup-docs-worker-01-20260924-2325` | `worker-01` | `AWAITING_MERGE` | Not captured (legacy) | Not captured (legacy) | [status](./ralph/ralph-opencode-setup-docs-worker-01-20260924-2325/agents/worker-01/status.md) | [progress](./ralph/ralph-opencode-setup-docs-worker-01-20260924-2325/agents/worker-01/progress.md) | Rebase revalidation pending | Pending |
 
 The earlier parent-child pipeline run is `COMPLETE`: both workers integrated into the
 parent, the parent merge is verified on `origin/main`, the contract suite and
