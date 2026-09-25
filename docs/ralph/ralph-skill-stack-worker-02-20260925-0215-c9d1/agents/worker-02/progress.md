@@ -187,3 +187,60 @@ claim completion before those actions.
   installation, profile application, or external platform check was
   performed; script-directory preview is not evidence of host activation.
   No performance or actual recall claim is made.
+
+### Refreshed publication and sign-off — 2026-09-25T02:56:41Z
+
+- **Revised implementation commit:**
+  `6f9a156e7935c9461a7223c9797e12707b3242a8`
+  (`docs(agent-skill-stack): define bundled script working directory`) with
+  the required Copilot co-author trailer. It contains only this worker's two
+  Skill documentation changes and append-only feedback evidence.
+- `git -C /Users/jrblankenhorn/copilot_skills.worktrees/ralph-skill-stack-worker-02-20260925-0215-c9d1 fetch origin`
+  — PASS before publication; `origin/main` still
+  `114e4d60567d05cd048916339ed86e324c6eeef3` and the existing remote
+  worker branch was its previous status commit
+  `ad63c514650b3c3c10b559a886396a49662f9aa4`.
+- `git -C /Users/jrblankenhorn/copilot_skills.worktrees/ralph-skill-stack-worker-02-20260925-0215-c9d1 push origin ralph/skill-stack-worker-02-20260925-0215-c9d1`
+  — PASS fast-forwarding only the worker branch to
+  `6f9a156e7935c9461a7223c9797e12707b3242a8`. This did not merge to
+  remote main or change the no-PR decision.
+- **Current state:** `AWAITING_MERGE`; new sign-off below supersedes the
+  earlier self-attestation bound to
+  `eaec4ac35c8f4690f8ce6a9b35da07882dbdedd5`. Integration and
+  coordinator-owned memory review remain pending.
+
+#### Refreshed worker-02 sign-off payload
+
+```yaml
+run_id: "copilot-skills-skill-improvement-20260925"
+task_ids: ["skill-stack-recall"]
+worker_id: "worker-02"
+worker_name: "worker-02 / Agent Skill Stack recall"
+runtime_agent_id: "f748e902-b9d6-4d9e-9e69-6da1f2bc1211"
+iteration: 1
+branch: "ralph/skill-stack-worker-02-20260925-0215-c9d1"
+worktree: "/Users/jrblankenhorn/copilot_skills.worktrees/ralph-skill-stack-worker-02-20260925-0215-c9d1"
+base_origin_main_sha: "114e4d60567d05cd048916339ed86e324c6eeef3"
+rebased_onto_origin_main_sha: null
+implementation_commit_sha: "6f9a156e7935c9461a7223c9797e12707b3242a8"
+pull_request: {status: NOT_OPENED, number: null, url: null}
+decision_record_path: "docs/decisions/ralph-skill-stack-worker-02-20260925-0215-c9d1/agents/worker-02/pr-not-opened.md"
+checks:
+  - {procedure: "Skill-scoped Docs Sync Audit, 6 documents and zero findings", result: PASS}
+  - {procedure: "Read-only project-profile example from Skill cwd returned preview, created no profile", result: PASS}
+  - {procedure: "Worker Markdown links and trailing whitespace, 10 files and zero errors", result: PASS}
+  - {command: "git --no-pager diff --cached --check", result: PASS}
+  - {command: "git fetch origin before publication", result: PASS}
+  - {command: "git push origin ralph/skill-stack-worker-02-20260925-0215-c9d1", result: PASS}
+  - {procedure: "Actual host selection-only before/after routing trial", result: NOT_RUN}
+blockers: []
+attested_at_utc: "2026-09-25T02:56:41Z"
+attestation_kind: SELF_ATTESTATION
+cryptographic_signature_status: NOT_CRYPTOGRAPHICALLY_SIGNED
+statement: "I, worker-02, sign off iteration 1 for skill-stack-recall at commit 6f9a156e7935c9461a7223c9797e12707b3242a8."
+```
+
+**Next action:** Coordinator replaces the superseded sign-off in the
+dashboard, reviews the revised implementation, serializes the normal
+integration, verifies the remote merge, and performs post-merge Project
+Memory review. No completion marker is warranted yet.
