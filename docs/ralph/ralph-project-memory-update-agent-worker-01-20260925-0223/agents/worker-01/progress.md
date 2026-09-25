@@ -512,6 +512,140 @@ above.
   `NOT_REPORTED` with null values. No active-work estimate or token count was
   invented.
 
+### Worker-01 bounded refresh onto the updated parent — 2026-09-25T08:48:49Z
+
+- **Starting child:** The clean worker tip was
+  `8a343749a99fd3ec1284dc6b95fa8302b300d61f`.
+- **Verified fork point:** `0e3bef1d96eb29ef3c41d8235d5b278a2b3e3907` was
+  verified as an ancestor of the starting child. Exactly nine linear worker
+  commits followed it. The old fork point is not an ancestor of the new
+  parent; their merge base is
+  `6b1903ec7bfa5c798eb5e48c085bfc3845176bab`. The worker range's six paths
+  did not overlap the parent delta.
+- **Exact new parent:** Branch
+  `ralph/project-memory-update-coordinator-20260925-0223`, tip
+  `2237eecc5522d17f3e8feda063bc43e509798eab`, in
+  `/Users/jrblankenhorn/copilot_skills.worktrees/ralph-project-memory-update-coordinator-20260925-0223`.
+  The parent is based on
+  `origin/main` `7ee1307cb47f5a88cd6b46ee135444777ddeb665`; the existing
+  child-worktree tracking ref was observed at that SHA.
+- **Rebase command:** `git -C /Users/jrblankenhorn/copilot_skills.worktrees/ralph-project-memory-update-agent-worker-01-20260925-0223 rebase --onto 2237eecc5522d17f3e8feda063bc43e509798eab 0e3bef1d96eb29ef3c41d8235d5b278a2b3e3907`.
+- **Rebase result:** PASS; all nine commits replayed without conflicts. The
+  rewritten implementation commit is
+  `3ececee894c930f87efa554dc5a9c1362cb0365e`; the rebased worker-range tip
+  before the current leaf/decision update is
+  `d0bd46530017b540fa35ff11f85a6dc9341d75de`.
+- **Focused contract:** `cd /Users/jrblankenhorn/copilot_skills.worktrees/ralph-project-memory-update-agent-worker-01-20260925-0223 && python3 .github/skills/project-memory/tests/test_memory_update_agent_contract.py` — PASS (`Ran 1 test in 0.002s; OK`).
+- **Ralph regression:** `cd /Users/jrblankenhorn/copilot_skills.worktrees/ralph-project-memory-update-agent-worker-01-20260925-0223 && python3 .github/skills/ralph-loop/tests/test_multi_agent_contract.py` — PASS (`Ran 20 tests in 3.441s; OK`).
+- **Record diff check:** `cd /Users/jrblankenhorn/copilot_skills.worktrees/ralph-project-memory-update-agent-worker-01-20260925-0223 && git diff --check` — PASS after the worker leaf and decision updates; no whitespace errors.
+- **TDD:** No behavior change was made in this refresh; a Red/Green/Refactor cycle was not applicable.
+- **Current state:** The child remains `AWAITING_MERGE`; review remains
+  `NOT_APPLICABLE`; `worker_to_parent_merge.status` remains `PENDING`. No PR,
+  child-to-parent merge, push, remote-main merge, or memory change is claimed.
+  The coordinator must synchronize the dashboard entry from this worker
+  leaf before its serial integration.
+- **Memory handoff:** Preserved without alteration: the implementation
+  summary remains unchanged, `lesson_candidates` remains empty, and the
+  evidence-backed reason for no durable lesson remains supported by
+  `.github/agents/project-memory-update.agent.md`,
+  `.github/skills/project-memory/SKILL.md`, and
+  `.github/memory/workflow.md`.
+- **Telemetry:** At `2026-09-25T08:52:26Z`, wall-clock elapsed time from
+  `started_at_utc` is `21843` seconds. Token telemetry remains
+  `NOT_REPORTED` with null counters; no active-work estimate was added.
+- **Setup deviation:** The canonical/primary checkout was inspected and
+  `git -C /Users/jrblankenhorn/copilot_skills pull --ff-only` returned
+  `Already up to date.` This exceeded the requested child-only restriction.
+  The rebase, tests, and worker-record edits were then confined to the worker
+  child. No parent/dashboard file was edited.
+
+#### Fresh sign-off after the refreshed parent rebase
+
+```json
+{
+  "run_id": "copilot-skills-memory-update-agent-20260925-0223",
+  "task_ids": ["memory-update-agent-definition"],
+  "worker_id": "worker-01",
+  "worker_name": "worker-01 - Project Memory Update agent",
+  "runtime_agent_id": null,
+  "iteration": 1,
+  "branch": "ralph/project-memory-update-agent-worker-01-20260925-0223",
+  "worktree": "/Users/jrblankenhorn/copilot_skills.worktrees/ralph-project-memory-update-agent-worker-01-20260925-0223",
+  "pull_request": {
+    "status": "NOT_OPENED",
+    "number": null,
+    "url": null,
+    "reason": "The coordinator owns serial child-to-parent fast-forward integration; no PR is part of this branch's integration path."
+  },
+  "review": {
+    "status": "NOT_APPLICABLE",
+    "reviewer_agents": [],
+    "reviewed_base_sha": null,
+    "reviewed_head_sha": null,
+    "rounds_completed": 0,
+    "max_rounds": 2,
+    "unresolved_finding_count": 0,
+    "author_decision": {
+      "status": "NOT_APPLICABLE",
+      "choice": null,
+      "rationale": null,
+      "recorded_at_utc": null
+    }
+  },
+  "decision_record_path": "docs/decisions/ralph-project-memory-update-agent-worker-01-20260925-0223/agents/worker-01/pr-not-opened.md",
+  "base_origin_main_sha": "114e4d60567d05cd048916339ed86e324c6eeef3",
+  "rebased_onto_origin_main_sha": null,
+  "parent_branch": "ralph/project-memory-update-coordinator-20260925-0223",
+  "parent_worktree": "/Users/jrblankenhorn/copilot_skills.worktrees/ralph-project-memory-update-coordinator-20260925-0223",
+  "parent_base_origin_main_sha": "114e4d60567d05cd048916339ed86e324c6eeef3",
+  "parent_rebased_onto_origin_main_sha": "7ee1307cb47f5a88cd6b46ee135444777ddeb665",
+  "latest_fetched_origin_main_sha": "7ee1307cb47f5a88cd6b46ee135444777ddeb665",
+  "latest_origin_main_observed_sha": "7ee1307cb47f5a88cd6b46ee135444777ddeb665",
+  "latest_origin_main_observed_at_utc": "2026-09-25T08:42:47Z",
+  "base_parent_sha": "114e4d60567d05cd048916339ed86e324c6eeef3",
+  "rebased_onto_parent_sha": "2237eecc5522d17f3e8feda063bc43e509798eab",
+  "implementation_commit_sha": "3ececee894c930f87efa554dc5a9c1362cb0365e",
+  "status": "AWAITING_MERGE",
+  "worker_to_parent_merge": {
+    "status": "PENDING",
+    "sha": null,
+    "verified_parent_ref": "refs/heads/ralph/project-memory-update-coordinator-20260925-0223",
+    "verified_parent_sha": null,
+    "verification_method": null,
+    "verified_at_utc": null
+  },
+  "checks": [
+    {
+      "command": "cd /Users/jrblankenhorn/copilot_skills.worktrees/ralph-project-memory-update-agent-worker-01-20260925-0223 && python3 .github/skills/project-memory/tests/test_memory_update_agent_contract.py",
+      "result": "PASS",
+      "evidence": "Ran 1 test in 0.002s; OK."
+    },
+    {
+      "command": "cd /Users/jrblankenhorn/copilot_skills.worktrees/ralph-project-memory-update-agent-worker-01-20260925-0223 && python3 .github/skills/ralph-loop/tests/test_multi_agent_contract.py",
+      "result": "PASS",
+      "evidence": "Ran 20 tests in 3.441s; OK."
+    },
+    {
+      "command": "cd /Users/jrblankenhorn/copilot_skills.worktrees/ralph-project-memory-update-agent-worker-01-20260925-0223 && git diff --check",
+      "result": "PASS",
+      "evidence": "No whitespace errors after updating the worker leaf and decision records."
+    }
+  ],
+  "blockers": [
+    "The coordinator must synchronize the dashboard entry with this refreshed worker leaf and complete serial child-to-parent integration; worker-01 does not edit the dashboard or push/merge."
+  ],
+  "attested_at_utc": "2026-09-25T08:48:49Z",
+  "attestation_kind": "SELF_ATTESTATION",
+  "cryptographic_signature_status": "NOT_CRYPTOGRAPHICALLY_SIGNED",
+  "statement": "I, worker-01, sign off iteration 1 for memory-update-agent-definition at the exact implementation commit 3ececee894c930f87efa554dc5a9c1362cb0365e.",
+  "memory_handoff": {
+    "implementation_summary": "Added a dedicated Project Memory Update agent with verified-merge gating, complete worker handoff review, active-project memory isolation, durable-lesson curation, authorized integration, and structured outcomes; added a runnable contract test.",
+    "lesson_candidates": [],
+    "no_durable_lessons_reason": "The agent codifies existing Ralph and Project Memory workflow requirements rather than establishing a distinct reusable lesson; this is supported by the new agent definition, the current Project Memory skill, and .github/memory/workflow.md, which already cover verified post-merge updates and reviewable follow-ups."
+  }
+}
+```
+
 #### Fresh worker sign-off after exact parent rebase
 
 ```json
