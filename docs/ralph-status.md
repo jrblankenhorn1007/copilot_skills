@@ -13,8 +13,8 @@ progress, pending authenticated runtime validation and independent review.
 ```yaml
 schema_version: 2
 snapshot_path: "docs/ralph-status.md"
-snapshot_revision: 77
-updated_at_utc: "2026-09-25T15:03:07Z"
+snapshot_revision: 78
+updated_at_utc: "2026-09-25T15:05:48Z"
 overall_status: IN_PROGRESS
 current_run_ids:
   - "copilot-skills-docs-status-organization-20260924"
@@ -489,7 +489,7 @@ runs:
       local_branch: PENDING
       remote_ref: NOT_PUBLISHED
     contract_suite_status: PASS
-    contract_suite_result: "python3 .github/skills/ralph-loop/tests/test_multi_agent_contract.py — Ran 27 tests in 2.069s, OK."
+    contract_suite_result: "python3 .github/skills/ralph-loop/tests/test_multi_agent_contract.py — Ran 27 tests in 2.983s, OK."
     worker_count_note: "One setup-documentation worker was launched in iteration 1; the runtime migration was coordinator-owned in iteration 2. No additional agent was launched because the independent assignments were not ready and Resource Manager capacity is currently zero."
     blockers:
       - "OpenCode 1.18.32 and all four repository agent profiles load, but `opencode auth list` reports 0 credentials; a model-backed Ralph invocation remains unverified until provider sign-in."
@@ -1531,7 +1531,7 @@ branch_agent_index:
     status: IN_PROGRESS
     iteration: 2
     resource_usage:
-      time_spent_seconds: 41911
+      time_spent_seconds: 42072
       time_basis: WALL_CLOCK_ELAPSED
       token_spend:
         status: NOT_REPORTED
@@ -1630,7 +1630,7 @@ branch_agent_index:
 | `copilot-skills-memory-update-agent-20260925-0223` | `ralph/project-memory-update-coordinator-20260925-0223` | `coordinator` | `BLOCKED` | `36,511 s (wall-clock)` | `NOT_REPORTED` | [status](./ralph/ralph-project-memory-update-coordinator-20260925-0223/agents/coordinator/status.md) | [progress](./ralph/ralph-project-memory-update-coordinator-20260925-0223/agents/coordinator/progress.md) | `aebd168b8d926d51b6cb25a987b2fc313ff55fa7` | `PENDING` |
 | `copilot-skills-memory-update-agent-20260925-0223` | `ralph/project-memory-update-agent-worker-01-20260925-0223` | `worker-01` | `COMPLETE` | `34,992 s (wall-clock)` | `NOT_REPORTED` | [status](./ralph/ralph-project-memory-update-agent-worker-01-20260925-0223/agents/worker-01/status.md) | [progress](./ralph/ralph-project-memory-update-agent-worker-01-20260925-0223/agents/worker-01/progress.md) | `9095c7abc3652089cdc84f9e1d1cb0f5871ec0a6` | `PENDING` |
 
-| `copilot-skills-opencode-setup-20260924-2325` | `agents/update-dependencies-docs-opencode-setup` | `coordinator` | `IN_PROGRESS` | `41,911 s (wall-clock)` | `NOT_REPORTED` | [status](./ralph/agents-update-dependencies-docs-opencode-setup/agents/coordinator/status.md) | [progress](./ralph/agents-update-dependencies-docs-opencode-setup/agents/coordinator/progress.md) | Parent pending | Pending |
+| `copilot-skills-opencode-setup-20260924-2325` | `agents/update-dependencies-docs-opencode-setup` | `coordinator` | `IN_PROGRESS` | `42,072 s (wall-clock)` | `NOT_REPORTED` | [status](./ralph/agents-update-dependencies-docs-opencode-setup/agents/coordinator/status.md) | [progress](./ralph/agents-update-dependencies-docs-opencode-setup/agents/coordinator/progress.md) | Parent pending | Pending |
 | `copilot-skills-opencode-setup-20260924-2325` | `ralph/opencode-setup-docs-worker-01-20260924-2325` | `worker-01` | `AWAITING_MERGE` | Not captured (legacy) | Not captured (legacy) | [status](./ralph/ralph-opencode-setup-docs-worker-01-20260924-2325/agents/worker-01/status.md) | [progress](./ralph/ralph-opencode-setup-docs-worker-01-20260924-2325/agents/worker-01/progress.md) | Fresh sign-off and memory_handoff pending | Pending |
 
 The earlier parent-child pipeline run is `COMPLETE`: both workers integrated into the
