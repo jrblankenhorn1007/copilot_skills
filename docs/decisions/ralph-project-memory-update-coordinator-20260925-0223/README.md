@@ -6,7 +6,7 @@
 - Implementation commit: `ea21b70fbad58c937c206175d2eeb2801237373d`
 - Integration state: parent merge
   `aebd168b8d926d51b6cb25a987b2fc313ff55fa7` is verified on fetched
-  `origin/main` `548c5d1fed5843e3c3e3507cda5eebdc6013ef69`; the post-merge
+  `origin/main` `c11cd4556854ec1ab87821b00686cb8313725be5`; the post-merge
   memory review is blocked by zero Resource Manager slots.
 
 ## Agent/PR records
