@@ -16,12 +16,14 @@
 - **Parent branch:** `refs/heads/ralph/parent-child-orchestrator-20260924-2008`
 - **Parent worktree:** `/Users/jrblankenhorn/copilot_skills.worktrees/ralph-parent-child-orchestrator-20260924-2008`
 - **Parent's previously recorded `origin/main` base SHA:** `b4dac949e976d48f7bd976fc1c93ddc703bc7319`
-- **Parent's latest rebase target / observed `origin/main`:** `485b4a64c871f581f9295e46c867b188b0e3ccee`
+- **Parent's latest rebase target:** `485b4a64c871f581f9295e46c867b188b0e3ccee`
+- **Latest observed `origin/main`:** `114e4d60567d05cd048916339ed86e324c6eeef3`
 - **Previous `rebased_onto_parent_sha`:** `47982b9570f46eb4ccf3319fa3d90087d66db19a`
 - **Current `rebased_onto_parent_sha`:** `268358566c074cf3be35661f15883c588aef622f`
 - **Pre-refresh implementation commit SHA:** `652b3dcda2d76188590d90bfbc788a1bc775dae9`
 - **Rewritten implementation commit SHA:** `b4d2d331fc5ad2efd29b96c201c099c8a3642944`
 - **Metadata/status/decision update commit SHA:** `fddf99ea99db6ac45dc9a9db5ffcd46882b54a71`
+- **Metadata SHA-reference follow-up commit SHA:** `831b0b177a96dd0ca5ad8d34d80806c3c75cf2c3`
 - **Pull request:** Not opened (`number: null`, `url: null`). Child changes
   integrate into the parent branch; only the completed parent integrates to
   remote `main`.
@@ -452,3 +454,26 @@ commit—not to this record or the metadata commit:
 The latest `SELF_ATTESTATION`, bound to implementation commit
 `b4d2d331fc5ad2efd29b96c201c099c8a3642944`, and the full check evidence are
 retained in the worker's [progress record](../../../../ralph/ralph-parent-child-worker-reference-docs-20260924-2008/agents/worker-02/progress.md).
+
+## Coordinator dependency — remote main advanced after parent sync
+
+- **Observed at:** `2026-09-25T01:59:30Z`.
+- Read-only `git fetch origin` reported `origin/main`
+  `114e4d60567d05cd048916339ed86e324c6eeef3`
+  (`docs(ralph): finalize no-browser workflow status`).
+- The parent remains clean at the assigned tip
+  `268358566c074cf3be35661f15883c588aef622f`, based on
+  `485b4a64c871f581f9295e46c867b188b0e3ccee`; it is seven commits ahead and
+  eight behind the newly observed remote main.
+- The child remains based on the user-assigned parent tip; it was not
+  rebased directly onto `origin/main`. Parent reconciliation is
+  coordinator-owned. If the parent tip changes, the coordinator must confirm
+  whether a child rebase and retest are required before worker-to-parent
+  integration.
+- **Status:** `AWAITING_MERGE`; PR `NOT_OPENED`; worker-to-parent and
+  parent-to-main merges, memory review, and cleanup are pending. There is no
+  worker-scope blocker, but parent-to-main integration has a current
+  coordinator-owned synchronization dependency.
+- **Next action:** Coordinator: reconcile the parent with current
+  `origin/main`, then confirm the child integration base. No push, PR, merge,
+  or cleanup was performed by this worker.

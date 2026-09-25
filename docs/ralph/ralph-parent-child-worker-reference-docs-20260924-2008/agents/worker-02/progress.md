@@ -12,10 +12,11 @@
 - **Latest `rebased_onto_parent_sha`:** `268358566c074cf3be35661f15883c588aef622f`
 - **Parent `origin/main` base SHA:** `b4dac949e976d48f7bd976fc1c93ddc703bc7319`
 - **Latest parent rebase target:** `485b4a64c871f581f9295e46c867b188b0e3ccee`
-- **Latest observed `origin/main` SHA:** `485b4a64c871f581f9295e46c867b188b0e3ccee`
+- **Latest observed `origin/main` SHA:** `114e4d60567d05cd048916339ed86e324c6eeef3`
 - **Previous implementation commit SHA:** `652b3dcda2d76188590d90bfbc788a1bc775dae9`
 - **Latest implementation commit SHA:** `b4d2d331fc5ad2efd29b96c201c099c8a3642944`
 - **Metadata/status/decision update commit SHA:** `fddf99ea99db6ac45dc9a9db5ffcd46882b54a71`
+- **Metadata SHA-reference follow-up commit SHA:** `831b0b177a96dd0ca5ad8d34d80806c3c75cf2c3`
 
 ## 2026-09-25T00:55:42Z — Refresh existing child iteration
 
@@ -417,11 +418,12 @@ this entry supplements rather than replaces that history.
   "base_origin_main_sha": "b4dac949e976d48f7bd976fc1c93ddc703bc7319",
   "parent_base_origin_main_sha": "b4dac949e976d48f7bd976fc1c93ddc703bc7319",
   "parent_rebased_onto_origin_main_sha": "485b4a64c871f581f9295e46c867b188b0e3ccee",
-  "observed_origin_main_sha": "485b4a64c871f581f9295e46c867b188b0e3ccee",
+  "observed_origin_main_sha": "114e4d60567d05cd048916339ed86e324c6eeef3",
   "base_parent_sha": "d54cc120fe25da04d6be887b1a6a7e321512b6e4",
   "rebased_onto_parent_sha": "268358566c074cf3be35661f15883c588aef622f",
   "implementation_commit_sha": "b4d2d331fc5ad2efd29b96c201c099c8a3642944",
   "metadata_commit_sha": "fddf99ea99db6ac45dc9a9db5ffcd46882b54a71",
+  "metadata_reference_followup_sha": "831b0b177a96dd0ca5ad8d34d80806c3c75cf2c3",
   "pull_request": {
     "status": "NOT_OPENED",
     "number": null,
@@ -442,10 +444,10 @@ this entry supplements rather than replaces that history.
   "parent_cleanup_status": "PENDING",
   "cleanup_status": "PENDING",
   "blockers": [],
-  "attested_at_utc": "2026-09-25T01:53:52Z",
+  "attested_at_utc": "2026-09-25T02:03:07Z",
   "attestation_kind": "SELF_ATTESTATION",
   "cryptographic_signature_status": "NOT_CRYPTOGRAPHICALLY_SIGNED",
-  "statement": "I, worker-02, attest to iteration 1 at exact implementation commit b4d2d331fc5ad2efd29b96c201c099c8a3642944, rebased onto parent 268358566c074cf3be35661f15883c588aef622f while preserving original base_parent_sha d54cc120fe25da04d6be887b1a6a7e321512b6e4. This self-attestation does not claim worker-to-parent or parent-to-main integration, completion of memory review, or cleanup."
+  "statement": "I, worker-02, attest to iteration 1 at exact implementation commit b4d2d331fc5ad2efd29b96c201c099c8a3642944, rebased onto parent 268358566c074cf3be35661f15883c588aef622f while preserving original base_parent_sha d54cc120fe25da04d6be887b1a6a7e321512b6e4. This self-attestation does not claim worker-to-parent or parent-to-main integration, completion of memory review, or cleanup. origin/main is now 114e4d60567d05cd048916339ed86e324c6eeef3; the coordinator owns parent reconciliation."
 }
 ```
 
@@ -467,6 +469,48 @@ following final checks passed:
 - Latest self-attestation JSON validation — `PASS`; the payload is valid,
   records the metadata update SHA, and is bound to implementation
   `b4d2d331fc5ad2efd29b96c201c099c8a3642944`.
+- Worker status/progress/decision relative-link check — `PASS`; all 20 links
+  resolve.
+- Combined parent-child contract test — `NOT_RUN` per coordinator instruction;
+  no combined-suite pass is claimed.
+
+## 2026-09-25T01:59:30Z — Remote main advanced after the parent sync
+
+- A final read-only `git fetch origin` reported `origin/main` at
+  `114e4d60567d05cd048916339ed86e324c6eeef3` (`docs(ralph): finalize
+  no-browser workflow status`), after the parent had been rebased onto
+  `485b4a64c871f581f9295e46c867b188b0e3ccee`.
+- The parent worktree/branch remains clean at the user-assigned tip
+  `268358566c074cf3be35661f15883c588aef622f`; its merge base with
+  `origin/main` remains `485b4a64c871f581f9295e46c867b188b0e3ccee`, with
+  seven parent-only and eight remote-only commits at this fetch.
+- Per assignment, the child stays based on the exact parent tip
+  `268358566c074cf3be35661f15883c588aef622f`; it was not rebased directly
+  onto `origin/main`, and the coordinator's parent branch was not changed.
+- **Disposition:** Parent-to-main integration cannot proceed until the
+  coordinator reconciles the parent with the newly advanced `origin/main`.
+  If that changes the parent tip, the coordinator must decide whether to
+  request a further child rebase/retest before worker-to-parent integration.
+  This is a coordinator-owned synchronization dependency, not a
+  worker-scope implementation blocker.
+- **State:** `AWAITING_MERGE`; PR `NOT_OPENED`; worker-to-parent merge,
+  parent-to-main merge, memory review, and cleanup remain pending. No
+  publish, PR, merge, or cleanup was performed.
+- **Next action:** Coordinator: reconcile parent to the latest remote main,
+  then confirm the child integration base and any required rebase/retest.
+
+### Final verification after the remote-main observation
+
+- `git diff --check` — `PASS`, exit code 0.
+- `python3 .github/skills/ralph-loop/tests/test_multi_agent_contract.py MultiAgentContractTests.test_status_protocol_records_overall_worker_iteration_and_attestation`
+  — `PASS`; `Ran 1 test in 0.002s`, `OK`.
+- `python3 .github/skills/ralph-loop/tests/test_multi_agent_contract.py MultiAgentContractTests.test_final_response_reports_completion_and_logs_recovered_issues`
+  — `PASS`; `Ran 1 test in 0.007s`, `OK`.
+- Parent-relative path-set assertion — `PASS`; exactly the four assigned
+  reference documents and four worker-owned records differ from parent.
+- Latest self-attestation JSON validation — `PASS`; it records current
+  `origin/main` `114e4d60567d05cd048916339ed86e324c6eeef3` and remains bound to
+  implementation `b4d2d331fc5ad2efd29b96c201c099c8a3642944`.
 - Worker status/progress/decision relative-link check — `PASS`; all 20 links
   resolve.
 - Combined parent-child contract test — `NOT_RUN` per coordinator instruction;

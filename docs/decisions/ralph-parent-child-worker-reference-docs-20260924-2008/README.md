@@ -13,10 +13,12 @@
 - **Previous `rebased_onto_parent_sha`:** `47982b9570f46eb4ccf3319fa3d90087d66db19a`
 - **Current `rebased_onto_parent_sha`:** `268358566c074cf3be35661f15883c588aef622f`
 - **Parent's previously recorded `origin/main` base SHA:** `b4dac949e976d48f7bd976fc1c93ddc703bc7319`
-- **Parent's latest rebase target / observed `origin/main`:** `485b4a64c871f581f9295e46c867b188b0e3ccee`
+- **Parent's latest rebase target:** `485b4a64c871f581f9295e46c867b188b0e3ccee`
+- **Latest observed `origin/main`:** `114e4d60567d05cd048916339ed86e324c6eeef3`
 - **Pre-refresh implementation commit SHA:** `652b3dcda2d76188590d90bfbc788a1bc775dae9`
 - **Rewritten implementation commit SHA:** `b4d2d331fc5ad2efd29b96c201c099c8a3642944`
 - **Metadata/status/decision update commit SHA:** `fddf99ea99db6ac45dc9a9db5ffcd46882b54a71`
+- **Metadata SHA-reference follow-up commit SHA:** `831b0b177a96dd0ca5ad8d34d80806c3c75cf2c3`
 - **PR:** `NOT_OPENED`. This is child-to-parent work; only the completed
   parent iteration integrates to remote `main`.
 - **Integration state:** No push or merge was performed in this follow-up.
@@ -149,3 +151,27 @@
 - **Worker leaf records:** [status](../../ralph/ralph-parent-child-worker-reference-docs-20260924-2008/agents/worker-02/status.md) ·
   [progress](../../ralph/ralph-parent-child-worker-reference-docs-20260924-2008/agents/worker-02/progress.md).
 - **No-PR record:** [worker-02 — no PR opened](agents/worker-02/pr-not-opened.md).
+
+## Remote main advanced after parent synchronization
+
+- **Observed at:** `2026-09-25T01:59:30Z`.
+- A read-only `git fetch origin` updated `origin/main` to
+  `114e4d60567d05cd048916339ed86e324c6eeef3` (`docs(ralph): finalize
+  no-browser workflow status`). The parent had been rebased to
+  `485b4a64c871f581f9295e46c867b188b0e3ccee`.
+- The parent worktree remains clean at
+  `268358566c074cf3be35661f15883c588aef622f`; its merge base with the latest
+  `origin/main` is `485b4a64c871f581f9295e46c867b188b0e3ccee` (seven
+  parent-only and eight remote-only commits at this fetch).
+- The child remains based on the assigned parent tip
+  `268358566c074cf3be35661f15883c588aef622f`. It was not rebased directly
+  onto the moved `origin/main`, and neither parent nor child was merged.
+- **Disposition:** Parent-to-main integration is pending coordinator
+  reconciliation. If the parent moves, the coordinator must confirm whether
+  this worker needs another rebase/retest before child integration.
+- **Current state:** `AWAITING_MERGE`; PR `NOT_OPENED`; worker-to-parent merge,
+  parent-to-main merge, memory review, and cleanup remain pending. This
+  remote movement is a coordination dependency, not a worker-scope blocker.
+  No push, PR, merge, or cleanup was performed.
+- **Next action:** Coordinator: reconcile the parent with the latest remote
+  main and then confirm the required child integration base.
