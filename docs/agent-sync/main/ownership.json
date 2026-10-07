@@ -4,19 +4,19 @@
     "operation": "STATUS",
     "run_id": "copilot-skills-worktree-janitor-20261007",
     "runtime_agent_id": "copilotcli:/d04e3d8d-4a60-4fda-8eef-13cbf13caa0f",
-    "signed_in_at_utc": "2026-10-07T16:33:45Z",
-    "start_main_sha": "9d6dd8bac90b48fe6c6c6ed35451a148dda4f987",
-    "token": "4db09f986e7d0496eb4646f8d63667c7",
+    "signed_in_at_utc": "2026-10-07T16:38:35Z",
+    "start_main_sha": "65ada24c7ff117ea82a6ce92ac718953b2d8222f",
+    "token": "72915ff0a650b05b33bfc011a2667535",
     "worktree_path": null
   },
   "ref": "refs/heads/main",
   "repository": "jrblankenhorn1007/copilot_skills",
-  "revision": 264,
+  "revision": 265,
   "schema_version": 1,
   "sign_out": {
-    "at_utc": "2026-10-07T16:33:50Z",
-    "outcome": "PUBLISHED",
-    "result_commit_sha": "28970cba40261aace4ad5ff25ff551ad40d08eeb"
+    "at_utc": null,
+    "outcome": null,
+    "result_commit_sha": null
   },
-  "state": "FREE"
+  "state": "OWNED"
 }
