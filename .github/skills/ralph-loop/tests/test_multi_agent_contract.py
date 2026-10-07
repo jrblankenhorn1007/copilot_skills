@@ -1,3 +1,4 @@
+import os
 import re
 from pathlib import Path
 import subprocess
@@ -1543,8 +1544,8 @@ class GitPipelineTests(unittest.TestCase):
         assert_contains(
             self,
             guide,
-            "awk '/^ralph_(continue|complete|blocked)$/",
-            "the wrapper must count exactly the supported standalone terminal markers",
+            "tolower($0) ~ /^ralph_[a-z0-9_]*$/",
+            "the wrapper must reject unknown standalone marker-shaped lines",
         )
         assert_all_contains(
             self,
@@ -1552,6 +1553,45 @@ class GitPipelineTests(unittest.TestCase):
             "set -o pipefail|max_iterations=5|iteration=1|iteration=$((iteration + 1))|copilot --agent ralph-loop --model gpt-6-luna|--prompt \"$prompt\" -s|marker_count|case \"$marker_count\" in|tail -n 1|ralph_continue|ralph_complete|ralph_blocked|copilot cli failed with exit status|unable to validate ralph status markers|reached the iteration limit|does not carry conversation context forward|new one-shot cli invocation|cli-programmatic-reference",
             "Copilot CLI loop guidance must remain bounded, stateless across calls, and fail closed",
         )
+
+    def test_copilot_cli_loop_rejects_unknown_standalone_markers(self):
+        guide_path = ROOT / ".github/skills/ralph-loop/references/copilot-cli-usage.md"
+        guide = guide_path.read_text(encoding="utf-8")
+        section = guide.split("## Run bounded Ralph iterations from Bash", 1)[1]
+        script_match = re.search(r"```bash\n(.*?)\n```", section, re.DOTALL)
+        self.assertIsNotNone(script_match, "the guide must contain its Bash loop")
+
+        with tempfile.TemporaryDirectory() as temporary_directory:
+            mock_copilot = Path(temporary_directory) / "copilot"
+            mock_copilot.write_text(
+                "#!/bin/sh\nprintf '%s\\n' \"$MOCK_COPILOT_RESPONSE\"\n",
+                encoding="utf-8",
+            )
+            mock_copilot.chmod(0o755)
+            environment = os.environ.copy()
+            environment["PATH"] = (
+                temporary_directory + os.pathsep + environment.get("PATH", "")
+            )
+
+            for response in (
+                "RALPH_FUTURE\nRALPH_COMPLETE",
+                "ralph_future\nRALPH_COMPLETE",
+            ):
+                with self.subTest(response=response):
+                    environment["MOCK_COPILOT_RESPONSE"] = response
+                    result = subprocess.run(
+                        ["bash", "-s"],
+                        input=script_match.group(1),
+                        text=True,
+                        capture_output=True,
+                        env=environment,
+                        check=False,
+                    )
+                    self.assertEqual(
+                        1,
+                        result.returncode,
+                        "unknown standalone markers must fail closed",
+                    )
 
     def test_opencode_is_default_ralph_runtime_and_copilot_is_compatibility_only(self):
         readme = read_document("README.md")

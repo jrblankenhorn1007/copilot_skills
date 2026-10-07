@@ -116,8 +116,10 @@ second loop.
 Use a wrapper like this only when the active project permits these terminal
 markers. The prompt requests one standalone final marker, and the wrapper
 stops unless exactly one recognized marker appears as the last output line.
-It fails closed on a CLI error, a blocked or malformed response, and
-iteration-limit exhaustion; only `RALPH_COMPLETE` returns success.
+It rejects unknown standalone `RALPH_...` marker-shaped lines even if a
+recognized marker follows, and fails closed on a CLI error, a blocked or
+malformed response, and iteration-limit exhaustion; only `RALPH_COMPLETE`
+returns success.
 
 ```bash
 set -o pipefail
@@ -139,8 +141,16 @@ while [ "$iteration" -le "$max_iterations" ]; do
 
   printf '%s\n' "$response"
   if ! marker_count=$(printf '%s\n' "$response" |
-      awk '/^RALPH_(CONTINUE|COMPLETE|BLOCKED)$/ { count++ } END { print count+0 }'); then
-    printf 'Unable to validate Ralph status markers; stopping.\n' >&2
+      awk '
+        tolower($0) ~ /^ralph_[a-z0-9_]*$/ {
+          if ($0 !~ /^RALPH_(CONTINUE|COMPLETE|BLOCKED)$/) invalid=1
+          count++
+        }
+        END {
+          if (invalid) exit 1
+          print count+0
+        }'); then
+    printf 'Unable to validate Ralph status markers or found an unknown marker; stopping.\n' >&2
     exit 1
   fi
   if ! marker=$(printf '%s\n' "$response" | tail -n 1); then
