@@ -11,8 +11,10 @@
   the discrepancy at the exact head.
 - Final action at the two-round limit: `ESCALATE_FOR_HUMAN_REVIEW`. No third
   agent review is permitted. The current PR head changed to
-  `9a8912e093ed631e01a28122e84c8768e9df2a40` to record this disposition, so
-  the prior reports are stale for that head and human review is required.
+  `9a8912e093ed631e01a28122e84c8768e9df2a40` to record this disposition.
+  A subsequent documentation-only commit added this summary, so the current
+  PR head is newer still. The prior reports are stale for the current head
+  and human review is required.
 
 ## Finding
 
