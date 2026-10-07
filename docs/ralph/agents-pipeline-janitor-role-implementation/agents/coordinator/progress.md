@@ -317,19 +317,6 @@ fixture; they do not start an LLM Janitor or remove any real worktree.
 - **Next action:** keep the coordinator `IN_PROGRESS`, publish revision 6,
   acquire the authorized `MERGE` reservation, and integrate the parent.
 
-## 2026-10-07T18:23:04Z - Keep coordinator active through integration
-
-- The publisher rejected `AWAITING_MERGE` because that state requires a task
-  sign-out. This coordinator is still responsible for the authorized
-  parent-to-main merge, so the remote status remains revision 5
-  `IN_PROGRESS` with sign-out null; the main lease remained `FREE`.
-- The aggregate branch/agent index now mirrors the leaf's `IN_PROGRESS`
-  state. No remote status commit was created by the rejected attempt.
-- Resource Manager reports five active agents against `max_agents: 2` and no
-  available slots; post-merge memory review remains queued.
-- **Next action:** publish revision 6 as `IN_PROGRESS`, acquire `MERGE`,
-  integrate, and verify `origin/main`.
-
 ## 2026-10-07T18:21:46Z - Revalidate the awaiting-merge dashboard
 
 - After aligning the coordinator leaf and dashboard row to `AWAITING_MERGE`,
@@ -342,3 +329,31 @@ fixture; they do not start an LLM Janitor or remove any real worktree.
 - **Next action:** publish task-status revision 6 as `AWAITING_MERGE`, acquire
   the authorized `MERGE` reservation, integrate and verify the parent on
   `origin/main`.
+
+## 2026-10-07T18:25:01Z - Publish active status and prepare merge
+
+- The publisher rejected `AWAITING_MERGE` because it requires a task sign-out.
+  This coordinator is still executing the parent-to-main merge, so its leaf
+  and dashboard remain `IN_PROGRESS`. Revision 6 was published successfully
+  with sign-out null; the status commit is
+  `ccd48bd673c9db5e4ba1fefc3479fa01c8289fdf`.
+- Rebased the branch onto the verified post-publication `origin/main` tip
+  `7f44c55ff682a8d6e90609026865c29459ca0ba6` without conflicts. The rebased
+  implementation commit is
+  `15751a43d4414dc9e7ba49ca630652532e8b9296`.
+- Resource Manager still reports five active agents against `max_agents: 2`
+  and zero slots. Do not dispatch the required post-merge memory review until
+  capacity becomes available.
+- **Next action:** rerun contracts, acquire the authorized `MERGE` reservation,
+  integrate, and verify `origin/main`.
+
+## 2026-10-07T18:27:03Z - Verify rebased dashboard and contracts
+
+- Updated dashboard snapshot revision 130 with the verified base
+  `7f44c55ff682a8d6e90609026865c29459ca0ba6` and implementation commit
+  `15751a43d4414dc9e7ba49ca630652532e8b9296`.
+- After the rebase, multi-agent contracts passed (30 tests), specialist
+  contracts passed (6), main-ownership contracts passed (8), publisher tests
+  passed (15), and `git diff --check` passed.
+- **Next action:** acquire the authorized `MERGE` reservation, integrate the
+  parent, and verify the resulting commit on fetched `origin/main`.
