@@ -121,3 +121,35 @@ The full self-attestation payload for the current-main parent iteration is:
 ## Next action
 
 Publish this sign-off/status refresh, fetch the final PR #10 base/head and Resource Manager inventory, then reserve one reviewer slot at a time and run both independent reviews. Leave PR #7 open but unmerged until the replacement clears all required gates.
+
+### Resume checkpoint — 2026-10-07T20:54:21Z
+
+- Refreshed `origin/main` to
+  `2fdbc958b76a5c31bbbbfc2d5ea8fe49812a3156`. GitHub still reports PR #10 at
+  base/head `e6ed4c20c5955af91c628b34f026b6eb63c09c70` /
+  `f1027094f0025a36f2a2c98416912e7e035b846c`; it is `CONFLICTING` and its
+  branch is 43 commits behind current main.
+- Reran the contract suite from this exact worktree:
+  `cd /Users/jrblankenhorn/copilot_skills.worktrees/worktree-isolation-replay-final-sweep-20261007 && python3 .github/skills/ralph-loop/tests/test_multi_agent_contract.py -v`
+  — **31/31 passed**, including both worktree-identity regressions. The
+  branch was clean at the remote head before this status update; no
+  latest-main merge or push was attempted.
+- The current PR has no hosted checks or GitHub reviews, and no reviewer has
+  run for this replay PR. Resource Manager reports two active agents,
+  `max_agents: 2`, zero slots, and a stale inventory flag. Do not dispatch
+  either independent reviewer.
+- This branch scope includes `docs/ralph-status.md`, which remains claimed
+  by the Janitor run with no sign-out. The PR blocker was documented at
+  https://github.com/jrblankenhorn1007/copilot_skills/pull/10#issuecomment-6046608574.
+  The aggregate dashboard was not edited. The coordinator leaf remains
+  `IN_PROGRESS` to keep its branch-local dashboard entry synchronized; the
+  required status transition is deferred until the shared scope is released.
+- A temporary local transition of the leaf to `BLOCKED` without the
+  Janitor-owned dashboard update made the dashboard contract fail on a stale
+  `IN_PROGRESS` index value. The transition was reverted; no shared dashboard
+  edit was made, and the previously indexed state remains consistent.
+- After reverting that unsynchronized state change, the exact-worktree Ralph
+  contract suite passed **31/31**; `git diff --check` passed.
+- After verified scope release and fresh reviewer capacity, sync to current
+  main, rerun all required suites, obtain Code and Security reports on the
+  exact PR SHAs, and follow the normal checks/approval/merge/memory gates.
