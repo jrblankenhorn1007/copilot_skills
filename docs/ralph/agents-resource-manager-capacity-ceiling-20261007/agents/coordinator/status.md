@@ -13,13 +13,13 @@ worktree: "/Users/jrblankenhorn/copilot_skills.worktrees/resource-manager-capaci
 iteration: 1
 status: BLOCKED
 started_at_utc: "2026-10-07T22:32:30Z"
-updated_at_utc: "2026-10-07T22:41:31Z"
+updated_at_utc: "2026-10-07T22:44:16Z"
 base_origin_main_sha: "2fdbc958b76a5c31bbbbfc2d5ea8fe49812a3156"
-latest_fetched_origin_main_sha: "03b4d6adf4b4e1533fa377f9f563c7e239a273a6"
+latest_fetched_origin_main_sha: "838fa5b4441e6abeb06d7d6a0f96b5323fafae8a"
 parent_branch: "agents/resource-manager-capacity-ceiling-20261007"
 parent_worktree: "/Users/jrblankenhorn/copilot_skills.worktrees/resource-manager-capacity-ceiling-20261007"
 parent_base_origin_main_sha: "2fdbc958b76a5c31bbbbfc2d5ea8fe49812a3156"
-parent_rebased_onto_origin_main_sha: "03b4d6adf4b4e1533fa377f9f563c7e239a273a6"
+parent_rebased_onto_origin_main_sha: "838fa5b4441e6abeb06d7d6a0f96b5323fafae8a"
 parent_implementation_commit_sha: "1325f3fabbcbaf1aef30e7366335539a1d5fa450"
 decision_record_path: "docs/decisions/agents-resource-manager-capacity-ceiling-20261007/agents/coordinator/pr-11.md"
 decision_index_path: "docs/decisions/agents-resource-manager-capacity-ceiling-20261007/README.md"
@@ -27,7 +27,7 @@ pull_request:
   status: OPEN
   number: 11
   url: "https://github.com/jrblankenhorn1007/copilot_skills/pull/11"
-  base_sha: "03b4d6adf4b4e1533fa377f9f563c7e239a273a6"
+  base_sha: "838fa5b4441e6abeb06d7d6a0f96b5323fafae8a"
   head_sha: null
 review:
   status: BLOCKED
@@ -76,6 +76,8 @@ checks:
     result: "BLOCKED: active_agent_count=2, max_agents=2, available_slots=0; no reviewer reservations or reviewer agents were created."
   - command: "git merge origin/main (status-only revision 5)"
     result: "Merged status-only origin/main commit 03b4d6adf4b4e1533fa377f9f563c7e239a273a6 into the branch as 14890558e58a94814b695618aa9ef996b72d7121; published history was preserved."
+  - command: "git merge origin/main (PR #8 superseded-task sign-out)"
+    result: "Merged status-only origin/main commit 838fa5b4441e6abeb06d7d6a0f96b5323fafae8a into the branch as 7fb5339cb8371e04b04f0cccb845c67253bddadb; PR #8's worktree/branch remain preserved."
 blockers:
   - id: review-capacity
     reason: "The hardware-bounded Resource Manager reports two active sessions against an effective limit of two and zero free slots."
@@ -97,7 +99,7 @@ memory_handoff:
         - "PR #6 Security Reviewer R1 and the test reproducing eight admissions on an 8-GiB, 2-core host."
   no_durable_lessons_reason: null
 resource_usage:
-  time_spent_seconds: 541
+  time_spent_seconds: 706
   time_basis: WALL_CLOCK_ELAPSED
   token_spend:
     status: NOT_REPORTED

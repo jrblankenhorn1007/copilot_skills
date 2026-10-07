@@ -58,6 +58,13 @@
   `03b4d6adf4b4e1533fa377f9f563c7e239a273a6` and merged that status-only
   commit into the already-published PR branch as
   `14890558e58a94814b695618aa9ef996b72d7121`, preserving its history.
+- Closed PR #8 as superseded by PR #11. Published its task-scope sign-out as
+  `d6575743c02a5ccdefea74ed6c22cd6719444af2`; the publisher verified its
+  main release. Fetched `origin/main` at
+  `838fa5b4441e6abeb06d7d6a0f96b5323fafae8a` and merged that status-only
+  commit into PR #11's branch as
+  `7fb5339cb8371e04b04f0cccb845c67253bddadb`. The PR #8 worktree and
+  unpublished local documentation commit were preserved.
 - Refactor: no further code refactor was warranted; the implementation is a
   one-line ceiling change and the targeted suite remained green.
 - Next: complete fresh exact-SHA Code and Security reviews, then synchronize
