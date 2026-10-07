@@ -12,19 +12,19 @@
   },
   "git": {
     "base_ref": "refs/remotes/origin/main",
-    "base_sha": "838fa5b4441e6abeb06d7d6a0f96b5323fafae8a",
+    "base_sha": "0cca949a0c965fb6fcf0a26e7d498089b5923bc5",
     "edit_scope": [
       ".github/memory/workflow.md"
     ],
-    "implementation_branch": "refs/heads/agents/memory-worktree-janitor-gate-pr-20261007",
+    "implementation_branch": "refs/heads/agents/memory-worktree-janitor-gate-refresh-20261007",
     "remote_name": "origin",
     "repository": "jrblankenhorn1007/copilot_skills",
-    "worktree_head_sha_at_sign_in": "838fa5b4441e6abeb06d7d6a0f96b5323fafae8a",
-    "worktree_path": "/Users/jrblankenhorn/copilot_skills.worktrees/memory-worktree-janitor-gate-pr-20261007"
+    "worktree_head_sha_at_sign_in": "0cca949a0c965fb6fcf0a26e7d498089b5923bc5",
+    "worktree_path": "/Users/jrblankenhorn/copilot_skills.worktrees/memory-worktree-janitor-gate-refresh-20261007"
   },
   "prompt_path": "docs/agent-sync/runs/copilot-skills-memory-followup-20261007/agents/coordinator/prompt.md",
   "prompt_sha256": "b2f89751da70821e54c21f85d7d41b9a0dd080feab72c1ddeff9f64cac7e64ab",
-  "revision": 2,
+  "revision": 3,
   "run_id": "copilot-skills-memory-followup-20261007",
   "schema_version": 1,
   "sign_in_at_utc": "2026-10-07T23:06:05Z",
@@ -36,10 +36,10 @@
     "summary": null
   },
   "started_at_utc": "2026-10-07T23:06:05Z",
-  "status": "BLOCKED",
-  "status_reason": "PR #12 has a CLEAN Code review round 2 on base b8ef829b6cd13bc46e2d9dddfb3f5eaa4978de9d and head e148020b802938aeeed785c9f929a5bf2901eadf. The required MERGE reservation publishes a sign-in commit to origin/main, changing the PR base and invalidating the final report. No third agent review is allowed; preserve the PR for human review through the normal process rather than merging stale evidence.",
+  "status": "IN_PROGRESS",
+  "status_reason": "The previous PR base became stale after origin/main advanced. Replaying the already-reviewed cleanup-gate lesson on a fresh branch from current origin/main; preserve PR #12 and its branch, then use a replacement PR and fresh exact-SHA Code review. This is not a third review on PR #12.",
   "task_id": "memory-follow-up-pr",
-  "updated_at_utc": "2026-10-07T23:16:36Z",
+  "updated_at_utc": "2026-10-07T23:31:23Z",
   "worker_id": "coordinator",
   "worker_name": "coordinator - Janitor memory follow-up PR"
 }
