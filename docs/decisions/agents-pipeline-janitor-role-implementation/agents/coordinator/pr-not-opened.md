@@ -12,8 +12,9 @@
 - **PR:** `NOT_OPENED`; the prior parent/child pipeline decision uses the
   coordinator-managed verified fast-forward path when repository policy
   permits it. This is not permission to bypass a policy denial.
-- **Current status:** `AWAITING_MERGE`; dashboard synchronization and contract
-  validation have passed, and authorized parent-to-main integration is next.
+- **Current status:** `IN_PROGRESS`; dashboard synchronization and contract
+  validation have passed, and the coordinator is executing authorized
+  parent-to-main integration.
 
 ## Decisions
 

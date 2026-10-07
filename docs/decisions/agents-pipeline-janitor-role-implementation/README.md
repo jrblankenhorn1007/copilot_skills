@@ -9,7 +9,7 @@
 - **Implementation commit:** `b7e53fb6ba8a7cad311e0489d9e45425e458b1e4`
   (rebased onto `567cf974735bbd7cdc5922379390601e7dfdf504`).
 - **Integration record:** [Coordinator no-PR record](agents/coordinator/pr-not-opened.md)
-- **Status:** `AWAITING_MERGE`; [coordinator status](../../ralph/agents-pipeline-janitor-role-implementation/agents/coordinator/status.md)
+- **Status:** `IN_PROGRESS`; [coordinator status](../../ralph/agents-pipeline-janitor-role-implementation/agents/coordinator/status.md)
 - **Progress:** [Coordinator progress](../../ralph/agents-pipeline-janitor-role-implementation/agents/coordinator/progress.md)
 
 ## Decisions

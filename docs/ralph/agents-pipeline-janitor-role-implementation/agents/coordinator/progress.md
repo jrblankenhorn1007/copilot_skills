@@ -314,8 +314,21 @@ fixture; they do not start an LLM Janitor or remove any real worktree.
 - Resource Manager still reports three active agents against a limit of two,
   with no available slot. The implementation is ready for integration;
   post-merge memory review remains queued for capacity.
-- **Next action:** publish this run as `AWAITING_MERGE`, acquire the
-  authorized `MERGE` reservation, and integrate the parent to `origin/main`.
+- **Next action:** keep the coordinator `IN_PROGRESS`, publish revision 6,
+  acquire the authorized `MERGE` reservation, and integrate the parent.
+
+## 2026-10-07T18:23:04Z - Keep coordinator active through integration
+
+- The publisher rejected `AWAITING_MERGE` because that state requires a task
+  sign-out. This coordinator is still responsible for the authorized
+  parent-to-main merge, so the remote status remains revision 5
+  `IN_PROGRESS` with sign-out null; the main lease remained `FREE`.
+- The aggregate branch/agent index now mirrors the leaf's `IN_PROGRESS`
+  state. No remote status commit was created by the rejected attempt.
+- Resource Manager reports five active agents against `max_agents: 2` and no
+  available slots; post-merge memory review remains queued.
+- **Next action:** publish revision 6 as `IN_PROGRESS`, acquire `MERGE`,
+  integrate, and verify `origin/main`.
 
 ## 2026-10-07T18:21:46Z - Revalidate the awaiting-merge dashboard
 
