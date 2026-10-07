@@ -10,8 +10,9 @@
 - **Verified implementation integration:** `8f37a69758e4ddb616b3af6b771122792f916908`
 - **Agent:** `coordinator-01`; runtime `copilotcli:/35327e2c-33cc-430e-90bd-c4f9a1e20471`
 - **Integration:** No PR; the repository uses its coordinator-managed,
-  exclusive-`MERGE` fast-forward path. The implementation is verified on
-  `origin/main`; branch-record follow-up and reservation release are pending.
+  exclusive-`MERGE` fast-forward path. The implementation and first
+  branch-record follow-up are verified on `origin/main`; the reservation is
+  released. A final status-text correction is pending.
 - **Live model:** Blocked. OpenCode has zero credentials and no available
   `gpt-6-luna` provider model; Copilot CLI is unavailable. No live calls were
   made and no substitute model was used.
@@ -32,6 +33,11 @@
   `origin/main` equaled
   `8f37a69758e4ddb616b3af6b771122792f916908`; both the integration commit
   and reservation sign-in passed `git merge-base --is-ancestor`.
+- The branch-owned status/progress/decision records were pushed as
+  `d1e620dd70c4c616515669c68a867903effc5f3d`. Main was released as
+  `MERGED` at ownership revision 280; the release commit is
+  `f8a614759059b20f8904f61231d4a98518cba9f6`, and fetched ownership is
+  `FREE`.
 - No PR was opened; review is `NOT_APPLICABLE` for this documented path.
 - Read `.github/memory/README.md`, `workflow.md`, and `tooling.md` after
   verified integration. No memory update is warranted: the transferable

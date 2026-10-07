@@ -170,3 +170,35 @@
 - **Next:** Commit the final status/progress/decision evidence and fast-forward
   that documentation follow-up under this reservation, then release `MERGE`.
   Publish the task's final `BLOCKED` status/sign-out afterward.
+
+## 2026-10-07T18:52:16Z — first MERGE transaction released
+
+- Released main as `MERGED` at ownership revision 280 with result commit
+  `d1e620dd70c4c616515669c68a867903effc5f3d`. The publisher returned
+  `RELEASED`; a subsequent fetch reported `origin/main` at
+  `f8a614759059b20f8904f61231d4a98518cba9f6` and owner state `FREE`.
+- The code merge (`8f37...`) and first branch-record follow-up
+  (`d1e620...`) are verified on remote main. The leaf next-action text still
+  described the first reservation as active; correcting that record now.
+- The already-published branch history will not be rebased. If another
+  reservation is needed for the corrected record, merge its sign-in commit
+  into the branch before the non-force push.
+- **Next:** Publish the corrected records, verify the final remote tip and
+  reservation release, then publish task-status revision 5 as `BLOCKED` with
+  sign-out. Keep the dashboard with the janitor.
+
+## 2026-10-07T18:53:23Z — reconcile released main and corrected next action
+
+- The first `MERGE` release at revision 280 is verified; current fetched
+  `origin/main` is `f8a614759059b20f8904f61231d4a98518cba9f6` and owner state
+  is `FREE`.
+- The published branch tip `d1e620dd70c4c616515669c68a867903effc5f3d` is
+  behind only that main-ownership release commit. Do not rebase or rewrite
+  already published work; the final status-text correction will merge the
+  fresh reservation sign-in into the branch before a non-force push.
+- Corrected the status, progress, and no-PR decision records to remove the
+  stale “reservation still held” next action. The dashboard remains pending
+  with the janitor; the live model remains unavailable.
+- **Next:** Publish this small record correction with a second authorized
+  `MERGE` transaction, release it, then publish the final task status and
+  sign-out.

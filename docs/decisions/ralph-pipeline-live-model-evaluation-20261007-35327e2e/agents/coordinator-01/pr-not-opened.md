@@ -10,8 +10,10 @@
   coordinator-managed, verified fast-forward without a PR; review status is
   `NOT_APPLICABLE`.
 - **Integration:** Verified on `origin/main` at
-  `8f37a69758e4ddb616b3af6b771122792f916908`; the `MERGE` reservation remains
-  held for the branch-record follow-up and is released after that push.
+  `8f37a69758e4ddb616b3af6b771122792f916908`; the branch-record follow-up
+  is verified at `d1e620dd70c4c616515669c68a867903effc5f3d`. The first
+  `MERGE` reservation was released at revision 280. A final status-text
+  correction remains.
 - **Live-model gate:** Pending external model availability. Do not run with
   another model or alter authentication.
 
@@ -43,4 +45,8 @@
 - Verified the reservation sign-in and implementation integration with
   `git merge-base --is-ancestor`. The post-merge memory review found no
   separate memory entry warranted; the reusable guidance is in the Skills.
-- Main reservation release and final task-status publication are pending.
+- Released main as `MERGED` at revision 280; release commit
+  `f8a614759059b20f8904f61231d4a98518cba9f6`; owner state verified `FREE`.
+- A follow-up branch update will correct the status's next action without
+  rewriting published commits. Final task-status publication and sign-out
+  are pending.
