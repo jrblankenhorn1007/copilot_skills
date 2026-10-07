@@ -1303,6 +1303,83 @@ class MultiAgentContractTests(unittest.TestCase):
                     f"communication benchmark must document {requirement!r}",
                 )
 
+    def test_worker_worktree_identity_is_verified_before_editing(self):
+        orchestration = read_document(
+            ".github/skills/ralph-loop/references/multi-agent-orchestration.md"
+        )
+        assert_contains(
+            self,
+            orchestration,
+            "worker session must verify its actual worktree identity before editing",
+            "orchestration must require session-to-worktree verification before edits",
+        )
+
+        guide = read_document(
+            ".github/skills/ralph-loop/references/worktree-isolation.md"
+        )
+        for requirement in (
+            "run-id",
+            "dispatch-id",
+            "worker-id",
+            "never derive a path or branch from worker-id alone",
+            "git worktree list --porcelain",
+            "git show-ref --verify",
+            "git ls-remote --heads origin",
+            "pwd -p",
+            "git rev-parse --show-toplevel",
+            "git branch --show-current",
+            "git rev-parse head",
+            "git status --porcelain",
+            "host cannot bind",
+            "stop before editing",
+            "do not dispatch in parallel",
+        ):
+            with self.subTest(requirement=requirement):
+                assert_contains(
+                    self,
+                    guide,
+                    requirement,
+                    f"worktree isolation guide must include {requirement!r}",
+                )
+
+        for path in (
+            ".github/agents/ralph-loop.agent.md",
+            ".github/skills/ralph-loop/SKILL.md",
+            ".github/skills/ralph-loop/references/multi-agent-orchestration.md",
+            ".github/skills/ralph-loop/references/ralph-loop.md",
+            "README.md",
+        ):
+            with self.subTest(path=path):
+                assert_contains(
+                    self,
+                    read_document(path),
+                    "worktree-isolation.md",
+                    f"{path} must link the worktree isolation protocol",
+                )
+
+        status = read_document(
+            ".github/skills/ralph-loop/references/multi-agent-status.md"
+        )
+        for field in (
+            "worktree_identity",
+            "expected_path",
+            "observed_pwd",
+            "observed_git_root",
+            "expected_branch",
+            "observed_branch",
+            "expected_base_sha",
+            "observed_head_sha",
+            "working_tree_clean",
+            "registry_match",
+        ):
+            with self.subTest(field=field):
+                assert_contains(
+                    self,
+                    status,
+                    field,
+                    f"worker status must record worktree identity field {field!r}",
+                )
+
 
 class GitPipelineTests(unittest.TestCase):
     def test_workers_merge_into_parent_and_clean_up_only_after_verified_merges(self):
@@ -1482,6 +1559,102 @@ class GitPipelineTests(unittest.TestCase):
                     f"{worker_id} result",
                     git(repository, "show", f"origin/main:{worker_file}"),
                 )
+
+    def test_same_worker_id_in_separate_runs_uses_distinct_worktrees(self):
+        with tempfile.TemporaryDirectory() as temporary_directory:
+            root = Path(temporary_directory)
+            remote = root / "origin.git"
+            seed = root / "seed"
+            repository = root / "repository"
+            run_ids = ("run-alpha-7a21", "run-beta-d842")
+            worker_id = "worker-01"
+            parent_worktrees = []
+            worker_worktrees = []
+            parent_branches = []
+            worker_branches = []
+
+            def git(
+                cwd: Path, *args: str, expected_returncode: int = 0
+            ) -> str:
+                result = subprocess.run(
+                    ["git", *args],
+                    cwd=cwd,
+                    check=False,
+                    capture_output=True,
+                    text=True,
+                )
+                self.assertEqual(
+                    result.returncode,
+                    expected_returncode,
+                    f"git {' '.join(args)} failed: {result.stderr}",
+                )
+                return result.stdout.strip()
+
+            git(root, "init", "--bare", "--initial-branch=main", str(remote))
+            git(root, "init", str(seed))
+            git(seed, "checkout", "-b", "main")
+            git(seed, "config", "user.name", "Ralph Pipeline Test")
+            git(seed, "config", "user.email", "ralph-test@example.invalid")
+            (seed / "README.md").write_text("seed\n", encoding="utf-8")
+            git(seed, "add", "README.md")
+            git(seed, "commit", "-m", "seed main")
+            git(seed, "remote", "add", "origin", str(remote))
+            git(seed, "push", "origin", "main")
+            git(
+                root,
+                "clone",
+                "--branch",
+                "main",
+                str(remote),
+                str(repository),
+            )
+            git(repository, "fetch", "origin")
+
+            for run_id in run_ids:
+                run_root = root / run_id
+                run_root.mkdir()
+                parent_worktree = run_root / "parent"
+                worker_worktree = run_root / worker_id
+                parent_branch = f"ralph/{run_id}-parent"
+                worker_branch = f"ralph/{run_id}-{worker_id}-attempt-01"
+                parent_worktrees.append(parent_worktree)
+                worker_worktrees.append(worker_worktree)
+                parent_branches.append(parent_branch)
+                worker_branches.append(worker_branch)
+
+                git(
+                    repository,
+                    "worktree",
+                    "add",
+                    "-b",
+                    parent_branch,
+                    str(parent_worktree),
+                    "origin/main",
+                )
+                git(
+                    repository,
+                    "worktree",
+                    "add",
+                    "-b",
+                    worker_branch,
+                    str(worker_worktree),
+                    parent_branch,
+                )
+                self.assertEqual(
+                    git(parent_worktree, "rev-parse", "HEAD"),
+                    git(worker_worktree, "rev-parse", "HEAD"),
+                )
+
+            self.assertEqual(len(set(parent_worktrees)), len(run_ids))
+            self.assertEqual(len(set(worker_worktrees)), len(run_ids))
+            self.assertEqual(len(set(parent_branches)), len(run_ids))
+            self.assertEqual(len(set(worker_branches)), len(run_ids))
+
+            worktree_registry = git(repository, "worktree", "list", "--porcelain")
+            for path, branch in zip(worker_worktrees, worker_branches):
+                with self.subTest(path=path, branch=branch):
+                    self.assertIn(f"worktree {path.resolve()}", worktree_registry)
+                    self.assertIn(f"branch refs/heads/{branch}", worktree_registry)
 
 
     def test_opencode_ralph_agents_define_primary_worker_and_read_only_reviewers(self):

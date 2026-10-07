@@ -34,7 +34,13 @@ toward the total limit from the
 orchestrator first, reserve one slot before each dispatch, and launch no more
 workers than both the ready work and available slots permit. Require the
 host's `agent/runSubagent` tool; if it cannot launch workers, report that
-limitation rather than claiming the run was parallelized. Parse `N` as a
+limitation rather than claiming the run was parallelized. Before dispatch,
+require a host-supported binding to each worker's assigned child-worktree
+path. Passing a path in the prompt does not change the agent session's
+working directory. If the host cannot bind a worker session, do not dispatch
+it in parallel; follow the
+[worktree isolation guide](../skills/ralph-loop/references/worktree-isolation.md)
+and fail closed on any identity mismatch. Parse `N` as a
 positive integer and clearly reject malformed or non-positive values.
 
 Before project work, follow the Resource Manager skill: observe active
@@ -70,7 +76,12 @@ routing only after that role hierarchy is merged and verified.
 If invoked as a worker, implement only the assigned scope. Do not spawn
 nested workers or edit another worker's scope. Use the run ID, worker ID, task
 id, iteration number, and status ownership supplied by the coordinator, and
-report your verification evidence back to it. Activate the coordinator's
+report your verification evidence back to it. Before reading or editing
+project files, verify that the host bound your session to the exact assigned
+worktree, branch, and base SHA. A path in the prompt does not bind the
+session; follow the
+[worktree isolation guide](../skills/ralph-loop/references/worktree-isolation.md)
+and stop before editing if any identity check fails. Activate the coordinator's
 reservation before doing other work; heartbeat the registration while active
 and release it when finished or paused.
 
@@ -253,7 +264,10 @@ exact fetched `origin/main` SHA. Run the top-level Orchestrator session and
 the user's task prompt in that parent worktree. Give each worker a fresh,
 unique child worktree and branch based on the parent branch and exact parent
 base SHA supplied by the coordinator; workers must not base child branches on
-`origin/main` or merge them directly to it.
+`origin/main` or merge them directly to it. Verify the host-bound session
+identity before the worker begins; see the
+[worktree isolation guide](../skills/ralph-loop/references/worktree-isolation.md)
+for unique path/ref allocation and fail-closed checks.
 
 The coordinator integrates one completed child branch at a time into the
 parent and verifies each integration before proceeding to the next worker.

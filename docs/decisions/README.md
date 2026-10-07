@@ -37,6 +37,9 @@ blockers as failures.
 - [Ralph review-gate status worker](ralph-code-review-process-worker-02-20260924-2131/README.md)
 - [Shared agent resource manager](ralph-resource-manager-shared-registry-20260925-8abd5d4e/README.md)
 - [Skill-aware agent routing](ralph-agent-optimization-parent-20260925-8bc457e9/README.md)
+- [Ralph worktree isolation and session identity (original diagnosis)](agents-worktree-collision-diagnosis-fix/README.md)
+- [Ralph worktree isolation integration (rebase onto current main)](agents-worktree-isolation-integration/README.md)
+- [Ralph worktree isolation replay (current-main replacement for PR #7)](agents-worktree-isolation-replay-final-sweep-20261007/README.md)
 
 ## Ralph status and progress
 
