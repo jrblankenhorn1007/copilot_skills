@@ -11,9 +11,9 @@
   `NOT_APPLICABLE`.
 - **Integration:** Verified on `origin/main` at
   `8f37a69758e4ddb616b3af6b771122792f916908`; the branch-record follow-up
-  is verified at `d1e620dd70c4c616515669c68a867903effc5f3d`. The first
-  `MERGE` reservation was released at revision 280. A final status-text
-  correction remains.
+  is verified at `d1e620dd70c4c616515669c68a867903effc5f3d`, with a second
+  correction verified at `b1e4e3f48e7576b543593a51a24b8ead80347973`.
+  A third `MERGE` reservation is active for the final status-text sync.
 - **Live-model gate:** Pending external model availability. Do not run with
   another model or alter authentication.
 
@@ -47,6 +47,9 @@
   separate memory entry warranted; the reusable guidance is in the Skills.
 - Released main as `MERGED` at revision 280; release commit
   `f8a614759059b20f8904f61231d4a98518cba9f6`; owner state verified `FREE`.
-- A follow-up branch update will correct the status's next action without
-  rewriting published commits. Final task-status publication and sign-out
-  are pending.
+- Released the second record transaction as `MERGED` at revision 282;
+  release commit `95adfb9be54f80fa689db0dab496d98372166cc1`.
+- Acquired a third reservation at revision 283 with sign-in
+  `808c9d165ed35fc39cb926d89109af1c53604a9e`; incorporated that commit
+  without rewriting published history. Final record push, reservation
+  release, and task-status publication/sign-out are pending.

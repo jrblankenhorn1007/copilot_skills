@@ -202,3 +202,27 @@
 - **Next:** Publish this small record correction with a second authorized
   `MERGE` transaction, release it, then publish the final task status and
   sign-out.
+
+## 2026-10-07T18:56:49Z — preserve published history while finalizing status
+
+- **Second `MERGE` transaction:** Acquired at ownership revision 281 with
+  sign-in `91dab5cb98dca68a44039447c2e6e07159941f3f`. Merged it into the
+  published branch rather than rebasing. Pushed the corrected records as
+  `b1e4e3f48e7576b543593a51a24b8ead80347973`; the 30-test Ralph
+  multi-agent contract passed. Released main at revision 282 with result
+  commit `b1e4e3f48e7576b543593a51a24b8ead80347973`; fetched
+  `origin/main` became `95adfb9be54f80fa689db0dab496d98372166cc1`,
+  owner `FREE`.
+- **Third `MERGE` transaction:** The current status leaf still needed its
+  next action and current main SHA refreshed after that release. Acquired
+  revision 283 with sign-in `808c9d165ed35fc39cb926d89109af1c53604a9e`
+  and merged the sign-in into the published branch. Current local branch tip
+  is `47910367dcb4e15366ff003e44bff9e100ddbcba`; the final record correction
+  is staged next.
+- **No rebase:** The previously published implementation/status commits
+  remain unchanged. The fresh ownership sign-ins are incorporated with
+  no-fast-forward merge commits before each non-force push.
+- **Next:** Push the final branch-owned record update, verify and release
+  revision 283, then publish task-status revision 5 as `BLOCKED` with
+  sign-out. The remaining blockers are the requested live model and the
+  janitor-owned dashboard path.
