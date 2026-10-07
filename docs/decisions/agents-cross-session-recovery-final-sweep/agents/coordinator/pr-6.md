@@ -16,9 +16,10 @@
   `95b9b020cc9c4fc716397cbf18fddf7fb85d157d`; PR #6 is open and GitHub
   reports `CLEAN`.
 - **Current state:** `IN_PROGRESS`; parent-to-main merge is `PENDING`.
-- **Review:** `PENDING`; no review round has completed for the synchronized
-  candidate. The independent Ralph Code Reviewer and Ralph Security Reviewer
-  must review the exact published base/head pair.
+- **Review:** two rounds completed on base/head
+  `2fdbc958b76a5c31bbbbfc2d5ea8fe49812a3156` /
+  `d9fab82e1490a13729318eb58bb65561df9c4a31`; author action:
+  `ESCALATE_FOR_HUMAN_REVIEW`.
 
 ## Change summary
 
@@ -89,6 +90,40 @@ skill to state this explicitly.
 - GitHub reported no hosted checks for PR #6. No review report or merge
   authorization has been claimed for the synchronized candidate.
 
+## Independent PR reviews and author action
+
+- **Round 1**, exact base/head
+  `2fdbc958b76a5c31bbbbfc2d5ea8fe49812a3156` /
+  `d9fab82e1490a13729318eb58bb65561df9c4a31`:
+  - Ralph Code Reviewer: `CLEAN`.
+  - Ralph Security Reviewer: `FINDINGS`, R1 (medium severity, high
+    confidence): with hardware estimates non-binding, a small host can admit
+    up to seven child slots and suffer resource-exhaustion availability
+    impact.
+- The author response on
+  https://github.com/jrblankenhorn1007/copilot_skills/pull/6#issuecomment-6047818247
+  documented that effective capacity eight is the user's explicit
+  requirement, while the skill and decision record disclose the hardware
+  tradeoff and retain degraded/critical pressure controls. No code change was
+  made.
+- **Round 2**, on the same exact pair:
+  - Ralph Code Reviewer: `CLEAN`.
+  - Ralph Security Reviewer: returned `CLEAN`, but its rationale said the
+    effective base remained bounded by RAM/CPU estimates and the cited
+    two-core host had a one-agent limit. That claim is contradicted by the
+    exact reviewed source (`base_agents = MAX_AGENTS`) and its test, which
+    expects eight for that two-core host. The author independently verified
+    the discrepancy against the exact head; the round-one security finding
+    therefore remains unresolved.
+- The author action at the two-round limit is
+  `ESCALATE_FOR_HUMAN_REVIEW`. Rationale: the requested eight-agent
+  effective limit is intentional, but the round-two security report did not
+  reliably assess the exact source, and there is no third agent-review round.
+  Human disposition of the documented resource-exhaustion tradeoff is
+  required. No source behavior or test assertion was changed.
+- The inconsistency and action are documented on
+  https://github.com/jrblankenhorn1007/copilot_skills/pull/6#issuecomment-6047910943.
+
 ## Branch-owner sign-off
 
 - **Type:** `SELF_ATTESTATION`
@@ -115,13 +150,11 @@ self-review.
 
 ## Unresolved blockers
 
-- The synchronized local candidate has not yet been pushed; the remote PR
-  still has the pre-sync head shown above. Publish the normal fast-forward
-  update, then review that exact pair.
 - The full Ralph contract suite has one upstream dashboard-index failure for
   the pipeline-evaluation coordinator leaf. Janitor task revision 7 owns
   `docs/ralph-status.md`; do not edit it until verified task-scope release.
-- Complete both independent review gates, resolve or obtain an authorized
-  disposition for the full-suite failure, satisfy required checks/approvals,
-  then merge through the normal PR path and verify the resulting SHA on
-  fetched `origin/main`.
+- The author action requires human review of the security tradeoff and of any
+  decision-record head update; do not dispatch a third agent-review round.
+- Satisfy the applicable test/check and human approval gates, then merge
+  through the normal PR path and verify the resulting SHA on fetched
+  `origin/main`.
