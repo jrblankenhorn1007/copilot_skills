@@ -1,0 +1,49 @@
+{
+  "agent_id": "coordinator-01",
+  "agent_profile": {
+    "agent_definition": ".github/agents/ralph-loop.agent.md",
+    "context_tier": null,
+    "context_usage_tokens": null,
+    "context_window_tokens": null,
+    "harness": "VS Code Copilot SDK",
+    "model_id": null,
+    "reasoning_effort": null,
+    "runtime_agent_id": "copilotcli:/35327e2c-33cc-430e-90bd-c4f9a1e20471"
+  },
+  "git": {
+    "base_ref": "refs/remotes/origin/main",
+    "base_sha": "fb82e0d85ef80b26537c3fede01bcaefa422652d",
+    "edit_scope": [
+      ".github/skills/agentic-eval/tests/",
+      ".github/skills/agentic-eval/SKILL.md",
+      "docs/ralph-status.md",
+      "docs/ralph/ralph-pipeline-live-model-evaluation-20261007-35327e2e/agents/coordinator-01/",
+      "docs/decisions/ralph-pipeline-live-model-evaluation-20261007-35327e2e/"
+    ],
+    "implementation_branch": "refs/heads/ralph/pipeline-live-model-evaluation-20261007-35327e2e",
+    "remote_name": "origin",
+    "repository": "jrblankenhorn1007/copilot_skills",
+    "worktree_head_sha_at_sign_in": "fb82e0d85ef80b26537c3fede01bcaefa422652d",
+    "worktree_path": "/Users/jrblankenhorn/copilot_skills.worktrees/ralph-pipeline-live-model-evaluation-20261007-35327e2e"
+  },
+  "prompt_path": "docs/agent-sync/runs/pipeline-live-model-evaluation-20261007-35327e2e/agents/coordinator-01/prompt.md",
+  "prompt_sha256": "34d9dc7959a93eaf97686b6ddcea662f1f3595db0353baf3886ae8fac73cc103",
+  "revision": 1,
+  "run_id": "pipeline-live-model-evaluation-20261007-35327e2e",
+  "schema_version": 1,
+  "sign_in_at_utc": "2026-10-07T05:21:49Z",
+  "sign_out": {
+    "at_utc": null,
+    "checks": [],
+    "implementation_commit_sha": null,
+    "next_action": null,
+    "summary": null
+  },
+  "started_at_utc": "2026-10-07T05:21:49Z",
+  "status": "IN_PROGRESS",
+  "status_reason": "Starting the assigned live-model test coverage and pipeline experiment work.",
+  "task_id": "all-skill-agent-live-model-tests",
+  "updated_at_utc": "2026-10-07T05:21:49Z",
+  "worker_id": "coordinator-01",
+  "worker_name": "coordinator-01 - pipeline live-model evaluation"
+}
