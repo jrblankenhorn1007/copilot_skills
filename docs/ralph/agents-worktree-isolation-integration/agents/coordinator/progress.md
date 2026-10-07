@@ -102,7 +102,7 @@
 
 ## 2026-10-07 — PR #7 stale-base disposition
 
-- PR #7 is open with base `fb82e0d85ef80b26537c3fede01bcaefa422652d` and head `7fd155ba0bd4814f85a890207bae71b4e13a7f8a`. Fetched `origin/main` has advanced to `0366e2aed573894f3a63e37d71b24d99cd382a7d`.
+- PR #7 is open with base `fb82e0d85ef80b26537c3fede01bcaefa422652d` and head `7fd155ba0bd4814f85a890207bae71b4e13a7f8a`. Fetched `origin/main` has advanced to `e6ed4c20c5955af91c628b34f026b6eb63c09c70`.
 - The published branch and PR were left unchanged. The implementation was replayed from the exact PR head onto current main in `agents/worktree-isolation-replay-final-sweep-20261007`; see that run's status/progress and replacement PR record.
 - At the last capacity snapshot (`2026-10-07T16:20:24Z`), Resource Manager reported 0 slots. Review and merge are blocked on the replacement PR; do not merge PR #7.
 

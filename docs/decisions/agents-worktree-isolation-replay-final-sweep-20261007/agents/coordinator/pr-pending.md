@@ -4,8 +4,9 @@
 - **Task ID:** `replay-worktree-isolation-pr-7`
 - **Branch:** `agents/worktree-isolation-replay-final-sweep-20261007`
 - **Worktree:** `/Users/jrblankenhorn/copilot_skills.worktrees/worktree-isolation-replay-final-sweep-20261007`
-- **Base `origin/main` SHA:** `0366e2aed573894f3a63e37d71b24d99cd382a7d`
-- **Implementation commit:** `9c7b94e23a1e7791804041bfabf8e724fc9cae98`
+- **Initial branch base:** `0366e2aed573894f3a63e37d71b24d99cd382a7d`
+- **Latest fetched/rebase base:** `e6ed4c20c5955af91c628b34f026b6eb63c09c70`
+- **Implementation commit after rebase:** `9be82bda3ec6b4d2d3e42157df3a3a30c93e5f53`
 - **Source PR #7 head:** `7fd155ba0bd4814f85a890207bae71b4e13a7f8a`
 - **PR:** Pending creation after status/decision records are committed.
 - **Status:** `IN_PROGRESS`; merge and post-merge memory review remain pending.
@@ -22,7 +23,9 @@ The change affects worker dispatch/session binding and execution boundaries. The
 - `python3 .github/skills/ralph-loop/tests/test_main_ownership_publisher.py` — 15 passed.
 - `python3 .github/skills/ralph-loop/tests/test_main_ownership_contract.py` — 8 passed.
 - `python3 .github/skills/resource-manager/tests/test_resource_manager.py` — 15 passed.
-- `git diff --cached --check` — passed after staging all status and decision records.
+- After main advanced via status-only commits, the private branch rebased without conflicts onto `e6ed4c20c5955af91c628b34f026b6eb63c09c70`.
+- `git diff origin/main...HEAD --check` — passed after the rebase.
+- `git diff --cached --check` — passed after staging the refreshed dashboard and status records.
 - A first post-edit test invocation ran in the default session worktree rather than this replay worktree and reported 29 tests; it did not modify this branch and is not replay evidence. Rerunning in the replay worktree passed all 31 tests, including both worktree-isolation regressions.
 
 ## Remaining gates

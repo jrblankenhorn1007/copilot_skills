@@ -10,7 +10,7 @@
 | Branch / slug | `agents/worktree-isolation-integration` / `agents-worktree-isolation-integration` |
 | Worktree | `/Users/jrblankenhorn/copilot_skills.worktrees/worktree-isolation-integration` |
 | Base `origin/main` SHA | `fb82e0d85ef80b26537c3fede01bcaefa422652d` |
-| Current fetched `origin/main` SHA | `0366e2aed573894f3a63e37d71b24d99cd382a7d` |
+| Current fetched `origin/main` SHA | `e6ed4c20c5955af91c628b34f026b6eb63c09c70` |
 | Source | Cherry-pick of `feaec8699b3e7a05eb221ec25226ce084ad67ae2` from orphaned, never-merged `agents/worktree-collision-diagnosis-fix` (archived session `aaaf8789`); 7-file conflict resolution onto current `origin/main`. |
 | Implementation commit | `7fd155ba0bd4814f85a890207bae71b4e13a7f8a` |
 | Pull request | [#7](https://github.com/jrblankenhorn1007/copilot_skills/pull/7), open on a stale base and preserved unchanged |
@@ -32,12 +32,12 @@ runtime_agent_id: "copilotcli:/e33128a0-4868-4b49-9b6a-a3f28bb65997"
 iteration: 1
 status: BLOCKED
 started_at_utc: "2026-10-07T04:37:53Z"
-updated_at_utc: "2026-10-07T16:41:13Z"
+updated_at_utc: "2026-10-07T16:48:27Z"
 branch: "agents/worktree-isolation-integration"
 branch_slug: "agents-worktree-isolation-integration"
 worktree: "/Users/jrblankenhorn/copilot_skills.worktrees/worktree-isolation-integration"
 base_origin_main_sha: "fb82e0d85ef80b26537c3fede01bcaefa422652d"
-current_origin_main_sha: "0366e2aed573894f3a63e37d71b24d99cd382a7d"
+current_origin_main_sha: "e6ed4c20c5955af91c628b34f026b6eb63c09c70"
 implementation_commit_sha: "7fd155ba0bd4814f85a890207bae71b4e13a7f8a"
 cherry_picked_source_commit: "feaec8699b3e7a05eb221ec25226ce084ad67ae2"
 source_branch: "agents/worktree-collision-diagnosis-fix"
@@ -67,7 +67,7 @@ merge:
   verified_origin_main_sha: null
 memory_review: PENDING
 resource_usage:
-  time_spent_seconds: 43400
+  time_spent_seconds: 43834
   time_basis: WALL_CLOCK_ELAPSED
   token_spend:
     status: NOT_REPORTED

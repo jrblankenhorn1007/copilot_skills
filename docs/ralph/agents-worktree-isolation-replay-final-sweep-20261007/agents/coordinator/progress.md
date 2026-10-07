@@ -6,7 +6,8 @@
 - **Branch:** `agents/worktree-isolation-replay-final-sweep-20261007`
 - **Worktree:** `/Users/jrblankenhorn/copilot_skills.worktrees/worktree-isolation-replay-final-sweep-20261007`
 - **Base `origin/main` SHA:** `0366e2aed573894f3a63e37d71b24d99cd382a7d`
-- **Implementation commit:** `9c7b94e23a1e7791804041bfabf8e724fc9cae98`
+- **Current fetched `origin/main` SHA:** `e6ed4c20c5955af91c628b34f026b6eb63c09c70`
+- **Implementation commit after rebase:** `9be82bda3ec6b4d2d3e42157df3a3a30c93e5f53`
 - **Status:** `IN_PROGRESS`
 
 ## Replay and preservation
@@ -34,6 +35,15 @@ The original implementation's Red/Green evidence remains in the archived source 
 - The latest inventory at `2026-10-07T16:37:33Z` showed `max_agents: 8`, 7 active agents, one available slot, and `can_spawn: true`. No reviewer was dispatched because the replacement PR is not yet open.
 - After opening the PR, refresh the full live-session and Resource Manager inventory before each dispatch, reserve one slot at a time, and bind reviews to exact PR base/head SHAs.
 
+## 2026-10-07 — Rebased after main status updates
+
+- Before publishing, a fresh `git fetch origin` showed `origin/main` advanced from `0366e2aed573894f3a63e37d71b24d99cd382a7d` to `e6ed4c20c5955af91c628b34f026b6eb63c09c70` through status-only commits for the janitor run.
+- Rebased the private branch onto `e6ed4c20c5955af91c628b34f026b6eb63c09c70`; no conflicts occurred. The implementation commit was rewritten to `9be82bda3ec6b4d2d3e42157df3a3a30c93e5f53`; the status-record commit is `76542fbe1a3285b9a8b37b4218e1700eba8840ab` before this refresh.
+- Reverified the worktree path, Git root, branch, registry entry, clean state, and fetched base after rebase.
+- `python3 .github/skills/ralph-loop/tests/test_multi_agent_contract.py -v` — 31/31 `PASS`.
+- `git diff origin/main...HEAD --check` — `PASS`.
+- `git diff --cached --check` — `PASS` after staging the refreshed status records.
+
 ## Next action
 
-Commit and push the branch status/decision records, open a replacement PR, then run the required reviewers serially as slots become available. Leave PR #7 open but unmerged until the replacement clears all required gates.
+Commit the refreshed status records, push the branch, open a replacement PR, then run the required reviewers serially as slots become available. Leave PR #7 open but unmerged until the replacement clears all required gates.

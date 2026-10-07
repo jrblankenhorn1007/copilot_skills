@@ -10,13 +10,14 @@
 | Branch / slug | `agents/worktree-isolation-replay-final-sweep-20261007` / `agents-worktree-isolation-replay-final-sweep-20261007` |
 | Worktree | `/Users/jrblankenhorn/copilot_skills.worktrees/worktree-isolation-replay-final-sweep-20261007` |
 | Base `origin/main` SHA | `0366e2aed573894f3a63e37d71b24d99cd382a7d` |
-| Current fetched `origin/main` SHA | `0366e2aed573894f3a63e37d71b24d99cd382a7d` |
+| Current fetched `origin/main` SHA | `e6ed4c20c5955af91c628b34f026b6eb63c09c70` |
+| Rebased onto current `origin/main` | `e6ed4c20c5955af91c628b34f026b6eb63c09c70` |
 | Source | Cherry-pick of PR #7's implementation commit `7fd155ba0bd4814f85a890207bae71b4e13a7f8a` onto current main; PR #7 remains unchanged. |
-| Implementation commit | `9c7b94e23a1e7791804041bfabf8e724fc9cae98` |
+| Implementation commit | `9be82bda3ec6b4d2d3e42157df3a3a30c93e5f53` |
 | Pull request | Pending creation after branch status/decision records are committed. |
 | Merge | `PENDING` |
 | Memory review | `PENDING` |
-| Checks | Contract 31/31; routing 9/9; specialist 5/5; main-ownership publisher 15/15; main-ownership contract 8/8; resource-manager 15/15; worktree identity and `git diff --check`: `PASS`. |
+| Checks | Contract 31/31 after rebase; routing 9/9; specialist 5/5; main-ownership publisher 15/15; main-ownership contract 8/8; resource-manager 15/15; worktree identity and full branch `git diff origin/main...HEAD --check`: `PASS`. |
 | Blockers | No unresolved blocker. Latest inventory at `2026-10-07T16:37:33Z` reports `max_agents: 8`, 7 active agents, and 1 available slot; schedule the two independent reviews serially and refresh before each reservation. |
 | Next action | Commit and publish the replay branch, open the replacement PR, then reserve one slot at a time for both exact-SHA reviewers. |
 
@@ -32,16 +33,17 @@ runtime_agent_id: "copilotcli:/e33128a0-4868-4b49-9b6a-a3f28bb65997"
 iteration: 1
 status: IN_PROGRESS
 started_at_utc: "2026-10-07T16:20:59Z"
-updated_at_utc: "2026-10-07T16:41:13Z"
+updated_at_utc: "2026-10-07T16:48:27Z"
 branch: "agents/worktree-isolation-replay-final-sweep-20261007"
 branch_slug: "agents-worktree-isolation-replay-final-sweep-20261007"
 worktree: "/Users/jrblankenhorn/copilot_skills.worktrees/worktree-isolation-replay-final-sweep-20261007"
 base_origin_main_sha: "0366e2aed573894f3a63e37d71b24d99cd382a7d"
-current_origin_main_sha: "0366e2aed573894f3a63e37d71b24d99cd382a7d"
+current_origin_main_sha: "e6ed4c20c5955af91c628b34f026b6eb63c09c70"
+rebased_onto_origin_main_sha: "e6ed4c20c5955af91c628b34f026b6eb63c09c70"
 source_branch: "agents/worktree-isolation-integration"
 source_pr: 7
 source_pr_head_sha: "7fd155ba0bd4814f85a890207bae71b4e13a7f8a"
-implementation_commit_sha: "9c7b94e23a1e7791804041bfabf8e724fc9cae98"
+implementation_commit_sha: "9be82bda3ec6b4d2d3e42157df3a3a30c93e5f53"
 worktree_identity:
   state: VERIFIED
   expected_path: "/Users/jrblankenhorn/copilot_skills.worktrees/worktree-isolation-replay-final-sweep-20261007"
@@ -49,11 +51,11 @@ worktree_identity:
   observed_git_root: "/Users/jrblankenhorn/copilot_skills.worktrees/worktree-isolation-replay-final-sweep-20261007"
   expected_branch: "agents/worktree-isolation-replay-final-sweep-20261007"
   observed_branch: "agents/worktree-isolation-replay-final-sweep-20261007"
-  expected_base_sha: "0366e2aed573894f3a63e37d71b24d99cd382a7d"
-  observed_head_sha: "9c7b94e23a1e7791804041bfabf8e724fc9cae98"
+  expected_base_sha: "e6ed4c20c5955af91c628b34f026b6eb63c09c70"
+  observed_head_sha: "76542fbe1a3285b9a8b37b4218e1700eba8840ab"
   working_tree_clean: true
   registry_match: true
-  verified_at_utc: "2026-10-07T16:24:34Z"
+  verified_at_utc: "2026-10-07T16:43:15Z"
 requested_worker_count: 0
 effective_worker_count: 0
 active_worker_count: 0
@@ -82,7 +84,7 @@ merge:
   verified_origin_main_sha: null
 memory_review: PENDING
 resource_usage:
-  time_spent_seconds: 1214
+  time_spent_seconds: 1648
   time_basis: WALL_CLOCK_ELAPSED
   token_spend:
     status: NOT_REPORTED
@@ -104,10 +106,12 @@ checks:
     result: "PASS: 8 tests"
   - command: "python3 .github/skills/resource-manager/tests/test_resource_manager.py"
     result: "PASS: 15 tests (PR #6 is not merged at this base)"
+  - command: "git diff origin/main...HEAD --check"
+    result: "PASS after rebasing on e6ed4c20c5955af91c628b34f026b6eb63c09c70"
   - command: "git diff --cached --check"
-    result: "PASS after staging all status and decision records"
+    result: "PASS after staging the refreshed dashboard and status records"
 blockers: []
-next_action: "Commit and push this replay branch, open the replacement PR, then refresh Resource Manager and reserve one slot at a time for the two exact-SHA reviews."
+next_action: "Record the successful rebase onto current origin/main, commit the refreshed status records, push and open the replacement PR, then refresh capacity before serial reviewer reservations."
 decision_record_path: "docs/decisions/agents-worktree-isolation-replay-final-sweep-20261007/agents/coordinator/pr-pending.md"
 decision_index_path: "docs/decisions/agents-worktree-isolation-replay-final-sweep-20261007/README.md"
 memory_handoff:
