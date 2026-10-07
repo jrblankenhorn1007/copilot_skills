@@ -7,9 +7,11 @@
 - **Initial implementation commit:** `d5cf0f6576d7c9b9f98216093167db48f728479e`
 - **Latest implementation commit before authorized integration:** `17dad8789e6c01a84d6dfeebd3a3657c079087a5`
 - **Latest rebase base:** `c23b6e8ffb285ef57f4d99b45425a31ad031ee91`
+- **Verified implementation integration:** `8f37a69758e4ddb616b3af6b771122792f916908`
 - **Agent:** `coordinator-01`; runtime `copilotcli:/35327e2c-33cc-430e-90bd-c4f9a1e20471`
 - **Integration:** No PR; the repository uses its coordinator-managed,
-  exclusive-`MERGE` fast-forward path. Integration is pending.
+  exclusive-`MERGE` fast-forward path. The implementation is verified on
+  `origin/main`; branch-record follow-up and reservation release are pending.
 - **Live model:** Blocked. OpenCode has zero credentials and no available
   `gpt-6-luna` provider model; Copilot CLI is unavailable. No live calls were
   made and no substitute model was used.
@@ -19,6 +21,26 @@
 - [Coordinator status](../../ralph/ralph-pipeline-live-model-evaluation-20261007-35327e2e/agents/coordinator-01/status.md)
 - [Coordinator progress](../../ralph/ralph-pipeline-live-model-evaluation-20261007-35327e2e/agents/coordinator-01/progress.md)
 - [No-PR integration decision](agents/coordinator-01/pr-not-opened.md)
+
+## Verified integration and post-merge memory review
+
+- Acquired the exclusive `MERGE` reservation at ownership revision 279. The
+  reservation sign-in commit was
+  `f5b478c11b2fd0b3f1f5d5ce0184f3f16d272ace`.
+- Merged the sign-in commit into the isolated branch, then published the
+  branch as a non-force fast-forward. After fetching,
+  `origin/main` equaled
+  `8f37a69758e4ddb616b3af6b771122792f916908`; both the integration commit
+  and reservation sign-in passed `git merge-base --is-ancestor`.
+- No PR was opened; review is `NOT_APPLICABLE` for this documented path.
+- Read `.github/memory/README.md`, `workflow.md`, and `tooling.md` after
+  verified integration. No memory update is warranted: the transferable
+  evaluation and communication rules are already in the owning Skills, and
+  another memory entry would duplicate them.
+- The dashboard remains owned by the janitor under task-status revision 4.
+  This coordinator does not edit `docs/ralph-status.md`.
+- Live-model execution remains blocked and the run is not complete until
+  the model prerequisite is available.
 
 ## Decisions
 
@@ -81,7 +103,7 @@
 - **Rationale:** These deterministic measurements guide the next live
   experiment but are not model-token, transport-latency, or end-to-end
   performance claims.
-- **Evidence:** The offline context runs saved 91.88–94.02% of bytes; the
+- **Evidence:** The offline context runs saved 92.12–94.20% of bytes; the
   communication simulation proposed 7 versus 4 messages (42.9% fewer), with
   zero model calls and zero messages sent.
 

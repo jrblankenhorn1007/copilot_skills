@@ -9,19 +9,17 @@
 - **PR:** Not opened. The repository's normal integration path is a
   coordinator-managed, verified fast-forward without a PR; review status is
   `NOT_APPLICABLE`.
-- **Integration:** Pending. Keep the task active while final records are
-  updated; acquire the exclusive `MERGE` reservation, integrate that
-  transaction's sign-in commit, push non-force, fetch, and verify the result
-  on `origin/main`. Publish the final task sign-out only after the records
-  reflect verified integration.
+- **Integration:** Verified on `origin/main` at
+  `8f37a69758e4ddb616b3af6b771122792f916908`; the `MERGE` reservation remains
+  held for the branch-record follow-up and is released after that push.
 - **Live-model gate:** Pending external model availability. Do not run with
   another model or alter authentication.
 
 ## Decision
 
-- **Context:** The scoped implementation and deterministic suite are
-  complete and were rebased on `c23b6e8ffb285ef57f4d99b45425a31ad031ee91`.
-  A task-status transaction and authorized integration remain; live preflight
+- **Context:** The scoped implementation and deterministic suite were
+  rebased on `c23b6e8ffb285ef57f4d99b45425a31ad031ee91` and the
+  implementation fast-forward is verified on remote main. Live preflight
   cannot resolve an authenticated Luna model.
 - **Alternatives:** Open a PR outside the documented path, push directly
   without a reservation, or wait for the configured no-PR transaction.
@@ -32,5 +30,17 @@
   records must be updated after the merge.
 - **Rationale:** This preserves the repository's main-ownership protocol and
   accurately records the live test as blocked.
-- **Consequence:** The run remains in progress through integration; final
-  status is `BLOCKED` until live-model execution is possible.
+- **Consequence:** The implementation is integrated, but the run remains
+  `BLOCKED` until live-model execution is possible and the janitor-owned
+  dashboard update is reconciled.
+
+## Verified integration
+
+- Acquired `MERGE` at ownership revision 279; sign-in commit
+  `f5b478c11b2fd0b3f1f5d5ce0184f3f16d272ace`.
+- Integrated with `git merge --no-ff`, then pushed non-force. Integration
+  commit and fetched `origin/main`: `8f37a69758e4ddb616b3af6b771122792f916908`.
+- Verified the reservation sign-in and implementation integration with
+  `git merge-base --is-ancestor`. The post-merge memory review found no
+  separate memory entry warranted; the reusable guidance is in the Skills.
+- Main reservation release and final task-status publication are pending.

@@ -142,3 +142,31 @@
   no-PR fast-forward, update and integrate the final records, then publish a
   `BLOCKED` task status with sign-out because live-model execution remains
   externally unavailable.
+
+## 2026-10-07T18:49:06Z — verified implementation integration and memory review
+
+- **MERGE reservation:** Acquired at main ownership revision 279. Its
+  sign-in commit was `f5b478c11b2fd0b3f1f5d5ce0184f3f16d272ace`.
+- **Integration:** Merged that sign-in commit into the isolated branch with
+  `git merge --no-ff`. The resulting implementation integration commit is
+  `8f37a69758e4ddb616b3af6b771122792f916908`, with parents
+  `7142bb8af56148e99edf5ca1bf5d01e77869ebfb` and the reservation sign-in.
+  Pushed non-force with `git push origin HEAD:refs/heads/main`. After fetch,
+  `origin/main` equaled `8f37a69758e4ddb616b3af6b771122792f916908`;
+  ancestry checks passed for both the integration and reservation commits.
+- **Post-reservation checks:** The new live-runner, coverage, and
+  document-owner suites passed again (21, 9, and 2 tests). The complete 116
+  local tests had passed before integration; the only intervening source
+  change was the main ownership sign-in record.
+- **Memory review:** After verified integration, read `.github/memory/README.md`,
+  `workflow.md`, and `tooling.md`. The durable conformance and event-triggered
+  communication guidance is already in the owning Skills and deterministic
+  tests; no `.github/memory` entry is warranted because it would duplicate
+  those instructions. No memory files were changed.
+- **Current state:** The implementation is verified on remote main, but the
+  `MERGE` reservation is still held for the required branch-record follow-up.
+  `docs/ralph-status.md` remains assigned to the janitor and is not edited.
+  Live GPT-6 Luna tests remain blocked; do not substitute another model.
+- **Next:** Commit the final status/progress/decision evidence and fast-forward
+  that documentation follow-up under this reservation, then release `MERGE`.
+  Publish the task's final `BLOCKED` status/sign-out afterward.
