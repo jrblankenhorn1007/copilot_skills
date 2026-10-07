@@ -16,6 +16,8 @@
     "edit_scope": [
       ".github/skills/agentic-eval/tests/",
       ".github/skills/agentic-eval/SKILL.md",
+      ".github/skills/agent-communication/SKILL.md",
+      ".github/skills/agent-communication/tests/",
       ".github/skills/ralph-loop/references/copilot-cli-usage.md",
       "docs/ralph-status.md",
       "docs/ralph/ralph-pipeline-live-model-evaluation-20261007-35327e2e/agents/coordinator-01/",
@@ -29,7 +31,7 @@
   },
   "prompt_path": "docs/agent-sync/runs/pipeline-live-model-evaluation-20261007-35327e2e/agents/coordinator-01/prompt.md",
   "prompt_sha256": "34d9dc7959a93eaf97686b6ddcea662f1f3595db0353baf3886ae8fac73cc103",
-  "revision": 2,
+  "revision": 3,
   "run_id": "pipeline-live-model-evaluation-20261007-35327e2e",
   "schema_version": 1,
   "sign_in_at_utc": "2026-10-07T05:21:49Z",
@@ -42,9 +44,9 @@
   },
   "started_at_utc": "2026-10-07T05:21:49Z",
   "status": "IN_PROGRESS",
-  "status_reason": "Expanded the task edit scope to update the directly related Copilot CLI context-tier guidance.",
+  "status_reason": "User expanded scope to include document-owner communication timing and handoff content as an experiment.",
   "task_id": "all-skill-agent-live-model-tests",
-  "updated_at_utc": "2026-10-07T05:41:48Z",
+  "updated_at_utc": "2026-10-07T05:45:31Z",
   "worker_id": "coordinator-01",
   "worker_name": "coordinator-01 - pipeline live-model evaluation"
 }
