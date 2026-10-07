@@ -1,22 +1,22 @@
 {
   "owner": {
     "agent_id": "coordinator",
-    "operation": "MERGE",
+    "operation": "STATUS",
     "run_id": "copilot-skills-worktree-janitor-20261007",
-    "runtime_agent_id": null,
-    "signed_in_at_utc": "2026-10-07T18:31:38Z",
-    "start_main_sha": "9f5ba1f3c6ed74d5980208aa19fb3e7a0d1b496a",
-    "token": "5af2c862b85c4fa07ca0925a8294da89",
+    "runtime_agent_id": "copilotcli:/d04e3d8d-4a60-4fda-8eef-13cbf13caa0f",
+    "signed_in_at_utc": "2026-10-07T18:32:21Z",
+    "start_main_sha": "38c9126da7833f029d131de3d59642d644189dbc",
+    "token": "2f605dfd05415a2e745fb24aca6636b1",
     "worktree_path": null
   },
   "ref": "refs/heads/main",
   "repository": "jrblankenhorn1007/copilot_skills",
-  "revision": 276,
+  "revision": 277,
   "schema_version": 1,
   "sign_out": {
-    "at_utc": "2026-10-07T18:32:06Z",
-    "outcome": "MERGED",
-    "result_commit_sha": "72b2f5a879d5821c595058ccf5c99060ae9e5551"
+    "at_utc": null,
+    "outcome": null,
+    "result_commit_sha": null
   },
-  "state": "FREE"
+  "state": "OWNED"
 }
