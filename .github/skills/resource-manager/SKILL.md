@@ -31,25 +31,29 @@ registry or run divergent copies of the manager.
 
 ## Dynamic capacity
 
-The manager computes a total-agent limit from physical memory, logical CPU
-cores, currently available memory, and one-minute system load:
+The manager enforces a configured total-agent limit while reporting
+hardware-derived RAM and CPU estimates and applying live-pressure safeguards:
 
-- Reserve 4 GiB for the OS and editor, budget 2 GiB per agent, and cap the
-  memory-derived limit at eight agents.
-- Budget one agent per two logical CPU cores, also capped at eight.
-- The base limit is the lower of the memory and CPU limits.
+- `MAX_AGENTS` sets the base admission limit to eight agents. This is the
+  configured capacity, not an estimate that scales with host size.
+- Reserve 4 GiB for the OS and editor and budget 2 GiB per agent when
+  calculating the diagnostic `ram_agents` estimate. Calculate the diagnostic
+  `cpu_agents` estimate at one agent per two logical CPU cores. These estimates
+  are reported but do not lower the configured admission limit.
 - Reduce the limit by one (minimum one) when available memory is below 3 GiB
   or one-minute load reaches 85% of logical CPU count.
 - Allow no new registration or reservation when available memory is at or
   below 1.5 GiB or one-minute load reaches logical CPU count.
 
-For example, an 8 GiB, six-core Mac has a base limit of two total agents, not
-two workers plus an orchestrator. Live pressure can reduce that to one or zero.
-The active count is the union of registered agents, pending reservations, and
-currently observed live sessions not already represented by a registration.
-This includes nested agents. Existing agents are never terminated when
-pressure rises; the manager only refuses additional registrations or
-reservations.
+For example, an 8 GiB, six-core Mac has a configured limit of eight total
+agents, not eight workers plus an orchestrator; its diagnostic RAM and CPU
+estimates are two and three. This setting can admit more agents than those
+hardware estimates recommend. Live pressure can reduce the limit to seven,
+and critical pressure disables new admissions. The active count is the union
+of registered agents, pending reservations, and currently observed live
+sessions not already represented by a registration. This includes nested
+agents. Existing agents are never terminated when pressure rises; the manager
+only refuses additional registrations or reservations.
 
 On macOS the manager reads `sysctl hw.memsize`, `memory_pressure`, and the
 one-minute load average. On Linux it reads `MemTotal`/`MemAvailable` from

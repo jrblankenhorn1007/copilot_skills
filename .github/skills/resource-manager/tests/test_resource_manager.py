@@ -80,9 +80,10 @@ class ResourceManagerContractTests(unittest.TestCase):
 
 
 class CapacityTests(unittest.TestCase):
-    def test_eight_gib_six_core_machine_has_two_slots_at_normal_load(self):
+    def test_eight_gib_six_core_machine_has_eight_configured_slots_at_normal_load(self):
         capacity = manager.calculate_capacity(host_metrics())
-        self.assertEqual(2, capacity.max_agents)
+        self.assertEqual(8, capacity.max_agents)
+        self.assertEqual(8, capacity.base_agents)
         self.assertEqual(2, capacity.ram_agents)
         self.assertEqual(3, capacity.cpu_agents)
 
@@ -92,12 +93,12 @@ class CapacityTests(unittest.TestCase):
         high_load = manager.calculate_capacity(host_metrics(load_1m=5.2))
         saturated_cpu = manager.calculate_capacity(host_metrics(load_1m=6.0))
 
-        self.assertEqual(1, low_memory.max_agents)
+        self.assertEqual(7, low_memory.max_agents)
         self.assertEqual(0, critical_memory.max_agents)
-        self.assertEqual(1, high_load.max_agents)
+        self.assertEqual(7, high_load.max_agents)
         self.assertEqual(0, saturated_cpu.max_agents)
 
-    def test_capacity_obeys_ram_cpu_and_global_ceilings(self):
+    def test_capacity_uses_configured_limit_and_reports_hardware_guidance(self):
         small_host = manager.calculate_capacity(
             host_metrics(total_gib=8, available_gib=4, cpu_cores=2)
         )
@@ -105,7 +106,10 @@ class CapacityTests(unittest.TestCase):
             host_metrics(total_gib=32, available_gib=24, cpu_cores=16)
         )
 
-        self.assertEqual(1, small_host.max_agents)
+        self.assertEqual(8, small_host.max_agents)
+        self.assertEqual(8, small_host.base_agents)
+        self.assertEqual(2, small_host.ram_agents)
+        self.assertEqual(1, small_host.cpu_agents)
         self.assertEqual(manager.MAX_AGENTS, large_host.max_agents)
 
     def test_global_agent_ceiling_is_eight(self):
@@ -189,10 +193,13 @@ class RegistryTests(unittest.TestCase):
         )
 
     def test_observed_unregistered_sessions_consume_capacity(self):
-        self.register_parent(("orchestrator-runtime", "existing-worker"))
+        observed = ("orchestrator-runtime",) + tuple(
+            f"existing-worker-{index}" for index in range(1, manager.MAX_AGENTS)
+        )
+        self.register_parent(observed)
 
         with self.assertRaises(manager.AdmissionDenied):
-            self.reserve_worker("new-worker", ("orchestrator-runtime", "existing-worker"))
+            self.reserve_worker("new-worker", observed)
 
     def test_runtime_identity_cannot_be_bound_to_two_agents(self):
         self.register_parent()
@@ -237,7 +244,8 @@ class RegistryTests(unittest.TestCase):
 
         self.assertEqual("active", activated["agent"]["status"])
         self.assertEqual(2, current["active_agent_count"])
-        self.assertFalse(current["can_spawn"])
+        self.assertEqual(6, current["available_slots"])
+        self.assertTrue(current["can_spawn"])
         manager.release_agent(self.registry, "worker-01", now=NOW)
         self.assertEqual(
             1,
@@ -261,19 +269,23 @@ class RegistryTests(unittest.TestCase):
         with ThreadPoolExecutor(max_workers=8) as executor:
             results = list(executor.map(attempt, range(8)))
 
-        self.assertEqual(1, sum(result is not None for result in results))
+        self.assertEqual(manager.MAX_AGENTS - 1, sum(result is not None for result in results))
         status = manager.get_status(
             self.registry,
             observed_session_ids=("orchestrator-runtime",),
             metrics=self.metrics,
             now=NOW,
         )
-        self.assertEqual(2, status["active_agent_count"])
-        self.assertEqual(1, status["reserved_agent_count"])
+        self.assertEqual(manager.MAX_AGENTS, status["active_agent_count"])
+        self.assertEqual(manager.MAX_AGENTS - 1, status["reserved_agent_count"])
 
-    def test_existing_overcommitted_agent_can_register_but_cannot_spawn(self):
+    def test_agent_at_configured_limit_can_register_but_cannot_spawn(self):
         self.register_parent(
-            ("orchestrator-runtime", "existing-worker-01", "existing-worker-02")
+            ("orchestrator-runtime",)
+            + tuple(
+                f"existing-worker-{index:02d}"
+                for index in range(1, manager.MAX_AGENTS)
+            )
         )
         status = manager.get_status(
             self.registry,
@@ -281,7 +293,7 @@ class RegistryTests(unittest.TestCase):
             now=NOW,
         )
 
-        self.assertEqual(3, status["active_agent_count"])
+        self.assertEqual(manager.MAX_AGENTS, status["active_agent_count"])
         self.assertTrue(status["inventory_fresh"])
         self.assertFalse(status["can_spawn"])
 
