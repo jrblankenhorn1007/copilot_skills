@@ -47,7 +47,11 @@ Replace the placeholders before running the command. OpenCode's Task
 subagents inherit the current session's worktree; they do not create Git
 worktrees. Do not use them for implementation assignments that require
 child-worktree isolation. Use the Task tool only for the named, read-only
-PR reviewers. Do not add `--auto` to a Ralph session.
+PR reviewers and the named `ralph-worktree-janitor` profile. Dispatch the
+janitor only for an exact worker child worktree marked
+`cleanup.worktree: READY` after verified worker-to-parent integration; its
+profile denies edits and requires approval for shell commands. Do not add
+`--auto` to a Ralph session.
 
 Pass an explicit `--model provider/model-id` to each session; use `--variant`
 only when the selected provider/model supports it. Apply worker-specific
@@ -94,16 +98,33 @@ merge the completed parent branch to `origin/main`. Fetch `origin` and verify
 the resulting parent merge SHA there; a child commit or child-to-parent merge
 is not remote-main completion.
 
-Never delete an unmerged branch. After a child's merge into the parent is
-verified, the coordinator may remove its worktree with
-`git worktree remove <child-worktree>` and delete its local branch with
-`git branch -d <child-branch>`. Delete a published child ref only after that
-verification and if repository policy permits. Keep the parent worktree and
-branch until the completed parent merge has been fetched and verified on
-`origin/main`; only then may the coordinator remove the parent worktree and
-use `git branch -d` for its branch. Delete a published parent ref only after
-that verification and if repository policy permits. Do not use force-delete
+Never delete an unmerged branch. After a worker-to-parent merge is verified,
+the coordinator may set `cleanup.worktree: READY` only after the worker has
+signed out, the exact merge SHA is reachable from the verified parent branch,
+the worker worktree is clean, and no active session owns its path. Reserve a
+Resource Manager slot and dispatch the worktree janitor with that exact
+worker path and merge proof. The janitor removes only the worker child
+worktree with `git worktree remove <worker-worktree>` and no `--force`; it
+does not delete local or remote branches or edit status files. The coordinator
+records `REMOVED` or `BLOCKED` after the janitor reports. If no janitor slot is
+available, keep the item `READY` and queue it; do not bypass the role.
+
+After worker worktree removal, the coordinator may remove its local branch
+with `git branch -d <worker-branch>` after verifying the merge. Delete a
+published child ref only after that verification and if repository policy
+permits. Keep the parent worktree and branch until the completed parent merge
+has been fetched and verified on `origin/main`; only then may the coordinator
+remove the parent worktree and use `git branch -d` for its branch. Delete a
+published parent ref only after that verification and if repository policy
+permits. Do not use force-delete
 operations.
+
+The coordinator is the sole writer of `docs/ralph-status.md`. If another
+published task scope still claims that path, do not edit it. Follow the
+[pending dashboard-index exception](references/multi-agent-status.md#ownership-and-synchronization):
+mark the current coordinator leaf `BLOCKED` with
+`pending_dashboard_update: true` and record the exact owner run/path, then
+update and validate the dashboard only after a verified scope release.
 
 ## Inter-session communication
 

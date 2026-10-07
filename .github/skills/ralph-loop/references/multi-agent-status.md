@@ -81,6 +81,18 @@ records, then send the coordinator the exact paths, current state, checks,
 sign-off, and any merge evidence. Workers must not edit the aggregate
 dashboard or keep competing copies of it.
 
+When another published task scope still claims `docs/ralph-status.md`, do not
+write through that scope even if the other session is idle or errored. A
+current coordinator leaf may temporarily remain unindexed only after the
+coordinator verifies the recorded owner/session state and marks its own leaf
+`BLOCKED` with `pending_dashboard_update: true` and a `pending_shared_scope`
+object containing the exact dashboard path and owner run ID. This exception
+does not release the other task's scope, authorize integration, or permit a
+worker to omit its status. After a verified owner sign-out/release, the
+coordinator publishes its next status revision, adds the missing dashboard
+entry, clears the pending fields, and reruns the index contract before
+integration. No other unindexed folder is permitted.
+
 Treat each worker state transition as one serialized status update:
 
 1. The worker records the transition in its leaf `status.md` and appends the
@@ -445,15 +457,29 @@ parent rebase rewrites a previously verified child merge, preserve the old
 merge proof in `worker_to_parent_merge_history`, update the current merge
 record, and verify it again on the rebased parent.
 
-Cleanup follows integration, never the reverse. After a worker-to-parent
-merge is verified, the coordinator may remove that child's worktree/local
-branch and, when published, its remote ref if repository policy permits. The
-parent worktree/local branch may be removed only after the parent-to-main
-merge is verified on fetched `origin/main`. Keep branches and worktrees for
-unmerged changes; never force-delete an unmerged branch. Record worktree and
-local-branch cleanup as `PENDING`, `REMOVED`, or `BLOCKED`; record remote-ref
-cleanup as `NOT_PUBLISHED`, `PENDING`, `DELETED`, or `BLOCKED`. Record
-safe-cleanup failures as blockers and preserve the affected branch/worktree.
+Cleanup follows integration, never the reverse. Record worker worktree
+cleanup as `PENDING`, `READY`, `REMOVED`, or `BLOCKED`. Only the coordinator
+may change a worker's `cleanup.worktree` field: set it to `READY` only after
+the worker-to-parent merge is verified, the worker is `COMPLETE` and signed
+out, no active session owns the path, and the exact worktree is clean. The
+`worker_to_parent_merge.status: VERIFIED` record must include the merge SHA,
+verified parent ref, and verified parent SHA; the SHA must be reachable from
+that parent branch. This cleanup field is a narrow coordinator-owned
+exception; do not change other worker-owned leaf fields.
+
+Dispatch the Janitor only with that exact worker child path and merge proof.
+It must recheck the proof and worktree state, remove only the worker
+worktree without `--force`, and return `REMOVED` or `BLOCKED`; it must not
+edit status files or delete local/remote branches. The coordinator records
+the result and synchronizes the leaf and dashboard. If capacity is
+unavailable, leave the worktree `READY` and queue it rather than bypassing
+the Janitor. Local-branch cleanup remains a separate coordinator action with
+`PENDING`, `REMOVED`, or `BLOCKED` states; remote-ref cleanup remains
+`NOT_PUBLISHED`, `PENDING`, `DELETED`, or `BLOCKED`. The parent
+worktree/local branch may be removed only after the parent-to-main merge is
+verified on fetched `origin/main`. Keep branches and worktrees for unmerged
+changes; never force-delete an unmerged branch. Record safe-cleanup failures
+as blockers and preserve the affected branch/worktree.
 
 ### Current-state leaf and append-only evidence
 

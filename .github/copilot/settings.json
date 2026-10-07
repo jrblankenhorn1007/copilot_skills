@@ -2,7 +2,31 @@
   "contextTier": "default",
   "subagents": {
     "agents": {
+      "Project Memory Update": {
+        "contextTier": "default"
+      },
+      "Ralph Agent Design Specialist": {
+        "contextTier": "default"
+      },
+      "Ralph ASI Specialist": {
+        "contextTier": "default"
+      },
+      "Ralph Code Reviewer": {
+        "contextTier": "default"
+      },
+      "Ralph Docs Specialist": {
+        "contextTier": "default"
+      },
+      "Ralph Git Specialist": {
+        "contextTier": "default"
+      },
       "Ralph Loop": {
+        "contextTier": "default"
+      },
+      "Ralph Security Reviewer": {
+        "contextTier": "default"
+      },
+      "Ralph Worktree Janitor": {
         "contextTier": "default"
       }
     }

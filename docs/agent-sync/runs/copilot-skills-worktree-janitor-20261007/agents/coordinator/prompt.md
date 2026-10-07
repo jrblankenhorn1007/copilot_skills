@@ -1,0 +1,1 @@
+we need a janitor role for our pipeline. basically, theres way too many worktrees, we need a way to flag when one is ready to be cleaned up in our pipeline and we need it to clean up the worktrees the workers make. understand?

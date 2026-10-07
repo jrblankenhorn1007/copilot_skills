@@ -534,6 +534,16 @@ blockers, next action, and merge/memory-review state. Preserve entries for
 unaffected branch/agent folders so the dashboard continues to surface all of
 them. Workers do not edit the aggregate dashboard.
 
+If a different task's published edit scope still claims the dashboard, the
+coordinator does not edit it, even when that task's session is idle or errored.
+Follow the narrow pending-index exception in the
+[status contract](multi-agent-status.md#ownership-and-synchronization): mark
+the current coordinator leaf `BLOCKED`, set `pending_dashboard_update: true`,
+and record the exact `pending_shared_scope` path and owner run ID. This does
+not release that other task's scope or permit integration. After its verified
+release, add the leaf and progress links, clear the pending fields, and rerun
+the dashboard-index contract before integration.
+
 For schema-version-2 current reports, each leaf and its matching
 `branch_agent_index` row carry the same branch-local `resource_usage` object.
 Workers update the object with their leaf report; the coordinator mirrors it
@@ -677,12 +687,37 @@ identity and authentication rules.
    commit; a task sign-out is separate from main sign-out. A child merge,
    parent push, local merge, or open PR alone is not proof of final
    integration.
-8. **Clean up only verified merges:** after a worker-to-parent merge has been
-   verified on the parent, and only if its worktree is clean, the coordinator
-   may remove the worker worktree and local branch:
+8. **Queue only verified worker worktrees for the Janitor:** after the
+   worker-to-parent merge is verified on the parent, the coordinator may set
+   `cleanup.worktree: READY` in that worker's status only if the worker is
+   `COMPLETE` and signed out, the current session inventory and ledger show no
+   active owner, the exact worker worktree is clean, and the recorded merge
+   SHA is reachable from the verified parent ref. The coordinator exclusively
+   owns this cleanup-field transition; it must not change other worker-owned
+   leaf fields. Dispatch the Janitor with that exact worker path, branch,
+   parent ref/SHA, merge proof, and current no-owner evidence after reserving
+   a Resource Manager slot. Dispatch `ralph-worktree-janitor` only for this
+   cleanup assignment.
+
+   The Janitor rechecks the status and Git evidence, then removes only the
+   exact worker child worktree:
 
    ```sh
    git worktree remove <worker-worktree>
+   ```
+
+   It must not use `--force`, edit status files, remove the parent/main
+   worktree, or delete local or remote branches. Do not clean up the parent
+   or main worktree with the Janitor. The coordinator records the Janitor's
+   exact result as `cleanup.worktree: REMOVED` or
+   `cleanup.worktree: BLOCKED` and synchronizes the worker leaf and dashboard.
+   If capacity is unavailable, leave the item `READY` and queue it; do not
+   bypass the Janitor or fall back to direct coordinator cleanup.
+
+   Local branch cleanup remains a separate coordinator action after the
+   worker worktree is removed and the merge is verified:
+
+   ```sh
    git branch -d <worker-branch>
    ```
 

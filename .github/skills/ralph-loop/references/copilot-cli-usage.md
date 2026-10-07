@@ -69,13 +69,14 @@ documented Copilot agent and prompt options shown above; keep orchestration
 role selection in the Ralph launcher or session host.
 
 Copilot CLI reads repository defaults from `.github/copilot/settings.json`.
-This repository configures `contextTier` separately for the top-level session
-and `subagents.agents.Ralph Loop`, so the orchestrator and Ralph Loop workers
-can use different context tiers. The agent frontmatter itself does not expose
-a context-tier field. In VS Code, use the model picker for the active session;
-use per-worker context controls only when the host supports them. If a host
-cannot set a requested worker-specific context tier, report that limitation
-and retain the configured default.
+This repository sets `contextTier` to `default` for the top-level session and
+explicitly for every installed named subagent under `subagents.agents`. This
+keeps custom reviewers and specialists at the same context tier as Ralph Loop
+workers; the agent frontmatter itself does not expose a context-tier field.
+In VS Code, use the model picker for the active session; use per-worker
+context controls only when the host supports them. If a host cannot set a
+requested worker-specific context tier, report that limitation and retain
+the configured default.
 
 ## Run a multi-agent Ralph task
 
