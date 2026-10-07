@@ -10,7 +10,7 @@
   critical-pressure stops).
 - **PR:** #6 — <https://github.com/jrblankenhorn1007/copilot_skills/pull/6>
 - **Current state:** `IN_PROGRESS`; parent-to-main merge is `PENDING`.
-- **Review:** `PENDING`; no review round has completed. The independent Ralph
+- **Review:** `BLOCKED`; no review round has completed. The independent Ralph
   Code Reviewer and Ralph Security Reviewer must review the exact PR SHAs.
 
 ## Change summary
@@ -69,9 +69,13 @@ self-review.
 
 ## Unresolved blockers
 
-- None currently. The fresh Resource Manager inventory reports
-  `capacity.max_agents: 8`, `active_agent_count: 3`, `available_slots: 5`,
-  and `can_spawn: true`. Reserve reviewer slots atomically before dispatch;
-  then complete both independent reviews against the exact PR base/head SHAs.
+- At the latest fresh inventory (`2026-10-07T05:10:15Z`), the configured
+  base is `8` but effective `capacity.max_agents` is `0` because one-minute
+  load was `9.46` on a six-core host, crossing the critical load threshold.
+  There are 3 active agents and no available slots. The code and tests now
+  report the requested configured limit correctly; the unchanged critical
+  pressure safeguard temporarily prevents all new admissions. Do not launch
+  reviewers until a fresh inventory reports `can_spawn: true` and atomic
+  reservations succeed.
 - The PR is not yet merged; complete review, CI, required approvals, and the
   normal merge gate before recording remote-main verification.
