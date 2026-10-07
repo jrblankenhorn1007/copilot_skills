@@ -25,6 +25,9 @@
       },
       "Ralph Security Reviewer": {
         "contextTier": "default"
+      },
+      "Ralph Worktree Janitor": {
+        "contextTier": "default"
       }
     }
   }
