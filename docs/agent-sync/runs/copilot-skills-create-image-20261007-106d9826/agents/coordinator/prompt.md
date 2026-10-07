@@ -1,0 +1,1 @@
+we need a create image skill. there is already a script to do this in the runecore development folder. check that out, write a unit test with live model to do this, and commit to agent skills. youre done when the skill works, passes the model test, and goes through the loop to merge to main.
