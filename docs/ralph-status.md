@@ -720,9 +720,9 @@ runs:
     effective_worker_count: 0
     active_worker_count: 0
     base_origin_main_sha: "2abcbe040582e68cacc7192d2388fc5eaae7a816"
-    current_origin_main_sha: "e6ed4c20c5955af91c628b34f026b6eb63c09c70"
+    current_origin_main_sha: "567cf974735bbd7cdc5922379390601e7dfdf504"
     created_at_utc: "2026-10-07T16:00:49Z"
-    updated_at_utc: "2026-10-07T18:00:03Z"
+    updated_at_utc: "2026-10-07T18:20:11Z"
     coordinator_scope: "Document a literal, bounded Bash while loop for one-shot Copilot CLI Ralph iterations and guard marker and error behavior with a contract test."
     coordinator_branch: "agents/copilot-cli-ralph-while-loop-20261007"
     coordinator_status_path: "docs/ralph/agents-copilot-cli-ralph-while-loop-20261007/agents/coordinator/status.md"
@@ -732,8 +732,8 @@ runs:
       status: OPEN
       number: 9
       url: "https://github.com/jrblankenhorn1007/copilot_skills/pull/9"
-      base_sha: "e6ed4c20c5955af91c628b34f026b6eb63c09c70"
-      head_sha: "0c63f15bc6e9a679150e6825e23f11ceba2ca373"
+      base_sha: "567cf974735bbd7cdc5922379390601e7dfdf504"
+      head_sha: "16a4b3fafa907d835229c07a4f0a0d29e916e9aa"
     review:
       status: PENDING
       reviewer_agents: ["Ralph Code Reviewer", "Ralph Security Reviewer"]
@@ -756,7 +756,7 @@ runs:
       verified_at_utc: null
     memory_review: PENDING
     blockers: []
-    next_action: "Publish this recovered dispatch record, fetch the resulting exact PR head, refresh live capacity, then dispatch the permitted follow-up Code and Security reviews before any merge action."
+    next_action: "Publish this main-synchronization and partial-review record, fetch the resulting exact PR base/head, refresh live capacity, then dispatch the complete follow-up Code and Security reviews before any merge action."
     memory_handoff:
       implementation_summary: "Added a bounded literal Bash while loop for Copilot CLI one-shot Ralph iterations, fail-closed CLI/error handling including unknown standalone markers, and executable contract coverage."
       lesson_candidates: []
@@ -2200,15 +2200,15 @@ branch_agent_index:
     decision_record_path: "docs/decisions/agents-copilot-cli-ralph-while-loop-20261007/agents/coordinator/pr-9.md"
     decision_index_path: "docs/decisions/agents-copilot-cli-ralph-while-loop-20261007/README.md"
     base_origin_main_sha: "2abcbe040582e68cacc7192d2388fc5eaae7a816"
-    current_origin_main_sha: "e6ed4c20c5955af91c628b34f026b6eb63c09c70"
+    current_origin_main_sha: "567cf974735bbd7cdc5922379390601e7dfdf504"
     rebased_onto_origin_main_sha: null
     implementation_commit_sha: "ac5a083230b1d40d639a47c1ee925336a5817696"
     pull_request:
       status: OPEN
       number: 9
       url: "https://github.com/jrblankenhorn1007/copilot_skills/pull/9"
-      base_sha: "e6ed4c20c5955af91c628b34f026b6eb63c09c70"
-      head_sha: "0c63f15bc6e9a679150e6825e23f11ceba2ca373"
+      base_sha: "567cf974735bbd7cdc5922379390601e7dfdf504"
+      head_sha: "16a4b3fafa907d835229c07a4f0a0d29e916e9aa"
     review:
       status: PENDING
       reviewer_agents: ["Ralph Code Reviewer", "Ralph Security Reviewer"]
@@ -2223,7 +2223,7 @@ branch_agent_index:
         rationale: "Rejected unknown standalone RALPH marker-shaped lines and added an executable mocked regression; one follow-up review is required for the updated PR head."
         recorded_at_utc: "2026-10-07T17:51:26Z"
     resource_usage:
-      time_spent_seconds: 7154
+      time_spent_seconds: 8362
       time_basis: WALL_CLOCK_ELAPSED
       token_spend:
         status: NOT_REPORTED
@@ -2241,7 +2241,7 @@ branch_agent_index:
       verified_at_utc: null
     memory_review: PENDING
     blockers: []
-    next_action: "Publish this recovered dispatch record, fetch the resulting exact PR head, refresh live capacity, then dispatch the permitted follow-up Code and Security reviews before any merge action."
+    next_action: "Publish this main-synchronization and partial-review record, fetch the resulting exact PR base/head, refresh live capacity, then dispatch the complete follow-up Code and Security reviews before any merge action."
     memory_handoff:
       implementation_summary: "Added a bounded literal Bash while loop for Copilot CLI one-shot Ralph iterations, fail-closed CLI/error handling including unknown standalone markers, and executable contract coverage."
       lesson_candidates: []
@@ -2289,7 +2289,7 @@ branch_agent_index:
 
 | `copilot-skills-opencode-setup-20260924-2325` | `agents/update-dependencies-docs-opencode-setup` | `coordinator` | `IN_PROGRESS` | `42,072 s (wall-clock)` | `NOT_REPORTED` | [status](./ralph/agents-update-dependencies-docs-opencode-setup/agents/coordinator/status.md) | [progress](./ralph/agents-update-dependencies-docs-opencode-setup/agents/coordinator/progress.md) | Parent pending | Pending |
 | `copilot-skills-opencode-setup-20260924-2325` | `ralph/opencode-setup-docs-worker-01-20260924-2325` | `worker-01` | `AWAITING_MERGE` | Not captured (legacy) | Not captured (legacy) | [status](./ralph/ralph-opencode-setup-docs-worker-01-20260924-2325/agents/worker-01/status.md) | [progress](./ralph/ralph-opencode-setup-docs-worker-01-20260924-2325/agents/worker-01/progress.md) | Fresh sign-off and memory_handoff pending | Pending |
-| `copilot-skills-cli-ralph-while-loop-20261007` | `agents/copilot-cli-ralph-while-loop-20261007` | `coordinator` | `IN_PROGRESS` | `7,154 s (wall-clock)` | `NOT_REPORTED` | [status](./ralph/agents-copilot-cli-ralph-while-loop-20261007/agents/coordinator/status.md) | [progress](./ralph/agents-copilot-cli-ralph-while-loop-20261007/agents/coordinator/progress.md) | Pending | Pending |
+| `copilot-skills-cli-ralph-while-loop-20261007` | `agents/copilot-cli-ralph-while-loop-20261007` | `coordinator` | `IN_PROGRESS` | `8,362 s (wall-clock)` | `NOT_REPORTED` | [status](./ralph/agents-copilot-cli-ralph-while-loop-20261007/agents/coordinator/status.md) | [progress](./ralph/agents-copilot-cli-ralph-while-loop-20261007/agents/coordinator/progress.md) | Pending | Pending |
 
 The earlier parent-child pipeline run is `COMPLETE`: both workers integrated into the
 parent, the parent merge is verified on `origin/main`, the contract suite and
