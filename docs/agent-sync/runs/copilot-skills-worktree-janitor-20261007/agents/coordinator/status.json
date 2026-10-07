@@ -39,7 +39,7 @@
   },
   "prompt_path": "docs/agent-sync/runs/copilot-skills-worktree-janitor-20261007/agents/coordinator/prompt.md",
   "prompt_sha256": "42245a9adf07b6b48bf055c008e4bbcfed86f5843b14b5c4861348e9a19e5f5e",
-  "revision": 6,
+  "revision": 7,
   "run_id": "copilot-skills-worktree-janitor-20261007",
   "schema_version": 1,
   "sign_in_at_utc": "2026-10-07T05:28:40Z",
@@ -51,10 +51,10 @@
     "summary": null
   },
   "started_at_utc": "2026-10-07T05:28:40Z",
-  "status": "IN_PROGRESS",
-  "status_reason": "Dashboard snapshot revision 129 indexes the coordinator leaf; multi-agent (30), specialist (6), ownership (8), publisher (15), and diff checks pass. The coordinator remains IN_PROGRESS while executing the authorized parent-to-main integration. Post-merge memory review is queued pending Resource Manager capacity.",
+  "status": "BLOCKED",
+  "status_reason": "Parent-to-main merge 85c8a4796e21f0d1e1a88fb01804a55d3c71d893 is verified on fetched origin/main. The required post-merge Project Memory Update review remains pending: Resource Manager reports 3 active agents against max_agents 2 and zero available slots; coordinator self-review is not a substitute.",
   "task_id": "pipeline-worktree-janitor-role",
-  "updated_at_utc": "2026-10-07T18:24:21Z",
+  "updated_at_utc": "2026-10-07T18:32:20Z",
   "worker_id": "coordinator",
   "worker_name": "coordinator - worktree janitor role implementation"
 }
