@@ -247,3 +247,40 @@ fixture; they do not start an LLM Janitor or remove any real worktree.
   or remove worktrees in this run.
 - **Next action:** preserve the owner boundary and resume integration only
   after verified dashboard scope release.
+
+## 2026-10-07T18:10:46Z - Request a dashboard-scope checkpoint
+
+- The user correctly rejected treating the task as complete while integration
+  is blocked. The coordinator reopened the task, re-registered, and refreshed
+  the live session and remote ownership records.
+- The verified owner session is idle; its task record remains revision 3
+  `IN_PROGRESS`, `sign_out.at_utc: null`, with `docs/ralph-status.md` in its
+  edit scope. Main ownership is `FREE`. No dashboard write or integration was
+  attempted.
+- Sent one correlated status query,
+  `janitor-dashboard-scope-query-20261007-02`, to the verified owner session.
+  Host acceptance is not recipient acknowledgment. Reply checkpoint is
+  `2026-10-07T18:13:00Z`; the query expires at `18:20:00Z`. Do not resend it
+  while its state remains accepted/queued.
+- Resource Manager registration is active, but there are zero available
+  slots; no child agent can be dispatched.
+- **Next action:** check the recipient once at the reply checkpoint. If the
+  scope remains unreleased, use the documented fallback/coordination route;
+  do not edit the dashboard under another task's scope.
+
+## 2026-10-07T18:14:32Z - Take released dashboard scope
+
+- The other coordinator responded and published its revision 4. A fresh fetch
+  verified that `docs/ralph-status.md` is absent from its `edit_scope`; its
+  task remains `IN_PROGRESS`, but the file scope is released. The main
+  ownership record was `FREE`.
+- This run published task status revision 5 and added
+  `docs/ralph-status.md` to its own edit scope:
+  `d2d8e2414fcaded75b8e44e521f5bad6be119c47`. The status publisher released
+  main at `567cf974735bbd7cdc5922379390601e7dfdf504`.
+- Resource Manager now sees three active agents against `max_agents: 2` and
+  zero free slots. No worker or specialist is being dispatched; the required
+  post-merge memory review remains queued for capacity.
+- **Next action:** record this run as `IN_PROGRESS`, rebase onto the new
+  origin/main tip, synchronize its dashboard row, rerun acceptance tests,
+  then continue the authorized integration path.
