@@ -130,6 +130,79 @@ The revised text is clearer against these frozen expectations; no runtime
 selection was exercised, so the example supports no claim that routing
 improved in practice.
 
+## Live-model instruction conformance
+
+The repository's
+[live-model case matrix](tests/live_model_cases.json) freezes a model-facing
+case for every installed Skill, Copilot agent definition, and OpenCode agent
+profile, plus routing boundaries. The suite runs cases serially in temporary
+workspaces, keeps expected answers out of the model prompt, checks protected
+actions as hard gates, and distinguishes `PASS`, `FAIL`, `UNKNOWN`, and
+`EVALUATOR_ERROR`. A model's self-reported selection is not proof that the
+host activated that Skill or agent; mark runtime routing `UNKNOWN` without an
+observable host trace. OpenCode agent cases request the matching OpenCode
+profile; Copilot agent cases use the OpenCode `plan` harness with the Copilot
+definition attached, so they test model-facing instruction conformance rather
+than Copilot-host activation.
+
+Every live invocation is pinned to `gpt-6-luna` with max reasoning and default
+context. OpenCode requires the exact provider/model ID returned by
+`opencode models`, supplied as `OPENCODE_MODEL_ID`; the runner fails closed
+when that ID is unavailable and never substitutes another model. It passes
+`--variant max` and leaves context overrides unset. Copilot repository
+settings keep the default context for the top-level session and each named
+subagent profile. Before `--live`, refresh the host's complete in-progress
+session inventory, pass the registered parent and each observed session ID,
+and allow the runner to atomically reserve and activate one serial test
+worker. It heartbeats that registration between calls and releases it at the
+end. Missing inventory, an unregistered parent, no free slot, or an
+unavailable model blocks execution. The suite does not run cases in parallel.
+
+Run the deterministic coverage checks and inspect the frozen cases with:
+
+```sh
+PYTHONDONTWRITEBYTECODE=1 python3 .github/skills/agentic-eval/tests/test_live_model_coverage.py
+PYTHONDONTWRITEBYTECODE=1 python3 .github/skills/agentic-eval/tests/test_live_model_runner.py
+PYTHONDONTWRITEBYTECODE=1 python3 .github/skills/agent-communication/tests/test_document_owner_communication.py
+python3 .github/skills/agentic-eval/tests/run_live_model_cases.py --list
+python3 .github/skills/agentic-eval/tests/run_live_model_cases.py --measure-context
+python3 .github/skills/agentic-eval/tests/run_live_model_cases.py --measure-communication
+python3 .github/skills/agentic-eval/tests/run_live_model_cases.py --preflight
+```
+
+After preflight succeeds and a live-model slot is available, run the serial
+coverage suite and the paired focused-context/full-catalog experiment:
+
+```sh
+OPENCODE_MODEL_ID='<exact provider/gpt-6-luna id from opencode models>' \
+  python3 .github/skills/agentic-eval/tests/run_live_model_cases.py \
+    --live --experiment \
+    --parent-session-id "$PARENT_SESSION_ID" \
+    --observed-session-id "$PARENT_SESSION_ID" \
+    --observed-session-id "$OTHER_ACTIVE_SESSION_ID"
+```
+
+Include one `--observed-session-id` argument per active session, not only the
+shown example IDs.
+
+The paired experiment uses five repetitions for each of three frozen tasks
+and both context arms. It reports elapsed time and exact prompt bytes; token
+counts are included only when the provider reports them, otherwise they are
+`NOT_REPORTED` with null counts. Do not claim a latency improvement from
+prompt-size savings or incomplete pairs alone.
+
+The document-owner experiment compares a synthetic per-change control with
+event-triggered checkpoints. Its seven-event trace includes routine edits,
+scope collision, a blocking dependency, review-ready handoff, and verified
+completion. The control proposes seven messages and the candidate four; the
+three-message (42.9%) reduction is an offline simulation, not an observed
+transport or task-latency gain. `--live --experiment` repeats both
+communication arms five times and also runs the paired context trial; all
+model invocations are serial. It does not send cross-session messages. The
+host's transport latency and recipient processing time remain
+`NOT_MEASURED` until separately measured with verified sessions and available
+Resource Manager capacity.
+
 ---
 
 ## Pattern 1: Basic Reflection

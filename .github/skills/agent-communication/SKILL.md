@@ -146,6 +146,52 @@ correlated status query or use the fallback relay; do not replay the original
 task or side effect. Send a new message ID only after confirming the previous
 request failed, expired, or needs an explicit superseding instruction.
 
+## Document owners: communicate on state transitions
+
+For document-owner communication, treat the assigned owner and durable
+artifact as the source of truth, not a running chat transcript. Keep the
+current state in the owned `status.md`, append material evidence to
+`progress.md`, and record decisions with the artifact path and commit SHA.
+Do not send messages for routine edits, routine local checks, or unchanged
+status when no other agent's next action depends on it.
+
+Send one concise message when another owner must act or decide:
+
+- **Scope collision:** stop editing the contested path and tell the coordinator
+  the exact document path, both known owners, branch/base SHA, conflict, and
+  the one decision needed.
+- **Blocking dependency or decision:** say what is blocked, the impact, what
+  safe check has already been tried, and the specific question and
+  `reply_deadline`. Update the durable status as well.
+- **Review-ready handoff:** identify the document paths, full implementation
+  commit SHA, checks and results, unresolved blockers, and the next owner and
+  action. Link to the committed status/progress or decision artifact instead
+  of copying a diff or transcript.
+- **Verified completion:** message only when a waiting owner needs the
+  verified remote ref, merge SHA, or next action to proceed; otherwise the
+  durable status is sufficient.
+
+The task ledger's required pre-edit sign-in and branch status records still
+apply. Do not duplicate a visible ledger update with a second "started"
+message unless the recipient must acknowledge it before work can safely
+begin. For a dependent handoff, set `ack_required` and a short
+`reply_deadline`; for an FYI that does not block the sender, set
+`ack_required` to `false` and continue. A transport result of `accepted` or
+`queued` is not a recipient acknowledgement, and a queued message is not a
+reason to send another copy.
+
+For a concise document-owner handoff, answer these questions in the body:
+
+1. Who owns the next action?
+2. Which artifact path and full commit SHA should they inspect?
+3. Which checks passed, and what remains blocked or unresolved?
+4. What exact action or decision is needed next, and by when if a reply is
+   required?
+
+Keep the actual diff, detailed test output, and ongoing work log in the
+versioned artifacts. Chat carries only the routing decision or handoff needed
+to unblock another owner.
+
 ## Short checkpoints; no blocking waits
 
 Set a short `reply_deadline` whenever a reply affects the next step. A useful
