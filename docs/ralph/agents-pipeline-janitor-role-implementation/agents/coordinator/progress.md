@@ -232,3 +232,18 @@ fixture; they do not start an LLM Janitor or remove any real worktree.
   `available_slots: 0`. No agents were dispatched.
 - **Next action:** wait for verified release of the dashboard edit scope;
   do not edit the shared dashboard or integrate before that release.
+
+## 2026-10-07T16:38:51Z - Publish blocked run status revision 4
+
+- Published this run's `BLOCKED` task status revision 4 as
+  `3e4504de342180cca0b88499ea905baf763e3d44`. Its status-only main ownership
+  transaction released successfully at
+  `e6ed4c20c5955af91c628b34f026b6eb63c09c70`.
+- A fresh fetched record confirms main ownership is `FREE`; this run is
+  `BLOCKED` revision 4 with task sign-out still null. The other task's remote
+  status remains revision 3 `IN_PROGRESS` with no sign-out and still owns
+  `docs/ralph-status.md`; its runtime session is idle.
+- Resource Manager still reports no available slots. Do not invoke a Janitor
+  or remove worktrees in this run.
+- **Next action:** preserve the owner boundary and resume integration only
+  after verified dashboard scope release.
