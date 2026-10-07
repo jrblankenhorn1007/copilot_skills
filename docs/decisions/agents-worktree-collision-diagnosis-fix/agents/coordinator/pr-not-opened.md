@@ -6,10 +6,9 @@
 - **Branch ref:** `refs/heads/agents/worktree-collision-diagnosis-fix`
 - **Worktree:** `/Users/jrblankenhorn/copilot_skills.worktrees/worktree-collision-diagnosis-fix`
 - **Base `origin/main` SHA:** `8da9310fda1b2e3042a379081dfb0675f1b22d6b`
-- **Implementation commit SHA:** pending.
-- **PR:** `NOT_OPENED`; the repository's recorded no-PR process is a
-  verified fast-forward to `origin/main`.
-- **Status:** `IN_PROGRESS`.
+- **Implementation commit SHA:** `feaec8699b3e7a05eb221ec25226ce084ad67ae2` (preserved source branch; not merged).
+- **PR:** `NOT_OPENED` on this archived source branch.
+- **Status:** `CANCELLED`; work is continued by the current-main replacement run.
 
 ## Decisions
 
@@ -62,7 +61,15 @@
 - Contract Red/Green, full-suite result, and final remote verification will
   be recorded here before integration.
 
+## Final disposition
+
+This archived source branch remains without a PR and is preserved unmerged.
+Its implementation was replayed onto current `origin/main` through run
+`copilot-skills-worktree-isolation-replay-final-sweep-20261007`; do not merge
+the source branch separately. The replacement run carries the memory handoff
+and owns the remaining review and integration gates.
+
 ## Unresolved blockers
 
-- None currently. Full-suite validation, remote integration, and the required
-  post-merge memory review remain pending.
+- None on this source branch; the replacement branch owns current verification,
+  review, integration, and post-merge memory review.

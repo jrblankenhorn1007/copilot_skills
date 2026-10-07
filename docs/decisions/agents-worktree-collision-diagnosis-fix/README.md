@@ -7,9 +7,10 @@
 - **Base `origin/main` SHA:** `8da9310fda1b2e3042a379081dfb0675f1b22d6b`
 - **Worktree:** `/Users/jrblankenhorn/copilot_skills.worktrees/worktree-collision-diagnosis-fix`
 - **Coordinator:** `coordinator` — worktree collision diagnosis.
-- **Pull request:** `NOT_OPENED`; the repository's recorded process is a
-  verified fast-forward to `origin/main`.
-- **Integration:** `PENDING`.
+- **Pull request:** `NOT_OPENED` on this archived source branch.
+- **Integration:** `CANCELLED` for this branch; the implementation is
+  replayed through
+  [the current-main replacement run](../agents-worktree-isolation-replay-final-sweep-20261007/README.md).
 
 ## Agent records
 
@@ -39,6 +40,16 @@
 
 ## Integration
 
-- Implementation commit: `PENDING`.
-- Remote-main integration: `PENDING`.
-- Post-merge memory review: `PENDING`.
+- Implementation commit: `feaec8699b3e7a05eb221ec25226ce084ad67ae2` on the
+  preserved source branch.
+- Remote-main integration: `NOT PERFORMED` for this branch; superseded by the
+  current-main replacement run.
+- Post-merge memory review: delegated to the replacement run and remains
+  pending until that implementation is verified on `origin/main`.
+
+## Final disposition
+
+The archived branch is preserved and will not be merged directly. Its
+implementation commit was replayed onto current `origin/main` in the
+replacement run; that run retains this diagnosis's memory handoff and owns
+the remaining review, integration, and memory-review gates.

@@ -1,4 +1,4 @@
-# Coordinator — Parent PR Pending
+# Coordinator decision record — PR #7 retained but stale
 
 - **Agent:** `coordinator`
 - **Branch:** `agents/worktree-isolation-integration`
@@ -9,9 +9,12 @@
   ("Saving uncommitted changes before archiving session", from archived
   session `aaaf8789`, branch `agents/worktree-collision-diagnosis-fix`,
   original base `8da9310fda1b2e3042a379081dfb0675f1b22d6b`).
-- **Implementation commit:** pending (will record exact SHA after commit).
-- **PR:** pending creation; will be updated with number/URL once opened.
-- **Current state:** `IN_PROGRESS`; parent-to-main merge is `PENDING`.
+- **Implementation commit:** `7fd155ba0bd4814f85a890207bae71b4e13a7f8a`.
+- **PR:** [#7](https://github.com/jrblankenhorn1007/copilot_skills/pull/7), open.
+- **PR base/head:** `fb82e0d85ef80b26537c3fede01bcaefa422652d` /
+  `7fd155ba0bd4814f85a890207bae71b4e13a7f8a`.
+- **Fetched current `origin/main`:** `0366e2aed573894f3a63e37d71b24d99cd382a7d`.
+- **Current state:** `BLOCKED`; do not merge this PR.
 - **Review:** `BLOCKED`; both the Ralph Code Reviewer and Ralph Security
   Reviewer are required per
   `.github/skills/ralph-loop/references/worker-pr-merging.md` (this diff
@@ -84,18 +87,18 @@ counts/keys before proceeding, and fixed.
   verified with a repo-wide `grep` for stray `<<<<<<<`/`=======`/`>>>>>>>`
   markers.
 
+## Disposition
+
+The branch and PR #7 are preserved unchanged. The exact PR head commit was
+replayed without conflicts onto fetched current `origin/main` in
+`agents/worktree-isolation-replay-final-sweep-20261007`; that replacement
+branch owns all remaining review, merge, and memory-review gates. Do not merge
+PR #7. Close it as superseded only after the replacement is verified on
+`origin/main`.
+
 ## Unresolved blockers
 
-- The latest fresh Resource Manager inventory (`2026-10-07T05:10:15Z`)
-  reported `base_agents: 8` but effective `max_agents: 0` because one-minute
-  host load was `9.46` on six logical cores, crossing the preserved critical
-  pressure threshold. There were 3 active agents and no slots. This blocks
-  dispatching either required independent reviewer. The user's requested
-  configured limit is eight; do not bypass the independent critical-pressure
-  guard to dispatch reviewers.
-- The parent is not yet published or merged; remote-main verification remains
-  pending until the Code and Security reviews are completed on exact PR
-  base/head SHAs and normal merge gates pass.
-- PR #6 (same session) has the configured base limit at eight and also awaits
-  independent review; the latest critical-pressure snapshot currently blocks
-  reviewer dispatch for both PRs.
+- PR #7 is stale relative to fetched current main and must not be merged.
+- At `2026-10-07T16:20:24Z`, Resource Manager reported `max_agents: 2`,
+  three active registrations, zero slots, and `can_spawn: false`. The
+  replacement's independent Code and Security reviews remain blocked.

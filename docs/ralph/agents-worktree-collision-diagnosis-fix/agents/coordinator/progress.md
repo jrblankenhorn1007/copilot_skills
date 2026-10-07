@@ -81,3 +81,14 @@
 - Post-merge memory review: `PENDING`.
 - Worktrees/branches from failed attempts remain untouched pending the
   verified integration and cleanup rules.
+
+## 2026-10-07 — Superseded source branch
+
+- The archived source commit `feaec8699b3e7a05eb221ec25226ce084ad67ae2` is
+  preserved on its original branch and is not being merged directly.
+- Its implementation was replayed without conflicts from PR #7's exact head
+  onto current `origin/main` by run
+  `copilot-skills-worktree-isolation-replay-final-sweep-20261007`.
+- This leaf is `CANCELLED` as a source-branch run. The replacement run carries
+  the same memory handoff and owns the remaining exact-SHA review, merge, and
+  post-merge memory-review gates. No worktree or branch was deleted.

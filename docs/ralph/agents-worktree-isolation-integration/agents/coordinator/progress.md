@@ -100,9 +100,12 @@
   recovers, any dispatched subagents must use the user-requested
   `gpt-6-luna` model at `max` effort, default context.
 
+## 2026-10-07 — PR #7 stale-base disposition
+
+- PR #7 is open with base `fb82e0d85ef80b26537c3fede01bcaefa422652d` and head `7fd155ba0bd4814f85a890207bae71b4e13a7f8a`. Fetched `origin/main` has advanced to `0366e2aed573894f3a63e37d71b24d99cd382a7d`.
+- The published branch and PR were left unchanged. The implementation was replayed from the exact PR head onto current main in `agents/worktree-isolation-replay-final-sweep-20261007`; see that run's status/progress and replacement PR record.
+- At the last capacity snapshot (`2026-10-07T16:20:24Z`), Resource Manager reported 0 slots. Review and merge are blocked on the replacement PR; do not merge PR #7.
+
 ## Next action
 
-Push this branch, open a PR documenting the above, then wait for a fresh
-Resource Manager inventory with `can_spawn: true`. Atomically reserve slots
-before dispatching both required reviewers (Code and Security) bound to the
-exact PR base/head SHAs.
+Keep PR #7 unchanged. After the replacement PR passes both required exact-SHA reviews and is verified on `origin/main`, close PR #7 as superseded.

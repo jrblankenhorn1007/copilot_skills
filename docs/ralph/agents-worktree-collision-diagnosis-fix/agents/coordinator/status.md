@@ -6,18 +6,18 @@
 | Task IDs | `worktree-session-binding-check`, `worktree-identity-protocol` |
 | Worker ID / name | `coordinator` / `worktree collision diagnosis` |
 | Iteration | `1` |
-| Status | `IN_PROGRESS` |
+| Status | `CANCELLED` |
 | Branch / slug | `agents/worktree-collision-diagnosis-fix` / `agents-worktree-collision-diagnosis-fix` |
 | Worktree | `/Users/jrblankenhorn/copilot_skills.worktrees/worktree-collision-diagnosis-fix` |
 | Base `origin/main` SHA | `8da9310fda1b2e3042a379081dfb0675f1b22d6b` |
-| Current fetched `origin/main` SHA | `8da9310fda1b2e3042a379081dfb0675f1b22d6b` |
+| Current fetched `origin/main` SHA | `0366e2aed573894f3a63e37d71b24d99cd382a7d` |
 | Worker-01 attempt | `BLOCKED` before edits; host opened it outside the assigned child worktree. |
 | Pull request | `NOT_OPENED` — the documented repository process is a verified fast-forward. |
 | Merge | `PENDING` |
 | Memory review | `PENDING` |
 | Checks | Baseline: 13 tests `PASS`; new identity contract `RED` then focused identity/uniqueness tests `PASS`; `git diff --check`: `PASS`. |
-| Blockers | None; the misbound worker failed closed and the coordinator is proceeding sequentially in its verified task worktree. |
-| Next action | Run the full contract suite, inspect the diff, and integrate through the documented repository process. |
+| Blockers | This archived source branch is superseded and will not be integrated directly; its source commit was replayed on current main for review. |
+| Next action | None on this preserved branch. Complete review, integration, and memory review through the replacement run. |
 
 ## Machine-readable current state
 
@@ -28,13 +28,15 @@ worker_id: "coordinator"
 worker_name: "worktree collision diagnosis"
 runtime_agent_id: null
 iteration: 1
-status: IN_PROGRESS
+status: CANCELLED
 branch: "agents/worktree-collision-diagnosis-fix"
 branch_slug: "agents-worktree-collision-diagnosis-fix"
 worktree: "/Users/jrblankenhorn/copilot_skills.worktrees/worktree-collision-diagnosis-fix"
 base_origin_main_sha: "8da9310fda1b2e3042a379081dfb0675f1b22d6b"
-current_origin_main_sha: "8da9310fda1b2e3042a379081dfb0675f1b22d6b"
-implementation_commit_sha: null
+current_origin_main_sha: "0366e2aed573894f3a63e37d71b24d99cd382a7d"
+updated_at_utc: "2026-10-07T16:41:13Z"
+implementation_commit_sha: "feaec8699b3e7a05eb221ec25226ce084ad67ae2"
+cancel_reason: "The archived implementation was replayed without conflicts on current origin/main; remaining review and integration gates are owned by the replacement run."
 worktree_identity:
   state: VERIFIED
   expected_path: "/Users/jrblankenhorn/copilot_skills.worktrees/worktree-collision-diagnosis-fix"
@@ -78,5 +80,5 @@ checks:
   - command: "python3 .github/skills/ralph-loop/tests/test_multi_agent_contract.py MultiAgentContractTests.test_worker_worktree_identity_is_verified_before_editing GitPipelineTests.test_same_worker_id_in_separate_runs_uses_distinct_worktrees"
     result: "PASS: 2 tests in 1.400s"
 blockers: []
-next_action: "Run the full contract suite, inspect the final diff, and integrate."
+next_action: "None on this preserved source branch. Finish the replacement run's review, integration, and post-merge memory review."
 ```
