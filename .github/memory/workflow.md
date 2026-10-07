@@ -70,11 +70,11 @@
 ## Gate worker worktree cleanup on verified handoff
 
 - **Rule:** In Ralph parent/child runs, only the coordinator may mark an exact
-  worker child worktree `READY` after its merge is verified on the parent, the
-  worker has signed out, no active session owns the path, and the worktree is
-  clean. Dispatch the dedicated Janitor to recheck the evidence and remove
-  only that worktree without force or branch deletion; if capacity is
-  unavailable, leave it `READY` and queue it.
+  worker child worktree `READY` after the worker is `COMPLETE`, its merge is
+  verified on the parent, the worker has signed out, no active session owns
+  the path, and the worktree is clean. Dispatch the dedicated Janitor to
+  recheck the evidence and remove only that worktree without force or branch
+  deletion; if capacity is unavailable, leave it `READY` and queue it.
 - **Why:** The gate protects unmerged, active, or dirty work while making
   cleanup resumable under capacity pressure.
 - **Scope:** Ralph parent/child worktree runs.
