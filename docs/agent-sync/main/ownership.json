@@ -4,19 +4,19 @@
     "operation": "STATUS",
     "run_id": "copilot-skills-resource-manager-capacity-ceiling-20261007",
     "runtime_agent_id": "copilotcli:/e33128a0-4868-4b49-9b6a-a3f28bb65997",
-    "signed_in_at_utc": "2026-10-07T22:37:30Z",
-    "start_main_sha": "2be3b043323663012ac54328070788039c99631b",
-    "token": "24064f336c39c625d6624aa797de8d9a",
+    "signed_in_at_utc": "2026-10-07T22:38:10Z",
+    "start_main_sha": "39a4a1c47116520b61c465f1e0f894633a4411ef",
+    "token": "3cb573e61dafdbac188661b10e3d11cf",
     "worktree_path": null
   },
   "ref": "refs/heads/main",
   "repository": "jrblankenhorn1007/copilot_skills",
-  "revision": 290,
+  "revision": 291,
   "schema_version": 1,
   "sign_out": {
-    "at_utc": "2026-10-07T22:37:34Z",
-    "outcome": "PUBLISHED",
-    "result_commit_sha": "83e0751ef82d5f32d8602cd5a3224e87dad8cae1"
+    "at_utc": null,
+    "outcome": null,
+    "result_commit_sha": null
   },
-  "state": "FREE"
+  "state": "OWNED"
 }
