@@ -1,9 +1,9 @@
 # Progress
 
-Run: `copilot-skills-cli-ralph-while-loop-20261007`  
-Task: `document-copilot-cli-ralph-while-loop`  
-Branch: `agents/copilot-cli-ralph-while-loop-20261007`  
-Worktree: `/Users/jrblankenhorn/copilot_skills.worktrees/copilot-cli-ralph-while-loop-20261007`
+- Run: `copilot-skills-cli-ralph-while-loop-20261007`
+- Task: `document-copilot-cli-ralph-while-loop`
+- Branch: `agents/copilot-cli-ralph-while-loop-20261007`
+- Worktree: `/Users/jrblankenhorn/copilot_skills.worktrees/copilot-cli-ralph-while-loop-20261007`
 
 ## Iteration 1
 
