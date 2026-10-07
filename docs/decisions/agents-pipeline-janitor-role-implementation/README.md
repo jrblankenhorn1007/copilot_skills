@@ -6,7 +6,8 @@
 - **Branch slug:** `agents-pipeline-janitor-role-implementation`
 - **Starting `origin/main` SHA:** `fb82e0d85ef80b26537c3fede01bcaefa422652d`
 - **Coordinator:** `coordinator` - worktree janitor role implementation.
-- **Implementation commit:** pending.
+- **Implementation commit:** `968fc69e0b215b508cbe7cbb3e428ece42d68b0d`
+  (rebased onto `65ada24c7ff117ea82a6ce92ac718953b2d8222f`).
 - **Integration record:** [Coordinator no-PR record](agents/coordinator/pr-not-opened.md)
 - **Status:** `BLOCKED`; [coordinator status](../../ralph/agents-pipeline-janitor-role-implementation/agents/coordinator/status.md)
 - **Progress:** [Coordinator progress](../../ralph/agents-pipeline-janitor-role-implementation/agents/coordinator/progress.md)

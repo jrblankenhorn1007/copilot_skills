@@ -7,7 +7,8 @@
 - **Branch ref:** `refs/heads/agents/pipeline-janitor-role-implementation`
 - **Worktree:** `/Users/jrblankenhorn/copilot_skills.worktrees/pipeline-janitor-role-implementation`
 - **Starting `origin/main` SHA:** `fb82e0d85ef80b26537c3fede01bcaefa422652d`
-- **Implementation commit SHA:** pending.
+- **Implementation commit SHA:** `968fc69e0b215b508cbe7cbb3e428ece42d68b0d`
+  (rebased onto `65ada24c7ff117ea82a6ce92ac718953b2d8222f`).
 - **PR:** `NOT_OPENED`; the prior parent/child pipeline decision uses the
   coordinator-managed verified fast-forward path when repository policy
   permits it. This is not permission to bypass a policy denial.
@@ -63,6 +64,6 @@
   dashboard-index exception for this blocked coordinator. After the owner
   releases the path, add this leaf to the dashboard and rerun the suite before
   integration.
-- The implementation commit, parent-to-main integration, and post-merge
-  memory review have not yet been completed. Resource Manager currently has
-  no available slots.
+- The rebased implementation commit exists locally, but parent-to-main
+  integration and the post-merge memory review have not yet been completed.
+  Resource Manager currently has no available slots.

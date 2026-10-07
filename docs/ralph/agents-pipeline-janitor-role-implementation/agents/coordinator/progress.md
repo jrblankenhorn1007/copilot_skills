@@ -195,3 +195,40 @@ fixture; they do not start an LLM Janitor or remove any real worktree.
   implementation branch onto the latest fetched main after committing the
   verified task changes; integration and dashboard synchronization remain
   blocked until a recorded scope release.
+
+## 2026-10-07T16:36:28Z - Commit, rebase, and verify
+
+- Committed the scoped implementation as
+  `643f2fe3` (`feat(ralph): add gated worktree janitor role`) with the required
+  Copilot co-author trailer.
+- Rebased the branch onto fetched `origin/main` at
+  `65ada24c7ff117ea82a6ce92ac718953b2d8222f`. The rebase changed the
+  implementation commit to
+  `968fc69e0b215b508cbe7cbb3e428ece42d68b0d`; the worktree is clean.
+- Post-rebase verification passed: multi-agent contracts (30), specialist
+  contracts (6), main ownership contracts (8), publisher tests (15), and
+  `git show --check --oneline --stat HEAD`.
+- A fresh fetch confirms `origin/main` remains at `65ada24c7ff117ea82a6ce92ac718953b2d8222f`.
+  The main ownership lease is `FREE`. The other task still has revision 3
+  `IN_PROGRESS`, no sign-out, and `docs/ralph-status.md` in its published edit
+  scope; its runtime remains idle. The dashboard was not edited.
+- Resource Manager reports `max_agents: 1`, `active_agent_count: 5`, and zero
+  available slots due high one-minute host load. No Janitor runtime or
+  worktree removal was performed.
+- **Next action:** wait for the dashboard scope release, synchronize the
+  dashboard, rerun its index contract, then acquire the authorized merge
+  reservation for integration and complete the required memory review.
+
+## 2026-10-07T16:37:44Z - Revalidate task records and capacity
+
+- After updating the current-state leaf and decision records, the multi-agent
+  suite passed again (30 tests), the specialist suite passed (6), and the main
+  ownership/publisher suites passed (8 + 15). `git diff --check` also passed.
+- Fetched `origin/main` remains
+  `65ada24c7ff117ea82a6ce92ac718953b2d8222f`; the main ownership record is
+  `FREE`. The dashboard owner remains revision 3 `IN_PROGRESS` with no
+  sign-out and still owns `docs/ralph-status.md`; its runtime is idle.
+- Resource Manager reports `max_agents: 2`, `active_agent_count: 5`, and
+  `available_slots: 0`. No agents were dispatched.
+- **Next action:** wait for verified release of the dashboard edit scope;
+  do not edit the shared dashboard or integrate before that release.
