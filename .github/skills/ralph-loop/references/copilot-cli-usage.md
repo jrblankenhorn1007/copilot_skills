@@ -104,6 +104,98 @@ explicit subagent invocations or report the limit. See the
 [VS Code subagent guide](https://code.visualstudio.com/docs/agents/run/subagents)
 and the [Copilot CLI `/fleet` guide](https://github.blog/ai-and-ml/github-copilot/run-multiple-agents-at-once-with-fleet-in-copilot-cli/).
 
+## Run bounded Ralph iterations from Bash
+
+Copilot CLI's documented `--prompt` (`-p`) mode runs a prompt and exits. A
+Bash loop starts a new one-shot CLI invocation for each iteration; it does not
+carry conversation context forward. Each iteration must recover its state
+from the repository's current branch, worktree, and Ralph status/progress
+artifacts. Do not wrap a project runner that already manages iterations in a
+second loop.
+
+Use a wrapper like this only when the active project permits these terminal
+markers. The prompt requests one standalone final marker, and the wrapper
+stops unless exactly one recognized marker appears as the last output line.
+It rejects unknown standalone `RALPH_...` marker-shaped lines even if a
+recognized marker follows, and fails closed on a CLI error, a blocked or
+malformed response, and iteration-limit exhaustion; only `RALPH_COMPLETE`
+returns success.
+
+```bash
+set -o pipefail
+
+max_iterations=5
+iteration=1
+
+while [ "$iteration" -le "$max_iterations" ]; do
+  prompt="Run one bounded Ralph Loop iteration (${iteration} of ${max_iterations}) for the current task. Read and update this repository's status/progress artifacts. End your response with exactly one standalone final line: RALPH_CONTINUE, RALPH_COMPLETE, or RALPH_BLOCKED. Emit RALPH_COMPLETE only when all project acceptance, review, integration, and post-merge gates are verified."
+
+  if response=$(copilot --agent ralph-loop --model gpt-6-luna \
+      --prompt "$prompt" -s); then
+    :
+  else
+    cli_status=$?
+    printf 'Copilot CLI failed with exit status %s; stopping.\n' "$cli_status" >&2
+    exit "$cli_status"
+  fi
+
+  printf '%s\n' "$response"
+  if ! marker_count=$(printf '%s\n' "$response" |
+      awk '
+        tolower($0) ~ /^ralph_[a-z0-9_]*$/ {
+          if ($0 !~ /^RALPH_(CONTINUE|COMPLETE|BLOCKED)$/) invalid=1
+          count++
+        }
+        END {
+          if (invalid) exit 1
+          print count+0
+        }'); then
+    printf 'Unable to validate Ralph status markers or found an unknown marker; stopping.\n' >&2
+    exit 1
+  fi
+  if ! marker=$(printf '%s\n' "$response" | tail -n 1); then
+    printf 'Unable to read the final Ralph status line; stopping.\n' >&2
+    exit 1
+  fi
+
+  case "$marker_count" in
+    1)
+      ;;
+    *)
+      printf 'Expected exactly one standalone Ralph status marker; stopping.\n' >&2
+      exit 1
+      ;;
+  esac
+
+  case "$marker" in
+    RALPH_COMPLETE)
+      exit 0
+      ;;
+    RALPH_CONTINUE)
+      ;;
+    RALPH_BLOCKED)
+      printf 'Ralph reported a blocker; stopping.\n' >&2
+      exit 1
+      ;;
+    *)
+      printf 'Final output line is not a recognized Ralph marker; stopping.\n' >&2
+      exit 1
+      ;;
+  esac
+
+  iteration=$((iteration + 1))
+done
+
+printf 'Reached the iteration limit (%s) without RALPH_COMPLETE; inspect status before starting another run.\n' "$max_iterations" >&2
+exit 1
+```
+
+The marker is a wrapper protocol, not proof that acceptance criteria or
+remote integration were independently verified. Keep the repository's normal
+checks, reviews, branch protections, and post-merge memory review in force.
+See GitHub's [Copilot CLI programmatic-use reference](https://docs.github.com/en/copilot/reference/copilot-cli-reference/cli-programmatic-reference)
+for the supported non-interactive prompt option.
+
 ## Choose model, reasoning effort, and context
 
 Model selection is separate from agent selection. In an interactive CLI, use
