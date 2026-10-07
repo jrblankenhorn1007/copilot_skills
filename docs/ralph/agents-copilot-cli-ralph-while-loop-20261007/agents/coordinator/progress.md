@@ -112,3 +112,45 @@ Signature status: `NOT_CRYPTOGRAPHICALLY_SIGNED`.
 - `awk '/^set -o pipefail$/ { copy=1 } copy && /^```$/ { exit } copy { print }' .github/skills/ralph-loop/references/copilot-cli-usage.md | bash -n`:
   **PASS**.
 - `git diff --check`: **clean**.
+
+## Review round 1 and unknown-marker fix — 2026-10-07T17:51:26Z
+
+- PR #9 round-one Code report: `FINDINGS` for base/head
+  `e6ed4c20c5955af91c628b34f026b6eb63c09c70` /
+  `cfb290c89a7ce9674e18236042675d681f39a61b`. R1 (medium severity, high
+  confidence) showed that `RALPH_FUTURE` followed by `RALPH_COMPLETE` was
+  accepted because the AWK count ignored unknown standalone marker-shaped
+  lines.
+- PR #9 round-one Security report for the same pair: `CLEAN`, no findings.
+  The completed pass is round 1 of 2, with one unresolved Code finding.
+- **Red:** added a mocked execution regression to
+  `test_multi_agent_contract.py`, then ran:
+
+  ```sh
+  python3 .github/skills/ralph-loop/tests/test_multi_agent_contract.py GitPipelineTests.test_copilot_cli_loop_rejects_unknown_standalone_markers -v
+  ```
+
+  The two subtests failed as expected: the pre-fix Bash loop returned exit 0
+  for both `RALPH_FUTURE\nRALPH_COMPLETE` and
+  `ralph_future\nRALPH_COMPLETE`.
+- **Green:** the same targeted test passed after the guide's AWK validator
+  began rejecting unknown standalone `RALPH_...` forms before checking the
+  recognized-marker count. Fix and test commit:
+  `ac5a083230b1d40d639a47c1ee925336a5817696`.
+- **Regression/refactor verification:** `python3
+  .github/skills/ralph-loop/tests/test_multi_agent_contract.py -v` passed
+  **31/31**; the extracted Bash block passed `bash -n`; `git diff --check`
+  was clean. No structural refactor was needed.
+- Author decision: `FIX_MANUALLY`; keep the finding unresolved until the
+  follow-up review verifies the new exact PR head. Round 2 must include both
+  Code and Security reviewers.
+
+### Verification after review-record refresh — 2026-10-07T17:55:07Z
+
+- `python3 .github/skills/ralph-loop/tests/test_multi_agent_contract.py -v`:
+  **31/31 passed**, including the dashboard and mocked unknown-marker tests.
+- `python3 .github/skills/ralph-loop/tests/test_multi_agent_contract.py GitPipelineTests.test_copilot_cli_loop_rejects_unknown_standalone_markers -v`:
+  **PASS** for uppercase and lowercase unknown markers followed by
+  `RALPH_COMPLETE`.
+- Extracted Bash block `bash -n`: **PASS**.
+- `git diff --check`: **clean**.
