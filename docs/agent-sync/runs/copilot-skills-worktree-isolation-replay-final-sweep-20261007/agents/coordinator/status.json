@@ -1,0 +1,60 @@
+{
+  "agent_id": "coordinator",
+  "agent_profile": {
+    "agent_definition": ".github/agents/ralph-loop.agent.md",
+    "context_tier": null,
+    "context_usage_tokens": null,
+    "context_window_tokens": null,
+    "harness": "VS Code Copilot",
+    "model_id": null,
+    "reasoning_effort": null,
+    "runtime_agent_id": "copilotcli:/e33128a0-4868-4b49-9b6a-a3f28bb65997"
+  },
+  "git": {
+    "base_ref": "refs/heads/main",
+    "base_sha": "741f23521dbfc2465d5f0943de4451c0a3a42f5a",
+    "edit_scope": [
+      ".github/agents/ralph-loop.agent.md",
+      ".github/skills/ralph-loop/SKILL.md",
+      ".github/skills/ralph-loop/references/multi-agent-orchestration.md",
+      ".github/skills/ralph-loop/references/multi-agent-status.md",
+      ".github/skills/ralph-loop/references/ralph-loop.md",
+      ".github/skills/ralph-loop/references/worktree-isolation.md",
+      ".github/skills/ralph-loop/tests/test_multi_agent_contract.py",
+      "README.md",
+      "docs/decisions/README.md",
+      "docs/decisions/agents-worktree-collision-diagnosis-fix/",
+      "docs/decisions/agents-worktree-isolation-integration/",
+      "docs/decisions/agents-worktree-isolation-replay-final-sweep-20261007/",
+      "docs/ralph-status.md",
+      "docs/ralph/agents-worktree-collision-diagnosis-fix/",
+      "docs/ralph/agents-worktree-isolation-integration/",
+      "docs/ralph/agents-worktree-isolation-replay-final-sweep-20261007/"
+    ],
+    "implementation_branch": "refs/heads/agents/worktree-isolation-replay-final-sweep-20261007",
+    "remote_name": "origin",
+    "repository": "jrblankenhorn1007/copilot_skills",
+    "worktree_head_sha_at_sign_in": "741f23521dbfc2465d5f0943de4451c0a3a42f5a",
+    "worktree_path": "/Users/jrblankenhorn/copilot_skills.worktrees/worktree-isolation-replay-final-sweep-20261007"
+  },
+  "prompt_path": "docs/agent-sync/runs/copilot-skills-worktree-isolation-replay-final-sweep-20261007/agents/coordinator/prompt.md",
+  "prompt_sha256": "d841e2a6a94f310149156c96131a48df48197cbaa0121a9d7112da5c20a0bb28",
+  "revision": 1,
+  "run_id": "copilot-skills-worktree-isolation-replay-final-sweep-20261007",
+  "schema_version": 1,
+  "sign_in_at_utc": "2026-10-07T16:20:59Z",
+  "sign_out": {
+    "at_utc": null,
+    "checks": [],
+    "implementation_commit_sha": null,
+    "next_action": null,
+    "summary": null
+  },
+  "started_at_utc": "2026-10-07T16:20:59Z",
+  "status": "IN_PROGRESS",
+  "status_reason": "Prepare a fresh current-main replay of PR #7's worktree-isolation protocol while preserving the published PR branch and all current main content.",
+  "task_id": "replay-worktree-isolation-pr-7",
+  "updated_at_utc": "2026-10-07T16:20:59Z",
+  "worker_id": "coordinator",
+  "worker_name": "coordinator - worktree-isolation PR replay"
+}
