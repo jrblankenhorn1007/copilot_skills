@@ -4,19 +4,19 @@
     "operation": "STATUS",
     "run_id": "pipeline-live-model-evaluation-20261007-35327e2e",
     "runtime_agent_id": "copilotcli:/35327e2c-33cc-430e-90bd-c4f9a1e20471",
-    "signed_in_at_utc": "2026-10-07T05:41:48Z",
-    "start_main_sha": "1c584e00f20b5fa03d4d165b5065219ca5e8358b",
-    "token": "81a1e8b7d303484355ed29768331cb6c",
+    "signed_in_at_utc": "2026-10-07T05:45:32Z",
+    "start_main_sha": "a8cf0eae5d26cac0d7adee645449809bc24ec94a",
+    "token": "62709a72726a4013898c0a23f3d4cc63",
     "worktree_path": null
   },
   "ref": "refs/heads/main",
   "repository": "jrblankenhorn1007/copilot_skills",
-  "revision": 254,
+  "revision": 255,
   "schema_version": 1,
   "sign_out": {
-    "at_utc": "2026-10-07T05:41:52Z",
-    "outcome": "PUBLISHED",
-    "result_commit_sha": "94fec4a21880c65d006b87c8ffb99f10f8faea8d"
+    "at_utc": null,
+    "outcome": null,
+    "result_commit_sha": null
   },
-  "state": "FREE"
+  "state": "OWNED"
 }
