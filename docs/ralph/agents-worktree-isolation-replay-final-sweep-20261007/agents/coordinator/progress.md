@@ -54,9 +54,70 @@ The original implementation's Red/Green evidence remains in the archived source 
 
 - Two normal pushes of commit `2b64868b785072d1b5287406cce19054bdde0597` returned HTTP 500. A fresh fetch confirmed the remote stayed at `3822fa6276ddd6e44a0b415150dd12c68ba90933`; no force push was attempted.
 - The same normal fast-forward push later succeeded after GitHub recovered. PR #10's exact remote base/head were refreshed through the REST API.
+- After publishing the recovery record, the PR API confirmed base/head `e6ed4c20c5955af91c628b34f026b6eb63c09c70` / `ecfce4a3538cc7179aaf85dadcd2777e0c127e8b` at `2026-10-07T17:04:04Z`.
 - Initial PR comment calls failed while the GitHub API was returning errors. After recovery, the stale/superseded warning was posted to PR #7 and confirmed at https://github.com/jrblankenhorn1007/copilot_skills/pull/7#issuecomment-6042670752.
 - The transient publication issue is resolved. No reviews were dispatched; refresh the full session inventory and Resource Manager capacity, then reserve one reviewer slot at a time and bind both independent reviews to the final PR #10 SHAs.
 
+## Branch-owner sign-off
+
+The full self-attestation payload for the current-main parent iteration is:
+
+```json
+{
+  "run_id": "copilot-skills-worktree-isolation-replay-final-sweep-20261007",
+  "task_ids": ["replay-worktree-isolation-pr-7"],
+  "worker_id": "coordinator",
+  "worker_name": "worktree isolation replay",
+  "runtime_agent_id": "copilotcli:/e33128a0-4868-4b49-9b6a-a3f28bb65997",
+  "iteration": 1,
+  "branch": "agents/worktree-isolation-replay-final-sweep-20261007",
+  "worktree": "/Users/jrblankenhorn/copilot_skills.worktrees/worktree-isolation-replay-final-sweep-20261007",
+  "pull_request": {
+    "status": "OPEN",
+    "number": 10,
+    "url": "https://github.com/jrblankenhorn1007/copilot_skills/pull/10"
+  },
+  "decision_record_path": "docs/decisions/agents-worktree-isolation-replay-final-sweep-20261007/agents/coordinator/pr-10.md",
+  "base_origin_main_sha": "e6ed4c20c5955af91c628b34f026b6eb63c09c70",
+  "implementation_commit_sha": "9be82bda3ec6b4d2d3e42157df3a3a30c93e5f53",
+  "checks": [
+    {
+      "command": "python3 .github/skills/ralph-loop/tests/test_multi_agent_contract.py -v",
+      "result": "PASS: 31 tests"
+    },
+    {
+      "command": "python3 .github/skills/ralph-loop/tests/test_skill_aware_routing.py",
+      "result": "PASS: 9 tests"
+    },
+    {
+      "command": "python3 .github/skills/ralph-loop/tests/test_specialist_agent_contract.py",
+      "result": "PASS: 5 tests"
+    },
+    {
+      "command": "python3 .github/skills/ralph-loop/tests/test_main_ownership_publisher.py",
+      "result": "PASS: 15 tests"
+    },
+    {
+      "command": "python3 .github/skills/ralph-loop/tests/test_main_ownership_contract.py",
+      "result": "PASS: 8 tests"
+    },
+    {
+      "command": "python3 .github/skills/resource-manager/tests/test_resource_manager.py",
+      "result": "PASS: 15 tests"
+    },
+    {
+      "command": "git diff --check e6ed4c20c5955af91c628b34f026b6eb63c09c70...ecfce4a3538cc7179aaf85dadcd2777e0c127e8b",
+      "result": "PASS"
+    }
+  ],
+  "blockers": [],
+  "attested_at_utc": "2026-10-07T17:06:44Z",
+  "attestation_kind": "SELF_ATTESTATION",
+  "cryptographic_signature_status": "NOT_CRYPTOGRAPHICALLY_SIGNED",
+  "statement": "I, coordinator, sign off iteration 1 for replay-worktree-isolation-pr-7 at implementation commit 9be82bda3ec6b4d2d3e42157df3a3a30c93e5f53."
+}
+```
+
 ## Next action
 
-Publish this status/decision refresh, fetch the final PR #10 base/head and Resource Manager inventory, then run the required reviewers serially as slots become available. Leave PR #7 open but unmerged until the replacement clears all required gates.
+Publish this sign-off/status refresh, fetch the final PR #10 base/head and Resource Manager inventory, then reserve one reviewer slot at a time and run both independent reviews. Leave PR #7 open but unmerged until the replacement clears all required gates.
