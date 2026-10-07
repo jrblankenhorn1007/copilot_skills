@@ -6,10 +6,10 @@
 - **Branch slug:** `agents-pipeline-janitor-role-implementation`
 - **Starting `origin/main` SHA:** `fb82e0d85ef80b26537c3fede01bcaefa422652d`
 - **Coordinator:** `coordinator` - worktree janitor role implementation.
-- **Implementation commit:** `968fc69e0b215b508cbe7cbb3e428ece42d68b0d`
-  (rebased onto `65ada24c7ff117ea82a6ce92ac718953b2d8222f`).
+- **Implementation commit:** `b7e53fb6ba8a7cad311e0489d9e45425e458b1e4`
+  (rebased onto `567cf974735bbd7cdc5922379390601e7dfdf504`).
 - **Integration record:** [Coordinator no-PR record](agents/coordinator/pr-not-opened.md)
-- **Status:** `BLOCKED`; [coordinator status](../../ralph/agents-pipeline-janitor-role-implementation/agents/coordinator/status.md)
+- **Status:** `AWAITING_MERGE`; [coordinator status](../../ralph/agents-pipeline-janitor-role-implementation/agents/coordinator/status.md)
 - **Progress:** [Coordinator progress](../../ralph/agents-pipeline-janitor-role-implementation/agents/coordinator/progress.md)
 
 ## Decisions
@@ -73,3 +73,17 @@
   full multi-agent suite passes with a narrow exception for only this
   `BLOCKED` coordinator leaf while its exact pending shared scope is recorded;
   the aggregate dashboard is still incomplete and cannot be synchronized yet.
+
+### Resume after the verified dashboard-scope release
+
+- **Context:** The prior coordinator published revision 4 with
+  `docs/ralph-status.md` removed from its edit scope. The current coordinator
+  verified the release and published revision 5 claiming the path.
+- **Decision:** Resume dashboard synchronization on the implementation branch,
+  update the aggregate snapshot and index, then rerun the full contract suite
+  before acquiring the authorized merge reservation.
+- **Rationale:** The path is now exclusively assigned to this coordinator;
+  the previous run's status and unrelated files remain untouched.
+- **Consequences:** Integration may proceed through the documented
+  coordinator-managed path. The post-merge memory review remains queued until
+  Resource Manager capacity permits a reservation.

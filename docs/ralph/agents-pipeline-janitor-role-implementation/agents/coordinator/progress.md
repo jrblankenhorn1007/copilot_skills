@@ -284,3 +284,48 @@ fixture; they do not start an LLM Janitor or remove any real worktree.
 - **Next action:** record this run as `IN_PROGRESS`, rebase onto the new
   origin/main tip, synchronize its dashboard row, rerun acceptance tests,
   then continue the authorized integration path.
+
+## 2026-10-07T18:15:37Z - Rebase onto the released-scope status commit
+
+- This run's task-status revision 5 is published and its edit scope includes
+  `docs/ralph-status.md`. Fetched `origin/main` is
+  `567cf974735bbd7cdc5922379390601e7dfdf504`.
+- Rebased the implementation branch onto that exact tip. The rebased
+  implementation commit is
+  `b7e53fb6ba8a7cad311e0489d9e45425e458b1e4`; the rebase completed without
+  conflicts. The previous branch commit was `87653bf69d47d1a093d4ccada32546763efe52a1`.
+- The previous owner's scope excludes the dashboard; its task remains
+  `IN_PROGRESS`. Main ownership is `FREE`. The current coordinator is the
+  sole published owner of the dashboard path.
+- Resource Manager reports three active agents, a limit of two, and no free
+  slot. The coordinator continues serially; the post-merge memory review
+  remains capacity-gated.
+- **Next action:** update the aggregate snapshot, run the full contract
+  suites, and continue to authorized parent-to-main integration.
+
+## 2026-10-07T18:19:31Z - Synchronize dashboard and pass contracts
+
+- Added this run to `current_run_ids`, the aggregate `runs` list,
+  `branch_agent_index`, and the Markdown branch/agent table. The dashboard
+  is at snapshot revision 127 and links both coordinator leaf files.
+- After the dashboard update, multi-agent contracts passed (30 tests),
+  specialist contracts passed (6), main-ownership contracts passed (8),
+  publisher tests passed (15), and `git diff --check` passed.
+- Resource Manager still reports three active agents against a limit of two,
+  with no available slot. The implementation is ready for integration;
+  post-merge memory review remains queued for capacity.
+- **Next action:** publish this run as `AWAITING_MERGE`, acquire the
+  authorized `MERGE` reservation, and integrate the parent to `origin/main`.
+
+## 2026-10-07T18:21:46Z - Revalidate the awaiting-merge dashboard
+
+- After aligning the coordinator leaf and dashboard row to `AWAITING_MERGE`,
+  the full multi-agent suite passed (30 tests), specialist suite passed (6),
+  main-ownership contracts passed (8), publisher tests passed (15), and
+  `git diff --check` passed.
+- Resource Manager reports five active agents against `max_agents: 2`, with
+  two reserved child agents and zero available slots. No child was dispatched
+  by this coordinator; post-merge memory review remains queued.
+- **Next action:** publish task-status revision 6 as `AWAITING_MERGE`, acquire
+  the authorized `MERGE` reservation, integrate and verify the parent on
+  `origin/main`.

@@ -7,13 +7,13 @@
 - **Branch ref:** `refs/heads/agents/pipeline-janitor-role-implementation`
 - **Worktree:** `/Users/jrblankenhorn/copilot_skills.worktrees/pipeline-janitor-role-implementation`
 - **Starting `origin/main` SHA:** `fb82e0d85ef80b26537c3fede01bcaefa422652d`
-- **Implementation commit SHA:** `968fc69e0b215b508cbe7cbb3e428ece42d68b0d`
-  (rebased onto `65ada24c7ff117ea82a6ce92ac718953b2d8222f`).
+- **Implementation commit SHA:** `b7e53fb6ba8a7cad311e0489d9e45425e458b1e4`
+  (rebased onto `567cf974735bbd7cdc5922379390601e7dfdf504`).
 - **PR:** `NOT_OPENED`; the prior parent/child pipeline decision uses the
   coordinator-managed verified fast-forward path when repository policy
   permits it. This is not permission to bypass a policy denial.
-- **Current status:** `BLOCKED`; implementation commit and remote integration
-  are pending.
+- **Current status:** `AWAITING_MERGE`; dashboard synchronization and contract
+  validation have passed, and authorized parent-to-main integration is next.
 
 ## Decisions
 
@@ -57,13 +57,12 @@
 
 ## Unresolved workflow items
 
-- The coordinator-owned `docs/ralph-status.md` path remains in another run's
-  published edit scope. Its runtime is idle, but its record has no sign-out;
-  wait for verified release before updating this run's dashboard entry.
-- The full multi-agent suite now passes (30 tests) under the explicit pending
-  dashboard-index exception for this blocked coordinator. After the owner
-  releases the path, add this leaf to the dashboard and rerun the suite before
-  integration.
-- The rebased implementation commit exists locally, but parent-to-main
-  integration and the post-merge memory review have not yet been completed.
-  Resource Manager currently has no available slots.
+- The previous coordinator published revision 4 with
+  `docs/ralph-status.md` removed from its edit scope. This run verified the
+  release and published revision 5 claiming the dashboard path; no other
+  task status or files were changed.
+- The full multi-agent suite passes (30 tests) after adding this run to the
+  dashboard; no pending-index exception is being used.
+- The implementation branch has been rebased onto the released-scope status
+  commit; parent-to-main integration and post-merge memory review are pending.
+  Resource Manager currently has no available slots for the memory reviewer.
