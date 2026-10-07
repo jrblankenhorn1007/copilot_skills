@@ -4,14 +4,21 @@
 - **Branch:** `agents/cross-session-recovery-final-sweep`
 - **Worktree:**
   `/Users/jrblankenhorn/copilot_skills.worktrees/cross-session-recovery-final-sweep`
-- **Base `origin/main`:** `fb82e0d85ef80b26537c3fede01bcaefa422652d`
+- **Original base `origin/main`:** `fb82e0d85ef80b26537c3fede01bcaefa422652d`
+- **Latest synchronized `origin/main`:** `2fdbc958b76a5c31bbbbfc2d5ea8fe49812a3156`
+- **Synchronization merge commit:** `861a32d5798b88dec923ba7213c2c6318fde4007`
 - **Implementation commits:** `169dbc19` (raises the configured ceiling) and
   `bd1ae36f` (makes eight the effective base admission limit while retaining
   critical-pressure stops).
 - **PR:** #6 — <https://github.com/jrblankenhorn1007/copilot_skills/pull/6>
+- **Remote PR state before synchronization publication:** base/head
+  `fb82e0d85ef80b26537c3fede01bcaefa422652d` /
+  `95b9b020cc9c4fc716397cbf18fddf7fb85d157d`; PR #6 is open and GitHub
+  reports `CLEAN`.
 - **Current state:** `IN_PROGRESS`; parent-to-main merge is `PENDING`.
-- **Review:** `BLOCKED`; no review round has completed. The independent Ralph
-  Code Reviewer and Ralph Security Reviewer must review the exact PR SHAs.
+- **Review:** `PENDING`; no review round has completed for the synchronized
+  candidate. The independent Ralph Code Reviewer and Ralph Security Reviewer
+  must review the exact published base/head pair.
 
 ## Change summary
 
@@ -54,6 +61,45 @@ skill to state this explicitly.
   effective-limit follow-up.
 - `git diff --check` — clean (no whitespace issues).
 
+## Current-main synchronization and verification
+
+- Fetched `origin/main` at
+  `2fdbc958b76a5c31bbbbfc2d5ea8fe49812a3156`, verified the clean task
+  worktree, then merged that fetched tip into the published branch without
+  rewriting history. Synchronization commit:
+  `861a32d5798b88dec923ba7213c2c6318fde4007`; it includes the required
+  Copilot co-author trailer.
+- The PR diff remains limited to the Resource Manager skill, implementation,
+  tests, and this branch's decision records. It does not change the Janitor-
+  owned dashboard or Ralph orchestration/test paths.
+- On the synchronized worktree:
+  - `python3 .github/skills/resource-manager/tests/test_resource_manager.py -v`
+    — **PASS, 16/16**.
+  - `python3 .github/skills/ralph-loop/tests/test_multi_agent_contract.py -v`
+    — **29/30 passed**. The sole failure is
+    `test_docs_status_dashboard_indexes_every_branch_agent_folder` for the
+    pipeline-evaluation coordinator leaf absent from the shared dashboard.
+    Janitor task revision 7 owns `docs/ralph-status.md` and has not signed out;
+    the failing fixture was not modified or weakened.
+  - `test_skill_aware_routing.py` — **PASS, 9/9**.
+  - `test_specialist_agent_contract.py` — **PASS, 6/6**.
+  - `test_main_ownership_publisher.py` — **PASS, 15/15**.
+  - `test_main_ownership_contract.py` — **PASS, 8/8**.
+  - `git diff origin/main...HEAD --check` — **PASS**.
+- GitHub reported no hosted checks for PR #6. No review report or merge
+  authorization has been claimed for the synchronized candidate.
+
+## Branch-owner sign-off
+
+- **Type:** `SELF_ATTESTATION`
+- **Implementation commit:** `bd1ae36fc5c40d7b7a24c0d43cdf994768dbd5b6`
+- **Cryptographic signature:** `NOT_CRYPTOGRAPHICALLY_SIGNED`
+- **Statement:** The effective configured eight-agent limit and preserved
+  live-pressure safeguards are complete at the implementation commit above;
+  the current-main synchronization and listed regression results are recorded
+  separately. The full Ralph contract gate remains blocked by the unrelated
+  missing dashboard index entry.
+
 ## Risk assessment (for reviewer-gate routing)
 
 This diff increases the Resource Manager's actual admission limit to eight
@@ -69,13 +115,13 @@ self-review.
 
 ## Unresolved blockers
 
-- At the latest fresh inventory (`2026-10-07T05:10:15Z`), the configured
-  base is `8` but effective `capacity.max_agents` is `0` because one-minute
-  load was `9.46` on a six-core host, crossing the critical load threshold.
-  There are 3 active agents and no available slots. The code and tests now
-  report the requested configured limit correctly; the unchanged critical
-  pressure safeguard temporarily prevents all new admissions. Do not launch
-  reviewers until a fresh inventory reports `can_spawn: true` and atomic
-  reservations succeed.
-- The PR is not yet merged; complete review, CI, required approvals, and the
-  normal merge gate before recording remote-main verification.
+- The synchronized local candidate has not yet been pushed; the remote PR
+  still has the pre-sync head shown above. Publish the normal fast-forward
+  update, then review that exact pair.
+- The full Ralph contract suite has one upstream dashboard-index failure for
+  the pipeline-evaluation coordinator leaf. Janitor task revision 7 owns
+  `docs/ralph-status.md`; do not edit it until verified task-scope release.
+- Complete both independent review gates, resolve or obtain an authorized
+  disposition for the full-suite failure, satisfy required checks/approvals,
+  then merge through the normal PR path and verify the resulting SHA on
+  fetched `origin/main`.

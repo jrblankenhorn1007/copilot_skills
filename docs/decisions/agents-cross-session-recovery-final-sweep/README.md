@@ -6,6 +6,6 @@
 
 ## Agent/PR records
 
-- [`coordinator` / PR #6](agents/coordinator/pr-pending.md) — set the
+- [`coordinator` / PR #6](agents/coordinator/pr-6.md) — set the
   Resource Manager's effective admission limit to 8 agents, retaining critical
   pressure safeguards.
