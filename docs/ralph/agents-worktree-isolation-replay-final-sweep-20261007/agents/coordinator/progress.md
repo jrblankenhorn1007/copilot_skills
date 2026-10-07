@@ -47,9 +47,16 @@ The original implementation's Red/Green evidence remains in the archived source 
 ## 2026-10-07 — Replacement PR opened
 
 - Opened PR #10 from this current-main branch against `main`; GitHub reported base `e6ed4c20c5955af91c628b34f026b6eb63c09c70` and opening head `3822fa6276ddd6e44a0b415150dd12c68ba90933`.
-- This PR-record status update will advance the branch head. Refresh the live PR metadata after pushing it, then bind both reviewer dispatches to the exact resulting base/head SHAs.
+- The status-record commit `2b64868b785072d1b5287406cce19054bdde0597` was pushed. At `2026-10-07T17:01:07Z`, the PR API confirmed base/head `e6ed4c20c5955af91c628b34f026b6eb63c09c70` / `2b64868b785072d1b5287406cce19054bdde0597`. The status refresh recorded below will advance the head; fetch the final head before reviewer dispatch.
 - PR #7 remains open and unchanged on its stale base; do not merge it.
+
+## 2026-10-07 — Recovered transient GitHub publication errors
+
+- Two normal pushes of commit `2b64868b785072d1b5287406cce19054bdde0597` returned HTTP 500. A fresh fetch confirmed the remote stayed at `3822fa6276ddd6e44a0b415150dd12c68ba90933`; no force push was attempted.
+- The same normal fast-forward push later succeeded after GitHub recovered. PR #10's exact remote base/head were refreshed through the REST API.
+- Initial PR comment calls failed while the GitHub API was returning errors. After recovery, the stale/superseded warning was posted to PR #7 and confirmed at https://github.com/jrblankenhorn1007/copilot_skills/pull/7#issuecomment-6042670752.
+- The transient publication issue is resolved. No reviews were dispatched; refresh the full session inventory and Resource Manager capacity, then reserve one reviewer slot at a time and bind both independent reviews to the final PR #10 SHAs.
 
 ## Next action
 
-Push the PR #10 status update, refresh the live PR base/head and Resource Manager inventory, then run the required reviewers serially as slots become available. Leave PR #7 open but unmerged until the replacement clears all required gates.
+Publish this status/decision refresh, fetch the final PR #10 base/head and Resource Manager inventory, then run the required reviewers serially as slots become available. Leave PR #7 open but unmerged until the replacement clears all required gates.

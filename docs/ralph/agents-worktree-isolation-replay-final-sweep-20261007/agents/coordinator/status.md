@@ -14,12 +14,12 @@
 | Rebased onto current `origin/main` | `e6ed4c20c5955af91c628b34f026b6eb63c09c70` |
 | Source | Cherry-pick of PR #7's implementation commit `7fd155ba0bd4814f85a890207bae71b4e13a7f8a` onto current main; PR #7 remains unchanged. |
 | Implementation commit | `9be82bda3ec6b4d2d3e42157df3a3a30c93e5f53` |
-| Pull request | [#10](https://github.com/jrblankenhorn1007/copilot_skills/pull/10), open; opening head was `3822fa6276ddd6e44a0b415150dd12c68ba90933`. Refresh live PR metadata after this status update before review dispatch. |
+| Pull request | [#10](https://github.com/jrblankenhorn1007/copilot_skills/pull/10), open; latest verified remote head before this status refresh was `2b64868b785072d1b5287406cce19054bdde0597`. Refresh after publishing this record before review dispatch. |
 | Merge | `PENDING` |
 | Memory review | `PENDING` |
 | Checks | Contract 31/31 after rebase; routing 9/9; specialist 5/5; main-ownership publisher 15/15; main-ownership contract 8/8; resource-manager 15/15; worktree identity and full branch `git diff origin/main...HEAD --check`: `PASS`. |
-| Blockers | No unresolved blocker. Latest inventory at `2026-10-07T16:37:33Z` reports `max_agents: 8`, 7 active agents, and 1 available slot; schedule the two independent reviews serially and refresh before each reservation. |
-| Next action | Commit and publish the replay branch, open the replacement PR, then reserve one slot at a time for both exact-SHA reviewers. |
+| Blockers | No unresolved publication blocker. The earlier HTTP 500 push/comment failures recovered; exact-SHA reviews still require a fresh live-session and Resource Manager inventory. |
+| Next action | Publish this status/decision refresh, fetch the final PR #10 base/head, then reserve one reviewer slot at a time for the exact-SHA Code and Security reviews. |
 
 ## Machine-readable current state
 
@@ -33,7 +33,7 @@ runtime_agent_id: "copilotcli:/e33128a0-4868-4b49-9b6a-a3f28bb65997"
 iteration: 1
 status: IN_PROGRESS
 started_at_utc: "2026-10-07T16:20:59Z"
-updated_at_utc: "2026-10-07T16:53:40Z"
+updated_at_utc: "2026-10-07T17:03:28Z"
 branch: "agents/worktree-isolation-replay-final-sweep-20261007"
 branch_slug: "agents-worktree-isolation-replay-final-sweep-20261007"
 worktree: "/Users/jrblankenhorn/copilot_skills.worktrees/worktree-isolation-replay-final-sweep-20261007"
@@ -85,7 +85,7 @@ merge:
   verified_origin_main_sha: null
 memory_review: PENDING
 resource_usage:
-  time_spent_seconds: 1961
+  time_spent_seconds: 2549
   time_basis: WALL_CLOCK_ELAPSED
   token_spend:
     status: NOT_REPORTED
@@ -112,7 +112,7 @@ checks:
   - command: "git diff --cached --check"
     result: "PASS after staging the refreshed dashboard and status records"
 blockers: []
-next_action: "Push this PR-record update, refresh the live PR base/head and Resource Manager inventory, then reserve one slot at a time for exact-SHA reviews."
+next_action: "Publish this status/decision refresh, fetch the final PR #10 base/head and Resource Manager inventory, then reserve one reviewer slot at a time for exact-SHA Code and Security reviews."
 decision_record_path: "docs/decisions/agents-worktree-isolation-replay-final-sweep-20261007/agents/coordinator/pr-10.md"
 decision_index_path: "docs/decisions/agents-worktree-isolation-replay-final-sweep-20261007/README.md"
 memory_handoff:
