@@ -30,7 +30,7 @@
   },
   "prompt_path": "docs/agent-sync/runs/copilot-skills-resource-manager-capacity-ceiling-20261007/agents/coordinator/prompt.md",
   "prompt_sha256": "d4afa7a69c299905488ab47da0e5c0bbdb0239653b5262fc03f20be5fe802187",
-  "revision": 3,
+  "revision": 4,
   "run_id": "copilot-skills-resource-manager-capacity-ceiling-20261007",
   "schema_version": 1,
   "sign_in_at_utc": "2026-10-07T22:32:30Z",
@@ -43,9 +43,9 @@
   },
   "started_at_utc": "2026-10-07T22:32:30Z",
   "status": "IN_PROGRESS",
-  "status_reason": "Hardware-bounded cap of eight is implemented; all 16 Resource Manager tests pass. The focused dashboard-index test still fails only for the pre-existing pipeline coordinator leaf; this branch remains pending exact-SHA PR review and Janitor dashboard release.",
+  "status_reason": "Hardware-bounded cap of eight is implemented; all 16 Resource Manager tests and diff checks pass. The dashboard-index test still fails only for the pre-existing pipeline coordinator leaf; this branch remains pending exact-SHA PR review and Janitor dashboard release.",
   "task_id": "hardware-bounded-eight-agent-cap",
-  "updated_at_utc": "2026-10-07T22:37:16Z",
+  "updated_at_utc": "2026-10-07T22:37:59Z",
   "worker_id": "coordinator",
   "worker_name": "coordinator - hardware-bounded eight-agent capacity"
 }
