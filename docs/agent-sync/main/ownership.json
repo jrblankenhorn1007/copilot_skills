@@ -4,19 +4,19 @@
     "operation": "MERGE",
     "run_id": "pipeline-live-model-evaluation-20261007-35327e2e",
     "runtime_agent_id": null,
-    "signed_in_at_utc": "2026-10-07T18:54:14Z",
-    "start_main_sha": "f8a614759059b20f8904f61231d4a98518cba9f6",
-    "token": "4d0d9b004db9a64ca3a2b1847c4f99c4",
+    "signed_in_at_utc": "2026-10-07T18:56:19Z",
+    "start_main_sha": "95adfb9be54f80fa689db0dab496d98372166cc1",
+    "token": "46dbc8ec61fc4f3cf2ad42b9525183e6",
     "worktree_path": null
   },
   "ref": "refs/heads/main",
   "repository": "jrblankenhorn1007/copilot_skills",
-  "revision": 282,
+  "revision": 283,
   "schema_version": 1,
   "sign_out": {
-    "at_utc": "2026-10-07T18:55:17Z",
-    "outcome": "MERGED",
-    "result_commit_sha": "b1e4e3f48e7576b543593a51a24b8ead80347973"
+    "at_utc": null,
+    "outcome": null,
+    "result_commit_sha": null
   },
-  "state": "FREE"
+  "state": "OWNED"
 }
