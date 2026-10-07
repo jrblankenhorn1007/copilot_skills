@@ -13,24 +13,24 @@ worktree: "/Users/jrblankenhorn/copilot_skills.worktrees/resource-manager-capaci
 iteration: 1
 status: BLOCKED
 started_at_utc: "2026-10-07T22:32:30Z"
-updated_at_utc: "2026-10-07T22:38:25Z"
+updated_at_utc: "2026-10-07T22:41:31Z"
 base_origin_main_sha: "2fdbc958b76a5c31bbbbfc2d5ea8fe49812a3156"
-latest_fetched_origin_main_sha: "8065bba4bd04c6567ff7ef2c15699817abb85178"
+latest_fetched_origin_main_sha: "03b4d6adf4b4e1533fa377f9f563c7e239a273a6"
 parent_branch: "agents/resource-manager-capacity-ceiling-20261007"
 parent_worktree: "/Users/jrblankenhorn/copilot_skills.worktrees/resource-manager-capacity-ceiling-20261007"
 parent_base_origin_main_sha: "2fdbc958b76a5c31bbbbfc2d5ea8fe49812a3156"
-parent_rebased_onto_origin_main_sha: "c47fca5b62deefeb595c6c5a40a94905ec71a340"
-parent_implementation_commit_sha: null
-decision_record_path: "docs/decisions/agents-resource-manager-capacity-ceiling-20261007/agents/coordinator/pr-pending.md"
+parent_rebased_onto_origin_main_sha: "03b4d6adf4b4e1533fa377f9f563c7e239a273a6"
+parent_implementation_commit_sha: "1325f3fabbcbaf1aef30e7366335539a1d5fa450"
+decision_record_path: "docs/decisions/agents-resource-manager-capacity-ceiling-20261007/agents/coordinator/pr-11.md"
 decision_index_path: "docs/decisions/agents-resource-manager-capacity-ceiling-20261007/README.md"
 pull_request:
-  status: NOT_OPENED
-  number: null
-  url: null
-  base_sha: null
+  status: OPEN
+  number: 11
+  url: "https://github.com/jrblankenhorn1007/copilot_skills/pull/11"
+  base_sha: "03b4d6adf4b4e1533fa377f9f563c7e239a273a6"
   head_sha: null
 review:
-  status: PENDING
+  status: BLOCKED
   reviewer_agents: []
   reviewed_base_sha: null
   reviewed_head_sha: null
@@ -70,18 +70,34 @@ checks:
     result: "PUBLISHED as 83e0751ef82d5f32d8602cd5a3224e87dad8cae1; main ownership released and branch fast-forwarded to 39a4a1c47116520b61c465f1e0f894633a4411ef."
   - command: "python3 .github/skills/ralph-loop/scripts/publish_agent_sync.py (revision 4)"
     result: "PUBLISHED as 5aa6a36f1ab4b037d806792840d70bbba338f94e; main ownership released and branch fast-forwarded to 8065bba4bd04c6567ff7ef2c15699817abb85178."
+  - command: "gh pr create --repo jrblankenhorn1007/copilot_skills --base main --head agents/resource-manager-capacity-ceiling-20261007"
+    result: "OPENED PR #11; initial exact base/head 8065bba4bd04c6567ff7ef2c15699817abb85178 / 1325f3fabbcbaf1aef30e7366335539a1d5fa450."
+  - command: "python3 .github/skills/resource-manager/scripts/resource_manager.py status --observed-session <current> --observed-session <maxxed>"
+    result: "BLOCKED: active_agent_count=2, max_agents=2, available_slots=0; no reviewer reservations or reviewer agents were created."
+  - command: "git merge origin/main (status-only revision 5)"
+    result: "Merged status-only origin/main commit 03b4d6adf4b4e1533fa377f9f563c7e239a273a6 into the branch as 14890558e58a94814b695618aa9ef996b72d7121; published history was preserved."
 blockers:
+  - id: review-capacity
+    reason: "The hardware-bounded Resource Manager reports two active sessions against an effective limit of two and zero free slots."
+    next_action: "Refresh the live inventory and reserve reviewer slots only after capacity becomes available."
   - id: dashboard-index-owner
     reason: "The Janitor task still owns docs/ralph-status.md and has no verified sign-out."
     next_action: "Keep this leaf BLOCKED and unindexed; update the dashboard only after a verified owner release."
-pending_validation: "Complete fresh Code and Security reviews, synchronize the dashboard when its owner releases the path, and rerun the dashboard contract before integration."
+pending_validation: "Complete fresh Code and Security reviews on the current exact PR SHAs, synchronize the dashboard after verified owner release, rerun the dashboard contract, then use the normal PR merge process."
 memory_review: PENDING
 memory_handoff:
-  implementation_summary: "Pending implementation and post-merge review."
-  lesson_candidates: []
-  no_durable_lessons_reason: "No post-merge memory review has been performed."
+  implementation_summary: "Raised the global Resource Manager agent ceiling to eight while retaining RAM/CPU-derived effective admission bounds and live-pressure safeguards."
+  lesson_candidates:
+    - rule: "Treat the configured agent maximum as a hard ceiling; compute effective admission as the minimum of that ceiling and host-derived RAM and CPU capacity."
+      why: "A high global maximum should not cause small hosts to admit more concurrent work than their resource estimates support."
+      scope: "Local agent Resource Manager admission control."
+      evidence:
+        - ".github/skills/resource-manager/scripts/resource_manager.py"
+        - ".github/skills/resource-manager/tests/test_resource_manager.py"
+        - "PR #6 Security Reviewer R1 and the test reproducing eight admissions on an 8-GiB, 2-core host."
+  no_durable_lessons_reason: null
 resource_usage:
-  time_spent_seconds: 355
+  time_spent_seconds: 541
   time_basis: WALL_CLOCK_ELAPSED
   token_spend:
     status: NOT_REPORTED
@@ -96,5 +112,5 @@ pending_shared_scope:
   owner_run_id: "copilot-skills-worktree-janitor-20261007"
   owner_agent_id: "coordinator"
   owner_status_path: "docs/agent-sync/runs/copilot-skills-worktree-janitor-20261007/agents/coordinator/status.json"
-next_action: "Complete the exact-SHA PR review gates and preserve the blocked dashboard scope until the Janitor owner signs out."
+next_action: "Wait for available Resource Manager slots, then reserve and launch independent Code and Security reviewers; preserve the dashboard scope until its owner signs out."
 ```

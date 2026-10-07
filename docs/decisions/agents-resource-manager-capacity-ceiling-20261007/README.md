@@ -38,4 +38,4 @@
 
 ## PR records
 
-- [`coordinator` / PR pending](agents/coordinator/pr-pending.md)
+- [`coordinator` / PR #11](agents/coordinator/pr-11.md)
