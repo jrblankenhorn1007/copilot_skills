@@ -5,68 +5,73 @@
 - **Worktree:**
   `/Users/jrblankenhorn/copilot_skills.worktrees/cross-session-recovery-final-sweep`
 - **Base `origin/main`:** `fb82e0d85ef80b26537c3fede01bcaefa422652d`
-- **Implementation commit:** `169dbc19` (`fix(resource-manager): raise global
-  agent ceiling to eight`)
-- **PR:** pending creation; will be updated with number/URL once opened.
+- **Implementation commits:** `169dbc19` (raises the configured ceiling) and
+  `bd1ae36f` (makes eight the effective base admission limit while retaining
+  critical-pressure stops).
+- **PR:** #6 — <https://github.com/jrblankenhorn1007/copilot_skills/pull/6>
 - **Current state:** `IN_PROGRESS`; parent-to-main merge is `PENDING`.
-- **Review:** `BLOCKED`; required reviewer is the Ralph Code Reviewer per
-  `.github/skills/ralph-loop/references/worker-pr-merging.md`. No review
-  round has completed.
+- **Review:** `PENDING`; no review round has completed. The independent Ralph
+  Code Reviewer and Ralph Security Reviewer must review the exact PR SHAs.
 
 ## Change summary
 
 User directly instructed: "set max agents to 8, commit that fix, and
-continue." `MAX_AGENTS` in
-`.github/skills/resource-manager/scripts/resource_manager.py` was hardcoded
-at `4`, capping both the memory- and CPU-derived admission limits even on
-hosts with capacity to spare. Raised the constant to `8` and updated the two
-corresponding sentences in `.github/skills/resource-manager/SKILL.md` ("capped
-at four agents" → "capped at eight agents", twice). No other file mentions
-this specific numeric cap (verified via repo-wide grep); all other "four"
-matches in the repo are unrelated (specialist counts, memory-type taxonomies,
-etc.).
+continue." The initial commit raised `MAX_AGENTS` from 4 to 8, but a follow-up
+check showed this only raised the upper ceiling: the memory/CPU-derived
+formula still produced an effective limit of 2 on this 8 GiB, six-core host.
+The follow-up change makes `MAX_AGENTS` the effective base admission limit of
+8, while preserving the existing degraded-pressure reduction and critical
+pressure fail-closed behavior. RAM- and CPU-derived estimates remain
+available as diagnostics, not as admission caps. Updated the Resource Manager
+skill to state this explicitly.
 
 ## TDD evidence
 
-- **Red:** added `test_global_agent_ceiling_is_eight` to
-  `.github/skills/resource-manager/tests/test_resource_manager.py`, pinning
+- **Initial Red:** added `test_global_agent_ceiling_is_eight`, pinning
   `manager.MAX_AGENTS == 8` and a 64 GiB/32-core host's computed capacity to
-  `8` (not a tautological reference to the constant). Ran
+  `8`; it failed as expected with `AssertionError: 8 != 4`.
+- **Initial Green:** changed `MAX_AGENTS = 4` to `MAX_AGENTS = 8`; all 16
+  Resource Manager tests passed. This raised the hard ceiling but did not yet
+  make eight the effective host limit.
+- **Effective-capacity Red:** changed the 8 GiB/six-core and small-host
+  capacity tests to expect a configured limit of 8, degraded pressure to
+  reduce it to 7, and critical pressure to remain 0. Running
   `python3 .github/skills/resource-manager/tests/test_resource_manager.py -v`
-  — failed as expected: `AssertionError: 8 != 4`. All 15 pre-existing tests in
-  that file passed unchanged.
-- **Green:** changed `MAX_AGENTS = 4` to `MAX_AGENTS = 8`. Reran the same
-  command — all 16 tests passed.
+  failed as expected: effective capacity remained 2 (normal host), 1 (small
+  host), and 1 (degraded memory), respectively.
+- **Registry-fixture update:** updated admission tests to fill the configured
+  eight slots rather than assuming the old two/three-agent hardware-derived
+  limit. The tests still assert rejection at capacity and under concurrent
+  reservations.
+- **Green:** set `base_agents = MAX_AGENTS`, retaining the existing pressure
+  checks. The targeted suite then passed all 16 tests.
 - **Regression sweep:** also reran
   `test_multi_agent_contract.py` (29 passed),
   `test_skill_aware_routing.py` (9 passed),
   `test_specialist_agent_contract.py` (5 passed),
   `test_main_ownership_publisher.py` (15 passed), and
-  `test_main_ownership_contract.py` (8 passed) — all green, confirming no
-  consumer of the resource-manager skill depends on the old cap value.
+  `test_main_ownership_contract.py` (8 passed) — all green after the
+  effective-limit follow-up.
 - `git diff --check` — clean (no whitespace issues).
 
 ## Risk assessment (for reviewer-gate routing)
 
-This diff changes one integer constant plus matching documentation prose and
-adds a unit test. It does not touch authentication/authorization, untrusted
-input, secrets, cryptography, new process-execution logic (the existing
-`sysctl`/`memory_pressure` subprocess calls are unchanged), external network
-boundaries, or dependencies. Routed to the standard **Ralph Code Reviewer**
-gate only; **Ralph Security Reviewer** was not judged necessary given the
-above, consistent with
-`.github/skills/ralph-loop/references/worker-pr-merging.md`'s trigger list.
+This diff increases the Resource Manager's actual admission limit to eight
+even on hosts whose RAM/CPU estimates are lower. The memory/CPU pressure
+estimates are still reported, degraded pressure reduces the limit by one,
+and critical pressure still blocks new admissions. This is an intentional
+resource-policy change with greater resource-exhaustion risk on smaller
+hosts; do not describe the hardware estimates as admission constraints.
+Require an independent **Ralph Code Reviewer**. The coordinator also requests
+a **Ralph Security Reviewer** as a conservative check of this resource
+admission-control policy change; neither review may be replaced by
+self-review.
 
 ## Unresolved blockers
 
-- The shared Resource Manager reports zero available slots at this iteration
-  (`active_agent_count: 18`, this host's computed `capacity.max_agents: 2`
-  — RAM-bound at 2 regardless of the new ceiling of 8, since this machine
-  has only ~3.8 GiB available RAM — `available_slots: 0`, `can_spawn: false`).
-  This blocks dispatching the required independent Ralph Code Reviewer.
-  Per the Ralph Loop agent's explicit instruction, this is recorded as
-  `BLOCKED`; self-review is not substituted and the gate is not claimed to
-  have passed.
-- The parent is not yet published or merged; remote-main verification remains
-  pending until review capacity is available and a clean report is obtained
-  for the exact PR base/head SHAs.
+- None currently. The fresh Resource Manager inventory reports
+  `capacity.max_agents: 8`, `active_agent_count: 3`, `available_slots: 5`,
+  and `can_spawn: true`. Reserve reviewer slots atomically before dispatch;
+  then complete both independent reviews against the exact PR base/head SHAs.
+- The PR is not yet merged; complete review, CI, required approvals, and the
+  normal merge gate before recording remote-main verification.

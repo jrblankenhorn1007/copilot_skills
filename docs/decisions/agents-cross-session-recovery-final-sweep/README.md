@@ -6,5 +6,6 @@
 
 ## Agent/PR records
 
-- [`coordinator` / PR pending](agents/coordinator/pr-pending.md) — raise the
-  shared Resource Manager agent ceiling (`MAX_AGENTS`) from 4 to 8.
+- [`coordinator` / PR #6](agents/coordinator/pr-pending.md) — set the
+  Resource Manager's effective admission limit to 8 agents, retaining critical
+  pressure safeguards.
