@@ -154,3 +154,18 @@ Signature status: `NOT_CRYPTOGRAPHICALLY_SIGNED`.
   `RALPH_COMPLETE`.
 - Extracted Bash block `bash -n`: **PASS**.
 - `git diff --check`: **clean**.
+
+### Recovered round-two dispatch attempt — 2026-10-07T18:00:03Z
+
+- Pre-reserved two Resource Manager slots, then dispatched the independent
+  Code and Security reviewers for base/head
+  `e6ed4c20c5955af91c628b34f026b6eb63c09c70` /
+  `0c63f15bc6e9a679150e6825e23f11ceba2ca373`.
+- Both agents returned `BLOCKED` before review because the read-only reviewer
+  tools did not provide session identity or command execution to activate
+  their slots. Neither inspected the diff; no round-two findings or clean
+  reports exist.
+- Released both unclaimed reservations. The routing contract assigns live
+  capacity accounting for read-only specialists to the coordinator, so the
+  next dispatch will retain reservations and be tracked by the coordinator
+  without expanding reviewer tools.

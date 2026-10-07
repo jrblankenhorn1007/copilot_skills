@@ -9,14 +9,14 @@
 - Implementation fix commit:
   `ac5a083230b1d40d639a47c1ee925336a5817696`
 - PR head before this status refresh:
-  `ac5a083230b1d40d639a47c1ee925336a5817696`
+  `0c63f15bc6e9a679150e6825e23f11ceba2ca373`
 - PR: https://github.com/jrblankenhorn1007/copilot_skills/pull/9
 - Opening base/head:
   `741f23521dbfc2465d5f0943de4451c0a3a42f5a` /
   `ecba436feb718cabe47cacfd7b6e6d3954bc70c0`
 - Current pre-refresh PR base/head:
   `e6ed4c20c5955af91c628b34f026b6eb63c09c70` /
-  `ac5a083230b1d40d639a47c1ee925336a5817696`
+  `0c63f15bc6e9a679150e6825e23f11ceba2ca373`
 - Integration path: merge this PR only after independent reviews and all
   required checks/approvals pass;
   no direct-main integration is authorized.
@@ -76,3 +76,18 @@ follow-up review reservation and verify the exact PR base/head before dispatch.
   full 31-test suite passed afterward.
 - Round 1 is complete; one finding remains unresolved until the permitted
   follow-up Code and Security reviews verify the updated exact PR head.
+
+## Recovered round-two dispatch attempt
+
+- Code and Security reviewers were reserved and launched for base/head
+  `e6ed4c20c5955af91c628b34f026b6eb63c09c70` /
+  `0c63f15bc6e9a679150e6825e23f11ceba2ca373`.
+- Both stopped with `BLOCKED` before reviewing because their read-only tool
+  sets do not expose the current-session or command-execution capabilities
+  needed to activate a reservation. No diff was reviewed, no findings were
+  produced, and no round-two result is counted.
+- Both unclaimed reservations were explicitly released. Per the agent-routing
+  contract, the coordinator will maintain capacity accounting for read-only
+  specialists; their tool access will not be widened for registry operations.
+- Round 2 remains pending and must be dispatched after a fresh inventory and
+  reservation for the exact head published by this status refresh.
