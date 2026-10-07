@@ -30,22 +30,22 @@
   },
   "prompt_path": "docs/agent-sync/runs/copilot-skills-resource-manager-effective-eight-20261007/agents/coordinator/prompt.md",
   "prompt_sha256": "92eb35f1c00d6ddae612ff67f2cb1a7e47840e54b866c03e71e4f32d2123c73c",
-  "revision": 1,
+  "revision": 2,
   "run_id": "copilot-skills-resource-manager-effective-eight-20261007",
   "schema_version": 1,
   "sign_in_at_utc": "2026-10-07T05:38:39Z",
   "sign_out": {
-    "at_utc": null,
+    "at_utc": "2026-10-07T22:43:41Z",
     "checks": [],
     "implementation_commit_sha": null,
-    "next_action": null,
-    "summary": null
+    "next_action": "Do not resume or merge PR #8; complete the hardware-bounded replacement through PR #11 after its review and dashboard gates pass.",
+    "summary": "Closed PR #8 as superseded by the safer hardware-bounded PR #11. No code was merged from PR #8. The old clean worktree and its one local documentation commit remain preserved."
   },
   "started_at_utc": "2026-10-07T05:38:39Z",
-  "status": "IN_PROGRESS",
-  "status_reason": "Starting a fresh integration branch from the fetched main SHA to replay the already-published Resource Manager implementation without rewriting its published branch history.",
+  "status": "BLOCKED",
+  "status_reason": "PR #8 has been closed as superseded by PR #11 and its edit scope is released. The replacement PR is blocked pending independent reviews and dashboard-owner release.",
   "task_id": "replay-review-and-integrate-capacity-fix",
-  "updated_at_utc": "2026-10-07T05:38:39Z",
+  "updated_at_utc": "2026-10-07T22:43:41Z",
   "worker_id": "coordinator",
   "worker_name": "coordinator - effective eight-agent Resource Manager"
 }
