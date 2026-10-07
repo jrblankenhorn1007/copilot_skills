@@ -122,8 +122,23 @@
   based on `c23b6e8ffb285ef57f4d99b45425a31ad031ee91`. At the
   `18:41:30Z` fetch, remote main ownership was `FREE` at revision 278 and
   no covered role files had changed since the rebase. Recheck before writing.
-- **Next:** Publish the task status as `AWAITING_MERGE`, rebase and rerun
-  checks on the resulting status-sign-in tip, then acquire `MERGE`, integrate
-  the reservation commit, push non-force, and verify the remote result.
-  Preserve the janitor's dashboard scope. Live execution remains blocked
-  until the requested model and capacity are available.
+- **Next:** Keep the task active through integration-record updates, then
+  acquire `MERGE`, integrate its sign-in commit, push non-force, and verify
+  the remote result. Preserve the janitor's dashboard scope. Live execution
+  remains blocked until the requested model and capacity are available.
+
+## 2026-10-07T18:44:11Z — defer task sign-out until integration records are final
+
+- An attempted task-status publication as `AWAITING_MERGE` was rejected by
+  the publisher because that state requires `sign_out.at_utc`. The validation
+  failed before any main reservation or remote commit; task status remains
+  revision 4 / `IN_PROGRESS`.
+- The coordinator still needs to record the verified merge SHA and final
+  dashboard/live-model blockers after integration. Keep the task active while
+  those records are finalized; do not sign out and then continue editing its
+  assigned branch records.
+- **Next:** Acquire the exclusive `MERGE` reservation after refreshing the
+  free owner state, integrate its sign-in commit, push and verify the
+  no-PR fast-forward, update and integrate the final records, then publish a
+  `BLOCKED` task status with sign-out because live-model execution remains
+  externally unavailable.

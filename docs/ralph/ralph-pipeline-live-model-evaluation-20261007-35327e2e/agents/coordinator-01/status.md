@@ -14,10 +14,10 @@ worktree: "/Users/jrblankenhorn/copilot_skills.worktrees/ralph-pipeline-live-mod
 iteration: 1
 status: BLOCKED
 started_at_utc: "2026-10-07T05:21:49Z"
-updated_at_utc: "2026-10-07T18:41:30Z"
+updated_at_utc: "2026-10-07T18:44:11Z"
 status_reason: "The aggregate dashboard path is owned by the janitor and was explicitly released from this task; the live model is also unavailable."
 resource_usage:
-  time_spent_seconds: 47981
+  time_spent_seconds: 48142
   time_basis: WALL_CLOCK_ELAPSED
   token_spend:
     status: NOT_REPORTED
@@ -129,7 +129,7 @@ pending_dashboard_update: true
 pending_shared_scope:
   path: "docs/ralph-status.md"
   owner_run_id: "copilot-skills-worktree-janitor-20261007"
-next_action: "Publish the AWAITING_MERGE task status, refresh/rebase and rerun checks on its sign-in commit, then acquire MERGE and perform the documented no-PR fast-forward. Keep the dashboard with the janitor. Rerun live cases only after the exact authenticated gpt-6-luna model and a Resource Manager slot are available."
+next_action: "Keep task status IN_PROGRESS while integration records are being finalized. Acquire MERGE, integrate its sign-in commit, push non-force, verify origin/main, then publish the final task status and sign-out. Keep the dashboard with the janitor. Rerun live cases only after the exact authenticated gpt-6-luna model and a Resource Manager slot are available."
 sign_off:
   status: PENDING
   implementation_commit_sha: null

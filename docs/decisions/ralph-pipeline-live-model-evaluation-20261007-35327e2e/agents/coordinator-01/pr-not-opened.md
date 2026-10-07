@@ -9,10 +9,11 @@
 - **PR:** Not opened. The repository's normal integration path is a
   coordinator-managed, verified fast-forward without a PR; review status is
   `NOT_APPLICABLE`.
-- **Integration:** Pending. Publish the `AWAITING_MERGE` task status, rebase
-  on its released status-transaction tip, then acquire the exclusive `MERGE`
-  reservation; integrate that transaction's sign-in commit, push non-force,
-  fetch, and verify the result on `origin/main`.
+- **Integration:** Pending. Keep the task active while final records are
+  updated; acquire the exclusive `MERGE` reservation, integrate that
+  transaction's sign-in commit, push non-force, fetch, and verify the result
+  on `origin/main`. Publish the final task sign-out only after the records
+  reflect verified integration.
 - **Live-model gate:** Pending external model availability. Do not run with
   another model or alter authentication.
 
@@ -24,9 +25,12 @@
   cannot resolve an authenticated Luna model.
 - **Alternatives:** Open a PR outside the documented path, push directly
   without a reservation, or wait for the configured no-PR transaction.
-- **Choice:** Keep the PR unopened. Rebase and rerun the suite, then use the
-  exclusive `MERGE` reservation for a verified non-force fast-forward.
+- **Choice:** Keep the PR unopened. Rerun the suite on the current base, then
+  use the exclusive `MERGE` reservation for a verified non-force
+  fast-forward. Keep the task status `IN_PROGRESS` during integration because
+  the status publisher requires sign-out for `AWAITING_MERGE`, and the branch
+  records must be updated after the merge.
 - **Rationale:** This preserves the repository's main-ownership protocol and
   accurately records the live test as blocked.
-- **Consequence:** The run remains pending integration; live-model execution
-  remains blocked until the requested model and capacity are available.
+- **Consequence:** The run remains in progress through integration; final
+  status is `BLOCKED` until live-model execution is possible.
