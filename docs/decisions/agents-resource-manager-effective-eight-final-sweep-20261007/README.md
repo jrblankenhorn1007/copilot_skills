@@ -12,6 +12,6 @@
 
 ## Agent/PR records
 
-- [`coordinator` / PR pending](agents/coordinator/pr-pending.md) — replay the
+- [`coordinator` / PR #8](agents/coordinator/pr-8.md) — replay the
   effective eight-agent cap, preserve live-pressure safeguards, and complete
   independent review and remote integration.

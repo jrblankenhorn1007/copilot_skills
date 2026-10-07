@@ -1,4 +1,4 @@
-# Coordinator — Replacement PR Pending
+# Coordinator — PR #8
 
 - **Run/task:** `copilot-skills-resource-manager-effective-eight-20261007` /
   `replay-review-and-integrate-capacity-fix`
@@ -9,11 +9,13 @@
 - **Current fetched base:** `2abcbe040582e68cacc7192d2388fc5eaae7a816`
 - **Implementation commits:** `91239bc123b4a3edf3a0f73e9edb6cd40ac967d0`,
   `acbf286dcef68f56b428b92e49b4f3e83fdf9316`.
-- **Replacement PR:** pending creation; original PR #6 remains open until the
-  replacement is published and verified.
-- **State:** `IN_PROGRESS`; merge `PENDING`; memory review `PENDING`.
-- **Review:** `PENDING`; no review round has completed for the replacement
-  branch. Independent Ralph Code and Security reviewers are required.
+- **PR:** #8 —
+  <https://github.com/jrblankenhorn1007/copilot_skills/pull/8>
+- **PR base SHA:** `2abcbe040582e68cacc7192d2388fc5eaae7a816`
+- **Initial PR head SHA:** `e7ee65aa23f614cf57e23a3d51e00ae9a6ce5b0c`
+- **State:** `BLOCKED`; merge `PENDING`; memory review `PENDING`.
+- **Review:** `BLOCKED`; no review round has completed for PR #8. Independent
+  Ralph Code and Security reviewers are required.
 
 ## Change summary
 
@@ -29,6 +31,9 @@ PR was opened, its implementation/test changes were replayed onto a fresh
 branch from current main. The original Code and Security reports were clean
 for PR #6's old base/head pair (`fb82e0d8...` / `95b9b020...`), but are stale
 for this replacement PR and will not authorize its merge.
+
+PR #6 remains open until PR #8 passes the exact-SHA review gate; it will then
+be closed as superseded.
 
 ## Verification
 
@@ -50,8 +55,20 @@ for this replacement PR and will not authorize its merge.
 - Merge only after current-branch tests, independent exact-SHA reviews, and
   repository merge/ownership gates pass.
 
+## Recovered status-record issue
+
+- **Symptom:** the first post-PR dashboard-contract run found the new run's
+  YAML branch index had not been advanced to match its leaf status. A broad
+  status-line patch also changed one unrelated historical entry.
+- **Resolution:** restored the historical row and updated the scoped YAML
+  record for this run; the dashboard contract then passed all 29 tests.
+- **Verification:** `python3
+  .github/skills/ralph-loop/tests/test_multi_agent_contract.py -v` —
+  **29/29 PASS**; `git diff --check` — clean.
+
 ## Unresolved blockers
 
-- None at this point. PR creation, current-branch reviews, and integration
-  remain pending; reviewer dispatch requires a fresh live inventory and
-  atomic Resource Manager reservations.
+- At `2026-10-07T15:56:41Z`, Resource Manager reported effective
+  `max_agents: 0`, `active_agent_count: 3`, and `available_slots: 0` because
+  one-minute load was `13.26` on six cores. Do not dispatch reviewers until a
+  fresh inventory reports available capacity and atomic reservations succeed.

@@ -44,8 +44,42 @@ Run on the current replay branch after synchronization to fetched
   — **8/8 PASS**.
 - `git diff --check` — clean.
 
+## 2026-10-07 — Replacement PR opened
+
+- Opened PR #8 at
+  <https://github.com/jrblankenhorn1007/copilot_skills/pull/8>, based on
+  `2abcbe040582e68cacc7192d2388fc5eaae7a816`. The initial published head was
+  `e7ee65aa23f614cf57e23a3d51e00ae9a6ce5b0c`.
+- The branch status/decision record is being synchronized with the PR number
+  before any reviewer dispatch. Because a commit cannot contain its own final
+  SHA, `pull_request.head_sha` remains null until the final PR head is captured
+  in the post-merge status follow-up; reviewers will receive the exact current
+  SHAs directly.
+- PR #6 remains open temporarily; close it as superseded only after the
+  replacement PR passes its exact-SHA review gate.
+
+## 2026-10-07 — Resume and review-capacity block
+
+- On resume, refreshed the visible active-session and subagent inventory,
+  re-fetched `origin/main` (`2abcbe040582e68cacc7192d2388fc5eaae7a816`), and
+  re-registered this coordinator after its Resource Manager lease had expired.
+- At `2026-10-07T15:56:41Z`, Resource Manager counted three active agents,
+  including one active session outside this repository, and reported
+  `max_agents: 0`, `available_slots: 0`, and `can_spawn: false` because
+  one-minute system load was `13.26` on six cores. No reviewer was launched;
+  do not bypass the critical-pressure guard.
+- The first dashboard-contract rerun found two status mismatches: this run's
+  dashboard still said `IN_PROGRESS` while its leaf had moved to review, and
+  a patch had changed an unrelated historical row. Restored the historical
+  row, synchronized this run's YAML index with its leaf, and reran
+  `test_multi_agent_contract.py -v`: **29/29 PASS**. `git diff --check` is
+  clean.
+- The review gate is now recorded `BLOCKED` pending a fresh capacity snapshot
+  and atomic reservations. The overall recovery task can continue only on
+  independent, safe documentation work; PR #8 itself cannot advance until
+  reviewers can be dispatched.
+
 ## Next action
 
-Rerun targeted checks, open the replacement PR, then reserve reviewer capacity
-and obtain independent Code and Security reports bound to that PR's exact
-base/head SHAs.
+Refresh live capacity, reserve reviewer slots atomically, and obtain
+independent Code and Security reports bound to PR #8's exact base/head SHAs.
