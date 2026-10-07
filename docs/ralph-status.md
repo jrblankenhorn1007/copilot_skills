@@ -26,8 +26,8 @@ authorized parent integration.
 ```yaml
 schema_version: 2
 snapshot_path: "docs/ralph-status.md"
-snapshot_revision: 130
-updated_at_utc: "2026-10-07T18:27:03Z"
+snapshot_revision: 131
+updated_at_utc: "2026-10-07T18:29:45Z"
 overall_status: IN_PROGRESS
 current_run_ids:
   - "copilot-skills-docs-status-organization-20260924"
@@ -716,15 +716,15 @@ runs:
 
   - run_id: "copilot-skills-worktree-janitor-20261007"
     task_ids: ["pipeline-worktree-janitor-role"]
-    aggregate_status: IN_PROGRESS
+    aggregate_status: BLOCKED
     requested_worker_count: 2
     effective_worker_count: 0
     active_worker_count: 0
     base_origin_main_sha: "fb82e0d85ef80b26537c3fede01bcaefa422652d"
-    current_origin_main_sha: "7f44c55ff682a8d6e90609026865c29459ca0ba6"
+    current_origin_main_sha: "9f5ba1f3c6ed74d5980208aa19fb3e7a0d1b496a"
     parent_rebased_onto_origin_main_sha: "7f44c55ff682a8d6e90609026865c29459ca0ba6"
     created_at_utc: "2026-10-07T05:28:40Z"
-    updated_at_utc: "2026-10-07T18:27:03Z"
+    updated_at_utc: "2026-10-07T18:29:45Z"
     coordinator_scope: "Add a coordinator-gated worktree Janitor that removes verified worker child worktrees after integration and sign-out, and wire its readiness state and routing into Ralph."
     coordinator_branch: "agents/pipeline-janitor-role-implementation"
     coordinator_worktree: "/Users/jrblankenhorn/copilot_skills.worktrees/pipeline-janitor-role-implementation"
@@ -732,12 +732,12 @@ runs:
     coordinator_progress_path: "docs/ralph/agents-pipeline-janitor-role-implementation/agents/coordinator/progress.md"
     parent_implementation_commit_sha: "15751a43d4414dc9e7ba49ca630652532e8b9296"
     parent_to_main_merge:
-      status: PENDING
-      sha: null
+      status: VERIFIED
+      sha: "85c8a4796e21f0d1e1a88fb01804a55d3c71d893"
       verified_remote_ref: "refs/heads/main"
-      verified_origin_main_sha: null
-      verification_method: null
-      verified_at_utc: null
+      verified_origin_main_sha: "9f5ba1f3c6ed74d5980208aa19fb3e7a0d1b496a"
+      verification_method: "git merge-base --is-ancestor 85c8a4796e21f0d1e1a88fb01804a55d3c71d893 origin/main"
+      verified_at_utc: "2026-10-07T18:29:14Z"
     parent_cleanup:
       worktree: PENDING
       local_branch: PENDING
@@ -746,7 +746,7 @@ runs:
     worker_count_note: "No implementation workers were dispatched. The runtime Janitor invocation and worktree removal are unverified; post-merge memory review requires an available Resource Manager slot."
     blockers:
       - "The required post-merge Project Memory Update review is queued until a Resource Manager slot is available."
-    next_action: "Acquire the authorized MERGE reservation and integrate the parent. Dispatch the post-merge memory review when capacity permits."
+    next_action: "Wait for Resource Manager capacity, dispatch the post-merge memory review, and record its outcome."
 
 branch_agent_index:
   - run_id: "skills-improvement-20260925-0554-luna"
@@ -2178,10 +2178,10 @@ branch_agent_index:
     runtime_agent_id: "copilotcli:/d04e3d8d-4a60-4fda-8eef-13cbf13caa0f"
     branch: "agents/pipeline-janitor-role-implementation"
     branch_slug: "agents-pipeline-janitor-role-implementation"
-    status: IN_PROGRESS
+    status: BLOCKED
     iteration: 1
     resource_usage:
-      time_spent_seconds: 46703
+      time_spent_seconds: 46865
       time_basis: WALL_CLOCK_ELAPSED
       token_spend:
         status: NOT_REPORTED
@@ -2202,12 +2202,12 @@ branch_agent_index:
       number: null
       url: null
     parent_to_main_merge:
-      status: PENDING
-      sha: null
+      status: VERIFIED
+      sha: "85c8a4796e21f0d1e1a88fb01804a55d3c71d893"
       verified_remote_ref: "refs/heads/main"
-      verified_origin_main_sha: null
-      verification_method: null
-      verified_at_utc: null
+      verified_origin_main_sha: "9f5ba1f3c6ed74d5980208aa19fb3e7a0d1b496a"
+      verification_method: "git merge-base --is-ancestor 85c8a4796e21f0d1e1a88fb01804a55d3c71d893 origin/main"
+      verified_at_utc: "2026-10-07T18:29:14Z"
     parent_cleanup:
       worktree: PENDING
       local_branch: PENDING
@@ -2215,7 +2215,7 @@ branch_agent_index:
     memory_review: PENDING
     blockers:
       - "The post-merge Project Memory Update review is queued until a Resource Manager slot is available."
-    next_action: "Acquire the authorized MERGE reservation and integrate the parent, then run post-merge memory review when capacity permits."
+    next_action: "Wait for Resource Manager capacity, dispatch the post-merge memory review, and record its outcome."
 ```
 
 ## Branch/agent index
@@ -2259,7 +2259,7 @@ branch_agent_index:
 
 | `copilot-skills-opencode-setup-20260924-2325` | `agents/update-dependencies-docs-opencode-setup` | `coordinator` | `IN_PROGRESS` | `42,072 s (wall-clock)` | `NOT_REPORTED` | [status](./ralph/agents-update-dependencies-docs-opencode-setup/agents/coordinator/status.md) | [progress](./ralph/agents-update-dependencies-docs-opencode-setup/agents/coordinator/progress.md) | Parent pending | Pending |
 | `copilot-skills-opencode-setup-20260924-2325` | `ralph/opencode-setup-docs-worker-01-20260924-2325` | `worker-01` | `AWAITING_MERGE` | Not captured (legacy) | Not captured (legacy) | [status](./ralph/ralph-opencode-setup-docs-worker-01-20260924-2325/agents/worker-01/status.md) | [progress](./ralph/ralph-opencode-setup-docs-worker-01-20260924-2325/agents/worker-01/progress.md) | Fresh sign-off and memory_handoff pending | Pending |
-| `copilot-skills-worktree-janitor-20261007` | `agents/pipeline-janitor-role-implementation` | `coordinator` | `IN_PROGRESS` | `46,703 s (wall-clock)` | `NOT_REPORTED` | [status](./ralph/agents-pipeline-janitor-role-implementation/agents/coordinator/status.md) | [progress](./ralph/agents-pipeline-janitor-role-implementation/agents/coordinator/progress.md) | `PENDING` | `PENDING` |
+| `copilot-skills-worktree-janitor-20261007` | `agents/pipeline-janitor-role-implementation` | `coordinator` | `BLOCKED` | `46,865 s (wall-clock)` | `NOT_REPORTED` | [status](./ralph/agents-pipeline-janitor-role-implementation/agents/coordinator/status.md) | [progress](./ralph/agents-pipeline-janitor-role-implementation/agents/coordinator/progress.md) | `85c8a4796e21f0d1e1a88fb01804a55d3c71d893` | `PENDING` |
 
 The earlier parent-child pipeline run is `COMPLETE`: both workers integrated into the
 parent, the parent merge is verified on `origin/main`, the contract suite and

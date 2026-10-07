@@ -12,9 +12,10 @@
 - **PR:** `NOT_OPENED`; the prior parent/child pipeline decision uses the
   coordinator-managed verified fast-forward path when repository policy
   permits it. This is not permission to bypass a policy denial.
-- **Current status:** `IN_PROGRESS`; dashboard synchronization and contract
-  validation have passed, and the coordinator is executing authorized
-  parent-to-main integration.
+- **Current status:** `BLOCKED`; parent-to-main merge
+  `85c8a4796e21f0d1e1a88fb01804a55d3c71d893` is verified on fetched
+  `origin/main`. The required post-merge memory review is waiting for a
+  Resource Manager slot.
 
 ## Decisions
 
@@ -24,9 +25,9 @@
   a verified coordinator-managed fast-forward to `origin/main`.
 - **Alternatives:** Open a PR immediately or use the established fast-forward
   path with the required main reservation and verification.
-- **Decision:** No PR is opened for this run at this stage. Use the normal
-  integration process, and stop if publication or merge policy requires a PR
-  or denies the direct path.
+- **Decision:** No PR was opened; the coordinator used the authorized
+  no-PR integration process. Stop if a future publication or merge policy
+  requires a PR or denies the direct path.
 - **Rationale:** This follows the repository's recorded integration path
   without treating a local commit or a successful fetch as merge authority.
 - **Consequences:** Record `review.status: NOT_APPLICABLE` for the no-PR path.
@@ -64,6 +65,6 @@
   task status or files were changed.
 - The full multi-agent suite passes (30 tests) after adding this run to the
   dashboard; no pending-index exception is being used.
-- The implementation branch has been rebased onto the released-scope status
-  commit; parent-to-main integration and post-merge memory review are pending.
-  Resource Manager currently has no available slots for the memory reviewer.
+- Parent-to-main integration is verified on fetched `origin/main`. The
+  required post-merge memory review remains pending because Resource Manager
+  has no available slots.

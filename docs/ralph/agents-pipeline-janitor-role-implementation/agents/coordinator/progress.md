@@ -357,3 +357,19 @@ fixture; they do not start an LLM Janitor or remove any real worktree.
   passed (15), and `git diff --check` passed.
 - **Next action:** acquire the authorized `MERGE` reservation, integrate the
   parent, and verify the resulting commit on fetched `origin/main`.
+
+## 2026-10-07T18:29:45Z - Verify parent integration and release main
+
+- Acquired the authorized `MERGE` reservation at ownership revision 273,
+  integrated sign-in commit `cb99fcaf9144df8e9221feca962d7559d6353791` into
+  the parent branch, and non-force pushed merge commit
+  `85c8a4796e21f0d1e1a88fb01804a55d3c71d893`.
+- Fetched `origin/main` and verified the merge SHA is an ancestor. Released
+  the reservation at revision 274; release commit
+  `9f5ba1f3c6ed74d5980208aa19fb3e7a0d1b496a` records outcome `MERGED`, and
+  main ownership is `FREE`.
+- Resource Manager now reports three active agents against `max_agents: 2`
+  and zero available slots. The integration is complete, but the required
+  post-merge Project Memory Update review cannot be dispatched yet.
+- **Next action:** wait for an atomic Resource Manager slot, dispatch the
+  required memory reviewer, then record its outcome and sign out.
