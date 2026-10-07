@@ -26,8 +26,8 @@ exact-SHA reviews are blocked by critical host load.
 ```yaml
 schema_version: 2
 snapshot_path: "docs/ralph-status.md"
-snapshot_revision: 129
-updated_at_utc: "2026-10-07T15:59:13Z"
+snapshot_revision: 130
+updated_at_utc: "2026-10-07T17:16:12Z"
 overall_status: IN_PROGRESS
 current_run_ids:
   - "copilot-skills-docs-status-organization-20260924"
@@ -46,22 +46,21 @@ current_run_ids:
 runs:
   - run_id: "copilot-skills-resource-manager-effective-eight-20261007"
     task_ids: ["replay-review-and-integrate-capacity-fix"]
-    aggregate_status: BLOCKED
+    aggregate_status: IN_PROGRESS
     requested_worker_count: 0
     effective_worker_count: 0
     active_worker_count: 0
     base_origin_main_sha: "035c0e3e6ce05362c7a785191f527c8bf9985073"
-    current_origin_main_sha: "2abcbe040582e68cacc7192d2388fc5eaae7a816"
+    current_origin_main_sha: "e6ed4c20c5955af91c628b34f026b6eb63c09c70"
     created_at_utc: "2026-10-07T05:38:39Z"
-    updated_at_utc: "2026-10-07T15:59:13Z"
+    updated_at_utc: "2026-10-07T17:16:12Z"
     coordinator_scope: "Replay the effective eight-agent Resource Manager change onto fresh current main, rerun checks, obtain independent reviews, and integrate only through the normal gates."
     coordinator_branch: "agents/resource-manager-effective-eight-final-sweep-20261007"
     coordinator_status_path: "docs/ralph/agents-resource-manager-effective-eight-final-sweep-20261007/agents/coordinator/status.md"
     coordinator_progress_path: "docs/ralph/agents-resource-manager-effective-eight-final-sweep-20261007/agents/coordinator/progress.md"
-    next_action: "When a fresh Resource Manager snapshot permits admission, reserve reviewer slots atomically and complete exact-SHA Code and Security reviews for PR #8."
+    next_action: "Publish this sign-off/status refresh, fetch the final PR #8 base/head, refresh live capacity, and reserve one reviewer slot at a time for exact-SHA Code and Security reviews."
     memory_review: PENDING
-    blockers:
-      - "At 2026-10-07T15:56:41Z, Resource Manager reported max_agents=0 and zero slots because load was 13.26 on six cores; independent review dispatch is blocked."
+    blockers: []
     split_plan: []
 
   - run_id: "copilot_skills-two-agent-ralph-test-batch-20260924"
@@ -2163,24 +2162,25 @@ branch_agent_index:
     runtime_agent_id: "copilotcli:/e33128a0-4868-4b49-9b6a-a3f28bb65997"
     branch: "agents/resource-manager-effective-eight-final-sweep-20261007"
     branch_slug: "agents-resource-manager-effective-eight-final-sweep-20261007"
-    status: BLOCKED
+    status: IN_PROGRESS
     iteration: 1
     merge_actor_worker_id: null
     status_path: "docs/ralph/agents-resource-manager-effective-eight-final-sweep-20261007/agents/coordinator/status.md"
     progress_path: "docs/ralph/agents-resource-manager-effective-eight-final-sweep-20261007/agents/coordinator/progress.md"
-    decision_record_path: "docs/decisions/agents-resource-manager-effective-eight-final-sweep-20261007/agents/coordinator/pr-pending.md"
+    decision_record_path: "docs/decisions/agents-resource-manager-effective-eight-final-sweep-20261007/agents/coordinator/pr-8.md"
     decision_index_path: "docs/decisions/agents-resource-manager-effective-eight-final-sweep-20261007/README.md"
     base_origin_main_sha: "035c0e3e6ce05362c7a785191f527c8bf9985073"
+    current_origin_main_sha: "e6ed4c20c5955af91c628b34f026b6eb63c09c70"
     parent_rebased_onto_origin_main_sha: "2abcbe040582e68cacc7192d2388fc5eaae7a816"
     implementation_commit_sha: "acbf286dcef68f56b428b92e49b4f3e83fdf9316"
     pull_request:
       status: OPEN
       number: 8
       url: "https://github.com/jrblankenhorn1007/copilot_skills/pull/8"
-      base_sha: "2abcbe040582e68cacc7192d2388fc5eaae7a816"
+      base_sha: "e6ed4c20c5955af91c628b34f026b6eb63c09c70"
       head_sha: null
     review:
-      status: BLOCKED
+      status: PENDING
       reviewer_agents: ["Ralph Code Reviewer", "Ralph Security Reviewer"]
       reviewed_base_sha: null
       reviewed_head_sha: null
@@ -2193,7 +2193,7 @@ branch_agent_index:
         rationale: null
         recorded_at_utc: null
     resource_usage:
-      time_spent_seconds: 37234
+      time_spent_seconds: 41853
       time_basis: WALL_CLOCK_ELAPSED
       token_spend:
         status: NOT_REPORTED
@@ -2210,9 +2210,8 @@ branch_agent_index:
       verification_method: null
       verified_at_utc: null
     memory_review: PENDING
-    blockers:
-      - "At 2026-10-07T15:56:41Z, Resource Manager reported max_agents=0, active_agent_count=3, and available_slots=0 because load was 13.26 on six cores; independent review dispatch is blocked."
-    next_action: "When a fresh inventory permits admission, atomically reserve reviewers and complete Code and Security review for PR #8."
+    blockers: []
+    next_action: "Publish this sign-off/status refresh, fetch the final PR #8 base/head, refresh live capacity, and reserve one reviewer slot at a time for exact-SHA Code and Security reviews."
 
 ```
 
@@ -2257,7 +2256,7 @@ branch_agent_index:
 
 | `copilot-skills-opencode-setup-20260924-2325` | `agents/update-dependencies-docs-opencode-setup` | `coordinator` | `IN_PROGRESS` | `42,072 s (wall-clock)` | `NOT_REPORTED` | [status](./ralph/agents-update-dependencies-docs-opencode-setup/agents/coordinator/status.md) | [progress](./ralph/agents-update-dependencies-docs-opencode-setup/agents/coordinator/progress.md) | Parent pending | Pending |
 | `copilot-skills-opencode-setup-20260924-2325` | `ralph/opencode-setup-docs-worker-01-20260924-2325` | `worker-01` | `AWAITING_MERGE` | Not captured (legacy) | Not captured (legacy) | [status](./ralph/ralph-opencode-setup-docs-worker-01-20260924-2325/agents/worker-01/status.md) | [progress](./ralph/ralph-opencode-setup-docs-worker-01-20260924-2325/agents/worker-01/progress.md) | Fresh sign-off and memory_handoff pending | Pending |
-| `copilot-skills-resource-manager-effective-eight-20261007` | `agents/resource-manager-effective-eight-final-sweep-20261007` | `coordinator` | `BLOCKED` | `37,234 s (wall-clock)` | `NOT_REPORTED` | [status](./ralph/agents-resource-manager-effective-eight-final-sweep-20261007/agents/coordinator/status.md) | [progress](./ralph/agents-resource-manager-effective-eight-final-sweep-20261007/agents/coordinator/progress.md) | `PENDING` | `PENDING` |
+| `copilot-skills-resource-manager-effective-eight-20261007` | `agents/resource-manager-effective-eight-final-sweep-20261007` | `coordinator` | `IN_PROGRESS` | `41,853 s (wall-clock)` | `NOT_REPORTED` | [status](./ralph/agents-resource-manager-effective-eight-final-sweep-20261007/agents/coordinator/status.md) | [progress](./ralph/agents-resource-manager-effective-eight-final-sweep-20261007/agents/coordinator/progress.md) | `PENDING` | `PENDING` |
 
 The earlier parent-child pipeline run is `COMPLETE`: both workers integrated into the
 parent, the parent merge is verified on `origin/main`, the contract suite and

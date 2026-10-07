@@ -79,7 +79,92 @@ Run on the current replay branch after synchronization to fetched
   independent, safe documentation work; PR #8 itself cannot advance until
   reviewers can be dispatched.
 
+## Prior next action (superseded)
+
+The previous status snapshot called for a fresh capacity check and exact-SHA
+reviews. The branch has now been synchronized and its checks rerun; current
+review preparation is recorded below.
+
+## 2026-10-07 — Synchronized PR #8 with current main
+
+- `gh pr update-branch 8 --repo jrblankenhorn1007/copilot_skills` updated the
+  published branch without rewriting it. GitHub reported the branch was
+  mergeable before synchronization; the API's final mergeability calculation
+  was still pending when checked.
+- Fetched `origin/main` at
+  `e6ed4c20c5955af91c628b34f026b6eb63c09c70`. The remote PR branch advanced
+  to `e2bd4f370e7b9a085ad023fdc2443854e1eaea50`; fast-forwarded this clean
+  local worktree to that exact remote head. No force push was used.
+- Reran on the synchronized branch: Resource Manager tests 16/16,
+  multi-agent contract 29/29, skill routing 9/9, specialist contract 5/5,
+  main-ownership publisher 15/15, main-ownership contract 8/8, and
+  `git diff --check origin/main...HEAD`; all passed.
+- The signed-off implementation commit remains
+  `acbf286dcef68f56b428b92e49b4f3e83fdf9316`; the sync merge does not rewrite
+  it. The branch-owner self-attestation is recorded below.
+- The status/decision update being prepared will advance the PR head. Fetch
+  the final base/head before reviewer dispatch; no reviews have run yet.
+
+### Branch-owner sign-off
+
+```json
+{
+  "run_id": "copilot-skills-resource-manager-effective-eight-20261007",
+  "task_ids": ["replay-review-and-integrate-capacity-fix"],
+  "worker_id": "coordinator",
+  "worker_name": "effective eight-agent Resource Manager",
+  "runtime_agent_id": "copilotcli:/e33128a0-4868-4b49-9b6a-a3f28bb65997",
+  "iteration": 1,
+  "branch": "agents/resource-manager-effective-eight-final-sweep-20261007",
+  "worktree": "/Users/jrblankenhorn/copilot_skills.worktrees/resource-manager-effective-eight-final-sweep-20261007",
+  "pull_request": {
+    "status": "OPEN",
+    "number": 8,
+    "url": "https://github.com/jrblankenhorn1007/copilot_skills/pull/8"
+  },
+  "decision_record_path": "docs/decisions/agents-resource-manager-effective-eight-final-sweep-20261007/agents/coordinator/pr-8.md",
+  "base_origin_main_sha": "e6ed4c20c5955af91c628b34f026b6eb63c09c70",
+  "implementation_commit_sha": "acbf286dcef68f56b428b92e49b4f3e83fdf9316",
+  "checks": [
+    {
+      "command": "python3 .github/skills/resource-manager/tests/test_resource_manager.py -v",
+      "result": "PASS: 16 tests"
+    },
+    {
+      "command": "python3 .github/skills/ralph-loop/tests/test_multi_agent_contract.py -v",
+      "result": "PASS: 29 tests"
+    },
+    {
+      "command": "python3 .github/skills/ralph-loop/tests/test_skill_aware_routing.py",
+      "result": "PASS: 9 tests"
+    },
+    {
+      "command": "python3 .github/skills/ralph-loop/tests/test_specialist_agent_contract.py",
+      "result": "PASS: 5 tests"
+    },
+    {
+      "command": "python3 .github/skills/ralph-loop/tests/test_main_ownership_publisher.py",
+      "result": "PASS: 15 tests"
+    },
+    {
+      "command": "python3 .github/skills/ralph-loop/tests/test_main_ownership_contract.py",
+      "result": "PASS: 8 tests"
+    },
+    {
+      "command": "git diff --check origin/main...HEAD",
+      "result": "PASS"
+    }
+  ],
+  "blockers": [],
+  "attested_at_utc": "2026-10-07T17:16:12Z",
+  "attestation_kind": "SELF_ATTESTATION",
+  "cryptographic_signature_status": "NOT_CRYPTOGRAPHICALLY_SIGNED",
+  "statement": "I, coordinator, sign off iteration 1 for replay-review-and-integrate-capacity-fix at implementation commit acbf286dcef68f56b428b92e49b4f3e83fdf9316."
+}
+```
+
 ## Next action
 
-Refresh live capacity, reserve reviewer slots atomically, and obtain
-independent Code and Security reports bound to PR #8's exact base/head SHAs.
+Publish this sign-off/status refresh, fetch the final PR #8 base/head, refresh
+live capacity, and reserve one reviewer slot at a time for the exact-SHA Code
+and Security reviews.
