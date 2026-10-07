@@ -35,8 +35,8 @@ The manager computes a total-agent limit from physical memory, logical CPU
 cores, currently available memory, and one-minute system load:
 
 - Reserve 4 GiB for the OS and editor, budget 2 GiB per agent, and cap the
-  memory-derived limit at four agents.
-- Budget one agent per two logical CPU cores, also capped at four.
+  memory-derived limit at eight agents.
+- Budget one agent per two logical CPU cores, also capped at eight.
 - The base limit is the lower of the memory and CPU limits.
 - Reduce the limit by one (minimum one) when available memory is below 3 GiB
   or one-minute load reaches 85% of logical CPU count.
