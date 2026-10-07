@@ -39,7 +39,7 @@
   },
   "prompt_path": "docs/agent-sync/runs/copilot-skills-worktree-janitor-20261007/agents/coordinator/prompt.md",
   "prompt_sha256": "42245a9adf07b6b48bf055c008e4bbcfed86f5843b14b5c4861348e9a19e5f5e",
-  "revision": 5,
+  "revision": 6,
   "run_id": "copilot-skills-worktree-janitor-20261007",
   "schema_version": 1,
   "sign_in_at_utc": "2026-10-07T05:28:40Z",
@@ -52,9 +52,9 @@
   },
   "started_at_utc": "2026-10-07T05:28:40Z",
   "status": "IN_PROGRESS",
-  "status_reason": "The prior owner published revision 4 with docs/ralph-status.md removed from its edit_scope; this release was verified on fetched origin/main. The coordinator has added the dashboard path to its own scope and is synchronizing the dashboard before continuing integration. No other task status or files are being modified.",
+  "status_reason": "Dashboard snapshot revision 129 indexes the coordinator leaf; multi-agent (30), specialist (6), ownership (8), publisher (15), and diff checks pass. The coordinator remains IN_PROGRESS while executing the authorized parent-to-main integration. Post-merge memory review is queued pending Resource Manager capacity.",
   "task_id": "pipeline-worktree-janitor-role",
-  "updated_at_utc": "2026-10-07T18:14:14Z",
+  "updated_at_utc": "2026-10-07T18:24:21Z",
   "worker_id": "coordinator",
   "worker_name": "coordinator - worktree janitor role implementation"
 }
