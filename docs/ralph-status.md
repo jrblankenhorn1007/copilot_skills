@@ -25,8 +25,8 @@ Resource Manager capacity is available.
 ```yaml
 schema_version: 2
 snapshot_path: "docs/ralph-status.md"
-snapshot_revision: 126
-updated_at_utc: "2026-10-07T16:14:24Z"
+snapshot_revision: 128
+updated_at_utc: "2026-10-07T16:17:03Z"
 overall_status: IN_PROGRESS
 current_run_ids:
   - "copilot-skills-docs-status-organization-20260924"
@@ -722,18 +722,18 @@ runs:
     base_origin_main_sha: "2abcbe040582e68cacc7192d2388fc5eaae7a816"
     current_origin_main_sha: "741f23521dbfc2465d5f0943de4451c0a3a42f5a"
     created_at_utc: "2026-10-07T16:00:49Z"
-    updated_at_utc: "2026-10-07T16:14:24Z"
+    updated_at_utc: "2026-10-07T16:17:03Z"
     coordinator_scope: "Document a literal, bounded Bash while loop for one-shot Copilot CLI Ralph iterations and guard marker and error behavior with a contract test."
     coordinator_branch: "agents/copilot-cli-ralph-while-loop-20261007"
     coordinator_status_path: "docs/ralph/agents-copilot-cli-ralph-while-loop-20261007/agents/coordinator/status.md"
     coordinator_progress_path: "docs/ralph/agents-copilot-cli-ralph-while-loop-20261007/agents/coordinator/progress.md"
     implementation_commit_sha: "6dd330da4e8451296ee4d2a8efd3b045490ac3a2"
     pull_request:
-      status: PENDING
-      number: null
-      url: null
-      base_sha: null
-      head_sha: null
+      status: OPEN
+      number: 9
+      url: "https://github.com/jrblankenhorn1007/copilot_skills/pull/9"
+      base_sha: "741f23521dbfc2465d5f0943de4451c0a3a42f5a"
+      head_sha: "ecba436feb718cabe47cacfd7b6e6d3954bc70c0"
     review:
       status: BLOCKED
       reviewer_agents: ["Ralph Code Reviewer", "Ralph Security Reviewer"]
@@ -756,8 +756,8 @@ runs:
       verified_at_utc: null
     memory_review: PENDING
     blockers:
-      - "At 2026-10-07T16:11:09Z, Resource Manager measured max_agents 2, active_agent_count 3, and available_slots 0; neither required independent reviewer can be reserved."
-    next_action: "After refreshing live sessions and Resource Manager capacity, reserve independent Code and Security reviewers, open or update the PR, review exact current base/head SHAs, and proceed only through the normal merge and post-merge memory gates."
+      - "At 2026-10-07T16:16:14Z, Resource Manager measured max_agents 2, active_agent_count 3, and available_slots 0; neither required independent reviewer can be reserved."
+    next_action: "After refreshing live sessions and Resource Manager capacity, reserve independent Code and Security reviewers, verify the PR's exact current base/head SHAs, and proceed only through the normal merge and post-merge memory gates."
     memory_handoff:
       implementation_summary: "Added a bounded literal Bash while loop for Copilot CLI one-shot Ralph iterations, fail-closed marker and CLI-error handling, and contract coverage."
       lesson_candidates: []
@@ -2198,17 +2198,17 @@ branch_agent_index:
     merge_actor_worker_id: null
     status_path: "docs/ralph/agents-copilot-cli-ralph-while-loop-20261007/agents/coordinator/status.md"
     progress_path: "docs/ralph/agents-copilot-cli-ralph-while-loop-20261007/agents/coordinator/progress.md"
-    decision_record_path: "docs/decisions/agents-copilot-cli-ralph-while-loop-20261007/agents/coordinator/pr-pending.md"
+    decision_record_path: "docs/decisions/agents-copilot-cli-ralph-while-loop-20261007/agents/coordinator/pr-9.md"
     decision_index_path: "docs/decisions/agents-copilot-cli-ralph-while-loop-20261007/README.md"
     base_origin_main_sha: "2abcbe040582e68cacc7192d2388fc5eaae7a816"
     rebased_onto_origin_main_sha: "741f23521dbfc2465d5f0943de4451c0a3a42f5a"
     implementation_commit_sha: "6dd330da4e8451296ee4d2a8efd3b045490ac3a2"
     pull_request:
-      status: PENDING
-      number: null
-      url: null
-      base_sha: null
-      head_sha: null
+      status: OPEN
+      number: 9
+      url: "https://github.com/jrblankenhorn1007/copilot_skills/pull/9"
+      base_sha: "741f23521dbfc2465d5f0943de4451c0a3a42f5a"
+      head_sha: "ecba436feb718cabe47cacfd7b6e6d3954bc70c0"
     review:
       status: BLOCKED
       reviewer_agents: ["Ralph Code Reviewer", "Ralph Security Reviewer"]
@@ -2223,7 +2223,7 @@ branch_agent_index:
         rationale: null
         recorded_at_utc: null
     resource_usage:
-      time_spent_seconds: 815
+      time_spent_seconds: 974
       time_basis: WALL_CLOCK_ELAPSED
       token_spend:
         status: NOT_REPORTED
@@ -2241,8 +2241,8 @@ branch_agent_index:
       verified_at_utc: null
     memory_review: PENDING
     blockers:
-      - "At 2026-10-07T16:11:09Z, Resource Manager measured max_agents 2, active_agent_count 3, and available_slots 0; neither required independent reviewer can be reserved."
-    next_action: "After refreshing live sessions and Resource Manager capacity, reserve independent Code and Security reviewers, open or update the PR, review exact current base/head SHAs, and proceed only through the normal merge and post-merge memory gates."
+      - "At 2026-10-07T16:16:14Z, Resource Manager measured max_agents 2, active_agent_count 3, and available_slots 0; neither required independent reviewer can be reserved."
+    next_action: "After refreshing live sessions and Resource Manager capacity, reserve independent Code and Security reviewers, verify the PR's exact current base/head SHAs, and proceed only through the normal merge and post-merge memory gates."
     memory_handoff:
       implementation_summary: "Added a bounded literal Bash while loop for Copilot CLI one-shot Ralph iterations, fail-closed marker and CLI-error handling, and contract coverage."
       lesson_candidates: []
@@ -2290,7 +2290,7 @@ branch_agent_index:
 
 | `copilot-skills-opencode-setup-20260924-2325` | `agents/update-dependencies-docs-opencode-setup` | `coordinator` | `IN_PROGRESS` | `42,072 s (wall-clock)` | `NOT_REPORTED` | [status](./ralph/agents-update-dependencies-docs-opencode-setup/agents/coordinator/status.md) | [progress](./ralph/agents-update-dependencies-docs-opencode-setup/agents/coordinator/progress.md) | Parent pending | Pending |
 | `copilot-skills-opencode-setup-20260924-2325` | `ralph/opencode-setup-docs-worker-01-20260924-2325` | `worker-01` | `AWAITING_MERGE` | Not captured (legacy) | Not captured (legacy) | [status](./ralph/ralph-opencode-setup-docs-worker-01-20260924-2325/agents/worker-01/status.md) | [progress](./ralph/ralph-opencode-setup-docs-worker-01-20260924-2325/agents/worker-01/progress.md) | Fresh sign-off and memory_handoff pending | Pending |
-| `copilot-skills-cli-ralph-while-loop-20261007` | `agents/copilot-cli-ralph-while-loop-20261007` | `coordinator` | `BLOCKED` | `815 s (wall-clock)` | `NOT_REPORTED` | [status](./ralph/agents-copilot-cli-ralph-while-loop-20261007/agents/coordinator/status.md) | [progress](./ralph/agents-copilot-cli-ralph-while-loop-20261007/agents/coordinator/progress.md) | Pending | Pending |
+| `copilot-skills-cli-ralph-while-loop-20261007` | `agents/copilot-cli-ralph-while-loop-20261007` | `coordinator` | `BLOCKED` | `974 s (wall-clock)` | `NOT_REPORTED` | [status](./ralph/agents-copilot-cli-ralph-while-loop-20261007/agents/coordinator/status.md) | [progress](./ralph/agents-copilot-cli-ralph-while-loop-20261007/agents/coordinator/progress.md) | Pending | Pending |
 
 The earlier parent-child pipeline run is `COMPLETE`: both workers integrated into the
 parent, the parent merge is verified on `origin/main`, the contract suite and
