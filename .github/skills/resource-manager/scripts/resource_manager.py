@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Hardware-aware admission control for agents sharing one local machine."""
+"""Configured-cap admission control with live-pressure safeguards."""
 
 from __future__ import annotations
 
@@ -190,7 +190,8 @@ def calculate_capacity(metrics: HostMetrics) -> Capacity:
         MAX_AGENTS,
         max(1, metrics.cpu_cores // CPU_CORES_PER_AGENT),
     )
-    base_agents = min(MAX_AGENTS, ram_agents, cpu_agents)
+    # Host-derived estimates are diagnostic; live pressure remains authoritative.
+    base_agents = MAX_AGENTS
     max_agents = base_agents
     reasons: List[str] = []
 
