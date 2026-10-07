@@ -81,3 +81,34 @@ CLI exit status 7 propagated as 7.
 `SELF_ATTESTATION` for implementation commit
 `6dd330da4e8451296ee4d2a8efd3b045490ac3a2`.
 Signature status: `NOT_CRYPTOGRAPHICALLY_SIGNED`.
+
+## Final-sweep synchronization — 2026-10-07T17:29:12Z
+
+- Fetched `origin`; current `origin/main` is
+  `e6ed4c20c5955af91c628b34f026b6eb63c09c70`. The PR #9 worktree was clean
+  before this record refresh.
+- GitHub reported PR #9 base/head
+  `e6ed4c20c5955af91c628b34f026b6eb63c09c70` /
+  `c45af6dd7723c3fcd1b840dad59d5afd1acd5e79` before these status-only edits.
+  The branch tip is a merge-based synchronization commit; it was not rebased.
+  Accordingly, the old `rebased_onto_origin_main_sha` value was cleared and
+  the current main SHA was recorded separately.
+- The 16:16 Resource Manager capacity snapshot is superseded: a later review
+  reservation for PR #8 was admitted. No PR #9 reviewer has been dispatched
+  yet; refresh Resource Manager immediately before each PR #9 reservation.
+- The run is `IN_PROGRESS`, with PR #9 review `PENDING` and no unresolved
+  blocker. The status-only commit will change the PR head, so fetch and record
+  its exact base/head before launching the required independent Code and
+  Security reviews.
+- No new TDD Red phase applies: this refresh changes status and decision
+  records only. Rerun the branch's documentation contract, extracted Bash
+  syntax, and diff checks after these edits; the earlier recorded results are
+  not presented as verification of this new status commit.
+
+### Verification — 2026-10-07T17:30:42Z
+
+- `python3 .github/skills/ralph-loop/tests/test_multi_agent_contract.py -v`:
+  **30/30 passed**, including the dashboard/leaf consistency test.
+- `awk '/^set -o pipefail$/ { copy=1 } copy && /^```$/ { exit } copy { print }' .github/skills/ralph-loop/references/copilot-cli-usage.md | bash -n`:
+  **PASS**.
+- `git diff --check`: **clean**.

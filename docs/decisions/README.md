@@ -38,7 +38,6 @@ blockers as failures.
 - [Shared agent resource manager](ralph-resource-manager-shared-registry-20260925-8abd5d4e/README.md)
 - [Skill-aware agent routing](ralph-agent-optimization-parent-20260925-8bc457e9/README.md)
 - [Copilot CLI bounded while loop](agents-copilot-cli-ralph-while-loop-20261007/README.md)
-- [Copilot CLI bounded while loop](agents-copilot-cli-ralph-while-loop-20261007/README.md)
 
 ## Ralph status and progress
 
