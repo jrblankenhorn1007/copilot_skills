@@ -10,6 +10,8 @@
     "reasoning_effort": null,
     "runtime_agent_id": "copilotcli:/e33128a0-4868-4b49-9b6a-a3f28bb65997"
   },
+  "edit_scope_released_at_utc": "2026-10-07T23:41:44Z",
+  "edit_scope_status": "RELEASED",
   "git": {
     "base_ref": "refs/remotes/origin/main",
     "base_sha": "0cca949a0c965fb6fcf0a26e7d498089b5923bc5",
@@ -24,22 +26,36 @@
   },
   "prompt_path": "docs/agent-sync/runs/copilot-skills-memory-followup-20261007/agents/coordinator/prompt.md",
   "prompt_sha256": "b2f89751da70821e54c21f85d7d41b9a0dd080feab72c1ddeff9f64cac7e64ab",
-  "revision": 3,
+  "revision": 4,
   "run_id": "copilot-skills-memory-followup-20261007",
   "schema_version": 1,
+  "scope_release": {
+    "released_at_utc": "2026-10-07T23:41:44Z",
+    "released_paths": [
+      ".github/memory/workflow.md"
+    ],
+    "status": "RELEASED"
+  },
   "sign_in_at_utc": "2026-10-07T23:06:05Z",
   "sign_out": {
-    "at_utc": null,
-    "checks": [],
-    "implementation_commit_sha": null,
-    "next_action": null,
-    "summary": null
+    "at_utc": "2026-10-07T23:41:44Z",
+    "checks": [
+      "PASS: Janitor cleanup-gate contract test.",
+      "PASS: Project Memory update contract test.",
+      "PASS: git diff --check.",
+      "PASS: Code review round 1 CLEAN on 65431506239c00f007fb03241ef3be63ac8219d0/81c7973feaec9cc85ed386ab9eae27c2891a1e83.",
+      "PASS: Code review round 2 CLEAN on db89add20f91b6a47301e418994147da28342f1d/7176c939a9ac076f9e365c9e0d98e4264abdff77.",
+      "PASS: merge SHA be93dc494b7aa6406c8e7d548ef489cfa949d31e verified as ancestor of origin/main."
+    ],
+    "implementation_commit_sha": "be93dc494b7aa6406c8e7d548ef489cfa949d31e",
+    "next_action": "None; memory-only follow-up complete. Do not invoke another memory review for this follow-up.",
+    "summary": "Integrated the reviewed cleanup-gate memory lesson through PR #13 and verified its merge on origin/main."
   },
   "started_at_utc": "2026-10-07T23:06:05Z",
-  "status": "IN_PROGRESS",
-  "status_reason": "The previous PR base became stale after origin/main advanced. Replaying the already-reviewed cleanup-gate lesson on a fresh branch from current origin/main; preserve PR #12 and its branch, then use a replacement PR and fresh exact-SHA Code review. This is not a third review on PR #12.",
+  "status": "COMPLETE",
+  "status_reason": "PR #13 merged through the normal PR path; merge SHA be93dc494b7aa6406c8e7d548ef489cfa949d31e is verified on fetched origin/main. Focused checks and both exact-SHA Code review rounds passed. The memory task scope is released; do not invoke Project Memory Update recursively for this memory-only follow-up.",
   "task_id": "memory-follow-up-pr",
-  "updated_at_utc": "2026-10-07T23:31:23Z",
+  "updated_at_utc": "2026-10-07T23:41:44Z",
   "worker_id": "coordinator",
   "worker_name": "coordinator - Janitor memory follow-up PR"
 }
