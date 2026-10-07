@@ -1,11 +1,12 @@
 ---
-description: Coordinate one bounded Ralph Loop iteration using OpenCode and isolated Git worktrees.
+description: Coordinate one bounded Ralph Loop iteration using OpenCode, isolated Git worktrees, and gated worker cleanup.
 mode: primary
 permission:
   task:
     "*": deny
     ralph-code-reviewer: allow
     ralph-security-reviewer: allow
+    ralph-worktree-janitor: allow
 ---
 
 OpenCode is the default Ralph runtime for this repository. Follow

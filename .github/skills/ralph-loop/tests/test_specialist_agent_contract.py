@@ -31,6 +31,11 @@ AGENTS = {
         "tools": "['read', 'search']",
         "skills": ("agent-owasp-compliance",),
     },
+    "ralph-worktree-janitor.agent.md": {
+        "name": "Ralph Worktree Janitor",
+        "tools": "['read', 'search', 'execute']",
+        "skills": ("ralph-loop", "resource-manager"),
+    },
 }
 
 
@@ -119,6 +124,39 @@ class SpecialistAgentContractTests(unittest.TestCase):
             "read-only unless the user explicitly requests documentation changes",
             docs.read_text(encoding="utf-8"),
         )
+
+    def test_worktree_janitor_only_removes_coordinator_marked_worker_worktrees(self):
+        path = ROOT / ".github" / "agents" / "ralph-worktree-janitor.agent.md"
+        self.assertTrue(path.is_file(), f"Missing worktree janitor: {path}")
+        content = path.read_text(encoding="utf-8").lower()
+        for requirement in (
+            "cleanup.worktree: ready",
+            "worker_to_parent_merge.status: verified",
+            "merge-base --is-ancestor",
+            "status --porcelain",
+            "git worktree remove",
+            "never use `--force`",
+            "do not remove the parent or main worktree",
+            "do not delete local or remote branches",
+            "do not edit `status.md`",
+        ):
+            with self.subTest(requirement=requirement):
+                self.assertIn(requirement, content)
+
+        opencode_path = ROOT / ".opencode" / "agents" / "ralph-worktree-janitor.md"
+        self.assertTrue(opencode_path.is_file(), f"Missing OpenCode janitor: {opencode_path}")
+        opencode_content = " ".join(
+            opencode_path.read_text(encoding="utf-8").lower().split()
+        )
+        for requirement in (
+            ".github/skills/resource-manager/skill.md",
+            "worker-to-parent merge sha reachable",
+            "worker session has signed out",
+            "do not delete local or remote branches",
+            "never remove the janitor's current worktree",
+        ):
+            with self.subTest(opencode_requirement=requirement):
+                self.assertIn(requirement, opencode_content)
 
 
 if __name__ == "__main__":

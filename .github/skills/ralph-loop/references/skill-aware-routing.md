@@ -30,6 +30,7 @@ investigations across roles.
 | Code review of a changed branch or PR | `ralph-code-reviewer` | Existing read-only reviewer; not a second implementation worker |
 | Diff-level security review or an explicit search for exploitable vulnerabilities | `ralph-security-reviewer` | Existing security reviewer; not an OWASP ASI posture audit |
 | Fetch/rebase/worktree conflict triage, task status publication, or an authorized Git merge | `ralph-git-specialist` | `ralph-loop` only when acting in a Ralph iteration |
+| Cleanup of one coordinator-marked worker child worktree after verified integration | `ralph-worktree-janitor` | `ralph-loop` and `resource-manager`; require `cleanup.worktree: READY` |
 | Documentation drift, explicitly requested docs updates, codebase onboarding docs, or Copilot instructions | `ralph-docs-specialist` | `docs-sync-audit` for drift; `acquire-codebase-knowledge` only for explicit repository mapping; `copilot-instructions-blueprint-generator` only for an explicit instructions blueprint |
 | Agent architecture, minimal multi-step Skill stack, or evaluation-gate design | `ralph-agent-design-specialist` | `agent-architecture` for architecture-only work; `agent-skill-stack` for a multi-step Skill workflow; `agentic-eval` for evaluation design |
 | Explicit OWASP ASI Top 10 compliance or controls mapping | `ralph-asi-specialist` | `agent-owasp-compliance`; keep this read-only and separate from diff-level security review |
@@ -38,9 +39,11 @@ The ASI agent reports evidence and unknowns rather than certification.
 Architecture and review agents return findings or a plan, not code. An
 implementation worker makes behavior changes with TDD after the user has
 requested implementation; do not let a read-only analysis role silently
-write a fix. Prefer one agent for a task whose paths and verification are
-inseparable; split only for an independent deliverable with disjoint
-ownership.
+write a fix. The Janitor is not a general Git helper: it consumes only an
+explicitly `READY` worker child worktree after the coordinator verifies its
+worker-to-parent merge. It never cleans parent/main worktrees or branches.
+Prefer one agent for a task whose paths and verification are inseparable;
+split only for an independent deliverable with disjoint ownership.
 
 ## Dispatch and fallback
 
@@ -49,8 +52,8 @@ ownership.
    frontmatter. Agent definitions alone do not change the pipeline: the
    coordinator must explicitly route to the selected specialist and permit
    that agent through its subagent allowlist. Keep the general Ralph Loop
-   worker and the existing read-only reviewers in that allowlist; do not
-   add a competing coordinator.
+   worker, existing read-only reviewers, and gated worktree janitor in that
+   allowlist; do not add a competing coordinator.
 2. Allocate a small, exclusive edit scope and concrete expected output
    before invoking `agent/runSubagent`. Supply just the task prompt, exact
    branch/base, relevant paths, applicable Skill trigger, safety limits, and
@@ -74,13 +77,17 @@ ownership.
    When capacity is full, queue or block the specialist; a general worker
    fallback also requires an available slot. Do not invent worker slots or
    claim a specialist ran just because its definition was discoverable.
+   Never substitute a general worker or the coordinator for Janitor cleanup;
+   preserve the `READY` item for a reserved Janitor.
    Report actual invocations and checks in the status records.
 4. If a specialist, its Skill, or the `agent/runSubagent` capability is
    unavailable, use the general Ralph Loop worker with the same relevant
    Skill and validation rules when that worker is authorized and capable.
    Otherwise report the blocker; do not skip mandatory security review or
    imply a missing review occurred. A fallback does not grant new tools or
-   edit rights. Inherit the session model by default, and avoid pinning a
+   edit rights. This general-worker fallback does not apply to Janitor
+   cleanup: never substitute a general worker or the coordinator for the
+   removal action. Inherit the session model by default, and avoid pinning a
    model or raising reasoning/context settings without measured task-specific
    benefit.
 5. Check the output against the task's acceptance criteria. Invoke a

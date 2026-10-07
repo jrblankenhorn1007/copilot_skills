@@ -67,6 +67,7 @@ class MultiAgentContractTests(unittest.TestCase):
             "Ralph Loop",
             "Ralph Code Reviewer",
             "Ralph Security Reviewer",
+            "Ralph Worktree Janitor",
             "Project Memory Update",
         ):
             with self.subTest(agent=name):
@@ -968,13 +969,28 @@ class MultiAgentContractTests(unittest.TestCase):
                     )
                     is not None
                 )
+                pending_dashboard_scope = re.search(
+                    r'(?ms)^pending_shared_scope:\s*\n\s+path:\s+"docs/ralph-status\.md"\s*\n\s+owner_run_id:\s+"([^"]+)"',
+                    leaf_status,
+                )
+                blocked_coordinator_waiting_for_dashboard = (
+                    agent_folder.parent.parent.name == current_branch_slug
+                    and re.search(r'(?m)^worker_id:\s+"coordinator"\s*$', leaf_status)
+                    is not None
+                    and leaf_match.group(1) == "BLOCKED"
+                    and re.search(r"(?m)^pending_dashboard_update:\s+true\s*$", leaf_status)
+                    is not None
+                    and pending_dashboard_scope is not None
+                )
                 if not matching_entries:
-                    # A new child leaf reaches the coordinator-owned dashboard
-                    # only when its pending integration is coordinated.
+                    # A current child leaf may await coordination, or a
+                    # blocked coordinator may defer its dashboard write while
+                    # another task owns that shared path.
                     self.assertTrue(
-                        unintegrated_current_child,
-                        "only an in-progress current child with a pending parent merge "
-                        "may await coordinator dashboard integration",
+                        unintegrated_current_child
+                        or blocked_coordinator_waiting_for_dashboard,
+                        "only an unintegrated current child or a blocked coordinator "
+                        "with an explicit dashboard scope conflict may await indexing",
                     )
                     continue
                 assert_contains(
@@ -1197,6 +1213,119 @@ class MultiAgentContractTests(unittest.TestCase):
                     requirement,
                     f"README must summarize {requirement!r}",
                 )
+
+    def test_worktree_janitor_is_gated_to_verified_ready_worker_worktrees(self):
+        copilot_agent_path = ROOT / ".github/agents/ralph-worktree-janitor.agent.md"
+        opencode_agent_path = ROOT / ".opencode/agents/ralph-worktree-janitor.md"
+        self.assertTrue(copilot_agent_path.is_file(), "Missing Copilot janitor agent")
+        self.assertTrue(opencode_agent_path.is_file(), "Missing OpenCode janitor agent")
+
+        copilot_agent = read_document(
+            ".github/agents/ralph-worktree-janitor.agent.md"
+        )
+        opencode_agent = read_document(".opencode/agents/ralph-worktree-janitor.md")
+        orchestrator = read_document(".github/agents/ralph-loop.agent.md")
+        opencode_primary = read_document(".opencode/agents/ralph-loop.md")
+        routing = read_document(
+            ".github/skills/ralph-loop/references/skill-aware-routing.md"
+        )
+        status = read_document(
+            ".github/skills/ralph-loop/references/multi-agent-status.md"
+        )
+        orchestration = read_document(
+            ".github/skills/ralph-loop/references/multi-agent-orchestration.md"
+        )
+        readme = read_document("README.md")
+
+        for document_name, document, requirements in (
+            (
+                "Copilot janitor",
+                copilot_agent,
+                (
+                    "cleanup.worktree: ready",
+                    "worker_to_parent_merge",
+                    "merge-base --is-ancestor",
+                    "git worktree remove",
+                    "never use `--force`",
+                    "do not remove the parent",
+                    "do not delete remote refs",
+                    "resource manager",
+                ),
+            ),
+            (
+                "OpenCode janitor",
+                opencode_agent,
+                (
+                    "mode: subagent",
+                    "bash: ask",
+                    "edit: deny",
+                    "task: deny",
+                    "cleanup.worktree: ready",
+                    "worker-to-parent merge sha reachable",
+                    "worker session has signed out",
+                    "do not delete local or remote branches",
+                    "coordinator's parent worktree",
+                    "or `main`",
+                    "git worktree remove",
+                ),
+            ),
+            (
+                "Coordinator routing",
+                orchestrator,
+                (
+                    "ralph worktree janitor",
+                    "cleanup.worktree: ready",
+                    "never substitute a general worker or the coordinator for janitor cleanup",
+                ),
+            ),
+            (
+                "OpenCode task allowlist",
+                opencode_primary,
+                ("ralph-worktree-janitor: allow",),
+            ),
+            (
+                "Skill-aware routing",
+                routing,
+                (
+                    "ralph-worktree-janitor",
+                    "cleanup.worktree: ready",
+                    "worker-to-parent merge",
+                    "never substitute a general worker or the coordinator for janitor cleanup",
+                ),
+            ),
+            (
+                "Status contract",
+                status,
+                (
+                    "`pending`, `ready`, `removed`, or `blocked`",
+                    "worker-to-parent merge is verified",
+                    "worktree is clean",
+                    "only the coordinator may change a worker's",
+                ),
+            ),
+            (
+                "Orchestration contract",
+                orchestration,
+                (
+                    "cleanup.worktree: ready",
+                    "ralph-worktree-janitor",
+                    "do not clean up the parent",
+                ),
+            ),
+            (
+                "README",
+                readme,
+                ("ralph worktree janitor", "cleanup.worktree: ready"),
+            ),
+        ):
+            for requirement in requirements:
+                with self.subTest(document=document_name, requirement=requirement):
+                    assert_contains(
+                        self,
+                        document,
+                        requirement,
+                        f"{document_name} must define {requirement!r}",
+                    )
 
     def test_inter_session_communication_contract_is_actionable_and_bounded(self):
         skill = read_document(".github/skills/agent-communication/SKILL.md")

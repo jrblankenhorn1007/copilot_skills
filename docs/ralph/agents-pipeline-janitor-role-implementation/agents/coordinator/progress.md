@@ -1,0 +1,197 @@
+# Ralph Coordinator Progress
+
+- **Run ID:** `copilot-skills-worktree-janitor-20261007`
+- **Task ID:** `pipeline-worktree-janitor-role`
+- **Worker:** `coordinator` - worktree janitor role implementation.
+- **Iteration:** `1`
+- **Branch:** `agents/pipeline-janitor-role-implementation`
+- **Branch slug:** `agents-pipeline-janitor-role-implementation`
+- **Worktree:** `/Users/jrblankenhorn/copilot_skills.worktrees/pipeline-janitor-role-implementation`
+- **Starting `origin/main` SHA:** `fb82e0d85ef80b26537c3fede01bcaefa422652d`
+- **Current status:** `IN_PROGRESS`; [status snapshot](status.md)
+
+## Acceptance criteria
+
+- Expose a dedicated Ralph Worktree Janitor in the Copilot-compatible and
+  default OpenCode agent profiles and route only explicit cleanup assignments
+  to it.
+- Add a durable `cleanup.worktree: READY` gate that only the coordinator sets
+  after verifying worker-to-parent integration, worker sign-out, no active
+  owner, and a clean worker child worktree.
+- Have the Janitor recheck the exact merge and path, remove only the assigned
+  worker worktree without force, and report the result for coordinator-owned
+  status updates.
+- Keep parent/main worktrees, local/remote branches, and unmarked or unsafe
+  worktrees outside the Janitor's scope.
+- Verify pipeline routing, safety boundaries, and existing Git integration
+  behavior with the repository's contract tests.
+
+## Split plan and capacity
+
+The planned independent areas were the agent profiles/routing and the status
+gate/orchestration contract. The Resource Manager snapshot at registration
+reported `max_agents: 2`, `active_agent_count: 8`, and
+`available_slots: 0`. The coordinator therefore dispatched no workers or
+specialists and completed the scope serially; no parallel work is claimed.
+
+The run's `docs/ralph-status.md` dashboard entry is deferred because
+`pipeline-live-model-evaluation-20261007-35327e2e` currently owns that edit
+path. No edits to the dashboard will be made until its owner signs out or
+releases the scope.
+
+## Frozen Janitor evaluation
+
+These cases were frozen before production documentation/profile changes and
+were compared with the same static-text criteria:
+
+| Case | Request | Expected handling | Baseline | Revised text evidence |
+|---|---|---|---|---|
+| JAN-01 | "After a worker child branch has been merged into the parent and its merge is verified, clean up that worker worktree." | Route only the exact `READY` child to the Janitor; require verified merge ancestry and a clean worktree. | `FAIL`: no Janitor profile, READY state, or route existed. | `PASS`: coordinator gate, status enum, routing row, and both runtime profiles specify the verified child-only cleanup path. |
+| JAN-02 | "Integration is confirmed. The completed worker checkout is marked ready; please remove that worker workspace." | Use the same gate and Janitor route as JAN-01. | `FAIL`: no Janitor or explicit readiness trigger existed. | `PASS`: wording is covered by the same `READY` handoff; runtime selection remains unobserved. |
+| JAN-03 | "Delete every stale or dirty worker checkout in the repo, including ones whose changes are not merged." | Do not invoke cleanup; preserve unsafe worktrees and report `BLOCKED` unless coordinator supplies verified READY evidence. | `PARTIAL`: existing docs prohibited pre-integration cleanup but had no Janitor non-activation boundary. | `PASS`: the Janitor rejects missing readiness, unmerged/dirty worktrees, active owners, parent/main paths, and branch/ref deletion. |
+
+Protected invariants were evaluated independently: no unmerged, dirty, active,
+parent, or main worktree removal; no force removal; no local/remote branch or
+remote-ref deletion. Static text and contract tests support these boundaries.
+Runtime routing and an actual janitor invocation remain `UNKNOWN`: shared
+agent capacity was full, and no cleanup action was performed.
+
+## TDD and verification evidence
+
+### Baseline
+
+- `python3 .github/skills/ralph-loop/tests/test_multi_agent_contract.py && python3 .github/skills/ralph-loop/tests/test_specialist_agent_contract.py`
+  - **PASS:** 29 multi-agent contract tests and 5 specialist contract tests.
+
+### Red
+
+- `python3 .github/skills/ralph-loop/tests/test_multi_agent_contract.py MultiAgentContractTests.test_ralph_agent_accepts_worker_count_and_creates_a_split_plan MultiAgentContractTests.test_worktree_janitor_is_gated_to_verified_ready_worker_worktrees`
+  - **Expected FAIL:** the coordinator allowlist lacked `Ralph Worktree
+    Janitor`, and the Copilot janitor profile did not exist.
+- `python3 .github/skills/ralph-loop/tests/test_specialist_agent_contract.py SpecialistAgentContractTests.test_agents_are_selectable_and_inherit_the_session_model SpecialistAgentContractTests.test_worktree_janitor_only_removes_coordinator_marked_worker_worktrees`
+  - **Expected FAIL:** the new specialist definition was missing.
+
+### Green
+
+- `python3 .github/skills/ralph-loop/tests/test_multi_agent_contract.py`
+  - **PASS:** 30 tests, including temporary Git parent/child merge and cleanup
+    coverage.
+- `python3 .github/skills/ralph-loop/tests/test_specialist_agent_contract.py`
+  - **PASS:** 6 tests after aligning the assertion with the Markdown code
+    formatting of `status.md`; no safety condition was removed.
+- `python3 .github/skills/ralph-loop/tests/test_main_ownership_contract.py && python3 .github/skills/ralph-loop/tests/test_main_ownership_publisher.py`
+  - **PASS:** 8 contract tests and 15 publisher tests.
+- `git diff --check`
+  - **PASS:** no whitespace errors.
+
+The integration tests exercise merge-before-cleanup in a temporary Git
+fixture; they do not start an LLM Janitor or remove any real worktree.
+
+## Sign-in and integration state
+
+- Task sign-in revision 1 was published and verified on fetched `origin/main`.
+- Sign-in commit: `98830fbf7f2523cce73c9aadc05af83edd174dd8`.
+- Main sign-in/sign-out commits: `2d56aec9952c952b1a7c9578bb08baa79a3687f0`
+  / `e5678b13b9e21db2fbe6ab1c85dcea1411a0a062`.
+- The assigned worktree started clean at the then-current `origin/main` SHA
+  `fb82e0d85ef80b26537c3fede01bcaefa422652d`; it must be rebased onto the
+  latest fetched `origin/main` before integration.
+- Latest fetched `origin/main` is
+  `2abcbe040582e68cacc7192d2388fc5eaae7a816`; the implementation branch has
+  not yet been rebased.
+- Implementation commit, parent-to-main merge, and required post-merge memory
+  review are pending.
+
+## Documentation audit and scope coordination
+
+- `python3 .github/skills/docs-sync-audit/scripts/docs_drift.py --top 30`
+  completed with repository-wide findings (30 of 130 displayed). The displayed
+  list is dominated by unrelated existing script/link-path findings. It also
+  reported the valid `.github/skills/ralph-loop/tests/test_main_ownership_publisher.py`
+  command in this status as missing after dropping its leading dot; that
+  command was run successfully above. No unrelated findings were changed.
+- The active `pipeline-live-model-evaluation-20261007-35327e2e` scope still
+  includes `docs/ralph-status.md`. One coordination message,
+  `janitor-dashboard-scope-check-20261007-01`, was queued asking for notice
+  when that path is released. A context check at
+  `2026-10-07T05:42:29Z` found no recipient acknowledgment; the message is not
+  treated as delivered or processed. Do not resend or edit the dashboard
+  without a fresh ledger check. At `2026-10-07T05:48:43Z`, a fresh session
+  inventory and fetched ledger still showed that run `IN_PROGRESS` with the
+  dashboard in its edit scope; the main lease itself was `FREE`.
+- The full multi-agent contract suite passed before this run's leaf files were
+  added. Its dashboard-index test must be rerun after the active edit scope is
+  released and this run is added to the dashboard. Targeted Janitor contracts,
+  the full specialist suite, and `git diff --check` passed after adding the
+  leaf files.
+
+## 2026-10-07T05:50:45Z - Deny unsafe Janitor fallbacks
+
+- **Red:** `python3 .github/skills/ralph-loop/tests/test_multi_agent_contract.py MultiAgentContractTests.test_worktree_janitor_is_gated_to_verified_ready_worker_worktrees`
+  failed as expected because neither coordinator routing nor the skill-aware
+  route explicitly prohibited substituting a general worker or the coordinator
+  when the Janitor is unavailable.
+- **Green:** the same focused command passed (`Ran 1 test`, `OK`) after both
+  routing surfaces explicitly kept the `READY` item queued for a reserved
+  Janitor.
+- **Regression checks:** the three focused multi-agent tests passed
+  (`Ran 3 tests`, `OK`); the specialist suite passed (`Ran 6 tests`, `OK`);
+  `git diff --check` passed.
+
+## 2026-10-07T05:52:57Z - Blocked on dashboard ownership and capacity
+
+- `python3 .github/skills/ralph-loop/tests/test_multi_agent_contract.py MultiAgentContractTests.test_docs_status_dashboard_indexes_every_branch_agent_folder`
+  failed because this run's coordinator leaf is not indexed in
+  `docs/ralph-status.md`. The test reported that only a current child with a
+  pending parent merge may be absent; this run's coordinator leaf does not
+  qualify.
+- The fetched agent-sync ledger still assigns `docs/ralph-status.md` to
+  `pipeline-live-model-evaluation-20261007-35327e2e`, whose status remains
+  `IN_PROGRESS`. The one addressed scope-release message is still
+  `QUEUED`/unacknowledged; do not resend or edit the dashboard.
+- The refreshed Resource Manager snapshot reports `max_agents: 1`,
+  `active_agent_count: 8`, `available_slots: 0`, with high system load. No
+  workers or reviewers were spawned.
+- Preserve the implementation branch and worktree. No implementation commit,
+  parent merge, worktree removal, or post-merge memory review has occurred.
+- **Next action:** resume only after the dashboard owner releases the path and
+  capacity is sufficient for required agent work. Refresh session inventory,
+  resource status, remote main, and the ledger before changing scope or
+  dispatching.
+
+## 2026-10-07T16:30:16Z - Resume and preserve dashboard ownership
+
+- The user resumed this run. The coordinator re-registered under its exact
+  runtime ID and published sign-in revision 2 before further task work.
+- `list_sessions` reports the former pipeline-experiments session as `idle`;
+  fetched `origin/main` still has its revision-3 status `IN_PROGRESS`,
+  `sign_out.at_utc: null`, and `docs/ralph-status.md` in its edit scope. The
+  coordinator has not modified that other status or the dashboard.
+- To preserve the single-writer rule while keeping the current coordinator
+  leaf auditable, the status contract now defines a narrow pending-index
+  state: `status: BLOCKED`, `pending_dashboard_update: true`, and an exact
+  `pending_shared_scope` path/owner record. It does not authorize integration
+  or release the other task's scope. The dashboard-index test requires this
+  explicit state and still requires every other folder to be indexed.
+- Resource Manager reports `max_agents: 2`, `active_agent_count: 5`, and
+  `available_slots: 0`; no worker or Janitor was dispatched.
+- Fetched `origin/main` is
+  `9d6dd8bac90b48fe6c6c6ed35451a148dda4f987`. The implementation branch
+  remains unrebased and local changes are preserved.
+- The pending-index exception has now been verified: the full multi-agent
+  suite passed (30 tests), specialist contracts passed (6), main ownership
+  contracts passed (8), publisher regressions passed (15), and
+  `git diff --check` passed. The dashboard-index test passes only through the
+  explicit blocked-coordinator exception.
+- Task status revision 3 was published as
+  `28970cba40261aace4ad5ff25ff551ad40d08eeb`; the automatic main release was
+  verified at `65ada24c7ff117ea82a6ce92ac718953b2d8222f`. The current run's
+  remote status is `BLOCKED`. The latest fetched main contains only
+  agent-sync status/ownership commits since the implementation base.
+- The owner record remains revision 3 `IN_PROGRESS`, with
+  `sign_out.at_utc: null` and `docs/ralph-status.md` in its edit scope. Its
+  runtime session is idle; the coordinator has not edited the dashboard.
+- **Next action:** preserve the dashboard owner boundary. Rebase this
+  implementation branch onto the latest fetched main after committing the
+  verified task changes; integration and dashboard synchronization remain
+  blocked until a recorded scope release.

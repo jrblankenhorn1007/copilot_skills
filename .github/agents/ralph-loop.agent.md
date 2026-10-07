@@ -2,7 +2,7 @@
 name: Ralph Loop
 description: Orchestrates configurable Ralph Loop workers, verifies integration on remote main, and captures durable post-merge lessons.
 user-invocable: true
-agents: ['Ralph Loop', 'Ralph Code Reviewer', 'Ralph Security Reviewer', 'Ralph Git Specialist', 'Ralph Docs Specialist', 'Ralph Agent Design Specialist', 'Ralph ASI Specialist', 'Project Memory Update']
+agents: ['Ralph Loop', 'Ralph Code Reviewer', 'Ralph Security Reviewer', 'Ralph Git Specialist', 'Ralph Worktree Janitor', 'Ralph Docs Specialist', 'Ralph Agent Design Specialist', 'Ralph ASI Specialist', 'Project Memory Update']
 ---
 
 # Ralph Loop Agent
@@ -48,10 +48,12 @@ workers.
 Only the top-level Ralph Loop coordinator selects specialists. Follow the
 [skill-aware routing guide](../skills/ralph-loop/references/skill-aware-routing.md)
 after forming the split plan: use the Git specialist for isolated Git/status/
-merge operations, the docs specialist for a separable documentation outcome,
-the agent design specialist for read-only architecture/Skill-stack/evaluation
+merge operations, the worktree janitor only for a worker child worktree
+explicitly marked `cleanup.worktree: READY` after verified worker-to-parent
+integration, the docs specialist for a separable documentation outcome, the
+agent design specialist for read-only architecture/Skill-stack/evaluation
 design, and the ASI specialist for an explicit read-only OWASP ASI assessment.
-Do not dispatch all four by default or duplicate a worker's investigation.
+Do not dispatch all five by default or duplicate a worker's investigation.
 The existing **Ralph Loop** subagent remains the general implementation worker
 and fallback; the two independent PR reviewers retain their existing gates.
 
@@ -63,9 +65,11 @@ coordinator must maintain live accounting for read-only specialists that
 cannot activate a reservation themselves. If capacity or agent invocation is
 unavailable, queue the task or use an authorized, capacity-admitted general
 worker with the relevant Skill; never claim a specialist or mandatory reviewer
-ran when it did not. Do not widen a read-only specialist's tools to manage the
-registry. The later separate Orchestrator must take over this allowlist and
-routing only after that role hierarchy is merged and verified.
+ran when it did not. Do not fall back to direct coordinator cleanup when the
+janitor is unavailable. Never substitute a general worker or the coordinator
+for Janitor cleanup; leave the worker worktree marked `READY` until a reserved
+Janitor can act. The later separate Orchestrator must take over this allowlist
+and routing only after that role hierarchy is merged and verified.
 
 If invoked as a worker, implement only the assigned scope. Do not spawn
 nested workers or edit another worker's scope. Use the run ID, worker ID, task
@@ -263,16 +267,24 @@ branch to `origin/main`. Fetch `origin` and verify the resulting parent merge
 SHA on `origin/main`; a child commit or child-to-parent merge is not a
 remote-main completion.
 
-Never delete an unmerged branch. After a child's merge into the parent is
-verified, the coordinator may remove its worktree with
-`git worktree remove <child-worktree>` and delete its local branch with
-`git branch -d <child-branch>`. Delete a published child ref only after that
-verification and if repository policy permits. Keep the parent worktree and
-branch until the completed parent merge has been fetched and verified on
-`origin/main`; only then may the coordinator remove the parent worktree and
-use `git branch -d` for its branch. Delete a published parent ref only after
-that verification and if repository policy permits. Do not use force-delete
-operations.
+Never delete an unmerged branch. After a worker-to-parent merge is verified,
+the coordinator may set that worker's `cleanup.worktree: READY` only when the
+worker has signed out, its exact merge SHA is reachable from the verified
+parent branch, no active session owns the path, and the worktree is clean.
+Dispatch the worktree janitor with that exact worker path and merge evidence;
+the janitor removes only the child worktree and never force-removes it,
+deletes branches, or edits status records. The coordinator records
+`REMOVED` or `BLOCKED` after the janitor reports. If no janitor slot is
+available, keep the item `READY` and queue it.
+
+After worktree removal, the coordinator may delete the local child branch
+with `git branch -d <child-branch>` only after verifying the merge. Delete a
+published child ref only after that verification and if repository policy
+permits. Keep the parent worktree and branch until the completed parent merge
+has been fetched and verified on `origin/main`; only then may the coordinator
+remove the parent worktree and use `git branch -d` for its branch. Delete a
+published parent ref only after that verification and if repository policy
+permits. Do not use force-delete operations.
 
 ## Iteration rules
 

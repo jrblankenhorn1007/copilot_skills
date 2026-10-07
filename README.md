@@ -110,9 +110,13 @@ stack for every change:
 - [OpenCode Ralph Loop](.opencode/agents/ralph-loop.md): default primary
   profile for one bounded Ralph iteration; follows the Ralph Loop skill,
   registers with the Resource Manager, starts workers in dedicated child
-  worktrees, and delegates only read-only reviews through OpenCode's Task tool.
+  worktrees, and delegates read-only reviews plus explicitly gated worker
+  cleanup through OpenCode's Task tool.
 - [OpenCode Ralph Loop Worker](.opencode/agents/ralph-loop-worker.md):
   completes one coordinator-assigned iteration in its child worktree.
+- [OpenCode Ralph Worktree Janitor](.opencode/agents/ralph-worktree-janitor.md):
+  removes only a clean worker child worktree explicitly marked
+  `cleanup.worktree: READY` after its merge into the parent is verified.
 - [OpenCode Ralph Code Reviewer](.opencode/agents/ralph-code-reviewer.md) and
   [OpenCode Ralph Security Reviewer](.opencode/agents/ralph-security-reviewer.md):
   separate read-only review profiles.
@@ -132,6 +136,9 @@ stack for every change:
   Copilot-compatible, read-only security review for security-sensitive diffs.
 - [Ralph Git Specialist](.github/agents/ralph-git-specialist.agent.md):
   handles isolated Git worktrees, status publication, and authorized merges.
+- [Ralph Worktree Janitor](.github/agents/ralph-worktree-janitor.agent.md):
+  removes only coordinator-marked, verified worker child worktrees; it does
+  not delete branches or edit status records.
 - [Ralph Docs Specialist](.github/agents/ralph-docs-specialist.agent.md):
   audits documentation drift or updates explicitly requested docs.
 - [Ralph Agent Design Specialist](.github/agents/ralph-agent-design-specialist.agent.md):
@@ -139,10 +146,14 @@ stack for every change:
 - [Ralph ASI Specialist](.github/agents/ralph-asi-specialist.agent.md):
   performs read-only OWASP ASI posture and controls assessment, not diff review.
 
-The four optional specialists are selected on demand by the Ralph Loop
+The five optional specialists are selected on demand by the Ralph Loop
 coordinator, inherit the session model, and share the same host capacity limit.
 Their presence does not imply a measured speed, cost, or accuracy improvement;
 compare observed latency, tokens, and acceptance checks before making one.
+The Janitor is dispatched only after `cleanup.worktree: READY` is recorded
+with verified worker-to-parent merge evidence; when it is unavailable or
+capacity is full, the coordinator queues cleanup rather than deleting the
+worktree directly.
 
 ## Pre-merge PR review
 
