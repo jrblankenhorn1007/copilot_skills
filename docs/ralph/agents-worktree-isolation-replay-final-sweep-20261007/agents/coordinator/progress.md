@@ -44,6 +44,12 @@ The original implementation's Red/Green evidence remains in the archived source 
 - `git diff origin/main...HEAD --check` — `PASS`.
 - `git diff --cached --check` — `PASS` after staging the refreshed status records.
 
+## 2026-10-07 — Replacement PR opened
+
+- Opened PR #10 from this current-main branch against `main`; GitHub reported base `e6ed4c20c5955af91c628b34f026b6eb63c09c70` and opening head `3822fa6276ddd6e44a0b415150dd12c68ba90933`.
+- This PR-record status update will advance the branch head. Refresh the live PR metadata after pushing it, then bind both reviewer dispatches to the exact resulting base/head SHAs.
+- PR #7 remains open and unchanged on its stale base; do not merge it.
+
 ## Next action
 
-Commit the refreshed status records, push the branch, open a replacement PR, then run the required reviewers serially as slots become available. Leave PR #7 open but unmerged until the replacement clears all required gates.
+Push the PR #10 status update, refresh the live PR base/head and Resource Manager inventory, then run the required reviewers serially as slots become available. Leave PR #7 open but unmerged until the replacement clears all required gates.

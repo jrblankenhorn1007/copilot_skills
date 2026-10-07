@@ -7,14 +7,14 @@
 - **Base `origin/main` SHA:** `0366e2aed573894f3a63e37d71b24d99cd382a7d`
 - **Current rebased `origin/main` SHA:** `e6ed4c20c5955af91c628b34f026b6eb63c09c70`
 - **Implementation commit:** `9be82bda3ec6b4d2d3e42157df3a3a30c93e5f53`
-- **PR:** Pending creation; the original PR #7 remains open and unchanged.
+- **PR:** [#10](https://github.com/jrblankenhorn1007/copilot_skills/pull/10), open; its opening head was `3822fa6276ddd6e44a0b415150dd12c68ba90933`. Refresh the live head after pushing the current PR status update.
 - **Merge:** `PENDING`.
 
 ## Agent and PR records
 
 - [Coordinator status](../../ralph/agents-worktree-isolation-replay-final-sweep-20261007/agents/coordinator/status.md)
 - [Coordinator progress](../../ralph/agents-worktree-isolation-replay-final-sweep-20261007/agents/coordinator/progress.md)
-- [Coordinator pending PR record](agents/coordinator/pr-pending.md)
+- [Coordinator PR #10 record](agents/coordinator/pr-10.md)
 
 ## Decision: replay on current main instead of changing stale PR #7
 

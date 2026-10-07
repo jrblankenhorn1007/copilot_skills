@@ -22,15 +22,15 @@ Resource Manager capacity is available. PR #7 for worktree isolation is
 preserved but stale against current `origin/main`; its exact implementation
 commit has been replayed on a fresh current-main branch and the 31-test Ralph
 contract suite passes. The replacement PR and its required independent
-reviews remain pending. PR #6 sets the Resource Manager's configured base
+PR #10 is open with independent reviews pending. PR #6 sets the Resource Manager's configured base
 limit to eight; the latest host inventory has one free slot, so reviews must
 be dispatched serially.
 
 ```yaml
 schema_version: 2
 snapshot_path: "docs/ralph-status.md"
-snapshot_revision: 130
-updated_at_utc: "2026-10-07T16:48:27Z"
+snapshot_revision: 133
+updated_at_utc: "2026-10-07T16:53:40Z"
 overall_status: IN_PROGRESS
 current_run_ids:
   - "copilot-skills-docs-status-organization-20260924"
@@ -728,7 +728,7 @@ runs:
     base_origin_main_sha: "8da9310fda1b2e3042a379081dfb0675f1b22d6b"
     current_origin_main_sha: "e6ed4c20c5955af91c628b34f026b6eb63c09c70"
     created_at_utc: "2026-09-25T03:56:34Z"
-    updated_at_utc: "2026-10-07T16:48:27Z"
+    updated_at_utc: "2026-10-07T16:53:40Z"
     coordinator_scope: "Diagnose host/session worktree misbinding and establish unique allocation, fail-closed identity verification, and regression coverage."
     worker_count_note: "The archived source branch was preserved and its implementation was replayed on current origin/main; the replacement run owns all remaining review, integration, and memory-review gates."
     coordinator_branch: "agents/worktree-collision-diagnosis-fix"
@@ -794,7 +794,7 @@ runs:
     base_origin_main_sha: "fb82e0d85ef80b26537c3fede01bcaefa422652d"
     current_origin_main_sha: "e6ed4c20c5955af91c628b34f026b6eb63c09c70"
     created_at_utc: "2026-10-07T04:37:53Z"
-    updated_at_utc: "2026-10-07T16:48:27Z"
+    updated_at_utc: "2026-10-07T16:53:40Z"
     coordinator_scope: "Recover the unpublished worktree isolation protocol from an archived session, replay it onto current origin/main without dropping later changes, test it, and publish through the normal review path."
     worker_count_note: "This integration was handled serially. No implementation workers or reviewers were launched; its PR is stale and all remaining review/integration work is owned by the current-main replacement run."
     coordinator_branch: "agents/worktree-isolation-integration"
@@ -867,7 +867,7 @@ runs:
     current_origin_main_sha: "e6ed4c20c5955af91c628b34f026b6eb63c09c70"
     rebased_onto_origin_main_sha: "e6ed4c20c5955af91c628b34f026b6eb63c09c70"
     created_at_utc: "2026-10-07T16:20:59Z"
-    updated_at_utc: "2026-10-07T16:48:27Z"
+    updated_at_utc: "2026-10-07T16:52:28Z"
     coordinator_scope: "Replay PR #7's worktree-isolation implementation onto current origin/main, publish a replacement PR, and preserve the stale source branch until the replacement clears review and merge gates."
     worker_count_note: "The coordinator is working serially. No reviewers have been launched because the replacement PR is not yet open; the latest Resource Manager inventory has one available slot, so reviews will run serially."
     coordinator_branch: "agents/worktree-isolation-replay-final-sweep-20261007"
@@ -876,11 +876,12 @@ runs:
     coordinator_progress_path: "docs/ralph/agents-worktree-isolation-replay-final-sweep-20261007/agents/coordinator/progress.md"
     implementation_commit_sha: "9be82bda3ec6b4d2d3e42157df3a3a30c93e5f53"
     pull_request:
-      status: PENDING
-      number: null
-      url: null
-      base_sha: null
+      status: OPEN
+      number: 10
+      url: "https://github.com/jrblankenhorn1007/copilot_skills/pull/10"
+      base_sha: "e6ed4c20c5955af91c628b34f026b6eb63c09c70"
       head_sha: null
+      head_sha_at_open: "3822fa6276ddd6e44a0b415150dd12c68ba90933"
     review:
       status: PENDING
       reviewer_agents: ["Ralph Code Reviewer", "Ralph Security Reviewer"]
@@ -917,7 +918,7 @@ runs:
       - command: "git diff --cached --check"
         result: "PASS after staging refreshed status records"
     blockers: []
-    next_action: "Commit/push the replay branch and status records, open a replacement PR, then refresh Resource Manager and reserve one reviewer slot at a time for exact-SHA reviews."
+    next_action: "Push the PR #10 status update, refresh live PR metadata and Resource Manager, then reserve one reviewer slot at a time for exact-SHA reviews."
     memory_handoff:
       implementation_summary: "Replayed PR #7's worktree-isolation protocol and regression tests from its exact implementation commit onto the fetched current origin/main without modifying the stale PR branch."
       lesson_candidates:
@@ -967,7 +968,7 @@ branch_agent_index:
         rationale: null
         recorded_at_utc: null
     resource_usage:
-      time_spent_seconds: 43834
+      time_spent_seconds: 44147
       time_basis: WALL_CLOCK_ELAPSED
       token_spend:
         status: NOT_REPORTED
@@ -1000,18 +1001,19 @@ branch_agent_index:
     merge_actor_worker_id: null
     status_path: "docs/ralph/agents-worktree-isolation-replay-final-sweep-20261007/agents/coordinator/status.md"
     progress_path: "docs/ralph/agents-worktree-isolation-replay-final-sweep-20261007/agents/coordinator/progress.md"
-    decision_record_path: "docs/decisions/agents-worktree-isolation-replay-final-sweep-20261007/agents/coordinator/pr-pending.md"
+    decision_record_path: "docs/decisions/agents-worktree-isolation-replay-final-sweep-20261007/agents/coordinator/pr-10.md"
     decision_index_path: "docs/decisions/agents-worktree-isolation-replay-final-sweep-20261007/README.md"
     base_origin_main_sha: "0366e2aed573894f3a63e37d71b24d99cd382a7d"
     current_origin_main_sha: "e6ed4c20c5955af91c628b34f026b6eb63c09c70"
     rebased_onto_origin_main_sha: "e6ed4c20c5955af91c628b34f026b6eb63c09c70"
     implementation_commit_sha: "9be82bda3ec6b4d2d3e42157df3a3a30c93e5f53"
     pull_request:
-      status: PENDING
-      number: null
-      url: null
-      base_sha: null
+      status: OPEN
+      number: 10
+      url: "https://github.com/jrblankenhorn1007/copilot_skills/pull/10"
+      base_sha: "e6ed4c20c5955af91c628b34f026b6eb63c09c70"
       head_sha: null
+      head_sha_at_open: "3822fa6276ddd6e44a0b415150dd12c68ba90933"
     review:
       status: PENDING
       reviewer_agents: ["Ralph Code Reviewer", "Ralph Security Reviewer"]
@@ -1026,7 +1028,7 @@ branch_agent_index:
         rationale: null
         recorded_at_utc: null
     resource_usage:
-      time_spent_seconds: 1648
+      time_spent_seconds: 1961
       time_basis: WALL_CLOCK_ELAPSED
       token_spend:
         status: NOT_REPORTED
@@ -1044,7 +1046,7 @@ branch_agent_index:
       verified_at_utc: null
     memory_review: PENDING
     blockers: []
-    next_action: "Commit/push the replay branch, open the replacement PR, then refresh capacity and reserve one reviewer slot at a time for exact-SHA reviews."
+    next_action: "Push the PR #10 status update, refresh live PR metadata and capacity, then reserve one reviewer slot at a time for exact-SHA reviews."
   - run_id: "skills-improvement-20260925-0554-luna"
     task_ids: ["skill-improvement-workflow-readme"]
     worker_id: "coordinator"
@@ -2535,8 +2537,8 @@ branch_agent_index:
 | `copilot-skills-opencode-setup-20260924-2325` | `agents/update-dependencies-docs-opencode-setup` | `coordinator` | `IN_PROGRESS` | `42,072 s (wall-clock)` | `NOT_REPORTED` | [status](./ralph/agents-update-dependencies-docs-opencode-setup/agents/coordinator/status.md) | [progress](./ralph/agents-update-dependencies-docs-opencode-setup/agents/coordinator/progress.md) | Parent pending | Pending |
 | `copilot-skills-opencode-setup-20260924-2325` | `ralph/opencode-setup-docs-worker-01-20260924-2325` | `worker-01` | `AWAITING_MERGE` | Not captured (legacy) | Not captured (legacy) | [status](./ralph/ralph-opencode-setup-docs-worker-01-20260924-2325/agents/worker-01/status.md) | [progress](./ralph/ralph-opencode-setup-docs-worker-01-20260924-2325/agents/worker-01/progress.md) | Fresh sign-off and memory_handoff pending | Pending |
 | `copilot_skills-worktree-collision-20260924` | `agents/worktree-collision-diagnosis-fix` | `coordinator` | `CANCELLED` | `1,136 s (wall-clock)` | `NOT_REPORTED` | [status](./ralph/agents-worktree-collision-diagnosis-fix/agents/coordinator/status.md) | [progress](./ralph/agents-worktree-collision-diagnosis-fix/agents/coordinator/progress.md) | `feaec8699b3e7a05eb221ec25226ce084ad67ae2` | `PENDING` |
-| `copilot-skills-worktree-isolation-integration-20261007` | `agents/worktree-isolation-integration` | `coordinator` | `BLOCKED` | `43,834 s (wall-clock)` | `NOT_REPORTED` | [status](./ralph/agents-worktree-isolation-integration/agents/coordinator/status.md) | [progress](./ralph/agents-worktree-isolation-integration/agents/coordinator/progress.md) | `7fd155ba0bd4814f85a890207bae71b4e13a7f8a` | `PENDING` |
-| `copilot-skills-worktree-isolation-replay-final-sweep-20261007` | `agents/worktree-isolation-replay-final-sweep-20261007` | `coordinator` | `IN_PROGRESS` | `1,648 s (wall-clock)` | `NOT_REPORTED` | [status](./ralph/agents-worktree-isolation-replay-final-sweep-20261007/agents/coordinator/status.md) | [progress](./ralph/agents-worktree-isolation-replay-final-sweep-20261007/agents/coordinator/progress.md) | `9be82bda3ec6b4d2d3e42157df3a3a30c93e5f53` | `PENDING` |
+| `copilot-skills-worktree-isolation-integration-20261007` | `agents/worktree-isolation-integration` | `coordinator` | `BLOCKED` | `44,147 s (wall-clock)` | `NOT_REPORTED` | [status](./ralph/agents-worktree-isolation-integration/agents/coordinator/status.md) | [progress](./ralph/agents-worktree-isolation-integration/agents/coordinator/progress.md) | `7fd155ba0bd4814f85a890207bae71b4e13a7f8a` | `PENDING` |
+| `copilot-skills-worktree-isolation-replay-final-sweep-20261007` | `agents/worktree-isolation-replay-final-sweep-20261007` | `coordinator` | `IN_PROGRESS` | `1,961 s (wall-clock)` | `NOT_REPORTED` | [status](./ralph/agents-worktree-isolation-replay-final-sweep-20261007/agents/coordinator/status.md) | [progress](./ralph/agents-worktree-isolation-replay-final-sweep-20261007/agents/coordinator/progress.md) | `9be82bda3ec6b4d2d3e42157df3a3a30c93e5f53` | `PENDING` |
 
 The earlier parent-child pipeline run is `COMPLETE`: both workers integrated into the
 parent, the parent merge is verified on `origin/main`, the contract suite and
