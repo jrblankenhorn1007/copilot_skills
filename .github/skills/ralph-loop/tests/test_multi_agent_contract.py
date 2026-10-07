@@ -1549,7 +1549,7 @@ class GitPipelineTests(unittest.TestCase):
         assert_all_contains(
             self,
             guide,
-            "max_iterations=5|iteration=1|iteration=$((iteration + 1))|copilot --agent ralph-loop --model gpt-6-luna|--prompt \"$prompt\" -s|marker_count|tail -n 1|ralph_continue|ralph_complete|ralph_blocked|copilot cli failed with exit status|reached the iteration limit|does not carry conversation context forward|new one-shot cli invocation|cli-programmatic-reference",
+            "set -o pipefail|max_iterations=5|iteration=1|iteration=$((iteration + 1))|copilot --agent ralph-loop --model gpt-6-luna|--prompt \"$prompt\" -s|marker_count|case \"$marker_count\" in|tail -n 1|ralph_continue|ralph_complete|ralph_blocked|copilot cli failed with exit status|unable to validate ralph status markers|reached the iteration limit|does not carry conversation context forward|new one-shot cli invocation|cli-programmatic-reference",
             "Copilot CLI loop guidance must remain bounded, stateless across calls, and fail closed",
         )
 

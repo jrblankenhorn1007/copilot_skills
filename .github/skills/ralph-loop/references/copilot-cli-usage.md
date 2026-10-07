@@ -120,6 +120,8 @@ It fails closed on a CLI error, a blocked or malformed response, and
 iteration-limit exhaustion; only `RALPH_COMPLETE` returns success.
 
 ```bash
+set -o pipefail
+
 max_iterations=5
 iteration=1
 
@@ -136,14 +138,24 @@ while [ "$iteration" -le "$max_iterations" ]; do
   fi
 
   printf '%s\n' "$response"
-  marker_count=$(printf '%s\n' "$response" |
-    awk '/^RALPH_(CONTINUE|COMPLETE|BLOCKED)$/ { count++ } END { print count+0 }')
-  marker=$(printf '%s\n' "$response" | tail -n 1)
-
-  if [ "$marker_count" -ne 1 ]; then
-    printf 'Expected exactly one standalone Ralph status marker; stopping.\n' >&2
+  if ! marker_count=$(printf '%s\n' "$response" |
+      awk '/^RALPH_(CONTINUE|COMPLETE|BLOCKED)$/ { count++ } END { print count+0 }'); then
+    printf 'Unable to validate Ralph status markers; stopping.\n' >&2
     exit 1
   fi
+  if ! marker=$(printf '%s\n' "$response" | tail -n 1); then
+    printf 'Unable to read the final Ralph status line; stopping.\n' >&2
+    exit 1
+  fi
+
+  case "$marker_count" in
+    1)
+      ;;
+    *)
+      printf 'Expected exactly one standalone Ralph status marker; stopping.\n' >&2
+      exit 1
+      ;;
+  esac
 
   case "$marker" in
     RALPH_COMPLETE)
