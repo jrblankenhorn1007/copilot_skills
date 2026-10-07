@@ -24,7 +24,7 @@
   },
   "prompt_path": "docs/agent-sync/runs/copilot-skills-memory-followup-20261007/agents/coordinator/prompt.md",
   "prompt_sha256": "b2f89751da70821e54c21f85d7d41b9a0dd080feab72c1ddeff9f64cac7e64ab",
-  "revision": 1,
+  "revision": 2,
   "run_id": "copilot-skills-memory-followup-20261007",
   "schema_version": 1,
   "sign_in_at_utc": "2026-10-07T23:06:05Z",
@@ -36,10 +36,10 @@
     "summary": null
   },
   "started_at_utc": "2026-10-07T23:06:05Z",
-  "status": "IN_PROGRESS",
-  "status_reason": "Replaying the independently reviewed Janitor cleanup-gate memory lesson onto current main and using the required PR integration path. The previously published memory branch remains preserved; no direct main edit is authorized for memory content.",
+  "status": "BLOCKED",
+  "status_reason": "PR #12 has a CLEAN Code review round 2 on base b8ef829b6cd13bc46e2d9dddfb3f5eaa4978de9d and head e148020b802938aeeed785c9f929a5bf2901eadf. The required MERGE reservation publishes a sign-in commit to origin/main, changing the PR base and invalidating the final report. No third agent review is allowed; preserve the PR for human review through the normal process rather than merging stale evidence.",
   "task_id": "memory-follow-up-pr",
-  "updated_at_utc": "2026-10-07T23:06:05Z",
+  "updated_at_utc": "2026-10-07T23:16:36Z",
   "worker_id": "coordinator",
   "worker_name": "coordinator - Janitor memory follow-up PR"
 }
