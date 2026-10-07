@@ -1,0 +1,50 @@
+{
+  "agent_id": "coordinator",
+  "agent_profile": {
+    "agent_definition": ".github/agents/ralph-loop.agent.md",
+    "context_tier": null,
+    "context_usage_tokens": null,
+    "context_window_tokens": null,
+    "harness": "VS Code Copilot",
+    "model_id": null,
+    "reasoning_effort": null,
+    "runtime_agent_id": "copilotcli:/e33128a0-4868-4b49-9b6a-a3f28bb65997"
+  },
+  "git": {
+    "base_ref": "refs/heads/main",
+    "base_sha": "fb82e0d85ef80b26537c3fede01bcaefa422652d",
+    "edit_scope": [
+      "docs/ralph-status.md",
+      "docs/ralph/agents-cross-session-recovery-final-sweep/agents/coordinator/",
+      "docs/decisions/agents-cross-session-recovery-final-sweep/",
+      "docs/ralph/agents-worktree-isolation-integration/agents/coordinator/",
+      "docs/decisions/agents-worktree-isolation-integration/",
+      "docs/decisions/README.md"
+    ],
+    "implementation_branch": "refs/heads/agents/cross-session-recovery-final-sweep",
+    "remote_name": "origin",
+    "repository": "jrblankenhorn1007/copilot_skills",
+    "worktree_head_sha_at_sign_in": "95b9b020cc9c4fc716397cbf18fddf7fb85d157d",
+    "worktree_path": "/Users/jrblankenhorn/copilot_skills.worktrees/cross-session-recovery-final-sweep"
+  },
+  "prompt_path": "docs/agent-sync/runs/copilot-skills-cross-session-recovery-final-sweep-20261007/agents/coordinator/prompt.md",
+  "prompt_sha256": "8e9e16d70c6c83572df01fc6162efd5af3302e4cc0945786be3d8417122e7225",
+  "revision": 1,
+  "run_id": "copilot-skills-cross-session-recovery-final-sweep-20261007",
+  "schema_version": 1,
+  "sign_in_at_utc": "2026-10-07T05:33:20Z",
+  "sign_out": {
+    "at_utc": null,
+    "checks": [],
+    "implementation_commit_sha": null,
+    "next_action": null,
+    "summary": null
+  },
+  "started_at_utc": "2026-10-07T05:33:20Z",
+  "status": "IN_PROGRESS",
+  "status_reason": "Finalizing the already-published recovery and Resource Manager PRs: synchronize their branches and durable records, complete independent review and integration gates, verify remote main, then perform the required memory review. Existing active peer worktrees are out of scope.",
+  "task_id": "review-integrate-and-notify",
+  "updated_at_utc": "2026-10-07T05:33:20Z",
+  "worker_id": "coordinator",
+  "worker_name": "coordinator - cross-session recovery finalization"
+}
