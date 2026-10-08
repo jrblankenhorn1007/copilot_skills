@@ -2,21 +2,21 @@
   "owner": {
     "agent_id": "coordinator",
     "operation": "STATUS",
-    "run_id": "copilot-skills-cross-session-recovery-final-sweep-20261007",
-    "runtime_agent_id": "copilotcli:/e33128a0-4868-4b49-9b6a-a3f28bb65997",
-    "signed_in_at_utc": "2026-10-08T03:16:53Z",
-    "start_main_sha": "0df2bd3f14af6b91873d6cb41b1a56ba612ebd90",
-    "token": "f419c6833d60397aa57c462107e7123c",
+    "run_id": "copilot-skills-worktree-janitor-20261007",
+    "runtime_agent_id": "copilotcli:/d04e3d8d-4a60-4fda-8eef-13cbf13caa0f",
+    "signed_in_at_utc": "2026-10-08T03:40:48Z",
+    "start_main_sha": "bcd1eb14f24d17cb7f937e1f9fd7405ac5e03dbd",
+    "token": "3afb26fb5202ef4a1a5ba0eb4aaf7d26",
     "worktree_path": null
   },
   "ref": "refs/heads/main",
   "repository": "jrblankenhorn1007/copilot_skills",
-  "revision": 314,
+  "revision": 315,
   "schema_version": 1,
   "sign_out": {
-    "at_utc": "2026-10-08T03:16:57Z",
-    "outcome": "PUBLISHED",
-    "result_commit_sha": "22e2b89da60e7abfcba04a537b9801a1973ddd06"
+    "at_utc": null,
+    "outcome": null,
+    "result_commit_sha": null
   },
-  "state": "FREE"
+  "state": "OWNED"
 }
