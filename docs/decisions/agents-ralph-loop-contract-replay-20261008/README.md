@@ -7,10 +7,11 @@
 - Initial base: `d3443616fbcca8605d8032244b78ca1a8f19bba8`
 - Worktree: `/Users/jrblankenhorn/copilot_skills.worktrees/copilot-skills-pr-backlog-updates`
 - Implementation commit: `ed10709b854244aa74f8fec53d8aa61e8949a39c`
-- PR: pending; this is the fresh replacement for PRs #9 and #10.
+- PR: [#15](https://github.com/jrblankenhorn1007/copilot_skills/pull/15), open;
+  this is the fresh replacement for PRs #9 and #10.
 - Ralph state: [status](../../ralph/agents-ralph-loop-contract-replay-20261008/agents/coordinator/status.md)
   and [progress](../../ralph/agents-ralph-loop-contract-replay-20261008/agents/coordinator/progress.md)
-- Agent decision: [PR record](./agents/coordinator/pr-pending.md)
+- Agent decision: [PR record](./agents/coordinator/pr-15.md)
 
 ## Decisions
 

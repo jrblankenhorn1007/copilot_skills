@@ -12,21 +12,22 @@ runtime_agent_id: copilotcli:/ccabba08-746f-4ce9-8b3e-0f0ce2eeab5f
 status: BLOCKED
 iteration: 1
 started_at_utc: "2026-10-08T05:15:33Z"
-updated_at_utc: "2026-10-08T05:33:46Z"
-status_reason: "Targeted code and contract checks are green; independent reviews and dashboard indexing are blocked by active shared capacity/scope."
+updated_at_utc: "2026-10-08T05:35:43Z"
+status_reason: "The replacement PR is open with targeted checks green; independent reviews and dashboard indexing are blocked by active shared capacity/scope."
 branch: agents/ralph-loop-contract-replay-20261008
 branch_slug: agents-ralph-loop-contract-replay-20261008
 worktree: /Users/jrblankenhorn/copilot_skills.worktrees/copilot-skills-pr-backlog-updates
 base_origin_main_sha: d3443616fbcca8605d8032244b78ca1a8f19bba8
 implementation_commit_sha: "ed10709b854244aa74f8fec53d8aa61e8949a39c"
 pull_request:
-  status: NOT_OPENED
-  number: null
-  url: null
-  base_sha: null
-  head_sha: null
+  status: OPEN
+  number: 15
+  url: "https://github.com/jrblankenhorn1007/copilot_skills/pull/15"
+  base_sha: d3443616fbcca8605d8032244b78ca1a8f19bba8
+  head_sha: 9e202ee731388e27cd7f2fdcd2ef5c241cb26d8e
+  observed_at_utc: "2026-10-08T05:34:23Z"
 review:
-  status: PENDING
+  status: BLOCKED
   reviewer_agents:
     - Ralph Code Reviewer
     - Ralph Security Reviewer
@@ -55,10 +56,12 @@ checks:
     result: "36 tests: 35 passed; the one pre-existing dashboard-index failure is for docs/ralph/ralph-pipeline-live-model-evaluation-20261007-35327e2e/agents/coordinator-01."
   - command: "PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s .github/skills/ralph-loop/tests -p 'test_*.py'"
     result: "80 tests: 79 passed; the same single dashboard-index failure is on an unindexed leaf present on origin/main and not listed in docs/ralph-status.md."
+  - command: "gh pr view 15 --json number,state,headRefName,headRefOid,baseRefName,baseRefOid,mergeStateStatus,statusCheckRollup"
+    result: "PASS: PR #15 is OPEN/CLEAN at base d3443616fbcca8605d8032244b78ca1a8f19bba8 and head 9e202ee731388e27cd7f2fdcd2ef5c241cb26d8e; no hosted checks are reported."
   - command: "git diff --check"
     result: "PASS"
   - command: "python3 .github/skills/resource-manager/scripts/resource_manager.py status --observed-session copilotcli:/ccabba08-746f-4ce9-8b3e-0f0ce2eeab5f --observed-session copilotcli:/e33128a0-4868-4b49-9b6a-a3f28bb65997 --observed-session copilotcli:/a9d56901-462d-4292-b210-7b738822dc4f"
-    result: "PASS inventory_fresh=true; max_agents=2; active_agent_count=3; available_slots=0; no reviewer dispatched."
+    result: "PASS at 2026-10-08T05:34:34Z: inventory_fresh=true; max_agents=2; active_agent_count=3; available_slots=0; no reviewer reserved or dispatched."
 sign_off:
   status: SELF_ATTESTATION
   implementation_commit_sha: "ed10709b854244aa74f8fec53d8aa61e8949a39c"
@@ -102,7 +105,7 @@ worktree_identity_prior_pr10_audit:
   observed_head_sha: f1027094f0025a36f2a2c98416912e7e035b846c
   reason: "The recorded expected base and observed head differ; that observation does not establish the pre-edit identity. Both recorded values are preserved without asserting that the old worktree was actually mismatched."
 resource_usage:
-  time_spent_seconds: 1093
+  time_spent_seconds: 1210
   time_basis: WALL_CLOCK_ELAPSED
   token_spend:
     status: NOT_REPORTED
@@ -122,12 +125,12 @@ memory_handoff:
       evidence:
         - ".github/skills/ralph-loop/tests/test_multi_agent_contract.py::CopilotCliLoopTests exercises mocked terminal markers, malformed responses, CLI errors, and iteration exhaustion."
   no_durable_lessons_reason: null
-decision_record_path: docs/decisions/agents-ralph-loop-contract-replay-20261008/agents/coordinator/pr-pending.md
+decision_record_path: docs/decisions/agents-ralph-loop-contract-replay-20261008/agents/coordinator/pr-15.md
 decision_index_path: docs/decisions/agents-ralph-loop-contract-replay-20261008/README.md
-next_action: "Push the self-attested branch and open the fresh replacement PR; obtain independent reviews only after a fresh successful Resource Manager reservation."
+next_action: "After capacity is available, reserve slots and dispatch exact-SHA Code and Security reviews; wait for hosted checks and human approval, and keep PRs #9/#10 open until verified integration."
 blockers:
   - "The aggregate dashboard update is blocked by the recovery coordinator's active docs/ralph-status.md scope; this leaf records the exact pending_shared_scope and code work continues."
   - "The Ralph test discovery run has one known pre-existing dashboard-index failure on the unindexed pipeline leaf; do not edit the recovery-owned dashboard or unrelated leaf."
-  - "Independent review capacity is unavailable: fresh Resource Manager inventory is complete but has 0 slots (2 max, 3 active)."
-  - "Independent Code and Security reviews, hosted checks, human approval, PR integration, and post-merge memory review remain pending."
+  - "Independent review capacity is unavailable: fresh Resource Manager inventory at 2026-10-08T05:34:34Z is complete but has 0 slots (2 max, 3 active); neither reviewer was dispatched."
+  - "Hosted checks, human approval, PR integration, and post-merge memory review remain pending."
 ```
