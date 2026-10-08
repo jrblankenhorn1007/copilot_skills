@@ -27,4 +27,6 @@ safeguards intact. Preserve PR #11 and its original worktree.
 
 - Independent Code review, required checks, human approval, and normal PR
   integration are pending.
+- The exact live inventory at `2026-10-08T05:12:09Z` showed
+  `max_agents: 2`, `active_agent_count: 3`, and no reviewer slot.
 - The coordinator-owned aggregate dashboard has not been updated.

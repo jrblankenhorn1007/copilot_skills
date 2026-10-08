@@ -10,13 +10,13 @@ runtime_agent_id: copilotcli:/ccabba08-746f-4ce9-8b3e-0f0ce2eeab5f
 status: IN_PROGRESS
 iteration: 1
 started_at_utc: "2026-10-08T05:09:49Z"
-updated_at_utc: "2026-10-08T05:11:29Z"
-status_reason: "The cap-eight regression is green, and the dynamic live-pressure safeguards remain covered."
+updated_at_utc: "2026-10-08T05:12:29Z"
+status_reason: "The cap-eight implementation and pressure safeguards pass the focused suite; independent review is waiting for capacity."
 branch: agents/resource-manager-effective-eight-replay-20261008
 branch_slug: agents-resource-manager-effective-eight-replay-20261008
 worktree: /Users/jrblankenhorn/copilot_skills.worktrees/copilot-skills-pr-backlog-updates
 base_origin_main_sha: d3443616fbcca8605d8032244b78ca1a8f19bba8
-implementation_commit_sha: null
+implementation_commit_sha: b02df741cb38c2276bc8b6210d0f76f3abb4eb8e
 pull_request:
   status: NOT_OPENED
   number: null
@@ -24,7 +24,7 @@ pull_request:
   base_sha: null
   head_sha: null
 review:
-  status: PENDING
+  status: BLOCKED
   rounds_used: 0
   max_rounds: 2
   reviewer_agents: []
@@ -35,8 +35,14 @@ checks:
     result: "PASS: 16 tests"
   - command: "git diff --check"
     result: "PASS"
+  - command: "python3 .github/skills/resource-manager/scripts/resource_manager.py status --observed-session copilotcli:/ccabba08-746f-4ce9-8b3e-0f0ce2eeab5f --observed-session copilotcli:/e33128a0-4868-4b49-9b6a-a3f28bb65997 --observed-session copilotcli:/a9d56901-462d-4292-b210-7b738822dc4f"
+    result: "PASS inventory_fresh=true; max_agents=2; active_agent_count=3; available_slots=0; no reviewer dispatched."
 branch_owner_sign_off:
-  status: PENDING
+  status: RECEIVED
+  attestation_kind: SELF_ATTESTATION
+  cryptographic_signature_status: NOT_CRYPTOGRAPHICALLY_SIGNED
+  attested_at_utc: "2026-10-08T05:12:29Z"
+  statement: "I, coordinator, sign off iteration 1 for replay-resource-manager-cap-eight at implementation commit b02df741cb38c2276bc8b6210d0f76f3abb4eb8e."
 merge:
   status: PENDING
   verified_origin_main_sha: null
@@ -60,7 +66,7 @@ worktree_identity:
   working_tree_clean: true
   registry_match: true
 resource_usage:
-  time_spent_seconds: 100
+  time_spent_seconds: 160
   time_basis: WALL_CLOCK_ELAPSED
   token_spend:
     status: NOT_REPORTED
@@ -78,6 +84,9 @@ memory_handoff:
   no_durable_lessons_reason: null
 decision_record_path: docs/decisions/agents-resource-manager-effective-eight-replay-20261008/agents/coordinator/pr-pending.md
 decision_index_path: docs/decisions/agents-resource-manager-effective-eight-replay-20261008/README.md
-next_action: "Stage only the cap-eight implementation and branch records, commit, then record exact branch-owner sign-off and publish the replacement PR when capacity and write authorization permit."
-blockers: []
+next_action: "Publish the signed-off branch and open its replacement PR; request the independent Code review only after a fresh inventory and successful atomic reservation."
+blockers:
+  - "Independent Code review is blocked: fresh Resource Manager status reports capacity 2, 3 active agents, and 0 free slots."
+  - "PR checks, human approval, and merge are pending."
+  - "The aggregate dashboard update is pending release of its current owner."
 ```
