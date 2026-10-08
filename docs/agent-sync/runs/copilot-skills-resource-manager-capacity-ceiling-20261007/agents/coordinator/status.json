@@ -30,22 +30,22 @@
   },
   "prompt_path": "docs/agent-sync/runs/copilot-skills-resource-manager-capacity-ceiling-20261007/agents/coordinator/prompt.md",
   "prompt_sha256": "d4afa7a69c299905488ab47da0e5c0bbdb0239653b5262fc03f20be5fe802187",
-  "revision": 7,
+  "revision": 8,
   "run_id": "copilot-skills-resource-manager-capacity-ceiling-20261007",
   "schema_version": 1,
   "sign_in_at_utc": "2026-10-07T22:32:30Z",
   "sign_out": {
-    "at_utc": null,
+    "at_utc": "2026-10-08T04:58:52Z",
     "checks": [],
     "implementation_commit_sha": null,
-    "next_action": null,
-    "summary": null
+    "next_action": "Port the cap-eight change from the published PR into a fresh current-main branch with the related pending Ralph loop fixes, run all focused contracts, obtain exact-SHA independent reviews and required human approval, then merge only through the normal protected process.",
+    "summary": "Released the PR #11 author scope from the recovery chat because the host session is not bound to its assigned worktree. The original local branch/worktree and remote PR were preserved; no push or merge occurred. The cap-eight implementation remains on the open PR and is not on origin/main."
   },
   "started_at_utc": "2026-10-07T22:32:30Z",
-  "status": "IN_PROGRESS",
-  "status_reason": "Resuming the authorized PR #11 scope to synchronize the clean branch to fetched origin/main 7b90af21f1d3eca71a88d6fa5f49685004eb8d19 and rerun focused checks. The current full agent inventory exceeds the configured limit, so no reviewers can be dispatched; the prior review window is exhausted and the updated head will need human review.",
+  "status": "BLOCKED",
+  "status_reason": "This chat is rooted in the cross-session recovery worktree, not the assigned PR #11 worktree. The clean local branch has sync commit c4c6a4938714fc59eb724cf626639edc03bc4a08, based on earlier main; its 16 Resource Manager tests passed, but the dashboard-index contract fails on the unindexed pipeline leaf and the branch needs current-main synchronization. The remote PR head remains 9c54856ecbe24d1a24b5f495203389395f0e00ca, with human review required after any update. Releasing the old scope for a fresh current-main replacement iteration; capacity is available.",
   "task_id": "hardware-bounded-eight-agent-cap",
-  "updated_at_utc": "2026-10-08T04:31:23Z",
+  "updated_at_utc": "2026-10-08T04:58:52Z",
   "worker_id": "coordinator",
   "worker_name": "coordinator - hardware-bounded eight-agent capacity"
 }
