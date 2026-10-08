@@ -2,21 +2,21 @@
   "owner": {
     "agent_id": "coordinator",
     "operation": "STATUS",
-    "run_id": "copilot-skills-resource-manager-capacity-ceiling-20261007",
+    "run_id": "copilot-skills-cross-session-recovery-final-sweep-20261007",
     "runtime_agent_id": "copilotcli:/e33128a0-4868-4b49-9b6a-a3f28bb65997",
-    "signed_in_at_utc": "2026-10-08T04:58:54Z",
-    "start_main_sha": "a8eb157900a377b1475cf3cddede1fab96899f40",
-    "token": "cf926dde9b2be3f898887ef0fc7419a3",
+    "signed_in_at_utc": "2026-10-08T06:03:25Z",
+    "start_main_sha": "d3443616fbcca8605d8032244b78ca1a8f19bba8",
+    "token": "ac13c61d97f6368e6009c0a54aabfabb",
     "worktree_path": null
   },
   "ref": "refs/heads/main",
   "repository": "jrblankenhorn1007/copilot_skills",
-  "revision": 330,
+  "revision": 331,
   "schema_version": 1,
   "sign_out": {
-    "at_utc": "2026-10-08T04:58:58Z",
-    "outcome": "PUBLISHED",
-    "result_commit_sha": "9ab5448f5694dd09db8818fe36b8af71aa122705"
+    "at_utc": null,
+    "outcome": null,
+    "result_commit_sha": null
   },
-  "state": "FREE"
+  "state": "OWNED"
 }
