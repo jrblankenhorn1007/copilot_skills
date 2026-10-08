@@ -36,6 +36,12 @@ workers than both the ready work and available slots permit. Require the
 host's `agent/runSubagent` tool; if it cannot launch workers, report that
 limitation rather than claiming the run was parallelized. Parse `N` as a
 positive integer and clearly reject malformed or non-positive values.
+Before dispatch, require a host-supported binding to each worker's assigned
+child-worktree path. A path in the prompt does not change the agent session's
+working directory. If the host cannot bind the session, do not dispatch it in
+parallel; follow the
+[worktree isolation guide](../skills/ralph-loop/references/worktree-isolation.md)
+and fail closed on any identity mismatch.
 
 Before project work, follow the Resource Manager skill: observe active
 sessions and subagents, register the current session, and fail closed if the
@@ -77,6 +83,11 @@ id, iteration number, and status ownership supplied by the coordinator, and
 report your verification evidence back to it. Activate the coordinator's
 reservation before doing other work; heartbeat the registration while active
 and release it when finished or paused.
+Before reading project files or editing, run
+[`verify_worktree_identity.py`](../skills/ralph-loop/scripts/verify_worktree_identity.py)
+from the actual session with the exact assigned path, branch, and base SHA.
+Stop without edits if the check is nonzero or cannot complete; see the
+[worktree isolation guide](../skills/ralph-loop/references/worktree-isolation.md).
 
 Before sign-off, each coordinator and worker must include a structured
 `memory_handoff` in its own leaf `status.md` and return the same handoff with
@@ -250,6 +261,10 @@ sign-in and its edit scope remain active. A failed release is a blocker,
 not a successful status update.
 
 ## Parent and child worktrees
+
+Before a worker reads project files or edits, verify its host-bound session
+with the
+[worktree identity preflight](../skills/ralph-loop/references/worktree-isolation.md).
 
 After the refresh and Git identity/authentication preflight, fetch `origin`
 and create one dedicated parent worktree and unique parent branch from the

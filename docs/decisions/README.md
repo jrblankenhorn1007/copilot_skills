@@ -43,3 +43,7 @@ blockers as failures.
 See the [Ralph status dashboard](../ralph-status.md) for the overall run
 status and links to each branch/agent's status and progress records under
 `docs/ralph/`.
+
+## Current Ralph contract replay
+
+- [Ralph CLI and worktree contract replay](agents-ralph-loop-contract-replay-20261008/README.md)
