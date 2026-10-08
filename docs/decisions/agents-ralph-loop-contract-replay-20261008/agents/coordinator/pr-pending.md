@@ -7,8 +7,9 @@
   (`copilotcli:/ccabba08-746f-4ce9-8b3e-0f0ce2eeab5f`)
 - Branch: `agents/ralph-loop-contract-replay-20261008`
 - Base: `d3443616fbcca8605d8032244b78ca1a8f19bba8`
+- Self-attested implementation commit: `ed10709b854244aa74f8fec53d8aa61e8949a39c`
 - Worktree: `/Users/jrblankenhorn/copilot_skills.worktrees/copilot-skills-pr-backlog-updates`
-- PR: not opened; publish after branch-owner sign-off and checks.
+- PR: not opened; push this signed-off commit before publication.
 
 ## Decision
 

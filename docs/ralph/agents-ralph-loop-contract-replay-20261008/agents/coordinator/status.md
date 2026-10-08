@@ -12,13 +12,13 @@ runtime_agent_id: copilotcli:/ccabba08-746f-4ce9-8b3e-0f0ce2eeab5f
 status: BLOCKED
 iteration: 1
 started_at_utc: "2026-10-08T05:15:33Z"
-updated_at_utc: "2026-10-08T05:31:13Z"
+updated_at_utc: "2026-10-08T05:33:46Z"
 status_reason: "Targeted code and contract checks are green; independent reviews and dashboard indexing are blocked by active shared capacity/scope."
 branch: agents/ralph-loop-contract-replay-20261008
 branch_slug: agents-ralph-loop-contract-replay-20261008
 worktree: /Users/jrblankenhorn/copilot_skills.worktrees/copilot-skills-pr-backlog-updates
 base_origin_main_sha: d3443616fbcca8605d8032244b78ca1a8f19bba8
-implementation_commit_sha: null
+implementation_commit_sha: "ed10709b854244aa74f8fec53d8aa61e8949a39c"
 pull_request:
   status: NOT_OPENED
   number: null
@@ -59,8 +59,17 @@ checks:
     result: "PASS"
   - command: "python3 .github/skills/resource-manager/scripts/resource_manager.py status --observed-session copilotcli:/ccabba08-746f-4ce9-8b3e-0f0ce2eeab5f --observed-session copilotcli:/e33128a0-4868-4b49-9b6a-a3f28bb65997 --observed-session copilotcli:/a9d56901-462d-4292-b210-7b738822dc4f"
     result: "PASS inventory_fresh=true; max_agents=2; active_agent_count=3; available_slots=0; no reviewer dispatched."
-branch_owner_sign_off:
-  status: PENDING
+sign_off:
+  status: SELF_ATTESTATION
+  implementation_commit_sha: "ed10709b854244aa74f8fec53d8aa61e8949a39c"
+  signature_status: NOT_CRYPTOGRAPHICALLY_SIGNED
+  attested_at_utc: "2026-10-08T05:32:30Z"
+  statement: "I, coordinator, sign off iteration 1 at the exact implementation commit above; targeted tests and diff checks passed, with one documented pre-existing dashboard-index failure in full discovery."
+commit_signature_verification:
+  status: NOT_CRYPTOGRAPHICALLY_SIGNED
+  verifier: null
+  evidence: null
+  verified_at_utc: null
 merge:
   status: PENDING
   verified_origin_main_sha: null
@@ -93,7 +102,7 @@ worktree_identity_prior_pr10_audit:
   observed_head_sha: f1027094f0025a36f2a2c98416912e7e035b846c
   reason: "The recorded expected base and observed head differ; that observation does not establish the pre-edit identity. Both recorded values are preserved without asserting that the old worktree was actually mismatched."
 resource_usage:
-  time_spent_seconds: 940
+  time_spent_seconds: 1093
   time_basis: WALL_CLOCK_ELAPSED
   token_spend:
     status: NOT_REPORTED
@@ -115,7 +124,7 @@ memory_handoff:
   no_durable_lessons_reason: null
 decision_record_path: docs/decisions/agents-ralph-loop-contract-replay-20261008/agents/coordinator/pr-pending.md
 decision_index_path: docs/decisions/agents-ralph-loop-contract-replay-20261008/README.md
-next_action: "Inspect and stage the reviewed diff, record exact branch-owner sign-off, then open the fresh replacement PR; obtain independent reviews only after a fresh successful Resource Manager reservation."
+next_action: "Push the self-attested branch and open the fresh replacement PR; obtain independent reviews only after a fresh successful Resource Manager reservation."
 blockers:
   - "The aggregate dashboard update is blocked by the recovery coordinator's active docs/ralph-status.md scope; this leaf records the exact pending_shared_scope and code work continues."
   - "The Ralph test discovery run has one known pre-existing dashboard-index failure on the unindexed pipeline leaf; do not edit the recovery-owned dashboard or unrelated leaf."
