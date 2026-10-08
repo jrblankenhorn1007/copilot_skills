@@ -32,6 +32,13 @@
 - Fresh review-capacity snapshot at `2026-10-08T05:12:09Z`: inventory
   complete, `max_agents: 2`, `active_agent_count: 3`, zero slots. No reviewer
   was dispatched or reserved.
+- Pushed the signed-off branch and opened replacement PR #14:
+  base `d3443616fbcca8605d8032244b78ca1a8f19bba8`, head
+  `8b67e047aabf046d0ef704ef03d409e38eebaa0c`. `gh pr view 14` reports
+  `OPEN`/`CLEAN`; `gh pr checks 14` reports no checks. PR #11 remains open.
+- This status-record follow-up is documentation-only and advances the PR head;
+  use a fresh `gh pr view 14` result for review binding rather than treating
+  the recorded PR-open head above as the current live head.
 - Dashboard: pending update; the recovery coordinator owns
   `docs/ralph-status.md`. This branch records its own status and progress only.
 - Pull request, review, merge, and memory review: pending.
