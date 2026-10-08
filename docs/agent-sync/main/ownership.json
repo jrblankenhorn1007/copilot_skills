@@ -1,22 +1,22 @@
 {
   "owner": {
-    "agent_id": "coordinator-01",
+    "agent_id": "coordinator",
     "operation": "STATUS",
-    "run_id": "pipeline-live-model-evaluation-20261007-35327e2e",
-    "runtime_agent_id": "copilotcli:/35327e2c-33cc-430e-90bd-c4f9a1e20471",
-    "signed_in_at_utc": "2026-10-08T03:41:54Z",
-    "start_main_sha": "763671dd57a507faaaf93c1fb9b559400db918ad",
-    "token": "60a4ae983c8cfc5274d8965b0398914c",
+    "run_id": "copilot-skills-cross-session-recovery-final-sweep-20261007",
+    "runtime_agent_id": "copilotcli:/e33128a0-4868-4b49-9b6a-a3f28bb65997",
+    "signed_in_at_utc": "2026-10-08T03:46:41Z",
+    "start_main_sha": "4b07f38fd423f71b0cdd45bf28440896d35ef7c0",
+    "token": "86b8e53272bbc2e93d938ca540502b08",
     "worktree_path": null
   },
   "ref": "refs/heads/main",
   "repository": "jrblankenhorn1007/copilot_skills",
-  "revision": 318,
+  "revision": 319,
   "schema_version": 1,
   "sign_out": {
-    "at_utc": "2026-10-08T03:41:58Z",
-    "outcome": "PUBLISHED",
-    "result_commit_sha": "121a8fa58e027ecfd4d5dc9bdac993d8668c140b"
+    "at_utc": null,
+    "outcome": null,
+    "result_commit_sha": null
   },
-  "state": "FREE"
+  "state": "OWNED"
 }
