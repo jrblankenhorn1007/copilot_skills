@@ -37,6 +37,7 @@ blockers as failures.
 - [Ralph review-gate status worker](ralph-code-review-process-worker-02-20260924-2131/README.md)
 - [Shared agent resource manager](ralph-resource-manager-shared-registry-20260925-8abd5d4e/README.md)
 - [Skill-aware agent routing](ralph-agent-optimization-parent-20260925-8bc457e9/README.md)
+- [Resource Manager effective cap eight replay](agents-resource-manager-effective-eight-replay-20261008/README.md)
 
 ## Ralph status and progress
 
