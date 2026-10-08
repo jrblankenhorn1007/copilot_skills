@@ -31,12 +31,13 @@ registry or run divergent copies of the manager.
 
 ## Dynamic capacity
 
-The manager computes a total-agent limit from physical memory, logical CPU
-cores, currently available memory, and one-minute system load:
+The manager uses eight as a hard global agent ceiling and computes the
+effective total-agent limit from physical memory, logical CPU cores,
+currently available memory, and one-minute system load:
 
 - Reserve 4 GiB for the OS and editor, budget 2 GiB per agent, and cap the
-  memory-derived limit at four agents.
-- Budget one agent per two logical CPU cores, also capped at four.
+  memory-derived limit at `MAX_AGENTS` (eight).
+- Budget one agent per two logical CPU cores, also capped at `MAX_AGENTS`.
 - The base limit is the lower of the memory and CPU limits.
 - Reduce the limit by one (minimum one) when available memory is below 3 GiB
   or one-minute load reaches 85% of logical CPU count.
@@ -44,12 +45,13 @@ cores, currently available memory, and one-minute system load:
   below 1.5 GiB or one-minute load reaches logical CPU count.
 
 For example, an 8 GiB, six-core Mac has a base limit of two total agents, not
-two workers plus an orchestrator. Live pressure can reduce that to one or zero.
-The active count is the union of registered agents, pending reservations, and
-currently observed live sessions not already represented by a registration.
-This includes nested agents. Existing agents are never terminated when
-pressure rises; the manager only refuses additional registrations or
-reservations.
+two workers plus an orchestrator. A 32 GiB, sixteen-core host can reach the
+eight-agent ceiling. Live pressure can reduce the effective limit by one or
+zero. The active count is the union of registered agents, pending reservations,
+and currently observed live sessions not already represented by a
+registration. This includes nested agents. Existing agents are never
+terminated when pressure rises; the manager only refuses additional
+registrations or reservations.
 
 On macOS the manager reads `sysctl hw.memsize`, `memory_pressure`, and the
 one-minute load average. On Linux it reads `MemTotal`/`MemAvailable` from
