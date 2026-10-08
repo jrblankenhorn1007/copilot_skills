@@ -11,7 +11,9 @@ toward the host's total agent limit. This is the default workflow under the
 [Ralph Loop skill](../SKILL.md); behavior changes also follow the
 [TDD skill](../../tdd/SKILL.md). Each worker performs one complete, isolated
 Ralph iteration and follows the active project's instructions and status
-protocol.
+protocol. Parent and worker sessions must use collision-resistant worktree
+identities and verify their actual session paths before editing; follow the
+[worktree isolation guide](worktree-isolation.md).
 
 ## OpenCode runtime and session isolation
 
@@ -329,7 +331,11 @@ shared checkout. The worker must:
    SHA, parent branch/worktree, and child `base_parent_sha`. If the parent
    advances before integration, rebase the child onto its latest tip, record
    `rebased_onto_parent_sha`, rerun relevant checks, and obtain a new sign-off
-   bound to the rewritten implementation commit.
+   bound to the rewritten implementation commit. Before reading project
+   files or editing, run
+   [`verify_worktree_identity.py`](../scripts/verify_worktree_identity.py)
+   from the actual session with the exact assigned path, branch, and base;
+   stop without edits on any mismatch or nonzero result.
 
    Store each worker current-state summary and dated verification evidence at
    `docs/ralph/<branch-slug>/agents/<agent-id>/status.md` and `progress.md`.
@@ -371,6 +377,40 @@ shared checkout. The worker must:
    existing coordinator-managed path. The run is complete only after
    remote-main verification and the coordinator's required post-merge memory
    review.
+### Worktree allocation and session binding
+
+The coordinator creates the parent and each child worktree before launching
+the corresponding session. Assign a unique `run-id` and a new `dispatch-id`
+to every worker launch or retry, and include those identifiers in each path
+and branch. Before creating a worktree, check its absolute path, local branch
+ref, remote branch ref, and `git worktree list --porcelain` for collisions.
+If a check collides or is inconclusive, allocate a new dispatch ID and repeat;
+never take over a pre-existing worktree or branch.
+
+The host must bind the session to the assigned absolute path; a prompt path or
+`git -C` command is not proof. Before project-file access or edits, run the
+read-only verifier with the coordinator-supplied values:
+
+```sh
+python3 .github/skills/ralph-loop/scripts/verify_worktree_identity.py \
+  --expected-path "$RALPH_EXPECTED_WORKTREE" \
+  --expected-branch "$RALPH_EXPECTED_BRANCH" \
+  --expected-base-sha "$RALPH_EXPECTED_BASE_SHA"
+```
+
+Require exact equality for the canonical session path and Git root, branch
+and base HEAD, a clean worktree, and one matching registered worktree entry.
+Store the JSON result and pre-edit `worktree_identity` evidence in the agent's
+status leaf. `VERIFIED` is valid only for the successful pre-edit check;
+preserve its original expected/observed SHA pair and time after later commits.
+Any mismatch or failed command is `NOT_VERIFIED`: stop before editing,
+preserve expected and observed values, and report that no edits were made. Do
+not fall back to another checkout or dispatch in parallel when the host cannot
+bind the worker.
+
+See the [worktree isolation guide](worktree-isolation.md) for the exact
+allocation and verifier contract.
+
 ### Independent pre-merge review gate
 
 For every PR-backed iteration, whether child-to-parent or parent-to-main,

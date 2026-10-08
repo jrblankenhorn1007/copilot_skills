@@ -43,7 +43,11 @@ opencode run --dir <child-worktree> --agent ralph-loop-worker \
   --model provider/model-id "<bounded worker assignment>"
 ```
 
-Replace the placeholders before running the command. OpenCode's Task
+Before starting a worker session, verify that the host can bind it to its
+assigned child worktree; a path in the prompt is not a workspace switch. See
+the [worktree isolation guide](./references/worktree-isolation.md) for the
+pre-edit identity check. Replace the placeholders before running the command.
+OpenCode's Task
 subagents inherit the current session's worktree; they do not create Git
 worktrees. Do not use them for implementation assignments that require
 child-worktree isolation. Use the Task tool only for the named, read-only
@@ -90,7 +94,15 @@ integration checkout.
 Each worker receives a fresh, unique child worktree and branch based on the
 parent branch and exact parent base SHA supplied by the coordinator. Workers
 do not create child branches from `origin/main` or merge directly to it. Keep
-worker path ownership disjoint. The coordinator integrates one completed
+worker path ownership disjoint. Before reading project files or editing, the
+worker runs
+[`verify_worktree_identity.py`](./scripts/verify_worktree_identity.py) from
+the actual session and proves that its canonical path, Git root, branch, base
+HEAD, clean state, and worktree registry match the assignment. A nonzero
+result blocks the worker before edits; do not continue from the parent/default
+checkout. Follow the
+[worktree isolation guide](./references/worktree-isolation.md) for identity
+allocation and evidence. The coordinator integrates one completed
 child branch at a time into the parent and verifies each integration before
 proceeding to the next worker. Only after all child work has been integrated
 and the parent passes its acceptance checks may the coordinator publish and

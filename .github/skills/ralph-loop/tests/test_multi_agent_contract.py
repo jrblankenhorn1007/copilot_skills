@@ -1,6 +1,9 @@
+import json
+import os
 import re
 from pathlib import Path
 import subprocess
+import sys
 import tempfile
 import unittest
 
@@ -1327,6 +1330,67 @@ class MultiAgentContractTests(unittest.TestCase):
                         f"{document_name} must define {requirement!r}",
                     )
 
+    def test_worker_worktree_identity_preflight_is_exact_and_fails_closed(self):
+        guide = read_document(
+            ".github/skills/ralph-loop/references/worktree-isolation.md"
+        )
+        for requirement in (
+            "verify_worktree_identity.py",
+            "expected-path",
+            "expected-branch",
+            "expected-base-sha",
+            "git rev-parse --show-toplevel",
+            "git branch --show-current",
+            "git rev-parse head",
+            "git status --porcelain",
+            "git worktree list --porcelain",
+            "registry_matches_expected_identity",
+            "stop before editing",
+            "nonzero",
+        ):
+            with self.subTest(requirement=requirement):
+                assert_contains(
+                    self,
+                    guide,
+                    requirement,
+                    f"worktree isolation guide must enforce {requirement!r}",
+                )
+
+        for path in (
+            ".github/agents/ralph-loop.agent.md",
+            ".github/skills/ralph-loop/SKILL.md",
+            ".github/skills/ralph-loop/references/multi-agent-orchestration.md",
+            ".github/skills/ralph-loop/references/ralph-loop.md",
+        ):
+            with self.subTest(path=path):
+                assert_contains(
+                    self,
+                    read_document(path),
+                    "verify_worktree_identity.py",
+                    f"{path} must require the identity preflight",
+                )
+
+    def test_pr10_identity_audit_preserves_values_without_a_verified_claim(self):
+        status_path = (
+            ROOT
+            / "docs/ralph/agents-ralph-loop-contract-replay-20261008/agents/coordinator/status.md"
+        )
+        status = status_path.read_text(encoding="utf-8")
+        audit_header = (
+            "worktree_identity_prior_pr10_audit:\n"
+            "  state: NOT_VERIFIED\n"
+            "  previously_reported_state: VERIFIED\n"
+        )
+        self.assertIn(audit_header, status)
+        self.assertIn(
+            "expected_base_sha: e6ed4c20c5955af91c628b34f026b6eb63c09c70",
+            status,
+        )
+        self.assertIn(
+            "observed_head_sha: f1027094f0025a36f2a2c98416912e7e035b846c",
+            status,
+        )
+
     def test_inter_session_communication_contract_is_actionable_and_bounded(self):
         skill = read_document(".github/skills/agent-communication/SKILL.md")
         orchestration = read_document(
@@ -1693,6 +1757,140 @@ class GitPipelineTests(unittest.TestCase):
                     "compatibility only",
                     f"{document_name} must be labeled as compatibility-only guidance",
                 )
+
+
+class CopilotCliLoopTests(unittest.TestCase):
+    GUIDE = ROOT / ".github/skills/ralph-loop/references/copilot-cli-usage.md"
+    HEADING = "## Run bounded Ralph iterations from Bash"
+
+    def loop_script(self):
+        guide = self.GUIDE.read_text(encoding="utf-8")
+        self.assertIn(self.HEADING, guide, "the guide must document the Bash loop")
+        if self.HEADING not in guide:
+            return None
+        section = guide.split(self.HEADING, 1)[1]
+        match = re.search(r"```bash\n(.*?)\n```", section, re.DOTALL)
+        self.assertIsNotNone(match, "the guide must contain an executable Bash example")
+        return match.group(1) if match else None
+
+    def run_mocked_loop(self, script, responses):
+        with tempfile.TemporaryDirectory() as directory:
+            temp = Path(directory)
+            mock_copilot = temp / "copilot"
+            mock_copilot.write_text(
+                """#!@PYTHON@
+import json
+import os
+from pathlib import Path
+import sys
+
+calls = Path(os.environ["MOCK_COPILOT_CALLS"])
+index = int(calls.read_text(encoding="utf-8")) if calls.exists() else 0
+replies = json.loads(os.environ["MOCK_COPILOT_RESPONSES"])
+calls.write_text(str(index + 1), encoding="utf-8")
+if index >= len(replies):
+    raise SystemExit(97)
+reply = replies[index]
+sys.stdout.write(reply["output"])
+raise SystemExit(reply["status"])
+""".replace("@PYTHON@", sys.executable),
+                encoding="utf-8",
+            )
+            mock_copilot.chmod(0o755)
+            calls = temp / "calls"
+            environment = os.environ.copy()
+            environment["PATH"] = (
+                str(temp) + os.pathsep + environment.get("PATH", "")
+            )
+            environment["MOCK_COPILOT_CALLS"] = str(calls)
+            environment["MOCK_COPILOT_RESPONSES"] = json.dumps(responses)
+            result = subprocess.run(
+                ["bash", "-s"],
+                input=script,
+                text=True,
+                capture_output=True,
+                env=environment,
+                check=False,
+            )
+            count = int(calls.read_text(encoding="utf-8")) if calls.exists() else 0
+        return result, count
+
+    def reply(self, output, status=0):
+        return {"output": output, "status": status}
+
+    def test_copilot_cli_uses_literal_bounded_while_and_valid_bash(self):
+        script = self.loop_script()
+        self.assertIsNotNone(script)
+        if script is None:
+            return
+        self.assertIn('while [ "$iteration" -le "$max_iterations" ]; do', script)
+        self.assertIn("max_iterations=5", script)
+        self.assertNotIn("for iteration in", script)
+        result = subprocess.run(
+            ["bash", "-n"],
+            input=script,
+            text=True,
+            capture_output=True,
+            check=False,
+        )
+        self.assertEqual(0, result.returncode, result.stderr)
+
+    def test_copilot_cli_loop_accepts_complete_and_continues_only_when_requested(self):
+        script = self.loop_script()
+        self.assertIsNotNone(script)
+        if script is None:
+            return
+
+        complete, complete_calls = self.run_mocked_loop(
+            script, [self.reply("RALPH_COMPLETE\n")]
+        )
+        continued, continued_calls = self.run_mocked_loop(
+            script,
+            [self.reply("RALPH_CONTINUE\n"), self.reply("RALPH_COMPLETE\n")],
+        )
+        self.assertEqual(0, complete.returncode, complete.stderr)
+        self.assertEqual(1, complete_calls)
+        self.assertEqual(0, continued.returncode, continued.stderr)
+        self.assertEqual(2, continued_calls)
+
+    def test_copilot_cli_loop_fails_closed_on_blocked_or_malformed_markers(self):
+        script = self.loop_script()
+        self.assertIsNotNone(script)
+        if script is None:
+            return
+
+        responses = (
+            "RALPH_BLOCKED\n",
+            "no standalone status marker\n",
+            "RALPH_CONTINUE\nRALPH_COMPLETE\n",
+            "RALPH_FUTURE\nRALPH_COMPLETE\n",
+            "ralph_future\nRALPH_COMPLETE\n",
+        )
+        for output in responses:
+            with self.subTest(output=output):
+                result, calls = self.run_mocked_loop(
+                    script, [self.reply(output)]
+                )
+                self.assertEqual(1, result.returncode, result.stderr)
+                self.assertEqual(1, calls)
+
+    def test_copilot_cli_loop_propagates_errors_and_stops_at_iteration_limit(self):
+        script = self.loop_script()
+        self.assertIsNotNone(script)
+        if script is None:
+            return
+
+        failed, failed_calls = self.run_mocked_loop(
+            script, [self.reply("CLI failure\n", status=7)]
+        )
+        exhausted, exhausted_calls = self.run_mocked_loop(
+            script, [self.reply("RALPH_CONTINUE\n") for _ in range(5)]
+        )
+        self.assertEqual(7, failed.returncode)
+        self.assertEqual(1, failed_calls)
+        self.assertEqual(1, exhausted.returncode)
+        self.assertEqual(5, exhausted_calls)
+        self.assertIn("iteration limit", exhausted.stderr.lower())
 
 
 if __name__ == "__main__":

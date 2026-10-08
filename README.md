@@ -66,7 +66,12 @@ extend the mirrored guidance.
   distinguishes those from branch-push and merge permissions. The
   [worker-owned PR merge guide](.github/skills/ralph-loop/references/worker-pr-merging.md)
   requires an authorized worker to merge its own PR with its existing GitHub
-  CLI access.
+  CLI access. The
+  [worktree isolation guide](.github/skills/ralph-loop/references/worktree-isolation.md)
+  requires unique run/dispatch-scoped identities and verifies the
+  host-bound worktree before edits; when the host cannot bind workers to
+  distinct paths, the workflow fails closed instead of dispatching in
+  parallel.
 - [Ralph PR Review](.github/skills/ralph-pr-review/SKILL.md):
   defines the independent, evidence-bounded review rubric and report format
   used by the pre-merge review gate.

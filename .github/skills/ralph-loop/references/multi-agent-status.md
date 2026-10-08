@@ -51,6 +51,24 @@ competing aggregate dashboards. Keep prior branch/agent folders so their
 evidence remains auditable; add each folder to the aggregate index rather than
 overwriting it with a later branch.
 
+## Pre-edit worktree identity evidence
+
+Run the read-only
+[`verify_worktree_identity.py`](../scripts/verify_worktree_identity.py)
+preflight from the actual session before reading project files or editing.
+`VERIFIED` means the canonical process path and Git root, assigned branch and
+base HEAD, clean-state result, and exactly matching worktree-registry entry
+all passed in that pre-edit check. Record the expected/observed values,
+`verification_phase: PRE_EDIT`, and timestamp together. Do not update the
+pre-edit `observed_head_sha` after creating commits while leaving the old
+expected base or verification time in place.
+
+If the checker returns nonzero or cannot complete, use
+`worktree_identity.state: NOT_VERIFIED`, preserve both expected and observed
+values, and state that no edits were made. A registry mismatch, detached
+branch, dirty worktree, wrong root/branch/HEAD, or Git command failure is a
+blocker; do not continue from a different checkout.
+
 ## Schema versions
 
 New or updated current-state leaf reports and aggregate dashboards use
