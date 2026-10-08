@@ -33,7 +33,7 @@
   },
   "prompt_path": "docs/agent-sync/runs/copilot-skills-cross-session-recovery-final-sweep-20261007/agents/coordinator/prompt.md",
   "prompt_sha256": "8e9e16d70c6c83572df01fc6162efd5af3302e4cc0945786be3d8417122e7225",
-  "revision": 5,
+  "revision": 6,
   "run_id": "copilot-skills-cross-session-recovery-final-sweep-20261007",
   "schema_version": 1,
   "sign_in_at_utc": "2026-10-07T05:33:20Z",
@@ -45,10 +45,10 @@
     "summary": null
   },
   "started_at_utc": "2026-10-07T05:33:20Z",
-  "status": "IN_PROGRESS",
-  "status_reason": "Fetched origin/main is 4b07f38fd423f71b0cdd45bf28440896d35ef7c0. The Janitor implementation and PR #13 memory review are verified complete; the Janitor scope is released by documented coordinator recovery. The pipeline implementation is integrated and its edit scope is released, while its exact-model live test remains BLOCKED. No other task owns the two released status leaves or dashboard. Proceeding serially with dashboard/status reconciliation and current-branch verification; Resource Manager has zero reviewer slots and current-head human reviews remain required for PR #9, #10, and #11.",
+  "status": "BLOCKED",
+  "status_reason": "PR #14 and PR #15 remain open without independent review, hosted checks, or human approval. Their named Code and Security reviewer profiles expose only read/search tools; the shared review skill also prohibits command execution, so reviewers cannot activate Resource Manager reservations or obtain runtime IDs and returned BLOCKED before inspection. Resource Manager reported five free slots at 2026-10-08T05:53:35Z, so this is not capacity denial. Do not weaken the read-only review boundary. Resume with host-mediated activation/runtime identity for read-only reviewers or authorized independent human reviews, then refresh exact-SHA checks/approval before integration.",
   "task_id": "review-integrate-and-notify",
-  "updated_at_utc": "2026-10-08T03:46:31Z",
+  "updated_at_utc": "2026-10-08T06:02:31Z",
   "worker_id": "coordinator",
   "worker_name": "coordinator - cross-session recovery finalization"
 }
