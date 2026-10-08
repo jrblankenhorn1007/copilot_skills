@@ -108,6 +108,26 @@ class CapacityTests(unittest.TestCase):
         self.assertEqual(1, small_host.max_agents)
         self.assertEqual(manager.MAX_AGENTS, large_host.max_agents)
 
+    def test_eight_agent_ceiling_preserves_live_pressure_safeguards(self):
+        high_capacity = manager.calculate_capacity(
+            host_metrics(total_gib=40, available_gib=30, cpu_cores=20)
+        )
+        low_memory = manager.calculate_capacity(
+            host_metrics(total_gib=40, available_gib=2.5, cpu_cores=20)
+        )
+        high_load = manager.calculate_capacity(
+            host_metrics(total_gib=40, available_gib=30, cpu_cores=20, load_1m=17)
+        )
+        saturated_cpu = manager.calculate_capacity(
+            host_metrics(total_gib=40, available_gib=30, cpu_cores=20, load_1m=20)
+        )
+
+        self.assertEqual(8, manager.MAX_AGENTS)
+        self.assertEqual(8, high_capacity.max_agents)
+        self.assertEqual(7, low_memory.max_agents)
+        self.assertEqual(7, high_load.max_agents)
+        self.assertEqual(0, saturated_cpu.max_agents)
+
     def test_macos_and_linux_memory_readers_parse_supported_formats(self):
         free_percentage = manager.parse_macos_free_percentage(
             "System-wide memory free percentage: 40%"
