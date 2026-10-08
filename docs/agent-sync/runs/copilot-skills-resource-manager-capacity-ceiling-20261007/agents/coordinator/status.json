@@ -20,7 +20,7 @@
       "docs/ralph/agents-resource-manager-capacity-ceiling-20261007/agents/coordinator/status.md",
       "docs/ralph/agents-resource-manager-capacity-ceiling-20261007/agents/coordinator/progress.md",
       "docs/decisions/agents-resource-manager-capacity-ceiling-20261007/README.md",
-      "docs/decisions/agents-resource-manager-capacity-ceiling-20261007/agents/coordinator/pr-pending.md"
+      "docs/decisions/agents-resource-manager-capacity-ceiling-20261007/agents/coordinator/pr-11.md"
     ],
     "implementation_branch": "refs/heads/agents/resource-manager-capacity-ceiling-20261007",
     "remote_name": "origin",
@@ -30,7 +30,7 @@
   },
   "prompt_path": "docs/agent-sync/runs/copilot-skills-resource-manager-capacity-ceiling-20261007/agents/coordinator/prompt.md",
   "prompt_sha256": "d4afa7a69c299905488ab47da0e5c0bbdb0239653b5262fc03f20be5fe802187",
-  "revision": 5,
+  "revision": 6,
   "run_id": "copilot-skills-resource-manager-capacity-ceiling-20261007",
   "schema_version": 1,
   "sign_in_at_utc": "2026-10-07T22:32:30Z",
@@ -43,9 +43,9 @@
   },
   "started_at_utc": "2026-10-07T22:32:30Z",
   "status": "BLOCKED",
-  "status_reason": "PR #11 is open with the hardware-bounded cap-of-eight implementation. Independent Code and Security reviews cannot be dispatched: Resource Manager reports two active sessions against an effective limit of two and zero slots. The branch dashboard leaf also remains pending the Janitor's signed-in scope; no cross-session messages or reviewer claims were made.",
+  "status_reason": "PR #11 is synchronized and published at 80a5fc1881cf4ed5c4faeba98d90e5ead591cb19; the targeted Resource Manager suite passes 16/16. Independent Code and Security round-one reports were CLEAN on base 838fa5b4441e6abeb06d7d6a0f96b5323fafae8a / head a1cd367a33f3db154c6a2776a2f7f4681d26bdcc but are stale against current main 4f62014c2383d1585eeac12630c06dbcba310bda. One reviewer slot is available; defer the permitted follow-up round until the Janitor scope owner releases the dashboard path and the pipeline-evaluation leaf is indexed. No dashboard edit or merge is authorized.",
   "task_id": "hardware-bounded-eight-agent-cap",
-  "updated_at_utc": "2026-10-07T22:40:53Z",
+  "updated_at_utc": "2026-10-08T00:01:48Z",
   "worker_id": "coordinator",
   "worker_name": "coordinator - hardware-bounded eight-agent capacity"
 }
